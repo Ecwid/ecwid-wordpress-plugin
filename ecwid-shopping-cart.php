@@ -24,7 +24,7 @@ add_shortcode('ecwid_script', 'ecwid_script_shortcode');
 
 function ecwid_script_shortcode() {
 	$store_id = get_ecwid_store_id();
-	return "<script type='text/javascript' src='http://app.ecwid.com/script.js?$store_id'></script>";
+	return "<script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
 }
 
 function ecwid_store_activate() {
@@ -38,9 +38,9 @@ function ecwid_store_activate() {
 		<!-- End of special code. -->
 
         <!-- Feel free to modify the code below: add new widgets, alter the existing ones. -->
-		<div><script type='text/javascript'> xCategories(); </script></div>
-		<div><script type='text/javascript'> xProductBrowser("itemsPerRow=3","itemsPerPage=9","searchResultsItemsPerPage=10"); </script></div>
-		<div><script type='text/javascript'> xMinicart("style=","layout=attachToCategories"); </script></div>
+		<div><script type="text/javascript"> xCategories(); </script></div>
+		<div><script type="text/javascript"> xProductBrowser("itemsPerRow=3","itemsPerPage=9","searchResultsItemsPerPage=10"); </script></div>
+		<div><script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script></div>
 		<!-- Ecwid code end -->
 
 EOT;
@@ -136,7 +136,7 @@ function ecwid_options_do_page() {
         <li> Find the Product Browser Widget Code textbox with some lines of HTML/JavaScript code in there. This is the Ecwid integration code.</li>
 
         <li> Look through the code lines, find this line <br />
-        <span style="background-color:#d3e9e9;">src='http://app.ecwid.com/script.js?<strong>2341</strong>' </span>
+        <span style="background-color:#d3e9e9;">src="http://app.ecwid.com/script.js?<strong>2341</strong>" </span>
     <br />
     On your page there will be not '<strong>2341</strong>', but <strong>another number</strong>. This number is your <strong>store ID</strong>. </li>
 
