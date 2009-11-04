@@ -4,7 +4,7 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is free full-fledged shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.1
+Version: 0.2
 Author URI: http://www.ecwid.com/
 */
 
@@ -40,7 +40,6 @@ function ecwid_store_activate() {
         <!-- Feel free to modify the code below: add new widgets, alter the existing ones. -->
 		<div><script type="text/javascript"> xCategories(); </script></div>
 		<div><script type="text/javascript"> xProductBrowser("itemsPerRow=3","itemsPerPage=9","searchResultsItemsPerPage=10"); </script></div>
-		<div><script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script></div>
 		<!-- Ecwid code end -->
 
 EOT;
@@ -174,5 +173,143 @@ function ecwid_add_dashboard_widgets() {
 	wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Control Panel', 'ecwid_dashboard_widget_function');	
 } 
 
+
+
+class EcwidMinicartWidget extends WP_Widget {
+
+    function EcwidMinicartWidget() {
+    $widget_ops = array('classname' => 'widget_ecwid_minicart', 'description' => __( "Your store's minicart") );
+    $this->WP_Widget('ecwidminicart', __('Ecwid Minicart'), $widget_ops);
+    }
+
+    function widget($args, $instance) {
+      extract($args);
+      $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+
+      echo $before_widget;
+
+      if ( $title )
+      echo $before_title . $title . $after_title;
+
+        $store_id = get_ecwid_store_id();
+        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+      echo <<<EOT
+	      <script type="text/javascript"> xMinicart("style="); </script>
+	      </div>
+EOT;
+      
+echo $after_widget;
+  }
+
+    function update($new_instance, $old_instance){
+      $instance = $old_instance;
+      $instance['title'] = strip_tags(stripslashes($new_instance['title']));
+
+    return $instance;
+  }
+
+    function form($instance){
+      $instance = wp_parse_args( (array) $instance, array('title'=>'') );
+
+      $title = htmlspecialchars($instance['title']);
+
+      echo '<p style="text-align:right;"><label for="' . $this->get_field_name('title') . '">' . __('Title:') . ' <input style="width: 250px;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+  }
+
+}
+
+class EcwidSearchWidget extends WP_Widget {
+
+    function EcwidSearchWidget() {
+    $widget_ops = array('classname' => 'widget_ecwid_search', 'description' => __( "Your store's search box") );
+    $this->WP_Widget('ecwidsearch', __('Ecwid Search Box'), $widget_ops);
+    }
+
+    function widget($args, $instance) {
+      extract($args);
+      $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+
+      echo $before_widget;
+
+      if ( $title )
+      echo $before_title . $title . $after_title;
+
+        $store_id = get_ecwid_store_id();
+        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+      echo <<<EOT
+	<script type="text/javascript"> xSearchPanel("style="); </script>	      
+	</div>
+EOT;
+      
+echo $after_widget;
+  }
+
+    function update($new_instance, $old_instance){
+      $instance = $old_instance;
+      $instance['title'] = strip_tags(stripslashes($new_instance['title']));
+
+    return $instance;
+  }
+
+    function form($instance){
+      $instance = wp_parse_args( (array) $instance, array('title'=>'') );
+
+      $title = htmlspecialchars($instance['title']);
+
+      echo '<p style="text-align:right;"><label for="' . $this->get_field_name('title') . '">' . __('Title:') . ' <input style="width: 250px;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+  }
+
+}
+
+class EcwidVCategoriesWidget extends WP_Widget {
+
+    function EcwidVCategoriesWidget() {
+    $widget_ops = array('classname' => 'widget_ecwid_vcategories', 'description' => __( "Vertical menu of categories") );
+    $this->WP_Widget('ecwidvcategories', __('Ecwid Vertical Categories'), $widget_ops);
+    }
+
+    function widget($args, $instance) {
+      extract($args);
+      $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+
+      echo $before_widget;
+
+      if ( $title )
+      echo $before_title . $title . $after_title;
+
+        $store_id = get_ecwid_store_id();
+        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+      echo <<<EOT
+	<script type="text/javascript"> xVCategories("style="); </script>
+	      </div>
+EOT;
+      
+echo $after_widget;
+  }
+
+    function update($new_instance, $old_instance){
+      $instance = $old_instance;
+      $instance['title'] = strip_tags(stripslashes($new_instance['title']));
+
+    return $instance;
+  }
+
+    function form($instance){
+      $instance = wp_parse_args( (array) $instance, array('title'=>'') );
+
+      $title = htmlspecialchars($instance['title']);
+
+      echo '<p style="text-align:right;"><label for="' . $this->get_field_name('title') . '">' . __('Title:') . ' <input style="width: 250px;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+  }
+
+}
+
+
+function ecwid_sidebar_widgets_init() {
+	register_widget('EcwidMinicartWidget');
+	register_widget('EcwidSearchWidget');
+	register_widget('EcwidVCategoriesWidget');
+}
+add_action('widgets_init', 'ecwid_sidebar_widgets_init');
 
 ?>
