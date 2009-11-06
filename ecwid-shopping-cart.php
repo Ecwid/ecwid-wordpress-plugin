@@ -133,7 +133,8 @@ function ecwid_options_do_page() {
                     <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
 		    </tr>
 
-    <tr><th scope="row">Enable minicart attached to categories?</th>
+    <tr><th scope="row">
+Enable minicart attached to categories?</th>
     <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\""; ?>" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(If you added minicart to your blog's sidebar, please disable this option)</small>
 </td>
