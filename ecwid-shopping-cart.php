@@ -19,13 +19,29 @@ add_action('admin_menu', 'ecwid_options_add_page');
 add_action('wp_dashboard_setup', 'ecwid_add_dashboard_widgets' );
 
 add_shortcode('ecwid_script', 'ecwid_script_shortcode');
-
+add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
 
 
 function ecwid_script_shortcode() {
 	$store_id = get_ecwid_store_id();
 	return "<script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
 }
+
+
+function ecwid_minicart_shortcode() {
+	$ecwid_enable_minicart = get_option('ecwid_enable_minicart');
+	if (!empty($ecwid_enable_minicart)) {
+		$s = <<<EOT
+<div>
+	<script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script>
+</div>
+EOT;
+		return $s;
+	} else {
+		return "";
+	}
+}
+
 
 function ecwid_store_activate() {
 	$my_post = array();
@@ -35,6 +51,7 @@ function ecwid_store_activate() {
 		<!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. 
 		Start of special code: -->
 		[ecwid_script]
+		[ecwid_minicart]
 		<!-- End of special code. -->
 
         <!-- Feel free to modify the code below: add new widgets, alter the existing ones. -->
@@ -45,6 +62,7 @@ function ecwid_store_activate() {
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');	
 	add_option("ecwid_store_id", '1003', '', 'yes');
+	add_option("ecwid_enable_minicart", 'Y', '', 'yes');
 	$id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
@@ -93,8 +111,9 @@ function ecwid_store_deactivate() {
 }
 
  
- function ecwid_settings_api_init() {
-  register_setting( 'ecwid_options_page', 'ecwid_store_id','intval' );
+function ecwid_settings_api_init() {
+	register_setting('ecwid_options_page', 'ecwid_store_id','intval' );
+	register_setting('ecwid_options_page', 'ecwid_enable_minicart');
 } 
 
 function ecwid_options_add_page() {
@@ -103,15 +122,22 @@ function ecwid_options_add_page() {
 
 function ecwid_options_do_page() {
 	$store_id = get_ecwid_store_id(); 
+	$ecwid_enable_minicart = get_option('ecwid_enable_minicart');
     ?>
     <div class="wrap">
         <h2>Ecwid settings</h2>
         <form method="post" action="options.php">
             <?php settings_fields('ecwid_options_page'); ?>
             <table class="form-table">
-                            <tr valign="top"><th scope="row">Store ID:</th>
+                            <tr><th scope="row">Store ID:</th>
                     <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
-                </tr>
+		    </tr>
+
+    <tr><th scope="row">Enable minicart attached to categories?</th>
+    <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\""; ?>" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(If you added minicart to your blog's sidebar, please disable this option)</small>
+</td>
+		    </tr>
             </table>
             <p class="submit">
             <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
