@@ -21,6 +21,12 @@ add_action('wp_dashboard_setup', 'ecwid_add_dashboard_widgets' );
 add_shortcode('ecwid_script', 'ecwid_script_shortcode');
 add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
 
+add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
+add_shortcode('ecwid_categories', 'ecwid_categories_shortcode');
+add_shortcode('ecwid_productbrowser', 'ecwid_productbrowser_shortcode');
+
+
+
 
 function ecwid_script_shortcode() {
 	$store_id = get_ecwid_store_id();
@@ -29,41 +35,90 @@ function ecwid_script_shortcode() {
 
 
 function ecwid_minicart_shortcode() {
-	$ecwid_enable_minicart = get_option('ecwid_enable_minicart');
-	if (!empty($ecwid_enable_minicart)) {
-		$s = <<<EOT
+    $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
+    if (!empty($ecwid_enable_minicart)) {
+        $s = <<<EOT
 <div>
-	<script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script>
+    <script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script>
 </div>
 EOT;
-		return $s;
-	} else {
-		return "";
-	}
+        return $s;
+    } else {
+        return "";
+    }
 }
+function ecwid_searchbox_shortcode() {
+    $ecwid_show_search_box = get_option('ecwid_show_search_box');
+    if (!empty($ecwid_show_search_box)) {
+        $s = <<<EOT
+    <div>
+        <script type="text/javascript"> xSearchPanel("style="); </script>
+    </div>
+EOT;
+        return $s;
+    } else {
+        return "";
+    }
+}
+
+function ecwid_categories_shortcode() {
+    $ecwid_show_categories = get_option('ecwid_show_categories');
+    if (!empty($ecwid_show_categories)) {
+        $s = <<<EOT
+        <div>
+            <script type="text/javascript"> xCategories("style="); </script>
+        </div>
+EOT;
+        return $s;
+    } else {
+        return "";
+    }
+}
+
+function ecwid_productbrowser_shortcode() {
+    $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
+    $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
+    $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
+
+        $s = <<<EOT
+    <div>
+        <script type="text/javascript"> 
+            xProductBrowser("itemsPerRow=$ecwid_pb_itemsperrow","itemsPerPage=$ecwid_pb_itemsperpage","searchResultsItemsPerPage=$ecwid_pb_searchresultsitemsperpage","style="); 
+        </script>
+    </div>
+EOT;
+        return $s;
+}
+
 
 
 function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
 		<!-- Ecwid code start -->
-
 		<!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. 
 		Start of special code: -->
 		[ecwid_script]
-		[ecwid_minicart]
-		<!-- End of special code. -->
-
-        <!-- Feel free to modify the code below: add new widgets, alter the existing ones. -->
-		<div><script type="text/javascript"> xCategories(); </script></div>
-		<div><script type="text/javascript"> xProductBrowser("itemsPerRow=3","itemsPerPage=9","searchResultsItemsPerPage=10"); </script></div>
+        [ecwid_minicart]
+        [ecwid_searchbox]
+        [ecwid_categories]
+        [ecwid_productbrowser]
 		<!-- Ecwid code end -->
 
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');	
 	add_option("ecwid_store_id", '1003', '', 'yes');
-	add_option("ecwid_enable_minicart", 'Y', '', 'yes');
-	$id = get_option("ecwid_store_page_id");	
+    
+    add_option("ecwid_enable_minicart", 'Y', '', 'yes');
+    add_option("ecwid_show_categories", 'Y', '', 'yes');
+    add_option("ecwid_show_search_box", '', '', 'yes');
+    
+    add_option("ecwid_pb_itemsperrow", '3', '', 'yes');
+    add_option("ecwid_pb_itemsperpage", '6', '', 'yes');
+    add_option("ecwid_pb_searchresultsitemsperpage", '10', '', 'yes');
+
+    
+    $id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_page($id);
@@ -97,7 +152,7 @@ function ecwid_store_deactivate() {
 	$ecwid_page_id = get_option("ecwid_store_page_id");
 	$_tmp_page = null;
 	if (!empty($ecwid_page_id) and ($ecwid_page_id > 0)) {
-		$_tmp_page = get_page($id);
+		$_tmp_page = get_page($ecwid_page_id);
 		if ($_tmp_page !== null) {
 			$my_post = array();
 			$my_post['ID'] = $ecwid_page_id;
@@ -109,11 +164,17 @@ function ecwid_store_deactivate() {
 	}
 
 }
-
  
 function ecwid_settings_api_init() {
 	register_setting('ecwid_options_page', 'ecwid_store_id','intval' );
-	register_setting('ecwid_options_page', 'ecwid_enable_minicart');
+    register_setting('ecwid_options_page', 'ecwid_enable_minicart');
+
+    register_setting('ecwid_options_page', 'ecwid_show_categories');
+    register_setting('ecwid_options_page', 'ecwid_show_search_box');
+    
+    register_setting('ecwid_options_page', 'ecwid_pb_itemsperrow','intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_itemsperpage','intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_searchresultsitemsperpage','intval');
 } 
 
 function ecwid_options_add_page() {
@@ -122,7 +183,30 @@ function ecwid_options_add_page() {
 
 function ecwid_options_do_page() {
 	$store_id = get_ecwid_store_id(); 
-	$ecwid_enable_minicart = get_option('ecwid_enable_minicart');
+    $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
+    $ecwid_show_categories = get_option('ecwid_show_categories');
+    $ecwid_show_search_box = get_option('ecwid_show_search_box');
+
+    $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
+    $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
+    $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
+
+    $ecwid_page_id = get_option("ecwid_store_page_id");
+    $_tmp_page = null;
+    $disabled = false;
+    if (!empty($ecwid_page_id) and ($ecwid_page_id > 0)) {
+        $_tmp_page = get_page($ecwid_page_id);
+        $content = $_tmp_page->post_content;
+        if ( (strpos($content, "[ecwid_productbrowser]") === false) && (strpos($content, "xProductBrowser") !== false) )
+               $disabled = true;
+    }
+
+    if ($disabled)
+        $disabled_str = 'disabled = "disabled"';
+    else
+        $disabled_str = "";
+
+
     ?>
     <div class="wrap">
         <h2>Ecwid settings</h2>
@@ -133,21 +217,110 @@ function ecwid_options_do_page() {
                     <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
 		    </tr>
 
+
     <tr><th scope="row">
 Enable minicart attached to categories?</th>
-    <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\""; ?>" />
+    <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\"";?> <? echo $disabled_str; ?> />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(If you added minicart to your blog's sidebar, please disable this option)</small>
+
 </td>
-		    </tr>
+            </tr>
+    <tr><th scope="row">
+    Show horizontal categories? </th>
+    <td><input type="checkbox" name="ecwid_show_categories" <?php if (!empty($ecwid_show_categories)) echo "checked=\"checked\""; echo $disabled_str; ?> />
+</td>
+            </tr>
+
+    <tr><th scope="row">
+    Show search box? </th>
+    <td><input type="checkbox" name="ecwid_show_search_box" <?php if (!empty($ecwid_show_search_box)) echo "checked=\"checked\"";?> <?php echo $disabled_str;?> />
+</td>
+            </tr>
+
+                            <tr><th scope="row">Products/categories per row</th>
+                            <td><input type="text" name="ecwid_pb_itemsperrow" value="<?php  echo $ecwid_pb_itemsperrow; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>
+                            <tr><th scope="row">Products per page</th>
+                            <td><input type="text" name="ecwid_pb_itemsperpage" value="<?php  echo $ecwid_pb_itemsperpage; ?>" <?php echo $disabled_str;?>  /></td>
+            </tr>
+                            <tr><th scope="row">Search result items per page</th>
+                            <td><input type="text" name="ecwid_pb_searchresultsitemsperpage" value="<?php  echo $ecwid_pb_searchresultsitemsperpage; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>
             </table>
             <p class="submit">
             <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
             </p>
+
     <style>
-        ul#ecwid-instruction-ul li {
+        ul#ecwid-instruction-ul li, ul#ecwid-need-manual-editing-ul li {
             padding-bottom:10px;
         }
     </style> 
+
+
+<?php 
+    if ($disabled) {
+?>
+
+    <div id="ecwid-need-manual-editing" >
+        <h4>Why I cannot change some options?</h4>
+
+Most likely you've upgraded <strong>Ecwid Shopping Cart</strong> plugin from the <strong>v0.1</strong> to the next version. The Ecwid integration code was changed since that version, so if you want to use new options you should to perform code's manual update. This process isn't complex and will take few minutes only.
+<br />
+    <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-need-manual-editing-ul">
+<li>
+Open <a href="page.php?action=edit&post=<?php echo intval($ecwid_page_id); ?>">your store page for editing</a>.
+</li>
+
+<li>
+Make sure that you change edit mode to "HTML" instead of "Visual".
+</li>
+
+
+<li>
+Replace these lines:<br /><br />
+
+<pre style="background-color:#d3e9e9;">
+        &lt;!-- Ecwid code start --&gt;
+        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work.
+        Start of special code: --&gt;
+        [ecwid_script]
+        &lt;!-- End of special code. --&gt;
+
+        &lt;!-- Feel free to modify the code below: add new widgets, alter the existing ones. --&gt;
+        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xCategories(); &lt;/script&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xProductBrowser(&quot;itemsPerRow=3&quot;,&quot;itemsPerPage=9&quot;,&quot;searchResultsItemsPerPage=10&quot;); &lt;/script&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xMinicart(&quot;style=&quot;,&quot;layout=attachToCategories&quot;); &lt;/script&gt;&lt;/div&gt;
+        &lt;!-- Ecwid code end --&gt;
+</pre>
+<br /><br />
+with these ones:
+<br /><br />
+<pre style="background-color:#d3e9e9;">
+        &lt;!-- Ecwid code start v0.2 --&gt;
+        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work.
+        Start of special code: --&gt;
+        [ecwid_script]
+        [ecwid_minicart]
+        [ecwid_searchbox]
+        [ecwid_categories]
+        [ecwid_productbrowser]
+        &lt;!-- Ecwid code end --&gt;
+</pre>
+</li>
+
+<li>Save the changes</li>
+
+</ul>
+
+</div> 
+
+
+<?php
+    
+    }
+
+?>
     <div id="ecwid-instruction" >
         <h4>Instruction on how to get your free Store ID</h4>
     <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-instruction-ul">
