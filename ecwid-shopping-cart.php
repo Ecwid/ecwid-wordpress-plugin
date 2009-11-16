@@ -80,6 +80,16 @@ function ecwid_productbrowser_shortcode() {
     $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
     $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
 
+if (empty($ecwid_pb_itemsperrow))
+	$ecwid_pb_itemsperrow = 3;
+
+if (empty($ecwid_pb_itemsperpage)) 
+	$ecwid_pb_itemsperpage = 6;
+
+if (empty($ecwid_pb_searchresultsitemsperpage)) 
+	$ecwid_pb_searchresultsitemsperpage = 10;
+
+
         $s = <<<EOT
     <div>
         <script type="text/javascript"> 
@@ -264,7 +274,7 @@ Enable minicart attached to categories?</th>
     <div id="ecwid-need-manual-editing" >
         <h4>Why I cannot change some options?</h4>
 
-Most likely you've upgraded <strong>Ecwid Shopping Cart</strong> plugin from the <strong>v0.1</strong> to the next version. The Ecwid integration code was changed since that version, so if you want to use new options you should to perform code's manual update. This process isn't complex and will take few minutes only.
+Most likely you've upgraded <strong>Ecwid Shopping Cart</strong> plugin from <strong>v0.1</strong> to the next one. The Ecwid integration code was changed in this new version. So if you want to use the new options you should update the code manually. This procedure isn't that complex and will take just a few minutes.
 <br />
     <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-need-manual-editing-ul">
 <li>
