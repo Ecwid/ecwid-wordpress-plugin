@@ -106,12 +106,8 @@ function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
 		<!-- Ecwid code start -->
-		<!-- Please do not remove the lines below otherwise your Ecwid shopping cart will not work. -->
-		[ecwid_script]
-        [ecwid_minicart]
-        [ecwid_searchbox]
-        [ecwid_categories]
-        [ecwid_productbrowser]
+        <!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. -->
+		[ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
 		<!-- Ecwid code end -->
 
 EOT;
@@ -307,12 +303,8 @@ with these ones:
 <br /><br />
 <pre style="background-color:#d3e9e9;">
         &lt;!-- Ecwid code start v0.2 --&gt;
-        &lt;!-- Please do not remove the lines below otherwise your Ecwid shopping cart will not work. --&gt;
-        [ecwid_script]
-        [ecwid_minicart]
-        [ecwid_searchbox]
-        [ecwid_categories]
-        [ecwid_productbrowser]
+        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. --&gt;
+        [ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
         &lt;!-- Ecwid code end --&gt;
 </pre>
 </li>
