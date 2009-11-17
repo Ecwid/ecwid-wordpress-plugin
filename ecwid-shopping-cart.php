@@ -307,7 +307,7 @@ with these ones:
 <br /><br />
 <pre style="background-color:#d3e9e9;">
         &lt;!-- Ecwid code start v0.2 --&gt;
-        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. --&gt;
+        &lt;!-- Please do not remove the lines below otherwise your Ecwid shopping cart will not work. --&gt;
         [ecwid_script]
         [ecwid_minicart]
         [ecwid_searchbox]
