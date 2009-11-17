@@ -41,7 +41,9 @@ Full list of features:
 == Changelog ==
 = 0.2 =
 [+] New sidebars were added: search box, minicart and vertical categories
+
 [+] New options effecting the store appearance
+
 [!] Minor bugfixes
 
 = 0.1 =
