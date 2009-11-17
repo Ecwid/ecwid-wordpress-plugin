@@ -3,7 +3,7 @@ Contributors: Ecwid Team
 Tags: shopping cart, ecommerce, e-commerce, paypal, google checkout, 2checkout, store, shop, product catalog, inventory
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 0.1 
+Stable tag: 0.2
 
 Ecwid is free full-fledged shopping cart. It  can be easily integreted with
 Wordpress blog and takes less than 5 minutes to set up.
@@ -39,6 +39,10 @@ Full list of features:
 [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
 
 == Changelog ==
+= 0.2 =
+[+] New sidebars were added: search box, minicart and vertical categories
+[+] New options effecting the store appearance
+[!] Minor bugfixes
 
 = 0.1 =
-* Initial version
+[+] Initial version
