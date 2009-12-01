@@ -38,9 +38,7 @@ function ecwid_minicart_shortcode() {
     $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
     if (!empty($ecwid_enable_minicart)) {
         $s = <<<EOT
-<div>
-    <script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script>
-</div>
+<div><script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script></div>
 EOT;
         return $s;
     } else {
@@ -51,9 +49,7 @@ function ecwid_searchbox_shortcode() {
     $ecwid_show_search_box = get_option('ecwid_show_search_box');
     if (!empty($ecwid_show_search_box)) {
         $s = <<<EOT
-    <div>
-        <script type="text/javascript"> xSearchPanel("style="); </script>
-    </div>
+<div><script type="text/javascript"> xSearchPanel("style="); </script></div>
 EOT;
         return $s;
     } else {
@@ -65,9 +61,7 @@ function ecwid_categories_shortcode() {
     $ecwid_show_categories = get_option('ecwid_show_categories');
     if (!empty($ecwid_show_categories)) {
         $s = <<<EOT
-        <div>
-            <script type="text/javascript"> xCategories("style="); </script>
-        </div>
+<div><script type="text/javascript"> xCategories("style="); </script></div>
 EOT;
         return $s;
     } else {
@@ -89,13 +83,8 @@ if (empty($ecwid_pb_itemsperpage))
 if (empty($ecwid_pb_searchresultsitemsperpage)) 
 	$ecwid_pb_searchresultsitemsperpage = 10;
 
-
         $s = <<<EOT
-    <div>
-        <script type="text/javascript"> 
-            xProductBrowser("itemsPerRow=$ecwid_pb_itemsperrow","itemsPerPage=$ecwid_pb_itemsperpage","searchResultsItemsPerPage=$ecwid_pb_searchresultsitemsperpage","style="); 
-        </script>
-    </div>
+<div><script type="text/javascript">xProductBrowser("itemsPerRow=$ecwid_pb_itemsperrow","itemsPerPage=$ecwid_pb_itemsperpage","searchResultsItemsPerPage=$ecwid_pb_searchresultsitemsperpage","style="); </script> </div>
 EOT;
         return $s;
 }
@@ -105,8 +94,7 @@ EOT;
 function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
-		<!-- Ecwid code start -->
-        <!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. -->
+		<!-- Ecwid code start v0.2. Please do not remove the line below otherwise your Ecwid shopping cart will not work. -->
 		[ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
 		<!-- Ecwid code end -->
 
@@ -302,8 +290,7 @@ Replace these lines:<br /><br />
 with these ones:
 <br /><br />
 <pre style="background-color:#d3e9e9;">
-        &lt;!-- Ecwid code start v0.2 --&gt;
-        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work. --&gt;
+        &lt;!-- Ecwid code start v0.2. Please do not remove the line below otherwise your Ecwid shopping cart will not work. --&gt;
         [ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
         &lt;!-- Ecwid code end --&gt;
 </pre>
