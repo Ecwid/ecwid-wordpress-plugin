@@ -4,11 +4,9 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is free full-fledged shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.2
+Version: 0.3
 Author URI: http://www.ecwid.com/
 */
-
-
 
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
@@ -30,7 +28,8 @@ add_shortcode('ecwid_productbrowser', 'ecwid_productbrowser_shortcode');
 
 function ecwid_script_shortcode() {
 	$store_id = get_ecwid_store_id();
-	return "<script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+	$s =  "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script></div>";
+	return $s;
 }
 
 
@@ -70,10 +69,47 @@ EOT;
 }
 
 function ecwid_productbrowser_shortcode() {
+    $store_id = get_ecwid_store_id();
+    $list_of_views = array('list','grid','table');
+
+   /* 
     $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
     $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
     $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
+    */
 
+    $ecwid_pb_categoriesperrow = get_option('ecwid_pb_categoriesperrow');
+    $ecwid_pb_productspercolumn_grid = get_option('ecwid_pb_productspercolumn_grid');
+    $ecwid_pb_productsperrow_grid = get_option('ecwid_pb_productsperrow_grid');
+    $ecwid_pb_productsperpage_list = get_option('ecwid_pb_productsperpage_list');
+    $ecwid_pb_productsperpage_table = get_option('ecwid_pb_productsperpage_table');
+    $ecwid_pb_defaultview = get_option('ecwid_pb_defaultview');
+    $ecwid_pb_searchview = get_option('ecwid_pb_searchview');
+
+    if (empty($ecwid_pb_categoriesperrow)) {
+        $ecwid_pb_categoriesperrow = 3;
+    }
+    if (empty($ecwid_pb_productspercolumn_grid)) {
+        $ecwid_pb_productspercolumn_grid = 3;
+    }
+    if (empty($ecwid_pb_productsperrow_grid)) {
+        $ecwid_pb_productsperrow_grid = 3;
+    }
+    if (empty($ecwid_pb_productsperpage_list)) {
+        $ecwid_pb_productsperpage_list = 10;
+    }
+    if (empty($ecwid_pb_productsperpage_table)) {
+        $ecwid_pb_productsperpage_table = 20;
+    }
+
+    if (empty($ecwid_pb_defaultview) || !in_array($ecwid_pb_defaultview, $list_of_views)) {
+        $ecwid_pb_defaultview = 'grid';
+    }
+    if (empty($ecwid_pb_searchview) || !in_array($ecwid_pb_searchview, $list_of_views)) {
+        $ecwid_pb_searchview = 'list';
+    }
+
+    /*
 if (empty($ecwid_pb_itemsperrow))
 	$ecwid_pb_itemsperrow = 3;
 
@@ -82,9 +118,11 @@ if (empty($ecwid_pb_itemsperpage))
 
 if (empty($ecwid_pb_searchresultsitemsperpage)) 
 	$ecwid_pb_searchresultsitemsperpage = 10;
+     */
 
         $s = <<<EOT
-<div><script type="text/javascript">xProductBrowser("itemsPerRow=$ecwid_pb_itemsperrow","itemsPerPage=$ecwid_pb_itemsperpage","searchResultsItemsPerPage=$ecwid_pb_searchresultsitemsperpage","style="); </script> </div>
+<div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style=");</script></div>
+<noscript><a href="http://app.ecwid.com/jsp/{$store_id}/catalog">HTML version of this store</a></noscript>
 EOT;
         return $s;
 }
@@ -105,12 +143,22 @@ EOT;
     add_option("ecwid_enable_minicart", 'Y', '', 'yes');
     add_option("ecwid_show_categories", 'Y', '', 'yes');
     add_option("ecwid_show_search_box", '', '', 'yes');
-    
-    add_option("ecwid_pb_itemsperrow", '3', '', 'yes');
-    add_option("ecwid_pb_itemsperpage", '6', '', 'yes');
-    add_option("ecwid_pb_searchresultsitemsperpage", '10', '', 'yes');
 
-    
+    /* old */ 
+    #add_option("ecwid_pb_itemsperrow", '3', '', 'yes');
+    #add_option("ecwid_pb_itemsperpage", '6', '', 'yes');
+    #add_option("ecwid_pb_searchresultsitemsperpage", '10', '', 'yes');
+
+    add_option("ecwid_pb_categoriesperrow", '3', '', 'yes');
+
+    add_option("ecwid_pb_productspercolumn_grid", '3', '', 'yes');
+    add_option("ecwid_pb_productsperrow_grid", '3', '', 'yes');
+    add_option("ecwid_pb_productsperpage_list", '10', '', 'yes');
+    add_option("ecwid_pb_productsperpage_table", '20', '', 'yes');
+
+    add_option("ecwid_pb_defaultview", 'grid', '', 'yes');
+    add_option("ecwid_pb_searchview", 'list', '', 'yes');
+
     $id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
@@ -157,17 +205,33 @@ function ecwid_store_deactivate() {
 	}
 
 }
- 
+
+function ecwid_abs_intval($value) {
+    return abs(intval($value));
+}
+
 function ecwid_settings_api_init() {
-	register_setting('ecwid_options_page', 'ecwid_store_id','intval' );
+    register_setting('ecwid_options_page', 'ecwid_store_id','ecwid_abs_intval' );
     register_setting('ecwid_options_page', 'ecwid_enable_minicart');
 
     register_setting('ecwid_options_page', 'ecwid_show_categories');
     register_setting('ecwid_options_page', 'ecwid_show_search_box');
-    
+
+    register_setting('ecwid_options_page', 'ecwid_pb_categoriesperrow', 'ecwid_abs_intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_productspercolumn_grid', 'ecwid_abs_intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_productsperrow_grid', 'ecwid_abs_intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_productsperpage_list', 'ecwid_abs_intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_productsperpage_table', 'ecwid_abs_intval');
+    register_setting('ecwid_options_page', 'ecwid_pb_defaultview');
+    register_setting('ecwid_options_page', 'ecwid_pb_searchview');
+
+   /* 
     register_setting('ecwid_options_page', 'ecwid_pb_itemsperrow','intval');
     register_setting('ecwid_options_page', 'ecwid_pb_itemsperpage','intval');
     register_setting('ecwid_options_page', 'ecwid_pb_searchresultsitemsperpage','intval');
+    */
+
+
 } 
 
 function ecwid_options_add_page() {
@@ -179,10 +243,19 @@ function ecwid_options_do_page() {
     $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
     $ecwid_show_categories = get_option('ecwid_show_categories');
     $ecwid_show_search_box = get_option('ecwid_show_search_box');
-
+	/*
     $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
     $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
     $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
+	*/
+
+    $ecwid_pb_categoriesperrow = get_option('ecwid_pb_categoriesperrow');
+    $ecwid_pb_productspercolumn_grid = get_option('ecwid_pb_productspercolumn_grid');
+    $ecwid_pb_productsperrow_grid = get_option('ecwid_pb_productsperrow_grid');
+    $ecwid_pb_productsperpage_list = get_option('ecwid_pb_productsperpage_list');
+    $ecwid_pb_productsperpage_table = get_option('ecwid_pb_productsperpage_table');
+    $ecwid_pb_defaultview = get_option('ecwid_pb_defaultview');
+    $ecwid_pb_searchview = get_option('ecwid_pb_searchview');
 
     $ecwid_page_id = get_option("ecwid_store_page_id");
     $_tmp_page = null;
@@ -230,14 +303,44 @@ Enable minicart attached to categories?</th>
 </td>
             </tr>
 
-                            <tr><th scope="row">Products/categories per row</th>
-                            <td><input type="text" name="ecwid_pb_itemsperrow" value="<?php  echo $ecwid_pb_itemsperrow; ?>" <?php echo $disabled_str;?> /></td>
+                            <tr><th scope="row">Categories per page</th>
+                            <td><input type="text" name="ecwid_pb_categoriesperrow" value="<?php  echo $ecwid_pb_categoriesperrow; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
-                            <tr><th scope="row">Products per page</th>
-                            <td><input type="text" name="ecwid_pb_itemsperpage" value="<?php  echo $ecwid_pb_itemsperpage; ?>" <?php echo $disabled_str;?>  /></td>
+
+                            <tr><th scope="row">Products per column in grid mode</th>
+                            <td><input type="text" name="ecwid_pb_productspercolumn_grid" value="<?php  echo $ecwid_pb_productspercolumn_grid; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>                            <tr><th scope="row">Products per row in grid mode</th>
+
+                            <td><input type="text" name="ecwid_pb_productsperrow_grid" value="<?php  echo $ecwid_pb_productsperrow_grid; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>                        
+
+    <tr><th scope="row">Products per page in list mode</th>
+                            <td><input type="text" name="ecwid_pb_productsperpage_list" value="<?php  echo $ecwid_pb_productsperpage_list; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
-                            <tr><th scope="row">Search result items per page</th>
-                            <td><input type="text" name="ecwid_pb_searchresultsitemsperpage" value="<?php  echo $ecwid_pb_searchresultsitemsperpage; ?>" <?php echo $disabled_str;?> /></td>
+
+                            <tr><th scope="row">Products per page in table mode</th>
+                            <td><input type="text" name="ecwid_pb_productsperpage_table" value="<?php  echo $ecwid_pb_productsperpage_table; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>
+
+
+                            <tr><th scope="row">Default view mode on product pages</th>
+                            <td>
+				<select name="ecwid_pb_defaultview" <?php echo $disabled_str;?> >
+					<option value="grid" <?php if($ecwid_pb_defaultview == 'grid') echo 'selected="selected"' ?> >Grid mode</option>
+					<option value="list" <?php if($ecwid_pb_defaultview == 'list') echo 'selected="selected"' ?> >List mode</option>
+					<option value="table" <?php if($ecwid_pb_defaultview == 'table') echo 'selected="selected"' ?> >Table mode</option>
+				</select>
+</td>
+            </tr>
+
+                            <tr><th scope="row">Default view mode on search results</th>
+                            <td>
+				<select name="ecwid_pb_searchview" <?php echo $disabled_str;?> >
+					<option value="grid" <?php if($ecwid_pb_searchview == 'grid') echo 'selected="selected"' ?> >Grid mode</option>
+					<option value="list" <?php if($ecwid_pb_searchview == 'list') echo 'selected="selected"' ?> >List mode</option>
+					<option value="table" <?php if($ecwid_pb_searchview == 'table') echo 'selected="selected"' ?> >Table mode</option>
+				</select>
+</td>
             </tr>
             </table>
             <p class="submit">
@@ -380,7 +483,13 @@ class EcwidMinicartWidget extends WP_Widget {
 
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
-      echo <<<EOT
+
+	$ecwid_page_id = get_option("ecwid_store_page_id");
+	$page_url = get_page_link($ecwid_page_id);
+	if (!empty($page_url))
+		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
+
+        echo <<<EOT
 	      <script type="text/javascript"> xMinicart("style="); </script>
 	      </div>
 EOT;
@@ -423,6 +532,10 @@ class EcwidSearchWidget extends WP_Widget {
 
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+	$ecwid_page_id = get_option("ecwid_store_page_id");
+	$page_url = get_page_link($ecwid_page_id);
+	if (!empty($page_url))
+		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xSearchPanel("style="); </script>	      
 	</div>
@@ -466,6 +579,10 @@ class EcwidVCategoriesWidget extends WP_Widget {
 
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+	$ecwid_page_id = get_option("ecwid_store_page_id");
+	$page_url = get_page_link($ecwid_page_id);
+	if (!empty($page_url))
+		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xVCategories("style="); </script>
 	      </div>
