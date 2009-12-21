@@ -122,7 +122,7 @@ if (empty($ecwid_pb_searchresultsitemsperpage))
 
         $s = <<<EOT
 <div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style=");</script></div>
-<noscript><a href="http://app.ecwid.com/jsp/{$store_id}/catalog">HTML version of this store</a></noscript>
+<noscript>Your browser does not support JavaScript.<a href="http://app.ecwid.com/jsp/{$store_id}/catalog">HTML version of this store</a></noscript>
 EOT;
         return $s;
 }
@@ -473,29 +473,30 @@ class EcwidMinicartWidget extends WP_Widget {
     }
 
     function widget($args, $instance) {
-      extract($args);
-      $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+        extract($args);
+        $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
 
-      echo $before_widget;
+        echo $before_widget;
 
-      if ( $title )
-      echo $before_title . $title . $after_title;
+        if ( $title )
+            echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
 
-	$ecwid_page_id = get_option("ecwid_store_page_id");
-	$page_url = get_page_link($ecwid_page_id);
-	if (!empty($page_url))
-		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
 
+        $ecwid_page_id = get_option("ecwid_store_page_id");
+        $page_url = get_page_link($ecwid_page_id);
+        $_tmp_page = get_page($ecwid_page_id);
+        if (!empty($page_url) && $_tmp_page != null)
+            echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
         echo <<<EOT
-	      <script type="text/javascript"> xMinicart("style="); </script>
-	      </div>
+          <script type="text/javascript"> xMinicart("style="); </script>
+          </div>
 EOT;
-      
-echo $after_widget;
-  }
+
+        echo $after_widget;
+    }
 
     function update($new_instance, $old_instance){
       $instance = $old_instance;
@@ -533,8 +534,9 @@ class EcwidSearchWidget extends WP_Widget {
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
-	$page_url = get_page_link($ecwid_page_id);
-	if (!empty($page_url))
+        $page_url = get_page_link($ecwid_page_id);
+                $_tmp_page = get_page($ecwid_page_id);
+                if (!empty($page_url) && $_tmp_page != null)
 		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xSearchPanel("style="); </script>	      
@@ -580,8 +582,9 @@ class EcwidVCategoriesWidget extends WP_Widget {
         $store_id = get_ecwid_store_id();
         echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
-	$page_url = get_page_link($ecwid_page_id);
-	if (!empty($page_url))
+        $page_url = get_page_link($ecwid_page_id);
+                $_tmp_page = get_page($ecwid_page_id);
+                if (!empty($page_url) && $_tmp_page != null)
 		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xVCategories("style="); </script>
