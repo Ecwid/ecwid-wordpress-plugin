@@ -40,19 +40,14 @@ Full list of features:
 
 == Changelog ==
 = 0.3 =
-[+] Ecwid integration code was updated to the last vesion
-
-[+] New product browser parameters: http://kb.ecwid.com/Product-Browser
-
-[+] New built-in "ecwid_ProductBrowserURL" feature:
-http://kb.ecwid.com/ecwid_ProductBrowserURL
+- [+] Ecwid integration code was updated to the last vesion
+- [+] New product browser parameters: http://kb.ecwid.com/Product-Browser
+- [+] New built-in "ecwid_ProductBrowserURL" feature: http://kb.ecwid.com/ecwid_ProductBrowserURL
 
 = 0.2 =
-[+] New sidebars were added: search box, minicart and vertical categories
-
-[+] New options effecting the store appearance
-
-[!] Minor bugfixes
+- [+] New sidebars were added: search box, minicart and vertical categories
+- [+] New options effecting the store appearance
+- [!] Minor bugfixes
 
 = 0.1 =
-[+] Initial version
+- [+] Initial version
