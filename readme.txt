@@ -5,8 +5,8 @@ Requires at least: 2.8
 Tested up to: 2.9
 Stable tag: 0.3
 
-Ecwid is free full-fledged shopping cart. It  can be easily integreted with
-Wordpress blog and takes less than 5 minutes to set up.
+Ecwid is free full-fledged shopping cart that can be easily add to any blog
+and takes less than 5 minutes to set up.
 
 == Description ==
 Ecwid is free full-fledged shopping cart that can be easily add to any blog.
