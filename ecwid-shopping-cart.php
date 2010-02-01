@@ -27,8 +27,9 @@ add_shortcode('ecwid_productbrowser', 'ecwid_productbrowser_shortcode');
 
 
 function ecwid_script_shortcode() {
+  $ecwid_protocol = get_ecwid_protocol();
 	$store_id = get_ecwid_store_id();
-	$s =  "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script></div>";
+	$s =  "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://app.ecwid.com/script.js?$store_id\"></script></div>";
 	return $s;
 }
 
@@ -72,12 +73,6 @@ function ecwid_productbrowser_shortcode() {
     $store_id = get_ecwid_store_id();
     $list_of_views = array('list','grid','table');
 
-   /* 
-    $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
-    $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
-    $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
-    */
-
     $ecwid_pb_categoriesperrow = get_option('ecwid_pb_categoriesperrow');
     $ecwid_pb_productspercolumn_grid = get_option('ecwid_pb_productspercolumn_grid');
     $ecwid_pb_productsperrow_grid = get_option('ecwid_pb_productsperrow_grid');
@@ -108,17 +103,6 @@ function ecwid_productbrowser_shortcode() {
     if (empty($ecwid_pb_searchview) || !in_array($ecwid_pb_searchview, $list_of_views)) {
         $ecwid_pb_searchview = 'list';
     }
-
-    /*
-if (empty($ecwid_pb_itemsperrow))
-	$ecwid_pb_itemsperrow = 3;
-
-if (empty($ecwid_pb_itemsperpage)) 
-	$ecwid_pb_itemsperpage = 6;
-
-if (empty($ecwid_pb_searchresultsitemsperpage)) 
-	$ecwid_pb_searchresultsitemsperpage = 10;
-     */
 
         $s = <<<EOT
 <div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style=");</script></div>
@@ -159,6 +143,8 @@ EOT;
     add_option("ecwid_pb_defaultview", 'grid', '', 'yes');
     add_option("ecwid_pb_searchview", 'list', '', 'yes');
 
+    add_option("ecwid_enable_ssl", '', '', 'yes');    
+    
     $id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
@@ -224,14 +210,7 @@ function ecwid_settings_api_init() {
     register_setting('ecwid_options_page', 'ecwid_pb_productsperpage_table', 'ecwid_abs_intval');
     register_setting('ecwid_options_page', 'ecwid_pb_defaultview');
     register_setting('ecwid_options_page', 'ecwid_pb_searchview');
-
-   /* 
-    register_setting('ecwid_options_page', 'ecwid_pb_itemsperrow','intval');
-    register_setting('ecwid_options_page', 'ecwid_pb_itemsperpage','intval');
-    register_setting('ecwid_options_page', 'ecwid_pb_searchresultsitemsperpage','intval');
-    */
-
-
+    register_setting('ecwid_options_page', 'ecwid_enable_ssl');
 } 
 
 function ecwid_options_add_page() {
@@ -243,11 +222,6 @@ function ecwid_options_do_page() {
     $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
     $ecwid_show_categories = get_option('ecwid_show_categories');
     $ecwid_show_search_box = get_option('ecwid_show_search_box');
-	/*
-    $ecwid_pb_itemsperrow = get_option('ecwid_pb_itemsperrow');
-    $ecwid_pb_itemsperpage = get_option('ecwid_pb_itemsperpage');
-    $ecwid_pb_searchresultsitemsperpage = get_option('ecwid_pb_searchresultsitemsperpage');
-	*/
 
     $ecwid_pb_categoriesperrow = get_option('ecwid_pb_categoriesperrow');
     $ecwid_pb_productspercolumn_grid = get_option('ecwid_pb_productspercolumn_grid');
@@ -256,6 +230,8 @@ function ecwid_options_do_page() {
     $ecwid_pb_productsperpage_table = get_option('ecwid_pb_productsperpage_table');
     $ecwid_pb_defaultview = get_option('ecwid_pb_defaultview');
     $ecwid_pb_searchview = get_option('ecwid_pb_searchview');
+    
+    $ecwid_enable_ssl = get_option('ecwid_enable_ssl');
 
     $ecwid_page_id = get_option("ecwid_store_page_id");
     $_tmp_page = null;
@@ -287,7 +263,7 @@ function ecwid_options_do_page() {
     <tr><th scope="row">
 Enable minicart attached to categories?</th>
     <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\"";?> <? echo $disabled_str; ?> />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(If you added minicart to your blog's sidebar, please disable this option)</small>
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;If you added minicart to your blog's sidebar, please disable this option.
 
 </td>
             </tr>
@@ -342,6 +318,15 @@ Enable minicart attached to categories?</th>
 				</select>
 </td>
             </tr>
+            
+                <tr><th scope="row">
+Enable this option, if you use Ecwid on a secure HTTPS page</th>
+    <td><input type="checkbox" name="ecwid_enable_ssl" <?php if (!empty($ecwid_enable_ssl)) echo "checked=\"checked\"";?> />
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/SSL-HTTPS">Information about Ecwid and SSL/HTTPS</a>
+
+</td>
+            </tr>
+            
             </table>
             <p class="submit">
             <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
@@ -441,26 +426,36 @@ with these ones:
 } 
   
 function get_ecwid_store_id() {
+    static $store_id = null;
+    if (is_null($store_id)) {
         $store_id = get_option('ecwid_store_id');
         if (empty($store_id))
-                $store_id = 1003;
+          $store_id = 1003;
+    }
 	return $store_id;
 } 
  
-function ecwid_setting_callback_function() {
-		$store_id = get_ecwid_store_id();
-	echo "<input  name='ecwid_setting_name' id='gv_thumbnails_insert_into_excerpt' value='$store_id' class='code' /> Explanation text";
+function get_ecwid_protocol() {
+        static $ecwid_enable_ssl = null;
+        if (is_null($ecwid_enable_ssl)) {
+            $ecwid_enable_ssl = get_option('ecwid_enable_ssl');
+        }
+        if (empty($ecwid_enable_ssl)) {
+            return "http";
+        }
+        else {
+            return "https";
+        }
 } 
-
-
+ 
 function ecwid_dashboard_widget_function() {
-echo "<a href=\"https://my.ecwid.com/\" target=\"_blank\">Go to the Ecwid Control Panel</a>";
+echo "<a href=\"https://my.ecwid.com/\" target=\"_blank\">Go to the Ecwid Control Panel</a><br /><br /><a href=\"http://kb.ecwid.com/\" target=\"_blank\">Ecwid Knowledge Base</a>&nbsp;|&nbsp;<a href=\"http://www.ecwid.com/forums\" target=\"_blank\">Ecwid Forums</a>";
 } 
 
 // Create the function use in the action hook
 
 function ecwid_add_dashboard_widgets() {
-	wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Control Panel', 'ecwid_dashboard_widget_function');	
+	wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Links', 'ecwid_dashboard_widget_function');	
 } 
 
 
@@ -482,7 +477,8 @@ class EcwidMinicartWidget extends WP_Widget {
             echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
-        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+        $ecwid_protocol = get_ecwid_protocol();
+        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://app.ecwid.com/script.js?$store_id\"></script>";
 
 
         $ecwid_page_id = get_option("ecwid_store_page_id");
@@ -532,7 +528,8 @@ class EcwidSearchWidget extends WP_Widget {
       echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
-        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+        $ecwid_protocol = get_ecwid_protocol();
+        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://app.ecwid.com/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
@@ -580,7 +577,8 @@ class EcwidVCategoriesWidget extends WP_Widget {
       echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
-        echo "<div><script type=\"text/javascript\" src=\"http://app.ecwid.com/script.js?$store_id\"></script>";
+        $ecwid_protocol = get_ecwid_protocol();
+        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://app.ecwid.com/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
