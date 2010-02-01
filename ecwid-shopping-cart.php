@@ -255,7 +255,7 @@ function ecwid_options_do_page() {
         <form method="post" action="options.php">
             <?php settings_fields('ecwid_options_page'); ?>
             <table class="form-table">
-                            <tr><th scope="row">Store ID:</th>
+                            <tr><th scope="row"><a href="http://kb.ecwid.com/Instruction-on-how-to-get-your-free-Store-ID-(for-WordPress)" target="_blank">Store ID</a>:</th>
                     <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
 		    </tr>
 
@@ -397,25 +397,19 @@ with these ones:
 
 ?>
     <div id="ecwid-instruction" >
-        <h4>Instruction on how to get your free Store ID</h4>
-    <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-instruction-ul">
-        <li>Go to the <a href="https://my.ecwid.com/cp/#register" target="_blank">Ecwid control panel</a>. Open this URL:  <a href="https://my.ecwid.com/cp/#register" target="_blank">https://my.ecwid.com/cp/#register</a>.  You will get to 'Sign in or Register' form.</li>
-        <li> Register an account at Ecwid. Use section "Using Ecwid account" for that. The registration is free.<br />
-         Or you can login using your account at Gmail, Facebook, Twitter, Yahoo, or another provider. Choose one from the list of the providers (click on 'More providers' if you don't see your provider there). Click on the provider logo, you will be redirected to the account login page. Submit your username/password there to login to your Ecwid. 
-         <br />
-        Note: the login might take several seconds. Please, be patient.</li>
-
-        <li> When you login the "<a href="https://my.ecwid.com/cp/CP.html#catalog=-1&products=list&profile=-1&settings=4&t1=-1&t2=0&dashboard=-1" target="_blank" >Dashboard</a>" page will appear with 'Getting Started' section.</li>
-
-        <li> Find the Product Browser Widget Code textbox with some lines of HTML/JavaScript code in there. This is the Ecwid integration code.</li>
-
-        <li> Look through the code lines, find this line <br />
-        <span style="background-color:#d3e9e9;">src="http://app.ecwid.com/script.js?<strong>2341</strong>" </span>
-    <br />
-    On your page there will be not '<strong>2341</strong>', but <strong>another number</strong>. This number is your <strong>store ID</strong>. </li>
-
-    </ul>
-    If you have any questions, feel free to ask them on <a href="http://www.ecwid.com/forums/">Ecwid forums</a> or <a href="http://www.ecwid.com/contact-us.html">contact Ecwid team</a>.
+<h4>Instruction on how to get your free Store ID</h4>
+<ul style="padding-left:30px;list-style-type:disc;" id="ecwid-instruction-ul">
+    <li>Go to the <a target="_blank" href="https://my.ecwid.com/cp/#register">Ecwid control panel</a>. Open this URL: <a target="_blank" href="https://my.ecwid.com/cp/#register">https://my.ecwid.com/cp/#register</a>. You will get to 'Sign in or Register' form.</li>
+    <li>Register an account at Ecwid. Use section &quot;Using Ecwid account&quot; for that. The registration is free.
+    <p>Or you can log in using your account at Gmail, Facebook, Twitter, Yahoo, or another provider. Choose one from the list of the providers (click on 'More providers' if you don't see your provider there). Click on the provider logo, you will be redirected to the account login page. Submit your username/password there to login to your Ecwid.</p>
+    <p>Note: the login might take several seconds. Please, be patient.</p>
+    </li>
+    <li>Look at the right bottom corner of the page.</li>
+    <li>You will see the&nbsp;<span style="background-color:#d3e9e9;">&quot;Store ID: <strong>NNNNNN</strong>&quot;</span> text, where <strong>NNNNNN</strong> is your <strong>Store ID</strong>.<br /><br />
+    <p>For example if the text is&nbsp;<span style="background-color:#d3e9e9;">Store ID:</span> <strong><span style="background-color:#d3e9e9;">1003</span></strong>, your Store ID is <strong>1003</strong>. &nbsp;</p>
+    </li>
+</ul>
+<p>If you have any questions, feel free to ask them on <a href="http://www.ecwid.com/forums/">Ecwid forums</a> or <a href="http://www.ecwid.com/contact-us.html">contact Ecwid team</a>.</p>
  </div>
         </form>
 
