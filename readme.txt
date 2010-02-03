@@ -39,6 +39,11 @@ Full list of features:
 [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
 
 == Changelog ==
+= 0.4 =
+- [+] Instruction in the plugin settings was updated.
+- [+] New plugin option to use on secure pages was added.
+- [+] Some code tweaks and optimisations.
+
 = 0.3 =
 - [+] Ecwid integration code was updated to the last vesion
 - [+] New product browser parameters: http://kb.ecwid.com/Product-Browser

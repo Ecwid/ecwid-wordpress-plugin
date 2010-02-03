@@ -4,7 +4,7 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is free full-fledged shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.3
+Version: 0.4
 Author URI: http://www.ecwid.com/
 */
 
@@ -279,7 +279,7 @@ Enable minicart attached to categories?</th>
 </td>
             </tr>
 
-                            <tr><th scope="row">Categories per page</th>
+                            <tr><th scope="row">Categories per row</th>
                             <td><input type="text" name="ecwid_pb_categoriesperrow" value="<?php  echo $ecwid_pb_categoriesperrow; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
 
@@ -320,9 +320,10 @@ Enable minicart attached to categories?</th>
             </tr>
             
                 <tr><th scope="row">
-Enable this option, if you use Ecwid on a secure HTTPS page</th>
+Enable the following option, if you use Ecwid on a secure HTTPS page 
+</th>
     <td><input type="checkbox" name="ecwid_enable_ssl" <?php if (!empty($ecwid_enable_ssl)) echo "checked=\"checked\"";?> />
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/SSL-HTTPS">Information about Ecwid and SSL/HTTPS</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/SSL-HTTPS" target="_blank">Information about Ecwid and SSL/HTTPS</a>
 
 </td>
             </tr>
@@ -399,14 +400,15 @@ with these ones:
     <div id="ecwid-instruction" >
 <h4>Instruction on how to get your free Store ID</h4>
 <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-instruction-ul">
-    <li>Go to the <a target="_blank" href="https://my.ecwid.com/cp/#register">Ecwid control panel</a>. Open this URL: <a target="_blank" href="https://my.ecwid.com/cp/#register">https://my.ecwid.com/cp/#register</a>. You will get to 'Sign in or Register' form.</li>
+    <li>Go to the <a target="_blank" href="https://my.ecwid.com/cp/#register">Ecwid control panel</a>. Open this URL: <a target="_blank" href="https://my.ecwid.com/cp/#register">https://my.ecwid.com/cp/#register</a>. You will get to 'Sign In or Register' form.</li>
     <li>Register an account at Ecwid. Use section &quot;Using Ecwid account&quot; for that. The registration is free.
     <p>Or you can log in using your account at Gmail, Facebook, Twitter, Yahoo, or another provider. Choose one from the list of the providers (click on 'More providers' if you don't see your provider there). Click on the provider logo, you will be redirected to the account login page. Submit your username/password there to login to your Ecwid.</p>
     <p>Note: the login might take several seconds. Please, be patient.</p>
     </li>
     <li>Look at the right bottom corner of the page.</li>
-    <li>You will see the&nbsp;<span style="background-color:#d3e9e9;">&quot;Store ID: <strong>NNNNNN</strong>&quot;</span> text, where <strong>NNNNNN</strong> is your <strong>Store ID</strong>.<br /><br />
-    <p>For example if the text is&nbsp;<span style="background-color:#d3e9e9;">Store ID:</span> <strong><span style="background-color:#d3e9e9;">1003</span></strong>, your Store ID is <strong>1003</strong>. &nbsp;</p>
+    <li>You will see the&nbsp;<span style="background-color:#d3e9e9;">&quot;Store ID: <strong>NNNNNN</strong>&quot;</span> text, where <strong>NNNNNN</strong> is your <strong>Store ID</strong>.<br />
+    <p>For example if the text is&nbsp;<span style="background-color:#d3e9e9;">Store ID:</span> <strong><span style="background-color:#d3e9e9;">1003</span></strong>, your Store ID is <strong>1003</strong>. &nbsp;</p><br />
+    You will also get your Store ID by email.
     </li>
 </ul>
 <p>If you have any questions, feel free to ask them on <a href="http://www.ecwid.com/forums/">Ecwid forums</a> or <a href="http://www.ecwid.com/contact-us.html">contact Ecwid team</a>.</p>
@@ -443,10 +445,8 @@ function get_ecwid_protocol() {
 } 
  
 function ecwid_dashboard_widget_function() {
-echo "<a href=\"https://my.ecwid.com/\" target=\"_blank\">Go to the Ecwid Control Panel</a><br /><br /><a href=\"http://kb.ecwid.com/\" target=\"_blank\">Ecwid Knowledge Base</a>&nbsp;|&nbsp;<a href=\"http://www.ecwid.com/forums\" target=\"_blank\">Ecwid Forums</a>";
+echo "<a href=\"https://my.ecwid.com/\" target=\"_blank\">Go to the Ecwid Control Panel</a><br /><br /><a href=\"http://kb.ecwid.com/\" target=\"_blank\">Ecwid Knowledge Base</a>&nbsp;|&nbsp;<a href=\"http://www.ecwid.com/forums/\" target=\"_blank\">Ecwid Forums</a>";
 } 
-
-// Create the function use in the action hook
 
 function ecwid_add_dashboard_widgets() {
 	wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Links', 'ecwid_dashboard_widget_function');	
