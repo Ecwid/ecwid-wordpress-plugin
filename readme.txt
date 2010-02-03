@@ -42,7 +42,7 @@ Full list of features:
 = 0.4 =
 - [+] Instruction in the plugin settings was updated.
 - [+] New plugin option to use on secure pages was added.
-- [+] Some code tweaks and optimisations.
+- [+] Some code tweaks and optimizations.
 
 = 0.3 =
 - [+] Ecwid integration code was updated to the last vesion
