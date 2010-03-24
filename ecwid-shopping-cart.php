@@ -255,53 +255,57 @@ function ecwid_options_do_page() {
         <form method="post" action="options.php">
             <?php settings_fields('ecwid_options_page'); ?>
             <table class="form-table">
+            <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">General</h3></th></tr>
                             <tr><th scope="row"><a href="http://kb.ecwid.com/Instruction-on-how-to-get-your-free-Store-ID-(for-WordPress)" target="_blank">Store ID</a>:</th>
                     <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
 		    </tr>
-
-
+		        <tr><th scope="row">
+    <label for="ecwid_show_categories">Show horizontal categories?</label> </th>
+    <td><input type="checkbox" id="ecwid_show_categories" name="ecwid_show_categories" <?php if (!empty($ecwid_show_categories)) echo "checked=\"checked\""; echo $disabled_str; ?> />
+</td>
+            </tr>
     <tr><th scope="row">
-Enable minicart attached to categories?</th>
-    <td><input type="checkbox" name="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\"";?> <? echo $disabled_str; ?> />
+    <label for="ecwid_show_search_box">Show search box?</label> </th>
+    <td><input type="checkbox" id="ecwid_show_search_box" name="ecwid_show_search_box" <?php if (!empty($ecwid_show_search_box)) echo "checked=\"checked\"";?> <?php echo $disabled_str;?> />
+</td>
+            </tr>
+
+
+            
+    <tr><th scope="row">
+<label for="ecwid_enable_minicart">Enable minicart attached to categories?</label></th>
+    <td><input type="checkbox" name="ecwid_enable_minicart" id="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\"";?> <? echo $disabled_str; ?> />
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;If you added minicart to your blog's sidebar, please disable this option.
 
 </td>
             </tr>
-    <tr><th scope="row">
-    Show horizontal categories? </th>
-    <td><input type="checkbox" name="ecwid_show_categories" <?php if (!empty($ecwid_show_categories)) echo "checked=\"checked\""; echo $disabled_str; ?> />
-</td>
+
+            <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">Appearance</h3></th></tr>
+
+                            <tr><th scope="row"><label for="ecwid_pb_categoriesperrow">Categories per row</label></th>
+                            <td><input type="text" id="ecwid_pb_categoriesperrow" name="ecwid_pb_categoriesperrow" value="<?php  echo $ecwid_pb_categoriesperrow; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
 
-    <tr><th scope="row">
-    Show search box? </th>
-    <td><input type="checkbox" name="ecwid_show_search_box" <?php if (!empty($ecwid_show_search_box)) echo "checked=\"checked\"";?> <?php echo $disabled_str;?> />
-</td>
-            </tr>
-
-                            <tr><th scope="row">Categories per row</th>
-                            <td><input type="text" name="ecwid_pb_categoriesperrow" value="<?php  echo $ecwid_pb_categoriesperrow; ?>" <?php echo $disabled_str;?> /></td>
-            </tr>
-
-                            <tr><th scope="row">Products per column in grid mode</th>
-                            <td><input type="text" name="ecwid_pb_productspercolumn_grid" value="<?php  echo $ecwid_pb_productspercolumn_grid; ?>" <?php echo $disabled_str;?> /></td>
-            </tr>                            <tr><th scope="row">Products per row in grid mode</th>
-
-                            <td><input type="text" name="ecwid_pb_productsperrow_grid" value="<?php  echo $ecwid_pb_productsperrow_grid; ?>" <?php echo $disabled_str;?> /></td>
+                            <tr><th scope="row"><label for="ecwid_pb_productspercolumn_grid">Products per column in grid mode</th>
+                            <td><input type="text" id="ecwid_pb_productspercolumn_grid" name="ecwid_pb_productspercolumn_grid" value="<?php  echo $ecwid_pb_productspercolumn_grid; ?>" <?php echo $disabled_str;?> /></td>
+            </tr>                            
+            
+            <tr><th scope="row"><label for="ecwid_pb_productsperrow_grid">Products per row in grid mode</label></th>
+                            <td><input type="text" id="ecwid_pb_productsperrow_grid" name="ecwid_pb_productsperrow_grid" value="<?php  echo $ecwid_pb_productsperrow_grid; ?>" <?php echo $disabled_str;?> /></td>
             </tr>                        
 
-    <tr><th scope="row">Products per page in list mode</th>
-                            <td><input type="text" name="ecwid_pb_productsperpage_list" value="<?php  echo $ecwid_pb_productsperpage_list; ?>" <?php echo $disabled_str;?> /></td>
+    <tr><th scope="row"><label for="ecwid_pb_productsperpage_list">Products per page in list mode</label></th>
+                            <td><input type="text" id="ecwid_pb_productsperpage_list" name="ecwid_pb_productsperpage_list" value="<?php  echo $ecwid_pb_productsperpage_list; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
 
-                            <tr><th scope="row">Products per page in table mode</th>
-                            <td><input type="text" name="ecwid_pb_productsperpage_table" value="<?php  echo $ecwid_pb_productsperpage_table; ?>" <?php echo $disabled_str;?> /></td>
+                            <tr><th scope="row"><label for="ecwid_pb_productsperpage_table">Products per page in table mode</label></th>
+                            <td><input type="text" id="ecwid_pb_productsperpage_table" name="ecwid_pb_productsperpage_table" value="<?php  echo $ecwid_pb_productsperpage_table; ?>" <?php echo $disabled_str;?> /></td>
             </tr>
 
 
-                            <tr><th scope="row">Default view mode on product pages</th>
+                            <tr><th scope="row"><label for="ecwid_pb_defaultview">Default view mode on product pages</label></th>
                             <td>
-				<select name="ecwid_pb_defaultview" <?php echo $disabled_str;?> >
+				<select id="ecwid_pb_defaultview" name="ecwid_pb_defaultview" <?php echo $disabled_str;?> >
 					<option value="grid" <?php if($ecwid_pb_defaultview == 'grid') echo 'selected="selected"' ?> >Grid mode</option>
 					<option value="list" <?php if($ecwid_pb_defaultview == 'list') echo 'selected="selected"' ?> >List mode</option>
 					<option value="table" <?php if($ecwid_pb_defaultview == 'table') echo 'selected="selected"' ?> >Table mode</option>
@@ -309,9 +313,9 @@ Enable minicart attached to categories?</th>
 </td>
             </tr>
 
-                            <tr><th scope="row">Default view mode on search results</th>
+                            <tr><th scope="row"><label for="ecwid_pb_searchview">Default view mode on search results</label></th>
                             <td>
-				<select name="ecwid_pb_searchview" <?php echo $disabled_str;?> >
+				<select id="ecwid_pb_searchview" name="ecwid_pb_searchview" <?php echo $disabled_str;?> >
 					<option value="grid" <?php if($ecwid_pb_searchview == 'grid') echo 'selected="selected"' ?> >Grid mode</option>
 					<option value="list" <?php if($ecwid_pb_searchview == 'list') echo 'selected="selected"' ?> >List mode</option>
 					<option value="table" <?php if($ecwid_pb_searchview == 'table') echo 'selected="selected"' ?> >Table mode</option>
@@ -319,10 +323,12 @@ Enable minicart attached to categories?</th>
 </td>
             </tr>
             
-                <tr><th scope="row">
-Enable the following option, if you use Ecwid on a secure HTTPS page 
+                        <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">Advanced</h3></th></tr>
+            
+                <tr><th scope="row"><label for="ecwid_enable_ssl">
+Enable the following option, if you use Ecwid on a secure HTTPS page</label>
 </th>
-    <td><input type="checkbox" name="ecwid_enable_ssl" <?php if (!empty($ecwid_enable_ssl)) echo "checked=\"checked\"";?> />
+    <td><input id="ecwid_enable_ssl" type="checkbox" name="ecwid_enable_ssl" <?php if (!empty($ecwid_enable_ssl)) echo "checked=\"checked\"";?> />
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/SSL-HTTPS" target="_blank">Information about Ecwid and SSL/HTTPS</a>
 
 </td>
@@ -397,6 +403,10 @@ with these ones:
     }
 
 ?>
+
+<?php 
+if ($store_id == '1003') {
+?>
     <div id="ecwid-instruction" >
 <h4>Instruction on how to get your free Store ID</h4>
 <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-instruction-ul">
@@ -413,6 +423,9 @@ with these ones:
 </ul>
 <p>If you have any questions, feel free to ask them on <a href="http://www.ecwid.com/forums/">Ecwid forums</a> or <a href="http://www.ecwid.com/contact-us.html">contact Ecwid team</a>.</p>
  </div>
+ <?php 
+ }
+ ?>
         </form>
 
 
