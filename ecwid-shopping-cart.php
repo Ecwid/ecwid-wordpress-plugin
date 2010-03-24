@@ -36,7 +36,8 @@ function ecwid_script_shortcode() {
 
 function ecwid_minicart_shortcode() {
     $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
-    if (!empty($ecwid_enable_minicart)) {
+    $ecwid_show_categories = get_option('ecwid_show_categories');
+    if (!empty($ecwid_enable_minicart) && !empty($ecwid_show_categories)) {
         $s = <<<EOT
 <div><script type="text/javascript"> xMinicart("style=","layout=attachToCategories"); </script></div>
 EOT;
@@ -266,15 +267,19 @@ function ecwid_options_do_page() {
             </tr>
     <tr><th scope="row">
     <label for="ecwid_show_search_box">Show search box?</label> </th>
-    <td><input type="checkbox" id="ecwid_show_search_box" name="ecwid_show_search_box" <?php if (!empty($ecwid_show_search_box)) echo "checked=\"checked\"";?> <?php echo $disabled_str;?> />
+        <td><input type="checkbox" id="ecwid_show_search_box" name="ecwid_show_search_box" <?php if (!empty($ecwid_show_search_box)) echo "checked=\"checked\"";?> <?php echo $disabled_str;?> />
 </td>
             </tr>
-
-
-            
+         
     <tr><th scope="row">
 <label for="ecwid_enable_minicart">Enable minicart attached to horizontal categories?</label></th>
-    <td><input type="checkbox" name="ecwid_enable_minicart" id="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart)) echo "checked=\"checked\"";?> <? echo $disabled_str; ?> />
+    <td><input type="checkbox" name="ecwid_enable_minicart" id="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart) && !empty($ecwid_show_categories)) echo "checked=\"checked\"";?> 
+<? if (empty($ecwid_show_categories)) { 
+     echo 'disabled = "disabled"';
+   }
+   else { 
+     echo $disabled_str;
+   } ?> />
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;If you added minicart to your blog's sidebar, please disable this option.
 
 </td>
