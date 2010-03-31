@@ -82,6 +82,9 @@ function ecwid_productbrowser_shortcode() {
     $ecwid_pb_defaultview = get_option('ecwid_pb_defaultview');
     $ecwid_pb_searchview = get_option('ecwid_pb_searchview');
 
+    $ecwid_mobile_catalog_link = get_option('ecwid_mobile_catalog_link');
+    $ecwid_default_category_id = get_option('ecwid_default_category_id');
+
     if (empty($ecwid_pb_categoriesperrow)) {
         $ecwid_pb_categoriesperrow = 3;
     }
@@ -105,9 +108,20 @@ function ecwid_productbrowser_shortcode() {
         $ecwid_pb_searchview = 'list';
     }
 
+    if (empty($ecwid_mobile_catalog_link)) {
+        $ecwid_mobile_catalog_link = "http://app.ecwid.com/jsp/{$store_id}/catalog";
+    }
+
+    if (empty($ecwid_default_category_id)) {
+        $ecwid_default_category_str = '';
+    } else {
+        $ecwid_default_category_str = ',"defaultCategoryId='. $ecwid_default_category_id .'"';
+    }
+
+    
         $s = <<<EOT
-<div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style=");</script></div>
-<noscript>Your browser does not support JavaScript.<a href="http://app.ecwid.com/jsp/{$store_id}/catalog">HTML version of this store</a></noscript>
+<div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style="$ecwid_default_category_str);</script></div>
+<noscript>Your browser does not support JavaScript.<a href="{$ecwid_mobile_catalog_link}">HTML version of this store</a></noscript>
 EOT;
         return $s;
 }
@@ -122,17 +136,13 @@ function ecwid_store_activate() {
 		<!-- Ecwid code end -->
 
 EOT;
-	add_option("ecwid_store_page_id", '', '', 'yes');	
-	add_option("ecwid_store_id", '1003', '', 'yes');
+  	add_option("ecwid_store_page_id", '', '', 'yes');	
+  	add_option("ecwid_store_id", '1003', '', 'yes');
     
     add_option("ecwid_enable_minicart", 'Y', '', 'yes');
     add_option("ecwid_show_categories", 'Y', '', 'yes');
     add_option("ecwid_show_search_box", '', '', 'yes');
 
-    /* old */ 
-    #add_option("ecwid_pb_itemsperrow", '3', '', 'yes');
-    #add_option("ecwid_pb_itemsperpage", '6', '', 'yes');
-    #add_option("ecwid_pb_searchresultsitemsperpage", '10', '', 'yes');
 
     add_option("ecwid_pb_categoriesperrow", '3', '', 'yes');
 
@@ -144,7 +154,11 @@ EOT;
     add_option("ecwid_pb_defaultview", 'grid', '', 'yes');
     add_option("ecwid_pb_searchview", 'list', '', 'yes');
 
-    add_option("ecwid_enable_ssl", '', '', 'yes');    
+    add_option("ecwid_enable_ssl", '', '', 'yes');  
+    
+    add_option("ecwid_mobile_catalog_link", '', '', 'yes');  
+    add_option("ecwid_default_category_id", '', '', 'yes');  
+      
     
     $id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
@@ -212,6 +226,9 @@ function ecwid_settings_api_init() {
     register_setting('ecwid_options_page', 'ecwid_pb_defaultview');
     register_setting('ecwid_options_page', 'ecwid_pb_searchview');
     register_setting('ecwid_options_page', 'ecwid_enable_ssl');
+    
+    register_setting('ecwid_options_page', 'ecwid_mobile_catalog_link');
+    register_setting('ecwid_options_page', 'ecwid_default_category_id');
 } 
 
 function ecwid_options_add_page() {
@@ -231,6 +248,10 @@ function ecwid_options_do_page() {
     $ecwid_pb_productsperpage_table = get_option('ecwid_pb_productsperpage_table');
     $ecwid_pb_defaultview = get_option('ecwid_pb_defaultview');
     $ecwid_pb_searchview = get_option('ecwid_pb_searchview');
+    
+    $ecwid_mobile_catalog_link = get_option('ecwid_mobile_catalog_link');
+    $ecwid_default_category_id = get_option('ecwid_default_category_id');
+    
     
     $ecwid_enable_ssl = get_option('ecwid_enable_ssl');
 
@@ -336,8 +357,24 @@ Enable the following option, if you use Ecwid on a secure HTTPS page</label>
     <td><input id="ecwid_enable_ssl" type="checkbox" name="ecwid_enable_ssl" <?php if (!empty($ecwid_enable_ssl)) echo "checked=\"checked\"";?> />
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/SSL-HTTPS" target="_blank">Information about Ecwid and SSL/HTTPS</a>
 
-</td>
-            </tr>
+</td>            </tr>
+            
+                           <tr><th scope="row"><label for="ecwid_mobile_catalog_link">
+Full link to your mobile catalog</label>
+</th>
+    <td><input id="ecwid_mobile_catalog_link" type="text" name="ecwid_mobile_catalog_link" value="<?php  echo $ecwid_mobile_catalog_link; ?>" />
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;For example <em>http://mdemo.ecwid.com</em>.&nbsp;<a href="http://kb.ecwid.com/Mobile-Catalog" target="_blank">Information about Ecwid and mobile catalogs.</a>
+
+</td>            </tr>
+           
+                           <tr><th scope="row"><label for="ecwid_default_category_id">
+Default category ID</label>
+</th>
+    <td><input id="ecwid_default_category_id" type="text" name="ecwid_default_category_id" value="<?php  echo $ecwid_default_category_id; ?>"/>
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;<a href="http://kb.ecwid.com/Default-category-for-product-browser" target="_blank">What is it?</a>
+
+</td>            </tr>
+           
             
             </table>
             <p class="submit">

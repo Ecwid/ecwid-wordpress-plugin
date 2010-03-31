@@ -39,6 +39,10 @@ Full list of features:
 [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
 
 == Changelog ==
+= 0.5 =
+- [+] Plugin settings page was updated.
+- [+] Two new options: "Full link to your mobile catalog" and "Default category ID".
+
 = 0.4 =
 - [+] Instruction in the plugin settings was updated.
 - [+] New plugin option to use on secure pages was added.
