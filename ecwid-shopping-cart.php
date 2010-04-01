@@ -4,7 +4,7 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is free full-fledged shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.4
+Version: 0.5
 Author URI: http://www.ecwid.com/
 */
 
