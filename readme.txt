@@ -36,9 +36,13 @@ Full list of features:
 
 == Frequently Asked Questions ==
 
-[http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
+- [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
+- [http://kb.ecwid.com](http://kb.ecwid.com)
 
 == Changelog ==
+= 0.6 =
+- [+] The "Inline SEO catalog" option was added.
+
 = 0.5 =
 - [+] Plugin settings page was updated.
 - [+] Two new options: "Full link to your mobile catalog" and "Default category ID".
@@ -54,7 +58,7 @@ Full list of features:
 - [+] New built-in "ecwid_ProductBrowserURL" feature: http://kb.ecwid.com/ecwid_ProductBrowserURL
 
 = 0.2 =
-- [+] New sidebars were added: search box, minicart and vertical categories
+- [+] New sidebar widgets were added: search box, minicart and vertical categories
 - [+] New options effecting the store appearance
 - [!] Minor bugfixes
 
