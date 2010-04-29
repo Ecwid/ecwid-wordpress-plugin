@@ -12,10 +12,9 @@ and takes less than 5 minutes to set up.
 Ecwid is a free full-featured shopping cart that can easily be added to any blog.
 It offers the performance and flexibility you need, with none of the hassles you don't.
 
-There are eight key advantages to Ecwid:
+There are seven key advantages to Ecwid:
 - It's free.
 - It has AJAX everywhere and supports drag-and-drop
-- It can be easily integrated to any existing site or Facebook profile in
   minutes.
 - It can be mirrored on many sites at the same time. Add your store to many
   sites, manage it from one place.
