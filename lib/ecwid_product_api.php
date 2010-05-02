@@ -135,7 +135,6 @@ class EcwidProductApi {
 			}
 			
 			$api_url =  $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/batch?". $api_url;
-			echo $api_url;
 			$data = $this->process_request($api_url);
 			return $data;
 		}
