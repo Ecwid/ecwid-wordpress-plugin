@@ -346,7 +346,7 @@ function ecwid_options_do_page() {
 
     ?>
     <div class="wrap">
-    		<? if ($ecwid_settings_message)
+    		<?php if ($ecwid_settings_message)
     		echo "<div id='' class='updated fade'><p><strong>Error.</strong>&nbsp;$ecwid_settings_message</p></div>";
     		?>
         <h2>Ecwid settings</h2>
@@ -371,7 +371,7 @@ function ecwid_options_do_page() {
     <tr><th scope="row">
 <label for="ecwid_enable_minicart">Enable minicart attached to horizontal categories?</label></th>
     <td><input type="checkbox" name="ecwid_enable_minicart" id="ecwid_enable_minicart" <?php if (!empty($ecwid_enable_minicart) && !empty($ecwid_show_categories)) echo "checked=\"checked\"";?> 
-<? if (empty($ecwid_show_categories)) { 
+<?php if (empty($ecwid_show_categories)) { 
      echo 'disabled = "disabled"';
    }
    else { 
