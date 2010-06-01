@@ -5,17 +5,18 @@ Requires at least: 2.8
 Tested up to: 2.9
 Stable tag: 0.6
 
-Ecwid is a free full-fledged shopping cart that can easily be added to any blog
+Ecwid is a free full-featured shopping cart that can easily be added to any blog
 and takes less than 5 minutes to set up.
 
 == Description ==
-Ecwid is a free full-featured shopping cart that can easily be added to any blog.
+Ecwid is a free full-featured shopping cart and an e-commerce solution that can easily be added to any blog or Facebook profile.
 It offers the performance and flexibility you need, with none of the hassles you don't.
+"Ecwid" stands for "ecommerce widgets".
 
-There are seven key advantages to Ecwid:
+There are eight key advantages to Ecwid:
 - It's free.
-- It has AJAX everywhere and supports drag-and-drop
-  minutes.
+- It has AJAX everywhere and supports drag-and-drop.
+- It can be easily integrated to any existing site or Facebook profile in minutes.
 - It can be mirrored on many sites at the same time. Add your store to many
   sites, manage it from one place.
 - Integration with social networks. Run your own store on Facebook, mySpace
