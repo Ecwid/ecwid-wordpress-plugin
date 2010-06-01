@@ -14,21 +14,22 @@ It offers the performance and flexibility you need, with none of the hassles you
 "Ecwid" stands for "ecommerce widgets".
 
 There are eight key advantages to Ecwid:
-1. It's free.
-2. It has AJAX everywhere and supports drag-and-drop.
-3. It can be easily integrated to any existing site or Facebook profile in minutes.
-4. It can be mirrored on many sites at the same time. Add your store to many
+- It's free.
+- It has AJAX everywhere and supports drag-and-drop.
+- It can be easily integrated to any existing site or Facebook profile in minutes.
+- It can be mirrored on many sites at the same time. Add your store to many
   sites, manage it from one place.
-5. Integration with social networks. Run your own store on Facebook, mySpace
+- Integration with social networks. Run your own store on Facebook, mySpace
   and many others.
-6. Simple to use and maintain. For both store owner and customer.
-7. Lightning fast. New-gen technologies make Ecwid much faster than usual
+- Simple to use and maintain. For both store owner and customer.
+- Lightning fast. New-gen technologies make Ecwid much faster than usual
   shopping carts regardless the hosting service you use.
-8.- Seamless upgrades. You just wake up one day and enjoy new features.
+- Seamless upgrades. You just wake up one day and enjoy new features.
 
-- You can see the demo there: [http://www.ecwid.com/demo-frontend.html](http://www.ecwid.com/demo-frontend.html)
+Links
+- You can see the demo there: [www.ecwid.com/demo-frontend.html](http://www.ecwid.com/demo-frontend.html)
 - More features:
-[http://www.ecwid.com/key-features.html](http://www.ecwid.com/key-features.html)
+[www.ecwid.com/key-features.html](http://www.ecwid.com/key-features.html)
 
 == Installation ==
 
