@@ -67,7 +67,7 @@ function show_ecwid($params) {
   $html_catalog = '';
 	if ($ecwid_show_seo_catalog) {
     if (!empty($_GET['ecwid_product_id'])) {
-      $ecwid_open_product = '<script>document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
+      $ecwid_open_product = '<script> if (!document.location.hash) document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
      } elseif (!empty($_GET['ecwid_category_id'])) {
        $ecwid_default_category_id = intval($_GET['ecwid_category_id']);
      }
