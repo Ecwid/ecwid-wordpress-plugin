@@ -38,8 +38,8 @@ Links
 
 == Frequently Asked Questions ==
 
-- [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
-- [http://kb.ecwid.com](http://kb.ecwid.com)
+- FAQ: [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
+- Knowledge Base: [http://kb.ecwid.com](http://kb.ecwid.com)
 
 == Changelog ==
 = 0.6 =
