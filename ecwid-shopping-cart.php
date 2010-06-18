@@ -287,7 +287,7 @@ function ecwid_options_do_page() {
     
     if ($store_id == 1003) {
       $ecwid_noscript_seo_catalog_disabled = true;
-      $ecwid_noscript_seo_catalog_message = 'This option requires using Ecwid Product API. In order to enable it, please set up your Store ID first. Please note, that API is available for the paid Ecwid accounts only.';
+      $ecwid_noscript_seo_catalog_message = 'This option requires using Ecwid Product API. In order to enable it, please set up your Store ID first. Please note, that API is available for the <a href="http://www.ecwid.com/compare-plans.html" target="_blank">paid Ecwid accounts</a> only.';
       if (!empty($ecwid_noscript_seo_catalog)) {
         update_option('ecwid_noscript_seo_catalog', '');
         $ecwid_noscript_seo_catalog = '';
@@ -295,7 +295,7 @@ function ecwid_options_do_page() {
     } # demo store id
     
     else if ($store_id != 1003 && empty($ecwid_noscript_seo_catalog)) {
-      $ecwid_noscript_seo_catalog_message = '<a href="http://kb.ecwid.com/Inline-SEO-Catalog" target="_blank">How Inline Seo Catalog works</a>. This option requires using Ecwid API which is available for the paid accounts only.';
+      $ecwid_noscript_seo_catalog_message = '<a href="http://kb.ecwid.com/Inline-SEO-Catalog" target="_blank">How Inline Seo Catalog works</a>. This option requires using Ecwid API which is available for the <a href="http://www.ecwid.com/compare-plans.html" target="_blank">paid accounts</a> only.';
     }
     else if ($store_id != 1003 && !empty($ecwid_noscript_seo_catalog)) {
     
@@ -307,10 +307,10 @@ function ecwid_options_do_page() {
         if ($api->error_code == 403) {
           #free account, consider upgrade
           $ecwid_noscript_seo_catalog_disabled = true;
-          $ecwid_noscript_seo_catalog_message = 'This option requires using Ecwid API which is available for the paid accounts only. Please consider upgrading your account to use it.'; 
+          $ecwid_noscript_seo_catalog_message = 'This option requires using Ecwid API which is available for the <a href="http://www.ecwid.com/compare-plans.html" target="_blank">paid accounts</a> only. Please consider upgrading your account to use it.'; 
           update_option('ecwid_noscript_seo_catalog', '');
           $ecwid_noscript_seo_catalog = '';
-          $ecwid_settings_message = 'The "Inline HTML catalog" option requires using Ecwid API which is available for the paid accounts only. Please consider upgrading your account to use it.';
+          $ecwid_settings_message = 'The "Inline HTML catalog" option requires using Ecwid API which is available for the <a href="http://www.ecwid.com/compare-plans.html" target="_blank">paid accounts</a> only. Please consider upgrading your account to use it.';
           
         } 
         else if ($api->error_code == 404) {
