@@ -180,11 +180,52 @@ function ecwid_is_api_enabled($ecwid_store_id) {
   return $api->is_api_enabled();
 }
 
+function ecwid_zerolen() {
+  foreach (func_get_args() as $arg) {
+    if (strlen($arg) == 0) return true;
+  }
+  return false;
+}
+
+function ecwid_get_request_uri() {
+static $request_uri = null;
+
+if (is_null($request_uri)) {
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        return $request_uri;
+    }
+    if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
+        $request_uri = $_SERVER['HTTP_X_ORIGINAL_URL'];
+        return $request_uri;
+    } else if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+        $request_uri = $_SERVER['HTTP_X_REWRITE_URL'];
+        return $request_uri;
+    }
+
+    if (isset($_SERVER['PATH_INFO']) && !ecwid_zerolen($_SERVER['PATH_INFO'])) {
+        if ($_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF']) {
+            $request_uri = $_SERVER['PHP_SELF'];
+        } else {
+            $request_uri = $_SERVER['PHP_SELF'] . $_SERVER['PATH_INFO'];
+        }
+    } else {
+        $request_uri = $_SERVER['PHP_SELF'];
+    }
+    # Append query string
+    if (isset($_SERVER['argv']) && isset($_SERVER['argv'][0]) && !ecwid_zerolen($_SERVER['argv'][0])) {
+        $request_uri .= '?' . $_SERVER['argv'][0];
+    } else if (isset($_SERVER['QUERY_STRING']) && !ecwid_zerolen($_SERVER['QUERY_STRING'])) {
+        $request_uri .= '?' . $_SERVER['QUERY_STRING'];
+    }    
+    }     
+    return $request_uri;
+}
+
 function ecwid_internal_construct_url($url_with_anchor, $additional_get_params) {
-	$is_https = ($_SERVER["HTTPS"] == "on");
-	$port = $_SERVER["SERVER_PORT"];
-	$host = $_SERVER["HTTP_HOST"];
-	$path = $_SERVER["SCRIPT_NAME"];
+  $request_uri  = parse_url(ecwid_get_request_uri());
+  $base_url = $request_uri['path'];
+
 	// extract anchor
 	$url_fragments = parse_url($url_with_anchor);
 	$anchor = $url_fragments["fragment"];
@@ -193,27 +234,6 @@ function ecwid_internal_construct_url($url_with_anchor, $additional_get_params) 
 	unset ($get_params["ecwid_category_id"]);
 	unset ($get_params["ecwid_product_id"]);
 	$get_params = array_merge($get_params, $additional_get_params);
-
-	// construct url
-
-	// add schema
-	$base_url = "";
-	if (!$is_https) {
-		$base_url = "http://";
-	} else {
-		$base_url = "https://";
-	}
-
-	// add hostname
-	$base_url .= $host;
-
-	// add port (if needed)
-	if (($is_https && ($port != 443)) || (!$is_https && ($port != 80))) {
-		$base_url .= ":" . $port;
-	}
-
-	// add path
-	$base_url .= $path;
 
 		// add GET parameters
 	if (count($get_params) > 0) {
