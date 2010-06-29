@@ -7,9 +7,10 @@ function show_ecwid($params) {
 	}
 		
 	$list_of_views = $params['list_of_views'];
-	
-	foreach ($list_of_views as $k=>$v) {
-		if (!in_array($v, array('list','grid','table'))) unset($list_of_views[$k]);
+
+    if (is_array($list_of_views))    
+    	foreach ($list_of_views as $k=>$v) {
+    		if (!in_array($v, array('list','grid','table'))) unset($list_of_views[$k]);
 	}
 	
 	if ((!is_array($list_of_views)) || empty($list_of_views)) {
@@ -175,6 +176,7 @@ function show_ecwid_catalog($ecwid_store_id) {
 }
 
 function ecwid_is_api_enabled($ecwid_store_id) {
+    include_once "ecwid_product_api.php";
 	$ecwid_store_id = intval($ecwid_store_id);
 	$api = new EcwidProductApi($ecwid_store_id);
   return $api->is_api_enabled();

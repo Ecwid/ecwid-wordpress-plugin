@@ -322,6 +322,10 @@ function ecwid_options_do_page() {
         else if($api->error_code != '') {
           $ecwid_noscript_seo_catalog_message = 'Connection to Ecwid servers failed. Error code: '. $api->error_code; 
           $ecwid_settings_message = 'Connection to Ecwid servers failed. Error code: '. $api->error_code;
+          if ($api->error_code == 0) {
+            $ecwid_noscript_seo_catalog_message .= '&nbsp;'. $api->error; 
+            $ecwid_settings_message .= '&nbsp;'. $api->error;
+          }
         }
       } # no $api
       else {

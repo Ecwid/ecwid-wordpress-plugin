@@ -32,7 +32,7 @@ class EcwidProductApi {
 		if (intval($timeout) <= 0)
 			$timeout = 90;
 		if (!function_exists('curl_init'))
-			return array("code"=>"0","data"=>"libcurl is not installed");
+			return array("code"=>"0","data"=>"The libcurl module isn't installed on your server. Please contact  your hosting or server administrator to have it installed.");
 		$headers[] = "Content-Type: application/x-www-form-urlencoded";
 		$ch = curl_init();
 
