@@ -262,7 +262,7 @@ function ecwid_options_add_page() {
 }
 
 function ecwid_options_do_page() {
-	$store_id = get_ecwid_store_id(); 
+  	$store_id = get_ecwid_store_id(); 
     $ecwid_enable_minicart = get_option('ecwid_enable_minicart');
     $ecwid_show_categories = get_option('ecwid_show_categories');
     $ecwid_show_search_box = get_option('ecwid_show_search_box');
@@ -358,8 +358,13 @@ function ecwid_options_do_page() {
             <?php settings_fields('ecwid_options_page'); ?>
             <table class="form-table">
             <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">General</h3></th></tr>
-                            <tr><th scope="row"><a href="http://kb.ecwid.com/Instruction-on-how-to-get-your-free-Store-ID-(for-WordPress)" target="_blank">Store ID</a>:</th>
-                    <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" /></td>
+                            <tr><th scope="row"><a href="http://kb.ecwid.com/Instruction-on-how-to-get-your-free-Store-ID-(for-WordPress)" target="_blank">Store ID</a></th>
+                    <td><input type="text" name="ecwid_store_id" value="<?php if ($store_id != 1003) echo $store_id; ?>" />
+                    <?php if ($store_id == 1003) {
+                    echo '&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;The Store ID isn\'t set up. Please enter your Store ID to assign your site with your Ecwid store and show your products. <a href="http://kb.ecwid.com/Instruction-on-how-to-get-your-free-Store-ID-(for-WordPress)" target="_blank">How to get this free ID</a>.';
+                    }
+                    ?>
+                    </td>
 		    </tr>
 		        <tr><th scope="row">
     <label for="ecwid_show_categories">Show horizontal categories?</label> </th>
