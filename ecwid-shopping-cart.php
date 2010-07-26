@@ -127,7 +127,7 @@ function ecwid_productbrowser_shortcode() {
     if (!empty($ecwid_noscript_seo_catalog)) {
       
       if (!empty($_GET['ecwid_product_id'])) {
-        $ecwid_open_product = '<script>document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
+       $ecwid_open_product = '<script type="text/javascript"> if (!document.location.hash) document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
       } elseif (!empty($_GET['ecwid_category_id'])) {
         $ecwid_default_category_str = ',"defaultCategoryId='. intval($_GET['ecwid_category_id']) .'"';
       }
@@ -629,7 +629,7 @@ class EcwidMinicartWidget extends WP_Widget {
         $page_url = get_page_link($ecwid_page_id);
         $_tmp_page = get_page($ecwid_page_id);
         if (!empty($page_url) && $_tmp_page != null)
-            echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
+            echo "<script type=\"text/javascript\">var ecwid_ProductBrowserURL = \"$page_url\";</script>";
         echo <<<EOT
           <script type="text/javascript"> xMinicart("style="); </script>
           </div>
@@ -678,7 +678,7 @@ class EcwidSearchWidget extends WP_Widget {
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
                 if (!empty($page_url) && $_tmp_page != null)
-		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
+		echo "<script type=\"text/javascript\">var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xSearchPanel("style="); </script>	      
 	</div>
@@ -727,7 +727,7 @@ class EcwidVCategoriesWidget extends WP_Widget {
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
                 if (!empty($page_url) && $_tmp_page != null)
-		echo "<script>var ecwid_ProductBrowserURL = \"$page_url\";</script>";
+		echo "<script type=\"text/javascript\">var ecwid_ProductBrowserURL = \"$page_url\";</script>";
       echo <<<EOT
 	<script type="text/javascript"> xVCategories("style="); </script>
 	      </div>
