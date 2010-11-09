@@ -4,7 +4,7 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is a free full-featured shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.7
+Version: 0.8
 Author URI: http://www.ecwid.com/
 */
 
@@ -24,8 +24,24 @@ if ( is_admin() ){
   add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
   add_shortcode('ecwid_categories', 'ecwid_categories_shortcode');
   add_shortcode('ecwid_productbrowser', 'ecwid_productbrowser_shortcode');
+  add_filter('wp_title', 'ecwid_seo_title', 0 );
+  $ecwid_seo_product_title = '';
 }
 
+function ecwid_seo_title($content) {
+  if (!empty($_GET['ecwid_product_id'])) {  
+    $ecwid_seo_product_title = '';
+    include "lib/ecwid_product_api.php";
+    $ecwid_store_id = intval(get_ecwid_store_id());
+	  $api = new EcwidProductApi($ecwid_store_id);
+    $ecwid_product = $api->get_product($_GET['ecwid_product_id']);  
+    $ecwid_seo_product_title = $ecwid_product['name'];
+    return $ecwid_seo_product_title." | ";
+  }
+  else {
+    return $content;
+  }  
+}
 
 
 function ecwid_script_shortcode() {
@@ -73,6 +89,7 @@ EOT;
 }
 
 function ecwid_productbrowser_shortcode() {
+    global $ecwid_seo_product_title;
     $store_id = get_ecwid_store_id();
     $list_of_views = array('list','grid','table');
 
@@ -132,6 +149,7 @@ function ecwid_productbrowser_shortcode() {
         $ecwid_default_category_str = ',"defaultCategoryId='. intval($_GET['ecwid_category_id']) .'"';
       }
       include_once(ABSPATH . 'wp-content/plugins/ecwid-shopping-cart/lib/ecwid_catalog.php');
+     
       $noscript_str = '<noscript>'. show_ecwid_catalog($store_id) . '</noscript>';
     } else {
       $noscript_str = "<noscript>Your browser does not support JavaScript.<a href=\"{$ecwid_mobile_catalog_link}\">HTML version of this store</a></noscript>";
@@ -608,7 +626,7 @@ class EcwidMinicartWidget extends WP_Widget {
 
     function EcwidMinicartWidget() {
     $widget_ops = array('classname' => 'widget_ecwid_minicart', 'description' => __( "Your store's minicart") );
-    $this->WP_Widget('ecwidminicart', __('Ecwid Minicart'), $widget_ops);
+    $this->WP_Widget('ecwidminicart', __('Ecwid Shopping Bag (Normal)'), $widget_ops);
     }
 
     function widget($args, $instance) {
@@ -654,6 +672,58 @@ EOT;
   }
 
 }
+
+class EcwidMinicartMiniViewWidget extends WP_Widget {
+
+    function EcwidMinicartMiniViewWidget() {
+    $widget_ops = array('classname' => 'widget_ecwid_minicart_miniview', 'description' => __( "Your store's minicart") );
+    $this->WP_Widget('ecwidminicart_miniview', __('Ecwid Shopping Bag (Mini view)'), $widget_ops);
+    }
+
+    function widget($args, $instance) {
+        extract($args);
+        $title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+
+        echo $before_widget;
+
+        if ( $title )
+            echo $before_title . $title . $after_title;
+
+        $store_id = get_ecwid_store_id();
+        $ecwid_protocol = get_ecwid_protocol();
+        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+
+
+        $ecwid_page_id = get_option("ecwid_store_page_id");
+        $page_url = get_page_link($ecwid_page_id);
+        $_tmp_page = get_page($ecwid_page_id);
+        if (!empty($page_url) && $_tmp_page != null)
+            echo "<script type=\"text/javascript\">var ecwid_ProductBrowserURL = \"$page_url\";</script>";
+        echo <<<EOT
+          <script type="text/javascript"> xMinicart("style=left:10px","layout=Mini"); </script>
+          </div>
+EOT;
+
+        echo $after_widget;
+    }
+
+    function update($new_instance, $old_instance){
+      $instance = $old_instance;
+      $instance['title'] = strip_tags(stripslashes($new_instance['title']));
+
+    return $instance;
+  }
+
+    function form($instance){
+      $instance = wp_parse_args( (array) $instance, array('title'=>'') );
+
+      $title = htmlspecialchars($instance['title']);
+
+      echo '<p><label for="' . $this->get_field_name('title') . '">' . __('Title:') . ' <input style="width:100%;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+  }
+
+}
+
 
 class EcwidSearchWidget extends WP_Widget {
 
@@ -758,6 +828,7 @@ function ecwid_sidebar_widgets_init() {
 	register_widget('EcwidMinicartWidget');
 	register_widget('EcwidSearchWidget');
 	register_widget('EcwidVCategoriesWidget');
+  register_widget('EcwidMinicartMiniViewWidget');
 }
 add_action('widgets_init', 'ecwid_sidebar_widgets_init');
 
