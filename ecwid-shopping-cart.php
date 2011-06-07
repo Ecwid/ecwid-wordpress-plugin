@@ -11,6 +11,9 @@ Author URI: http://www.ecwid.com/
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 
+if (!empty($_GET['ecwid_product_id']) || !empty($_GET['ecwid_category_id'])) {
+    remove_action( 'wp_head','rel_canonical');
+}
 define("APP_ECWID_COM","app.ecwid.com");
 
 if ( is_admin() ){ 
