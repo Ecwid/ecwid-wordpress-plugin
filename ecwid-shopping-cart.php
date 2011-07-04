@@ -46,12 +46,20 @@ function ecwid_seo_title($content) {
   }  
 }
 
+function ecwid_get_scriptjs_code() {
+    if (!defined('ECWID_SCRIPTJS')) {
+      $ecwid_protocol = get_ecwid_protocol();
+      $store_id = get_ecwid_store_id();
+      $s =  "<script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+      define('ECWID_SCRIPTJS','Yep');
+      return $s;
+    } else {
+      return; 
+    }
+}
 
 function ecwid_script_shortcode() {
-  $ecwid_protocol = get_ecwid_protocol();
-	$store_id = get_ecwid_store_id();
-	$s =  "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script></div>";
-	return $s;
+    return '<div>' . ecwid_get_scriptjs_code() . '</div>'; 
 }
 
 
@@ -171,10 +179,7 @@ EOT;
 function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
-		<!-- Ecwid code start v0.2. Please do not remove the line below otherwise your Ecwid shopping cart will not work. -->
-		[ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
-		<!-- Ecwid code end -->
-
+<!-- Ecwid code. Please do not remove this line  otherwise your Ecwid shopping cart will not work properly. --> [ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser] <!-- Ecwid code end -->
 EOT;
   	add_option("ecwid_store_page_id", '', '', 'yes');	
   	add_option("ecwid_store_id", '1003', '', 'yes');
@@ -508,51 +513,7 @@ Default category ID</label>
     if ($disabled) {
 ?>
 
-    <div id="ecwid-need-manual-editing" >
-        <h4>Why I cannot change some options?</h4>
-
-Most likely you've upgraded <strong>Ecwid Shopping Cart</strong> plugin from <strong>v0.1</strong> to the next one. The Ecwid integration code was changed in this new version. So if you want to use the new options you should update the code manually. This procedure isn't that complex and will take just a few minutes.
-<br />
-    <ul style="padding-left:30px;list-style-type:disc;" id="ecwid-need-manual-editing-ul">
-<li>
-Open <a href="page.php?action=edit&post=<?php echo intval($ecwid_page_id); ?>">your store page for editing</a>.
-</li>
-
-<li>
-Make sure that you change edit mode to "HTML" instead of "Visual".
-</li>
-
-
-<li>
-Replace these lines:<br /><br />
-
-<pre style="background-color:#d3e9e9;">
-        &lt;!-- Ecwid code start --&gt;
-        &lt;!-- Please do not remove the line below otherwise your Ecwid shopping cart will not work.
-        Start of special code: --&gt;
-        [ecwid_script]
-        &lt;!-- End of special code. --&gt;
-
-        &lt;!-- Feel free to modify the code below: add new widgets, alter the existing ones. --&gt;
-        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xCategories(); &lt;/script&gt;&lt;/div&gt;
-        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xProductBrowser(&quot;itemsPerRow=3&quot;,&quot;itemsPerPage=9&quot;,&quot;searchResultsItemsPerPage=10&quot;); &lt;/script&gt;&lt;/div&gt;
-        &lt;div&gt;&lt;script type=&quot;text/javascript&quot;&gt; xMinicart(&quot;style=&quot;,&quot;layout=attachToCategories&quot;); &lt;/script&gt;&lt;/div&gt;
-        &lt;!-- Ecwid code end --&gt;
-</pre>
-<br /><br />
-with these ones:
-<br /><br />
-<pre style="background-color:#d3e9e9;">
-        &lt;!-- Ecwid code start v0.2. Please do not remove the line below otherwise your Ecwid shopping cart will not work. --&gt;
-        [ecwid_script] [ecwid_minicart] [ecwid_searchbox] [ecwid_categories] [ecwid_productbrowser]
-        &lt;!-- Ecwid code end --&gt;
-</pre>
-</li>
-
-<li>Save the changes</li>
-
-</ul>
-
+<div id="ecwid-need-manual-editing" >
 </div> 
 
 
@@ -643,7 +604,9 @@ class EcwidMinicartWidget extends WP_Widget {
 
         $store_id = get_ecwid_store_id();
         $ecwid_protocol = get_ecwid_protocol();
-        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+        echo '<div>';
+        echo ecwid_get_scriptjs_code();
+        //echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
 
 
         $ecwid_page_id = get_option("ecwid_store_page_id");
@@ -694,7 +657,9 @@ class EcwidMinicartMiniViewWidget extends WP_Widget {
 
         $store_id = get_ecwid_store_id();
         $ecwid_protocol = get_ecwid_protocol();
-        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+        echo '<div>';
+        echo ecwid_get_scriptjs_code();
+        //echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
 
 
         $ecwid_page_id = get_option("ecwid_store_page_id");
@@ -745,8 +710,10 @@ class EcwidSearchWidget extends WP_Widget {
       echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
-        $ecwid_protocol = get_ecwid_protocol();
-        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+      $ecwid_protocol = get_ecwid_protocol();
+      echo '<div>';
+      echo ecwid_get_scriptjs_code();
+        //echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
@@ -794,8 +761,10 @@ class EcwidVCategoriesWidget extends WP_Widget {
       echo $before_title . $title . $after_title;
 
         $store_id = get_ecwid_store_id();
-        $ecwid_protocol = get_ecwid_protocol();
-        echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
+      $ecwid_protocol = get_ecwid_protocol();
+      echo '<div>';
+      echo ecwid_get_scriptjs_code();
+       // echo "<div><script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
 	$ecwid_page_id = get_option("ecwid_store_page_id");
         $page_url = get_page_link($ecwid_page_id);
                 $_tmp_page = get_page($ecwid_page_id);
