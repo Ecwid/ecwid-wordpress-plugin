@@ -35,7 +35,7 @@ function ecwid_seo_title($content) {
     $ecwid_noscript_seo_catalog = get_option('ecwid_noscript_seo_catalog');
     if (!empty($_GET['ecwid_product_id']) && !empty($ecwid_noscript_seo_catalog)) {  
     $ecwid_seo_product_title = '';
-    include "lib/ecwid_product_api.php";
+    include_once "lib/ecwid_product_api.php";
     $ecwid_store_id = intval(get_ecwid_store_id());
 	$api = new EcwidProductApi($ecwid_store_id);
     $ecwid_product = $api->get_product($_GET['ecwid_product_id']);  
