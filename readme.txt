@@ -43,7 +43,7 @@ Links
 
 == Changelog ==
 = 0.8 =
-- [+] New minicart widget: [http://kb.ecwid.com/w/page/15853298/Minicart#Miniview]
+- [+] New minicart widget: http://kb.ecwid.com/w/page/15853298/Minicart#Miniview
 - [+] Stores are loaded faster now, if some Ecwid sidebar widgets are enabled. 
 - [+] Inline SEO Catalog generates "clean" SEO-friendly page titles now.
 - [!] Issue with Inline SEO Catalog and enabled "Canonical URLs" feature has been fixed. 
