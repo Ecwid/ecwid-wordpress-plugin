@@ -53,6 +53,7 @@ function ecwid_get_scriptjs_code() {
       $store_id = get_ecwid_store_id();
       $s =  "<script type=\"text/javascript\" src=\"$ecwid_protocol://" . APP_ECWID_COM . "/script.js?$store_id\"></script>";
       define('ECWID_SCRIPTJS','Yep');
+      $s = $s . ecwid_sso(); 
       return $s;
     } else {
       return; 
@@ -206,6 +207,8 @@ EOT;
     add_option("ecwid_default_category_id", '', '', 'yes');  
       
     add_option("ecwid_noscript_seo_catalog", '', '', 'yes');        
+   
+    add_option("ecwid_sso_secret_key", '', '', 'yes'); 
     
     $id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
@@ -281,7 +284,8 @@ function ecwid_settings_api_init() {
     register_setting('ecwid_options_page', 'ecwid_default_category_id');
     
     register_setting('ecwid_options_page', 'ecwid_noscript_seo_catalog');
-    
+   
+    register_setting('ecwid_options_page', 'ecwid_sso_secret_key'); 
 } 
 
 function ecwid_options_add_page() {
@@ -307,7 +311,9 @@ function ecwid_options_do_page() {
     $ecwid_noscript_seo_catalog = get_option('ecwid_noscript_seo_catalog');
     $ecwid_enable_ssl = get_option('ecwid_enable_ssl');
     $ecwid_page_id = get_option("ecwid_store_page_id");
-   
+  
+    $ecwid_sso_secret_key = get_option("ecwid_sso_secret_key");
+  
     $ecwid_noscript_seo_catalog_disabled = false;
     $ecwid_noscript_seo_catalog_message = '<a href="http://kb.ecwid.com/Inline-SEO-Catalog" target="_blank">How it works</a>';
     $ecwid_settings_message = false;
@@ -479,7 +485,15 @@ Full link to your mobile catalog</label>
 </td>            </tr>
             
                         <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">Advanced</h3></th></tr>
-            
+           
+                <tr><th scope="row"><label for="ecwid_enable_ssl">
+Ecwid Single Sign-on: Secret Key </label>
+</th>
+    <td><input id="ecwid_sso_secret_key" type="input" name="ecwid_sso_secret_key" value="<?php echo $ecwid_sso_secret_key; ?>" />
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;TODO
+</td>            </tr>
+
+ 
                 <tr><th scope="row"><label for="ecwid_enable_ssl">
 Enable the following option, if you use Ecwid on a secure HTTPS page</label>
 </th>
@@ -803,6 +817,77 @@ function ecwid_sidebar_widgets_init() {
 	register_widget('EcwidVCategoriesWidget');
   register_widget('EcwidMinicartMiniViewWidget');
 }
+
 add_action('widgets_init', 'ecwid_sidebar_widgets_init');
+
+function ecwid_encode_json($data) {
+    if(version_compare(PHP_VERSION,"5.2.0",">=")) {
+      return json_encode($data);
+     } else {
+ include_once(ABSPATH . 'wp-content/plugins/ecwid-shopping-cart/lib/JSON.php');
+        $json_parser = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+        return $json_parser->encode($data);
+}
+        }
+
+
+
+function ecwid_sso() {
+    $key = get_option('ecwid_sso_secret_key');
+    if (empty($key)) {
+        return "";
+    }
+
+    global $current_user;
+    get_currentuserinfo();
+
+    if ($current_user->ID) {
+        $user_data = array(
+            'appId' => "wp_" . get_ecwid_store_id(),
+            'userId' => $current_user->ID,
+            'profile' => array(
+            'email' => $current_user->user_email,
+            'billingPerson' => array(
+                'name' => $current_user->display_name
+            )
+            )
+        );
+   $user_data = base64_encode(ecwid_encode_json($user_data));
+    $time = time();
+    $hmac = ecwid_hmacsha1("$user_data $time", $key);
+    return "<script> var ecwid_sso_profile='$user_data $hmac $time' </script>";   
+    }
+    else {
+        return "<script> var ecwid_sso_profile='' </script>";
+    }
+
+ 
+}
+
+// from: http://www.php.net/manual/en/function.sha1.php#39492
+
+function ecwid_hmacsha1($data, $key) {
+  if (function_exists("hash_hmac")) {
+    return hash_hmac('sha1', $data, $key);
+  } else {
+    $blocksize=64;
+    $hashfunc='sha1';
+    if (strlen($key)>$blocksize)
+        $key=pack('H*', $hashfunc($key));
+    $key=str_pad($key,$blocksize,chr(0x00));
+    $ipad=str_repeat(chr(0x36),$blocksize);
+    $opad=str_repeat(chr(0x5c),$blocksize);
+    $hmac = pack(
+                'H*',$hashfunc(
+                    ($key^$opad).pack(
+                        'H*',$hashfunc(
+                            ($key^$ipad).$data
+                        )
+                    )
+                )
+            );
+    return bin2hex($hmac);
+    }
+}
 
 ?>
