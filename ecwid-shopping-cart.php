@@ -4,7 +4,7 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com/ 
 Description: Ecwid is a free full-featured shopping cart. It can be easily integreted with any Wordpress blog and takes less than 5 minutes to set up.
 Author: Ecwid Team
-Version: 0.8
+Version: 0.9
 Author URI: http://www.ecwid.com/
 */
 
@@ -489,8 +489,18 @@ Full link to your mobile catalog</label>
                 <tr><th scope="row"><label for="ecwid_enable_ssl">
 Single Sign-on Secret Key: </label>
 </th>
-    <td><input id="ecwid_sso_secret_key" type="input" name="ecwid_sso_secret_key" value="<?php echo $ecwid_sso_secret_key; ?>" />
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;This feature allows your customers to sign into your WordPress site and fully use your store without having to sign into Ecwid. I.e. if a customer is logged in to your site, he/she is logged in to your store automatically, even if he/she didn’t have an account in your store before. In order to enable this feature you should set the secret key that can be found on the "System Settings → API → Single Sign-on (SSO) API" page in your Ecwid control panel. Please note that this API is available only to <a href="http://www.ecwid.com/compare-plans.html">paid users</a>.
+    <td>
+<table>
+<tr>
+<td style="padding-top:0;padding-left:0;vertical-align:top;">
+<input id="ecwid_sso_secret_key" type="text" name="ecwid_sso_secret_key" value="<?php echo $ecwid_sso_secret_key; ?>" />
+</td>
+<td style="padding:0;vertical-align:top;">
+<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;This feature allows your customers to sign into your WordPress site and fully use your store without having to sign into Ecwid. I.e. if a customer is logged in to your site, he/she is logged in to your store automatically, even if he/she didn't have an account in your store before. In order to enable this feature you should set the secret key that can be found on the "System Settings > API > Single Sign-on API" page in your Ecwid control panel. Please note that this API is available only to <a href="http://www.ecwid.com/compare-plans.html">paid users</a>.
+</td>
+</tr>
+</table>
+
 </td>            </tr>
 
  

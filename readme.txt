@@ -42,6 +42,9 @@ Links
 - Knowledge Base: [http://kb.ecwid.com](http://kb.ecwid.com)
 
 == Changelog ==
+= 0.9 =
+The "Single Sign-on" feature has been added. This feature allows your customers to sign into your WordPress site and fully use your store without having to sign into Ecwid. 
+
 = 0.8 =
 - [+] New minicart widget: http://kb.ecwid.com/w/page/15853298/Minicart#Miniview
 - [+] Stores are loaded faster now, if some Ecwid sidebar widgets are enabled. 
