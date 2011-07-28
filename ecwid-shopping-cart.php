@@ -487,10 +487,10 @@ Full link to your mobile catalog</label>
                         <tr><th colspan="2" style="padding:0px;margin:0px;"><h3 style="padding:0px;margin:0px;">Advanced</h3></th></tr>
            
                 <tr><th scope="row"><label for="ecwid_enable_ssl">
-Ecwid Single Sign-on: Secret Key </label>
+Single Sign-on Secret Key: </label>
 </th>
     <td><input id="ecwid_sso_secret_key" type="input" name="ecwid_sso_secret_key" value="<?php echo $ecwid_sso_secret_key; ?>" />
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;TODO
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="//www.ecwid.com/wp-content/uploads/ecwid_wp_attention.gif" alt="">&nbsp;This feature allows your customers to sign into your WordPress site and fully use your store without having to sign into Ecwid. I.e. if a customer is logged in to your site, he/she is logged in to your store automatically, even if he/she didn’t have an account in your store before. In order to enable this feature you should set the secret key that can be found on the "System Settings → API → Single Sign-on (SSO) API" page in your Ecwid control panel. Please note that this API is available only to <a href="http://www.ecwid.com/compare-plans.html">paid users</a>.
 </td>            </tr>
 
  
