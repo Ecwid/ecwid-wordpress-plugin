@@ -36,6 +36,17 @@ Links
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Setup the plugin on the 'Settings -> Ecwid shopping cart' page.
 
+== Screenshots ==
+
+1. Store home page
+2. Category page
+3. Product details page
+4. Shopping bag
+5. Ecwid control panel
+6. Adding new product
+7. Shipping settings
+8. Translations
+
 == Frequently Asked Questions ==
 
 - FAQ: [http://www.ecwid.com/faq.html](http://www.ecwid.com/faq.html)
