@@ -854,7 +854,7 @@ function ecwid_sso() {
     if ($current_user->ID) {
         $user_data = array(
             'appId' => "wp_" . get_ecwid_store_id(),
-            'userId' => $current_user->ID,
+            'userId' => "{$current_user->ID}",
             'profile' => array(
             'email' => $current_user->user_email,
             'billingPerson' => array(
