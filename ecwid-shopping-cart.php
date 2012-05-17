@@ -606,8 +606,10 @@ echo "<a href=\"https://my.ecwid.com/\" target=\"_blank\">Go to the Ecwid Contro
 } 
 
 function ecwid_add_dashboard_widgets() {
-	wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Links', 'ecwid_dashboard_widget_function');	
-} 
+  if (current_user_can('administrator')) {
+    wp_add_dashboard_widget('ecwid_dashboard_widget','Ecwid Links', 'ecwid_dashboard_widget_function');	
+  }
+  } 
 
 
 
