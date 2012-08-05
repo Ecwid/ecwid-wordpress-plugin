@@ -3,7 +3,7 @@ Contributors: Ecwid Team
 Tags: shopping cart, ecommerce, e-commerce, paypal, google checkout, 2checkout, store, shop, product catalog, inventory
 Requires at least: 2.8
 Tested up to: 3.4
-Stable tag: 1.0 
+Stable tag: 1.1 
 
 Ecwid is a free full-featured shopping cart that can easily be added to any blog
 and takes less than 5 minutes to set up.
@@ -18,7 +18,7 @@ There are eight key advantages to Ecwid:
 - It has AJAX everywhere and supports drag-and-drop.
 - It can be easily integrated to any existing site or Facebook profile in minutes.
 - It can be mirrored on many sites at the same time. Add your store to many sites, manage it from one place.
-- Integration with social networks. Run your own store on Facebook, mySpace and many others.
+- Integrates with social networks. Run your own store on Facebook, mySpace and many others, or let your customers share the links to your products and their purchases.
 - Simple to use and maintain. For both store owner and customer.
 - Lightning fast. New-gen technologies make Ecwid much faster than usual
   shopping carts regardless the hosting service you use.
@@ -53,6 +53,8 @@ Links
 - Knowledge Base: [http://kb.ecwid.com](http://kb.ecwid.com)
 
 == Changelog ==
+= 1.1 =
+- [+] Improved the compatibility with AJAX-based themes for WP and some web search engines out there.
 = 1.0 =
 - [!] The "Single Sign-on" feature didn't work properly in some cases. Fixed.
 

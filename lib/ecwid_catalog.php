@@ -8,6 +8,7 @@ function show_ecwid($params) {
 		
 	$list_of_views = $params['list_of_views'];
 	
+    if (is_array($list_of_views))    
 	foreach ($list_of_views as $k=>$v) {
 		if (!in_array($v, array('list','grid','table'))) unset($list_of_views[$k]);
 	}
@@ -61,13 +62,13 @@ function show_ecwid($params) {
 
  	$ecwid_mobile_catalog_link = $params['ecwid_mobile_catalog_link'];
 	if (empty($ecwid_mobile_catalog_link)) {
-		$ecwid_mobile_catalog_link = "http://$ecwid_com/jsp/$store_id/catalog";
+		$ecwid_mobile_catalog_link = "//$ecwid_com/jsp/$store_id/catalog";
 	}
 
   $html_catalog = '';
 	if ($ecwid_show_seo_catalog) {
     if (!empty($_GET['ecwid_product_id'])) {
-      $ecwid_open_product = '<script> if (!document.location.hash) document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
+      $ecwid_open_product = '<script type="text/javascript"> if (!document.location.hash) document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
      } elseif (!empty($_GET['ecwid_category_id'])) {
        $ecwid_default_category_id = intval($_GET['ecwid_category_id']);
      }
@@ -95,13 +96,23 @@ function show_ecwid($params) {
 		$protocol = "https";
 	}
 
+	$ecwid_element_id = "ecwid-inline-catalog";
+        if (!empty($params['ecwid_element_id'])) {
+            $ecwid_element_id = $params['ecwid_element_id'];
+        }
 	$integration_code = <<<EOT
 <div>
-<script type="text/javascript" src="$protocol://$ecwid_com/script.js?$store_id"></script>
-<script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style="$ecwid_default_category_str);</script>
-</div>
-<noscript>$html_catalog</noscript>
+<script type="text/javascript" src="//$ecwid_com/script.js?$store_id"></script>
+<div id="$ecwid_element_id">$html_catalog</div>
+<script type="text/javascript"> xProductBrowser(
+	"categoriesPerRow=$ecwid_pb_categoriesperrow",
+	"views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)",
+	"categoryView=$ecwid_pb_defaultview",
+	"searchView=$ecwid_pb_searchview",
+	"id=$ecwid_element_id",
+	"style="$ecwid_default_category_str);</script>
 $ecwid_open_product
+</div>
 EOT;
   
 	return $integration_code;
@@ -144,8 +155,10 @@ function show_ecwid_catalog($ecwid_store_id) {
 
 	if (is_array($product)) {
 		$html = "<div class='hproduct'>";
-		$html .= "<div class='ecwid_catalog_product_image photo'><img src='" . $product["thumbnailUrl"] . "'/></div>";
-		$html .= "<div class='ecwid_catalog_product_name fn'>" . htmlentities($product["name"]) . "</div>";
+		$html .= "<h3 class='ecwid_catalog_product_name fn'>" . htmlentities($product["name"],ENT_COMPAT,'UTF-8') . "</h3>";
+                if (!empty($product["thumbnailUrl"])) {
+			$html .= "<div class='ecwid_catalog_product_image photo'><img src='" . $product["thumbnailUrl"] . "' alt='" . htmlentities($product["sku"],ENT_COMPAT,'UTF-8') . " " . htmlentities($product["name"],ENT_COMPAT,'UTF-8') . "'/></div>";
+                }
 		$html .= "<div class='ecwid_catalog_product_price price'>Price: " . $product["price"] . "&nbsp;" . $profile["currency"] . "</div>";
 		$html .= "<div class='ecwid_catalog_product_description description'>" . $product["description"] . "</div>";
 		$html .= "</div>";
@@ -154,7 +167,7 @@ function show_ecwid_catalog($ecwid_store_id) {
 			foreach ($categories as $category) {
 				$category_url = ecwid_internal_construct_url($category["url"], array("ecwid_category_id" => $category["id"]));
 				$category_name = $category["name"];
-				$html .= "<div class='ecwid_catalog_category_name'><a href='" . $category_url . "'>" . $category_name . "</a><br /></div>";
+				$html .= "<div class='ecwid_catalog_category_name'><a href='" . htmlspecialchars($category_url) . "'>" . $category_name . "</a><br /></div>";
 			}
 		}
 
@@ -164,7 +177,7 @@ function show_ecwid_catalog($ecwid_store_id) {
 				$product_name = $product["name"];
 				$product_price = $product["price"] . "&nbsp;" . $profile["currency"];
 				$html .= "<div>";
-				$html .= "<span class='ecwid_product_name'><a href='" . $product_url . "'>" . $product_name . "</a></span>";
+				$html .= "<span class='ecwid_product_name'><a href='" . htmlspecialchars($product_url) . "'>" . $product_name . "</a></span>";
 				$html .= "&nbsp;&nbsp;<span class='ecwid_product_price'>" . $product_price . "</span>";
 				$html .= "</div>";
 			}
