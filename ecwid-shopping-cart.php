@@ -163,14 +163,22 @@ function ecwid_productbrowser_shortcode() {
       }
       include_once(ABSPATH . 'wp-content/plugins/ecwid-shopping-cart/lib/ecwid_catalog.php');
      
-      $noscript_str = '<noscript>'. show_ecwid_catalog($store_id) . '</noscript>';
+      $noscript_str = '<div id="ecwid-inline-catalog">'. show_ecwid_catalog($store_id) . '</div>';
     } else {
       $noscript_str = "<noscript>Your browser does not support JavaScript.<a href=\"{$ecwid_mobile_catalog_link}\">HTML version of this store</a></noscript>";
     }
     
         $s = <<<EOT
-<div> <script type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style="$ecwid_default_category_str);</script></div>
 {$noscript_str}
+<script type="text/javascript"> 
+xProductBrowser(
+  "categoriesPerRow=$ecwid_pb_categoriesperrow",
+  "views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)",
+  "categoryView=$ecwid_pb_defaultview",
+  "searchView=$ecwid_pb_searchview",
+  "id=ecwid-inline-catalog",
+  "style="$ecwid_default_category_str);
+</script>
 $ecwid_open_product
 EOT;
         return $s;
