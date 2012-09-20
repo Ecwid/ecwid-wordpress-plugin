@@ -165,7 +165,7 @@ function ecwid_productbrowser_shortcode() {
      
       $noscript_str = '<div id="ecwid-inline-catalog">'. show_ecwid_catalog($store_id) . '</div>';
     } else {
-      $noscript_str = "<noscript>Your browser does not support JavaScript.<a href=\"{$ecwid_mobile_catalog_link}\">HTML version of this store</a></noscript>";
+      $noscript_str = "<div id=\"ecwid-inline-catalog\">Your browser does not support JavaScript.<a href=\"{$ecwid_mobile_catalog_link}\">HTML version of this store</a></div>";
     }
     
         $s = <<<EOT
