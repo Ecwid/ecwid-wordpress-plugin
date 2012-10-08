@@ -32,9 +32,29 @@ Links
 
 == Installation ==
 
-1. Upload `ecwid-shopping-cart` directory to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Setup the plugin on the 'Settings -> Ecwid shopping cart' page.
+Automatic installation (the easiest way).
+1. Go to your WP admin panel → Plugins → Add New
+2. Under Search, type in 'Ecwid', click Search
+3. In the search results find the 'Ecwid shopping cart' plugin and click 'Install now' to install it
+4. Click Proceed to continue with the installation. The resulting installation screen will list the installation as successful or note any problems during the install
+
+IMPORTANT: when the plugin is installed, you will need to activate it on the Plugins page (click 'Activate' link) and configure it on the 'Settings -> Ecwid shopping cart' page (at least, you will need to set your store ID there).
+
+
+Alternative ways:
+Uploading the plugin zip archive in your admin panel
+1. Download the Ecwid plugin from this page (click 'Download' button)
+2. Go to WP admin panel → Plugins → Add new
+3. Click 'Upload' link and choose the saved zip file in the appeared dialog window.
+4. Click 'Install'
+
+Uploading plugin folder to the WP directory on your server
+1. Download the Ecwid plugin from this page (click 'Download' button)
+2. Unpack the downloaded zip archive
+3. Upload ecwid-shopping-cart directory from the archive to the /wp-content/plugins/ directory on your server
+
+Please refer to this article for the details and troubleshooting on plugin installation in Wordpress:
+http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 == Screenshots ==
 
