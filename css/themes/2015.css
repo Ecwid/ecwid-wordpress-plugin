@@ -1,0 +1,12 @@
+html#ecwid_html body#ecwid_body .ecwid-SearchPanel-field {
+	width: inherit;
+}
+
+html#ecwid_html body#ecwid_body p+.ecwid-shopping-cart-search {
+	position: relative;
+	top: -1.6842em;
+}
+
+html#ecwid_html body.ecwid-shopping-cart h1.entry-title {
+	margin-bottom: 1.1em;
+}

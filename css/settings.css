@@ -1,0 +1,729 @@
+.pure-form.ecwid-settings fieldset {
+	font-size: 14px;
+}
+
+.pure-form.ecwid-settings fieldset > :not(legend) {
+	margin-left:14px;
+}
+
+.pure-form.ecwid-settings .pure-button {
+	height: auto;
+	line-height: 32px;
+	padding: 0px 20px;
+	font-size: 14px;
+	background-image: none;
+	background-color: #f6f6f6;
+	font-weight: normal;
+	color: #333333;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+}
+
+.pure-form.ecwid-settings .pure-button-secondary {
+	font-weight: bold;
+	color: #246fba;
+}
+
+.pure-form.ecwid-settings a.pure-button:not(.pure-button-primary):hover {
+  border-color: #137ebe;
+	color: #137ebe;
+}
+
+.pure-form.ecwid-settings .pure-button.pure-button-primary {
+	color: white;
+	font-weight: normal;
+	border-color: #189DEE;
+	background-color: #189DEE;
+}
+
+.pure-form.ecwid-settings .pure-button.pure-button-primary:hover {
+	border-color: #137ebe;
+	background-color: #137ebe;
+}
+
+.pure-form.ecwid-settings .link {
+	border: 0px none;
+	background: transparent;
+	box-shadow: none;
+}
+
+.pure-control-group.small-input > div {
+	display: table-cell;
+	vertical-align: middle;
+	position: relative;
+}
+
+.pure-control-group.small-input .label {
+	width: 265px;
+	font-weight: bold;
+}
+
+.pure-control-group.small-input .input > div {
+	width: 45px;
+	text-align: center;
+	vertical-align: middle;
+	z-index: 10;
+	position: relative;
+	left: 265px;
+}
+
+.pure-control-group.small-input .input input {
+	margin: 0px auto;
+}
+
+.pure-control-group.small-input .label > * {
+	position: relative;
+	left: -45px;
+}
+
+/* 2.8 compatibility for left menu icon */
+.wp-menu-image>a>img {
+display: none;
+}
+
+@media screen and (max-width: 782px) {
+	.ecwid-settings {
+		width: 100%;
+	}
+}
+
+.ecwid-settings {
+	width: 650px;
+}
+
+.ecwid-settings .pure-control-group {
+	margin-bottom: 19px;
+}
+
+.ecwid-settings legend {
+	margin-bottom: 10px;
+}
+
+.ecwid-settings hr {
+	margin-left: 0px;
+	border: 0px none;
+	height: 1px;
+	background: #e5e5e5;
+	margin-bottom: 20px;
+}
+
+.pure-form.ecwid-settings .pure-control-group label {
+	width: 232px;
+	font-weight: bold;
+	text-align: left;
+	margin-right: 5px;
+}
+
+.ecwid-settings.general-settings button {
+	position: relative;
+	top: 2px;
+	padding: 5px 31px 5px 31px;
+	margin-left: 5px;
+}
+
+.ecwid-settings.general-settings hr {
+	margin-bottom: 6px;
+}
+
+.ecwid-settings .warning {
+	background: #FFF797;
+	font-size: 12px;
+	padding: 8px 14px 8px 14px;
+	font-weight: bold;
+	color: #444444;
+}
+
+.ecwid-settings.appearance-settings h3 {
+	font-size: 12px;
+}
+
+.ecwid-settings.appearance-settings input[type=text] {
+	font-size: 13px;
+	padding: 5px 3px 4px 3px;
+	outline-offset: 0px;
+}
+
+.ecwid-settings input[type=text].number {
+	width: 27px;
+	text-align: center;
+}
+
+.ecwid-settings select {
+	padding: 5px;
+}
+
+.ecwid-settings .note.pb-note {
+	margin-right: 30px;
+	margin-left: 30px;
+}
+
+.ecwid-settings.appearance-settings {
+	max-width: 650px;
+}
+
+.ecwid-settings.appearance-settings .products-per-page-label {
+	padding-top: 5px;
+	padding-bottom: 15px;
+	display: block;
+}
+
+.ecwid-settings.appearance-settings input[type=checkbox] {
+	margin-right: 3px;
+	margin-left: 7px;
+}
+
+.ecwid-pb-view-size {
+	display: inline-block;
+	position: relative;
+	width: 153px;
+	height: 153px;
+	margin-left: 30px;
+	margin-right: 25px;
+}
+
+.ecwid-pb-view-size .title {
+	margin: 8px;
+	width: 110px;
+	text-align: center;
+}
+
+.ecwid-pb-view-size * {
+	transition: background-image .3s, border-color .3s, font-weight .3s;
+}
+
+
+.ecwid-pb-view-size .main-area {
+	width: 116px;
+	height: 82px;
+	border: 2px solid rgb(125, 209, 227);
+  border-color: rgba(125, 209, 227, .5);
+	border-radius: 2px;
+	float: left;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+.ecwid-pb-view-size .main-area svg {
+	margin-top: 7px;
+}
+
+.ecwid-pb-view-size .main-area path,
+.ecwid-pb-view-size .main-area rect {
+	fill: rgb(125, 209, 227);
+}
+
+.ecwid-pb-view-size .fallback-image {
+	width: 100px;
+	height: 66px;
+	background-repeat: no-repeat;
+	margin-top:7px;
+	margin-left:8px;
+}
+
+.ecwid-pb-view-size .grid-image {
+	background-image: url(../images/grid.png);
+}
+
+.ecwid-pb-view-size .list-image {
+	background-image: url(../images/list.png);
+}
+
+.ecwid-pb-view-size .table-image {
+	background-image: url(../images/table.png);
+}
+
+.ecwid-pb-view-size .right {
+	height:86px;
+	float: right;
+	position: relative;
+}
+
+.ecwid-pb-view-size .right input
+{
+	margin-top: 30px;
+}
+
+.ecwid-pb-view-size .bottom input
+{
+	margin-left: 48px;
+}
+
+.ecwid-pb-view-size .bottom {
+	width: 120px;
+	margin-top: 8px;
+	position: absolute;
+	top: 114px;
+}
+
+.ecwid-pb-view-size .ruler {
+	position: absolute;
+	background: #cccccc;
+	z-index: -1;
+}
+
+.ecwid-pb-view-size .right .ruler {
+	width: 1px;
+	height: 100%;
+	right: 13px;
+}
+
+.ecwid-pb-view-size .bottom .ruler {
+	width: 100%;
+	height: 1px;
+	bottom: 12px;
+}
+
+.ecwid-settings.advanced-settings .pure-control-group {
+	margin-bottom: 20px;
+}
+
+.ecwid-settings.advanced-settings .pure-control-group.last {
+	margin-bottom: 0px;
+}
+
+.ecwid-settings.advanced-settings .pure-control-group input:not([type=checkbox]),
+.ecwid-settings.advanced-settings select
+{
+	width: 200px;
+	height: 30px;
+	margin-right: 15px;
+	font-size: 13px;
+	border-color: #cacaca;
+}
+
+.ecwid-settings.advanced-settings .note {
+	margin-top: 15px;
+}
+
+.ecwid-settings.advanced-settings sup {
+	color: #298CBA;
+}
+
+.ecwid-settings .note.inline-note {
+	max-width: 300px;
+	margin-left: 15px;
+	vertical-align: middle;
+}
+
+.ecwid-settings .note.grayed-links,
+.ecwid-settings .note.grayed-links a:not(:hover)
+{
+	font-size: 11px;
+	color: #A0A0A0;
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+/* Common main */
+.ecwid-admin .box {
+	position: relative;
+	margin-top: 25px;
+	padding: 0 15px;
+
+	border: 1px solid #E5E5E5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	background: #FFF;
+}
+
+
+.ecwid-admin h2:before {
+	background: url(../images/ecwid_logo_symbol_RGB.svg);
+	width: 100px;
+	height: 20px;
+	border: 2px solid blue;
+}
+
+.ecwid-admin h3 {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+	left: 60px;
+
+	display: inline-block;
+	height: 70px;
+	line-height: 70px;
+
+	text-align: left;
+
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.ecwid-admin .head {
+	border-bottom: 1px solid #EEE;
+	height: 70px;
+}
+
+.ecwid-admin .box .head {
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+.ecwid-admin .head svg {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	margin-right: 10px;
+}
+/* END Common main */
+
+
+/* CONNECT - positioning */
+.ecwid-connect .box > div {
+	margin: 0px auto;
+	text-align: center;
+}
+
+.ecwid-connect .box h3 + div {
+	margin-top: 40px;
+}
+
+.ecwid-connect .box div:last-child {
+	margin-bottom: 40px;
+}
+
+.ecwid-connect .box .greeting-message {
+	margin-top: 11px;
+	line-height: 1.3em;
+	margin-bottom: 38px;
+}
+
+.ecwid-connect .box .connect-button {
+	margin-top: 8px;
+}
+.ecwid-connect .where-to-find-store-id {
+	margin-top: 25px;
+	margin-bottom: 0;
+}
+
+.ecwid-connect .box .note {
+	margin-top: 6px;
+	max-width: 760px;
+	font-size: 13px;
+}
+
+.ecwid-connect .box .create-account-link {
+	margin-top: 35px;
+}
+
+
+/* CONNECT - styles */
+.ecwid-connect .box .greeting-message {
+	font-size: 24px;
+	font-weight: lighter;
+}
+
+.ecwid-connect .box .connect-button a {
+	padding: 14px 40px;
+	border: 0px none;
+	border-radius: 4px;
+	box-sizing: border-box;
+	width: 260px;
+
+	background: #59bb00;
+	color: white;
+	font-size: 18px;
+	font-weight: lighter;
+	text-decoration: none;
+
+	transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
+	display: inline-block;
+}
+
+.ecwid-connect .box .connect-button a:hover {
+	background: #64A52F;
+}
+
+.ecwid-connect .box .note {
+	color: #A0A0A0;
+	line-height: 18px;
+	max-width: 400px;
+}
+
+.ecwid-connect .box .note.initial {
+}
+
+.ecwid-connect .box .note.auth-error {
+	max-width: 350px;
+	color: red;
+}
+
+/* wpcontent to stress the rule without using !mportant */
+#wpcontent .ecwid-connect.no-oauth .with-oauth,
+#wpcontent .ecwid-connect.with-oauth .no-oauth
+{
+	display: none;
+}
+
+.ecwid-connect .connect-store-id {
+
+}
+
+.ecwid-connect #ecwid-store-id {
+	line-height: 38px;
+	width: 260px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: lighter;
+	padding-left: 10px;
+	font-family: 'Open Sans';
+}
+
+.ecwid-connect .box .create-account-link a {
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.ecwid-dashboard .body {
+	padding: 70px 50px;
+}
+
+.ecwid-dashboard .greeting-image {
+	padding-right: 37px;
+	display: table-cell;
+}
+
+.ecwid-dashboard .greeting {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.ecwid-dashboard .greeting .greeting-title {
+	font-size: 24px;
+	margin-bottom: 12px;
+}
+
+.ecwid-dashboard .greeting .greeting-message {
+	font-size: 16px;
+	margin-bottom: 5px;
+	line-height: 1.3em;
+}
+
+.ecwid-dashboard .drop-down.store-id {
+	font-size: 14px;
+	padding: 10px 16px;
+	position: absolute;
+	right: 6px;
+	top: 13px;
+	line-height: 20px;
+	display: inline-block;
+	border: 1px solid transparent;
+	border-bottom: none;
+	height: 21px;
+
+	cursor: pointer;
+}
+
+.ecwid-dashboard .drop-down.store-id.hover {
+	cursor: default;
+}
+
+.ecwid-dashboard .drop-down.hover
+{
+	border: 1px solid #CCC;
+	border-bottom: none;
+	background: white;
+}
+
+.ecwid-dashboard .store-id a {
+	text-decoration: none;
+}
+
+.ecwid-dashboard .drop-down > *:first-child:after {
+	font-family: 'dashicons';
+	content: '\f347';
+	position: relative;
+	top: .2em;
+	font-weight: lighter;
+}
+
+.ecwid-dashboard .drop-down.hover > *:first-child:after {
+	font-family: 'dashicons';
+	content: '\f343';
+}
+
+
+.ecwid-dashboard .drop-down > *:first-child {
+	color: #0074A2;
+	white-space: nowrap;
+}
+
+.ecwid-dashboard .drop-down > *:first-child:hover {
+	color: #2EA2CC;
+}
+
+.ecwid-dashboard .drop-down {
+	position: relative;
+}
+
+.ecwid-dashboard .drop-down.hover {
+	color: #2EA2CC;
+}
+
+.ecwid-dashboard .drop-down ul
+{
+	display: none;
+}
+.ecwid-dashboard .drop-down.hover ul
+{
+	display: inline-block;
+}
+
+
+.ecwid-dashboard .drop-down ul {
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	font-size: 14px;
+	left: 0px;
+	margin: 0px;
+	padding-left: 0px;
+
+	outline: 1px solid #ccc;
+}
+
+.ecwid-dashboard .drop-down ul li {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 0;
+	background: white;
+	text-align: left;
+}
+
+.ecwid-dashboard .drop-down ul li:last-child {
+	border-bottom: none;
+}
+
+
+.ecwid-dashboard .drop-down ul a {
+	display: block;
+	padding: 10px 16px;
+	text-decoration: none;
+}
+
+.ecwid-dashboard .drop-down ul li:hover {
+	background: #0074A2;
+}
+
+.ecwid-dashboard .drop-down ul li:hover a {
+	color: white;
+}
+
+.ecwid-dashboard .drop-down * {
+	transition: color .2s, background .2s;
+}
+
+.ecwid-dashboard .greeting-links {
+	padding-left: 0px;
+	margin-top: 5px;
+}
+
+.ecwid-dashboard .greeting-links > * {
+	display: inline-block;
+	margin: 15px 15px;
+}
+
+.ecwid-dashboard .greeting-links > *:first-child {
+	margin-left: 0;
+}
+
+.ecwid-dashboard .greeting-links a {
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.ecwid-dashboard.width-smaller .head {
+	height: 74px;
+}
+
+.ecwid-dashboard.width-smaller .head svg {
+	left: 20px;
+	top: 24px;
+}
+
+.ecwid-dashboard.width-smaller .head h3 {
+	left: 68px;
+	top: -4px;
+}
+
+.ecwid-dashboard.width-smaller .store-id {
+	right: inherit;
+	left: 51px;
+	top: 30px;
+}
+
+.ecwid-dashboard.width-smaller .body {
+	text-align: center;
+	padding: 20px 0px;
+}
+
+.ecwid-dashboard.width-smaller .greeting-image,
+.ecwid-dashboard.width-smaller .greeting
+{
+	display: block;
+	padding-right: 0px;
+}
+
+.ecwid-dashboard.width-smaller .greeting-title {
+	margin-top: 10px;
+}
+
+
+.ecwid-admin .mobile-br br {
+	display: none;
+}
+
+.ecwid-admin.width-smaller .mobile-br br {
+	display: inherit;
+}
+
+.ecwid-popup {
+	position: fixed;
+	left: 170px;
+	top: 42px;
+	right: 10px;
+	bottom: 10px;
+}
+
+.ecwid-popup .wrap {
+	margin: 0px;
+}
+
+.ecwid-popup .box {
+	margin: 0px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+.ecwid-popup h3 span.close {
+	position: absolute;
+	right: 15px;
+	cursor: pointer;
+	color: #2EA2CC;
+}
+
+.ecwid-popup h3 span.close:before {
+	content: "\e606";
+	font-family: ecwid-icons;
+	font-size: 36px;
+}
+
+
+@media screen and (max-width: 960px) {
+	.ecwid-popup {
+		left: 44px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.ecwid-popup {
+		left: 0px;
+		right: 0px;
+		top: 46px;
+		bottom: 0px;
+	}
+}

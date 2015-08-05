@@ -1,0 +1,482 @@
+msgid "Ecwid Shopping Cart"
+msgstr "Интернет-магазин Эквид"
+
+msgid "Ecwid Team"
+msgstr "Ecwid Team"
+
+msgid "Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up."
+msgstr "Эквид – бесплатный полнофункциональный интернет-магазин. Легко встраивается в любой WordPress сайт и настраивается за 5 минут."
+
+msgid "Get help"
+msgstr "Получить помощь"
+
+msgid "Go to Ecwid site"
+msgstr "Пройти на сайт Эквида"
+
+msgid "Visit storefront"
+msgstr "Открыть страницу магазина"
+
+msgid "Manage my store"
+msgstr "Управлять магазином"
+
+msgid "Manage plugin settings"
+msgstr "Изменить настройки плагина"
+
+msgid "→ Sell on Facebook"
+msgstr "→ Начать продавать на Facebook"
+
+msgid "<a %s>Online store powered by Ecwid</a>"
+msgstr "<a %s>Интернет магазин построен на Эквиде</a>"
+
+msgid "Store"
+msgstr "Магазин"
+
+msgid "Ecwid shopping cart settings"
+msgstr "Настройки Ecwid"
+
+msgid "Ecwid Store"
+msgstr "Магазин Ecwid"
+
+msgid "Setup"
+msgstr "Настройки"
+
+msgid "Dashboard"
+msgstr "Консоль"
+
+msgid "Appearance settings"
+msgstr "Настройки внешнего вида"
+
+msgid "Appearance"
+msgstr "Внешний вид"
+
+msgid "Advanced settings"
+msgstr "Дополнительные настройки"
+
+msgid "Advanced"
+msgstr "Дополнительные"
+
+msgid "Hidden category"
+msgstr "Скрытая категория"
+
+msgid "If you like Ecwid and want to help it grow and become the most popular e-commerce solution, you can now add a fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
+msgstr "Если вам нравится Эквид и вы хотите помочь ему расти и стать самым популярным конструктором интернет-магазинов, вы можете добавить значок Эквида на ваш сайт, чтобы показать посетителям, что вы пользуетесь Эквидом."
+
+msgid "Ecwid Badge"
+msgstr "Значок Эквида"
+
+msgid "Ecwid shopping cart widget"
+msgstr "Виджет интернет-магазина Эквид"
+
+msgid "Ecwid ecommerce solution"
+msgstr "Решение для электронной коммерции Эквид"
+
+msgid "Ecwid free shopping cart"
+msgstr "Беспланный конструктов интернет-магазинов Эквид"
+
+msgid "Ecwid shopping cart"
+msgstr "Интернет-магазин Эквид"
+
+msgid "Ecwid e-commerce widgets"
+msgstr "Виджеты для электронной коммерции Эквид"
+
+msgid "Your store's minicart"
+msgstr "Корзина вашего магазина"
+
+msgid "Ecwid Shopping Bag (Normal)"
+msgstr "Корзина Эквида (Основной режим)"
+
+msgid "Ecwid Shopping Bag (Mini view)"
+msgstr "Корзина Эквида (Компактная)"
+
+msgid "Your store's search box"
+msgstr "Форма поиска по вашему магазину"
+
+msgid "Ecwid Search Box"
+msgstr "Поиск по Эквид-магазину"
+
+msgid "Vertical menu of categories"
+msgstr "Вертикальное меню категорий"
+
+msgid "Ecwid Vertical Categories"
+msgstr "Вертикальное меню категорий Эквида"
+
+msgid "A link to your store page"
+msgstr "Ссылка на страницу с вашим Эквид-магазином"
+
+msgid "Ecwid Store Page Link"
+msgstr "Ссылка на Эквид-магазин"
+
+msgid "Shop"
+msgstr "Магазин"
+
+msgid "A list of products recently viewed by a customer. Add this widget to the sidebar to let them later return to the products they saw in your shop."
+msgstr "Список товаров, просмотренных посетителями. Добавьте этот виджет в сайдбар, чтобы позволить клиентам быстро перейти к товарам, которые они просматривали ранее."
+
+msgid "Recently Viewed Products"
+msgstr "Просмотренные товары"
+
+msgid "Number of products to show"
+msgstr "Количество товаров для отображения"
+
+msgid "Greetings! Your Ecwid store is now active."
+msgstr "Добро пожаловать в Эквид!"
+
+msgid "Take a few simple steps to complete store setup"
+msgstr "Магазин почти готов — осталось несколько простых шагов"
+
+msgid "Set up Ecwid Store"
+msgstr "Настроить магазин"
+
+msgid "Good job! Your store is set up and you're ready to sell."
+msgstr "Отлично! Магазин установлен и готов к продажам."
+
+msgid "Now you can fine-tune your store's appearance"
+msgstr "Теперь вы можете настроить внешний вид витрины"
+
+msgid "Visit Storefront"
+msgstr "Открыть витрину"
+
+msgid "Configure Appearance"
+msgstr "Настроить внешний вид"
+
+msgid "Your store is almost ready!"
+msgstr "Магазин почти готов!"
+
+msgid "Connect your Ecwid account with this site to complete setup and start selling"
+msgstr "Привяжите Эквид-аккаунт к сайту, чтобы завершить установку и начать продавать"
+
+msgid "Connect Your Ecwid Store"
+msgstr "Привязать Эквид-аккаунт"
+
+msgid "To add extra functions to your store, drag and drop Ecwid store elements on your site. When you're done, you can get back to modifying your settings."
+msgstr "Добавьте дополнительные элементы магазина, перетащив виджеты Эквида в нужное место сайта. После установки виджетов можете вернуться к настройкам магазина."
+
+msgid "Back to Store Settings"
+msgstr "Вернуться к настройкам"
+
+msgid "Do you like your Ecwid online store? We'd appreciate it if you add your review and vote for the plugin on Wordpress site."
+msgstr "Вам нравится ваш Эквид-магазин? Будем благодарны, если вы оставите отзыв и проголосуете за Эквид на сайте WordPress."
+
+msgid "Rate Ecwid at WordPress.org"
+msgstr "Оценить Эквид на WordPress.org"
+
+msgid "Add Store"
+msgstr "Добавить магазин"
+
+msgid "Edit Store"
+msgstr "Настройки магазина"
+
+msgid "Edit Appearance"
+msgstr "Настроить внешний вид"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Never show this message again"
+msgstr "Больше не показывать это сообщение"
+
+msgid "Ecwid Shopping Cart — Advanced settings"
+msgstr "Магазин Ecwid — Дополнительные настройки"
+
+msgid "Category shown by default"
+msgstr "Категория, показываемая по умолчанию"
+
+msgid "Store root category"
+msgstr "Корневая категория магазина"
+
+msgid "Default category ID"
+msgstr "ID категории по умолчанию"
+
+msgid "By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. \"Featured Products\") to new visitors."
+msgstr "По умолчанию, магазин показывает корневые категории. Здесь можно выбрать другую категорию для отображения, когда покупатель впервые открывает ваш магазин. Это может быть полезно, если у вас есть только одна категория или вы хотите показывать определённые набор товаров (например, специальные предложения) новым пользователям."
+
+msgid "In order to set this option, <a %s>find an ID of the necessary category</a> and save it here."
+msgstr "Чтобы выставить категорию, <a %s>найдите ID нужной категории</a> и введите в это поле."
+
+msgid "Single Sign-On Secret Key"
+msgstr "Секретный ключ системы единой авторизации"
+
+msgid "Single Sign-On Secret Key is an option that allows your customers access to your WordPress site as well as the Ecwid shopping cart. When customers log in to your site, they will automatically be logged in to your Ecwid store as well. It makes sense to enable this feature if your visitors actually create accounts in your WordPress website."
+msgstr "Эта функция позволяет включить систему единой авторизации: когда покупатели вошли в свой аккаунт на вашем сайте, они автоматически входят в свой Эквид-аккаунт, даже если раньше у них его не было. Эта функция может быть полезна в случае, если ваши посетители создают свои аккаунты на вашем сайте."
+
+msgid "In order to enable this feature, opt to use a secret key. You will find this key in your Ecwid control panel, at \"System Settings > Apps > Legacy API Keys > Single Sign-On Secret Key\" page. This feature is available for <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">paid users</a> only."
+msgstr "Чтобы включить эту функцию, вам необходимо ввести секретный ключ. Его можно найти в панели управления Эквида в секции \"Настройки > Apps > Legacy API Keys > Секретный ключ SSO\". Эта функция доступна только пользователям с <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">платным аккаунтом</a>."
+
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+msgid "Ecwid Shopping Cart — Appearance settings"
+msgstr "Магазин Ecwid — Настройки внешнего вида"
+
+msgid "Display search box above products"
+msgstr "Показывать форму поиска над списком продуктов"
+
+msgid "Or you can add search box to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
+msgstr "Или вы можете добавить форму поиска на ваш сайт с помощью <a href=\"%s\">виджетов WordPress</a>"
+
+msgid "Display horizontal categories above products"
+msgstr "Показывать горизонтальное меню категорий над списком продуктов"
+
+msgid "Or you can add vertical categories to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
+msgstr "Или вы можете добавить вертикальное меню категорий на ваш сайт с помощью <a href=\"%s\">виджетов WordPress</a>"
+
+msgid "Enable minicart attached to horizontal categories"
+msgstr "Показывать корзину у горизонтального меню категорий"
+
+msgid "You should disable this option, if you added minicart to your website's&nbsp;sidebar"
+msgstr "Если вы добавили виджет корзины в боковое меню, следует отключить эту настройку"
+
+msgid "Number of categories per row"
+msgstr "Количество категорий в ряд"
+
+msgid "Number of products per page"
+msgstr "Количество продуктов на странице"
+
+msgid "Grid view"
+msgstr "Вид \"сетка\""
+
+msgid "List view"
+msgstr "Вид \"список\""
+
+msgid "Table view"
+msgstr "Вид \"таблица\""
+
+msgid "Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, Ecwid will adapt the number of columns to hold all products."
+msgstr "Здесь вы можете задать количество отображаемых продуктов на странице. Эти цифры определяют максимальные значения. Если на странице в сетке продуктов будет недостаточно места для отображения всех столбцов, Эквид уменьшит их количество."
+
+msgid "Default view mode on product pages"
+msgstr "Вид страницы продуктов по умолчанию"
+
+msgid "Grid"
+msgstr "Сетка"
+
+msgid "List"
+msgstr "Список"
+
+msgid "Table"
+msgstr "Таблица"
+
+msgid "Default view mode on search results"
+msgstr "Вид страницы результатов поиска по умолчанию"
+
+msgid "Connect your store<br /> to this WordPress site"
+msgstr "Подключите магазин<br /> к своему WordPress сайту"
+
+msgid "Connect Ecwid store"
+msgstr "Подключить"
+
+msgid "After clicking button you need to login and accept permissions to use our plugin"
+msgstr "Нажмите на кнопку, авторизуйтесь в Эквиде и выдайте запрошенные права доступа"
+
+msgid "Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again."
+msgstr "Ошибка подключения: после нажатия на кнопку, авторизуйтесь в Эквиде и предоставьте запрашиваемые права."
+
+msgid "Don't have Ecwid account? Create it here"
+msgstr "Ещё нет аккаунта в Эквиде? Зарегистрируйтесь"
+
+msgid "Questions? Visit <a %s>Ecwid support center</a>"
+msgstr "Есть вопросы? Посетите <a %s>Центр поддержки Эквида (англ)</a> или <a target=\"_blank\" href=\"http://www.ecwid.com/forums/forumdisplay.php?f=10\"> русскоязычный раздел форума</a>"
+
+msgid "Store ID"
+msgstr "ID Магазина"
+
+msgid "Disconnect store"
+msgstr "Отсоединить магазин"
+
+msgid "Congratulations!"
+msgstr "Поздравляем!"
+
+msgid "Your Ecwid store is now connected<br /> to your WordPress website"
+msgstr "Эквид-магазин успешно подключен<br /> к вашему WordPress сайту"
+
+msgid "Greetings!"
+msgstr "Приветствуем!"
+
+msgid "Your Ecwid store is connected<br /> to your WordPress website"
+msgstr "Эквид-магазин подключен<br /> к вашему WordPress сайту"
+
+msgid "Open control panel"
+msgstr "Открыть панель управления"
+
+msgid "Plugin is installed successfully!"
+msgstr "Плагин успешно установлен!"
+
+msgid "There are just a few steps left to start selling<br /> on your WordPress site"
+msgstr "До открытия магазина на вашем WordPress сайте<br /> осталось несколько простых шагов"
+
+msgid "There are few little steps left to start selling<br /> on your WordPress site"
+msgstr "До открытия магазина на вашем WordPress сайте<br /> осталось несколько простых шагов"
+
+msgid "Register"
+msgstr "Зарегистрируйтесь"
+
+msgid "Create a free Ecwid account to manage your store and inventory.<br /> No credit card required"
+msgstr "Зарегистрируйте бесплатный аккаунт в Эквиде.<br /> Кредитная карта не требуется"
+
+msgid "Connect"
+msgstr "Подключите магазин"
+
+msgid "Add your Ecwid store to your site <nobr>in two clicks</nobr>"
+msgstr "Подключите свой Эквид-магазин к сайту <nobr>в два клика</nobr>"
+
+msgid "Connect your Ecwid store to this site <nobr>in two clicks</nobr>"
+msgstr "Подключите свой Эквид-магазин к сайту <nobr>в два клика</nobr>"
+
+msgid "Start selling"
+msgstr "Начните продавать"
+
+msgid "Your storefront is ready"
+msgstr "Магазин открыт для покупателей"
+
+msgid "Create Ecwid store"
+msgstr "Создать магазин бесплатно"
+
+msgid "Connect your store"
+msgstr "Подключить магазин"
+
+msgid "Free registration, No credit card required"
+msgstr "Регистрация бесплатна, кредитная карта не требуется"
+
+msgid "Connection error: please click the button again and give permissions for this plugin<br /> to show your Ecwid store on this site."
+msgstr "Ошибка подключения: пожалуйста, нажмите кнопку ещё раз и предоставьте права доступа плагину<br /> для публикации своего Эквид-магазина на этом сайте."
+
+msgid "You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site"
+msgstr "Вам будет предложено войти в панель управления Эквида<br />и предоставить права доступа для отображения магазина на вашем сайте"
+
+msgid "Already have Ecwid account?"
+msgstr "Уже есть аккаунт в Эквиде?"
+
+msgid "Connect your store to Wordpress site"
+msgstr "Подключить магазин к своему сайту"
+
+msgid "Don't have an Ecwid account?"
+msgstr "Ещё нет аккаунта в Эквиде?"
+
+msgid "Register at Ecwid for free"
+msgstr "Зарегистрироваться бесплатно"
+
+msgid "No credit card required"
+msgstr "Кредитная карта не требуется"
+
+msgid "Get ready to sell online"
+msgstr "Продавать онлайн – это просто"
+
+msgid "Sell Everywhere<br>with your Ecwid store"
+msgstr "Продавайте там,<br> где ваши клиенты"
+
+msgid "Start selling on your WordPress site. Then mirror your shop on your Facebook page, blog and marketplaces like Google Shopping, Yahoo and Shopping.com."
+msgstr "Откройте продажи на своём WordPress сайте, а затем разместите витрину магазина в социальных сетях, блоге, и выгрузите товары на торговые площадки Яндекс.Маркет, eBay и Google Shopping."
+
+msgid "Use Ecwid's mobile-POS to swipe credit cards and sell on the go. Your orders and inventory are always synchronized with your online store."
+msgstr "Используйте наше мобильное приложение, чтобы получать и обрабатывать заказы в любой точке продаж. Все изменения синхронизируются с магазином на лету."
+
+msgid "Features"
+msgstr "Преимущества"
+
+msgid "Compatible with your theme"
+msgstr "Работает с вашей темой"
+
+msgid "Ecwid is compatible with your<br>“%s” WordPress theme<br>out of the box."
+msgstr "Эквид совместим с темой<br>\"%s\" вашего сайта из коробки."
+
+msgid "Free and always up to date"
+msgstr "Бесплатный план и обновления"
+
+msgid "Free plan always available with tons of features<br>at no additional cost. Seamless upgrades occur<br>automatically for free."
+msgstr "Всегда доступный бесплатный план с множеством<br>возможностей. Обновления магазина автоматизированы,<br> бесплатны и не требуют вашего участия."
+
+msgid "Responsive design"
+msgstr "Адаптивный дизайн"
+
+msgid "Your store looks perfect<br />on all devices"
+msgstr "Ваш магазин выглядит превосходно<br />на любом устройстве: планшете, смартфоне и ноутбуке."
+
+msgid "PCI-DSS Certified"
+msgstr "Сертификация по PCI-DSS"
+
+msgid "Secure checkout with over 40<br />payment options"
+msgstr "Эквид сертифицирован по стандарту Level 1 PCI-DSS – самому высокому уровню безопасности передачи данных."
+
+msgid "Global Reach"
+msgstr "Глобальное решение"
+
+msgid "More than 800,000 merchants in 175 countries"
+msgstr "Эквид уже используют 800,000 продавцов из 175 стран"
+
+msgid "Start selling <br>on your WordPress <nobr>site for free</nobr>"
+msgstr "Начните продавать<br>на своём Wordpress <nobr>сайте бесплатно</nobr>"
+
+msgid "Get Started, Create Ecwid Account"
+msgstr "Зарегистрировать аккаунт"
+
+msgid "Connect your store to this site"
+msgstr "Подключить магазин к своему сайту"
+
+msgid "Reconnect your store<br /> to this WordPress site"
+msgstr "Reconnect your store<br /> to this WordPress site"
+
+msgid "Reconnect Ecwid store"
+msgstr "Reconnect Ecwid store"
+
+msgid "New features available, reconnect to be in touch with our updates"
+msgstr "New features available, reconnect to be in touch with our updates"
+
+msgid "Add store"
+msgstr "Add store"
+
+msgid "Store settings"
+msgstr "Настройки магазина"
+
+msgid "Choose widgets to show"
+msgstr "Виджеты витрины магазина"
+
+msgid "Product catalog will be shown automatically"
+msgstr "Каталог товаров отображается по умолчанию"
+
+msgid "Show search"
+msgstr "Поиск"
+
+msgid "Show minicart"
+msgstr "Мини-корзина"
+
+msgid "Show horizontal categories"
+msgstr "Горизонтальные категории"
+
+msgid "Additionally, you can add store controls to your website's toolbar using <a %s>WordPress native widgets</a>"
+msgstr "Кроме того, вы можете добавить отдельные элементы магазина в сайдбар сайта используя <a %s>встроенные виджеты WordPress</a>"
+
+msgid "Demo store"
+msgstr "Демонстрационный магазин"
+
+msgid "Ecwid plugin settings"
+msgstr "Настройки плагина"
+
+msgid "Your store will be shown here!"
+msgstr "Здесь будет отображаться ваш магазин."
+
+msgid "Demo Store"
+msgstr "Демонстрационный магазин"
+
+msgid "Chameleon skin <sup>beta</sup>"
+msgstr "Тема \"Хамелеон\" <sup>бета</sup>"
+
+msgid "Automatic adjustment of your store design to your Wordpress theme. Whatever Wordpress theme you use, Ecwid will detect predominant colors and font and use them in your product catalog."
+msgstr "Автоматическая подстройка внешнего вида магазина под стили темы сайта. Включите эту опцию, чтобы Эквид определял цвета и шрифты сайта и исопльзовал их в каталоге товаров."
+
+msgid "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
+msgstr "Мы добавили этот инструмент недавно, и он сейчас работает в бета-режиме. Если вы обнаружите какие-либо проблемы в его работе, пожалуйста, <a %s>сообщите нам</a>."
+
+msgid "Enter your Store ID"
+msgstr "Введите ваш ID Магазина"
+
+msgid "Where to find your Store ID:"
+msgstr "Где найти ID Магазина:"
+
+msgid "You will also get your Store ID by email."
+msgstr "Также вы получите ID вашего магазина на ваш e-mail."
+
+msgid "You have not viewed any product yet. Open store."
+msgstr "Вы пока что не просмотрели ни одного товара. Перейти в магазин."
+
+msgid "Store ID is a unique identifier of your Ecwid account. You can find it in your Ecwid control panel: open the <a %s>Dashboard page</a> and find the \"<b>Store ID: NNNNNNN</b>\" text, where <b>NNNNNNN</b> is your Store&nbsp;ID."
+msgstr "ID магазина – это уникальный номер аккаунта в Эквиде. Вы можете его найти в панели управления Эквид-магазина: откройте страницу \"<a %s>Консоль</a>\" и найдите текст \"<b>ID&nbsp;Магазина&nbsp;NNNNNNN</b>\". "

@@ -1,0 +1,22 @@
+/* Mobile */
+@media screen and (max-width: 400px) {
+
+	body.ecwid-shopping-cart #container {
+		padding: 0 10px;
+	}
+
+	body.ecwid-shopping-cart #wrapper {
+		padding: 0 10px;
+	}
+}
+
+@media screen and (max-width: 650px) {
+
+	html#ecwid_html body#ecwid_body.ecwid-shopping-cart #select-State-Box,
+	html#ecwid_html body#ecwid_body.ecwid-shopping-cart #select-Country-Box,
+	html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-AddressForm-state,
+	html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-AddressForm-country,
+	html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-fieldEnvelope {
+		width: 100%;
+	}
+}

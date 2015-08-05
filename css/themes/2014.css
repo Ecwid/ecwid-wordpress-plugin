@@ -1,0 +1,8 @@
+.site-content .entry-header, .site-content .entry-content, .site-content .entry-summary, .site-content .entry-meta {
+	max-width: none;
+}
+
+#ecwid_product_browser_scroller.ecwid-scroller-adjustment {
+	position: relative;
+	top: -48px;
+}

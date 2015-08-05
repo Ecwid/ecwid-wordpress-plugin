@@ -1,0 +1,285 @@
+#wpadminbar .ecwid-top-menu-item {
+	margin-top: 0px;
+	width: 23px;
+	height: 28px;
+	background: url(../images/icon-head-default.png) no-repeat 0% 2px;
+}
+
+#wpadminbar .ecwid-top-menu-item:hover,
+#wpadminbar .hover .ecwid-top-menu-item{
+	background-image: url(../images/icon-head-active.png);
+}
+
+#adminmenu #toplevel_page_ecwid div.wp-menu-image {
+	background: url(../images/icon-sidebar-default.png) no-repeat 5px 2px;
+	margin: 2px 3px 2px 2px;
+	width: 23px;
+	height: 23px;
+}
+
+#adminmenu #toplevel_page_ecwid:hover div.wp-menu-image,
+#adminmenu #toplevel_page_ecwid.wp-has-current-submenu div.wp-menu-image
+{
+	background-image: url(../images/icon-sidebar-active.png);
+}
+
+.ecwid-settings h2 {
+	background:url(../images/icon-title.png) no-repeat 0% 50%;
+	padding-left: 43px;
+	line-height: 32px;
+	margin-bottom: 30px;
+}
+
+#hide-vote-message {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#hide-vote-message.hiding {
+	cursor: wait;
+}
+
+#wp-toolbar > ul > li#wp-admin-bar-ecwid-main {
+	display: block;
+}
+
+.ecwid-badge {
+	display: table;
+	width: 70%;
+	min-width: 200px;
+	padding: 3px;
+}
+
+.ecwid-badge > div {
+	display: table-cell;
+	vertical-align: middle;
+	height: 55px;
+}
+
+.ecwid-badge .checkbox {
+	width: 15px;
+}
+.ecwid-badge .image {
+	text-align: center;
+}
+
+div.ecwid-message {
+	padding: 27px 29px 20px 30px;
+}
+
+.ecwid-message a {
+	color: #0074A2;
+}
+
+.ecwid-message a:hover {
+	color: #2EA2CC;
+}
+
+.ecwid-message .ecwid-message-title {
+	font-size: 18px;
+	margin-bottom: 12px;
+	font-weight: bold;
+}
+
+.ecwid-message .ecwid-message-content {
+	line-height: 20px;
+}
+
+.ecwid-message .ecwid-message-buttons {
+	margin-top: 19px;
+	position: relative;
+	display: table;
+	width: 100%;
+}
+
+.ecwid-message .ecwid-message-buttons > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.ecwid-message .ecwid-message-buttons > div:not(:first-child) {
+	padding-left: 9px;
+}
+
+.ecwid-message .ecwid-message-buttons > div:last-child {
+	position: absolute;
+
+	padding-left: 0px;
+
+	top: 0px;
+	right: 0px;
+}
+
+.ecwid-message .ecwid-message-buttons > div a{
+	text-decoration: none;
+}
+
+.ecwid-message .ecwid-message-hide:not(:hover) {
+	color: #bbb;
+}
+
+.ecwid-message .ecwid-message-hide {
+	font-size: 12px;
+	font-weight: 100;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.ecwid-message .ecwid-message-hide:before {
+	content: "\e606";
+	font-family: ecwid-icons;
+	font-size: 26px;
+	position: relative;
+	left: 1px;
+	top: 6px;
+}
+
+@media screen and (max-width: 768px) {
+	.ecwid-message .ecwid-message-buttons > div:last-child {
+		position: inherit;
+	}
+
+	div.ecwid-message,
+	div.ecwid-message.updated{
+		padding: 27px 29px 20px 30px;
+	}
+
+	.ecwid-message .ecwid-message-buttons > div:not(:first-child) {
+		padding-left: 0px;
+	}
+
+	.ecwid-message .ecwid-message-buttons > div {
+		display: block;
+	}
+
+	.ecwid-message .ecwid-message-buttons > div a {
+		text-align: center;
+		white-space: normal;
+		width: 100%;
+	}
+
+	.ecwid-message .ecwid-message-hide:before {
+		font-size: 21px;
+		top: 5px;
+	}
+
+	.ecwid-message-buttons .hide-wrapper {
+		margin-top: 10px;
+	}
+}
+
+body[class*="_page_ecwid"] .ecwid-message {
+	margin: 20px 20px 20px 0px;
+}
+
+
+.ecwid-message.dev {
+	outline: 2px solid red;
+	width: 434px;
+}
+
+.ecwid-message.dev .ecwid-message-title {
+	letter-spacing: -0.4px;
+}
+
+.ecwid-message.dev .ecwid-message-content {
+	letter-spacing: -0.62px;
+}
+
+.ecwid-message.dev .ecwid-message-hide {
+  letter-spacing: -0.22px;
+}
+
+#available-widgets .widget-top.ecwid-widget-highlighted {
+	background: #1d7ac4;
+	color: white;
+	font-weight: normal;
+}
+
+#available-widgets .ecwid-widget .widget-top h4 {
+	padding-left: 42px;
+}
+
+#available-widgets .ecwid-widget .widget-top h4:before {
+	font-size: 20px;
+	position: absolute;
+	top: 12px;
+	left: 16px;
+	margin-right: -4px;
+	line-height: 10px;
+	font-family: 'ecwid-icons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	color: #1d7ac4;
+	opacity: .5;
+}
+#available-widgets .ecwid-widget .widget-top:hover h4:before {
+	opacity: 1;
+}
+
+#available-widgets .ecwid-widget .widget-top.ecwid-widget-highlighted h4:before {
+	color: white;
+	opacity: 1;
+}
+
+@font-face {
+	font-family: 'ecwid-icons';
+	src:url('../fonts/ecwid-icons.eot?-b8sbws');
+	src:url('../fonts/ecwid-icons.eot?#iefix-b8sbws') format('embedded-opentype'),
+	url('../fonts/ecwid-icons.woff?-b8sbws') format('woff'),
+	url('../fonts/ecwid-icons.ttf?-b8sbws') format('truetype'),
+	url('../fonts/ecwid-icons.svg?-b8sbws#ecwid-icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'ecwid-icons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#available-widgets .widget-top.ecwid-widget-badge h4:before {
+	content: "\e603";
+}
+
+#available-widgets .widget-top.ecwid-widget-minicart h4:before,
+#available-widgets .widget-top.ecwid-widget-minicart_miniview h4:before
+{
+	content: "\e601";
+}
+
+#available-widgets .widget-top.ecwid-widget-vcategories h4:before,
+#available-widgets .widget-top.ecwid-widget-categories h4:before
+{
+	content: "\e602";
+}
+
+#available-widgets .widget-top.ecwid-widget-search h4:before {
+	content: "\e604";
+}
+
+#available-widgets .widget-top.ecwid-widget-storelink h4:before {
+	content: "\e605";
+}
+
+#available-widgets .widget-top.ecwid-widget-recentlyviewed h4:before {
+	content: "\e600";
+}

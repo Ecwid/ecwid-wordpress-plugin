@@ -1,0 +1,228 @@
+.ecwid-pb-view-size .main-area {
+	border-color: rgba(30, 140, 190, 0.5);
+}
+
+.ecwid-pb-view-size .main-area path,
+.ecwid-pb-view-size .main-area rect {
+	fill: rgb(30, 140, 190);
+}
+
+.ecwid-pb-view-size .bottom {
+	margin-top: 11px;
+}
+
+.ecwid-settings h2 {
+	background: none;
+	padding-left: 12px;
+}
+
+.ecwid-settings hr {
+	background: #cacaca;
+}
+
+.ecwid-settings .pure-control-group {
+	margin-bottom: 22px;
+}
+
+.pure-form.ecwid-settings .pure-control-group label {
+	font-size: 14px;
+	width: 265px;
+}
+
+.pure-form.ecwid-settings.general-settings .pure-button-secondary,
+.pure-form.ecwid-settings a.pure-button:not(.pure-button-primary):hover
+{
+	color: #0074a2;
+}
+
+.pure-form.ecwid-settings.general-settings .pure-button-secondary:hover,
+.pure-form.ecwid-settings a.pure-button:not(.pure-button-primary):hover
+{
+	border-color: #0074a2;
+}
+
+.ecwid-settings.general-settings button {
+	top: 1px;
+	padding: 2px 10px 1px;
+	height: 32px;
+}
+
+.ecwid-pb-view-size .ruler {
+	background: #cacaca;
+}
+
+@media screen and (max-width: 782px) {
+	.ecwid-settings.general-settings,
+	.ecwid-settings.appearance-settings,
+	.ecwid-settings.advanced-settings 
+	{
+		max-width: inherit;
+		width: inherit;
+	}
+
+	.ecwid-settings h2 {
+		margin-bottom: 0px;
+	}
+
+	.ecwid-settings.pure-form fieldset > :not(legend) {
+		margin-left: 0px;
+	}
+
+
+	.general-settings.ecwid-settings .greeting-box {
+		height: inherit;
+		text-align: center;
+	}
+
+	.general-settings.ecwid-settings .greeting-box > div {
+		display: block;
+	}
+	.general-settings.ecwid-settings ol {
+		padding-left: 0px;
+	}
+
+	.general-settings.ecwid-settings .section {
+		width: 100%;
+	}
+
+	.general-settings.ecwid-settings .section .left,
+	.general-settings.ecwid-settings .note {
+		margin-top: 0px;
+	}
+
+	.general-settings.ecwid-settings .section .left,
+	.general-settings.ecwid-settings .section .right {
+		text-align: left;
+		display: block;
+	}
+
+	.general-settings.ecwid-settings button,
+	.general-settings.ecwid-settings #ecwid_store_id,
+	.general-settings.ecwid-settings .pure-button {
+		display: block;
+		width: inherit;
+		margin: 10px 0px 10px 0px;
+		padding: 0px 5px;
+	}
+	.general-settings.ecwid-settings button,
+	.general-settings.ecwid-settings #ecwid_store_id {
+		width: 100%;
+	}
+
+	.general-settings.ecwid-settings .button-primary {
+		width: 100%;
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.general-settings.ecwid-settings .two-buttons {
+		position: relative;
+	}
+
+	.general-settings.ecwid-settings .two-buttons .pure-button:last-child {
+		position: absolute;
+		right: 0px;
+	}
+	.general-settings.ecwid-settings .two-buttons .pure-button {
+		display: inline-block;
+		min-width: 44%;
+		width: inherit;
+	}
+
+	.general-settings.ecwid-settings input {
+		display: block;
+		width: 100%;
+	}
+
+	.ecwid-settings .pure-control-group {
+		position: relative;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size {
+		display: block;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size input {
+		position: relative;
+		z-index: 2;
+	}
+
+	.appearance-settings.ecwid-settings .pure-control-group.small-input input {
+		margin: 0px auto;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size {
+		margin: 0px auto 33px;
+		padding: 0px;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size .ruler {
+		z-index: 1;
+		position: absolute;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size .bottom {
+		margin-top: 5px;
+	}
+
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size.list,
+	.appearance-settings.ecwid-settings .ecwid-pb-view-size.table {
+		margin-bottom: 0px;
+	}
+
+	.appearance-settings.ecwid-settings .note.pb-note {
+		margin: 0px;
+	}
+
+	.appearance-settings.ecwid-settings select {
+		width: 100%;
+	}
+
+	.advanced-settings.ecwid-settings .pure-control-group:not(.checkbox) label {
+		margin-top:35px;
+	}
+
+	.advanced-settings.ecwid-settings .pure-control-group:not(.checkbox) input,
+	.advanced-settings.ecwid-settings select {
+		width: 100%;
+	}
+
+	.advanced-settings.ecwid-settings label {
+		margin-bottom: 10px;
+	}
+
+	.advanced-settings.ecwid-settings .note {
+		margin-top: 5px;
+	}
+
+	.ecwid-settings fieldset {
+		min-width: 0px !important;	
+	}
+	
+	.ecwid-pb-view-size .bottom .ruler {
+		bottom: 15px;
+	}
+	.ecwid-settings .pure-control-group.small-input .input > div,
+	.ecwid-settings .pure-control-group.small-input .input input,
+	.ecwid-settings .pure-control-group.small-input .label > label {
+		position: static;
+	}
+
+	.ecwid-settings .pure-control-group.small-input .label,
+	.ecwid-settings .pure-control-group.small-input .label label {
+		width: auto;
+		margin-bottom: 0px;
+	}
+
+	.ecwid-settings .pure-control-group.small-input .note {
+		display: block;
+		position: relative;
+		left: 45px;
+		margin-right: 45px;
+	}
+
+	.ecwid-settings .pure-control-group.checkbox label {
+		display: inline-block;
+	}
+}
+

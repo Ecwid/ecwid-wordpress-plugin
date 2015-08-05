@@ -1,0 +1,16 @@
+.ecwid-shopping-cart-product-browser table,
+.ecwid-shopping-cart-categories table,
+.ecwid-popup table,
+.ecwid-MessageBox table {
+	border: 0px none !important;
+}
+
+.ecwid-shopping-cart-product-browser button,
+.ecwid-popup button,
+.ecwid-MessageBox button {
+	color: inherit !important;
+}
+
+.ecwid-shopping-cart-search button {
+	padding: 0.15em 0.3em !important;
+}

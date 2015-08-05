@@ -1,272 +1,366 @@
 <?php
 
-function show_ecwid($params) {
-	$store_id = $params['store_id'];
-	if (empty($store_id)) {
-	  $store_id = '1003'; //demo mode
-	}
-		
-	$list_of_views = $params['list_of_views'];
-	
-    if (is_array($list_of_views))    
-	foreach ($list_of_views as $k=>$v) {
-		if (!in_array($v, array('list','grid','table'))) unset($list_of_views[$k]);
-	}
-	
-	if ((!is_array($list_of_views)) || empty($list_of_views)) {
-		$list_of_views = array('list','grid','table');
+class EcwidCatalog
+{
+	var $store_id = 0;
+	var $store_base_url = '';
+	var $ecwid_api = null;
+
+	public function __construct($store_id, $store_base_url)
+	{
+		$this->store_id = intval($store_id);
+		$this->store_base_url = $store_base_url;	
+		$this->ecwid_api = new EcwidProductApi($this->store_id);
 	}
 
-	$ecwid_pb_categoriesperrow = $params['ecwid_pb_categoriesperrow'];
-	if (empty($ecwid_pb_categoriesperrow)) {
-		$ecwid_pb_categoriesperrow = 3;
-	}
-	$ecwid_pb_productspercolumn_grid = $params['ecwid_pb_productspercolumn_grid'];
-	if (empty($ecwid_pb_productspercolumn_grid)) {
-		$ecwid_pb_productspercolumn_grid = 3;
-	}
-	$ecwid_pb_productsperrow_grid = $params['ecwid_pb_productsperrow_grid'];
-	if (empty($ecwid_pb_productsperrow_grid)) {
-		$ecwid_pb_productsperrow_grid = 3;
-	}
-	$ecwid_pb_productsperpage_list = $params['ecwid_pb_productsperpage_list'];
-	if (empty($ecwid_pb_productsperpage_list)) {
-		$ecwid_pb_productsperpage_list = 10;
-	}
-	$ecwid_pb_productsperpage_table = $params['ecwid_pb_productsperpage_table'];
-	if (empty($ecwid_pb_productsperpage_table)) {
-		$ecwid_pb_productsperpage_table = 20;
-	}
-	$ecwid_pb_defaultview = $params['ecwid_pb_defaultview'];
-	if (empty($ecwid_pb_defaultview) || !in_array($ecwid_pb_defaultview, $list_of_views)) {
-		$ecwid_pb_defaultview = 'grid';
-	}
-	$ecwid_pb_searchview = $params['ecwid_pb_searchview'];
-	if (empty($ecwid_pb_searchview) || !in_array($ecwid_pb_searchview, $list_of_views)) {
-		$ecwid_pb_searchview = 'list';
-	}
-	$ecwid_enable_html_mode = $params['ecwid_enable_html_mode'];
-	if (empty($ecwid_enable_html_mode)) {
-		$ecwid_enable_html_mode = false;
-	}
-
-	$ecwid_com = "app.ecwid.com";
-
-
-	$ecwid_default_category_id = $params['ecwid_default_category_id'];
-	
-	$ecwid_show_seo_catalog = $params['ecwid_show_seo_catalog'];
-	if (empty($ecwid_show_seo_catalog)) {
-		$ecwid_show_seo_catalog = false;
-	}
-
- 	$ecwid_mobile_catalog_link = $params['ecwid_mobile_catalog_link'];
-	if (empty($ecwid_mobile_catalog_link)) {
-		$ecwid_mobile_catalog_link = "//$ecwid_com/jsp/$store_id/catalog";
-	}
-
-  $html_catalog = '';
-	if ($ecwid_show_seo_catalog) {
-    if (!empty($_GET['ecwid_product_id'])) {
-      $ecwid_open_product = '<script type="text/javascript"> if (!document.location.hash) document.location.hash = "ecwid:category=0&mode=product&product='. intval($_GET['ecwid_product_id']) .'";</script>';
-     } elseif (!empty($_GET['ecwid_category_id'])) {
-       $ecwid_default_category_id = intval($_GET['ecwid_category_id']);
-     }
-		$html_catalog = show_ecwid_catalog($store_id);
-	}
-	
-	if (empty($html_catalog)) {
-		$html_catalog = "Your browser does not support JavaScript.<a href=\"{$ecwid_mobile_catalog_link}\">HTML version of this store</a>";
-	}
-
-
-	if (empty($ecwid_default_category_id)) {
-		$ecwid_default_category_str = '';
-	} else {
-		$ecwid_default_category_str = ',"defaultCategoryId='. $ecwid_default_category_id .'"';
-	}
-
-	$ecwid_is_secure_page = $params['ecwid_is_secure_page'];
-	if (empty ($ecwid_is_secure_page)) {
-		$ecwid_is_secure_page = false;
-	}
-
-	$protocol = "http";
-	if ($ecwid_is_secure_page) {
-		$protocol = "https";
-	}
-
-	$ecwid_element_id = "ecwid-inline-catalog";
-        if (!empty($params['ecwid_element_id'])) {
-            $ecwid_element_id = $params['ecwid_element_id'];
-        }
-	$integration_code = <<<EOT
-<div>
-<script type="text/javascript" src="//$ecwid_com/script.js?$store_id"></script>
-<div id="$ecwid_element_id">$html_catalog</div>
-<script type="text/javascript"> xProductBrowser(
-	"categoriesPerRow=$ecwid_pb_categoriesperrow",
-	"views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)",
-	"categoryView=$ecwid_pb_defaultview",
-	"searchView=$ecwid_pb_searchview",
-	"id=$ecwid_element_id",
-	"style="$ecwid_default_category_str);</script>
-$ecwid_open_product
-</div>
-EOT;
-  
-	return $integration_code;
-}
-
-function show_ecwid_catalog($ecwid_store_id) {
-  include_once "ecwid_product_api.php";
-	$ecwid_store_id = intval($ecwid_store_id);
-	$api = new EcwidProductApi($ecwid_store_id);
-
-	$ecwid_category_id = intval($_GET['ecwid_category_id']);
-	$ecwid_product_id = intval($_GET['ecwid_product_id']);
-
-	if (!empty($ecwid_product_id)) {
-		$params = array(
-			array("alias" => "p", "action" => "product", "params" => array("id" => $ecwid_product_id)),
+	public function get_product($id)
+	{
+		$params = array 
+		(
+			array("alias" => "p", "action" => "product", "params" => array("id" => $id)),
 			array("alias" => "pf", "action" => "profile")
 		);
-		$batch_result = $api->get_batch_request($params);
+
+		$batch_result = $this->ecwid_api->get_batch_request($params);
 		$product = $batch_result["p"];
 		$profile = $batch_result["pf"];
-	}
-	else {
-		if (empty($ecwid_category_id)) {
-			$ecwid_category_id = 0;
+
+		$return = $this->_l('');
+		
+		if (is_array($product)) 
+		{
+		
+			$return .= $this->_l('<div itemscope itemtype="http://schema.org/Product">', 1);
+			$return .= $this->_l('<h2 class="ecwid_catalog_product_name" itemprop="name">' . EcwidPlatform::esc_html($product["name"]) . '</h2>');
+			$return .= $this->_l('<p class="ecwid_catalog_product_sku" itemprop="sku">' . EcwidPlatform::esc_html($product["sku"]) . '</p>');
+			
+			if (!empty($product["thumbnailUrl"])) 
+			{
+				$return .= $this->_l('<div class="ecwid_catalog_product_image">', 1);
+				$return .= $this->_l(
+					sprintf(
+						'<img itemprop="image" src="%s" alt="%s" />',
+						EcwidPlatform::esc_attr($product['thumbnailUrl']),
+						EcwidPlatform::esc_attr($product['name'] . ' ' . $product['sku'])
+					)
+				);
+				$return .= $this->_l('</div>', -1);
+			}
+			
+			if(is_array($product["categories"]))
+			{
+				foreach ($product["categories"] as $ecwid_category) 
+				{
+					if($ecwid_category["defaultCategory"] == true)
+					{
+						$return .= $this->_l('<div class="ecwid_catalog_product_category">' . EcwidPlatform::esc_html($ecwid_category['name']) . '</div>');
+					}
+				}
+			}
+			
+			$return .= $this->_l('<div class="ecwid_catalog_product_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">', 1);
+			$return .=  $this->_l(EcwidPlatform::get_price_label() . ': <span itemprop="price">' . EcwidPlatform::esc_html($product["price"]) . '</span>');
+
+			$return .= $this->_l('<span itemprop="priceCurrency">' . EcwidPlatform::esc_html($profile['currency']) . '</span>');
+			if (!isset($product['quantity']) || (isset($product['quantity']) && $product['quantity'] > 0)) {
+				$return .= $this->_l('<link itemprop="availability" href="http://schema.org/InStock" />In stock');
+			}
+			$return .= $this->_l('</div>', -1);
+
+			$return .= $this->_l('<div class="ecwid_catalog_product_description" itemprop="description">', 1);
+			$return .= $this->_l($product['description']);
+			$return .= $this->_l('</div>', -1);
+
+			if (is_array($product['attributes']) && !empty($product['attributes'])) {
+
+				foreach ($product['attributes'] as $attribute) {
+					if (trim($attribute['value']) != '') {
+						$return .= $this->_l('<div class="ecwid_catalog_product_attribute">', 1);
+
+						$attr_string = EcwidPlatform::esc_html($attribute['name']) . ':';
+
+						if (isset($attribute['internalName']) && $attribute['internalName'] == 'Brand') {
+							$attr_string .= '<span itemprop="brand">' . EcwidPlatform::esc_html($attribute['value']) . '</span>';
+						} else {
+							$attr_string .= EcwidPlatform::esc_html($attribute['value']);
+						}
+
+						$return .= $this->_l($attr_string);
+						$return .= $this->_l('</div>', -1);
+					}
+				}
+			}
+
+			if (is_array($product["options"]))
+			{
+				$allowed_types = array('TEXTFIELD', 'DATE', 'TEXTAREA', 'SELECT', 'RADIO', 'CHECKBOX');
+				foreach($product["options"] as $product_options)
+				{
+					if (!in_array($product_options['type'], $allowed_types)) continue;
+
+					$return .= $this->_l('<div class="ecwid_catalog_product_options">', 1);
+					$return .=$this->_l('<span>' . EcwidPlatform::esc_html($product_options["name"]) . '</span>');
+
+					if($product_options["type"] == "TEXTFIELD" || $product_options["type"] == "DATE")
+					{
+						$return .=$this->_l('<input type="text" size="40" name="'. EcwidPlatform::esc_attr($product_options["name"]) . '">');
+					}
+					   if($product_options["type"] == "TEXTAREA")
+					{
+						 $return .=$this->_l('<textarea name="' . EcwidPlatform::esc_attr($product_options["name"]) . '"></textarea>');
+					}
+					if ($product_options["type"] == "SELECT")
+					{
+						$return .= $this->_l('<select name="'. $product_options["name"].'">', 1);
+						foreach ($product_options["choices"] as $options_param) 
+						{ 
+							$return .= $this->_l(
+								sprintf(
+									'<option value="%s">%s (%s)</option>',
+									EcwidPlatform::esc_attr($options_param['text']),
+									EcwidPlatform::esc_html($options_param['text']),
+									EcwidPlatform::esc_html($options_param['priceModifier'])
+								)
+							);
+						}
+						$return .= $this->_l('</select>', -1);
+					}
+					if($product_options["type"] == "RADIO")
+					{
+						foreach ($product_options["choices"] as $options_param) 
+						{
+							$return .= $this->_l(
+								sprintf(
+									'<input type="radio" name="%s" value="%s" />%s (%s)',
+									EcwidPlatform::esc_attr($product_options['name']),
+									EcwidPlatform::esc_attr($options_param['text']),
+									EcwidPlatform::esc_html($options_param['text']),
+									EcwidPlatform::esc_html($options_param['priceModifier'])
+								)
+							);
+						}
+					}
+					if($product_options["type"] == "CHECKBOX")
+					{
+						foreach ($product_options["choices"] as $options_param)
+						{
+							$return .= $this->_l(
+								sprintf(
+									'<input type="checkbox" name="%s" value="%s" />%s (%s)',
+									EcwidPlatform::esc_attr($product_options['name']),
+									EcwidPlatform::esc_attr($options_param['text']),
+									EcwidPlatform::esc_html($options_param['text']),
+									EcwidPlatform::esc_html($options_param['priceModifier'])
+								)
+							);
+						 }
+					}
+
+					$return .= $this->_l('</div>', -1);
+				}
+			}				
+						
+			if (is_array($product["galleryImages"])) 
+			{
+				foreach ($product["galleryImages"] as $galleryimage) 
+				{
+					if (empty($galleryimage["alt"]))  $galleryimage["alt"] = htmlspecialchars($product["name"]);
+					$return .= $this->_l(
+						sprintf(
+							'<img src="%s" alt="%s" title="%s" />',
+							EcwidPlatform::esc_attr($galleryimage['url']),
+							EcwidPlatform::esc_attr($galleryimage['alt']),
+							EcwidPlatform::esc_attr($galleryimage['alt'])
+						)
+					);
+				}
+			}
+
+			$return .= $this->_l("</div>", -1);
 		}
-		$params = array(
-			array("alias" => "c", "action" => "categories", "params" => array("parent" => $ecwid_category_id)),
-			array("alias" => "p", "action" => "products", "params" => array("category" => $ecwid_category_id)),
+
+		return $return;
+	}
+
+	public function get_category($id)
+	{
+		$params = array
+		(
+			array("alias" => "c", "action" => "categories", "params" => array("parent" => $id)),
+			array("alias" => "p", "action" => "products", "params" => array("category" => $id)),
 			array("alias" => "pf", "action" => "profile")
 		);
+		if ($id > 0) {
+			$params[] = array('alias' => 'category', "action" => "category", "params" => array("id" => $id));
+		}
 
-		$batch_result = $api->get_batch_request($params);
+		$batch_result = $this->ecwid_api->get_batch_request($params);
 
+		$category	 = $id > 0 ? $batch_result['category'] : null;
 		$categories = $batch_result["c"];
-		$products = $batch_result["p"];
-		$profile = $batch_result["pf"];
-	}
-	$html = '';
+		$products   = $batch_result["p"];
+		$profile	= $batch_result["pf"];
 
-	if (is_array($product)) {
-		$html = "<div class='hproduct'>";
-		$html .= "<h3 class='ecwid_catalog_product_name fn'>" . htmlentities($product["name"],ENT_COMPAT,'UTF-8') . "</h3>";
-                if (!empty($product["thumbnailUrl"])) {
-			$html .= "<div class='ecwid_catalog_product_image photo'><img src='" . $product["thumbnailUrl"] . "' alt='" . htmlentities($product["sku"],ENT_COMPAT,'UTF-8') . " " . htmlentities($product["name"],ENT_COMPAT,'UTF-8') . "'/></div>";
-                }
-		$html .= "<div class='ecwid_catalog_product_price price'>Price: " . $product["price"] . "&nbsp;" . $profile["currency"] . "</div>";
-		$html .= "<div class='ecwid_catalog_product_description description'>" . $product["description"] . "</div>";
-		$html .= "</div>";
-	} else {
-		if (is_array($categories)) {
-			foreach ($categories as $category) {
-				$category_url = ecwid_internal_construct_url($category["url"], array("ecwid_category_id" => $category["id"]));
+		$return = $this->_l('');
+
+		if (!is_null($category)) {
+			$return .= $this->_l('<h2>' . EcwidPlatform::esc_html($category['name']) . '</h2>');
+			$return .= $this->_l('<div>' . $category['description'] . '</div>');
+		}
+
+		if (is_array($categories)) 
+		{
+			foreach ($categories as $category) 
+			{
+				$category_url = $this->get_category_url($category);
+
 				$category_name = $category["name"];
-				$html .= "<div class='ecwid_catalog_category_name'><a href='" . htmlspecialchars($category_url) . "'>" . $category_name . "</a><br /></div>";
+				$return .= $this->_l('<div class="ecwid_catalog_category_name">', 1);
+				$return .= $this->_l('<a href="' . EcwidPlatform::esc_attr($category_url) . '">' . EcwidPlatform::esc_html($category_name) . '</a>');
+				$return .= $this->_l('</div>', -1);
 			}
 		}
 
-		if (is_array($products)) {
-			foreach ($products as $product) {
-				$product_url = ecwid_internal_construct_url($product["url"], array("ecwid_product_id" => $product["id"]));
-				$product_name = $product["name"];
-				$product_price = $product["price"] . "&nbsp;" . $profile["currency"];
-				$html .= "<div>";
-				$html .= "<span class='ecwid_product_name'><a href='" . htmlspecialchars($product_url) . "'>" . $product_name . "</a></span>";
-				$html .= "&nbsp;&nbsp;<span class='ecwid_product_price'>" . $product_price . "</span>";
-				$html .= "</div>";
+		if (is_array($products)) 
+		{
+			foreach ($products as $product) 
+			{
+
+				$product_url = $this->get_product_url($product);
+
+				$product_name = $product['name'];
+				$product_price = $product['price'] . ' ' . $profile['currency'];
+				$return .= $this->_l('<div>', 1);
+				$return .= $this->_l('<span class="ecwid_product_name">', 1);
+				$return .= $this->_l('<a href="' . EcwidPlatform::esc_attr($product_url) . '">' . EcwidPlatform::esc_html($product_name) . '</a>');
+				$return .= $this->_l('</span>', -1);
+				$return .= $this->_l('<span class="ecwid_product_price">' . EcwidPlatform::esc_html($product_price) . '</span>');
+				$return .= $this->_l('</div>', -1);
 			}
 		}
 
+		return $return;
 	}
-	return $html;
-}
 
-function ecwid_is_api_enabled($ecwid_store_id) {
-	$ecwid_store_id = intval($ecwid_store_id);
-	$api = new EcwidProductApi($ecwid_store_id);
-  return $api->is_api_enabled();
-}
+	public function parse_escaped_fragment($escaped_fragment)
+	{
+		$fragment = urldecode($escaped_fragment);
+		$return = array();
 
-function ecwid_zerolen() {
-  foreach (func_get_args() as $arg) {
-    if (strlen($arg) == 0) return true;
-  }
-  return false;
-}
-
-function ecwid_get_request_uri() {
-static $request_uri = null;
-
-if (is_null($request_uri)) {
-    if (isset($_SERVER['REQUEST_URI'])) {
-        $request_uri = $_SERVER['REQUEST_URI'];
-        return $request_uri;
-    }
-    if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
-        $request_uri = $_SERVER['HTTP_X_ORIGINAL_URL'];
-        return $request_uri;
-    } else if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
-        $request_uri = $_SERVER['HTTP_X_REWRITE_URL'];
-        return $request_uri;
-    }
-
-    if (isset($_SERVER['PATH_INFO']) && !ecwid_zerolen($_SERVER['PATH_INFO'])) {
-        if ($_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF']) {
-            $request_uri = $_SERVER['PHP_SELF'];
-        } else {
-            $request_uri = $_SERVER['PHP_SELF'] . $_SERVER['PATH_INFO'];
-        }
-    } else {
-        $request_uri = $_SERVER['PHP_SELF'];
-    }
-    # Append query string
-    if (isset($_SERVER['argv']) && isset($_SERVER['argv'][0]) && !ecwid_zerolen($_SERVER['argv'][0])) {
-        $request_uri .= '?' . $_SERVER['argv'][0];
-    } else if (isset($_SERVER['QUERY_STRING']) && !ecwid_zerolen($_SERVER['QUERY_STRING'])) {
-        $request_uri .= '?' . $_SERVER['QUERY_STRING'];
-    }    
-    }     
-    return $request_uri;
-}
-
-function ecwid_internal_construct_url($url_with_anchor, $additional_get_params) {
-  $request_uri  = parse_url(ecwid_get_request_uri());
-  $base_url = $request_uri['path'];
-
-	// extract anchor
-	$url_fragments = parse_url($url_with_anchor);
-	$anchor = $url_fragments["fragment"];
-	// get params
-	$get_params = $_GET;
-	unset ($get_params["ecwid_category_id"]);
-	unset ($get_params["ecwid_product_id"]);
-	$get_params = array_merge($get_params, $additional_get_params);
-
-		// add GET parameters
-	if (count($get_params) > 0) {
-		$base_url .= "?";
-		$is_first = true;
-		foreach ($get_params as $key => $value) {
-			if (!$is_first) {
-				$base_url .= "&";
+		if (preg_match('/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches)) {
+			parse_str($matches[3], $return);
+			$return['mode'] = $matches[2];
+		} elseif (preg_match('!.*/(p|c)/([0-9]*)!', $fragment, $matches)) {
+			if (count($matches) == 3 && in_array($matches[1], array('p', 'c'))) {
+				$return  = array(
+					'mode' => 'p' == $matches[1] ? 'product' : 'category',
+					'id' => $matches[2]
+				);
 			}
-			$base_url .= $key . "=" . $value;
-			$is_first = false;
 		}
+
+		return $return;
 	}
 
-	// add url anchor (if needed)
-	if ($anchor != "") {
-		$base_url .= "#" . $anchor;
+	public function get_category_name($id)
+	{
+		$category = $this->ecwid_api->get_category($id);
+
+		$result = '';
+		if (is_array($category) && isset($category['name'])) { 
+			$result = $category['name'];
+		}
+
+		return $result;
 	}
 
-	return $base_url;
+	public function get_product_name($id)
+	{
+		$product = $this->ecwid_api->get_product($id);
+				
+		$result = '';
+		if (is_array($product) && isset($product['name'])) {
+			$result = $product['name'];
+		}
+
+		return $result;
+	}
+
+
+	public function get_category_description($id)
+	{
+			$category = $this->ecwid_api->get_category($id);
+
+			$result = '';
+			if (is_array($category) && isset($category['description'])) {
+					$result = $category['description'];
+			}
+
+			return $result;
+	}
+
+	public function get_product_description($id)
+	{
+			$product = $this->ecwid_api->get_product($id);
+
+			$result = '';
+			if (is_array($product) && isset($product['description'])) {
+					$result = $product['description'];
+			}
+
+			return $result;
+	}
+
+	public function get_product_url($product)
+	{
+		if (is_numeric($product) && $this->ecwid_api->is_api_enabled()) {
+			$product = $this->ecwid_api->get_product($product);
+		}
+
+		return $this->get_entity_url($product, 'p');
+	}
+
+	public function get_category_url($category)
+	{
+		if (is_numeric($category) && $this->ecwid_api->is_api_enabled()) {
+			$category = $this->ecwid_api->get_category($category);
+		}
+
+		return $this->get_entity_url($category, 'c');
+	}
+
+	protected function get_entity_url($entity, $type) {
+
+		$link = $this->store_base_url;
+
+		if (is_numeric($entity)) {
+			return $link . '#!/' . $type . '/' . $entity;
+		} elseif (is_array($entity) && isset($entity['url'])) {
+			$link .= substr($entity['url'], strpos($entity['url'], '#'));
+		}
+
+		return $link;
+
+	}
+
+	/*
+	 * A helper function to produce indented html output. 
+	 * Indent change need to be 1 for opening tag lines and -1 for closing tag lines. 
+	 * Regular lines should omit the second parameter.
+	 * Example:
+	 * _l('<parent-tag>', 1);
+	 * _l('<content-tag>content</content-tag>');
+	 * _l('</parent-tag>', -1)
+	 * 
+	 */
+	protected function _l($code, $indent_change = 0)
+	{
+		static $indent = 0;
+
+		if ($indent_change < 0) $indent -= 1;
+		$str = str_repeat('    ', $indent) . $code . "\n";
+		if ($indent_change > 0) $indent += 1;
+
+		return $str;
+	}
 }
-
-?>
