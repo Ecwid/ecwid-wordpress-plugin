@@ -1,6 +1,5 @@
 <?php
 
-
 include ECWID_PLUGIN_DIR . "lib/phpseclib/AES.php";
 
 class Ecwid_OAuth {
@@ -261,13 +260,14 @@ class Ecwid_OAuth {
 
 	protected function _load_state() {
 		if (isset($_COOKIE['ecwid_oauth_state'])) {
-			$this->state = unserialize( $_COOKIE['ecwid_oauth_state'] );
+			$this->state = @unserialize( $_COOKIE['ecwid_oauth_state'] );
 		} else {
 			$this->state = new stdClass();
 			$this->state->reconnect_scopes = array();
 			$this->state->reconnect_error = '';
 			$this->state->return_url = '';
 			$this->state->reason = '';
+			$this->state->mode = self::MODE_CONNECT;
 		}
 
 		$this->state->create_store_clicked = @$_COOKIE['ecwid_create_store_clicked'];

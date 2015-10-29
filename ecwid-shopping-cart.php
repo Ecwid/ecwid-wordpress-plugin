@@ -1253,7 +1253,7 @@ function ecwid_ajax_get_product_info() {
 		echo json_encode($product);
 	}
 
-	die();
+	exit();
 }
 
 add_filter('autoptimize_filter_js_exclude','ecwid_override_jsexclude',10,1);
@@ -2474,30 +2474,6 @@ function ecwid_gather_stats()
 
 function ecwid_gather_usage_stats()
 {
-	$usage_params = array(
-		'paid',
-		'display_search',
-		'horizontal_categories_enabled',
-		'minicart_enabled',
-		'search_widget',
-		'vcategories_widget',
-		'minicart_normal_widget',
-		'minicart_mini_widget',
-		'badge_widget',
-		'sso_enabled',
-		'default_category',
-		'google_xml_sitemaps_used',
-		'ecwid_product_advisor_used',
-		'ecwid_single_product_used',
-		'ecwid_store_shortcode_used',
-		'store_link_widget',
-		'recently_viewed_widget',
-		'avalanche_used',
-		'chameleon_used',
-		'http_post_fails',
-		'ecwid_use_new_horizontal_categories'
-	);
-
 	$usage_stats = array();
 	$usage_stats['paid'] = ecwid_is_paid_account();
 	$usage_stats['display_search'] = (bool) get_option('ecwid_show_search_box');
