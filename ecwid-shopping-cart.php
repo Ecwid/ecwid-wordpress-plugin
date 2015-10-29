@@ -2455,7 +2455,8 @@ function ecwid_gather_stats()
 		'avalanche_used',
 		'chameleon_used',
 		'http_post_fails',
-		'ecwid_use_new_horizontal_categories'
+		'ecwid_use_new_horizontal_categories',
+		'wp_and_ecwid_install_delta'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2463,7 +2464,7 @@ function ecwid_gather_stats()
 
 	$usage = '';
 	foreach ($usage_params as $index => $item) {
-		$usage[$index] = (int)$usage_stats[$item];
+		$usage[$index] = is_string($usage_stats[$item]) ? $usage_stats[$item] : (int)$usage_stats[$item];
 	}
 
 	$stats['usage'] = $usage_version . '_' . implode('', $usage);
@@ -2520,6 +2521,21 @@ function ecwid_gather_usage_stats()
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
 
+	global $wpdb;
+	$oldest_user = strtotime($wpdb->get_var("SELECT min(`user_registered`) FROM {$wpdb->users}"));
+	$oldest_post = strtotime($wpdb->get_var("SELECT min(`post_date`) FROM {$wpdb->posts}"));
+	$wpconfig_create = filectime(ABSPATH . '/wp-config.php');
+	$min_date = min($oldest_user, $oldest_post, $wpconfig_create);
+
+	$delta = abs((get_option('ecwid_installation_date') - $min_date) / 60 / 60 / 24);
+
+	if ($delta < 0 || $delta > 9999) {
+		$delta = 0;
+	} else {
+		$delta += 1;
+	}
+
+	$usage_stats['wp_and_ecwid_install_delta'] = sprintf('%04d', $delta);
 
 	return $usage_stats;
 }
