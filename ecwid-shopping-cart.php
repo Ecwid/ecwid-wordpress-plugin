@@ -362,7 +362,6 @@ function ecwid_backward_compatibility() {
     }
 }
 
-
 function ecwid_build_sitemap($callback)
 {
 	if (!ecwid_is_paid_account() || !ecwid_is_store_page_available()) return;
@@ -1452,6 +1451,8 @@ function ecwid_options_add_page() {
 			'ecwid_advanced_settings_do_page'
 		);
 	}
+
+	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
@@ -1759,6 +1760,11 @@ function ecwid_appearance_settings_do_page() {
 		$disabled_str = "";
 
 	require_once ECWID_PLUGIN_DIR . 'templates/appearance-settings.php';
+}
+
+function ecwid_debug_do_page() {
+
+	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }
 
 function get_ecwid_store_id() {

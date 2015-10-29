@@ -297,3 +297,12 @@ body[class*="_page_ecwid"] .ecwid-message {
 #available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before {
 	content: "\e600";
 }
+
+.ecwid-debug .section {
+	display: table-row;
+}
+
+.ecwid-debug .section > * {
+	display: table-cell;
+	padding: 2px 5px;
+}
