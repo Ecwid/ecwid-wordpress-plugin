@@ -196,11 +196,16 @@ body[class*="_page_ecwid"] .ecwid-message {
 	font-weight: normal;
 }
 
-#available-widgets .ecwid-widget .widget-top h4 {
+.widgets-php #available-widgets .ecwid-widget .widget-top .widget-title h4 {
 	padding-left: 42px;
 }
 
-#available-widgets .ecwid-widget .widget-top h4:before {
+.wp-customizer #available-widgets .ecwid-widget .widget-top .widget-title {
+	padding-left: 0px;
+}
+
+
+#available-widgets .ecwid-widget .widget-top .widget-title:before {
 	font-size: 20px;
 	position: absolute;
 	top: 12px;
@@ -222,11 +227,20 @@ body[class*="_page_ecwid"] .ecwid-message {
 	color: #1d7ac4;
 	opacity: .5;
 }
-#available-widgets .ecwid-widget .widget-top:hover h4:before {
+
+.wp-customizer #available-widgets .ecwid-widget .widget-top .widget-title:before {
+	left: -40px;
+	top: -1px;
+	font-size: 18px;
+	opacity: 1;
+	color: #32373c;
+}
+
+#available-widgets .ecwid-widget .widget-top:hover .widget-title:before {
 	opacity: 1;
 }
 
-#available-widgets .ecwid-widget .widget-top.ecwid-widget-highlighted h4:before {
+#available-widgets .ecwid-widget .widget-top.ecwid-widget-highlighted .widget-title:before {
 	color: white;
 	opacity: 1;
 }
@@ -256,30 +270,30 @@ body[class*="_page_ecwid"] .ecwid-message {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#available-widgets .widget-top.ecwid-widget-badge h4:before {
+#available-widgets .ecwid-widget-badge .widget-title:before {
 	content: "\e603";
 }
 
-#available-widgets .widget-top.ecwid-widget-minicart h4:before,
-#available-widgets .widget-top.ecwid-widget-minicart_miniview h4:before
+#available-widgets .widget-top.ecwid-widget-minicart .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-minicart_miniview .widget-title:before
 {
 	content: "\e601";
 }
 
-#available-widgets .widget-top.ecwid-widget-vcategories h4:before,
-#available-widgets .widget-top.ecwid-widget-categories h4:before
+#available-widgets .widget-top.ecwid-widget-vcategories .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-categories .widget-title:before
 {
 	content: "\e602";
 }
 
-#available-widgets .widget-top.ecwid-widget-search h4:before {
+#available-widgets .widget-top.ecwid-widget-search .widget-title:before {
 	content: "\e604";
 }
 
-#available-widgets .widget-top.ecwid-widget-storelink h4:before {
+#available-widgets .widget-top.ecwid-widget-storelink .widget-title:before {
 	content: "\e605";
 }
 
-#available-widgets .widget-top.ecwid-widget-recentlyviewed h4:before {
+#available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before {
 	content: "\e600";
 }

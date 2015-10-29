@@ -79,4 +79,3 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 	}
 });
 
-jQuery('.ecwid-recently-viewed-products').recentlyViewedProducts();

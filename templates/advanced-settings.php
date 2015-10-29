@@ -96,7 +96,6 @@
 						<?php if (get_option('ecwid_use_chameleon')): ?>
 							checked="checked"
 						<?php endif; ?>
-						<?php echo $disabled_str; ?>
 						/>
 					<?php _e('Chameleon skin <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
 				</label>
@@ -108,6 +107,36 @@
 <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="http://help.ecwid.com/customer/portal/emails/new"'); ?>
 				</div>
 		</div>
+
+
+        <?php if (ecwid_migrations_is_original_plugin_version_older_than('3.4')): ?>
+		<hr />
+
+	    <div class="pure-control-group checkbox">
+			<div class="label">
+				<label for="ecwid_use_new_horizontal_categories">
+
+					<input
+						id="ecwid_use_new_horizontal_categories"
+						name="ecwid_use_new_horizontal_categories"
+						type="checkbox"
+						<?php if (get_option('ecwid_use_new_horizontal_categories') == 'Y'): ?>
+							checked="checked"
+						<?php endif; ?>
+						value="Y"
+						/>
+					<?php _e('Enable the new category menu', 'ecwid-shopping-cart'); ?>
+				</label>
+
+				<div class="note">
+					<?php echo sprintf(
+						__('The new category menu looks better and is more mobile-friendly. If you haven\'t yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the "Show categories" option)', 'ecwid-shopping-cart'),
+						'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"'
+					); ?>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
 
 	</fieldset>
 

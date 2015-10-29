@@ -48,7 +48,7 @@
 			</div>
 			<div class="label">
 				<label for="ecwid_show_categories">
-					<?php _e('Display horizontal categories above products', 'ecwid-shopping-cart'); ?>
+					<?php _e('Display categories above products', 'ecwid-shopping-cart'); ?>
 				</label>
 			</div>
 			<div class="note">
@@ -73,7 +73,7 @@
 			</div>
 			<div class="label">
 				<label for="ecwid_enable_minicart">
-					<?php _e('Enable minicart attached to horizontal categories', 'ecwid-shopping-cart'); ?>
+					<?php _e('Enable minicart attached to categories', 'ecwid-shopping-cart'); ?>
 				</label>
 			</div>
 			<div class="note">

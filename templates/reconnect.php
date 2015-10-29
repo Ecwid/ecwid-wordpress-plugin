@@ -1,31 +1,51 @@
-<div class="wrap ecwid-admin ecwid-connect">
+<div class="wrap ecwid-admin ecwid-connect ecwid-reconnect">
 	<div class="box">
-		<h3>
-			<?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
-			<?php _e( 'Ecwid Shopping Cart', 'ecwid-shopping-cart' ); ?>
-			<span class="close"></span>
-		</h3>
+		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
+			<h3>
+				<?php _e( 'Ecwid Shopping Cart', 'ecwid-shopping-cart' ); ?>
+			</h3>
+		</div>
 		<div class="greeting-image">
 			<img src="<?php echo(esc_attr(ECWID_PLUGIN_URL)); ?>/images/store_inprogress.png" width="142" />
 		</div>
 
 		<div class="greeting-message mobile-br">
-			<?php _e( 'Reconnect your store<br /> to this WordPress site', 'ecwid-shopping-cart' ); ?>
+			<?php _e( 'Connect your store<br /> to this WordPress site', 'ecwid-shopping-cart' ); ?>
 		</div>
+
+		<?php if ($ecwid_oauth->get_reconnect_message()): ?>
+			<div class="note reconnect-message">
+				<?php echo $ecwid_oauth->get_reconnect_message(); ?>
+			</div>
+		<?php endif; ?>
 
 		<div class="connect-button">
-			<a href="<?php echo esc_attr($ecwid_oauth->get_auth_dialog_url()); ?>"><?php _e( 'Reconnect Ecwid store', 'ecwid-shopping-cart' ); ?></a>
+			<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Connect Ecwid store', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 
-		<div class="note initial">
-			<?php _e( 'New features available, reconnect to be in touch with our updates', 'ecwid-shopping-cart' ); ?>
-		</div>
+		<?php if ($connection_error && $ecwid_oauth->get_error() == 'cancelled'): ?>
 
-		<div class="create-account-link">
-			<a href="">
-				<?php _e( "Don't have Ecwid account? Create it here", 'ecwid-shopping-cart' ); ?>
-			</a>
-		</div>
+
+			<div class="note auth-error">
+			<span>
+				<?php _e( 'Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again.', 'ecwid-shopping-cart' ); ?>
+			</span>
+			</div>
+
+		<?php elseif ($connection_error && $ecwid_oauth->get_error()  == 'other'): ?>
+
+			<div class="note auth-error">
+				<span>
+					<?php _e( 'Looks like your site does not support remote POST requests that are required for Ecwid API to work. Please, contact your hosting provider to enable cURL.', 'ecwid-shopping-cart' ); ?>
+				</span>
+			</div>
+
+		<?php else: ?>
+
+			<div class="note">
+				<?php _e( 'After clicking button you need to login and accept permissions to use our plugin', 'ecwid-shopping-cart' ); ?>
+			</div>
+		<?php endif; ?>
 	</div>
-	<p><?php _e('Questions? Visit <a href="http://help.ecwid.com/?source=wporg">Ecwid support center</a>', 'ecwid-shopping-cart'); ?></p>
+	<p><?php echo sprintf(__('Questions? <a %s>Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#FAQ"', 'href="mailto:wordpress@ecwid.com"'); ?></p>
 </div>

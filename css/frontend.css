@@ -7,3 +7,12 @@ html#ecwid_html body#ecwid_body .ecwid.ecwid-SingleProduct a ,
 	text-decoration: none;
 	color: #000000;
 }
+
+html#ecwid_html body#ecwid_body .ecwid-SearchPanel input {
+	max-width: 300px;
+}
+
+.ecwid-shopping-cart-categories #horizontal-menu {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

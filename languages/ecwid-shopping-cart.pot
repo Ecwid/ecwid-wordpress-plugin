@@ -61,7 +61,7 @@ msgstr ""
 msgid "Recommendations for Your Online Store"
 msgstr ""
 
-msgid "If you like Ecwid and want to help it grow and become the most popular e-commerce solution, you can now add a fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
+msgid "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
 msgstr ""
 
 msgid "Ecwid Badge"
@@ -82,37 +82,40 @@ msgstr ""
 msgid "Ecwid e-commerce widgets"
 msgstr ""
 
-msgid "Your store's minicart"
+msgid "Adds a cart widget for customer to see the products they added to the cart."
 msgstr ""
 
-msgid "Ecwid Shopping Bag (Normal)"
+msgid "Shopping Cart"
 msgstr ""
 
-msgid "Ecwid Shopping Bag (Mini view)"
+msgid "Adds a compact cart widget for customer to see the products they added to the cart."
 msgstr ""
 
-msgid "Your store's search box"
+msgid "Shopping Cart (Mini)"
 msgstr ""
 
-msgid "Ecwid Search Box"
+msgid "Displays a simple search box for your customers to find a product in your storex"
 msgstr ""
 
-msgid "Vertical menu of categories"
+msgid "Product Search"
 msgstr ""
 
-msgid "Ecwid Vertical Categories"
+msgid "Adds vertical categories block to let the customer navigate your store."
 msgstr ""
 
-msgid "A link to your store page"
+msgid "Store Categories"
 msgstr ""
 
-msgid "Ecwid Store Page Link"
+msgid "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
+msgstr ""
+
+msgid "Store Page Link"
 msgstr ""
 
 msgid "Shop"
 msgstr ""
 
-msgid "A list of products recently viewed by a customer. Add this widget to the sidebar to let them later return to the products they saw in your shop."
+msgid "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
 msgstr ""
 
 msgid "Recently Viewed Products"
@@ -220,6 +223,12 @@ msgstr ""
 msgid "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
 msgstr ""
 
+msgid "Enable the new category menu"
+msgstr ""
+
+msgid "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
+msgstr ""
+
 msgid "Save changes"
 msgstr ""
 
@@ -232,13 +241,13 @@ msgstr ""
 msgid "Or you can add search box to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
 msgstr ""
 
-msgid "Display horizontal categories above products"
+msgid "Display categories above products"
 msgstr ""
 
 msgid "Or you can add vertical categories to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
 msgstr ""
 
-msgid "Enable minicart attached to horizontal categories"
+msgid "Enable minicart attached to categories"
 msgstr ""
 
 msgid "You should disable this option, if you added minicart to your website's&nbsp;sidebar"
@@ -469,7 +478,7 @@ msgstr ""
 msgid "Show minicart"
 msgstr ""
 
-msgid "Show horizontal categories"
+msgid "Show categories"
 msgstr ""
 
 msgid "Additionally, you can add store controls to your website's toolbar using <a %s>WordPress native widgets</a>"

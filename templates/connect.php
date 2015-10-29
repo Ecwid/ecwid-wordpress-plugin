@@ -48,5 +48,5 @@
 			</a>
 		</div>
 	</div>
-	<p><?php echo sprintf(__('Questions? Visit <a %s>Ecwid support center</a>', 'ecwid-shopping-cart'), 'target="_blank" href="http://help.ecwid.com/?source=wporg"'); ?></p>
+	<p><?php echo sprintf(__('Questions? <a %s>Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#FAQ"', 'href="mailto:wordpress@ecwid.com"'); ?></p>
 </div>

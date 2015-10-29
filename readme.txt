@@ -2,8 +2,8 @@
 Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
 Requires at least: 2.8
-Tested up to: 4.2
-Stable tag: 3.3
+Tested up to: 4.3
+Stable tag: 3.4.4
 
 Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
 
@@ -107,8 +107,35 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 3.4.4 =
+- **Added compatibility with the "Add Meta Tags" plugin.** The "Add Meta Tags" plugin is a popular tool to set SEO meta tags on site pages. Previously it rewrote the titles and description that Ecwid generated for search engines on your site. It's now fixed so if you use the plugin, everything should work fine and Google will index your products pages properly.
+- **Fixed a problem in the recently viewed products widget caused by Autoptimize plugin.** Previously, if Autoptimize plugin is used on the site, the recently viewed products widget reset the displayed products when page reloads. We fixed that.
+- **A few internal improvements** to make the plugin more stable and ready for the upcoming cool features. Stay tuned! More updates are coming.
+
+= 3.4.3 =
+- Updated Italian and Turkish translations.
+
+= 3.4.2 =
+- Fixed option to enable the new categories widget released in the v.3.4 . 
+
+= 3.4.1 =
+- Minor fix for the "Twenty Sixteen” Wordpress theme
+
+= 3.4 =
+- **New look for the categories menu widget.** The old Ecwid categories menu widget (horizontal categories) was created long time ago and has been working in thousands of Ecwid stores. However, it doesn't adapt itself for the customer screen size as well as the other Ecwid widgets do. This has been always be a problem for responsive sites which look good on mobile devices. The new widget is fully responsive and looks great on mobile devices. To enable the new look of the categories widget on your site, navigate to Ecwid plugin settings -> "Advanced" tab and tick the "Enable the new category menu" checkbox. Once enabled, it will your store menu widget to the new look. If you don't have this option on the Advanced page, that means you installed the plugin after this change and the new categories are already enabled in your store. Enjoy! 
+- **Bigger product images for search engines.** The plugin used to generate small product thumbnails on special store pages for search engines. Now it displays the original large product pictures there to assure better indexing of your product images in Google. Please make sure you're on one of Ecwid paid plans to make your products along with the pictures indexable by search engines. 
+- **A few improvements and fixes to make plugin perfectly compatible with Wordpress 4.3 and the new Twenty Sixteen Wordpress theme.** Please feel free to update your sites to the newest Wordpress version, if you haven't yet, and try the brand new Wordpress theme (Twenty Sixteen) – your store should work OK with them. 
+- **Fixed SEO issues on the sites with Genesis theme.** The Genesis theme places a special 'canonical' tag on each site page to improve the SEO of the pages. This in some cases conflicted with Ecwid plugin. We overcame this from our side and now the plugin is compatible with SEO features of Genesis theme – your store should be better indexed by search engines with this improvement. 
+- **Fixed a bug with duplicate store pages that appeared if the user re-installed the plugin.** If you for some reason need to remove the plugin and install it again, everything will work smoothly now with no extra store pages drafts. 
+- **Improve the search widget layout.** On a lot of Wordpress themes, the product search widget was displayed with 100% width, which makes the search input all-page-width. We fixed that and now it looks better. 
+- Minor improvements and bug fixes.
+
+= 3.3.1 =
+- **Small improvement for "Twenty Twelve" WordPress theme.** The default drop down menu stayed open after clicking Ecwid links sometimes. We adjusted our plugin to work around this issue.
+- **Fixes of PHP notices.** In some cases the plugin caused some PHP notices or warnings to appear on screen if the site was run in debug mode. Although it did not cause any malfunction in plugin operation, these messages could be quite annoying. We fixed it.
+
 = 3.3 =
-- **Improved Single Sign On functionality.** Single Sign On module has been available in Ecwid Wordpress plugin for a while – it makes it possible for your customers to sign into your Wordpress site and fully use the Ecwid store installed on the site without having to sign in to Ecwid. Now we added a few improvements that should make the feature more useful. In particular, the Ecwid's "Sign in" link was usually hidden when Single Sign On is used, supposing a customer should use the Wordpress login functionality. Now, we made the link visible and redirecting to the Joomla login form to avoid confusing the user who otherwise has to look for the area to login.
+- **Improved Single Sign On functionality.** Single Sign On module has been available in Ecwid Wordpress plugin for a while – it makes it possible for your customers to sign into your Wordpress site and fully use the Ecwid store installed on the site without having to sign in to Ecwid. Now we added a few improvements that should make the feature more useful. In particular, the Ecwid's "Sign in" link was usually hidden when Single Sign On is used, supposing a customer should use the Wordpress login functionality. Now, we made the link visible and redirecting to the Wordpress login form to avoid confusing the user who otherwise has to look for the area to login.
 - **Storefront layout improvements for the "Evolve" WordPress theme.** We adjusted Ecwid plugin to better integrate with a popular and beautiful free Wordpress theme – Evolve. In particular, we fixed the borders appearing around every storefront element in this theme. Ecwid stores now look a way better on WordPress sites with Evolve theme to provide better customer experience on any device and to generate more sales in your store. 
 - **Compatibility with Autoptimize plugin.** One of Ecwid users recently reported an issue – the plugin doesn't work well on the sites with Autoptimize plugin installed. We fixed this in our plugin – it is now working well with Autoptimize. Feel free to use it on your site. 
 - **Improvements for Recently Viewed Products.** We included a few improvements and bug fixes for the recently viewed products widget in this release. 

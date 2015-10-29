@@ -58,8 +58,11 @@ msgstr "Avanzate"
 msgid "Hidden category"
 msgstr "Categoria nascosta"
 
-msgid "If you like Ecwid and want to help it grow and become the most popular e-commerce solution, you can now add a fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
-msgstr "Se ti piace Ecwid e vuoi aiutarlo a crescere in modo da farlo diventare la soluzione e-commerce più popolare, è ora possibile aggiungere un badge 'Powered by Ecwid' sul tuo sito per mostrare ai tuoi visitatori che sei un utente fiero di Ecwid."
+msgid "Recommendations for Your Online Store"
+msgstr "Consigli per il tuo negozio Online"
+
+msgid "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
+msgstr "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
 
 msgid "Ecwid Badge"
 msgstr "Ecwid Badge"
@@ -79,41 +82,50 @@ msgstr "Ecwid shopping cart"
 msgid "Ecwid e-commerce widgets"
 msgstr "Widget Ecwid e-commerce "
 
-msgid "Your store's minicart"
-msgstr "Carrello del tuo negozio"
+msgid "Adds a cart widget for customer to see the products they added to the cart."
+msgstr "Adds a cart widget for customer to see the products they added to the cart."
 
-msgid "Ecwid Shopping Bag (Normal)"
-msgstr "Carrello Ecwid Shopping Bag (Normale)"
+msgid "Shopping Cart"
+msgstr "Shopping Cart"
 
-msgid "Ecwid Shopping Bag (Mini view)"
-msgstr "Carrello Ecwid Shopping (Mini)"
+msgid "Adds a compact cart widget for customer to see the products they added to the cart."
+msgstr "Adds a compact cart widget for customer to see the products they added to the cart."
 
-msgid "Your store's search box"
-msgstr "La casella di ricerca del tuo negozio"
+msgid "Shopping Cart (Mini)"
+msgstr "Shopping Cart (Mini)"
 
-msgid "Ecwid Search Box"
-msgstr "Casella di ricerca negozio"
+msgid "Displays a simple search box for your customers to find a product in your storex"
+msgstr "Displays a simple search box for your customers to find a product in your storex"
 
-msgid "Vertical menu of categories"
-msgstr "Menu verticale categorie"
+msgid "Product Search"
+msgstr "Product Search"
 
-msgid "Ecwid Vertical Categories"
-msgstr "Categorie Verticali Ecwid "
+msgid "Adds vertical categories block to let the customer navigate your store."
+msgstr "Adds vertical categories block to let the customer navigate your store."
 
-msgid "A link to your store page"
-msgstr "Un link alla tua pagina del negozio"
+msgid "Store Categories"
+msgstr "Store Categories"
 
-msgid "Ecwid Store Page Link"
-msgstr "Link alla pagina negozio Ecwid"
+msgid "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
+msgstr "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
+
+msgid "Store Page Link"
+msgstr "Store Page Link"
 
 msgid "Shop"
 msgstr "Negozio"
 
-msgid "A list of products recently viewed by a customer. Add this widget to the sidebar to let them later return to the products they saw in your shop."
-msgstr "Un elenco di prodotti visualizzate di recente da un cliente. Aggiungi questo widget nella barra laterale per farli tornare successivamente per i prodotti che hanno visto nel tuo negozio."
+msgid "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
+msgstr "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
 
 msgid "Recently Viewed Products"
 msgstr "Prodotti visti recentemente"
+
+msgid "You have not viewed any product yet. Open store."
+msgstr "You have not viewed any product yet. Open store."
+
+msgid "Store Link Title"
+msgstr "Titolo link per il negozio"
 
 msgid "Number of products to show"
 msgstr "Numero di prodotti da mostrare"
@@ -202,6 +214,21 @@ msgstr "Questa funzione opzionale consente di abilitare la Sign-on Secret Key, q
 msgid "In order to enable this feature, opt to use a secret key. You will find this key in your Ecwid control panel, at \"System Settings > Apps > Legacy API Keys > Single Sign-On Secret Key\" page. This feature is available for <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">paid users</a> only."
 msgstr "Per abilitare questa funzione è necessario essere in possesso di una chiave segreta. Troverai questo pulsante nel pannello di controllo Ecwid,  in \"Impostazioni di sistema > Apps > Single Sign-on API secret key\" . Questa funzione è disponibile per tutti gli <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">utenti paganti</a>."
 
+msgid "Chameleon skin <sup>beta</sup>"
+msgstr "Tema Chameleon <sup>beta</sup>"
+
+msgid "Automatic adjustment of your store design to your Wordpress theme. Whatever Wordpress theme you use, Ecwid will detect predominant colors and font and use them in your product catalog."
+msgstr "Regolazione automatica del design del tuo negozio per il tema Wordpress. Qualsiasi tema Wordpress utilizzi, Ecwid rileverà font e colori predominanti e li utilizzerà nel tuo catalogo prodotti."
+
+msgid "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
+msgstr "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
+
+msgid "Enable the new category menu"
+msgstr "Enable the new category menu"
+
+msgid "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
+msgstr "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
+
 msgid "Save changes"
 msgstr "Salva modifiche"
 
@@ -214,14 +241,14 @@ msgstr "Mostra casella di ricerca sopra prodotti"
 msgid "Or you can add search box to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
 msgstr "Puoi anche aggiungere alla barra degli strumenti la casella di ricerca del tuo sito web utilizzando i <a href=\"%s\">widgets nativi di WordPress</a>"
 
-msgid "Display horizontal categories above products"
-msgstr "Visualizza le categorie orizzontali sopra i prodotti"
+msgid "Display categories above products"
+msgstr "Display categories above products"
 
 msgid "Or you can add vertical categories to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
 msgstr "Puoi anche aggiungere alla barra degli strumenti le categorie verticali utilizzando i <a href=\"%s\">widgets nativi di WordPress</a>"
 
-msgid "Enable minicart attached to horizontal categories"
-msgstr "Abilita carrello attaccato alle categorie orizzontali"
+msgid "Enable minicart attached to categories"
+msgstr "Enable minicart attached to categories"
 
 msgid "You should disable this option, if you added minicart to your website's&nbsp;sidebar"
 msgstr "È necessario disattivare questa opzione, se hai aggiunto il carrello al tuo sito web&nbsp;sidebar"
@@ -262,14 +289,26 @@ msgstr "Modalità di visualizzazione predefinita nei risultati di ricerca"
 msgid "Connect your store<br /> to this WordPress site"
 msgstr "Collega il tuo negozio<br /> a questo sito WordPress"
 
+msgid "Enter your Store ID"
+msgstr "Enter your Store ID"
+
 msgid "Connect Ecwid store"
 msgstr "Collega Ecwid store"
+
+msgid "Save and connect"
+msgstr "Save and connect"
 
 msgid "After clicking button you need to login and accept permissions to use our plugin"
 msgstr "Dopo aver cliccato il pulsante devi accedere e accettare le autorizzazioni necessarie per utilizzare il nostro plugin"
 
 msgid "Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again."
 msgstr "Errore di connessione - dopo aver cliccato il pulsante, è necessario accedere e accettare le autorizzazioni necessarie per utilizzare il nostro plugin. Per favore, riprova."
+
+msgid "Where to find your Store ID:"
+msgstr "Where to find your Store ID:"
+
+msgid "Store ID is a unique identifier of your Ecwid account. You can find it in your Ecwid control panel: open the <a %s>Dashboard page</a> and find the \"<b>Store ID: NNNNNNN</b>\" text, where <b>NNNNNNN</b> is your Store&nbsp;ID."
+msgstr "Store ID is a unique identifier of your Ecwid account. You can find it in your Ecwid control panel: open the <a %s>Dashboard page</a> and find the \"<b>Store ID: NNNNNNN</b>\" text, where <b>NNNNNNN</b> is your Store&nbsp;ID."
 
 msgid "Don't have Ecwid account? Create it here"
 msgstr "Non hai un accont Ecwid? Crealo qui"
@@ -382,8 +421,8 @@ msgstr "Ecwid i comatibile con il tuo<br>“%s” tema WordPress<br>e altri temi
 msgid "Free and always up to date"
 msgstr "Gratuito e sempre aggiornato"
 
-msgid "Free plan always available with tons of features<br>at no additional cost. Seamless upgrades occur<br>automatically for free."
-msgstr "Piano gratuito sempre disponibile con tante caratteristiche<br>senza alcun costo aggiuntivo.  Continui aggiornamenti<br>automatici e gratuiti."
+msgid "Free plan always available with tons of features<br>at no additional cost. Updates are seamless, automatic<br>and free of charge."
+msgstr "Free plan always available with tons of features<br>at no additional cost. Updates are seamless, automatic<br>and free of charge."
 
 msgid "Responsive design"
 msgstr "Design eccezionale"
@@ -400,8 +439,8 @@ msgstr "Checkout sicuro con oltre 40<br />opzioni di pagamento"
 msgid "Global Reach"
 msgstr "Portata globale"
 
-msgid "More than 700,000 merchants in 175 countries"
-msgstr "Più di 700.000 venditori in 175 paesi"
+msgid "More than 800,000 merchants in 175 countries"
+msgstr "More than 800,000 merchants in 175 countries"
 
 msgid "Start selling <br>on your WordPress <nobr>site for free</nobr>"
 msgstr "Inizia a vendere <br>sul tuo WordPress <nobr>sito gratis</nobr>"
@@ -439,8 +478,8 @@ msgstr "Mostra ricerca"
 msgid "Show minicart"
 msgstr "Mostra carrello"
 
-msgid "Show horizontal categories"
-msgstr "Mostra categorie orizzontali"
+msgid "Show categories"
+msgstr "Show categories"
 
 msgid "Additionally, you can add store controls to your website's toolbar using <a %s>WordPress native widgets</a>"
 msgstr "Inoltre, è possibile aggiungere altri controlli alla barra degli strumenti del tuo sito Web utilizzando i <a %s>widgets nativi WordPress</a>"
@@ -456,4 +495,22 @@ msgstr "Qui verrà mostrato il tuo negozio!"
 
 msgid "Demo Store"
 msgstr "Negozio demo"
+
+msgid "Sell On The Go with Ecwid iOS Application"
+msgstr "Sell On The Go with Ecwid iOS Application"
+
+msgid "Ecwid iOS app allows you to manage your online store, sell your products on the go, and accept payments with your phone. Just download the Ecwid app, connect it to your Ecwid shop and have your sales at your fingertips!"
+msgstr "Ecwid iOS app allows you to manage your online store, sell your products on the go, and accept payments with your phone. Just download the Ecwid app, connect it to your Ecwid shop and have your sales at your fingertips!"
+
+msgid "Get Your Products Found on Google using XML Sitemap"
+msgstr "Get Your Products Found on Google using XML Sitemap"
+
+msgid "Free Google XML Sitemaps plugin creates a sitemap that includes your store product links. This makes your product pages more visible to search engines and appear in the search results."
+msgstr "Free Google XML Sitemaps plugin creates a sitemap that includes your store product links. This makes your product pages more visible to search engines and appear in the search results."
+
+msgid "Add Product Slider to Your Store"
+msgstr "Add Product Slider to Your Store"
+
+msgid "Add a fancy product slider to your site using a free WP Widgets Avalanche plugin which works perfectly with Ecwid"
+msgstr "Add a fancy product slider to your site using a free WP Widgets Avalanche plugin which works perfectly with Ecwid"
 

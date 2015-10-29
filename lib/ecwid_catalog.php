@@ -40,14 +40,14 @@ class EcwidCatalog
 				$return .= $this->_l(
 					sprintf(
 						'<img itemprop="image" src="%s" alt="%s" />',
-						EcwidPlatform::esc_attr($product['thumbnailUrl']),
+						EcwidPlatform::esc_attr($product['originalImageUrl']),
 						EcwidPlatform::esc_attr($product['name'] . ' ' . $product['sku'])
 					)
 				);
 				$return .= $this->_l('</div>', -1);
 			}
-			
-			if(is_array($product["categories"]))
+
+			if(isset($product['categories']) && is_array($product["categories"]))
 			{
 				foreach ($product["categories"] as $ecwid_category) 
 				{

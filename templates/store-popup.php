@@ -63,7 +63,7 @@
 							<div class="pure-control-group">
 								<label data-ecwid-widget="categories">
 									<input type="checkbox" name="show_categories" id="show_categories" />
-									<?php _e('Show horizontal categories', 'ecwid-shopping-cart'); ?>
+									<?php _e('Show categories', 'ecwid-shopping-cart'); ?>
 								</label>
 							</div>
 						</div>

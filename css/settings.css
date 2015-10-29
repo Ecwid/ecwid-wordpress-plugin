@@ -391,6 +391,11 @@ display: none;
 	margin-bottom: 38px;
 }
 
+
+.ecwid-connect.ecwid-reconnect .box .greeting-message {
+	margin-bottom: inherit;
+}
+
 .ecwid-connect .box .connect-button {
 	margin-top: 8px;
 }
@@ -405,6 +410,10 @@ display: none;
 	font-size: 13px;
 }
 
+.ecwid-connect .box .note.reconnect-message {
+	margin-bottom: 38px;
+	color: #707070;
+}
 .ecwid-connect .box .create-account-link {
 	margin-top: 35px;
 }
@@ -420,8 +429,7 @@ display: none;
 	padding: 14px 40px;
 	border: 0px none;
 	border-radius: 4px;
-	box-sizing: border-box;
-	width: 260px;
+	width: 180px;
 
 	background: #59bb00;
 	color: white;

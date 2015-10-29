@@ -212,6 +212,10 @@ class Ecwid_Message_Manager
 			$admin_page = $screen->base;
 		}
 
+		if ($admin_page == 'toplevel_page_ecwid' && isset($_GET['reconnect'])) {
+			return false;
+		}
+
 		switch ($name) {
 			case 'on_activate':
 				return $admin_page == 'plugins' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
