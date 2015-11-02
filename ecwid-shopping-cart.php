@@ -2505,11 +2505,6 @@ function ecwid_gather_usage_stats()
 	$min_date = min($oldest_user, $oldest_post, $wpconfig_create);
 
 	$delta = intval((get_option('ecwid_installation_date') - $min_date) / 60 / 60 / 24);
-	if ($delta < 0) {
-		$delta = 0;
-	} else {
-		$delta += 1;
-	}
 
 	$usage_stats['wp_and_ecwid_install_delta'] = $delta;
 
