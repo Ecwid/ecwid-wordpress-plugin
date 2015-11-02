@@ -2456,7 +2456,8 @@ function ecwid_gather_stats()
 		'chameleon_used',
 		'http_post_fails',
 		'ecwid_use_new_horizontal_categories',
-		'wp_and_ecwid_install_delta'
+		'wp_and_ecwid_install_delta',
+		'is_wp_newbie'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2512,6 +2513,8 @@ function ecwid_gather_usage_stats()
 	}
 
 	$usage_stats['wp_and_ecwid_install_delta'] = sprintf('%04d', $delta);
+
+	$usage_stats['is_wp_newbie'] = $delta <= 30;
 
 	return $usage_stats;
 }
