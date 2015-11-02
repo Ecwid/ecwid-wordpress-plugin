@@ -2456,7 +2456,6 @@ function ecwid_gather_stats()
 		'chameleon_used',
 		'http_post_fails',
 		'ecwid_use_new_horizontal_categories',
-		'wp_and_ecwid_install_delta',
 		'is_wp_newbie'
 	);
 
@@ -2469,6 +2468,7 @@ function ecwid_gather_stats()
 	}
 
 	$stats['usage'] = $usage_version . '_' . implode('', $usage);
+	$stats['registration_delta'] = $usage_stats['wp_and_ecwid_install_delta'];
 
 	return $stats;
 }
@@ -2504,15 +2504,14 @@ function ecwid_gather_usage_stats()
 	$wpconfig_create = filectime(ABSPATH . '/wp-config.php');
 	$min_date = min($oldest_user, $oldest_post, $wpconfig_create);
 
-	$delta = abs((get_option('ecwid_installation_date') - $min_date) / 60 / 60 / 24);
-
-	if ($delta < 0 || $delta > 9999) {
+	$delta = intval((get_option('ecwid_installation_date') - $min_date) / 60 / 60 / 24);
+	if ($delta < 0) {
 		$delta = 0;
 	} else {
 		$delta += 1;
 	}
 
-	$usage_stats['wp_and_ecwid_install_delta'] = sprintf('%04d', $delta);
+	$usage_stats['wp_and_ecwid_install_delta'] = $delta;
 
 	$usage_stats['is_wp_newbie'] = $delta <= 30;
 
