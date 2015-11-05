@@ -81,7 +81,7 @@
 <h2>PhpInfo</h2>
 
 <div>
-	<iframe width="100%" srcdoc="<?php ob_start(); phpinfo(); $contents = ob_get_contents(); ob_end_clean(); echo esc_attr($contents); ?>"></iframe>
+	<iframe width="80%" height="500px" srcdoc="<?php ob_start(); phpinfo(); $contents = ob_get_contents(); ob_end_clean(); echo esc_attr($contents); ?>"></iframe>
 </div>
 
 </div>
