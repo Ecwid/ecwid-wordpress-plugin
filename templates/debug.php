@@ -13,6 +13,7 @@
 
 <h2>Active plugins</h2>
 
+<div>
 <?php foreach($active_plugins as $path): ?>
 	<div class="section">
 		<div>
@@ -23,9 +24,11 @@
 		</div>
 	</div>
 <?php endforeach; ?>
+</div>
 
 <h2>All plugins</h2>
 
+<div>
 <?php foreach($all_plugins as $key => $item): ?>
 	<div class="section">
 		<div>
@@ -36,6 +39,7 @@
 		</div>
 	</div>
 <?php endforeach; ?>
+</div>
 
 <h2>Theme</h2>
 
@@ -44,8 +48,22 @@
 	<div><?php echo $theme->get('ThemeURI'); ?></div>
 </div>
 
+<h2>Remote get test</h2>
+<div><?php var_export($remote_get_results); ?></div>
+
+<h2>Api V3 profile test</h2>
+<div><?php var_export($api_v3_profile_results); ?></div>
+
+<h2>Error log</h2>
+<div>
+	<?php foreach (json_decode($all_options['ecwid_error_log'], true) as $key => $item): ?>
+	<div class="section"><?php echo $item['message']; ?></div>
+	<?php endforeach; ?>
+</div>
+
 <h2>Options</h2>
 
+<div>
 <?php foreach($all_options as $key => $option): ?>
 <?php if (strpos($key, 'ecwid') !== false): ?>
 	<div class="section">
@@ -58,8 +76,18 @@
 	</div>
 <?php endif; ?>
 <?php endforeach; ?>
+</div>
 
+<h2>PhpInfo</h2>
 
-
+<div>
+	<iframe width="100%" srcdoc="<?php ob_start(); phpinfo(); $contents = ob_get_contents(); ob_end_clean(); echo esc_attr($contents); ?>"></iframe>
+</div>
 
 </div>
+
+<script>
+	jQuery('h2').click(function() {
+		jQuery(this).toggleClass('hide');
+	})
+</script>

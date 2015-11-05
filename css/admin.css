@@ -306,3 +306,25 @@ body[class*="_page_ecwid"] .ecwid-message {
 	display: table-cell;
 	padding: 2px 5px;
 }
+
+.ecwid-debug h2.hide+div {
+	display: none;
+}
+
+.ecwid-debug h2 {
+	cursor: pointer;
+}
+
+.ecwid-debug h2:hover {
+	color: #00a0d2;
+}
+.ecwid-debug h2:before {
+	content: "[-]";
+	font-family: monospace;
+	position: relative;
+	top: -0.2em;
+}
+
+.ecwid-debug h2.hide:before {
+	content: "[+]";
+}
