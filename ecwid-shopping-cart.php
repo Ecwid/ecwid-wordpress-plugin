@@ -2434,7 +2434,7 @@ function ecwid_gather_stats()
 
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-	$usage_params = array(
+	$vector_contents = array(
 		'paid',
 		'display_search',
 		'horizontal_categories_enabled',
@@ -2463,12 +2463,13 @@ function ecwid_gather_stats()
 	$stats['usage'] = '';
 
 	$usage = '';
-	foreach ($usage_params as $index => $item) {
+	foreach ($vector_contents as $index => $item) {
 		$usage[$index] = is_string($usage_stats[$item]) ? $usage_stats[$item] : (int)$usage_stats[$item];
 	}
-
 	$stats['usage'] = $usage_version . '_' . implode('', $usage);
-	$stats['registration_delta'] = $usage_stats['wp_and_ecwid_install_delta'];
+
+	$stats['wp_install_date'] = $usage_stats['wp_install_date'];
+	$stats['plugin_install_date'] = $usage_stats['wp_install_date'];
 
 	return $stats;
 }
@@ -2498,17 +2499,24 @@ function ecwid_gather_usage_stats()
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
 
-	global $wpdb;
-	$oldest_user = strtotime($wpdb->get_var("SELECT min(`user_registered`) FROM {$wpdb->users}"));
-	$oldest_post = strtotime($wpdb->get_var("SELECT min(`post_date`) FROM {$wpdb->posts}"));
-	$wpconfig_create = filectime(ABSPATH . '/wp-config.php');
-	$min_date = min($oldest_user, $oldest_post, $wpconfig_create);
 
-	$delta = intval((get_option('ecwid_installation_date') - $min_date) / 60 / 60 / 24);
+	$wp_date = get_option('ecwid_wp_install_date');
+	if (!$wp_date) {
+		global $wpdb;
+		$oldest_user = strtotime($wpdb->get_var("SELECT min(`user_registered`) FROM {$wpdb->users}"));
+		$oldest_post = strtotime($wpdb->get_var("SELECT min(`post_date`) FROM {$wpdb->posts}"));
+		$wpconfig_create = filectime(ABSPATH . '/wp-config.php');
 
-	$usage_stats['wp_and_ecwid_install_delta'] = $delta;
+		$wp_date = min($oldest_user, $oldest_post, $wpconfig_create);
+		update_option('ecwid_wp_install_date', $wp_date);
+	}
 
-	$usage_stats['is_wp_newbie'] = $delta <= 30;
+	$ecwid_date = get_option('ecwid_installation_date');
+
+	$usage_stats['wp_install_date'] = strftime('%F', $wp_date);
+	$usage_stats['plugin_install_date'] = strftime('%F', $ecwid_date);
+
+	$usage_stats['is_wp_newbie'] = ($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30;
 
 	return $usage_stats;
 }
