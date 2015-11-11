@@ -980,7 +980,7 @@ function ecwid_categories_shortcode($attributes) {
 		  $store_id = get_ecwid_store_id();
 		  $result = <<<HTML
 <div id="horizontal-menu" data-storeid="$store_id"></div>
-<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1/horizontal-widget.js"></script>
+<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1.1/horizontal-widget.js"></script>
 HTML;
 	  } else {
 		  $result = <<<EOT
