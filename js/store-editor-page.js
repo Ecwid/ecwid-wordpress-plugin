@@ -81,9 +81,9 @@ jQuery(document).ready(function() {
 	 */
 	getDefaultParams = function() {
 		return {
-			'show_search': false,
+			'show_search': true,
 			'show_minicart': true,
-			'show_categories': false,
+			'show_categories': true,
 			'categories_per_row': 3,
 			'grid_rows': 3,
 			'grid_columns': 3,
@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 			'default_category_id': 0,
 			'category_view': 'grid',
 			'search_view': 'list',
-			'minicart_layout': 'attachToCategories'
+			'minicart_layout': 'MiniAttachToProductBrowser'
 		}
 	}
 
@@ -219,7 +219,7 @@ jQuery(document).ready(function() {
 		result.default_category_id = getNumber('default_category_id', defaults.default_category_id);
 		result.category_view = getString('category_view', ['list', 'grid', 'table'], defaults.category_view);
 		result.search_view = getString('search_view', ['list', 'grid', 'table'], defaults.search_view);
-		result.minicart_layout = 'attachToCategories';
+		result.minicart_layout = defaults.minicart_layout;
 
 
 		var existingShortcode = ecwid_get_store_shortcode(jQuery('#content').val());
