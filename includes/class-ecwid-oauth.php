@@ -342,7 +342,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _is_reconnect() {
-		return $this->state->mode == self::MODE_RECONNECT;
+		return @$this->state->mode == self::MODE_RECONNECT;
 	}
 }
 
