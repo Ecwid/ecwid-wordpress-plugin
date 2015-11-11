@@ -446,6 +446,13 @@ function ecwid_check_version()
 
 		add_option('ecwid_use_new_horizontal_categories', '');
 	}
+
+	if (1 || $fresh_install || $upgrade) {
+		if (ecwid_migrations_is_original_plugin_version_older_than('4.4')) {
+			add_option('ecwid_fetch_url_use_file_get_contents', '');
+			add_option('ecwid_remote_get_timeout', '5');
+		}
+	}
 }
 
 function ecwid_migrations_is_original_plugin_version_older_than($version)
