@@ -2513,8 +2513,8 @@ function ecwid_gather_usage_stats()
 
 	$ecwid_date = get_option('ecwid_installation_date');
 
-	$usage_stats['wp_install_date'] = strftime('%F', $wp_date);
-	$usage_stats['plugin_install_date'] = strftime('%F', $ecwid_date);
+	$usage_stats['wp_install_date'] = $wp_date;
+	$usage_stats['plugin_install_date'] = $ecwid_date;
 
 	$usage_stats['is_wp_newbie'] = ($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30;
 
