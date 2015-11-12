@@ -77,6 +77,7 @@ if ( is_admin() ){
   add_action('wp_head', 'ecwid_canonical');
   add_action('wp_head', 'ecwid_seo_compatibility_restore', 1000);
 	add_action('wp_head', 'ecwid_send_stats');
+	add_action('wp_head', 'ecwid_product_browser_url_in_head');
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
   add_filter('the_content', 'ecwid_content_started', 0);
   add_filter('body_class', 'ecwid_body_class');
@@ -682,6 +683,11 @@ function ecwid_meta() {
         echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
     }
 }
+
+function ecwid_product_browser_url_in_head() {
+	echo ecwid_get_product_browser_url_script();
+}
+
 
 function ecwid_canonical() {
 	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
