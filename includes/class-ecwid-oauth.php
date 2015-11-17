@@ -23,7 +23,7 @@ class Ecwid_OAuth {
 		add_action('admin_post_ecwid_disconnect', array($this, 'disconnect_store'));
 		add_action('admin_post_ecwid_show_reconnect', array($this, 'show_reconnect'));
 
-        $this->crypt = new Crypt_AES();
+        $this->crypt = new Ecwid_Crypt_AES();
 		$this->_init_crypt();
 
 		$this->_load_state();

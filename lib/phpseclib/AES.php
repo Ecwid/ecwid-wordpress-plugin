@@ -68,7 +68,7 @@
 /**
  * Include Crypt_Rijndael
  */
-if (!class_exists('Crypt_Rijndael')) {
+if (!class_exists('Ecwid_Crypt_Rijndael')) {
     include_once 'Rijndael.php';
 }
 
@@ -118,7 +118,7 @@ define('CRYPT_AES_MODE_OFB', CRYPT_MODE_OFB);
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class Crypt_AES extends Crypt_Rijndael
+class Ecwid_Crypt_AES extends Ecwid_Crypt_Rijndael
 {
     /**
      * The namespace used by the cipher for its constants.

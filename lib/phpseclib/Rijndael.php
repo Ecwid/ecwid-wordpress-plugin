@@ -75,7 +75,7 @@
  *
  * Base cipher class
  */
-if (!class_exists('Crypt_Base')) {
+if (!class_exists('Ecwid_Crypt_Base')) {
     include_once 'Base.php';
 }
 
@@ -125,7 +125,7 @@ define('CRYPT_RIJNDAEL_MODE_OFB', CRYPT_MODE_OFB);
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-class Crypt_Rijndael extends Crypt_Base
+class Ecwid_Crypt_Rijndael extends Ecwid_Crypt_Base
 {
     /**
      * The namespace used by the cipher for its constants.
@@ -264,9 +264,9 @@ class Crypt_Rijndael extends Crypt_Base
      * @param int $mode
      * @access public
      */
-    function Crypt_Rijndael($mode = CRYPT_RIJNDAEL_MODE_CBC)
+    function Ecwid_Crypt_Rijndael($mode = CRYPT_RIJNDAEL_MODE_CBC)
     {
-        parent::Crypt_Base($mode);
+        parent::Ecwid_Crypt_Base($mode);
     }
 
     /**

@@ -122,7 +122,7 @@ define('CRYPT_ENGINE_OPENSSL', 3);
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
  * @access  public
  */
-class Crypt_Base
+class Ecwid_Crypt_Base
 {
     /**
      * The Encryption Mode
@@ -503,7 +503,7 @@ class Crypt_Base
      * @param int $mode
      * @access public
      */
-    function Crypt_Base($mode = CRYPT_MODE_CBC)
+    function Ecwid_Crypt_Base($mode = CRYPT_MODE_CBC)
     {
         // $mode dependent settings
         switch ($mode) {
