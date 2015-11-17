@@ -25,6 +25,12 @@ class EcwidPlatform {
             $result = file_get_contents($url);
         } else {
             $result = wp_remote_get( $url, array( 'timeout' => get_option( 'ecwid_remote_get_timeout', 5 ) ) );
+            if (!is_array($result)) {
+                $result = file_get_contents($url);
+                if (!empty($result)) {
+                    update_option('ecwid_fetch_url_use_file_get_contents', true);
+                }
+            }
         }
 
         $return = array(

@@ -2475,7 +2475,8 @@ function ecwid_gather_stats()
 		'avalanche_used',
 		'chameleon_used',
 		'http_post_fails',
-		'ecwid_use_new_horizontal_categories'
+		'ecwid_use_new_horizontal_categories',
+		'ecwid_remote_get_fails'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2515,6 +2516,7 @@ function ecwid_gather_usage_stats()
 	$usage_stats['chameleon_used'] = (bool)get_option('ecwid_use_chameleon');
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
+	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_fetch_url_use_file_get_contents');
 
 
 	return $usage_stats;
