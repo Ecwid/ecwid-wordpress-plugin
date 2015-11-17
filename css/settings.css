@@ -300,6 +300,11 @@ display: none;
 	color: #298CBA;
 }
 
+.ecwid-settings.advanced-settings .pure-control-group.hidden,
+.ecwid-settings.advanced-settings hr.hidden {
+	display: none;
+}
+
 .ecwid-settings .note.inline-note {
 	max-width: 300px;
 	margin-left: 15px;

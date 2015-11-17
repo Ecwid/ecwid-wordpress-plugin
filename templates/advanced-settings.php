@@ -108,11 +108,9 @@
 				</div>
 		</div>
 
+		<hr <?php echo ecwid_migrations_is_original_plugin_version_older_than('3.3') ? '' : ' hidden'; ?> />
 
-        <?php if (ecwid_migrations_is_original_plugin_version_older_than('3.4')): ?>
-		<hr />
-
-	    <div class="pure-control-group checkbox">
+	    <div class="pure-control-group checkbox<?php echo ecwid_migrations_is_original_plugin_version_older_than('3.3') ? '' : ' hidden'; ?>">
 			<div class="label">
 				<label for="ecwid_use_new_horizontal_categories">
 
@@ -136,7 +134,6 @@
 				</div>
 			</div>
 		</div>
-		<?php endif; ?>
 
 	</fieldset>
 
