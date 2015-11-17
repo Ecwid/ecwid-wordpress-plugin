@@ -447,6 +447,13 @@ function ecwid_check_version()
 
 		add_option('ecwid_use_new_horizontal_categories', '');
 	}
+
+	if (1 || $fresh_install || $upgrade) {
+		if (ecwid_migrations_is_original_plugin_version_older_than('4.4')) {
+			add_option('ecwid_fetch_url_use_file_get_contents', '');
+			add_option('ecwid_remote_get_timeout', '5');
+		}
+	}
 }
 
 function ecwid_migrations_is_original_plugin_version_older_than($version)
@@ -2475,7 +2482,8 @@ function ecwid_gather_stats()
 		'chameleon_used',
 		'http_post_fails',
 		'ecwid_use_new_horizontal_categories',
-		'is_wp_newbie'
+		'is_wp_newbie',
+		'ecwid_remote_get_fails'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2517,6 +2525,7 @@ function ecwid_gather_usage_stats()
 	$usage_stats['chameleon_used'] = (bool)get_option('ecwid_use_chameleon');
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
+	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_fetch_url_use_file_get_contents');
 
 
 	$wp_date = get_option('ecwid_wp_install_date');
