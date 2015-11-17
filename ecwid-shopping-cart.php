@@ -1494,7 +1494,6 @@ function ecwid_register_settings_styles($hook_suffix) {
 
 	if ( ($hook_suffix != 'post.php' && $hook_suffix != 'post-new.php') && strpos($hook_suffix, 'ecwid') === false) return;
 
-	wp_enqueue_style('ecwid-settings-pure-css', plugins_url('ecwid-shopping-cart/css/pure-min.css'), array(), get_option('ecwid_plugin_version'), 'all');
 	wp_enqueue_style('ecwid-settings-css', plugins_url('ecwid-shopping-cart/css/settings.css'), array(), get_option('ecwid_plugin_version'), 'all');
 
 	if (version_compare(get_bloginfo('version'), '3.8-beta') > 0) {
