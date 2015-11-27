@@ -196,7 +196,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 	font-weight: normal;
 }
 
-.widgets-php #available-widgets .ecwid-widget .widget-top .widget-title h4 {
+.widgets-php #available-widgets .ecwid-widget .widget-top .widget-title h4,
+.widgets-php #available-widgets .ecwid-widget .widget-top .widget-title h3
+{
 	padding-left: 42px;
 }
 
