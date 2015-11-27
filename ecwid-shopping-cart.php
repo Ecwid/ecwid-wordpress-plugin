@@ -627,6 +627,31 @@ function add_ecwid_admin_bar_node() {
             'href' =>  'http://apps.facebook.com/ecwid-shop/?fb_source=wp'
         )
     );
+
+	$theme = ecwid_get_theme_name();
+	$store_url = ecwid_get_store_page_url();
+	$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
+	$body = <<<TEXT
+Hey Ecwid,
+
+My store looks bad with my theme on Wordpress.
+
+The theme title is %s.
+The store URL is %s
+
+Can you have a look?
+
+Thanks.
+TEXT;
+	$body = __( $body, 'ecwid-shopping-cart' );
+	$body = sprintf( $body, $theme, $store_url );
+
+	$wp_admin_bar->add_menu(array(
+		'id' => 'ecwid-report-problem',
+		'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
+		'parent' => 'ecwid-main',
+		'href' => 'mailto:wordpress@ecwid.com?subject=' . rawurlencode($subject) . '&body=' . rawurlencode($body)
+	));
 }
 
 function ecwid_content_has_productbrowser($content) {
