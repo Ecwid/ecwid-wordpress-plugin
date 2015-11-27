@@ -46,7 +46,8 @@ function ecwid_apply_theme($theme_name = null)
 		'evolve',
 		'twentytwelve',
 		'genesis',
-		'twentysixteen'
+		'twentysixteen',
+		'mantra'
 	);
 
 	if (empty($theme_name)) {

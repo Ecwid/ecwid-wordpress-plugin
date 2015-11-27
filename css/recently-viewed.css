@@ -107,3 +107,8 @@ html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products.wide .product .e
 html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products.wide .product .ecwid-SingleProduct-picture img {
 	margin-top: 0px !important;
 }
+
+html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products li {
+	background-image: none;
+}
+
