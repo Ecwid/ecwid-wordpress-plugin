@@ -2433,6 +2433,7 @@ function ecwid_send_stats()
 
 	$url = 'http://' . APP_ECWID_COM . '/script.js?' . $storeid . '&data_platform=wporg';
 
+
 	foreach ($stats as $name => $value) {
 		$url .= '&data_wporg_' . $name . '=' . urlencode($value);
 	}
@@ -2483,7 +2484,8 @@ function ecwid_gather_stats()
 		'http_post_fails',
 		'ecwid_use_new_horizontal_categories',
 		'is_wp_newbie',
-		'ecwid_remote_get_fails'
+		'ecwid_remote_get_fails',
+		'has_woocommerce'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2525,8 +2527,6 @@ function ecwid_gather_usage_stats()
 	$usage_stats['chameleon_used'] = (bool)get_option('ecwid_use_chameleon');
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
-	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_fetch_url_use_file_get_contents');
-
 
 	$wp_date = get_option('ecwid_wp_install_date');
 	if (!$wp_date) {
@@ -2544,7 +2544,21 @@ function ecwid_gather_usage_stats()
 	$usage_stats['wp_install_date'] = $wp_date;
 	$usage_stats['plugin_install_date'] = $ecwid_date;
 
-	$usage_stats['is_wp_newbie'] = ($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30;
+	$usage_stats['is_wp_newbie'] = (bool) (($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30);
+
+	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_fetch_url_use_file_get_contents');
+
+	$woo = 0;
+	$all_plugins = get_plugins();
+	if (array_key_exists('woocommerce/woocommerce.php', $all_plugins)) {
+		$active_plugins = get_option('active_plugins');
+		if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
+			$woo = 2;
+		} else {
+			$woo = 1;
+		}
+	}
+	$usage_stats['has_woocommerce'] = $woo;
 
 	return $usage_stats;
 }
