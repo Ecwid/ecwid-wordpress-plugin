@@ -259,6 +259,7 @@ function ecwid_add_frontend_styles() {
 	wp_register_script('ecwid-products-list-js', plugins_url('ecwid-shopping-cart/js/products-list.js'), array('jquery-ui-widget'));
 	wp_register_style('ecwid-products-list-css', plugins_url('ecwid-shopping-cart/css/products-list.css'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-css', plugins_url('ecwid-shopping-cart/css/frontend.css'),array(), get_option('ecwid_plugin_version'));
+	wp_enqueue_style('ecwid-fonts-css', plugins_url('ecwid-shopping-cart/css/fonts.css'), array(), get_option('ecwid_plugin_version'));
 
 	if ((bool)get_option('ecwid_use_chameleon')) {
 		wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
@@ -577,8 +578,38 @@ function ecwid_seo_compatibility_restore()
 
 function add_ecwid_admin_bar_node() {
     global $wp_admin_bar;
+
      if ( !is_super_admin() || !is_admin_bar_showing() )
         return;
+
+
+	$theme = ecwid_get_theme_name();
+	$store_url = ecwid_get_store_page_url();
+	$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
+	$body = <<<TEXT
+Hey Ecwid,
+
+My store looks bad with my theme on Wordpress.
+
+The theme title is %s.
+The store URL is %s
+
+Can you have a look?
+
+Thanks.
+TEXT;
+	$body = __( $body, 'ecwid-shopping-cart' );
+	$body = sprintf( $body, $theme, $store_url );
+
+	$wp_admin_bar->add_menu(array(
+		'id' => 'ecwid-report-problem',
+		'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
+		'parent' => 'ecwid-main',
+		'href' => 'mailto:wordpress@ecwid.com?subject=' . rawurlencode($subject) . '&body=' . rawurlencode($body),
+		'meta' => array(
+			'target' => '_blank'
+		)
+	));
 
     $wp_admin_bar->add_menu( array(
         'id' => 'ecwid-main',
@@ -628,30 +659,6 @@ function add_ecwid_admin_bar_node() {
         )
     );
 
-	$theme = ecwid_get_theme_name();
-	$store_url = ecwid_get_store_page_url();
-	$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
-	$body = <<<TEXT
-Hey Ecwid,
-
-My store looks bad with my theme on Wordpress.
-
-The theme title is %s.
-The store URL is %s
-
-Can you have a look?
-
-Thanks.
-TEXT;
-	$body = __( $body, 'ecwid-shopping-cart' );
-	$body = sprintf( $body, $theme, $store_url );
-
-	$wp_admin_bar->add_menu(array(
-		'id' => 'ecwid-report-problem',
-		'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
-		'parent' => 'ecwid-main',
-		'href' => 'mailto:wordpress@ecwid.com?subject=' . rawurlencode($subject) . '&body=' . rawurlencode($body)
-	));
 }
 
 function ecwid_content_has_productbrowser($content) {
@@ -1496,6 +1503,7 @@ function ecwid_options_add_page() {
 function ecwid_register_admin_styles($hook_suffix) {
 
 	wp_enqueue_style('ecwid-admin-css', plugins_url('ecwid-shopping-cart/css/admin.css'), array(), get_option('ecwid_plugin_version'));
+	wp_enqueue_style('ecwid-fonts-css', plugins_url('ecwid-shopping-cart/css/fonts.css'), array(), get_option('ecwid_plugin_version'));
 
 	if (version_compare(get_bloginfo('version'), '3.8-beta') > 0) {
 		wp_enqueue_style('ecwid-admin38-css', plugins_url('ecwid-shopping-cart/css/admin.3.8.css'), array('ecwid-admin-css'), get_option('ecwid_plugin_version'), 'all');

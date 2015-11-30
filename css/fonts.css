@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'ecwid-icons';
+    src:url('../fonts/ecwid-icons.eot?-b8sbws');
+    src:url('../fonts/ecwid-icons.eot?#iefix-b8sbws') format('embedded-opentype'),
+    url('../fonts/ecwid-icons.woff?-b8sbws') format('woff'),
+    url('../fonts/ecwid-icons.ttf?-b8sbws') format('truetype'),
+    url('../fonts/ecwid-icons.svg?-b8sbws#ecwid-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'ecwid-icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#wpadminbar>#wp-toolbar>#wp-admin-bar-root-default .ab-icon.ecwid-top-menu-item {
+    font: 400 20px/1 'ecwid-icons' !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: none;
+    color: white;
+    width: auto;
+    margin-right: 0px;
+    margin-top: 2px;
+}
+
+#wpadminbar #wp-admin-bar-ecwid-main .ab-icon.ecwid-top-menu-item:before {
+    content: "\e603";
+    width: auto;
+    margin-right: 0px;
+}
+
+@media screen and (max-width: 782px) {
+    #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default .ab-icon.ecwid-top-menu-item {
+        font: 400 32px/46px 'ecwid-icons' !important;
+        width: 46px;
+        padding: 0px 2px;
+        text-align: center;
+        margin-top: 0px;
+    }
+}
