@@ -99,8 +99,7 @@ html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-pr
  */
 
 .ecwid-productsList.width-m ul li {
-	padding-top: 10px;
-	padding-bottom: 14px;
+	padding: 10px 3px 14px;
 }
 
 .ecwid-productsList.width-m ul li .ecwid-productsList-image {
