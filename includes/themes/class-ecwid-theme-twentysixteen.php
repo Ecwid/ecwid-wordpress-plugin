@@ -15,6 +15,29 @@ class Ecwid_Theme_2016 extends Ecwid_Theme_Base
 		if (ecwid_page_has_productbrowser()) {
 			wp_enqueue_style( 'ecwid-theme', plugins_url( 'ecwid-shopping-cart/css/themes/2016.css' ), array('twentysixteen-style'), get_option('ecwid_plugin_version') );
 		}
+		add_action('ecwid_plugin_installed', array($this, 'on_ecwid_plugin_installed'));
+	}
+
+	public function on_ecwid_plugin_installed()
+	{
+		$widgets = get_option('sidebars_widgets');
+
+		if (strpos(implode(' ', $widgets['sidebar-1']), 'ecwidstorelink') === false) {
+			array_unshift($widgets['sidebar-1'], 'ecwidstorelink-2');
+			wp_set_sidebars_widgets($widgets);
+
+			$options = get_option('widget_ecwidstorelink');
+			if (!$options) {
+				$options = array(
+					2 => array(
+						'label' => __('Shop', 'ecwid-shopping-cart')
+					),
+					'_multiwidget' => 1
+				);
+			}
+
+			update_option('widget_ecwidstorelink', $options);
+		}
 	}
 }
 
