@@ -55,6 +55,7 @@ if ( is_admin() ){
   add_action('init', 'ecwid_apply_theme');
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ecwid_connect', 'ecwid_admin_post_connect');
+	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init' );
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
@@ -517,6 +518,18 @@ function ecwid_override_option($name, $new_value = null)
     } else {
         update_option($name, $overridden[$name]);
     }
+}
+function ecwid_tinymce_init($in)
+{
+	if(!empty($in['extended_valid_elements'])) {
+		$in['extended_valid_elements'] .= ',';
+	} else {
+		$in['extended_valid_elements'] = '';
+	}
+
+	$in['extended_valid_elements'] .= '@[id|class|style|title|itemscope|itemtype|itemprop|customprop|datetime|rel],div,dl,ul,dt,dd,li,span,a|rev|charset|href|lang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur]';
+
+	return $in;
 }
 
 function ecwid_seo_ultimate_compatibility()
