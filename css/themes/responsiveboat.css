@@ -2,6 +2,6 @@ html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-productsList ul li .e
     font-size: 16px;
 }
 
-html#ecwid_html body#ecwid_body table {
+html#ecwid_html body#ecwid_body .ecwid-productBrowser-details-rightPanel table {
     line-height: initial;
 }
