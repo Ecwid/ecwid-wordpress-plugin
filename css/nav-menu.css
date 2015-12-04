@@ -1,0 +1,44 @@
+#update-nav-menu ul.menu li.menu-item.ecwid-link .field-url
+{
+    display: none;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache {
+    display: block;
+    padding: 1px 2px;
+    margin: 6px 0;
+    line-height: 15px;
+    text-decoration: none;
+    border-bottom: 1px solid #0073aa;
+    float: right;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated {
+    display: none;
+    padding: 1px 2px;
+    margin: 6px 0;
+    line-height: 15px;
+    text-decoration: none;
+    float: right;
+    cursor: default;
+    color: #62ae29;
+    position: relative;
+}
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated:before {
+    content: "\f147";
+    font: 20px 'dashicons';
+    position: absolute;
+    top: 3px;
+    left: -21px;
+    line-height: 10px;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache.cache-cleared:not(:hover) {
+    color: #999;
+    border-bottom-color:#999;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache.cache-cleared:hover {
+    color:#666;
+    border-bottom-color:#666;
+}
