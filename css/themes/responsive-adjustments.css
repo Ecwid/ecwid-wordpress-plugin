@@ -106,8 +106,8 @@ html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-shopping-cart-search 
 	white-space: nowrap;
 }
 
-.ecwid-shopping-cart-search .ecwid-SearchPanel-button,
-.ecwid-SearchPanel .ecwid-SearchPanel-button {
+html#ecwid_html body#ecwid_body .ecwid-shopping-cart-search .ecwid-SearchPanel .ecwid-SearchPanel-button,
+html#ecwid_html body#ecwid_body .ecwid-SearchPanel .ecwid-SearchPanel-button {
 	border: 0 none;
 	background: transparent;
 	line-height: normal;
