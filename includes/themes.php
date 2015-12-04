@@ -48,14 +48,20 @@ function ecwid_apply_theme($theme_name = null)
 		'genesis',
 		'twentysixteen',
 		'mantra',
-		'attitude'
+		'attitude',
+		'responsiveboat'
 	);
+
 
 	if (empty($theme_name)) {
 		$theme_name = ecwid_get_theme_identification();
 	}
 
 	$theme_file = '';
+
+	if ($theme_name == 'zerif-lite' && function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
+		$theme_name = 'responsiveboat';
+	}
 
 	if (in_array($theme_name, $themes)) {
 
