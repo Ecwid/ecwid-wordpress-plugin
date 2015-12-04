@@ -13,7 +13,6 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-
 define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 
@@ -49,6 +48,7 @@ if ( is_admin() ){
   add_action('admin_enqueue_scripts', 'ecwid_register_settings_styles');
   add_action('wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message');
   add_action('wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message');
+	add_action('wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache');
   add_filter('plugin_action_links_ecwid-shopping-cart/ecwid-shopping-cart.php', 'ecwid_plugin_actions');
   add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
   add_action('admin_head', 'ecwid_send_stats');
@@ -56,6 +56,8 @@ if ( is_admin() ){
   add_action('init', 'ecwid_apply_theme');
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ecwid_connect', 'ecwid_admin_post_connect');
+
+	add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
@@ -1509,8 +1511,6 @@ function ecwid_add_meta_boxes()
 	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side', 'low' );
 }
 
-add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
-
 function ecwid_nav_menu_items($items)
 {
 
@@ -1518,7 +1518,7 @@ function ecwid_nav_menu_items($items)
 		return $items;
 	}
 
-	$categories = wp_cache_get('ecwid-categories');
+	$categories = wp_cache_get('all_categories', 'ecwid');
 
 	if ( false == $categories ) {
 		$callback = 'ecwidcatscallback';
@@ -1531,7 +1531,7 @@ function ecwid_nav_menu_items($items)
 
 		$categories = json_decode($result);
 
-		wp_cache_set('ecwid-categories', json_decode($result), 'ecwid', 60 * 60 * 12);
+		$result = wp_cache_set('all_categories', $categories, 'ecwid', time() + 60 * 60 * 12);
 	}
 
 	$counter = 0;
@@ -1571,6 +1571,10 @@ function ecwid_nav_menu_items($items)
 	return $items;
 }
 
+function ecwid_reset_categories_cache()
+{
+	wp_cache_delete('all_categories', 'ecwid');
+}
 
 function ecwid_nav_menu_links()
 {
@@ -1649,6 +1653,8 @@ function ecwid_register_admin_styles($hook_suffix) {
 			wp_enqueue_script('ecwid-connect-js', plugins_url('ecwid-shopping-cart/js/dashboard.js'), array(), get_option('ecwid_plugin_version'));
 		}
 	}
+
+	wp_enqueue_style('ecwid-nav-menu',  plugins_url('ecwid-shopping-cart/css/nav-menu.css'), array(), get_option('ecwid_plugin_version'));
 }
 
 function ecwid_register_settings_styles($hook_suffix) {
@@ -1715,6 +1721,20 @@ function ecwid_common_admin_scripts() {
 
 	wp_enqueue_script('ecwid-admin-js', plugins_url('ecwid-shopping-cart/js/admin.js'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_script('ecwid-modernizr-js', plugins_url('ecwid-shopping-cart/js/modernizr.js'), array(), get_option('ecwid_plugin_version'));
+
+	if (function_exists('get_current_screen') ) {
+		$screen = get_current_screen();
+
+		if ($screen->base == 'nav-menus') {
+			wp_enqueue_script('ecwid-admin-menu-js', plugins_url('ecwid-shopping-cart/js/nav-menu.js'), array(), get_option('ecwid_plugin_version'));
+			wp_localize_script('ecwid-admin-menu-js', 'ecwid_l10n', array(
+				'store_page' => __('Store Page', 'ecwid-shopping-cart'),
+				'reset_cats_cache' => __('Update Categories Cache', 'ecwid-shopping-cart'),
+				'cache_updated' => __('Cache Updated!', 'ecwid-shopping-cart')
+			));
+		}
+
+	}
 }
 
 function ecwid_get_register_link()
