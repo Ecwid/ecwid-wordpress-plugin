@@ -35,6 +35,8 @@ add_shortcode('ecwid', 'ecwid_shortcode');
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
+add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
+
 if ( is_admin() ){ 
   add_action('admin_init', 'ecwid_settings_api_init');
 	add_action('admin_init', 'ecwid_check_version');
@@ -57,7 +59,6 @@ if ( is_admin() ){
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ecwid_connect', 'ecwid_admin_post_connect');
 
-	add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
