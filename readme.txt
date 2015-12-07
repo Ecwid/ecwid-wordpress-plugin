@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
 Requires at least: 2.8
 Tested up to: 4.4
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 
 Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
 
@@ -107,6 +107,10 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 3.4.7 =
+- Fixed a few layout issues in three popular Wordpress themes: Responsive, Attitude, ResponsiveBoat. 
+- Added a fix for the bug in WordPress editor, which corrupts the schema.org-formatted HTML codes. This should prevent the editor from corrupting Ecwid single products widget codes and other HTML snippets containing schema.org / microdata formatting.
+
 = 3.4.6 =
 - **Layout improvements for Mantra theme.** Mantra theme users might notice slight glitches in the recently viewed products and horizontal menu widgets. We fixed those.
 - **Minor fixes for plugins settings page layout in Wordpress 4.4.** Feel free to update your Wordpress to the newest version 4.4 as soon as it's released, the Ecwid plugin will work fine with it.
