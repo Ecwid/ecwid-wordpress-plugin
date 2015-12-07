@@ -1594,7 +1594,8 @@ function ecwid_nav_menu_links()
 			'url' => ''
 		), 'Store with Categories Menu' => array(
 			'classes' => 'ecwid-store-with-categories',
-			'url' => ''
+			'url' => '',
+			'label' => __('Store', 'ecwid-shopping-cart')
 		)
 	);
 	?>
@@ -1610,7 +1611,7 @@ function ecwid_nav_menu_links()
 							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $key ); ?>
 						</label>
 						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
-						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html( $key ); ?>" />
+						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html(isset($value['label']) ? $value['label'] : $key ); ?>" />
 						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( ecwid_get_store_page_url() . '#!/~/' . $value['url']); ?>" />
 						<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" value="<?php echo $value['classes']; ?>" />
 					</li>

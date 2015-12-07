@@ -3,6 +3,12 @@ jQuery(document).ready(function() {
         processEcwidLinks(el);
     });
 
+    jQuery('#ecwid_nav_links').insertAfter(jQuery('#add-page'));
+
+    jQuery('#menu-to-edit').on('DOMNodeInserted', function(e) {
+        if (!jQuery(e.srcElement).hasClass('menu-item')) return;
+        processEcwidLinks(e.srcElement);
+    });
 
     function processEcwidLinks(element) {
         if (!isEcwidLink(element)) return;
@@ -45,7 +51,7 @@ jQuery(document).ready(function() {
 
     function isEcwidLink(element) {
 
-        var ecwidClasses = ['ecwid-store', 'ecwid-cart', 'ecwid-account', 'ecwid-store-with-categories', 'ecwid-search'];
+        var ecwidClasses = ['ecwid-store', 'ecwid-cart', 'ecwid-my-account', 'ecwid-store-with-categories', 'ecwid-search'];
         var classes = jQuery('.edit-menu-item-classes', element).val().split(' ');
         for (var i = 0; i < classes.length; i++) {
             if (ecwidClasses.indexOf(classes[i]) != -1) {
