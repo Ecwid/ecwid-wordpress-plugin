@@ -1523,7 +1523,7 @@ function ecwid_nav_menu_items($items)
 
 	if ( false == $categories ) {
 		$callback = 'ecwidcatscallback';
-		$result = EcwidPlatform::fetch_url('https://my.ecwid.com/categories.js?ownerid=46004&callback=' . $callback);
+		$result = EcwidPlatform::fetch_url('https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback);
 		$result = $result['data'];
 
 		$prefix_length = strlen($callback . '(');
