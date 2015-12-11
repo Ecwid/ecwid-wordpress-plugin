@@ -149,7 +149,7 @@ class Ecwid_OAuth {
     public function get_safe_scopes_array($scopes)
     {
         if (!isset($scopes) || empty($scopes)) {
-            return array( 'read_store_profile', 'read_catalog' );
+            return $this->_get_default_scopes_array();
         }
 
         if (!empty($scopes)) {
@@ -165,6 +165,9 @@ class Ecwid_OAuth {
         return $scopes_array;
     }
 
+	protected function _get_default_scopes_array() {
+		return array( 'read_store_profile', 'read_catalog', 'allow_sso' );
+	}
 
 	protected function trigger_auth_error($mode = 'default')
 	{
@@ -209,7 +212,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_scope() {
-		$default = array( 'read_store_profile', 'read_catalog' );
+		$default = $this->_get_default_scopes_array();
 
 		$scopes = array();
 		if ( $this->_is_reconnect() ) {
@@ -251,6 +254,28 @@ class Ecwid_OAuth {
 		}
 
 		return $token;
+	}
+
+
+	public function get_sso_admin_link() {
+		$url = 'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
+
+		$store_id = get_ecwid_store_id();
+
+		$token = $this->get_oauth_token();
+
+		$timestamp = time();
+		$signature = hash('sha256', $store_id . $token . $timestamp . self::OAUTH_CLIENT_SECRET);
+
+		$url = sprintf(
+			$url,
+			$store_id,
+			$token,
+			$timestamp,
+			$signature
+		);
+
+		return $url;
 	}
 
 	public function _init_crypt() {

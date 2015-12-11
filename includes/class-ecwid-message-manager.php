@@ -218,7 +218,7 @@ class Ecwid_Message_Manager
 
 		switch ($name) {
 			case 'on_activate':
-				return $admin_page == 'plugins' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return true || $admin_page == 'plugins' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 			case 'on_storeid_set':
 				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ecwid';

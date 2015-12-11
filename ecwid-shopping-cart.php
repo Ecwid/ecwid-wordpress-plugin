@@ -1474,6 +1474,24 @@ function ecwid_options_add_page() {
 		'ecwid_general_settings_do_page'
 	);
 
+	add_submenu_page(
+		'ecwid',
+		'Products',
+		'Products',
+		'manage_options',
+		'ecwid_admin_products',
+		'ecwid_admin_products_do_page'
+	);
+
+
+	add_submenu_page(
+		'ecwid',
+		'Orders',
+		'Orders',
+		'manage_options',
+		'ecwid_admin_orders',
+		'ecwid_admin_orders_do_page'
+	);
 
 	if ($is_newbie) {
 		$title = __('Setup', 'ecwid-shopping-cart');
@@ -1512,6 +1530,55 @@ function ecwid_options_add_page() {
 	}
 
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
+}
+
+function ecwid_admin_products_do_page() {
+	global $ecwid_oauth;
+
+	//die(var_dump(get_bloginfo('language')));
+
+	$place = 'products';
+
+	$time = time();
+
+	$iframe_src = sprintf(
+		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+		get_ecwid_store_id(),
+		$ecwid_oauth->get_oauth_token(),
+		$time,
+		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_OAuth::OAUTH_CLIENT_SECRET),
+		$place,
+		substr(get_bloginfo('language'), 0, 2)
+	);
+
+
+
+	require ECWID_PLUGIN_DIR . '/templates/ecwid-admin.php';
+}
+
+
+function ecwid_admin_orders_do_page() {
+	global $ecwid_oauth;
+
+	$place = 'orders';
+
+	//die(var_dump(get_bloginfo('language')));
+
+	$time = time();
+
+	$iframe_src = sprintf(
+		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+		get_ecwid_store_id(),
+		$ecwid_oauth->get_oauth_token(),
+		$time,
+		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_OAuth::OAUTH_CLIENT_SECRET),
+		$place,
+		substr(get_bloginfo('language'), 0, 2)
+	);
+
+
+
+	require ECWID_PLUGIN_DIR . '/templates/ecwid-admin.php';
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
