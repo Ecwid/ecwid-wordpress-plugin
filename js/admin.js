@@ -69,4 +69,40 @@
 		}
 		return false;
 	});
+
+	var admin_pages = [
+		{
+			url: ecwid_l10n.dashboard_url,
+			title: ecwid_l10n.dashboard,
+			place: 'dashboard'
+		},
+		{
+			url: ecwid_l10n.products_url,
+			title: ecwid_l10n.products,
+			place: 'products'
+		},
+		{
+			url: ecwid_l10n.orders_url,
+			title: ecwid_l10n.orders,
+			place: 'orders'
+		},
+	];
+
+	if (jQuery('#ecwid-frame').length > 0) {
+		for (var i = 0; i < admin_pages.length; i++) {
+			jQuery('li.toplevel_page_ecwid .wp-submenu a[href="' + admin_pages[i].url + '"]')
+				.data('ecwid-menu', admin_pages[i])
+				.click(function() {
+					var ecwidMenu = jQuery(this).data('ecwid-menu');
+					jQuery('.toplevel_page_ecwid *.current').removeClass('current');
+					jQuery(this).addClass('current').closest('li').addClass('current');
+					jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
+						ecwidAppNs: "ecwid-wp-plugin",
+						method: "openPage",
+						data: ecwidMenu.place
+					}), "*")
+					return false;
+				});
+		}
+	}
 });

@@ -120,6 +120,7 @@ class Ecwid_OAuth {
 		}
 
 		update_option( 'ecwid_store_id', $result->store_id );
+		update_option( 'ecwid_oauth_scope', $result->scope );
 		$this->_init_crypt();
 		$this->_save_token($result->access_token);
 
@@ -164,6 +165,15 @@ class Ecwid_OAuth {
 
         return $scopes_array;
     }
+
+	public function has_scope( $scope ) {
+		$stored_scope = get_option( 'ecwid_oauth_scope' );
+		if (empty($stored_scope)) {
+			$stored_scope = 'read_store_profile read_catalog';
+		}
+
+		return in_array( $scope, explode(' ', $stored_scope) );
+	}
 
 	protected function _get_default_scopes_array() {
 		return array( 'read_store_profile', 'read_catalog', 'allow_sso' );

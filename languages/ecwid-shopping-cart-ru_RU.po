@@ -19,9 +19,6 @@ msgstr "Открыть страницу магазина"
 msgid "Manage my store"
 msgstr "Управлять магазином"
 
-msgid "Manage plugin settings"
-msgstr "Изменить настройки плагина"
-
 msgid "→ Sell on Facebook"
 msgstr "→ Начать продавать на Facebook"
 
@@ -136,8 +133,8 @@ msgstr "Настроить магазин"
 msgid "Good job! Your store is set up and you're ready to sell."
 msgstr "Отлично! Магазин установлен и готов к продажам."
 
-msgid "Now you can fine-tune your store's appearance"
-msgstr "Теперь вы можете настроить внешний вид витрины"
+msgid "Use the dashboard below to add products, track sales and adjust settings in your store. We also created a store page on your site and now you can fine-tune the storefront appearance."
+msgstr "На этой странице вы можете добавлять товары, следить за заказами и управлять настройками магазина. Мы создали страницу витрины магазина на сайте, и теперь вы можете посмотреть витрину и настроить её внешний вид. "
 
 msgid "Visit Storefront"
 msgstr "Открыть витрину"
@@ -430,8 +427,8 @@ msgstr "New features available, reconnect to be in touch with our updates"
 msgid "Add store"
 msgstr "Add store"
 
-msgid "Store settings"
-msgstr "Настройки магазина"
+msgid "Store elements"
+msgstr "Витрина"
 
 msgid "Choose widgets to show"
 msgstr "Виджеты витрины магазина"
@@ -494,4 +491,10 @@ msgid "Enable the new category menu"
 msgstr "Включить новое меню категорий"
 
 msgid "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
-msgstr  "Новое меню категорий лучше выглядит и отлично работает на мобильных устройствах. Если у вас на странице магазина пока нет меню категорий, добавьте его в <a %s>настройках страницы магазина</a> (включите виджет \"Категории\")."
+msgstr "Новое меню категорий лучше выглядит и отлично работает на мобильных устройствах. Если у вас на странице магазина пока нет меню категорий, добавьте его в <a %s>настройках страницы магазина</a> (включите виджет \"Категории\")."
+
+msgid "Products"
+msgstr "Товары"
+
+msgid "Sales"
+msgstr "Продажи"

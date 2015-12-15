@@ -167,7 +167,7 @@ class Ecwid_Message_Manager
 
 			'on_storeid_set' => array(
 				'title' => __('Good job! Your store is set up and you\'re ready to sell.', 'ecwid-shopping-cart'),
-				'message' => __('Now you can fine-tune your store\'s appearance', 'ecwid-shopping-cart'),
+				'message' => __('Use the dashboard below to add products, track sales and adjust settings in your store. We also created a store page on your site and now you can fine-tune the storefront appearance.', 'ecwid-shopping-cart'),
 				'primary_title' => __('Visit Storefront', 'ecwid-shopping-cart'),
 				'primary_url' => '',
 				'primary_blank' => true,
@@ -218,7 +218,7 @@ class Ecwid_Message_Manager
 
 		switch ($name) {
 			case 'on_activate':
-				return true || $admin_page == 'plugins' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return $admin_page == 'plugins' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 			case 'on_storeid_set':
 				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ecwid';
