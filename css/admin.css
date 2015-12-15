@@ -315,9 +315,15 @@ body[class*="_page_ecwid"] .ecwid-message {
 	display: table-cell;
 	width: 50%;
 	vertical-align: top;
-	padding-left: 56px;
+	padding-left: 5%;
 	text-align: left;
 }
+
+.ecwid-reconnect-allow-sso .main-wrap .column img {
+	width:100%;
+	max-width: 413px;
+}
+
 
 .ecwid-reconnect-allow-sso .main-wrap .column h4 {
 	font-size: 32px;
@@ -339,4 +345,39 @@ body[class*="_page_ecwid"] .ecwid-message {
 	line-height: 1.50em;
 	color: #444;
 	margin-bottom: 40px;
+}
+
+@media screen and (max-width:1023px) {
+	.ecwid-reconnect-allow-sso .main-wrap .column h4 {
+		font-size: 28px;
+	}
+
+	.ecwid-reconnect-allow-sso .main-wrap .note {
+		font-size: 14px;
+	}
+
+	.ecwid-connect.ecwid-reconnect-allow-sso .main-wrap .connect-button a {
+		font-size: 16px;
+	}
+}
+
+@media screen and (max-width:767px) {
+	.ecwid-reconnect-allow-sso .main-wrap .column {
+		display: block;
+		width: 100%;
+		text-align: center;
+		padding-left: inherit;
+	}
+
+	.ecwid-reconnect-allow-sso .main-wrap .column p {
+		display: inline-block;
+	}
+
+	.ecwid-reconnect-allow-sso .main-wrap .column h4 {
+		margin-bottom: 14px;
+	}
+
+	.ecwid-reconnect-allow-sso.ecwid-connect .box .note {
+		margin-bottom: 20px;
+	}
 }

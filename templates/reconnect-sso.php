@@ -8,8 +8,8 @@
 
 		<div class="main-wrap">
 			<div class="column">
-				<h4><?php _e('Your store Control Panel.<br /> Right here in WordPress.', 'ecwid-shopping-cart'); ?></h4>
-				<p class="note"><?php _e('Manage products, track sales, adjust<br />settings - All without leaving this page.', 'ecwid-shopping-cart'); ?></p>
+				<h4><?php _e('Your store Control Panel. Right here in WordPress.', 'ecwid-shopping-cart'); ?></h4>
+				<p class="note"><?php _e('Manage products, track sales, adjust settings - All without leaving this page.', 'ecwid-shopping-cart'); ?></p>
 				<div class="connect-button">
 					<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Re-connect to Enable Control Panel', 'ecwid-shopping-cart' ); ?></a>
 				</div>
