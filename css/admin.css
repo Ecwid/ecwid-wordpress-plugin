@@ -309,6 +309,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 .ecwid-reconnect-allow-sso .main-wrap {
 	display: table;
 	width:100%;
+	max-width: 1000px;
 }
 
 .ecwid-reconnect-allow-sso .main-wrap .column {
