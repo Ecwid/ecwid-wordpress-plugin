@@ -1464,7 +1464,9 @@ function ecwid_build_menu() {
 		__('Ecwid Store', 'ecwid-shopping-cart'),
 		'manage_options',
 		'ecwid',
-		'ecwid_general_settings_do_page'
+		'ecwid_general_settings_do_page',
+		'',
+		2
 	);
 
 	if ($is_newbie) {
