@@ -13,21 +13,30 @@ jQuery(document).ready(function() {
     function processEcwidLinks(element) {
         if (!isEcwidLink(element)) return;
 
+        if (jQuery(element).hasClass('ecwid-link')) return;
+
         jQuery(element).addClass('ecwid-link');
         jQuery(element).find('.item-type').text(ecwid_l10n.store_page);
 
         if (isStoreWithCategories(element)) {
-            $actions = jQuery('.menu-item-actions', element);
+
+            var $message = jQuery('<p>')
+                .addClass('ecwid-store-with-cats-message')
+                .text(ecwid_l10n.reset_cache_message)
+                .insertAfter(jQuery('.field-move', element));
+
+            $target = jQuery('<p class="ecwid-store-with-cats-reset-cache">').insertAfter($message);
+
             jQuery('<span>')
                 .text(ecwid_l10n.cache_updated)
                 .addClass('ecwid-reset-categories-cache-updated')
-                .appendTo($actions);
+                .appendTo($target);
 
             jQuery('<a>')
                 .text(ecwid_l10n.reset_cats_cache)
                 .attr('href', 'javascript:void(0);')
                 .addClass('ecwid-reset-categories-cache')
-                .appendTo($actions)
+                .appendTo($target)
                 .click(function() {
 
                     var that = this;

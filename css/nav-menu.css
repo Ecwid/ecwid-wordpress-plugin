@@ -4,13 +4,11 @@
 }
 
 #update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache {
-    display: block;
     padding: 1px 2px;
     margin: 6px 0;
     line-height: 15px;
     text-decoration: none;
     border-bottom: 1px solid #0073aa;
-    float: right;
 }
 
 #update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated {
@@ -19,17 +17,17 @@
     margin: 6px 0;
     line-height: 15px;
     text-decoration: none;
-    float: right;
     cursor: default;
     color: #62ae29;
     position: relative;
+    left: 20px;
 }
 #update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated:before {
     content: "\f147";
     font: 20px 'dashicons';
     position: absolute;
-    top: 3px;
-    left: -21px;
+    top: 6px;
+    left: -20px;
     line-height: 10px;
 }
 
@@ -41,4 +39,16 @@
 #update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache.cache-cleared:hover {
     color:#666;
     border-bottom-color:#666;
+}
+
+#update-nav-menu .ecwid-store-with-cats-message {
+    float: left;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+#update-nav-menu .ecwid-store-with-cats-reset-cache {
+    float: left;
+    margin-top: 0px;
 }

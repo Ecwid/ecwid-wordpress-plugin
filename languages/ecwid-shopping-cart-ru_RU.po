@@ -495,3 +495,12 @@ msgstr "Включить новое меню категорий"
 
 msgid "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
 msgstr  "Новое меню категорий лучше выглядит и отлично работает на мобильных устройствах. Если у вас на странице магазина пока нет меню категорий, добавьте его в <a %s>настройках страницы магазина</a> (включите виджет \"Категории\")."
+
+msgid "The store top-level categories are automatically added to this drop-down menu"
+msgstr "Корневые категории магазина автоматически добавляются в выпадающее меню"
+
+msgid "Refresh categories list"
+msgstr "Обновить категории"
+
+msgid "Done"
+msgstr "Готово"
