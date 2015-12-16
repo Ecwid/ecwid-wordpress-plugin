@@ -355,14 +355,14 @@ body[class*="_page_ecwid"] .ecwid-message {
 /* Remove left padding for integrated admin */
 .ecwid-admin-superwrap {
 	position:relative;
-	height: 700px;
+	height: 600px;
 }
 
 .ecwid-admin-superwrap #wrap {
 	position:absolute;
 	left:-20px;
 	right: 0px;
-	height: 700px;
+	height: 600px;
 	background: white;
 }
 /* ---------------------- */

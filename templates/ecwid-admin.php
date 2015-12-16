@@ -13,8 +13,6 @@
 		},false);
 
 		$(document).ready(function(){
-			$('#ecwid-frame').css('height', '700px');
-
 			$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
 		});
 
