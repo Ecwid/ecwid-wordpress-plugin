@@ -451,8 +451,8 @@ msgstr "Кроме того, вы можете добавить отдельны
 msgid "Demo store"
 msgstr "Демонстрационный магазин"
 
-msgid "Ecwid plugin settings"
-msgstr "Настройки плагина"
+msgid "Open store dashboard"
+msgstr "Настройки магазина"
 
 msgid "Your store will be shown here!"
 msgstr "Здесь будет отображаться ваш магазин."
