@@ -128,10 +128,10 @@ div.ecwid-message {
 .ecwid-message .ecwid-message-hide:before {
 	content: "\e606";
 	font-family: ecwid-icons;
-	font-size: 26px;
+	font-size: 16px;
 	position: relative;
 	left: 1px;
-	top: 6px;
+	top: 3px;
 }
 
 @media screen and (max-width: 768px) {
