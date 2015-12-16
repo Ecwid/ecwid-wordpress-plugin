@@ -131,7 +131,13 @@ class Ecwid_OAuth {
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
 			wp_redirect( admin_url( $this->state->return_url ) );
 		} else {
-			wp_redirect( 'admin.php?page=ecwid&settings-updated=true' );
+			$url = '';
+			if ($reconnect) {
+				$url = 'admin.php?page=ecwid&setting-updated=true';
+			} else {
+				$url = 'admin.php?page=ecwid';
+			}
+			wp_redirect( $url );
 		}
 		exit;
 	}
