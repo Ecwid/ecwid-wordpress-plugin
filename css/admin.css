@@ -348,6 +348,22 @@ body[class*="_page_ecwid"] .ecwid-message {
 	margin-bottom: 40px;
 }
 
+.ecwid-admin-superwrap {
+	margin-top: 25px;
+}
+
+/* Remove left padding for integrated admin */
+.ecwid-admin-superwrap {
+	position:relative;
+}
+
+.ecwid-admin-superwrap #wrap {
+	position:absolute;
+	left:-20px;
+	right: 0px;
+}
+/* ---------------------- */
+
 @media screen and (max-width:1023px) {
 	.ecwid-reconnect-allow-sso .main-wrap .column h4 {
 		font-size: 28px;

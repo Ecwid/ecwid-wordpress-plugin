@@ -22,8 +22,8 @@
 
 </script>
 
-<div id="superwrap" style="position:relative">
-	<div id="wrap" style="position:absolute; left:-20px;right:0px">
+<div id="superwrap" class="ecwid-admin-superwrap">
+	<div id="wrap">
 		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
 	</div>
 </div>
