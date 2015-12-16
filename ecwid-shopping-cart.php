@@ -966,7 +966,7 @@ function ecwid_minicart_shortcode($attributes) {
 
 	$layout = $params['layout'];
 	if (!in_array($layout, array('', 'attachToCategories', 'floating', 'Mini', 'MiniAttachToProductBrowser'), true)) {
-		$layout = 'attachToCategories';
+		$layout = 'MiniAttachToProductBrowser';
 	}
 
 	if ($params['is_ecwid_shortcode']) {
@@ -1128,7 +1128,7 @@ function ecwid_shortcode($attributes)
 			'grid' 							  => '3,3',
 			'list' 							  => '10',
 			'table' 						  => '20',
-			'minicart_layout' 	  => 'attachToCategories',
+			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
 			'lang' => ''
 		)
@@ -1323,7 +1323,7 @@ function ecwid_override_jsexclude($exclude)
 function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
-<!-- Ecwid code. Please do not remove this line  otherwise your Ecwid shopping cart will not work properly. --> [ecwid widgets="productbrowser search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="attachToCategories" ] <!-- Ecwid code end -->
+[ecwid widgets="productbrowser search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 	add_option("ecwid_store_page_id_auto", '', '', 'yes');
