@@ -2109,10 +2109,12 @@ class EcwidMinicartWidget extends WP_Widget {
 
         echo '<div>';
 
+	    echo '<!-- noptimize -->';
 		echo ecwid_get_scriptjs_code();
 		echo ecwid_get_product_browser_url_script();
         echo '<script data-cfasync="false" type="text/javascript"> xMinicart("style="); </script>';
 
+	    echo '<!-- /noptimize -->';
 		echo '</div>';
 
         echo $after_widget;
@@ -2153,11 +2155,13 @@ class EcwidMinicartMiniViewWidget extends WP_Widget {
 
 
 		echo '<div>';
+	    echo '<!-- noptimize -->';
 
 		echo ecwid_get_scriptjs_code();
 		echo ecwid_get_product_browser_url_script();
 		echo '<script data-cfasync="false" type="text/javascript"> xMinicart("style=left:10px","layout=Mini"); </script>';
 
+	    echo '<!-- /noptimize -->';
 		echo '</div>';
 
         echo $after_widget;
@@ -2198,11 +2202,13 @@ class EcwidSearchWidget extends WP_Widget {
 		echo $before_title . $title . $after_title;
 
 		echo '<div>';
+	    echo '<!-- noptimize -->';
 
 		echo ecwid_get_scriptjs_code();
 		echo ecwid_get_product_browser_url_script();
 		echo '<script data-cfasync="false" type="text/javascript"> xSearchPanel("style="); </script>';
 
+	    echo '<!-- /noptimize -->';
 		echo '</div>';
       
 		echo $after_widget;
@@ -2242,11 +2248,13 @@ class EcwidVCategoriesWidget extends WP_Widget {
 		echo $before_title . $title . $after_title;
 
 		echo '<div>';
+	    echo '<!-- noptimize -->';
 
 		echo ecwid_get_scriptjs_code();
 		echo ecwid_get_product_browser_url_script();
 		echo '<script data-cfasync="false" type="text/javascript"> xVCategories("style="); </script>';
 
+	    echo '<!-- /noptimize -->';
 		echo '</div>';
 
 		echo $after_widget;
