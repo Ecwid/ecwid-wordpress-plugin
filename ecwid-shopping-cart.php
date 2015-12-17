@@ -71,6 +71,7 @@ if ( is_admin() ){
   add_action('wp', 'ecwid_remove_default_canonical');
   add_filter('wp', 'ecwid_seo_compatibility_init', 0);
   add_filter('wp_title', 'ecwid_seo_title', 10000);
+  add_filter('document_title_parts', 'ecwid_seo_title_parts');
   add_action('plugins_loaded', 'ecwid_minifier_compatibility', 0);
   add_action('wp_head', 'ecwid_meta_description', 0);
   add_action('wp_head', 'ecwid_ajax_crawling_fragment');
@@ -841,51 +842,77 @@ function ecwid_get_product_and_category($category_id, $product_id) {
 
 function ecwid_get_title_separator()
 {
+	$sep = apply_filters('document_title_separator');
+
+	if (!empty($sep)) {
+		return $sep;
+	}
+
 	return apply_filters('ecwid_title_separator', '|');
 }
 
 function ecwid_seo_title($content) {
-    if (isset($_GET['_escaped_fragment_']) && ecwid_is_api_enabled()) {
-    $params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-    $ecwid_seo_title = '';
 
-		$separator = ecwid_get_title_separator();
+	$title = _ecwid_get_seo_title();
+	if (!empty($title)) {
+		$sep = ecwid_get_title_separator();
 
-    $api = ecwid_new_product_api();
+		return "$title $sep $content";
+	}
 
-    if (isset($params['mode']) && !empty($params['mode'])) {
-        if ($params['mode'] == 'product') {
-            if (isset($params['category']) && !empty($params['category'])){
-                $ecwid_seo_title = ecwid_get_product_and_category($params['category'], $params['id']);
-            } elseif (empty($params['category'])) {
-                $ecwid_product = $api->get_product($params['id']);
-                $ecwid_seo_title = $ecwid_product['name'];
-                if(isset($ecwid_product['categories']) && is_array($ecwid_product['categories'])){
-                    foreach ($ecwid_product['categories'] as $ecwid_category){
-                        if ( $ecwid_category['defaultCategory'] == true ) {
-                        $ecwid_seo_title .= ' ' . $separator . ' ';
-                        $ecwid_seo_title .=  $ecwid_category['name'];
-                        }
-                    }
-                }
-            }
-        }
+	return $content;
+}
 
-        elseif ($params['mode'] == 'category') {
-         $api = ecwid_new_product_api();
-         $ecwid_category = $api->get_category($params['id']);
-         $ecwid_seo_title =  $ecwid_category['name'];
-        }
-    }
 
-    if (!empty($ecwid_seo_title))
-        return "$ecwid_seo_title $separator $content";
-    else
-        return $content;
+function ecwid_seo_title_parts($parts)
+{
+	$title = _ecwid_get_seo_title();
+	if ($title) {
+		array_unshift($parts, $title);
+	}
 
-    } else {
-        return $content;
-    }
+	return $parts;
+}
+
+function _ecwid_get_seo_title()
+{
+	if (!isset($_GET['_escaped_fragment_']) || !ecwid_is_api_enabled()) return;
+
+	$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+	$ecwid_seo_title = '';
+
+	$separator = ecwid_get_title_separator();
+
+	$api = ecwid_new_product_api();
+
+	if ( isset( $params['mode'] ) && ! empty( $params['mode'] ) ) {
+		if ( $params['mode'] == 'product' ) {
+			if ( isset( $params['category'] ) && ! empty( $params['category'] ) ) {
+				$ecwid_seo_title = ecwid_get_product_and_category( $params['category'], $params['id'] );
+			} elseif ( empty( $params['category'] ) ) {
+				$ecwid_product   = $api->get_product( $params['id'] );
+				$ecwid_seo_title = $ecwid_product['name'];
+				if ( isset( $ecwid_product['categories'] ) && is_array( $ecwid_product['categories'] ) ) {
+					foreach ( $ecwid_product['categories'] as $ecwid_category ) {
+						if ( $ecwid_category['defaultCategory'] == true ) {
+							$ecwid_seo_title .= ' ' . $separator . ' ';
+							$ecwid_seo_title .= $ecwid_category['name'];
+						}
+					}
+				}
+			}
+		} elseif ( $params['mode'] == 'category' ) {
+			$api             = ecwid_new_product_api();
+			$ecwid_category  = $api->get_category( $params['id'] );
+			$ecwid_seo_title = $ecwid_category['name'];
+		}
+	}
+
+	if ( ! empty( $ecwid_seo_title ) ) {
+		return $ecwid_seo_title;
+	}
+
+	return "";
 }
 
 function ecwid_add_credits($powered_by)
