@@ -1037,9 +1037,10 @@ function ecwid_categories_shortcode($attributes) {
   if (!empty($ecwid_show_categories)) {
 	  if (get_option('ecwid_use_new_horizontal_categories')) {
 		  $store_id = get_ecwid_store_id();
+		  $ver = get_option('ecwid_plugin_version');
 		  $result = <<<HTML
 <div id="horizontal-menu" data-storeid="$store_id"></div>
-<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1.1/horizontal-widget.js"></script>
+<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1.1/horizontal-widget.js?ver=$ver"></script>
 HTML;
 	  } else {
 		  $result = <<<EOT
