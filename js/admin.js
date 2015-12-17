@@ -89,6 +89,9 @@
 	];
 
 	if (jQuery('#ecwid-frame').length > 0) {
+		if (jQuery('div.update-nag').length > 0) {
+			jQuery('#superwrap').addClass('has-wp-message');
+		}
 		for (var i = 0; i < admin_pages.length; i++) {
 			jQuery('li.toplevel_page_ecwid .wp-submenu a[href="' + admin_pages[i].url + '"]')
 				.data('ecwid-menu', admin_pages[i])

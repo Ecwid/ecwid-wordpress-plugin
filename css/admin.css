@@ -348,7 +348,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 	margin-bottom: 40px;
 }
 
-.ecwid-admin-superwrap {
+.ecwid-admin-superwrap.has-wp-message {
 	margin-top: 25px;
 }
 
