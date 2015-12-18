@@ -10,13 +10,17 @@ class Ecwid_Store_Editor {
 
 		add_action( 'template_redirect',     array( $this, 'get_store_svg' ) );
 
-		if ( !in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) return;
-
-		$this->init();
+		add_action( 'current_screen', array($this, 'init') );
 	}
 
-	protected function init()
+	public function init()
 	{
+		$current_screen = get_current_screen();
+		
+		if ($current_screen->base != 'post') {
+			return;
+		}
+
 		add_filter( 'mce_external_plugins',  array( $this, 'add_mce_plugin' ) );
 		add_action( 'media_buttons_context', array( $this, 'add_editor_button' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
