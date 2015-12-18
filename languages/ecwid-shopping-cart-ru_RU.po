@@ -507,3 +507,6 @@ msgstr "Панель управления магазином, встроенна
 
 msgid "Manage products, track sales, adjust settings - <nobr>All without</nobr> leaving this page."
 msgstr "Вы сможете добавлять товары, обрабатывать заказы и управлять магазином прямо на этой странице."
+
+msgid "Re-connect to Enable Control Panel"
+msgstr "Подключить панель управления"
