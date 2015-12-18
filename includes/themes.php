@@ -49,7 +49,8 @@ function ecwid_apply_theme($theme_name = null)
 		'twentysixteen',
 		'mantra',
 		'attitude',
-		'responsiveboat'
+		'responsiveboat',
+		'central'
 	);
 
 
