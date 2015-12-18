@@ -122,11 +122,9 @@
 
 	function check_ads() {
 		if (is_ad_loaded()) {
-			debugger;
 			jQuery('#ecwid_dashboard_widget div.inside > table').show();
 			jQuery('#ecwid_dashboard_widget .ecwid-wp-dashboard-fallback').hide();
 		} else {
-			debugger;
 			jQuery('#ecwid_dashboard_widget div.inside > table').hide();
 			jQuery('#ecwid_dashboard_widget .ecwid-wp-dashboard-fallback').show();
 		}
@@ -140,7 +138,6 @@
 
 	setTimeout(function() {
 		if (!is_ad_loaded()) {
-			debugger;
 			clearInterval(ecwid_wp_dashboard_interval);
 		}
 	}, 3000);
