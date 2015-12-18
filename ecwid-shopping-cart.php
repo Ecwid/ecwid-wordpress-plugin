@@ -262,6 +262,7 @@ add_action('wp_ajax_nopriv_ecwid_get_product_info', 'ecwid_ajax_get_product_info
 
 function ecwid_enqueue_frontend() {
 
+	wp_enqueue_script('jquery-ui-widget');
 	wp_register_script('ecwid-products-list-js', plugins_url('ecwid-shopping-cart/js/products-list.js'), array('jquery-ui-widget'), get_option('ecwid_plugin_version'));
 	wp_register_style('ecwid-products-list-css', plugins_url('ecwid-shopping-cart/css/products-list.css'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-css', plugins_url('ecwid-shopping-cart/css/frontend.css'),array(), get_option('ecwid_plugin_version'));
@@ -269,12 +270,13 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_script('ecwid-frontend-js', plugins_url('ecwid-shopping-cart/js/frontend.js'), array('jquery'), get_option('ecwid_plugin_version'));
 
-	global $ecwid_seo_title_print_placeholder;
+	global $ecwid_seo_title_mode;
 
+	$ecwid_seo_title_mode = 'none';
 	$original_title = wp_get_document_title();
-	$ecwid_seo_title_print_placeholder = true;
+	$ecwid_seo_title_mode = 'placeholder';
 	$title_template = wp_get_document_title();
-	$ecwid_seo_title_print_placeholder = false;
+	$ecwid_seo_title_mode = 'normal';
 
 	wp_localize_script('ecwid-frontend-js', 'ecwid_ajax_object', array(
 		'ajax_url' => admin_url('admin-ajax.php'),
@@ -907,10 +909,12 @@ function ecwid_ajax_seo_title()
 
 function _ecwid_get_seo_title()
 {
-	global $ecwid_seo_title_print_placeholder;
+	global $ecwid_seo_title_mode;
 
-	if ($ecwid_seo_title_print_placeholder) {
+	if ($ecwid_seo_title_mode == 'placeholder') {
 		return 'ECWID_SEO_TITLE';
+	} else if ($ecwid_seo_title_mode == 'none') {
+		return '';
 	}
 
 	if (!isset($_GET['_escaped_fragment_']) || !ecwid_is_api_enabled()) return;
