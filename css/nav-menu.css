@@ -1,0 +1,54 @@
+#update-nav-menu ul.menu li.menu-item.ecwid-link .field-url
+{
+    display: none;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache {
+    padding: 1px 2px;
+    margin: 6px 0;
+    line-height: 15px;
+    text-decoration: none;
+    border-bottom: 1px solid #0073aa;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated {
+    display: none;
+    padding: 1px 2px;
+    margin: 6px 0;
+    line-height: 15px;
+    text-decoration: none;
+    cursor: default;
+    color: #62ae29;
+    position: relative;
+    left: 20px;
+}
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache-updated:before {
+    content: "\f147";
+    font: 20px 'dashicons';
+    position: absolute;
+    top: 6px;
+    left: -20px;
+    line-height: 10px;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache.cache-cleared:not(:hover) {
+    color: #999;
+    border-bottom-color:#999;
+}
+
+#update-nav-menu ul.menu li.menu-item.ecwid-link .ecwid-reset-categories-cache.cache-cleared:hover {
+    color:#666;
+    border-bottom-color:#666;
+}
+
+#update-nav-menu .ecwid-store-with-cats-message {
+    float: left;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+#update-nav-menu .ecwid-store-with-cats-reset-cache {
+    float: left;
+    margin-top: 0px;
+}

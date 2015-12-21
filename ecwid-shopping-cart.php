@@ -13,7 +13,6 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-
 define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 
@@ -38,11 +37,13 @@ add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
 add_action( 'wp_ajax_ecwid_ajax_seo_title', 'ecwid_ajax_seo_title' );
 add_action( 'wp_ajax_nopriv_ecwid_ajax_seo_title', 'ecwid_ajax_seo_title' );
+add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
 
 if ( is_admin() ){ 
   add_action('admin_init', 'ecwid_settings_api_init');
 	add_action('admin_init', 'ecwid_check_version');
 	add_action('admin_init', 'ecwid_process_oauth_params');
+	add_filter( 'admin_init', 'ecwid_add_meta_boxes' );
   add_action('admin_notices', 'ecwid_show_admin_messages');
   add_action('admin_menu', 'ecwid_options_add_page');
   add_action('wp_dashboard_setup', 'ecwid_add_dashboard_widgets' );
@@ -51,6 +52,7 @@ if ( is_admin() ){
   add_action('admin_enqueue_scripts', 'ecwid_register_settings_styles');
   add_action('wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message');
   add_action('wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message');
+	add_action('wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache');
   add_filter('plugin_action_links_ecwid-shopping-cart/ecwid-shopping-cart.php', 'ecwid_plugin_actions');
   add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
   add_action('admin_head', 'ecwid_send_stats');
@@ -99,6 +101,8 @@ require_once ECWID_PLUGIN_DIR . '/includes/themes.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-oauth.php';
+require_once ECWID_PLUGIN_DIR . '/lib/ecwid_platform.php';
+
 
 function ecwid_init_integrations()
 {
@@ -1583,6 +1587,142 @@ function ecwid_options_add_page() {
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
 }
 
+function ecwid_add_meta_boxes()
+{
+	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side', 'low' );
+}
+
+function ecwid_nav_menu_items($items)
+{
+
+	if (is_admin()) {
+		return $items;
+	}
+
+	$categories = wp_cache_get('all_categories', 'ecwid');
+
+	if ( false == $categories ) {
+		$callback = 'ecwidcatscallback';
+		$result = EcwidPlatform::fetch_url('https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback);
+		$result = $result['data'];
+
+		$prefix_length = strlen($callback . '(');
+		$suffix_length = strlen(');');
+		$result = substr($result, $prefix_length, strlen($result) - $suffix_length - $prefix_length - 1);
+
+		$categories = json_decode($result);
+
+		$result = wp_cache_set('all_categories', $categories, 'ecwid', time() + 60 * 60 * 12);
+	}
+
+	$counter = 0;
+	foreach ($items as $key => $item) {
+
+		$items[$key]->menu_order += $counter;
+
+		if (in_array('ecwid-store-with-categories', $item->classes)) {
+			foreach ($categories as $category) {
+				$counter ++;
+				$post = new stdClass;
+				$post->ID = 0;
+				$post->post_author = '';
+				$post->post_date = '';
+				$post->post_date_gmt = '';
+				$post->post_password = '';
+				$post->post_name = '';
+				$post->post_type = $item->post_type;
+				$post->post_status = 'publish';
+				$post->to_ping = '';
+				$post->pinged = '';
+				$post->post_parent = 0;
+				$post->menu_order = $item->menu_order + $counter;
+				$post->menu_item_parent = $item->ID;
+				$post->url = ecwid_get_store_page_url() . $category->link;
+				$post->classes = '';
+				$post->type = 'post';
+				$post->db_id = 0;
+				$post->title = $category->name;
+				$post->object = '';
+				$post->object_id = 0;
+				array_splice($items, $key + $counter, 0, array($post));
+			}
+			$counter++;
+		}
+	}
+	return $items;
+}
+
+function ecwid_reset_categories_cache()
+{
+	wp_cache_delete('all_categories', 'ecwid');
+}
+
+function ecwid_nav_menu_links()
+{
+	$menu_links = array(
+		 'Cart' => array(
+			'list-name' => __( 'Cart', 'ecwid-shopping-cart' ),
+			'classes' => 'ecwid-cart',
+			'url' => 'cart',
+			'label' => __('Shopping cart', 'ecwid-shopping-cart')
+		), 'Search' => array(
+			'list-name' => __( 'Product Search', 'ecwid-shopping-cart' ),
+			'classes' => 'ecwid-product-search',
+			'url' => 'search',
+			'label' => __('Product Search', 'ecwid-shopping-cart')
+		), 'Account' => array(
+			'list-name' => __( 'My Account' , 'ecwid-shopping-cart' ),
+			'classes' => 'ecwid-my-account',
+			'url' => 'accountSettings',
+			'label' => __('My Account', 'ecwid-shopping-cart')
+		), 'Store' => array(
+			'list-name' => __( 'Store' , 'ecwid-shopping-cart' ),
+			'classes' => 'ecwid-store',
+			'url' => '',
+			'label' => __('Store', 'ecwid-shopping-cart')
+		), 'Store with categories' => array(
+			'list-name' => __( 'Store with Categories Menu' , 'ecwid-shopping-cart' ),
+			'classes' => 'ecwid-store-with-categories',
+			'url' => '',
+			'label' => __('Store', 'ecwid-shopping-cart')
+		)
+	);
+	?>
+	<div id="posttype-ecwid-links" class="posttypediv">
+		<div id="tabs-panel-ecwid-links" class="tabs-panel tabs-panel-active">
+			<ul id="ecwid-links-checklist" class="categorychecklist form-no-clear">
+				<?php
+				$i = -1;
+				foreach ( $menu_links as $key => $value ) {
+					?>
+					<li>
+						<label class="menu-item-title">
+							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo $value['list-name']; ?>
+						</label>
+						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
+						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html(isset($value['label']) ? $value['label'] : $key ); ?>" />
+						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( ecwid_get_store_page_url() . '#!/~/' . $value['url']); ?>" />
+						<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" value="<?php echo $value['classes']; ?>" />
+					</li>
+					<?php
+					$i --;
+				}
+				?>
+			</ul>
+		</div>
+		<p class="button-controls">
+				<span class="list-controls">
+					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-ecwid-links' ); ?>" class="select-all"><?php _e( 'Select All' ); ?></a>
+				</span>
+				<span class="add-to-menu">
+					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-post-type-menu-item" id="submit-posttype-ecwid-links">
+					<span class="spinner"></span>
+				</span>
+		</p>
+	</div>
+	<?php
+}
+
 function ecwid_register_admin_styles($hook_suffix) {
 
 	wp_enqueue_style('ecwid-admin-css', plugins_url('ecwid-shopping-cart/css/admin.css'), array(), get_option('ecwid_plugin_version'));
@@ -1604,6 +1744,8 @@ function ecwid_register_admin_styles($hook_suffix) {
 			wp_enqueue_script('ecwid-connect-js', plugins_url('ecwid-shopping-cart/js/dashboard.js'), array(), get_option('ecwid_plugin_version'));
 		}
 	}
+
+	wp_enqueue_style('ecwid-nav-menu',  plugins_url('ecwid-shopping-cart/css/nav-menu.css'), array(), get_option('ecwid_plugin_version'));
 }
 
 function ecwid_register_settings_styles($hook_suffix) {
@@ -1670,6 +1812,21 @@ function ecwid_common_admin_scripts() {
 
 	wp_enqueue_script('ecwid-admin-js', plugins_url('ecwid-shopping-cart/js/admin.js'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_script('ecwid-modernizr-js', plugins_url('ecwid-shopping-cart/js/modernizr.js'), array(), get_option('ecwid_plugin_version'));
+
+	if (function_exists('get_current_screen') ) {
+		$screen = get_current_screen();
+
+		if ($screen->base == 'nav-menus') {
+			wp_enqueue_script('ecwid-admin-menu-js', plugins_url('ecwid-shopping-cart/js/nav-menu.js'), array(), get_option('ecwid_plugin_version'));
+			wp_localize_script('ecwid-admin-menu-js', 'ecwid_l10n', array(
+				'store_page' => __('Store Page', 'ecwid-shopping-cart'),
+				'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
+				'cache_updated' => __('Done', 'ecwid-shopping-cart'),
+				'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart')
+			));
+		}
+
+	}
 }
 
 function ecwid_get_register_link()
