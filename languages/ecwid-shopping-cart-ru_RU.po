@@ -85,6 +85,18 @@ msgstr "Корзина вашего магазина"
 msgid "Shopping Cart"
 msgstr "Корзина"
 
+msgid "Cart"
+msgstr "Корзина"
+
+msgid "My Account"
+msgstr "Профиль"
+
+msgid "Store with Categories Menu"
+msgstr "Магазин с меню категорий"
+
+msgid "Store Page"
+msgstr "Страница магазина"
+
 msgid "Adds a cart widget for customer to see the products they added to the cart."
 msgstr "Добавляет виджет корзины покупателя для быстрого доступа к добавленным товарам."
 

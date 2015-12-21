@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
 
     function isEcwidLink(element) {
 
-        var ecwidClasses = ['ecwid-store', 'ecwid-cart', 'ecwid-my-account', 'ecwid-store-with-categories', 'ecwid-search'];
+        var ecwidClasses = ['ecwid-store', 'ecwid-cart', 'ecwid-my-account', 'ecwid-store-with-categories', 'ecwid-product-search'];
         var classes = jQuery('.edit-menu-item-classes', element).val().split(' ');
         for (var i = 0; i < classes.length; i++) {
             if (ecwidClasses.indexOf(classes[i]) != -1) {

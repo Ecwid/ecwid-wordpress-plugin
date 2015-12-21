@@ -1580,19 +1580,28 @@ function ecwid_reset_categories_cache()
 function ecwid_nav_menu_links()
 {
 	$menu_links = array(
-		'Cart' => array(
+		 'Cart' => array(
+			'list-name' => __( 'Cart', 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-cart',
-			'url' => 'cart'
-		), 'Product Search' => array(
+			'url' => 'cart',
+			'label' => __('Shopping cart', 'ecwid-shopping-cart')
+		), 'Search' => array(
+			'list-name' => __( 'Product Search', 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-product-search',
 			'url' => 'search',
-		), 'My Account' => array(
+			'label' => __('Product Search', 'ecwid-shopping-cart')
+		), 'Account' => array(
+			'list-name' => __( 'My Account' , 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-my-account',
-			'url' => 'accountSettings'
+			'url' => 'accountSettings',
+			'label' => __('My Account', 'ecwid-shopping-cart')
 		), 'Store' => array(
+			'list-name' => __( 'Store' , 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-store',
-			'url' => ''
-		), 'Store with Categories Menu' => array(
+			'url' => '',
+			'label' => __('Store', 'ecwid-shopping-cart')
+		), 'Store with categories' => array(
+			'list-name' => __( 'Store with Categories Menu' , 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-store-with-categories',
 			'url' => '',
 			'label' => __('Store', 'ecwid-shopping-cart')
@@ -1608,7 +1617,7 @@ function ecwid_nav_menu_links()
 					?>
 					<li>
 						<label class="menu-item-title">
-							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $key ); ?>
+							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo $value['list-name']; ?>
 						</label>
 						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
 						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html(isset($value['label']) ? $value['label'] : $key ); ?>" />
@@ -1623,10 +1632,10 @@ function ecwid_nav_menu_links()
 		</div>
 		<p class="button-controls">
 				<span class="list-controls">
-					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-ecwid-links' ); ?>" class="select-all"><?php _e( 'Select All', 'ecwid-shopping-cart' ); ?></a>
+					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-ecwid-links' ); ?>" class="select-all"><?php _e( 'Select All' ); ?></a>
 				</span>
 				<span class="add-to-menu">
-					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'ecwid-shopping-cart' ); ?>" name="add-post-type-menu-item" id="submit-posttype-ecwid-links">
+					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-post-type-menu-item" id="submit-posttype-ecwid-links">
 					<span class="spinner"></span>
 				</span>
 		</p>
