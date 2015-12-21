@@ -9,7 +9,7 @@
 				<div class="media-frame-menu">
 					<div class="media-menu">
 						<a href="#" class="media-menu-item" data-content="add-store"><?php _e('Add Store', 'ecwid-shopping-cart'); ?></a>
-						<a href="#" class="media-menu-item" data-content="store-settings"><?php _e('Store settings', 'ecwid-shopping-cart'); ?></a>
+						<a href="#" class="media-menu-item" data-content="store-settings"><?php _e('Store elements', 'ecwid-shopping-cart'); ?></a>
 						<a href="#" class="media-menu-item" data-content="appearance"><?php _e('Appearance', 'ecwid-shopping-cart'); ?></a>
 					</div>
 				</div>
@@ -22,7 +22,7 @@
 
 				<div class="media-frame-title store-settings">
 					<h1>
-						<?php _e('Store settings', 'ecwid-shopping-cart'); ?><span class="dashicons dashicons-arrow-down"></span>
+						<?php _e('Store elements', 'ecwid-shopping-cart'); ?><span class="dashicons dashicons-arrow-down"></span>
 					</h1>
 				</div>
 
@@ -249,7 +249,7 @@
 								<div class="store-id"><?php _e('Demo store', 'ecwid-shopping-cart'); ?></div>
 							<?php endif; ?>
 								<div class="setting-link">
-									<a target="_blank" href="admin.php?page=ecwid"><?php _e('Ecwid plugin settings', 'ecwid-shopping-cart'); ?>
+									<a target="_blank" href="admin.php?page=ecwid"><?php _e('Open store dashboard', 'ecwid-shopping-cart'); ?>
 								</div>
 						</div>
 						<div class="media-toolbar-primary add-store">

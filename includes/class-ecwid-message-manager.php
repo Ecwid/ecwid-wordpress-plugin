@@ -167,7 +167,7 @@ class Ecwid_Message_Manager
 
 			'on_storeid_set' => array(
 				'title' => __('Good job! Your store is set up and you\'re ready to sell.', 'ecwid-shopping-cart'),
-				'message' => __('Now you can fine-tune your store\'s appearance', 'ecwid-shopping-cart'),
+				'message' => __('Use the dashboard below to add products, track sales and adjust settings in your store. We also created a store page on your site and now you can fine-tune the storefront appearance.', 'ecwid-shopping-cart'),
 				'primary_title' => __('Visit Storefront', 'ecwid-shopping-cart'),
 				'primary_url' => '',
 				'primary_blank' => true,
