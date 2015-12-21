@@ -1713,7 +1713,7 @@ function ecwid_general_settings_do_page() {
 
 	global $ecwid_oauth;
 
-	if ( get_option( 'ecwid_store_id' ) != ECWID_DEMO_STORE_ID && ! $ecwid_oauth->has_scope( 'allow_sso' ) ) {
+	if ( get_option( 'ecwid_store_id' ) != ECWID_DEMO_STORE_ID && ! $ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['connection_error']) ) {
 		require_once ECWID_PLUGIN_DIR . '/templates/reconnect-sso.php';
 
 	} else if (get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID && !$no_oauth) {
