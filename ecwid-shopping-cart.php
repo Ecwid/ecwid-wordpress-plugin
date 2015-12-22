@@ -1389,7 +1389,7 @@ function ecwid_override_jsexclude($exclude)
 function ecwid_store_activate() {
 	$my_post = array();
 	$content = <<<EOT
-[ecwid widgets="productbrowser search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[ecwid widgets="productbrowser minicart categories search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 	add_option("ecwid_store_page_id_auto", '', '', 'yes');
@@ -1559,21 +1559,21 @@ function ecwid_build_menu() {
 	if (!$is_newbie) {
 		add_submenu_page(
 			'ecwid',
-			__('Products', 'ecwid-shopping-cart'),
-			__('Products', 'ecwid-shopping-cart'),
-			'manage_options',
-			'ecwid-admin-products',
-			'ecwid_admin_products_do_page'
-		);
-
-
-		add_submenu_page(
-			'ecwid',
 			__('Sales', 'ecwid-shopping-cart'),
 			__('Sales', 'ecwid-shopping-cart'),
 			'manage_options',
 			'ecwid-admin-orders',
 			'ecwid_admin_orders_do_page'
+		);
+
+
+		add_submenu_page(
+			'ecwid',
+			__('Products', 'ecwid-shopping-cart'),
+			__('Products', 'ecwid-shopping-cart'),
+			'manage_options',
+			'ecwid-admin-products',
+			'ecwid_admin_products_do_page'
 		);
 	}
 	if (get_option('ecwid_hide_appearance_menu') != 'Y') {
