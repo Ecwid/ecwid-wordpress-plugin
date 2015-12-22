@@ -274,6 +274,7 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_script('ecwid-frontend-js', plugins_url('ecwid-shopping-cart/js/frontend.js'), array('jquery'), get_option('ecwid_plugin_version'));
 
+	/*
 	global $ecwid_seo_title_mode;
 
 	$ecwid_seo_title_mode = 'none';
@@ -288,6 +289,7 @@ function ecwid_enqueue_frontend() {
 		'title_template' => $title_template
 		)
 	);
+	*/
 
 	if ((bool)get_option('ecwid_use_chameleon')) {
 		wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
