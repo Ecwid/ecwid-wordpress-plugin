@@ -144,7 +144,7 @@ class Ecwid_OAuth {
 
 	public function disconnect_store()
 	{
-		update_option( 'ecwid_store_id', '' );
+		update_option( 'ecwid_store_id', ECWID_DEMO_STORE_ID );
 		update_option( 'ecwid_oauth_token', '' );
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
@@ -302,7 +302,10 @@ class Ecwid_OAuth {
 	protected function _load_state() {
 		if (isset($_COOKIE['ecwid_oauth_state'])) {
 			$this->state = @unserialize( $_COOKIE['ecwid_oauth_state'] );
-		} else {
+
+		}
+
+		if (!is_object($this->state)) {
 			$this->state = new stdClass();
 			$this->state->reconnect_scopes = array();
 			$this->state->reconnect_error = '';

@@ -20,6 +20,40 @@ class Ecwid_Message_Manager
 		}
 	}
 
+	public static function get_oauth_message($wp_remote_post_error = '')
+	{
+		if (!$wp_remote_post_error) {
+			$message = sprintf(
+				__( <<<TXT
+Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the Ecwid server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
+<br /><br />
+Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP POST requests are disabled on this server".
+<br /><br />
+Please also feel free to contact us at <a %s>wordpress@ecwid.com</a> and we will help you handle it with your hosting.
+<br /><br />
+Meanwhile, to manage your store, you can use the Ecwid Web Control Panel at <a %s>my.ecwid.com</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.
+TXT
+
+		),
+				'href="mailto:wordpress@ecwid.com"',
+				'target="_blank" href="http://my.ecwid.com"',
+				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
+				ecwid_get_store_page_url()
+			);
+		} else {
+			$message = sprintf(
+				__('Sorry, there is a problem. This page is supposed to display your store Control Panel. However, this Wordpress site doesn\'t seem to be able to connect to the Ecwid server to show your store dashboard here. This is likely caused by your server misconfiguration and can be fixed by your hosting provider. Here is a more techy description of the problem, which you can send to your hosting provider: "The Wordpress function wp_remote_post() failed to connect a remote server because of some error: "%s". Seems like HTTP POST requests are disabled on this server". <br /><br />Please feel free to contact us at <a %s>wordpress@ecwid.com</a> and we will help you contact your hosting and ask them to fix the issue. <br /><br /> Meanwhile, to manage your store, you can use the Ecwid Web Control Panel at <a %s>my.ecwid.com</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.'),
+				$wp_remote_post_error,
+				'href="mailto:wordpress@ecwid.com"',
+				'target="_blank" href="http://my.ecwid.com"',
+				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
+				ecwid_get_store_page_url()
+			);
+		}
+
+		return $message;
+	}
+
 	public static function show_message($name, $params = array())
 	{
 		$mm = self::get_instance();
@@ -200,6 +234,13 @@ class Ecwid_Message_Manager
 				'primary_title' => __('Rate Ecwid at WordPress.org', 'ecwid-shopping-cart'),
 				'primary_url' => 'http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart',
 				'hideable' => true
+			),
+
+			'no_oauth' => array(
+
+				'message' => Ecwid_Message_Manager::get_oauth_message(),
+				'hideable' => false,
+				'type' => 'error'
 			)
 		);
 	}

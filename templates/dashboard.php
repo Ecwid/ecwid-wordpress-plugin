@@ -1,3 +1,16 @@
+<?php
+/*
+$post_result = wp_remote_post('https://my.ecwid.com/api/oauth/token');
+if (is_object($post_result) && @$post_result->get_error_message()) {
+	$message = $post_result->get_error_message();
+}
+if ($message) {
+	Ecwid_Message_Manager::show_message('no_oauth', array('message' => Ecwid_Message_Manager::get_oauth_message($message)));
+} else {
+}
+*/
+Ecwid_Message_Manager::show_message('no_oauth');
+ ?>
 <div class="wrap ecwid-admin ecwid-dashboard">
 	<div class="box">
 		<div class="head">

@@ -18,21 +18,13 @@
 		</div>
 		<div class="connect-button">
 			<a href="admin-post.php?action=ecwid_connect" class="with-oauth"><?php _e( 'Connect Ecwid store', 'ecwid-shopping-cart' ); ?></a>
-			<a id="ecwid-connect-no-oauth" href="admin-post.php?action=ecwid_connect" class="no-oauth"><?php _e( 'Save and connect', 'ecwid-shopping-cart' ); ?></a>
+			<a id="ecwid-connect-no-oauth" href="admin-post.php?action=ecwid_connect" class="no-oauth" style="white-space: nowrap; width:auto"><?php _e( 'Save and connect', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 
 		<?php if (!$connection_error): ?>
 
 		<div class="note initial with-oauth">
 			<?php _e( 'After clicking button you need to login and accept permissions to use our plugin', 'ecwid-shopping-cart' ); ?>
-		</div>
-
-		<?php else: ?>
-
-		<div class="note auth-error">
-			<span>
-				<?php _e( 'Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again.', 'ecwid-shopping-cart' ); ?>
-			</span>
 		</div>
 
 		<?php endif; ?>
