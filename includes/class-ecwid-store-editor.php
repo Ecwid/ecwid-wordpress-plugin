@@ -27,14 +27,14 @@ class Ecwid_Store_Editor {
 		add_action( 'in_admin_header',       array( $this, 'add_popup' ) );
 	}
 
-	public function add_mce_plugin() {
-		$plugins = array( 'ecwid' ); //Add any more plugins you want to load here
+	public function add_mce_plugin($plugins) {
+
 		$plugins_array = array(
 			'ecwid' => plugins_url( 'ecwid-shopping-cart/js/store-editor-mce.js' ),
 			'ecwid_common' => plugins_url( 'ecwid-shopping-cart/js/store-editor-common.js' ),
 		);
 
-		return $plugins_array;
+		return array_merge($plugins, $plugins_array);
 	}
 
 	public function add_editor_button($context) {
