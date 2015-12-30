@@ -37,10 +37,16 @@ class Ecwid_OAuth {
 
 	public function test_post()
 	{
-		$return = wp_remote_post('https://my.ecwid.com/api/oauth/token');
+		$return = wp_remote_post($this->get_test_post_url());
 
 		return is_array($return);
 	}
+
+	public function get_test_post_url()
+	{
+		return 'https://my.ecwid.com/api/oauth/token';
+	}
+
 
 	public function get_auth_dialog_url()
 	{

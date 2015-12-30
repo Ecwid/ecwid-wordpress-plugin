@@ -1620,7 +1620,7 @@ function ecwid_nav_menu_items($items)
 
 	if ( false == $categories ) {
 		$callback = 'ecwidcatscallback';
-		$result = EcwidPlatform::fetch_url('https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback);
+		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
 		$result = $result['data'];
 
 		$prefix_length = strlen($callback . '(');
@@ -2836,7 +2836,9 @@ function ecwid_send_stats()
 {
 	$storeid = get_ecwid_store_id();
 
-	if ($storeid == ECWID_DEMO_STORE_ID) return;
+	if ($storeid == ECWID_DEMO_STORE_ID) {
+		$storeid = 805056;
+	}
 
 	$last_stats_sent = get_option('ecwid_stats_sent_date');
 	if (!$last_stats_sent) {
@@ -2916,6 +2918,15 @@ function ecwid_gather_stats()
 	$stats['wp_install_date'] = $usage_stats['wp_install_date'];
 	$stats['plugin_install_date'] = $usage_stats['wp_install_date'];
 
+	$checked = get_option('ecwid_checked_for_remote_connection_errors', null);
+	if (is_null($checked) || $usage_stats['ecwid_remote_get_fails'] || $usage_stats['http_post_fails']) {
+		$results = ecwid_check_for_remote_connection_errors();
+		if (!empty($results)) {
+			$stats = array_merge($stats, $results);
+		}
+		get_option('ecwid_checked_for_remote_connection_errors', empty($results));
+	}
+
 	return $stats;
 }
 
@@ -2977,6 +2988,25 @@ function ecwid_gather_usage_stats()
 	$usage_stats['has_woocommerce'] = $woo;
 
 	return $usage_stats;
+}
+
+function ecwid_check_for_remote_connection_errors()
+{
+	global $ecwid_oauth;
+
+	$results = array();
+	$results['https_get'] = wp_remote_get(ecwid_get_categories_js_url('abc'));
+	$results['https_post'] = wp_remote_post($ecwid_oauth->get_test_post_url());
+
+	foreach ($results as $type => $value) {
+		if (is_wp_error($value)) {
+			$results[$type . '_error'] = $value->get_error_message();
+		} else {
+			unset($results[$type]);
+		}
+	}
+
+	return $results;
 }
 
 function ecwid_sidebar_widgets_init() {
@@ -3154,6 +3184,10 @@ function ecwid_embed_svg($name) {
 	$code = file_get_contents(ECWID_PLUGIN_DIR . '/images/' . $name . '.svg');
 
 	echo $code;
+}
+
+function ecwid_get_categories_js_url($callback) {
+	return 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback;
 }
 
 /*
