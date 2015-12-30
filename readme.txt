@@ -1,9 +1,9 @@
 === Ecwid Shopping Cart ===
 Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
-Requires at least: 2.8
+Requires at least: 3.5
 Tested up to: 4.4
-Stable tag: 3.4.7
+Stable tag: 4.0.4
 
 Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
 
@@ -107,16 +107,19 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.0.4 =
+- Fixed an issue affecting site preview in Wordpress Customizer in some themes. Now the preview in the customizer tool should work fine.
+
 = 4.0.3 =
 - Fixes for a few warning messages appearing on some sites with the new version of the plugin (v4).
 
 = 4.0.2 =
 - **Built-in Full-featured Store Control Panel.** You can now manage your store, add new products, track sales and more right in your Wordpress site admin backend. No redirects, no external dashboards, no extra login/password – you now have a single place and single login to manage your site and your store. To make it even better, we added the Products and Sales shortcuts to your Wordpress admin menu – feel free to use them to easily access your inventory and sales list.
 - **New Drop-down Categories Menu.** Noticed how Wordpress automatically updates your site menu adding your site pages to it? Ecwid now does it too: open "Appearance -> Menus" in your Wordpress control panel and add the "Store with Categories Menu" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site. It will keep the categories list up to date even if you often change your store categories. Rest assured your customers can easily quickly get to the category of products they are interested in right from the site menu.
-- **More Store Menu Items for your site.** In addition to the drop-down categories list, the new "Store" menus section under Appearance -> Menus provides "Search", "Cart" and "My Account" items. Add those quick links to your site for your customers to browse your store easier.
-- **Bug Fixes and Improvements.** As usual, we fine-tuned the plugin and fixed a few bugs.
+- **More Store Menu Items for your site.** In addition to the drop-down categories list, the new "Store" menus section under Appearance -> Menus provides "Search", "Cart" and "My Account" items. Add those quick links to your site for your customers to browse your store easier. 
+- **Bug Fixes and Improvements.** As usual, we fine-tuned the plugin and fixed a few bugs. 
 
-We wish you happy holidays and all the best in the New Year! Sincerely yours, Ecwid team.
+We wish you happy holidays and all the best in the New Year! Sincerely yours, Ecwid team. 
 
 = 3.4.7 =
 - Fixed a few layout issues in three popular Wordpress themes: Responsive, Attitude, ResponsiveBoat. 

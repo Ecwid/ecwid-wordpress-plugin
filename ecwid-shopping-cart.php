@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 4.0.3
+Version: 4.0.4
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -983,10 +983,10 @@ function ecwid_content_started($content)
 
 function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
-    return "<!-- Ecwid shopping cart plugin v 4.0.3 --><!-- noptimize -->"
+    return "<!-- Ecwid shopping cart plugin v 4.0.4 --><!-- noptimize -->"
 		   . ecwid_get_scriptjs_code(@$attrs['lang'])
 	       . "<div class=\"ecwid-shopping-cart-$name\">$content</div>"
-		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.0.3 -->";
+		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.0.4 -->";
 }
 
 function ecwid_get_scriptjs_code($force_lang = null) {
@@ -2995,12 +2995,12 @@ function ecwid_check_for_remote_connection_errors()
 	global $ecwid_oauth;
 
 	$results = array();
-	$results['https_get'] = wp_remote_get(ecwid_get_categories_js_url('abc'));
-	$results['https_post'] = wp_remote_post($ecwid_oauth->get_test_post_url());
+	$results['https_get_error'] = wp_remote_get(ecwid_get_categories_js_url('abc'));
+	$results['https_post_error'] = wp_remote_post($ecwid_oauth->get_test_post_url());
 
 	foreach ($results as $type => $value) {
 		if (is_wp_error($value)) {
-			$results[$type . '_error'] = $value->get_error_message();
+			$results[$type] = $value->get_error_message();
 		} else {
 			unset($results[$type]);
 		}
