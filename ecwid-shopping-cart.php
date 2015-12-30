@@ -723,6 +723,7 @@ function ecwid_page_has_productbrowser($post_id = null)
 	static $results = null;
 
 	if (is_null($post_id)) {
+		if (is_admin()) return;
 		$post_id = get_the_ID();
 	}
 

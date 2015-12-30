@@ -6,6 +6,7 @@ if (typeof jQuery == 'undefined') {
 
 if (typeof Ecwid == 'undefined') {
 	console.warn('recently-viewed-common.js must be included after Ecwid object initialization');
+	return;
 }
 
 if (typeof wpCookies == 'undefined') {
