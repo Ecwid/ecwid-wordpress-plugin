@@ -1659,7 +1659,11 @@ function ecwid_nav_menu_items($items)
 				$post->type = 'post';
 				$post->db_id = 0;
 				$post->title = $category->name;
+				$post->target = '';
 				$post->object = '';
+				$post->attr_title = '';
+				$post->description = '';
+				$post->xfn = '';
 				$post->object_id = 0;
 				array_splice($items, $key + $counter, 0, array($post));
 			}
