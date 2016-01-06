@@ -1,22 +1,23 @@
 jQuery(document).ready(function() {
-    jQuery('ul.menu > li.menu-item').each(function(idx, el) {
-        processEcwidLinks(el);
-    });
+    var ecwidClasses = {
+        'ecwid-store': 'store',
+        'ecwid-cart': 'cart',
+        'ecwid-my-account': 'account',
+        'ecwid-product-search': 'search',
+        'ecwid-store-with-categories': 'storeWithCategories'
+    };
 
-    jQuery('#ecwid_nav_links').insertAfter(jQuery('#add-page'));
+    processEcwidLinks = function(element) {
 
-    jQuery('#menu-to-edit').on('DOMNodeInserted', function(e) {
-        if (!jQuery(e.srcElement).hasClass('menu-item')) return;
-        processEcwidLinks(e.srcElement);
-    });
-
-    function processEcwidLinks(element) {
-        if (!isEcwidLink(element)) return;
+        var ecwidLink = findEcwidLink(element);
+        if (!findEcwidLink(element)) return;
 
         if (jQuery(element).hasClass('ecwid-link')) return;
 
         jQuery(element).addClass('ecwid-link');
         jQuery(element).find('.item-type').text(ecwid_l10n.store_page);
+
+        ecwid_kissmetrics_record(ecwidClasses[ecwidLink] + 'Added');
 
         if (isStoreWithCategories(element)) {
 
@@ -58,12 +59,21 @@ jQuery(document).ready(function() {
         }
     }
 
-    function isEcwidLink(element) {
+    findEcwidLink = function(element) {
 
-        var ecwidClasses = ['ecwid-store', 'ecwid-cart', 'ecwid-my-account', 'ecwid-store-with-categories', 'ecwid-product-search'];
         var classes = jQuery('.edit-menu-item-classes', element).val().split(' ');
         for (var i = 0; i < classes.length; i++) {
-            if (ecwidClasses.indexOf(classes[i]) != -1) {
+            if (ecwidClasses.hasOwnProperty(classes[i])) {
+                return classes[i];
+            }
+        }
+
+        return false;
+    }
+
+    isStoreWithCategories = function(element) {
+        for (var i in ecwidClasses) {
+            if (i == 'ecwid-store-with-categories') {
                 return true;
             }
         }
@@ -71,18 +81,7 @@ jQuery(document).ready(function() {
         return false;
     }
 
-    function isStoreWithCategories(element) {
-        var classes = jQuery('.edit-menu-item-classes', element).val().split(' ');
-        for (var i = 0; i < classes.length; i++) {
-            if (classes[i] == 'ecwid-store-with-categories') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    function resetCache(callback) {
+    resetCache = function(callback) {
 
         jQuery.getJSON(
             'admin-ajax.php',
@@ -94,5 +93,15 @@ jQuery(document).ready(function() {
 
     }
 
+    jQuery('ul.menu > li.menu-item').each(function(idx, el) {
+        processEcwidLinks(el);
+    });
+
+    jQuery('#ecwid_nav_links').insertAfter(jQuery('#add-page'));
+
+    jQuery('#menu-to-edit').on('DOMNodeInserted', function(e) {
+        if (!jQuery(e.srcElement).hasClass('menu-item')) return;
+        processEcwidLinks(e.srcElement);
+    });
 
 });

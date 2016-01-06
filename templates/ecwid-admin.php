@@ -27,3 +27,8 @@
 </div>
 
 <?php require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>
+
+
+<script type="text/javascript">
+	ecwid_kissmetrics_record('<?php echo $page; ?> Page Viewed');
+</script>
