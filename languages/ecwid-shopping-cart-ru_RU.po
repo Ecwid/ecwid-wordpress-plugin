@@ -476,7 +476,7 @@ msgid "Chameleon skin <sup>beta</sup>"
 msgstr "Тема \"Хамелеон\" <sup>бета</sup>"
 
 msgid "Automatic adjustment of your store design to your Wordpress theme. Whatever Wordpress theme you use, Ecwid will detect predominant colors and font and use them in your product catalog."
-msgstr "Автоматическая подстройка внешнего вида магазина под стили темы сайта. Включите эту опцию, чтобы Эквид определял цвета и шрифты сайта и исопльзовал их в каталоге товаров."
+msgstr "Автоматическая подстройка внешнего вида магазина под стили темы сайта. Включите эту опцию, чтобы Эквид определял цвета и шрифты сайта и использовал их в каталоге товаров."
 
 msgid "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
 msgstr "Мы добавили этот инструмент недавно, и он сейчас работает в бета-режиме. Если вы обнаружите какие-либо проблемы в его работе, пожалуйста, <a %s>сообщите нам</a>."
