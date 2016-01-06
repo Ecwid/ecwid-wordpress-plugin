@@ -1,6 +1,5 @@
 jQuery(document).ready(function() {
 
-    /*
     if (typeof window.Ecwid != 'undefined') {
         Ecwid.OnPageLoaded.add(function() {
             jQuery.get(ecwid_ajax_object.ajax_url,
@@ -14,5 +13,5 @@ jQuery(document).ready(function() {
             );
         });
     }
-    */
+
 })
