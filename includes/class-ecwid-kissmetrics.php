@@ -13,7 +13,13 @@ class Ecwid_Kissmetrics {
 	}
 
 	public static function record($event) {
-		self::$instance->_record( self::EVENT_PREFIX . $event );
+		$fire_in_background = array('wpPluginDeactivated');
+
+		if (in_array($event, $fire_in_background)) {
+			self::$instance->_record(self::EVENT_PREFIX . $event);
+		} else {
+			self::$instance->_enqueue_record(self::EVENT_PREFIX . $event);
+		}
 	}
 
 	private function __construct() {
@@ -38,7 +44,20 @@ class Ecwid_Kissmetrics {
 		wp_localize_script('ecwid-kissmetrics-events', 'ecwid_kissmetrics', $kissmetrics);
 	}
 
-	protected function _record( $event, $params = array() ) {
+	protected function _record($event) {
+
+		$params = array(
+			'_k' => self::API_KEY,
+			'_p' => $_COOKIE['km_ai'],
+			'_n' => $event
+		);
+		$query = http_build_query($params);
+		//die(var_dump($_COOKIE));
+
+		$result = wp_remote_get('http://trk.kissmetrics.com/e?' . $query);
+	}
+
+	protected function _enqueue_record( $event ) {
 		$events = $this->_get_pending_events();
 
 		array_push( $events, array( 'event' => $event ) );

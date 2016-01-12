@@ -1915,6 +1915,8 @@ function ecwid_get_register_link()
 
 function ecwid_general_settings_do_page() {
 
+	//Ecwid_Kissmetrics::record('wpPluginDeactivated');
+
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );
@@ -1926,7 +1928,7 @@ function ecwid_general_settings_do_page() {
 		} else {
 			$register = ! $connection_error && ! isset( $_GET['connect'] ) && ! @$_COOKIE['ecwid_create_store_clicked'];
 
-			Ecwid_Kissmetrics::push( 'Welcome Page Viewed' );
+			Ecwid_Kissmetrics::record( 'Welcome Page Viewed' );
 			require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
 		}
 	} else {
