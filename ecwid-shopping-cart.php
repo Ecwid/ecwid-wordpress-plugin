@@ -2728,7 +2728,7 @@ class EcwidRecentlyViewedWidget extends WP_Widget {
 		if (isset($_COOKIE['ecwid-shopping-cart-recently-viewed'])) {
 			$recently_viewed = json_decode($_COOKIE['ecwid-shopping-cart-recently-viewed']);
 		}
-		$recently_viewed = json_decode(stripslashes($_COOKIE['ecwid-shopping-cart-recently-viewed']));
+		$recently_viewed = json_decode(stripslashes(@$_COOKIE['ecwid-shopping-cart-recently-viewed']));
 
 		if ($recently_viewed && $recently_viewed->store_id != get_ecwid_store_id()) {
 			$recently_viewed = null;
