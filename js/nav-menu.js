@@ -107,7 +107,6 @@ jQuery(document).ready(function() {
 
     jQuery('#menu-to-edit').on('DOMNodeInserted', function(e) {
         if (!jQuery(e.srcElement).hasClass('menu-item')) return;
-        debugger;
 
         processEcwidLinks(e.srcElement);
 
