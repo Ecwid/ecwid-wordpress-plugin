@@ -17,8 +17,6 @@ jQuery(document).ready(function() {
         jQuery(element).addClass('ecwid-link');
         jQuery(element).find('.item-type').text(ecwid_l10n.store_page);
 
-        ecwid_kissmetrics_record('menu-items ' + ecwidClasses[ecwidLink] + 'Added');
-
         if (isStoreWithCategories(element)) {
 
             var $message = jQuery('<p>')
@@ -57,6 +55,14 @@ jQuery(document).ready(function() {
                     });
                 });
         }
+    }
+
+    trackAddedMenuItems = function(element) {
+        var ecwidLink = findEcwidLink(element);
+        if (!findEcwidLink(element)) return;
+
+        ecwid_kissmetrics_record('menu-items ' + ecwidClasses[ecwidLink] + 'Added');
+
     }
 
     findEcwidLink = function(element) {
@@ -101,7 +107,11 @@ jQuery(document).ready(function() {
 
     jQuery('#menu-to-edit').on('DOMNodeInserted', function(e) {
         if (!jQuery(e.srcElement).hasClass('menu-item')) return;
+        debugger;
+
         processEcwidLinks(e.srcElement);
+
+        trackAddedMenuItems(e.srcElement);
     });
 
 });
