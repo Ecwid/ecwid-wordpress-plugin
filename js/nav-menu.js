@@ -17,7 +17,7 @@ jQuery(document).ready(function() {
         jQuery(element).addClass('ecwid-link');
         jQuery(element).find('.item-type').text(ecwid_l10n.store_page);
 
-        ecwid_kissmetrics_record(ecwidClasses[ecwidLink] + 'Added');
+        ecwid_kissmetrics_record('menu-items ' + ecwidClasses[ecwidLink] + 'Added');
 
         if (isStoreWithCategories(element)) {
 
