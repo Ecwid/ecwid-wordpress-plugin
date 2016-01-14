@@ -2289,7 +2289,7 @@ function ecwid_get_store_page_url()
 {
 	static $link = null;
 
-	if (in_the_loop() && is_null($link)) {
+	if (is_null($link)) {
 		$link = get_page_link(ecwid_get_current_store_page_id());
 	}
 
