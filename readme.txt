@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
 Requires at least: 3.5
 Tested up to: 4.4
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 
 Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
 
@@ -91,14 +91,11 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 == Screenshots ==
 
-1. Store home page
-2. Category page
-3. Product details page
-4. Shopping bag
-5. Ecwid control panel
-6. Adding new product
-7. Shipping settings
-8. Translations
+1. 
+2. 
+3. 
+4. 
+5. 
 
 == Frequently Asked Questions ==
 
@@ -107,6 +104,9 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.0.6 =
+- **Fixed a bug affecting the links in store sidebar widgets.** The bug appeared in the version 4.0.5. It’s now fixed and all categories/cart/search links should work OK
+
 = 4.0.5 =
 - **Updated SEO Titles and Meta Descriptions.** Google recently launched a new crawling schema to better index rich AJAX sites and applications like Ecwid, which is a great news for all Ecwid users. We're keeping an eye on this and help Google improve indexing of all Ecwid stores. In this update, we made the product/categories page titles and descriptions change on the fly (with no page reload) so that Google will index them better. No action is required from your side – we will continue improving how your store appears for Google to make sure your products and categories will get to the search results.
 - **Fixed a bug affecting the "Re-connect Ecwid account" link.** The "Disconnect the Ecwid store and connect to another one" link at the bottom of the plugin dashboard now works fine.
