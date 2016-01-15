@@ -1982,7 +1982,6 @@ function ecwid_admin_do_page( $page ) {
 
 	global $ecwid_oauth;
 
-	Ecwid_Message_Manager::reset_hidden_messages();
 	if ($page == 'dashboard') {
 		$show_reconnect = true;
 	}
