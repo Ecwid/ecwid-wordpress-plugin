@@ -665,7 +665,10 @@ TEXT;
 			"id" => "ecwid-help",
 			"title" => __("Get help", 'ecwid-shopping-cart'),
 			"parent" => "ecwid-main",
-			'href' =>  'http://help.ecwid.com'
+			'href' =>  __('https://help.ecwid.com', 'ecwid-shopping-cart'),
+			'meta' => array(
+				'target' => '_blank'
+			)
 		)
 	);
     $wp_admin_bar->add_menu(array(
@@ -1691,7 +1694,7 @@ function ecwid_nav_menu_links()
 			'list-name' => __( 'Cart', 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-cart',
 			'url' => 'cart',
-			'label' => __('Shopping cart', 'ecwid-shopping-cart')
+			'label' => __('Shopping Cart', 'ecwid-shopping-cart')
 		), 'Search' => array(
 			'list-name' => __( 'Product Search', 'ecwid-shopping-cart' ),
 			'classes' => 'ecwid-product-search',

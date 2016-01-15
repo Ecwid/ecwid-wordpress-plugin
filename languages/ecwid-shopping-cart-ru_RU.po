@@ -8,7 +8,7 @@ msgid "Ecwid is a free full-featured shopping cart. It can be easily integrated 
 msgstr "Эквид – бесплатный полнофункциональный интернет-магазин. Легко встраивается в любой WordPress сайт и настраивается за 5 минут."
 
 msgid "Get help"
-msgstr "Получить помощь"
+msgstr "Задать вопрос"
 
 msgid "Go to Ecwid site"
 msgstr "Пройти на сайт Эквида"
@@ -522,3 +522,9 @@ msgstr "Вы сможете добавлять товары, обрабатыв�
 
 msgid "Re-connect to Enable Control Panel"
 msgstr "Подключить панель управления"
+
+msgid "Report a problem with the store"
+msgstr "Сообщить о проблеме"
+
+msgid "https://help.ecwid.com"
+msgstr "https://help.ecwid.com/customer/ru/portal/articles"
