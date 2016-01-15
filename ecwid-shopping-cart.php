@@ -1966,9 +1966,9 @@ function ecwid_general_settings_do_page() {
 					substr( get_bloginfo( 'language' ), 0, 2 )
 				);
 
-				$result = wp_remote_get( $iframe_src );
+				$result = EcwidPlatform::fetch_url( $iframe_src );
 
-				if ( is_array( $result ) && $result['response']['code'] == 200 ) {
+				if ( is_array( $result ) && $result['code'] == 200 ) {
 					ecwid_admin_do_page( 'dashboard' );
 				} else {
 					require_once ECWID_PLUGIN_DIR . '/templates/reconnect-sso.php';
@@ -1999,8 +1999,8 @@ function ecwid_admin_do_page( $page ) {
 		substr(get_bloginfo('language'), 0, 2)
 	);
 
-	$result = wp_remote_get($iframe_src);
-	if ($result['response']['code'] != 200) {
+	$result = EcwidPlatform::fetch_url($iframe_src);
+	if ($result['code'] != 200) {
 
 		if (ecwid_test_oauth(true)) {
 			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
