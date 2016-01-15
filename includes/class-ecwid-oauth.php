@@ -37,7 +37,7 @@ class Ecwid_OAuth {
 
 	public function test_post()
 	{
-		$return = wp_remote_post($this->get_test_post_url());
+		$return = EcwidPlatform::http_post_request($this->get_test_post_url());
 
 		return is_array($return);
 	}
@@ -108,7 +108,7 @@ class Ecwid_OAuth {
 
 		$params['grant_type'] = 'authorization_code';
 
-		$return = wp_remote_post('https://my.ecwid.com/api/oauth/token', array('body' => $params));
+		$return = EcwidPlatform::http_post_request('https://my.ecwid.com/api/oauth/token', $params);
 
 		if (is_array($return) && isset($return['body'])) {
 			$result = json_decode($return['body']);
@@ -218,7 +218,7 @@ class Ecwid_OAuth {
 
 		if (isset($last_error)) {
 			$url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=' . urlencode($last_error) . '&url=' . urlencode(get_bloginfo('url'));
-			wp_remote_get($url);
+			EcwidPlatform::fetch_url($url);
 		}
 
 		wp_redirect('admin.php?page=ecwid&connection_error' . ($mode == self::MODE_RECONNECT ? '&reconnect' : ''));

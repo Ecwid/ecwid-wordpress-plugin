@@ -2,6 +2,8 @@
 
 class EcwidPlatform {
 
+	static protected $http_use_streams = false;
+
 	static public function esc_attr($value)
 	{
 		return esc_attr($value);
@@ -24,8 +26,15 @@ class EcwidPlatform {
         if ($use_file_get_contents == 'Y') {
             $result = @file_get_contents($url);
         } else {
+						if (get_option('ecwid_http_use_stream', false)) {
+							self::$http_use_streams = true;
+						}
             $result = wp_remote_get( $url, array( 'timeout' => get_option( 'ecwid_remote_get_timeout', 5 ) ) );
-            if (!is_array($result)) {
+
+						if (get_option('ecwid_http_use_stream', false)) {
+							self::$http_use_streams = false;
+						}
+						if (!is_array($result)) {
                 $result = @file_get_contents($url);
                 if (!empty($result)) {
                     update_option('ecwid_fetch_url_use_file_get_contents', true);
@@ -63,6 +72,42 @@ class EcwidPlatform {
         }
 
         return $return;
+	}
 
+	static public function http_post_request($url, $data = array())
+	{
+		$result = null;
+		if (get_option('ecwid_http_use_stream', false) !== true) {
+			$result = wp_remote_post(
+				$url,
+				array( 'body' => $data )
+			);
+		}
+
+		if ( !is_array($result) ) {
+			self::$http_use_streams = true;
+			$result = wp_remote_post(
+				$url,
+				array('body' => $data)
+			);
+			self::$http_use_streams = false;
+
+			if ( is_array($result) ) {
+				update_option('ecwid_http_use_stream', true);
+			}
+		}
+
+		return $result;
+	}
+
+	static public function http_api_transports($transports)
+	{
+		if (self::$http_use_streams) {
+			return array('streams');
+		}
+
+		return $transports;
 	}
 }
+
+add_filter('http_api_transports', array('EcwidPlatform', 'http_api_transports'));
