@@ -622,16 +622,18 @@ function ecwid_seo_compatibility_restore()
 }
 
 function add_ecwid_admin_bar_node() {
-    global $wp_admin_bar;
+	global $wp_admin_bar;
 
-     if ( !is_super_admin() || !is_admin_bar_showing() )
-        return;
+	if ( !is_super_admin() || !is_admin_bar_showing() )
+		return;
 
-
-	$theme = ecwid_get_theme_name();
+	$theme     = ecwid_get_theme_name();
 	$store_url = ecwid_get_store_page_url();
-	$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
-	$body = <<<TEXT
+
+
+	if (!is_admin()) {
+		$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
+		$body = <<<TEXT
 Hey Ecwid,
 
 My store looks bad with my theme on Wordpress.
@@ -643,8 +645,26 @@ Can you have a look?
 
 Thanks.
 TEXT;
-	$body = __( $body, 'ecwid-shopping-cart' );
-	$body = sprintf( $body, $theme, $store_url );
+	} else {
+		$subject = __('I have a problem with my Ecwid store', 'ecwid-shopping-cart');
+		$body = <<<TEXT
+Hey Ecwid,
+
+I have a problem with my Ecwid store.
+
+[Please provide details here]
+
+The theme title is %s.
+The store URL is %
+
+Can you have a look?
+
+Thanks.
+TEXT;
+	}
+
+	$body = __($body, 'ecwid-shopping-cart');
+	$body = sprintf($body, $theme, $store_url);
 
 	$wp_admin_bar->add_menu(array(
 		'id' => 'ecwid-report-problem',
