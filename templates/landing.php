@@ -123,7 +123,7 @@
                         <img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/secure-pci.svg" class="secure">
                     </div>
                     <div class="ecwid-features-bottom-item-text">
-                        <h3><?php _e('PCI-DSS Certified', 'ecwid-shopping-cart'); ?></h3>
+                        <h3><?php _e('PCI DSS Certified', 'ecwid-shopping-cart'); ?></h3>
                         <p><?php _e('Secure checkout with over 40<br />payment options', 'ecwid-shopping-cart'); ?></p>
                     </div>
                 </div>

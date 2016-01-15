@@ -406,11 +406,11 @@ msgstr "Адаптивный дизайн"
 msgid "Your store looks perfect<br />on all devices"
 msgstr "Ваш магазин выглядит превосходно<br />на любом устройстве: планшете, смартфоне и ноутбуке."
 
-msgid "PCI-DSS Certified"
-msgstr "Сертификация по PCI-DSS"
+msgid "PCI DSS Certified"
+msgstr "Сертификация по PCI DSS"
 
 msgid "Secure checkout with over 40<br />payment options"
-msgstr "Эквид сертифицирован по стандарту Level 1 PCI-DSS – самому высокому уровню безопасности передачи данных."
+msgstr "Эквид сертифицирован по стандарту Level 1 PCI DSS – самому высокому уровню безопасности передачи данных."
 
 msgid "Global Reach"
 msgstr "Глобальное решение"
