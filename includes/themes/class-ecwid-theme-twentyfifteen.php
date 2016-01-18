@@ -33,6 +33,10 @@ class Ecwid_Theme_2015 extends Ecwid_Theme_Base
 					),
 					'_multiwidget' => 1
 				);
+			} else {
+				$options[2] = array(
+					'label' => __('Shop', 'ecwid-shopping-cart')
+				);
 			}
 
 			update_option('widget_ecwidstorelink', $options);

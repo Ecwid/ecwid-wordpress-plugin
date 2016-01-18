@@ -23,16 +23,22 @@ class Ecwid_Theme_2016 extends Ecwid_Theme_Base
 		$widgets = get_option('sidebars_widgets');
 
 		if (strpos(implode(' ', $widgets['sidebar-1']), 'ecwidstorelink') === false) {
+
 			array_unshift($widgets['sidebar-1'], 'ecwidstorelink-2');
 			wp_set_sidebars_widgets($widgets);
 
 			$options = get_option('widget_ecwidstorelink');
+
 			if (!$options) {
 				$options = array(
 					2 => array(
 						'label' => __('Shop', 'ecwid-shopping-cart')
 					),
 					'_multiwidget' => 1
+				);
+			} else {
+				$options[2] = array(
+					'label' => __('Shop', 'ecwid-shopping-cart')
 				);
 			}
 
