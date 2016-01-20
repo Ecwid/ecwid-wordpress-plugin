@@ -104,6 +104,11 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.0.7 =
+- **Fixed a problem with connecting to the Ecwid API on the servers with misconfigured or outdated CURL.** Some servers couldn't connect to Ecwid from to display the Ecwid Control Panel inside Wordpress backend. That caused a "Connection problem" error message, which some of Ecwid users saw in their Wordpress admin section. We added a fix that should resolve this problem and make the Ecwid Control Panel inside Wordpress work OK for those users. 
+- Improvements for the new drop-down categories store menu added in the version 4 of the plugin. If you haven't tried it yet, go check it out in the Appearance -> Menus settings of your site.
+- Fixes and improvements for the plugin settings pages.
+
 = 4.0.6 =
 - **Fixed a bug affecting the links in store sidebar widgets.** The bug appeared in the version 4.0.5. It’s now fixed and all categories/cart/search links should work OK
 
