@@ -105,7 +105,10 @@ require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-kissmetrics.php';
 
 require_once ECWID_PLUGIN_DIR . '/lib/ecwid_platform.php';
+require_once ECWID_PLUGIN_DIR . '/lib/ecwid_api_v3.php';
 
+$api = new Ecwid_Api_V3();
+die(var_dump($api->does_store_exist('deddy@bk.ru'), $api->does_store_exist('marvin+test_api_v3_check_account@ecwid.com')));
 
 function ecwid_init_integrations()
 {

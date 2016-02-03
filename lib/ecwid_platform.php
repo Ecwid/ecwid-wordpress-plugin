@@ -74,6 +74,10 @@ class EcwidPlatform {
         return $return;
 	}
 
+	static public function http_get_request($url) {
+		return self::fetch_url($url);
+	}
+
 	static public function http_post_request($url, $data = array())
 	{
 		$result = null;
