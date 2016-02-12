@@ -434,7 +434,6 @@ display: none;
 	padding: 14px 40px;
 	border: 0px none;
 	border-radius: 4px;
-	width: 180px;
 
 	background: #59bb00;
 	color: white;
@@ -444,6 +443,8 @@ display: none;
 
 	transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
 	display: inline-block;
+
+	white-space: nowrap;
 }
 
 .ecwid-connect .box .connect-button a:hover {

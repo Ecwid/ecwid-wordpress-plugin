@@ -59,8 +59,8 @@ class Ecwid_OAuth {
 		$redirect_uri = 'admin-post.php?action=' . $action;
 
 		return $this->api->get_oauth_dialog_url(
-			implode(' ', $this->_get_scope() ),
-			admin_url( $redirect_uri )
+			admin_url( $redirect_uri ),
+			implode(' ', $this->_get_scope() )
 		);
 	}
 
@@ -109,7 +109,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		$this->_init_crypt();
-		$this->_save_token($result->access_token);
+		$this->save_token($result->access_token);
 
 		// Reset "Create store cookie" set previously to display the landing page
 		//in "Connect" mode rather than "Create" mode
@@ -234,7 +234,7 @@ class Ecwid_OAuth {
 		return get_option( self::TOKEN_OPTION_NAME );
 	}
 
-	protected function _save_token($token)
+	public function save_token($token)
 	{
 		$value = base64_encode($this->crypt->encrypt($token));
 

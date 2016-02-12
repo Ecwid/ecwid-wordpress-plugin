@@ -39,7 +39,7 @@ class Ecwid_Api_V3
 	{
 		$params = array(
 			'appClientId',
-			'appClientSecret',
+			'appSecretKey',
 			'email' => $email
 		);
 
@@ -47,8 +47,70 @@ class Ecwid_Api_V3
 
 		$result = EcwidPlatform::http_get_request($url);
 
-		die(var_dump($result, $url));
 		return @$result['code'] == 200;
+	}
+
+	public function create_store()
+	{
+		global $current_user;
+
+		$admin_email = time() . '+' . $current_user->user_email;
+
+		$admin_first = get_user_meta($current_user->ID, 'first_name', true);
+		if (!$admin_first) {
+			$admin_first = get_user_meta($current_user->ID, 'nickname', true);
+		}
+		$admin_last = get_user_meta($current_user->ID, 'last_name', true);
+		if (!$admin_last) {
+			$admin_last = get_user_meta($current_user->ID, 'nickname', true);
+		}
+		$admin_name = "$admin_first $admin_last";
+
+		$admin_nickname = $current_user->display_name;
+
+		$site_url = get_bloginfo('url');
+		$site_name = get_bloginfo('name');
+		$site_email = get_option('admin_email');
+
+		$params = array(
+			'merchant' => array(
+				'email' => $admin_email,
+				'name' => $admin_name,
+				'password' => wp_generate_password(8),
+				'ip' => $_SERVER['REMOTE_ADDR']
+			),
+			'affiliatePartner' => array(
+				'source' => 'wporg'
+			),
+			'profile' => array(
+				'generalInfo' => array(
+					'storeUrl' => $site_url
+				)
+			),
+			'account' => array(
+				'accountName' => $admin_name,
+				'accountNickName' => $admin_nickname,
+				'accountEmail' => $admin_email
+			),
+			'settings' => array(
+				'storeName' => $site_name
+			),
+			'mailNotifications' => array(
+				'adminNotificationEmails' => array($site_email),
+				'customerNotificationFromEmail' => $site_email
+			)
+		);
+
+		$request_params =  array(
+			'appClientId',
+			'appSecretKey',
+			'returnApiToken' => 'true'
+		);
+		$url = $this->build_request_url($this->_stores_api_url, $request_params);
+
+		$result = EcwidPlatform::http_post_request($url, json_encode($params));
+
+		return $result;
 	}
 
 	protected function build_request_url($url, $params)
@@ -57,9 +119,9 @@ class Ecwid_Api_V3
 			if ( $param == 'appClientId' ) {
 				unset($params[$key]);
 				$params['appClientId'] = self::CLIENT_ID;
-			} elseif ( $param == 'appClientSecret' ) {
+			} elseif ( $param == 'appSecretKey' ) {
 				unset($params[$key]);
-				$params['appClientSecret'] = self::CLIENT_SECRET;
+				$params['appSecretKey'] = self::CLIENT_SECRET;
 			} else {
 				$params[$key] = urlencode($param);
 			}

@@ -1,71 +1,48 @@
 <div class="ecwid-landing <?php echo $register ? 'register' : 'connect'; echo $connection_error ? ' conn-error': ''; ?>">
     <div class="ecwid-thank">
-        <h1 class="on-register">
-            <span><?php _e('Plugin is installed successfully!', 'ecwid-shopping-cart'); ?></span>
-            <?php _e('There are just a few steps left to start selling<br /> on your WordPress site', 'ecwid-shopping-cart'); ?>
+        <h1>
+            <?php _e('Welcome to Ecwid!', 'ecwid-shopping-cart'); ?>
+            <span><?php _e('Thank you for choosing Ecwid to build your online store. <br /> The first step to sell successfully online is to setup your store! <br />Let’s get started and add a store to your website in a few simple steps. <br />It won’t take more than 15 minutes.', 'ecwid-shopping-cart'); ?></span>
         </h1>
-        <h1 class="on-connect">
-            <span><?php _e('Plugin is installed successfully!', 'ecwid-shopping-cart'); ?></span>
-            <?php _e('There are few little steps left to start selling<br /> on your WordPress site', 'ecwid-shopping-cart'); ?>
-        </h1>
-        <div class="ecwid-thank-steps">
-            <div class="ecwid-thank-step ecwid-thank-step-one<?php echo $register ?'' : ' active'; ?>">
-                <div class="ecwid-thank-step-image"><img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/ecwid.svg" class="none-active"><img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/ecwid-active.svg" class="active"></div>
-                <div class="ecwid-thank-step-description">
-                    <h2><?php _e('Register', 'ecwid-shopping-cart'); ?></h2>
-                    <p><?php _e('Create a free Ecwid account to manage your store and inventory.<br /> No credit card required', 'ecwid-shopping-cart'); ?></p>
-                </div>
-            </div>
-            <div class="ecwid-thank-step ecwid-thank-step-two">
-                <div class="ecwid-thank-step-image"><img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/plug.svg" class="none-active"><img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/plug-active.svg" class="active"></div>
-                <div class="ecwid-thank-step-description">
-                    <h2>
-                        <?php _e('Connect', 'ecwid-shopping-cart'); ?>
-                    </h2>
-                    <p class="on-register"><?php _e('Add your Ecwid store to your site <nobr>in two clicks</nobr>', 'ecwid-shopping-cart'); ?></p>
-                    <p class="on-connect"><?php _e('Connect your Ecwid store to this site <nobr>in two clicks</nobr>', 'ecwid-shopping-cart'); ?></p>
-                </div>
-            </div>
-            <div class="ecwid-thank-step ecwid-thank-step-three">
-                <div class="ecwid-thank-step-image">
-                    <img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/dollar.svg" class="none-active">
-                    <img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/dollar-active.svg" class="active">
-                </div>
-                <div class="ecwid-thank-step-description">
-                    <h2><?php _e('Start selling', 'ecwid-shopping-cart'); ?></h2>
-                    <p><?php _e('Your storefront is ready', 'ecwid-shopping-cart'); ?></p>
-                </div>
-            </div>
-        </div>
+
         <div class="ecwid-button">
-            <a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect();ecwid_kissmetrics_record('createAccountButtonClick');">
-                <?php _e('Create Ecwid store', 'ecwid-shopping-cart'); ?>
-            </a>
-            <a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect"  onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');">
-                <?php _e('Connect your store', 'ecwid-shopping-cart'); ?>
-            </a>
-            <div class="button-description-mobile on-register">
+
+            <button class="create-store-button btn btn-primary btn-large">
+                Create Free Ecwid Store
+            </button>
+            <button class="create-store-loading btn btn-primary btn-large btn-loading">
+                <div class="loader">
+                    <div class="ecwid-spinner spin-right">
+                        <svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path class="loader-outer" d="M30,60 C46.5685425,60 60,46.5685425 60,30 C60,13.4314575 46.5685425,0 30,0 C13.4314575,0 0,13.4314575 0,30 C0,46.5685425 13.4314575,60 30,60 L30,60 Z"></path>
+                            <path class="loader-background" d="M30,56 C44.3594035,56 56,44.3594035 56,30 C56,15.6405965 44.3594035,4 30,4 C15.6405965,4 4,15.6405965 4,30 C4,44.3594035 15.6405965,56 30,56 L30,56 Z" fill="#FFFFFF"></path>
+                            <path class="loader-inner" d="M12.0224719,32.0224719 C10.9078652,32.0224719 10,31.1146067 10,30 C10,18.9707865 18.9707865,10 30,10 C31.1146067,10 32.0224719,10.9078652 32.0224719,12.0224719 C32.0224719,13.1370787 31.1146067,14.0449438 30,14.0449438 C21.2,14.0449438 14.0449438,21.2 14.0449438,30 C14.0449438,31.1146067 13.1370787,32.0224719 12.0224719,32.0224719 L12.0224719,32.0224719 Z M30,50 C28.8853933,50 27.9775281,49.0921348 27.9775281,47.9775281 C27.9775281,46.8629213 28.8853933,45.9550562 30,45.9550562 C38.8,45.9550562 45.9550562,38.8 45.9550562,30 C45.9550562,28.8853933 46.8629213,27.9775281 47.9775281,27.9775281 C49.0921348,27.9775281 50,28.8853933 50,30 C50,41.0292135 41.0292135,50 30,50 L30,50 Z" fill="#231F20"></path>
+                        </svg>
+                    </div>
+                </div>
+            </button>
+
+            <button class="create-store-success btn btn-large btn-success btn-icon">
+                <i class="icon-check"></i>
+                <?php _e('Store is created', 'ecwid-shopping-cart'); ?>
+            </button>
+
+            <div class="create-store-loading-note ecwid-button-description">
+                <?php _e('Preparing your store dashboard', 'ecwid-shopping-cart'); ?>
+            </div>
+
+            <div class="button-description-mobile">
                 <?php _e('Free registration, No credit card required', 'ecwid-shopping-cart'); ?>
             </div>
             <div class="button-description-mobile on-error ecwid-connection-error">
                 <?php _e( 'Connection error: please click the button again and give permissions for this plugin<br /> to show your Ecwid store on this site.', 'ecwid-shopping-cart' ); ?>
             </div>
-            <div class="button-description-mobile on-connect on-no-error">
+            <div class="create-store-have-account ecwid-button-description">
+                <span class="create-store-have-account-question"><?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?></span>
+                <a class="create-store-have-account-link" href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
+            </div>
+            <div class="button-description-mobile">
                 <?php _e('You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'); ?>
-            </div>
-            <div class="ecwid-button-description on-register">
-                <?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?>
-                <a href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
-            </div>
-            <div class="ecwid-button-description on-connect">
-                <?php _e('Don\'t have an Ecwid account?', 'ecwid-shopping-cart'); ?>
-                <a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
-            </div>
-            <div class="button-description-mobile on-register">
-                <?php _e('You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'); ?>
-            </div>
-            <div class="button-description-mobile on-connect">
-                <?php _e('No credit card required', 'ecwid-shopping-cart'); ?>
             </div>
             <div class="button-description-mobile">
                 <h3><?php _e('Get ready to sell online', 'ecwid-shopping-cart'); ?></h3>
@@ -143,21 +120,13 @@
         <h2><?php _e('Start selling <br>on your WordPress <nobr>site for free</nobr>', 'ecwid-shopping-cart'); ?>
         </h2>
         <div class="ecwid-button">
-            <a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect(); ecwid_kissmetrics_record('createAccountButtonClick');">
+            <a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue"  onclick="javascript:switch_to_connect(); ecwid_kissmetrics_record('createAccountButtonClick');">
                 <?php _e('Get Started, Create Ecwid Account', 'ecwid-shopping-cart'); ?>
             </a>
-            <a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect">
-                <?php _e('Connect your store', 'ecwid-shopping-cart'); ?>
-            </a>
-            <div class="ecwid-button-description on-register">
+            <div class="ecwid-button-description">
                 <?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?>
                 <a href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
             </div>
-            <div class="ecwid-button-description on-connect">
-                <?php _e('Don\'t have an Ecwid account?', 'ecwid-shopping-cart'); ?>
-                <a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();ecwid_kissmetrics_record('createAccountButtonClick');"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
-            </div>
-
         </div>
     </div>
 </div>
