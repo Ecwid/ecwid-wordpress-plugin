@@ -1953,9 +1953,10 @@ function ecwid_create_store() {
 	if ($result['response']['code'] == 200) {
 		$data = json_decode($result['body']);
 
-		global $ecwid_oauth;
-		$ecwid_oauth->save_token($data->token);
 		update_option('ecwid_store_id', $data->id);
+
+		$oauth = new Ecwid_OAuth();
+		$oauth->save_token($data->token);
 		update_option('ecwid_oauth_scope', 'read_profile read_catalog allow_sso');
 
 		header( 'HTTP/1.1 200 OK' );
