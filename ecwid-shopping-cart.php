@@ -1957,7 +1957,7 @@ function ecwid_create_store() {
 
 		header( 'HTTP/1.1 200 OK' );
 
-		ecwid_admin_do_page('wizard');
+		ecwid_admin_do_page('dashboard:wizard=ADD_PRODUCTS');
 	} else {
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 	}
@@ -2051,7 +2051,7 @@ function ecwid_admin_do_page( $page ) {
 		$ecwid_oauth->get_oauth_token(),
 		$time,
 		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_Api_V3::CLIENT_SECRET ),
-		':wizard=ADD_PRODUCTS',//$page,
+		$page,
 		substr(get_bloginfo('language'), 0, 2)
 	);
 
