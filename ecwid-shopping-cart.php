@@ -2198,7 +2198,9 @@ function get_ecwid_store_id() {
 }
 
 function ecwid_dashboard_widget_function() {
-	require_once ECWID_PLUGIN_DIR . 'templates/wp-dashboard-widget.php';
+	if (!is_ssl()) {
+		require_once ECWID_PLUGIN_DIR . 'templates/wp-dashboard-widget.php';
+	}
 }
 
 function ecwid_add_dashboard_widgets() {
