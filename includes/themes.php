@@ -50,7 +50,8 @@ function ecwid_apply_theme($theme_name = null)
 		'mantra',
 		'attitude',
 		'responsiveboat',
-		'central'
+		'central',
+		'edin'
 	);
 
 
