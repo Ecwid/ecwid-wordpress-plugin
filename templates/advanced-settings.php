@@ -79,7 +79,7 @@
 				<?php _e('Single Sign-On Secret Key is an option that allows your customers access to your WordPress site as well as the Ecwid shopping cart. When customers log in to your site, they will automatically be logged in to your Ecwid store as well. It makes sense to enable this feature if your visitors actually create accounts in your WordPress website.', 'ecwid-shopping-cart'); ?>
 			</div>
 			<div class="note grayed-links">
-				<?php _e('In order to enable this feature, opt to use a secret key. You will find this key in your Ecwid control panel, at "System Settings > Apps > Legacy API Keys > Single Sign-On Secret Key" page. This feature is available for <a href="http://www.ecwid.com/compare-plans.html" target="_blank">paid users</a> only.', 'ecwid-shopping-cart'); ?>
+				<?php _e('To enable this feature, copy the Single Sign On Secret key from the store control panel to the input above. You can find the key on the "<a href="https://my.ecwid.com/cp/CP.html#legacy_api" target="_blank">Legacy API Keys</a>" page. This feature is available for <a href="https://www.ecwid.com/pricing" target="_blank">paid users</a> only.', 'ecwid-shopping-cart'); ?>
 			</div>
 		</div>
 
