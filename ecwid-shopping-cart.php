@@ -131,56 +131,6 @@ function ecwid_add_breadcrumbs_navxt($trail)
 	$trail->add($breadcrumb);
 }
 
-/*
-add_filter('wpseo_sitemap_index', 'ecwid_wpseo_do_sitemap_index');
-
-function ecwid_wpseo_do_sitemap_index($params)
-{
-	$now = date('Y-m-dTH:i:sP', time());
-	$sitemap_url = wpseo_xml_sitemaps_base_url('ecwid-sitemap.xml');
-	return <<<XML
-		<sitemap>
-			<loc>$sitemap_url</loc>
-			<lastmod>$now</lastmod>
-		</sitemap>
-XML;
-
-	// should return index string
-}
-
-add_action('wpseo_do_sitemap_ecwid', 'ecwid_wpseo_do_sitemap');
-
-add_action('wpseo_do_sitemap_ecwid_content', 'ecwid_wpseo_do_sitemap');
-
-function ecwid_wpseo_build_sitemap_callback($loc, $priority, $freq)
-{
-	global $ecwid_wpseo_sitemap;
-
-	$ecwid_wpseo_sitemap .= <<<XML
-	<url>
-		<loc>$loc</loc>
-		<changefreq>$freq</changefreq>
-		<priority>$priority</priority>
-	</url>
-
-XML;
-}
-
-
-function ecwid_wpseo_do_sitemap($params)
-{
-	global $ecwid_wpseo_sitemap;
-
-	$ecwid_wpseo_sitemap = <<<XML
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-XML;
-
-	ecwid_build_sitemap('ecwid_wpseo_build_sitemap_callback');
-
-	$ecwid_wpseo_sitemap .= '</urlset>';
-	$GLOBALS['wpseo_sitemaps']->set_sitemap($ecwid_wpseo_sitemap);
-}
-*/
 function ecwid_add_breadcrumb_links_wpseo($links)
 {
 	return array_merge((array)$links, array(
