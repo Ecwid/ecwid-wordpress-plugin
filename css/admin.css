@@ -65,6 +65,7 @@
 
 div.ecwid-message {
 	padding: 27px 29px 20px 30px;
+	display: block;
 }
 
 .ecwid-message a {
@@ -358,9 +359,12 @@ body[class*="_page_ecwid"] .ecwid-message {
 	height: 600px;
 }
 
+.toplevel_page_ecwid #wpcontent {
+	background: white;
+	padding-left: 0px;
+}
+
 .ecwid-admin-superwrap #wrap {
-	position:absolute;
-	left:-20px;
 	right: 0px;
 	height: 600px;
 	background: white;

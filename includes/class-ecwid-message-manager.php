@@ -191,7 +191,7 @@ TXT
 	{
 		return array(
 			'on_activate' => array(
-				'title' => __('Greetings! Your Ecwid store is now active.', 'ecwid-shopping-cart'),
+				'title' => __('Greetings! Your Ecwid plugin is now active.', 'ecwid-shopping-cart'),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
 				'primary_title' => __('Set up Ecwid Store', 'ecwid-shopping-cart'),
 				'primary_url' => 'admin.php?page=ecwid',
@@ -199,22 +199,11 @@ TXT
 				'default'  => 'disabled'
 			),
 
-			'on_storeid_set' => array(
-				'title' => __('Good job! Your store is set up and you\'re ready to sell.', 'ecwid-shopping-cart'),
-				'message' => __('Use the dashboard below to add products, track sales and adjust settings in your store. We also created a store page on your site and now you can fine-tune the storefront appearance.', 'ecwid-shopping-cart'),
-				'primary_title' => __('Visit Storefront', 'ecwid-shopping-cart'),
-				'primary_url' => '',
-				'primary_blank' => true,
-				'secondary_title' => __('Configure Appearance', 'ecwid-shopping-cart'),
-				'secondary_url' => 'admin.php?page=ecwid-appearance',
-				'hideable' => true
-			),
-
 			'on_no_storeid_on_setup_pages' => array(
 				'type' => 'warning',
 				'title' => __('Your store is almost ready!', 'ecwid-shopping-cart' ),
-				'message' => __('Connect your Ecwid account with this site to complete setup and start selling', 'ecwid-shopping-cart' ),
-				'primary_title' => __('Connect Your Ecwid Store', 'ecwid-shopping-cart' ),
+				'message' => __('Complete setup and start selling', 'ecwid-shopping-cart' ),
+				'primary_title' => __('Complete Setup', 'ecwid-shopping-cart' ),
 				'primary_url'   => 'admin.php?page=ecwid',
 				'hideable'  => true
 			),

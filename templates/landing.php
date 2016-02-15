@@ -2,13 +2,13 @@
     <div class="ecwid-thank">
         <h1>
             <?php _e('Welcome to Ecwid!', 'ecwid-shopping-cart'); ?>
-            <span><?php _e('Thank you for choosing Ecwid to build your online store. <br /> The first step to sell successfully online is to setup your store! <br />Let’s get started and add a store to your website in a few simple steps. <br />It won’t take more than 15 minutes.', 'ecwid-shopping-cart'); ?></span>
+            <span><?php _e('Thank you for choosing Ecwid to build your online store.<br />The first step to sell successfully online is to setup your store!<br />Let’s get started and add a store to your website in a few simple steps.<br />It won’t take more than 15 minutes.', 'ecwid-shopping-cart'); ?></span>
         </h1>
 
         <div class="ecwid-button">
 
             <button class="create-store-button btn btn-primary btn-large">
-                Create Free Ecwid Store
+                <?php _e('Create Free Ecwid Store', 'ecwid-shopping-cart'); ?>
             </button>
             <button class="create-store-loading btn btn-primary btn-large btn-loading">
                 <div class="loader">

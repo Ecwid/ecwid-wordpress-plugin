@@ -1,6 +1,5 @@
 <script type='text/javascript'>//<![CDATA[
-	window.onload=function(){
-		$ = jQuery;
+	jQuery(document).ready(function() {
 		// Create IE + others compatible event handler
 		var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 		var eventer = window[eventMethod];
@@ -8,15 +7,13 @@
 
 		// Listen to message from child window
 		eventer(messageEvent,function(e) {
-			$('#ecwid-frame').css('height', e.data.height + 'px');
-			$('#superwrap').css('height', (e.data.height) + 'px');
+			jQuery('#ecwid-frame').css('height', e.data.height + 'px');
+			jQuery('#superwrap').css('height', (e.data.height) + 'px');
 		},false);
 
-		$(document).ready(function(){
-			$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
-		});
-
-	}//]]>
+		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
+	});
+	//]]>
 
 </script>
 

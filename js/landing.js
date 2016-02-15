@@ -26,13 +26,17 @@ jQuery(document).ready(function(){
 
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
-				success: function() {
+				success: function(result) {
+					debugger;
+					var html = result;
 					jQuery(hide_on_success + ', ' + invisible_on_success).fadeTo(150, .01).promise().done(function() {
 						jQuery(hide_on_success).hide();
 						jQuery(invisible_on_success).css('visibility', 'hidden');
 
 						jQuery(show_on_success).fadeIn(300);
-						setTimeout(function() { window.location.href = 'admin.php?page=ecwid'}, 1000);
+						setTimeout(function() {
+							jQuery('#wpbody-content').html(html);
+						}, 1000);
 					})
 				},
 				error: function() {

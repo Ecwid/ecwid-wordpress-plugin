@@ -133,7 +133,7 @@ msgstr "Просмотренные товары"
 msgid "Number of products to show"
 msgstr "Количество товаров для отображения"
 
-msgid "Greetings! Your Ecwid store is now active."
+msgid "Greetings! Your Ecwid plugin is now active."
 msgstr "Добро пожаловать в Эквид!"
 
 msgid "Take a few simple steps to complete store setup"
@@ -157,11 +157,11 @@ msgstr "Настроить внешний вид"
 msgid "Your store is almost ready!"
 msgstr "Магазин почти готов!"
 
-msgid "Connect your Ecwid account with this site to complete setup and start selling"
-msgstr "Привяжите Эквид-аккаунт к сайту, чтобы завершить установку и начать продавать"
+msgid "Complete setup and start selling"
+msgstr "Завершите установку и начните продавать"
 
-msgid "Connect Your Ecwid Store"
-msgstr "Привязать Эквид-аккаунт"
+msgid "Complete Setup"
+msgstr "Продолжить установку"
 
 msgid "To add extra functions to your store, drag and drop Ecwid store elements on your site. When you're done, you can get back to modifying your settings."
 msgstr "Добавьте дополнительные элементы магазина, перетащив виджеты Эквида в нужное место сайта. После установки виджетов можете вернуться к настройкам магазина."
@@ -528,3 +528,12 @@ msgstr "Сообщить о проблеме"
 
 msgid "https://help.ecwid.com"
 msgstr "https://help.ecwid.com/customer/ru/portal/articles"
+
+msgid "Welcome to Ecwid!"
+msgstr "Добро пожаловать в Ecwid!"
+
+msgid "Thank you for choosing Ecwid to build your online store.<br />The first step to sell successfully online is to setup your store!<br />Let’s get started and add a store to your website in a few simple steps.<br />It won’t take more than 15 minutes."
+msgstr "Спасибо, что выбрали Ecwid для создания вашего интернет-магазина.<br />Первый шаг к успешной онлайн торговле — настройка магазина!<br />Давайте добавим магазин на ваш сайт за несколько простых шагов.<br />Это займет не более 15 минут."
+
+msgid "Create Free Ecwid Store"
+msgstr "Создать Эквид-магазин"
