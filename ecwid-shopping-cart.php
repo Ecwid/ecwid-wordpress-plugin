@@ -1854,12 +1854,20 @@ function ecwid_common_admin_scripts() {
 		$screen = get_current_screen();
 
 		if ($screen->base == 'nav-menus') {
+
+			$first_run = false;
+			if (! EcwidPlatform::get('nav-menus-opened-once', false)) {
+				EcwidPlatform::set('nav-menus-opened-once', true);
+				$first_run = true;
+			}
+
 			wp_enqueue_script('ecwid-admin-menu-js', plugins_url('ecwid-shopping-cart/js/nav-menu.js'), array(), get_option('ecwid_plugin_version'));
-			wp_localize_script('ecwid-admin-menu-js', 'ecwid_l10n', array(
+			wp_localize_script('ecwid-admin-menu-js', 'ecwid_params', array(
 				'store_page' => __('Store Page', 'ecwid-shopping-cart'),
 				'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 				'cache_updated' => __('Done', 'ecwid-shopping-cart'),
-				'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart')
+				'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
+				'first_run' => $first_run
 			));
 		}
 
