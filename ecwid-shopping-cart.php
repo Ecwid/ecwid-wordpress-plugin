@@ -106,6 +106,7 @@ require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-kissmetrics.php';
 
 require_once ECWID_PLUGIN_DIR . '/lib/ecwid_platform.php';
+require_once ECWID_PLUGIN_DIR . '/lib/ecwid_api_v3.php';
 
 
 function ecwid_init_integrations()
@@ -1746,6 +1747,9 @@ function ecwid_register_admin_styles($hook_suffix) {
 		if (get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID) {
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', plugins_url('ecwid-shopping-cart/js/landing.js'), array(), get_option('ecwid_plugin_version'));
+			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
+				'register_link' => ecwid_get_register_link()
+			));
 			wp_enqueue_style('ecwid-landing-css', plugins_url('ecwid-shopping-cart/css/landing.css'), array(), get_option('ecwid_plugin_version'), 'all');
 			wp_enqueue_style('ecwid-landing-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 		} else {
@@ -1935,7 +1939,7 @@ function ecwid_general_settings_do_page() {
 					get_ecwid_store_id(),
 					$ecwid_oauth->get_oauth_token(),
 					$time,
-					hash( 'sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token() . $time . Ecwid_OAuth::OAUTH_CLIENT_SECRET ),
+					hash( 'sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
 					$page,
 					substr( get_bloginfo( 'language' ), 0, 2 )
 				);
@@ -1967,7 +1971,7 @@ function ecwid_admin_do_page( $page ) {
 		get_ecwid_store_id(),
 		$ecwid_oauth->get_oauth_token(),
 		$time,
-		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_OAuth::OAUTH_CLIENT_SECRET),
+		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_Api_V3::CLIENT_SECRET),
 		$page,
 		substr(get_bloginfo('language'), 0, 2)
 	);

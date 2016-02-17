@@ -1,20 +1,20 @@
 <?php
 
 include ECWID_PLUGIN_DIR . "lib/phpseclib/AES.php";
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 class Ecwid_OAuth {
-
-	const OAUTH_CLIENT_ID = 'RD4o2KQimiGUrFZc';
-	const OAUTH_CLIENT_SECRET = 'jEPVdcA3KbzKVrG8FZDgNnsY3wKHDTF8';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 
 	const MODE_CONNECT = 'connect';
 	const MODE_RECONNECT = 'reconnect';
 
-    protected $crypt = null;
+  protected $crypt = null;
 
 	protected $state;
+
+	protected $api;
 
 	public function __construct()
 	{
@@ -23,10 +23,12 @@ class Ecwid_OAuth {
 		add_action('admin_post_ecwid_disconnect', array($this, 'disconnect_store'));
 		add_action('admin_post_ecwid_show_reconnect', array($this, 'show_reconnect'));
 
-        $this->crypt = new Ecwid_Crypt_AES();
+    $this->crypt = new Ecwid_Crypt_AES();
 		$this->_init_crypt();
 
 		$this->_load_state();
+
+		$this->api = new Ecwid_Api_V3();
 	}
 
 	public function show_reconnect()
@@ -57,31 +59,10 @@ class Ecwid_OAuth {
 
 		$redirect_uri = 'admin-post.php?action=' . $action;
 
-		$params = array(
-			'scopes' => implode(' ', $this->_get_scope()),
-			'redirect_uri' => admin_url( $redirect_uri )
+		return $this->api->get_oauth_dialog_url(
+			admin_url( $redirect_uri ),
+			implode(' ', $this->_get_scope() )
 		);
-
-		if ( !is_array( $params )
-            || empty( $params['scopes'] )
-        ) {
-			return false;
-		}
-
-		$url = 'https://my.ecwid.com/api/oauth/authorize';
-
-        $query = array();
-
-		$query['source']        = 'wporg';
-		$query['client_id']     = self::OAUTH_CLIENT_ID;
-		$query['redirect_uri']  = $params['redirect_uri'];
-		$query['response_type'] = 'code';
-		$query['scope']         = $params['scopes'];
-		foreach ($query as $key => $value) {
-			$query[$key] = urlencode($value);
-		}
-
-		return $url . '?' . build_query( $query );
 	}
 
 	public function process_authorization()
@@ -102,8 +83,8 @@ class Ecwid_OAuth {
 		$base_admin_url = 'admin-post.php?action=ecwid_oauth' . ($reconnect ? '_reconnect' : '');
 
 		$params['code'] = $_REQUEST['code'];
-		$params['client_id'] = self::OAUTH_CLIENT_ID;
-		$params['client_secret'] = self::OAUTH_CLIENT_SECRET;
+		$params['client_id'] = Ecwid_Api_V3::CLIENT_ID;
+		$params['client_secret'] = Ecwid_Api_V3::CLIENT_SECRET;
 		$params['redirect_uri'] = admin_url( $base_admin_url );
 
 		$params['grant_type'] = 'authorization_code';
@@ -129,7 +110,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		$this->_init_crypt();
-		$this->_save_token($result->access_token);
+		$this->save_token($result->access_token);
 
 		// Reset "Create store cookie" set previously to display the landing page
 		//in "Connect" mode rather than "Create" mode
@@ -254,7 +235,7 @@ class Ecwid_OAuth {
 		return get_option( self::TOKEN_OPTION_NAME );
 	}
 
-	protected function _save_token($token)
+	public function save_token($token)
 	{
 		$value = base64_encode($this->crypt->encrypt($token));
 
@@ -288,7 +269,7 @@ class Ecwid_OAuth {
 		$token = $this->get_oauth_token();
 
 		$timestamp = time();
-		$signature = hash('sha256', $store_id . $token . $timestamp . self::OAUTH_CLIENT_SECRET);
+		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Api_V3::CLIENT_SECRET);
 
 		$url = sprintf(
 			$url,
