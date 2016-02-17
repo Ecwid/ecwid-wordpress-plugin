@@ -1893,8 +1893,6 @@ function ecwid_get_register_link()
 
 function ecwid_general_settings_do_page() {
 
-	//Ecwid_Kissmetrics::record('wpPluginDeactivated');
-
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );
@@ -1937,9 +1935,9 @@ function ecwid_general_settings_do_page() {
 				$iframe_src = sprintf(
 					'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
 					get_ecwid_store_id(),
-					$ecwid_oauth->get_oauth_token(),
+					Ecwid_Api_V3::get_token(),
 					$time,
-					hash( 'sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
+					hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
 					$page,
 					substr( get_bloginfo( 'language' ), 0, 2 )
 				);
@@ -1969,9 +1967,9 @@ function ecwid_admin_do_page( $page ) {
 	$iframe_src = sprintf(
 		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
 		get_ecwid_store_id(),
-		$ecwid_oauth->get_oauth_token(),
+		Ecwid_Api_V3::get_token(),
 		$time,
-		hash('sha256', get_ecwid_store_id() . $ecwid_oauth->get_oauth_token(). $time . Ecwid_Api_V3::CLIENT_SECRET),
+		hash('sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET),
 		$page,
 		substr(get_bloginfo('language'), 0, 2)
 	);

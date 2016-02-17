@@ -5,12 +5,8 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 class Ecwid_OAuth {
 
-	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
-
 	const MODE_CONNECT = 'connect';
 	const MODE_RECONNECT = 'reconnect';
-
-  protected $crypt = null;
 
 	protected $state;
 
@@ -22,9 +18,6 @@ class Ecwid_OAuth {
 		add_action('admin_post_ecwid_oauth_reconnect', array($this, 'process_authorization'));
 		add_action('admin_post_ecwid_disconnect', array($this, 'disconnect_store'));
 		add_action('admin_post_ecwid_show_reconnect', array($this, 'show_reconnect'));
-
-    $this->crypt = new Ecwid_Crypt_AES();
-		$this->_init_crypt();
 
 		$this->_load_state();
 
@@ -109,8 +102,7 @@ class Ecwid_OAuth {
 		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
-		$this->_init_crypt();
-		$this->save_token($result->access_token);
+		$this->api->save_token($result->access_token);
 
 		// Reset "Create store cookie" set previously to display the landing page
 		//in "Connect" mode rather than "Create" mode
@@ -133,7 +125,7 @@ class Ecwid_OAuth {
 	public function disconnect_store()
 	{
 		update_option( 'ecwid_store_id', ECWID_DEMO_STORE_ID );
-		update_option( 'ecwid_oauth_token', '' );
+		$this->api->save_token( '' );
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
 
@@ -206,15 +198,6 @@ class Ecwid_OAuth {
 		exit;
 	}
 
-	public function get_oauth_token()
-	{
-		if ($this->is_initialized()) {
-			return $this->_load_token();
-		}
-
-		return null;
-	}
-
 	protected function _get_scope() {
 		$default = $this->_get_default_scopes_array();
 
@@ -230,43 +213,12 @@ class Ecwid_OAuth {
 		return $scopes;
  	}
 
-	public function is_initialized()
-	{
-		return get_option( self::TOKEN_OPTION_NAME );
-	}
-
-	public function save_token($token)
-	{
-		$value = base64_encode($this->crypt->encrypt($token));
-
-		update_option(self::TOKEN_OPTION_NAME, $value);
-	}
-
-	protected function _load_token()
-	{
-
-		$db_value = get_option(self::TOKEN_OPTION_NAME);
-        if (empty($db_value)) return false;
-
-		if (strlen($db_value) == 64) {
-			$encrypted = base64_decode($db_value);
-			if (empty($encrypted)) return false;
-
-			$token = $this->crypt->decrypt($encrypted);
-		} else {
-			$token = $db_value;
-		}
-
-		return $token;
-	}
-
-
 	public function get_sso_admin_link() {
 		$url = 'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
 
 		$store_id = get_ecwid_store_id();
 
-		$token = $this->get_oauth_token();
+		$token = $this->api->get_token();
 
 		$timestamp = time();
 		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Api_V3::CLIENT_SECRET);
@@ -280,11 +232,6 @@ class Ecwid_OAuth {
 		);
 
 		return $url;
-	}
-
-	public function _init_crypt() {
-		$this->crypt->setIV( substr( md5( SECURE_AUTH_SALT . get_option('ecwid_store_id') ), 0, 16 ) );
-		$this->crypt->setKey( SECURE_AUTH_KEY );
 	}
 
 	protected function _load_state() {
