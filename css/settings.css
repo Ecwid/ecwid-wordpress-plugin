@@ -321,6 +321,9 @@ display: none;
 }
 
 /* Common main */
+.ecwid-admin {
+	margin-left: 20px;
+}
 .ecwid-admin .box {
 	position: relative;
 	margin-top: 25px;
