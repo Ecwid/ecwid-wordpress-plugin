@@ -9,13 +9,24 @@ class Ecwid_Api_V3
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 
-	public function __construct() {
+	public $store_id = null;
+
+	public function __construct($store_id) {
+
+		$this->store_id = $store_id;
 		$this->_api_url = ' https://app.ecwid.com/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
+
+		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
+		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 	}
 
 	public function is_api_available()
 	{
+		$token = $this->_load_token();
+		if ( $token ) {
+			return true;
+		}
 	}
 
 	public static function save_token($token)
@@ -25,6 +36,36 @@ class Ecwid_Api_V3
 		$value = base64_encode(EcwidPlatform::encrypt($token));
 
 		update_option(self::TOKEN_OPTION_NAME, $value);
+	}
+
+	public function get_categories($input_params)
+	{
+		$params = array('token');
+		if (array_key_exists('parent', $input_params)) {
+			$params['parent'] = $input_params['parent'];
+		}
+
+		return EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_categories_api_url,
+				$params
+			)
+		);
+	}
+
+	public function get_products($input_params)
+	{
+		$params = array('token');
+		if (array_key_exists('category', $input_params)) {
+			$params['category'] = $input_params['category'];
+		}
+
+		return EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_products_api_url,
+				$params
+			)
+		);
 	}
 
 	protected static function _load_token()
@@ -82,7 +123,7 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($this->_stores_api_url, $params);
 
-		$result = $this->api_get($url);
+		$result = EcwidPlatform::fetch_url($url);
 
 		return @$result['code'] == 200;
 	}
@@ -96,19 +137,11 @@ class Ecwid_Api_V3
 		);
 		$url = $this->build_request_url($this->_stores_api_url, $request_params);
 
-		$result = EcwidPlatform::http_post_request($url, json_encode($params));
+		return $url;
+
+		$result = EcwidPlatform::http_post_request($url, $params);
 
 		return $result;
-	}
-
-	protected function api_get($url)
-	{
-		$result = EcwidPlatform::http_get_request($url);
-
-		if (@$result['code'] == '403') {
-			EcwidPlatform::set('api_v3_enabled', false);
-			EcwidPlatform::set('api_v3_last_error', $result['data']);
-		}
 	}
 
 	protected function build_request_url($url, $params)
@@ -120,6 +153,9 @@ class Ecwid_Api_V3
 			} elseif ( $param == 'appSecretKey' ) {
 				unset($params[$key]);
 				$params['appSecretKey'] = self::CLIENT_SECRET;
+			} elseif ($param == 'token') {
+				unset($params[$key]);
+				$params['token'] = self::get_token();
 			} else {
 				$params[$key] = urlencode($param);
 			}

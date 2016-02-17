@@ -1900,7 +1900,7 @@ function ecwid_get_register_link()
 }
 
 function ecwid_general_settings_do_page() {
-
+	
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );

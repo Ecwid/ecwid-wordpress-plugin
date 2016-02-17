@@ -49,6 +49,21 @@ class EcwidPlatform {
 		return __('Price', 'ecwid-shopping-cart');
 	}
 
+	static public function cache_get($name)
+	{
+		get_transient('ecwid_' . $name);
+	}
+
+	static public function cache_set($name, $value, $expires_after)
+	{
+		set_transient('ecwid_' . $name, $value, $expires_after);
+	}
+
+	static public function parse_args($args, $defaults)
+	{
+		return wp_parse_args($args, $defaults);
+	}
+
 	static public function fetch_url($url)
 	{
         $use_file_get_contents = get_option('ecwid_fetch_url_use_file_get_contents', false);
