@@ -722,7 +722,7 @@ display: none;
 
 .ecwid-popup h3 span.close:before {
 	content: "\e606";
-	font-family: ecwid-icons;
+	font-family: ecwid-plugin-icons;
 	font-size: 36px;
 }
 

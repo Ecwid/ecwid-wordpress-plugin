@@ -11,6 +11,8 @@
 	$all_options = wp_load_alloptions();
 ?>
 
+<a class="button button-primary" href="admin-post.php?action=ecwid_get_debug">Download file</a>
+
 <h2>Active plugins</h2>
 
 <div>

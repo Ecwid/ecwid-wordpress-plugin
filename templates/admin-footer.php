@@ -1,6 +1,6 @@
 <?php if (@$show_reconnect): ?>
 
-<p><?php echo sprintf(__('If you want to connect another Ecwid store, you can re-connect on <a %s>this page</a>', 'ecwid-shopping-cart'), 'href=admin.php?page=ecwid&reconnect'); ?></p>
+<p><?php echo sprintf(__('If you want to connect another Ecwid store, you can re-connect on <a %s>this page</a>', 'ecwid-shopping-cart'), 'href="admin.php?page=ecwid&reconnect'); ?></p>
 
 <?php endif; ?>
 

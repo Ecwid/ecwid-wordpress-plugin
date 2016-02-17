@@ -63,7 +63,7 @@ XML;
 	{
 
 		$this->sitemap = <<<XML
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 XML;
 
 
@@ -78,14 +78,28 @@ XML;
 	}
 
 	// A callback for the streaming sitemap builder
-	public function sitemap_callback($url, $priority, $frequency)
+	public function sitemap_callback($url, $priority, $frequency, $obj)
 	{
 		$url = htmlspecialchars($url);
+		$imageCode = '';
+		$image = @$obj['originalImageUrl'];
+		if ($image) {
+			$image = htmlspecialchars($image);
+			$title = htmlspecialchars($obj['name']);
+			$imageCode = <<<XML
+				<image:image>
+					<image:title>$title</image:title>
+					<image:loc>$image</image:loc>
+
+				</image:image>
+XML;
+    }
 		$this->sitemap .= <<<XML
 	<url>
 		<loc>$url</loc>
 		<changefreq>$frequency</changefreq>
 		<priority>$priority</priority>
+		$imageCode
 	</url>
 
 XML;

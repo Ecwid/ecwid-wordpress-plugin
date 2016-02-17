@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'ecwid-icons';
+    font-family: 'ecwid-plugin-icons';
     src:url('../fonts/ecwid-icons.eot?-b8sbws');
     src:url('../fonts/ecwid-icons.eot?#iefix-b8sbws') format('embedded-opentype'),
     url('../fonts/ecwid-icons.woff?-b8sbws') format('woff'),
@@ -10,7 +10,7 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    font-family: 'ecwid-icons';
+    font-family: 'ecwid-plugin-icons';
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -24,7 +24,7 @@
 }
 
 #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default .ab-icon.ecwid-top-menu-item {
-    font: 400 20px/1 'ecwid-icons' !important;
+    font: 400 20px/1 'ecwid-plugin-icons' !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: none;
@@ -42,7 +42,7 @@
 
 @media screen and (max-width: 782px) {
     #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default .ab-icon.ecwid-top-menu-item {
-        font: 400 32px/46px 'ecwid-icons' !important;
+        font: 400 32px/46px 'ecwid-plugin-icons' !important;
         width: 46px;
         padding: 0px 2px;
         text-align: center;

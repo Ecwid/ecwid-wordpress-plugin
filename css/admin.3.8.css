@@ -1,5 +1,5 @@
 #adminmenu #toplevel_page_ecwid div.wp-menu-image:before {
-	font-family: 'ecwid-icons' !important;
+	font-family: 'ecwid-plugin-icons' !important;
 	content: "\e603";
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

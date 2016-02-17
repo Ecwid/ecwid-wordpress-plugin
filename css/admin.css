@@ -128,7 +128,7 @@ div.ecwid-message {
 
 .ecwid-message .ecwid-message-hide:before {
 	content: "\e606";
-	font-family: ecwid-icons;
+	font-family: ecwid-plugin-icons;
 	font-size: 16px;
 	position: relative;
 	left: 1px;
@@ -215,7 +215,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 	left: 16px;
 	margin-right: -4px;
 	line-height: 10px;
-	font-family: 'ecwid-icons';
+	font-family: 'ecwid-plugin-icons';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;

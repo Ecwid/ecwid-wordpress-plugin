@@ -1,5 +1,6 @@
 <script type='text/javascript'>//<![CDATA[
 	jQuery(document).ready(function() {
+		$ = jQuery;
 		// Create IE + others compatible event handler
 		var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 		var eventer = window[eventMethod];
@@ -11,7 +12,7 @@
 			jQuery('#superwrap').css('height', (e.data.height) + 'px');
 		},false);
 
-		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
+		$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
 	});
 	//]]>
 

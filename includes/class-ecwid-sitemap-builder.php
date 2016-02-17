@@ -63,7 +63,8 @@ class EcwidSitemapBuilder implements JsonStreamingParser_Listener {
 				$callback,
 				ecwid_get_entity_url($obj, $this->type == 'products' ? 'p' : 'c'),
 				$this->type == 'products' ? 0.6 : 0.5,
-				'weekly'
+				'weekly',
+				$obj
 			);
 		}
 	}
@@ -79,8 +80,10 @@ class EcwidSitemapBuilder implements JsonStreamingParser_Listener {
 	}
 
 	public function value($value) {
-		if ($this->_key == 'url') {
-			$this->_stack[0]['url'] = $value;
+		$params = array('url', 'originalImageUrl', 'name');
+
+		if (in_array($this->_key, $params)) {
+			$this->_stack[0][$this->_key] = $value;
 		}
 	}
 }

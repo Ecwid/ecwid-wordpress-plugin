@@ -43,7 +43,7 @@ if ( is_admin() ){
   add_action('admin_init', 'ecwid_settings_api_init');
 	add_action('admin_init', 'ecwid_check_version');
 	add_action('admin_init', 'ecwid_process_oauth_params');
-	add_filter( 'admin_init', 'ecwid_add_meta_boxes' );
+	add_filter('admin_init', 'ecwid_add_meta_boxes' );
   add_action('admin_notices', 'ecwid_show_admin_messages');
   add_action('admin_menu', 'ecwid_build_menu');
   add_action('wp_dashboard_setup', 'ecwid_add_dashboard_widgets' );
@@ -62,7 +62,8 @@ if ( is_admin() ){
   add_action('init', 'ecwid_apply_theme');
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ecwid_connect', 'ecwid_admin_post_connect');
-	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init' );
+	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
+	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_shortcode('ecwid_minicart', 'ecwid_minicart_shortcode');
@@ -133,56 +134,6 @@ function ecwid_add_breadcrumbs_navxt($trail)
 	$trail->add($breadcrumb);
 }
 
-/*
-add_filter('wpseo_sitemap_index', 'ecwid_wpseo_do_sitemap_index');
-
-function ecwid_wpseo_do_sitemap_index($params)
-{
-	$now = date('Y-m-dTH:i:sP', time());
-	$sitemap_url = wpseo_xml_sitemaps_base_url('ecwid-sitemap.xml');
-	return <<<XML
-		<sitemap>
-			<loc>$sitemap_url</loc>
-			<lastmod>$now</lastmod>
-		</sitemap>
-XML;
-
-	// should return index string
-}
-
-add_action('wpseo_do_sitemap_ecwid', 'ecwid_wpseo_do_sitemap');
-
-add_action('wpseo_do_sitemap_ecwid_content', 'ecwid_wpseo_do_sitemap');
-
-function ecwid_wpseo_build_sitemap_callback($loc, $priority, $freq)
-{
-	global $ecwid_wpseo_sitemap;
-
-	$ecwid_wpseo_sitemap .= <<<XML
-	<url>
-		<loc>$loc</loc>
-		<changefreq>$freq</changefreq>
-		<priority>$priority</priority>
-	</url>
-
-XML;
-}
-
-
-function ecwid_wpseo_do_sitemap($params)
-{
-	global $ecwid_wpseo_sitemap;
-
-	$ecwid_wpseo_sitemap = <<<XML
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-XML;
-
-	ecwid_build_sitemap('ecwid_wpseo_build_sitemap_callback');
-
-	$ecwid_wpseo_sitemap .= '</urlset>';
-	$GLOBALS['wpseo_sitemaps']->set_sitemap($ecwid_wpseo_sitemap);
-}
-*/
 function ecwid_add_breadcrumb_links_wpseo($links)
 {
 	return array_merge((array)$links, array(
@@ -2270,6 +2221,13 @@ function ecwid_debug_do_page() {
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }
 
+function ecwid_get_debug_file() {
+	header('Content-Disposition: attachment');
+
+	ecwid_debug_do_page();
+	wp_die();
+}
+
 function get_ecwid_store_id() {
 	$store_id = get_option('ecwid_store_id');
 	if (empty($store_id)) {
@@ -2280,7 +2238,9 @@ function get_ecwid_store_id() {
 }
 
 function ecwid_dashboard_widget_function() {
-	require_once ECWID_PLUGIN_DIR . 'templates/wp-dashboard-widget.php';
+	if (!is_ssl()) {
+		require_once ECWID_PLUGIN_DIR . 'templates/wp-dashboard-widget.php';
+	}
 }
 
 function ecwid_add_dashboard_widgets() {
