@@ -359,11 +359,15 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 .ecwid-admin-superwrap #wrap {
-	position:absolute;
-	left:-20px;
-	right: 0px;
 	height: 600px;
 	background: white;
+
+	width:100%;
+	max-width:1440px;
+}
+
+.toplevel_page_ecwid #wpcontent {
+	padding-left: 0px;
 }
 /* ---------------------- */
 
