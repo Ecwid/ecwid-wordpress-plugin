@@ -1,4 +1,6 @@
 <script type='text/javascript'>//<![CDATA[
+	document.body.className += ' ecwid-no-padding';
+
 	jQuery(document).ready(function(){
 		$ = jQuery;
 		// Create IE + others compatible event handler
