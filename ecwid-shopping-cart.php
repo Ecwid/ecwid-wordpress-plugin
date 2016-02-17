@@ -2202,8 +2202,7 @@ function ecwid_debug_do_page() {
 	if (ecwid_is_api_enabled()) {
 		$remote_get_results = wp_remote_get( 'http://app.ecwid.com/api/v1/' . get_ecwid_store_id() . '/profile' );
 
-		global $ecwid_oauth;
-		$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . $ecwid_oauth->get_oauth_token() );
+		$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
 	}
 
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
@@ -2214,7 +2213,8 @@ function ecwid_get_debug_file() {
 		return;
 	}
 
-	header('Content-Disposition: attachment');
+	header('Content-Disposition: attachment;filename=ecwid-plugin-log.html');
+
 
 	ecwid_debug_do_page();
 	wp_die();

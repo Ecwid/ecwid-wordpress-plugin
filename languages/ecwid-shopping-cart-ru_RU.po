@@ -528,3 +528,6 @@ msgstr "Сообщить о проблеме"
 
 msgid "https://help.ecwid.com"
 msgstr "https://help.ecwid.com/customer/ru/portal/articles"
+
+msgid "Download log file"
+msgstr "Скачать лог-файл"
