@@ -366,7 +366,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 	max-width:1440px;
 }
 
-.ecwid-no-left-padding #wpcontent {
+.ecwid-no-padding #wpcontent {
 	padding-left: 0px;
 }
 
