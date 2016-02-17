@@ -1595,14 +1595,8 @@ function ecwid_add_meta_boxes()
 	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side' );
 }
 
-function ecwid_nav_menu_items($items)
-{
-
-	if (is_admin()) {
-		return $items;
-	}
-
-	$categories = wp_cache_get('all_categories', 'ecwid');
+function ecwid_get_categories() {
+	$categories = EcwidPlatform::cache_get('all_categories');
 
 	if ( false == $categories ) {
 		$callback = 'ecwidcatscallback';
@@ -1615,8 +1609,20 @@ function ecwid_nav_menu_items($items)
 
 		$categories = json_decode($result);
 
-		$result = wp_cache_set('all_categories', $categories, 'ecwid', time() + 60 * 60 * 12);
+		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 12);
 	}
+
+	return $categories;
+}
+
+function ecwid_nav_menu_items($items)
+{
+
+	if (is_admin()) {
+		return $items;
+	}
+
+	$categories = ecwid_get_categories();
 
 	$counter = 0;
 	foreach ($items as $key => $item) {
