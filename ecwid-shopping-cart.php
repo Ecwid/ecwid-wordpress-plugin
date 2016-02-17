@@ -100,6 +100,7 @@ if (get_option('ecwid_last_oauth_fail_time') > 0) {
 $ecwid_script_rendered = false; // controls single script.js on page
 
 require_once ECWID_PLUGIN_DIR . '/includes/themes.php';
+require_once ECWID_PLUGIN_DIR . '/includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-oauth.php';
