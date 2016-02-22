@@ -16,6 +16,8 @@ register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 
+define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
+
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( realpath(__FILE__) ) );
@@ -784,18 +786,26 @@ function ecwid_meta_description() {
         $description = $category['description'];
     } else return;
 
-    $description = strip_tags($description);
-    $description = html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
-
-	$description = preg_replace('![\p{Z}\s]{1,}!u', ' ', $description);
-	$description = trim($description, " \t\xA0\n\r"); // Space, tab, non-breaking space, newline, carriage return
-	$description = mb_substr($description, 0, 160, 'UTF-8');
-	$description = htmlspecialchars($description, ENT_COMPAT, 'UTF-8');
+	$description = ecwid_trim_description($description);
 
     echo <<<HTML
 <meta name="description" content="$description" />
 HTML;
 }
+
+function ecwid_trim_description($description)
+{
+	$description = strip_tags($description);
+	$description = html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
+
+	$description = preg_replace('![\p{Z}\s]{1,}!u', ' ', $description);
+	$description = trim($description, " \t\xA0\n\r"); // Space, tab, non-breaking space, newline, carriage return
+	$description = mb_substr($description, 0, ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8');
+	$description = htmlspecialchars($description, ENT_COMPAT, 'UTF-8');
+
+	return $description;
+}
+
 
 function ecwid_ajax_hide_message($params)
 {
@@ -1749,6 +1759,9 @@ function ecwid_admin_orders_do_page() {
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
+
+	$api = new Ecwid_Api_V3(get_ecwid_store_id());
+	$api->get_category(array('categoryId' => 82007));
 
 	wp_enqueue_style('ecwid-admin-css', plugins_url('ecwid-shopping-cart/css/admin.css'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', plugins_url('ecwid-shopping-cart/css/fonts.css'), array(), get_option('ecwid_plugin_version'));

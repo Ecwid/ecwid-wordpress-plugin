@@ -38,31 +38,66 @@ function ecwid_get_embed_content()
 		$categories = _ecwid_find_category_in_horizontal_categories_tree($categories, $root_category_id);
 	}
 
+	$max_items = 5;
+
+	$items = array();
+
+	$see_more = false;
 	$result = '';
 	if (!empty($categories)) {
-		$result .= '<ul>';
 		foreach ($categories as $category) {
 			$url = ecwid_get_category_url(array('id' => $category->id, 'url' => $category->link));
-			$result .= '<li><a href="' . $url . '">' . $category->name . '</a></li>';
+			$items[$url] = $category->name;
+			if (count($items) >= $max_items) {
+				$see_more = true;
+				break;
+			}
 		}
-		$result .= '</ul>';
 	}
 
 	if (ecwid_is_paid_account()) {
 		$api = new Ecwid_Api_V3(get_ecwid_store_id());
 
-		$products = $api->get_products(array('category' => $root_category_id));
+		$category = $api->get_category($root_category_id);
 
-		if ($products) {
-			$result .= '<ul>';
-			foreach ($products as $product) {
-				$url = ecwid_get_product_url(array('id' => $product->id, 'url' => $product->url));
-				$result .= '<li><a href="' . $url . '">' . $product->name . '</a></li>';
+		if ($category) {
+			$trimmed = ecwid_trim_description($category->description);
+			$result .= '<div>' . ecwid_trim_description($category->description);
+
+			if (mb_strlen($trimmed) < mb_strlen($category->description) && mb_strlen($trimmed) == ECWID_TRIMMED_DESCRIPTION_LENGTH) {
+				$result .= '... <a class="wp-embed-more" href="' . get_page_link(get_post(get_the_ID())) . '">' . __('See more', 'ecwid-shopping-cart') . '</a>';
 			}
-			$result .= '</ul>';
+			$result .= '</div>';
+		}
+
+		if (!$see_more) {
+			$products = $api->get_products(array( 'category' => $root_category_id ));
+
+			if ($products) {
+				foreach ($products as $product) {
+					$url         = ecwid_get_product_url(array( 'id' => $product->id, 'url' => $product->url ));
+					$items[$url] = $product->name;
+					if (count($items) >= $max_items) {
+						$see_more = TRUE;
+						break;
+					}
+				}
+			}
 		}
 	}
 
+	$result .= '<ul>';
+	if ($items) {
+		foreach ($items as $url => $title) {
+			$result .= '<li><a href="' . esc_attr($url) . '">' . esc_html($title) . '</a></li>';
+		}
+	}
+
+	if ($see_more) {
+		$result .= '<li><a class="wp-embed-more" href="' . get_page_link(get_post(get_the_ID())) . '">' . __('See more', 'ecwid-shopping-cart') . '</a></li>';
+	}
+
+	$result .= '</ul>';
 	return $result;
 }
 

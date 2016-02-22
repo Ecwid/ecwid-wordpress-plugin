@@ -61,6 +61,30 @@ class Ecwid_Api_V3
 		return $result->items;
 	}
 
+	public function get_category($categoryId)
+	{
+		if (!isset($categoryId)) {
+			return false;
+		}
+
+		$params = array('token');
+
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_categories_api_url . '/' . $categoryId,
+				$params
+			)
+		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result;
+	}
+
 	public function get_products($input_params)
 	{
 		$params = array('token');
