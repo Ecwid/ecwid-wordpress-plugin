@@ -82,10 +82,13 @@ class EcwidPlatform {
 	{
 		$result = null;
 		if (get_option('ecwid_http_use_stream', false) !== true) {
+
+			error_log('before post');
 			$result = wp_remote_post(
 				$url,
 				array( 'body' => $data )
 			);
+			error_log('after post');
 		}
 
 		if ( !is_array($result) ) {

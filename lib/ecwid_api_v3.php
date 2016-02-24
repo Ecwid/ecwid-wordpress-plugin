@@ -68,7 +68,7 @@ class Ecwid_Api_V3
 
 		$admin_nickname = $current_user->display_name;
 
-		$site_url = get_bloginfo('url');
+		$store_url = ecwid_get_store_page_url();
 		$site_name = get_bloginfo('name');
 		$site_email = get_option('admin_email');
 
@@ -84,7 +84,7 @@ class Ecwid_Api_V3
 			),
 			'profile' => array(
 				'generalInfo' => array(
-					'storeUrl' => $site_url
+					'storeUrl' => $store_url
 				)
 			),
 			'account' => array(

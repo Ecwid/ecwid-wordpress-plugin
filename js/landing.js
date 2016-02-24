@@ -6,11 +6,10 @@ switch_to_connect = function() {
 
 hide_on_loading = '.create-store-button, .create-store-have-account-question';
 invisible_on_loading = '.create-store-have-account-link';
-show_on_loading = '.create-store-loading, .create-store-loading-note';
+show_on_loading = '.create-store-loading';
 
 hide_on_success = '.create-store-loading';
-invisible_on_success = '.create-store-loading-note';
-show_on_success = '.create-store-success';
+show_on_success = '.create-store-success, .create-store-loading-note';
 
 
 jQuery(document).ready(function(){
@@ -27,11 +26,9 @@ jQuery(document).ready(function(){
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
 				success: function(result) {
-					debugger;
 					var html = result;
-					jQuery(hide_on_success + ', ' + invisible_on_success).fadeTo(150, .01).promise().done(function() {
+					jQuery(hide_on_success).fadeTo(150, .01).promise().done(function() {
 						jQuery(hide_on_success).hide();
-						jQuery(invisible_on_success).css('visibility', 'hidden');
 
 						jQuery(show_on_success).fadeIn(300);
 						setTimeout(function() {

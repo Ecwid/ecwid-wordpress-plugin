@@ -473,7 +473,6 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 @media (min-width: 768px) {
     .ecwid-button .ecwid-connection-error {
         position: relative;
-        top: -30px;
         margin-bottom: 8px;
     }
 }
