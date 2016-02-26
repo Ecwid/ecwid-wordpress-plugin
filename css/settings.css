@@ -743,3 +743,7 @@ display: none;
 		bottom: 0px;
 	}
 }
+
+.ecwid-admin-footer {
+	padding: 0 20px;
+}
