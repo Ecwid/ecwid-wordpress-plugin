@@ -537,3 +537,9 @@ msgstr "Спасибо, что выбрали Ecwid для создания ва
 
 msgid "Create Free Ecwid Store"
 msgstr "Создать Эквид-магазин"
+
+msgid "Preparing your store dashboard"
+msgstr "Подготовка панели управления"
+
+msgid "Store is created"
+msgstr "Магазин создан"
