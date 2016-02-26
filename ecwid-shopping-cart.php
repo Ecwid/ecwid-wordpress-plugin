@@ -16,6 +16,8 @@ register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 
+define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
+
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( realpath(__FILE__) ) );
@@ -100,6 +102,7 @@ if (get_option('ecwid_last_oauth_fail_time') > 0) {
 $ecwid_script_rendered = false; // controls single script.js on page
 
 require_once ECWID_PLUGIN_DIR . '/includes/themes.php';
+require_once ECWID_PLUGIN_DIR . '/includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-oauth.php';
@@ -783,18 +786,26 @@ function ecwid_meta_description() {
         $description = $category['description'];
     } else return;
 
-    $description = strip_tags($description);
-    $description = html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
-
-	$description = preg_replace('![\p{Z}\s]{1,}!u', ' ', $description);
-	$description = trim($description, " \t\xA0\n\r"); // Space, tab, non-breaking space, newline, carriage return
-	$description = mb_substr($description, 0, 160, 'UTF-8');
-	$description = htmlspecialchars($description, ENT_COMPAT, 'UTF-8');
+	$description = ecwid_trim_description($description);
 
     echo <<<HTML
 <meta name="description" content="$description" />
 HTML;
 }
+
+function ecwid_trim_description($description)
+{
+	$description = strip_tags($description);
+	$description = html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
+
+	$description = preg_replace('![\p{Z}\s]{1,}!u', ' ', $description);
+	$description = trim($description, " \t\xA0\n\r"); // Space, tab, non-breaking space, newline, carriage return
+	$description = mb_substr($description, 0, ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8');
+	$description = htmlspecialchars($description, ENT_COMPAT, 'UTF-8');
+
+	return $description;
+}
+
 
 function ecwid_ajax_hide_message($params)
 {
@@ -1594,14 +1605,8 @@ function ecwid_add_meta_boxes()
 	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side' );
 }
 
-function ecwid_nav_menu_items($items)
-{
-
-	if (is_admin()) {
-		return $items;
-	}
-
-	$categories = wp_cache_get('all_categories', 'ecwid');
+function ecwid_get_categories() {
+	$categories = EcwidPlatform::cache_get('all_categories');
 
 	if ( false == $categories ) {
 		$callback = 'ecwidcatscallback';
@@ -1614,8 +1619,20 @@ function ecwid_nav_menu_items($items)
 
 		$categories = json_decode($result);
 
-		$result = wp_cache_set('all_categories', $categories, 'ecwid', time() + 60 * 60 * 12);
+		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 12);
 	}
+
+	return $categories;
+}
+
+function ecwid_nav_menu_items($items)
+{
+
+	if (is_admin()) {
+		return $items;
+	}
+
+	$categories = ecwid_get_categories();
 
 	$counter = 0;
 	foreach ($items as $key => $item) {
@@ -1742,6 +1759,9 @@ function ecwid_admin_orders_do_page() {
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
+
+	$api = new Ecwid_Api_V3(get_ecwid_store_id());
+	$api->get_category(array('categoryId' => 82007));
 
 	wp_enqueue_style('ecwid-admin-css', plugins_url('ecwid-shopping-cart/css/admin.css'), array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', plugins_url('ecwid-shopping-cart/css/fonts.css'), array(), get_option('ecwid_plugin_version'));

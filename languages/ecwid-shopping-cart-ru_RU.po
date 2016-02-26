@@ -531,3 +531,6 @@ msgstr "https://help.ecwid.com/customer/ru/portal/articles"
 
 msgid "Download log file"
 msgstr "Скачать лог-файл"
+
+msgid "See more"
+msgstr "Посмотреть все"

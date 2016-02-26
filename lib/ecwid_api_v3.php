@@ -45,12 +45,44 @@ class Ecwid_Api_V3
 			$params['parent'] = $input_params['parent'];
 		}
 
-		return EcwidPlatform::fetch_url(
+		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
 				$this->_categories_api_url,
 				$params
 			)
 		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result->items;
+	}
+
+	public function get_category($categoryId)
+	{
+		if (!isset($categoryId)) {
+			return false;
+		}
+
+		$params = array('token');
+
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_categories_api_url . '/' . $categoryId,
+				$params
+			)
+		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result;
 	}
 
 	public function get_products($input_params)
@@ -60,12 +92,20 @@ class Ecwid_Api_V3
 			$params['category'] = $input_params['category'];
 		}
 
-		return EcwidPlatform::fetch_url(
+		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
 				$this->_products_api_url,
 				$params
 			)
 		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result->items;
 	}
 
 	protected static function _load_token()
