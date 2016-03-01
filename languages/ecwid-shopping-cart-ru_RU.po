@@ -534,3 +534,9 @@ msgstr "Скачать лог-файл"
 
 msgid "See more"
 msgstr "Посмотреть все"
+
+msgid "Read FAQ"
+msgstr "Посмотреть FAQ"
+
+msgid "https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable"
+msgstr "https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org"

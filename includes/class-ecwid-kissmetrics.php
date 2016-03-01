@@ -2,7 +2,7 @@
 
 class Ecwid_Kissmetrics {
 
-	const API_KEY = '73a63d56f0a933d42635f7a79e540db8cdab1fba';//'12a19b058a28c5db7b722584d59e60e4f080e142';
+	const API_KEY = '12a19b058a28c5db7b722584d59e60e4f080e142';
 	const STORAGE_OPTION_NAME = 'ecwid_kissmetrics';
 	const EVENT_PREFIX = 'wp-plugin ';
 

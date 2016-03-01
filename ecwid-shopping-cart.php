@@ -621,6 +621,39 @@ TEXT;
 	$body = __($body, 'ecwid-shopping-cart');
 	$body = sprintf($body, $theme, $store_url);
 
+	$wp_admin_bar->add_menu( array(
+		'id' => 'ecwid-main',
+		'title' => '<span class="ab-icon ecwid-top-menu-item"></span>',
+		'href' => 'admin.php?page=ecwid',
+	));
+
+	$wp_admin_bar->add_menu(array(
+			"id" => "ecwid-go-to-page",
+			"title" => __("Visit storefront", 'ecwid-shopping-cart'),
+			"parent" => "ecwid-main",
+			'href' => ecwid_get_store_page_url()
+		)
+	);
+
+	$wp_admin_bar->add_menu(array(
+			"id" => "ecwid-control-panel",
+			"title" => __("Manage my store", 'ecwid-shopping-cart'),
+			"parent" => "ecwid-main",
+			'href' =>  admin_url('admin.php?page=ecwid')
+		)
+	);
+
+	$wp_admin_bar->add_menu(array(
+			"id" => "ecwid-help",
+			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
+			"parent" => "ecwid-main",
+			'href' =>  __('https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable', 'ecwid-shopping-cart'),
+			'meta' => array(
+				'target' => '_blank'
+			)
+		)
+	);
+
 	$wp_admin_bar->add_menu(array(
 		'id' => 'ecwid-report-problem',
 		'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
@@ -630,51 +663,6 @@ TEXT;
 			'target' => '_blank'
 		)
 	));
-
-    $wp_admin_bar->add_menu( array(
-        'id' => 'ecwid-main',
-        'title' => '<span class="ab-icon ecwid-top-menu-item"></span>',
-		'href' => 'admin.php?page=ecwid',
-    ));
-	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-help",
-			"title" => __("Get help", 'ecwid-shopping-cart'),
-			"parent" => "ecwid-main",
-			'href' =>  __('https://help.ecwid.com', 'ecwid-shopping-cart'),
-			'meta' => array(
-				'target' => '_blank'
-			)
-		)
-	);
-    $wp_admin_bar->add_menu(array(
-            "id" => "ecwid-home",
-            "title" => __("Go to Ecwid site", 'ecwid-shopping-cart'),
-            "parent" => "ecwid-main",
-            'href' => 'http://www.ecwid.com?source=wporg'
-        )
-    );
-    $wp_admin_bar->add_menu(array(
-            "id" => "ecwid-go-to-page",
-            "title" => __("Visit storefront", 'ecwid-shopping-cart'),
-            "parent" => "ecwid-main",
-            'href' => ecwid_get_store_page_url()
-        )
-    );
-    $wp_admin_bar->add_menu(array(
-            "id" => "ecwid-control-panel",
-            "title" => __("Manage my store", 'ecwid-shopping-cart'),
-            "parent" => "ecwid-main",
-            'href' =>  admin_url('admin.php?page=ecwid')
-        )
-    );
-	$wp_admin_bar->add_menu(array(
-            "id" => "ecwid-fb-app",
-            "title" => __("→ Sell on Facebook", 'ecwid-shopping-cart'),
-            "parent" => "ecwid-main",
-            'href' =>  'http://apps.facebook.com/ecwid-shop/?fb_source=wp'
-        )
-    );
-
 }
 
 function ecwid_content_has_productbrowser($content) {
