@@ -198,20 +198,20 @@ class Ecwid_Api_V3
 			'profile' => array(
 				'generalInfo' => array(
 					'storeUrl' => $store_url
+				),
+				'account' => array(
+					'accountName' => $admin_name,
+					'accountNickName' => $admin_nickname,
+					'accountEmail' => $admin_email
+				),
+						'settings' => array(
+					'storeName' => $site_name
+				),
+				  'mailNotifications' => array(
+					'adminNotificationEmails' => array($site_email),
+					'customerNotificationFromEmail' => $site_email
 				)
 			),
-			'account' => array(
-				'accountName' => $admin_name,
-				'accountNickName' => $admin_nickname,
-				'accountEmail' => $admin_email
-			),
-			'settings' => array(
-				'storeName' => $site_name
-			),
-			'mailNotifications' => array(
-				'adminNotificationEmails' => array($site_email),
-				'customerNotificationFromEmail' => $site_email
-			)
 		);
 		$request_params =  array(
 			'appClientId',
@@ -219,6 +219,7 @@ class Ecwid_Api_V3
 			'returnApiToken' => 'true'
 		);
 		$url = $this->build_request_url($this->_stores_api_url, $request_params);
+
 		$result = EcwidPlatform::http_post_request($url, json_encode($params));
 		return $result;
 	}
