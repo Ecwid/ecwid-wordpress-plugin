@@ -51,7 +51,8 @@ function ecwid_apply_theme($theme_name = null)
 		'attitude',
 		'responsiveboat',
 		'central',
-		'edin'
+		'edin',
+		'accesspress-mag'
 	);
 
 
