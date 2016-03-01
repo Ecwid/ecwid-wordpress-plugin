@@ -2149,48 +2149,26 @@ function ecwid_test_oauth($force = false)
 }
 
 function ecwid_get_categories_for_selector() {
-	$categories = false;
-	if (ecwid_is_paid_account()) {
-		$api = ecwid_new_product_api();
-		$categories = $api->get_all_categories();
-		$by_id = array();
 
-		if (empty($categories)) return array();
-
-		if (is_array($categories)) {
-			foreach ($categories as $key => $category) {
-				$by_id[$category['id']] = $category;
-			}
+	function walk_through_categories($categories, $parent_prefix) {
+		if (empty($categories)) {
+			return array();
 		}
-		unset($categories);
+		$result = array();
 
-		foreach ($by_id as $id => $category) {
-			$name_path = array($category['name']);
-			while (is_array($category) && isset($category['parentId'])) {
-				$name = '';
-				if (isset($by_id[$category['parentId']])) {
-					$name = $by_id[$category['parentId']]['name'];
-				} else {
-					$name = __('Hidden category', 'ecwid-shopping-cart');
-				}
-				$name_path[] = $name;
-				$category = isset($by_id[$category['parentId']]) ? $by_id[$category['parentId']] : false;
-			}
-
-			$by_id[$id]['path'] = array_reverse($name_path);
-			$by_id[$id]['path_str'] = implode(" > ", $by_id[$id]['path']);
+		foreach ($categories as $category) {
+			$result[$category->id] = $category;
+			$result[$category->id]->path = $parent_prefix . $category->name;
+			$result = array_merge($result, walk_through_categories($category->sub, $category->name . ' > '));
+			unset($result[$category->id]->sub);
 		}
 
-		function sort_by_path($a, $b) {
-			return strcmp($a['path_str'], $b['path_str']);
-		}
-
-		uasort($by_id, 'sort_by_path');
-
-		$categories = $by_id;
+		return $result;
 	}
 
-	return $categories;
+	$result = walk_through_categories(ecwid_get_categories(), "");
+
+	return $result;
 }
 
 function ecwid_advanced_settings_do_page() {

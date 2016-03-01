@@ -149,46 +149,30 @@
 
 					<div class="pure-control-group params-list default-category-id">
 
-						<?php if (ecwid_is_paid_account()): ?>
-							<?php if ($categories): ?>
-							<label for="ecwid_default_category_id">
-								<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
-							</label>
+					<?php if ($categories): ?>
+					<label for="ecwid_default_category_id">
+						<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
+					</label>
 
 
-							<div class="value">
+					<div class="value">
 
-								<select name="default_category_id" id="ecwid_default_category_id">
-									<option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
-									<?php foreach ($categories as $category): ?>
-										<option
-											value="<?php echo esc_attr($category['id']); ?>"
-											<?php if ($category['id'] == get_option('ecwid_default_category_id')): ?>
-												selected="selected"
-											<?php endif; ?>
-											>
-											<?php echo esc_html($category['path_str']); ?>
-										</option>
-									<?php endforeach; ?>
-								</select>
-							</div>
+						<select name="default_category_id" id="ecwid_default_category_id">
+							<option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
+							<?php foreach ($categories as $category): ?>
+								<option
+									value="<?php echo esc_attr($category->id); ?>"
+									<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
+										selected="selected"
+									<?php endif; ?>
+									>
+									<?php echo esc_html($category->path); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
 
-							<?php endif; ?>
-						<?php else: ?>
-
-							<label for="ecwid_default_category_id">
-								<?php _e('Default category ID', 'ecwid-shopping-cart'); ?>
-							</label>
-
-							<input
-								id="ecwid_default_category_id"
-								name="ecwid_default_category_id"
-								type="text"
-								placeholder="<?php _e('Default category ID', 'ecwid-shopping-cart'); ?>"
-								value="<?php echo esc_attr(get_option('ecwid_default_category_id')) ?>"
-								/>
-						<?php endif; ?>
-
+					<?php endif; ?>
 					</div>
 
 					<div class="pure-control-group params-list">
