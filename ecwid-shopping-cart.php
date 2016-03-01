@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 4.0.7
+Version: 4.1
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -891,6 +891,7 @@ function ecwid_seo_title_parts($parts)
 function ecwid_ajax_seo_title()
 {
 	$title = _ecwid_get_seo_title();
+	echo $title;
 	$template = $_GET['title_template'];
 
 	$result = str_replace('ECWID_SEO_TITLE', $title, $template);
@@ -977,10 +978,10 @@ function ecwid_content_started($content)
 
 function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
-    return "<!-- Ecwid shopping cart plugin v 4.0.7 --><!-- noptimize -->"
+    return "<!-- Ecwid shopping cart plugin v 4.1 --><!-- noptimize -->"
 		   . ecwid_get_scriptjs_code(@$attrs['lang'])
 	       . "<div class=\"ecwid-shopping-cart-$name\">$content</div>"
-		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.0.7 -->";
+		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.1 -->";
 }
 
 function ecwid_get_scriptjs_code($force_lang = null) {
@@ -1867,11 +1868,13 @@ function ecwid_common_admin_scripts() {
 		$screen = get_current_screen();
 
 		if ($screen->base == 'nav-menus') {
+			EcwidPlatform::set('nav-menus-opened-once', null);
 
 			$first_run = false;
-			if (! EcwidPlatform::get('nav-menus-opened-once', false)) {
-				EcwidPlatform::set('nav-menus-opened-once', true);
-				$first_run = true;
+			// It opens the page twice on the very first run of that page
+			if (EcwidPlatform::get('nav-menus-opened-once', false) < 2) {
+				EcwidPlatform::set('nav-menus-opened-once', EcwidPlatform::get('nav-menus-opened-once') + 1);
+				$first_run = EcwidPlatform::get('nav-menus-opened-once') <= 2;
 			}
 
 			wp_enqueue_script('ecwid-admin-menu-js', plugins_url('ecwid-shopping-cart/js/nav-menu.js'), array(), get_option('ecwid_plugin_version'));
