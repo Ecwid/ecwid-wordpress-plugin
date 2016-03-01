@@ -11,7 +11,7 @@
 	$all_options = wp_load_alloptions();
 ?>
 
-<a class="button button-primary" href="admin-post.php?action=ecwid_get_debug">Download file</a>
+<a class="button button-primary" href="admin-post.php?action=ecwid_get_debug" style="margin-top:10px"><?php _e('Download log file', 'ecwid-shopping-cart'); ?></a>
 
 <h2>Active plugins</h2>
 

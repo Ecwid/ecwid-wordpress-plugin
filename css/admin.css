@@ -360,7 +360,6 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 .toplevel_page_ecwid #wpcontent {
-	background: white;
 	padding-left: 0px;
 }
 
@@ -368,7 +367,15 @@ body[class*="_page_ecwid"] .ecwid-message {
 	right: 0px;
 	height: 600px;
 	background: white;
+
+	width:100%;
+	max-width:1440px;
 }
+
+.ecwid-no-padding #wpcontent {
+	padding-left: 0px;
+}
+
 /* ---------------------- */
 
 @media screen and (max-width:1023px) {

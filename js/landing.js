@@ -32,7 +32,7 @@ jQuery(document).ready(function(){
 
 						jQuery(show_on_success).fadeIn(300);
 						setTimeout(function() {
-							jQuery('#wpbody-content').html(html);
+							location.href="admin.php?page=ecwid&just-created";
 						}, 1000);
 					})
 				},

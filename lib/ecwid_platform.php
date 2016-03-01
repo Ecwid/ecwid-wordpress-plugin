@@ -4,6 +4,36 @@ class EcwidPlatform {
 
 	static protected $http_use_streams = false;
 
+	static protected $crypt = null;
+
+	static public function init_crypt($force = false)
+	{
+		if ( $force || is_null(self::$crypt) ) {
+			self::$crypt = new Ecwid_Crypt_AES();
+			self::_init_crypt();
+		}
+	}
+
+	static protected function _init_crypt()
+	{
+		self::$crypt->setIV( substr( md5( SECURE_AUTH_SALT . get_option('ecwid_store_id') ), 0, 16 ) );
+		self::$crypt->setKey( SECURE_AUTH_KEY );
+	}
+
+	static public function encrypt($what)
+	{
+		self::init_crypt();
+
+		return self::$crypt->encrypt($what);
+	}
+
+	static public function decrypt($what)
+	{
+		self::init_crypt();
+
+		return self::$crypt->decrypt($what);
+	}
+
 	static public function esc_attr($value)
 	{
 		return esc_attr($value);
@@ -17,6 +47,21 @@ class EcwidPlatform {
 	static public function get_price_label()
 	{
 		return __('Price', 'ecwid-shopping-cart');
+	}
+
+	static public function cache_get($name)
+	{
+		get_transient('ecwid_' . $name);
+	}
+
+	static public function cache_set($name, $value, $expires_after)
+	{
+		set_transient('ecwid_' . $name, $value, $expires_after);
+	}
+
+	static public function parse_args($args, $defaults)
+	{
+		return wp_parse_args($args, $defaults);
 	}
 
 	static public function fetch_url($url)
@@ -107,6 +152,29 @@ class EcwidPlatform {
 		return $result;
 	}
 
+	static public function get( $name, $default = null )
+	{
+		$options = get_option( 'ecwid_plugin_data' );
+
+		if ( is_array( $options ) && array_key_exists( $name, $options ) ) {
+			return $options[$name];
+		}
+
+		return $default;
+	}
+
+	static public function set( $name, $value ) {
+		$options = get_option( 'ecwid_plugin_data' );
+
+		if ( !is_array( $options ) ) {
+			$options = array();
+		}
+
+		$options[$name] = $value;
+
+		update_option( 'ecwid_plugin_data', $options );
+	}
+
 	static public function http_api_transports($transports)
 	{
 		if (self::$http_use_streams) {
@@ -115,6 +183,7 @@ class EcwidPlatform {
 
 		return $transports;
 	}
+
 }
 
 add_filter('http_api_transports', array('EcwidPlatform', 'http_api_transports'));

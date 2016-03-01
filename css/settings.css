@@ -321,10 +321,12 @@ display: none;
 }
 
 /* Common main */
+.ecwid-admin {
+	margin-left: 20px;
+}
 .ecwid-admin .box {
 	position: relative;
 	margin-top: 25px;
-	padding: 0 15px;
 
 	border: 1px solid #E5E5E5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -356,7 +358,7 @@ display: none;
 }
 
 .ecwid-admin .head {
-	border-bottom: 1px solid #EEE;
+	border-bottom: 1px solid #E5E5E5;
 	height: 70px;
 }
 
@@ -398,11 +400,12 @@ display: none;
 
 
 .ecwid-connect.ecwid-reconnect .box .greeting-message {
-	margin-bottom: inherit;
+	margin-bottom: 15px;
 }
 
 .ecwid-connect .box .connect-button {
 	margin-top: 8px;
+	margin-bottom: 15px;
 }
 .ecwid-connect .where-to-find-store-id {
 	margin-top: 25px;
@@ -740,4 +743,9 @@ display: none;
 		top: 46px;
 		bottom: 0px;
 	}
+}
+
+.ecwid-admin-footer {
+	border-top: 1px solid #e5e5e5;
+	padding: 0 20px;
 }

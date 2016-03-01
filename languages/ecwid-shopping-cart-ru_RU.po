@@ -215,7 +215,7 @@ msgid "Single Sign-On Secret Key is an option that allows your customers access 
 msgstr "Эта функция позволяет включить систему единой авторизации: когда покупатели вошли в свой аккаунт на вашем сайте, они автоматически входят в свой Эквид-аккаунт, даже если раньше у них его не было. Эта функция может быть полезна в случае, если ваши посетители создают свои аккаунты на вашем сайте."
 
 msgid "To enable this feature, copy the Single Sign On Secret key from the store control panel to the input above. You can find the key on the \"<a href=\"https://my.ecwid.com/cp/CP.html#legacy_api\" target=\"_blank\">Legacy API Keys</a>\" page. This feature is available for <a href=\"https://www.ecwid.com/pricing\" target=\"_blank\">paid users</a> only."
-msgstr "Чтобы включить эту функцию, скопируйте секретный ключ из панели управления магазином в текстовое поле выше. Ключ можно найти на странице \"<a href=\"https://my.ecwid.com/cp/CP.html#legacy_api\" target=\"_blank\">Ключей для предыдущей версии API</a>\". Эта функция доступна только пользователям с <a href=\"https://www.ecwid.com/pricing\" target=\"_blank\">платным аккаунтом</a>."
+msgstr "Чтобы включить эту функцию, скопируйте секретный ключ из панели управления магазином в текстовое поле выше. Ключ можно найти на странице \"<a href=\"https://my.ecwid.com/cp/CP.html#legacy_api\" target=\"_blank\">Ключи для предыдущей версии API</a>\". Эта функция доступна только пользователям с <a href=\"https://www.ecwid.com/pricing\" target=\"_blank\">платным аккаунтом</a>."
 
 msgid "Save changes"
 msgstr "Сохранить изменения"
@@ -543,3 +543,9 @@ msgstr "Подготовка панели управления"
 
 msgid "Store is created"
 msgstr "Магазин создан"
+
+msgid "Download log file"
+msgstr "Скачать лог-файл"
+
+msgid "See more"
+msgstr "Посмотреть все"

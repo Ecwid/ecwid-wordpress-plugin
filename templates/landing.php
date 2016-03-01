@@ -1,3 +1,7 @@
+<script type='text/javascript'>//<![CDATA[
+    document.body.className += ' ecwid-no-padding';
+    //]]>
+</script>
 <div class="ecwid-landing <?php echo $register ? 'register' : 'connect'; echo $connection_error ? ' conn-error': ''; ?>">
     <div class="ecwid-thank">
         <h1>

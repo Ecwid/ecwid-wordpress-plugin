@@ -446,8 +446,10 @@ body {
 }
 
 #wpcontent {
-    background: white;
     padding-left: 0px;
+}
+.ecwid-landing {
+    background: white;
 }
 ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:after
 {
@@ -487,8 +489,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 }
 
 .ecwid-landing .ecwid-button .btn {
-    width: 250px;
+    width: 300px;
     margin-bottom: 20px;
+    height: 59px;
+    font-size: 20px;
 }
 
 .ecwid-button .create-store-loading,
@@ -1315,7 +1319,3 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 
 .btn-loading .loader {
     display: block; }
-
-.ecwid-thank .btn-large {
-    height: 49px;
-}
