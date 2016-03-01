@@ -1315,3 +1315,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 
 .btn-loading .loader {
     display: block; }
+
+.ecwid-thank .btn-large {
+    height: 49px;
+}
