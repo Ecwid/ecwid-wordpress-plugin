@@ -27,7 +27,7 @@ class Ecwid_OAuth {
 	public function show_reconnect()
 	{
 		$ecwid_oauth = $this;
-		require_once(ECWID_PLUGIN_DIR . '/templates/reconnect.php');
+		require_once(ECWID_PLUGIN_DIR . 'templates/reconnect.php');
 	}
 
 	public function test_post()

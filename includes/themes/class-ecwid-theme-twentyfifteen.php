@@ -11,7 +11,7 @@ class Ecwid_Theme_2015 extends Ecwid_Theme_Base
 		parent::__construct();
 
 		if (ecwid_page_has_productbrowser()) {
-			wp_enqueue_style( 'ecwid-theme', plugins_url( 'ecwid-shopping-cart/css/themes/2015.css' ), array('twentyfifteen-style'), get_option('ecwid_plugin_version') );
+			wp_enqueue_style( 'ecwid-theme', ECWID_PLUGIN_URL . 'css/themes/2015.css', array('twentyfifteen-style'), get_option('ecwid_plugin_version') );
 		}
 
 		add_action('ecwid_plugin_installed', array($this, 'on_ecwid_plugin_installed'));

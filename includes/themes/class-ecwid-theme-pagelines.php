@@ -12,7 +12,7 @@ class Ecwid_Theme_Pagelines extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
-		wp_enqueue_script( 'ecwid-theme-js', plugins_url( 'ecwid-shopping-cart/js/themes/pagelines.js' ), array( 'jquery' ), get_option('ecwid_plugin_version'), true );
+		wp_enqueue_script( 'ecwid-theme-js', ECWID_PLUGIN_URL . 'js/themes/pagelines.js', array( 'jquery' ), get_option('ecwid_plugin_version'), true );
 	}
 }
 

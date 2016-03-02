@@ -13,8 +13,8 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 		if (!is_admin()) {
 
 			if ( $this->need_advanced_layout() ) {
-				wp_enqueue_style( 'ecwid-theme-adjustments' , plugins_url( 'ecwid-shopping-cart/css/themes/responsive-adjustments.css' ), array(), get_option('ecwid_plugin_version'), 'all' );
-				wp_enqueue_script( 'ecwid-theme', plugins_url( 'ecwid-shopping-cart/js/themes/responsive.js' ), array( 'jquery' ), get_option('ecwid_plugin_version'), true );
+				wp_enqueue_style( 'ecwid-theme-adjustments' , ECWID_PLUGIN_URL . 'css/themes/responsive-adjustments.css', array(), get_option('ecwid_plugin_version'), 'all' );
+				wp_enqueue_script( 'ecwid-theme', ECWID_PLUGIN_URL . 'js/themes/responsive.js', array( 'jquery' ), get_option('ecwid_plugin_version'), true );
 
 				add_filter( 'ecwid_minicart_shortcode_content', array( $this, 'minicart_shortcode_content' ) );
 				add_filter( 'ecwid_search_shortcode_content', array( $this, 'search_shortcode_content' ) );
@@ -22,7 +22,7 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 
 			wp_enqueue_style( 'ecwid-open-sans' , 'http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic-ext,cyrillic,greek-ext,vietnamese,greek,latin-ext');
 			wp_enqueue_style( 'dashicons' );
-			wp_enqueue_style( 'ecwid-theme-fixes' , plugins_url( 'ecwid-shopping-cart/css/themes/responsive.css' ), array(), get_option('ecwid_plugin_version'), 'all' );
+			wp_enqueue_style( 'ecwid-theme-fixes' , ECWID_PLUGIN_URL . 'css/themes/responsive.css', array(), get_option('ecwid_plugin_version'), 'all' );
 
 			add_filter('body_class', array($this, 'body_class'));
 

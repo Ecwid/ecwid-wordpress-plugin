@@ -10,7 +10,7 @@ class Ecwid_Theme_Mantra extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
-		wp_enqueue_style( 'ecwid-theme-fixes' , plugins_url( 'ecwid-shopping-cart/css/themes/mantra.css' ), array(), get_option('ecwid_plugin_version'), 'all' );
+		wp_enqueue_style( 'ecwid-theme-fixes' , ECWID_PLUGIN_URL . 'css/themes/mantra.css', array(), get_option('ecwid_plugin_version'), 'all' );
 	}
 }
 
