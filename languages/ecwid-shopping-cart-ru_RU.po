@@ -289,9 +289,6 @@ msgstr "Ошибка подключения: после нажатия на кн
 msgid "Don't have Ecwid account? Create it here"
 msgstr "Ещё нет аккаунта в Эквиде? Зарегистрируйтесь"
 
-msgid "Questions? <a %s>Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
-msgstr "Есть вопросы? Посетите <a %s>Центр поддержки Эквида (англ)</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
-
 msgid "Store ID"
 msgstr "ID Магазина"
 
@@ -540,3 +537,9 @@ msgstr "Посмотреть FAQ"
 
 msgid "https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable"
 msgstr "https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org"
+
+msgid "Questions?"
+msgstr "Есть вопросы?"
+
+msgid "<a href=\"https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
+msgstr "Посетите <a href=\"https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org\">Центр поддержки Эквида</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
