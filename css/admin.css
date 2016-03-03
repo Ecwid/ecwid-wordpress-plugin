@@ -169,9 +169,8 @@ div.ecwid-message {
 }
 
 body[class*="_page_ecwid"] .ecwid-message {
-	margin: 20px 20px 20px 0px;
+	margin: 20px;
 }
-
 
 .ecwid-message.dev {
 	outline: 2px solid red;
@@ -368,6 +367,10 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 .ecwid-no-padding #wpcontent {
 	padding-left: 0px;
+}
+
+.ecwid-no-padding .ecwid-message, .ecwid-no-padding .update-nag {
+	margin-left: 20px;
 }
 
 /* ---------------------- */
