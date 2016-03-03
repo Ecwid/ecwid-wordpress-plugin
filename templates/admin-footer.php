@@ -3,10 +3,10 @@
 		<h4 class="ecwid-admin-footer-title"><?php _e('Get Ecwid mobile app', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-app-badges">
 			<a href="https://itunes.apple.com/en/app/ecwid/id626731456?mt=8"target="_blank" rel="nofollow">
-				<?php ecwid_embed_svg('white-app-store'); ?>
+				<?php ecwid_embed_svg('black-app-store'); ?>
 			</a>
 			<a href="https://play.google.com/store/apps/details?id=com.ecwid.android">
-				<?php ecwid_embed_svg('white-google'); ?>
+				<?php ecwid_embed_svg('black-google'); ?>
 			</a>
 		</div>
 	</div>

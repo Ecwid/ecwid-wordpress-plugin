@@ -436,15 +436,11 @@ body[class*="_page_ecwid"] .ecwid-message {
 .ecwid-admin-footer-block .ecwid-app-badges svg {
 	width: 105px;
 	margin-right: 7px;
-	opacity: .7;
+	opacity: .8;
 }
 
 .ecwid-admin-footer-block .ecwid-app-badges svg:hover {
 	opacity: 1;
-}
-
-.ecwid-admin-footer-block .ecwid-app-badges svg rect {
-	stroke: #999;
 }
 
 @media screen and (max-width:767px) {
