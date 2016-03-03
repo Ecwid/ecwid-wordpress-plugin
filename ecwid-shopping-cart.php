@@ -2941,7 +2941,7 @@ function ecwid_gather_stats()
 		if (!empty($results)) {
 			$stats = array_merge($stats, $results);
 		}
-		get_option('ecwid_checked_for_remote_connection_errors', empty($results));
+		update_option('ecwid_checked_for_remote_connection_errors', empty($results));
 	}
 
 	return $stats;
