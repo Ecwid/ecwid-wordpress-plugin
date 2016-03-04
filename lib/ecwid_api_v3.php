@@ -171,7 +171,8 @@ class Ecwid_Api_V3
 	public function create_store()
 	{
 		global $current_user;
-		$admin_email = time() . '+' . $current_user->user_email;
+		$admin_email = $current_user->user_email;
+
 		$admin_first = get_user_meta($current_user->ID, 'first_name', true);
 		if (!$admin_first) {
 			$admin_first = get_user_meta($current_user->ID, 'nickname', true);
@@ -204,7 +205,7 @@ class Ecwid_Api_V3
 					'accountNickName' => $admin_nickname,
 					'accountEmail' => $admin_email
 				),
-						'settings' => array(
+				  'settings' => array(
 					'storeName' => $site_name
 				),
 				  'mailNotifications' => array(

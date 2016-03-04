@@ -1771,7 +1771,11 @@ function ecwid_register_admin_styles($hook_suffix) {
 			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
 				'register_link' => ecwid_get_register_link()
 			));
-			wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
+			if (ecwid_use_old_landing()) {
+				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
+			} else {
+				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
+			}
 			wp_enqueue_style('ecwid-landing-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
@@ -1935,9 +1939,9 @@ function ecwid_create_store() {
 
 		header( 'HTTP/1.1 200 OK' );
 
-		//ecwid_admin_do_page('dashboard:wizard=ADD_PRODUCTS');
 	} else {
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
+		Ecwid_Kissmetrics::record( 'Create Store Failed' );
 	}
 }
 
@@ -1958,10 +1962,15 @@ function ecwid_general_settings_do_page() {
 			global $current_user;
 
 			if ($api->does_store_exist($current_user->user_email)) {
+				Ecwid_Kissmetrics::record( 'Existing Store Found' );
 				require_once ECWID_PLUGIN_DIR . '/templates/connect.php';
 			} else {
 				Ecwid_Kissmetrics::record( 'Welcome Page Viewed' );
-				require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
+				if ( ecwid_use_old_landing() ) {
+					require_once( ECWID_PLUGIN_DIR . '/templates/landing_old.php' );
+				} else {
+					require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
+				}
 			}
 		}
 	} else {
@@ -2044,48 +2053,6 @@ function ecwid_admin_do_page( $page ) {
 		}
 	} else {
 		require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
-	}
-}
-
-function _ecwid_general_settings_do_page() {
-
-	$connection_error = isset( $_GET['connection_error'] );
-
-	$no_oauth = isset( $_GET['oauth'] ) && @$_GET['oauth'] == 'no';
-
-	if ( ! $no_oauth ) {
-		$no_oauth = !ecwid_test_oauth();
-	}
-
-	global $ecwid_oauth;
-
-	if ( get_option( 'ecwid_store_id' ) != ECWID_DEMO_STORE_ID && ! $ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['connection_error']) && !$no_oauth ) {
-		require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-
-	} else if (get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID && !$no_oauth) {
-
-		$register = !$connection_error && !isset($_GET['connect']) && !@$_COOKIE['ecwid_create_store_clicked'];
-
-		require_once(ECWID_PLUGIN_DIR . 'templates/landing.php');
-	} else if (isset($_GET['reconnect'])) {
-		if (isset($_GET['reason'])) switch ($_GET['reason']) {
-			case '1': $reconnect_message = "Message 1"; break;
-			case '2': $reconnect_message = "Message 2"; break;
-		}
-
-        $scopes = '';
-
-		$connection_error = isset($_GET['connection_error']);
-
-		require_once ECWID_PLUGIN_DIR . 'templates/reconnect.php';
-	} else if (get_ecwid_store_id() == ECWID_DEMO_STORE_ID && ( isset($_GET['connection_error']) || $no_oauth ) ) {
-
-	   require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
-	} else if ( get_option( 'ecwid_last_oauth_fail_time' ) > 0 ) {
-		require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
-	} else {
-
-		ecwid_admin_do_page( 'dashboard' );
 	}
 }
 
@@ -2741,6 +2708,10 @@ function ecwid_find_shortcodes( $content, $tag ) {
 		return $result;
 	}
 	return false;
+}
+
+function ecwid_use_old_landing() {
+	return get_option('ecwid_installation_date') % 10 >= 2;
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent

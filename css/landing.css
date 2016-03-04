@@ -55,7 +55,7 @@ body {
     padding-top: 36px; }
 .ecwid-thank h1 {
     text-align: center;
-    font-size: 28px;
+    font-size: 34px;
     color: #000000;
     line-height: 1.4;
     margin-bottom: 30px; }
@@ -73,8 +73,9 @@ body {
 .ecwid-thank h1 span {
     display: block;
     font-size: 14px;
-    margin-bottom: 14px;
-    margin-top: 14px; }
+    text-align: left;
+    max-width: 500px;
+    margin: 14px auto; }
 
 .ecwid-thank-steps {
     margin: 0 auto 51px;
@@ -497,6 +498,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 
 .ecwid-button .create-store-loading,
 .ecwid-button .create-store-loading-note,
+.ecwid-button .create-store-success-note,
 .ecwid-button .create-store-success {
     display: none;
 }

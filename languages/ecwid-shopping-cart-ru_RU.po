@@ -419,7 +419,7 @@ msgid "More than 800,000 merchants in 175 countries"
 msgstr "Эквид уже используют 800,000 продавцов из 175 стран"
 
 msgid "Start selling <br>on your WordPress <nobr>site for free</nobr>"
-msgstr "Начните продавать<br>на своём Wordpress <nobr>сайте бесплатно</nobr>"
+msgstr "Начните продавать<br>на своём WordPress <nobr>сайте бесплатно</nobr>"
 
 msgid "Get Started, Create Ecwid Account"
 msgstr "Зарегистрировать аккаунт"
@@ -532,8 +532,8 @@ msgstr "https://help.ecwid.com/customer/ru/portal/articles"
 msgid "Welcome to Ecwid!"
 msgstr "Добро пожаловать в Ecwid!"
 
-msgid "Thank you for choosing Ecwid to build your online store.<br />The first step to sell successfully online is to setup your store!<br />Let’s get started and add a store to your website in a few simple steps.<br />It won’t take more than 15 minutes."
-msgstr "Спасибо, что выбрали Ecwid для создания вашего интернет-магазина.<br />Первый шаг к успешной онлайн торговле — настройка магазина!<br />Давайте добавим магазин на ваш сайт за несколько простых шагов.<br />Это займет не более 15 минут."
+msgid "Thank you for choosing Ecwid to build your online store. The first step to sell successfully online is to setup your store! Let’s get started and add a store to your website in a few simple steps."
+msgstr "Спасибо, что выбрали Ecwid для создания вашего интернет-магазина. Первый шаг к успешной онлайн торговле — настройка магазина! Давайте добавим магазин на ваш сайт за несколько простых шагов."
 
 msgid "Create Free Ecwid Store"
 msgstr "Создать Эквид-магазин"
@@ -555,3 +555,6 @@ msgstr "Посмотреть FAQ"
 
 msgid "https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable"
 msgstr "https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org"
+
+msgid "Creating store"
+msgstr "Создание магазина"

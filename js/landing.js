@@ -6,31 +6,32 @@ switch_to_connect = function() {
 
 hide_on_loading = '.create-store-button, .create-store-have-account-question';
 invisible_on_loading = '.create-store-have-account-link';
-show_on_loading = '.create-store-loading';
+show_on_loading = '.create-store-loading, .create-store-loading-note';
 
-hide_on_success = '.create-store-loading';
-show_on_success = '.create-store-success, .create-store-loading-note';
+hide_on_success = '.create-store-loading, .create-store-loading-note';
+show_on_success = '.create-store-success, .create-store-success-note';
 
 
 jQuery(document).ready(function(){
 
 	jQuery('.create-store-button').click(function() {
 
-		jQuery(hide_on_loading + ', ' + invisible_on_loading).fadeTo(150, .01).promise().done(function() {
-			jQuery(hide_on_loading).hide();
-			jQuery(invisible_on_loading).css('visibility', 'hidden');
+		var $context = jQuery(this).closest('.ecwid-button');
+		jQuery(hide_on_loading + ', ' + invisible_on_loading, $context).fadeTo(150, .01).promise().done(function() {
+			jQuery(hide_on_loading, $context).hide();
+			jQuery(invisible_on_loading, $context).css('visibility', 'hidden');
 
-			jQuery(show_on_loading).fadeIn(300);
+			jQuery(show_on_loading, $context).fadeIn(300);
 		})
 
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
 				success: function(result) {
 					var html = result;
-					jQuery(hide_on_success).fadeTo(150, .01).promise().done(function() {
-						jQuery(hide_on_success).hide();
+					jQuery(hide_on_success, $context).fadeTo(150, .01).promise().done(function() {
+						jQuery(hide_on_success, $context).hide();
 
-						jQuery(show_on_success).fadeIn(300);
+						jQuery(show_on_success, $context).fadeIn(300);
 						setTimeout(function() {
 							location.href="admin.php?page=ecwid&just-created";
 						}, 1000);
