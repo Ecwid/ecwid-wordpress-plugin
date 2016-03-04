@@ -87,7 +87,7 @@ TXT
 
 		$do_not_show_again = true == $params['hideable'];
 
-		include ECWID_PLUGIN_DIR . '/templates/admin-message.php';
+		include ECWID_PLUGIN_DIR . 'templates/admin-message.php';
 	}
 
 	public static function disable_message($name)

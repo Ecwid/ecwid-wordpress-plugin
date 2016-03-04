@@ -136,4 +136,8 @@
 				});
 		}
 	}
+
+		jQuery('#wp-admin-bar-ecwid-main-default a').click(function() {
+			ecwid_kissmetrics_record('Top Menu Clicked');
+		});
 });

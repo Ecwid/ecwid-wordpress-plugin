@@ -1,0 +1,7 @@
+html#ecwid_html body#ecwid_body .ecwid .ecwid-btn--secondary,
+html#ecwid_html body#ecwid_body .ecwid-SearchPanel-button {
+	color: #333 !important;
+}
+html#ecwid_html body#ecwid_body .ecwid .ecwid-btn--secondary:hover {
+	color: #fff !important;
+}

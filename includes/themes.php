@@ -1,6 +1,6 @@
 <?php
 
-define( 'ECWID_THEMES_DIR', ECWID_PLUGIN_DIR . '/includes/themes' );
+define( 'ECWID_THEMES_DIR', ECWID_PLUGIN_DIR . 'includes/themes' );
 
 add_action('after_switch_theme', 'ecwid_after_switch_theme');
 
@@ -51,7 +51,8 @@ function ecwid_apply_theme($theme_name = null)
 		'attitude',
 		'responsiveboat',
 		'central',
-		'edin'
+		'edin',
+		'accesspress-mag'
 	);
 
 

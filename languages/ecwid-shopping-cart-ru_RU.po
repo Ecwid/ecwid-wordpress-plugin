@@ -512,7 +512,7 @@ msgid "Sales"
 msgstr "Продажи"
 
 msgid "If you want to connect another Ecwid store, you can re-connect on <a %s>this page</a>"
-msgstr "Чтобы отвязать Эквид-аккаунт от сайта и подключить другой, воспользуйтесь <a %s>этой страницей<a>"
+msgstr "Чтобы отвязать Эквид-аккаунт от сайта и подключить другой, воспользуйтесь <a %s>этой страницей</a>"
 
 msgid "Your store Control Panel. Right here in WordPress."
 msgstr "Панель управления магазином, встроенная в Wordpress."
@@ -549,3 +549,9 @@ msgstr "Скачать лог-файл"
 
 msgid "See more"
 msgstr "Посмотреть все"
+
+msgid "Read FAQ"
+msgstr "Посмотреть FAQ"
+
+msgid "https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable"
+msgstr "https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org"
