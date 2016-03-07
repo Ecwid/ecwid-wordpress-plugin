@@ -1879,7 +1879,8 @@ function ecwid_common_admin_scripts() {
 				'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 				'cache_updated' => __('Done', 'ecwid-shopping-cart'),
 				'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
-				'first_run' => $first_run
+				'first_run' => $first_run,
+				'register_link' => ecwid_get_register_link()
 			));
 		}
 
