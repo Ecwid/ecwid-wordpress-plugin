@@ -1959,7 +1959,7 @@ function ecwid_general_settings_do_page() {
 		} else {
 			$register = ! $connection_error && ! isset( $_GET['connect'] ) && ! @$_COOKIE['ecwid_create_store_clicked'];
 
-			$api = new Ecwid_Api_V3(get_ecwid_store_id());
+			$api = new Ecwid_Api_V3();
 			global $current_user;
 
 			if ($api->does_store_exist($current_user->user_email)) {

@@ -11,9 +11,9 @@ class Ecwid_Api_V3
 
 	public $store_id = null;
 
-	public function __construct($store_id) {
+	public function __construct() {
 
-		$this->store_id = $store_id;
+		$this->store_id = EcwidPlatform::get_store_id();
 		$this->_api_url = ' https://app.ecwid.com/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
 

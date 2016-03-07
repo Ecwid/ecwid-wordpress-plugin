@@ -56,7 +56,7 @@ function ecwid_get_embed_content()
 	}
 
 	if (ecwid_is_paid_account()) {
-		$api = new Ecwid_Api_V3(get_ecwid_store_id());
+		$api = new Ecwid_Api_V3();
 
 		$category = $api->get_category($root_category_id);
 

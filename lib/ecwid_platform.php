@@ -6,6 +6,11 @@ class EcwidPlatform {
 
 	static protected $crypt = null;
 
+	static public function get_store_id()
+	{
+		return get_ecwid_store_id();
+	}
+
 	static public function init_crypt($force = false)
 	{
 		if ( $force || is_null(self::$crypt) ) {
