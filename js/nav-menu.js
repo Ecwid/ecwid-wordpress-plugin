@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
         if (!findEcwidLink(element)) return;
 
         ecwid_kissmetrics_record('menu-items ' + ecwidClasses[ecwidLink] + 'Added');
-
+        ecwid_kissmetrics_record('menu-items-added');
     }
 
     findEcwidLink = function(element) {

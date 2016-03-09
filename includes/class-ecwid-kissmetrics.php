@@ -30,6 +30,24 @@ class Ecwid_Kissmetrics {
 		wp_enqueue_script('ecwid-kissmetrics', 'https://scripts.kissmetrics.com/' . self::API_KEY . '.2.js');
 		wp_enqueue_script('ecwid-kissmetrics-events', ECWID_PLUGIN_URL . 'js/kissmetrics.js', array( 'ecwid-kissmetrics' ) );
 
+
+		$this->_enqueue_property('Storefront URL', ecwid_get_store_page_url());
+		$this->_enqueue_property('WP Theme', ecwid_get_theme_name());
+		$this->_enqueue_property('WP Chameleon Enabled', get_option('ecwid_use_chameleon') ? 'true' : 'false');
+
+		$woo = 'none';
+		$all_plugins = get_plugins();
+		if (array_key_exists('woocommerce/woocommerce.php', $all_plugins)) {
+			$active_plugins = get_option('active_plugins');
+			if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
+				$woo = 'active';
+			} else {
+				$woo = 'inactive';
+			}
+		}
+		$kissmetrics['woo'] = $woo;
+		$this->_enqueue_property('Woocommerce installed', $woo);
+
 		$kissmetrics = array(
 			'items' => $this->_get_pending(),
 			'key' => self::API_KEY

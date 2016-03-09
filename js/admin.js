@@ -65,6 +65,7 @@
 			for (var i in this.widgets) {
 				if (widgetElement.find('.' + i).length > 0) {
 					ecwid_kissmetrics_record('sb-widget ' + this.widgets[i] + 'Added');
+					ecwid_kissmetrics_record('sb-widget-added');
 					break;
 				}
 			}

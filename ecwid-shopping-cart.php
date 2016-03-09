@@ -1377,6 +1377,10 @@ function ecwid_override_jsexclude($exclude)
 }
 
 function ecwid_store_activate() {
+
+	if (get_option('ecwid_store_id', null) === null) {
+		Ecwid_Kissmetrics::record('firstactivated');
+	}
 	$my_post = array();
 	$content = <<<EOT
 [ecwid widgets="productbrowser minicart categories search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
