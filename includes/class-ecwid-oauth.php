@@ -21,7 +21,7 @@ class Ecwid_OAuth {
 
 		$this->_load_state();
 
-		$this->api = new Ecwid_Api_V3(get_ecwid_store_id());
+		$this->api = new Ecwid_Api_V3();
 	}
 
 	public function show_reconnect()

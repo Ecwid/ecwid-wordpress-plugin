@@ -11,9 +11,9 @@ class Ecwid_Api_V3
 
 	public $store_id = null;
 
-	public function __construct($store_id) {
+	public function __construct() {
 
-		$this->store_id = $store_id;
+		$this->store_id = EcwidPlatform::get_store_id();
 		$this->_api_url = ' https://app.ecwid.com/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
 
@@ -163,13 +163,57 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($this->_stores_api_url, $params);
 
-		$result = EcwidPlatform::fetch_url($url);
+		$result = EcwidPlatform::http_get_request($url);
 
 		return @$result['code'] == 200;
 	}
 
-	public function create_store($params)
+	public function create_store()
 	{
+		global $current_user;
+		$admin_email = $current_user->user_email;
+
+		$admin_first = get_user_meta($current_user->ID, 'first_name', true);
+		if (!$admin_first) {
+			$admin_first = get_user_meta($current_user->ID, 'nickname', true);
+		}
+		$admin_last = get_user_meta($current_user->ID, 'last_name', true);
+		if (!$admin_last) {
+			$admin_last = get_user_meta($current_user->ID, 'nickname', true);
+		}
+		$admin_name = "$admin_first $admin_last";
+		$admin_nickname = $current_user->display_name;
+		$store_url = ecwid_get_store_page_url();
+		$site_name = get_bloginfo('name');
+		$site_email = get_option('admin_email');
+		$params = array(
+			'merchant' => array(
+				'email' => $admin_email,
+				'name' => $admin_name,
+				'password' => wp_generate_password(8),
+				'ip' => $_SERVER['REMOTE_ADDR']
+			),
+			'affiliatePartner' => array(
+				'source' => 'wporg'
+			),
+			'profile' => array(
+				'generalInfo' => array(
+					'storeUrl' => $store_url
+				),
+				'account' => array(
+					'accountName' => $admin_name,
+					'accountNickName' => $admin_nickname,
+					'accountEmail' => $admin_email
+				),
+				  'settings' => array(
+					'storeName' => $site_name
+				),
+				  'mailNotifications' => array(
+					'adminNotificationEmails' => array($site_email),
+					'customerNotificationFromEmail' => $site_email
+				)
+			),
+		);
 		$request_params =  array(
 			'appClientId',
 			'appSecretKey',
@@ -177,10 +221,7 @@ class Ecwid_Api_V3
 		);
 		$url = $this->build_request_url($this->_stores_api_url, $request_params);
 
-		return $url;
-
-		$result = EcwidPlatform::http_post_request($url, $params);
-
+		$result = EcwidPlatform::http_post_request($url, json_encode($params));
 		return $result;
 	}
 

@@ -327,7 +327,6 @@ display: none;
 .ecwid-admin .box {
 	position: relative;
 	margin-top: 25px;
-	padding: 0 15px;
 
 	border: 1px solid #E5E5E5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -359,7 +358,7 @@ display: none;
 }
 
 .ecwid-admin .head {
-	border-bottom: 1px solid #EEE;
+	border-bottom: 1px solid #E5E5E5;
 	height: 70px;
 }
 
@@ -401,11 +400,12 @@ display: none;
 
 
 .ecwid-connect.ecwid-reconnect .box .greeting-message {
-	margin-bottom: inherit;
+	margin-bottom: 15px;
 }
 
 .ecwid-connect .box .connect-button {
 	margin-top: 8px;
+	margin-bottom: 15px;
 }
 .ecwid-connect .where-to-find-store-id {
 	margin-top: 25px;
@@ -437,7 +437,6 @@ display: none;
 	padding: 14px 40px;
 	border: 0px none;
 	border-radius: 4px;
-	width: 180px;
 
 	background: #59bb00;
 	color: white;
@@ -447,6 +446,8 @@ display: none;
 
 	transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
 	display: inline-block;
+
+	white-space: nowrap;
 }
 
 .ecwid-connect .box .connect-button a:hover {
@@ -745,5 +746,6 @@ display: none;
 }
 
 .ecwid-admin-footer {
+	border-top: 1px solid #e5e5e5;
 	padding: 0 20px;
 }

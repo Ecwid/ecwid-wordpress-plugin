@@ -6,6 +6,11 @@ class EcwidPlatform {
 
 	static protected $crypt = null;
 
+	static public function get_store_id()
+	{
+		return get_ecwid_store_id();
+	}
+
 	static public function init_crypt($force = false)
 	{
 		if ( $force || is_null(self::$crypt) ) {
@@ -127,14 +132,21 @@ class EcwidPlatform {
 		return $return;
 	}
 
+	static public function http_get_request($url) {
+		return self::fetch_url($url);
+	}
+
 	static public function http_post_request($url, $data = array())
 	{
 		$result = null;
 		if (get_option('ecwid_http_use_stream', false) !== true) {
+
+			error_log('before post');
 			$result = wp_remote_post(
 				$url,
 				array( 'body' => $data )
 			);
+			error_log('after post');
 		}
 
 		if ( !is_array($result) ) {
