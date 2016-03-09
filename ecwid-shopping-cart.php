@@ -1963,7 +1963,7 @@ function ecwid_general_settings_do_page() {
 
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect.php';
 			} else {
-				$time = time();
+				$time = time() - get_option('ecwid_time_correction', 0);
 				$page = 'dashboard';
 				$iframe_src = sprintf(
 					'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
@@ -1976,6 +1976,31 @@ function ecwid_general_settings_do_page() {
 				);
 
 				$result = EcwidPlatform::fetch_url( $iframe_src );
+
+				if ($result['code'] == 403 && strpos($result['data'], 'Token too old') !== false ) {
+
+					$result = wp_remote_get($iframe_src);
+
+					if (isset($result['headers']['date'])) {
+						$time = strtotime($result['headers']['date']);
+
+						$iframe_src = sprintf(
+							'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+							get_ecwid_store_id(),
+							Ecwid_Api_V3::get_token(),
+							$time,
+							hash('sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET),
+							$page,
+							substr(get_bloginfo('language'), 0, 2)
+						);
+
+						$result = EcwidPlatform::fetch_url($iframe_src);
+
+						if ($result['code'] == 200) {
+							update_option('ecwid_time_correction', time() - $time);
+						}
+					}
+				}
 
 				if ( is_array( $result ) && $result['code'] == 200 ) {
 					ecwid_admin_do_page( 'dashboard' );
@@ -1995,7 +2020,7 @@ function ecwid_admin_do_page( $page ) {
 		$show_reconnect = true;
 	}
 
-	$time = time();
+	$time = time() - get_option('ecwid_time_correction', 0);
 
 	$iframe_src = sprintf(
 		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
