@@ -99,6 +99,7 @@ class EcwidPlatform {
 		);
 
 		if (is_string($result)) {
+			$return['code'] = 200;
 			$return['data'] = $result;
 		}
 

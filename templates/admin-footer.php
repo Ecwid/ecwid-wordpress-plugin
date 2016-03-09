@@ -1,6 +1,6 @@
 <div class="ecwid-admin-footer">
 	<div class="ecwid-admin-footer-block">
-		<h4 class="ecwid-admin-footer-title"><?php _e('Get Ecwid mobile app', 'ecwid-shopping-cart'); ?></h4>
+		<h4 class="ecwid-admin-footer-title"><?php _e('Manage Store on iPhone, iPad or Android', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-app-badges">
 			<a href="https://itunes.apple.com/en/app/ecwid/id626731456?mt=8"target="_blank" rel="nofollow">
 				<?php ecwid_embed_svg('black-app-store'); ?>

@@ -567,3 +567,6 @@ msgstr "<a %s>Отвязать Эквид-аккаунт от сайта и по
 
 msgid "Creating store"
 msgstr "Создание магазина"
+
+msgid "Manage Store on iPhone, iPad or Android"
+msgstr "Управляйте магазином с iPhone, iPad, Android"

@@ -420,10 +420,15 @@ body[class*="_page_ecwid"] .ecwid-message {
 	}
 }
 
+.ecwid-admin-footer {
+	display: table;
+	width:100%;
+}
+
 .ecwid-admin-footer-block {
 	display: table-cell;
-	padding-right: 57px;
 	padding-top: 5px;
+	padding-right: 10px;
 }
 
 .ecwid-admin-footer-block:last-child {
