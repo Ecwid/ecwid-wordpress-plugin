@@ -543,3 +543,9 @@ msgstr "Есть вопросы?"
 
 msgid "<a href=\"https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
 msgstr "Посетите <a href=\"https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org\">Центр поддержки Эквида</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
+
+msgid "Want to connect another Ecwid store?"
+msgstr "Хотите подключить другой Эквид-магазин?"
+
+msgid "You can reconnect on <a %s>this page</a>"
+msgstr "<a %s>Отвязать Эквид-аккаунт от сайта и подключить другой</a>"

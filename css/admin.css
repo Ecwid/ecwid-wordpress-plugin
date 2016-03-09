@@ -416,6 +416,11 @@ body[class*="_page_ecwid"] .ecwid-message {
 	padding-top: 5px;
 }
 
+.ecwid-admin-footer-block:last-child {
+	padding-right: 0px;
+}
+
+
 .ecwid-admin-footer-block .ecwid-admin-footer-title {
 	margin: 1em 0;
 }
