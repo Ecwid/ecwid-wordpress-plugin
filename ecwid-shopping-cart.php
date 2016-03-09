@@ -1970,16 +1970,13 @@ function ecwid_general_settings_do_page() {
 			$api = new Ecwid_Api_V3();
 			global $current_user;
 
-			if ($api->does_store_exist($current_user->user_email)) {
+			if ( ecwid_use_old_landing() ) {
+				require_once( ECWID_PLUGIN_DIR . '/templates/landing_old.php' );
+			} else if ($api->does_store_exist($current_user->user_email)) {
 				Ecwid_Kissmetrics::record( 'Existing Store Found' );
 				require_once ECWID_PLUGIN_DIR . '/templates/connect.php';
 			} else {
-				Ecwid_Kissmetrics::record( 'Welcome Page Viewed' );
-				if ( ecwid_use_old_landing() ) {
-					require_once( ECWID_PLUGIN_DIR . '/templates/landing_old.php' );
-				} else {
-					require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
-				}
+				require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
 			}
 		}
 	} else {
@@ -2745,7 +2742,7 @@ function ecwid_find_shortcodes( $content, $tag ) {
 }
 
 function ecwid_use_old_landing() {
-	return get_option('ecwid_installation_date') % 10 >= 2;
+	return get_option('ecwid_installation_date') % 10 >= 0;
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
