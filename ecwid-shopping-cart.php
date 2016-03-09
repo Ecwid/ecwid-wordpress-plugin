@@ -1227,6 +1227,7 @@ function ecwid_shortcode($attributes)
 
 function ecwid_productbrowser_shortcode($shortcode_params) {
 
+		Ecwid_Kissmetrics::record('storefrontIsOpened');
 		$atts = shortcode_atts(
 			array(
 				'categories_per_row' => false,
