@@ -11,7 +11,6 @@
 		<?php if (get_option('ecwid_hide_appearance_menu') != 'Y'): ?>
 		<div class="pure-control-group bottom-border">
 
-			<?php if (ecwid_is_paid_account()): ?>
 			<label for="ecwid_default_category_id">
 				<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
 			</label>
@@ -19,30 +18,16 @@
 			<select name="ecwid_default_category_id" id="ecwid_default_category_id">
 				<option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
 				<?php foreach ($categories as $category): ?>
-				<option
-					value="<?php echo esc_attr($category['id']); ?>"
-					<?php if ($category['id'] == get_option('ecwid_default_category_id')): ?>
-					selected="selected"
-					<?php endif; ?>
-				>
-					<?php echo esc_html($category['path_str']); ?>
-				</option>
+					<option
+						value="<?php echo esc_attr($category->id); ?>"
+						<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
+							selected="selected"
+						<?php endif; ?>
+					>
+						<?php echo esc_html($category->path); ?>
+					</option>
 				<?php endforeach; ?>
 			</select>
-			<?php else: ?>
-
-			<label for="ecwid_default_category_id">
-				<?php _e('Default category ID', 'ecwid-shopping-cart'); ?>
-			</label>
-
-			<input
-				id="ecwid_default_category_id"
-				name="ecwid_default_category_id"
-				type="text"
-				placeholder="<?php _e('Default category ID', 'ecwid-shopping-cart'); ?>"
-				value="<?php echo esc_attr(get_option('ecwid_default_category_id')) ?>"
-				/>
-			<?php endif; ?>
 			<div class="note">
 				<?php _e('By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. "Featured Products") to new visitors.', 'ecwid-shopping-cart'); ?>
 			</div>
