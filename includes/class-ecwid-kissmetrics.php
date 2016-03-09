@@ -31,11 +31,11 @@ class Ecwid_Kissmetrics {
 		wp_enqueue_script('ecwid-kissmetrics-events', ECWID_PLUGIN_URL . 'js/kissmetrics.js', array( 'ecwid-kissmetrics' ) );
 
 		$kissmetrics = array(
-			'events' => $this->_get_pending_events(),
+			'items' => $this->_get_pending(),
 			'key' => self::API_KEY
 		);
 
-		$this->_flush_events();
+		$this->_flush_pending();
 
 		$store_id = get_ecwid_store_id();
 		if ($store_id != ECWID_DEMO_STORE_ID) {
@@ -59,14 +59,27 @@ class Ecwid_Kissmetrics {
 	}
 
 	protected function _enqueue_record( $event ) {
-		$events = $this->_get_pending_events();
+		$items = $this->_get_pending();
 
-		array_push( $events, array( 'event' => $event ) );
+		array_push( $items, array( 'event' => $event ) );
 
-		update_option ( self::STORAGE_OPTION_NAME, $events );
+		update_option ( self::STORAGE_OPTION_NAME, $items );
 	}
 
-	protected function _get_pending_events() {
+	protected function _enqueue_property( $name, $value ) {
+		$items = $this->_get_pending();
+
+		array_push( $items, array(
+				'property' => array(
+					$name => $value
+				)
+			)
+		);
+
+		update_option ( self::STORAGE_OPTION_NAME, $items );
+	}
+
+	protected function _get_pending() {
 		$value = get_option( self::STORAGE_OPTION_NAME );
 
 		if ( !is_array($value) ) {
@@ -76,7 +89,7 @@ class Ecwid_Kissmetrics {
 		return $value;
 	}
 
-	protected function _flush_events() {
+	protected function _flush_pending() {
 		update_option( self::STORAGE_OPTION_NAME, null );
 	}
 }
