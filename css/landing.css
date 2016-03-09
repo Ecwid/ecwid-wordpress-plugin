@@ -491,7 +491,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 
 .ecwid-landing .ecwid-button .btn {
     width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     height: 59px;
     font-size: 20px;
 }
@@ -502,6 +502,14 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
 .ecwid-button .create-store-success {
     display: none;
 }
+
+.ecwid-button .create-store-loading-note,
+.ecwid-button .create-store-success-note
+{
+    margin-top: -20px;
+    margin-bottom: 32px;
+}
+
 
 /* loose copy of ecwid css framework */
 
