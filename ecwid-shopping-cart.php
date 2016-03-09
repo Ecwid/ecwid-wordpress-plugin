@@ -2478,7 +2478,7 @@ function ecwid_gather_usage_stats()
 
 	$usage_stats['is_wp_newbie'] = (bool) (($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30);
 
-	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_fetch_url_use_file_get_contents');
+	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_remote_get_fails');
 
 	$woo = 0;
 	$all_plugins = get_plugins();
