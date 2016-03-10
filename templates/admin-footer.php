@@ -13,7 +13,7 @@
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Questions?', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
-			<?php echo sprintf(__('<a href="https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'href="mailto:wordpress@ecwid.com"'); ?>
+			<?php echo sprintf(__('<a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'href="mailto:wordpress@ecwid.com"'); ?>
 		</div>
 	</div>
 <?php if (@$show_reconnect): ?>
