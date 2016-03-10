@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
 Requires at least: 3.5
 Tested up to: 4.4
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 
 Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
 
@@ -104,9 +104,15 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.1.2 =
+- **Ecwid mobile apps badges of the dashboard page.** We made a facelift for the plugin dashboard page footer and included mobile apps badges there to make it easier for new users to find and install Ecwid mobile applications for iPhone, iPad and Android. Why bother to install it? It allows you to manage your store and sell on the go. 
+- **Fixes for the embedded store Control Panel.** There were issues in the store control panel when the Wordpress site was hosted on a server with incorrect system date set. We made the plugin tolerant of this kind of hosting issues – the embedded store Control Panel should now be displayed fine on every server. 
+- **A fix for the Advanced settings page in the plugin backend.** In some rare cases, the advanced settings page in the plugin didn't show the Chameleon option, which enables auto adjustment of the store layout. We fixed that and the Chameleon option is now available for every user. A good moment to try it, if you haven't yet.
+- A few miscellaneous fixes and improvemens in the plugin core. 
+
 = 4.1.1 =
 - **Layout improvements for the Accesspress-mag theme.**  Accesspress-mag theme users might notice slight glitches in the store buttons. We fixed those.
-- **Added the page default category dropdown for free users.** When you add a store on your site page, you can set the store category to be displayed on that page. This "default category" tool was previously just a text input where you were supposed to put the category ID, if you're on free Ecwid plan. Now it's a dropdown menu so you can easily select a store category for each page. It's very useful if you want to display different categories on different pages of your site.
+- **Added the page default category dropdown for free users.** When you add a store on your site page, you can set the store category to be displayed on that page. This "default category" tool was previously just a text input where you were supposed to put the category ID, if you're on free Ecwid plan. Now it's a dropdown menu so you can easily select a store category for each page. It's very useful if you want to display different categories on different pages of your site. 
 - Minor bug fixes and improvements
 
 = 4.1 =
