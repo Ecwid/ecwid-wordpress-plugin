@@ -1,60 +1,62 @@
 === Ecwid Shopping Cart ===
 Contributors: ecwid
-Tags: ecwid, shopping cart, ecommerce, wordpress ecommerce, wp e-commerce, paypal, e-commerce, online store, store, shop, cart, online shop, shopping, digital goods, downloadable products, product catalog, ecomerce, products, facebook, f-commerce
+Tags: ecwid, shopping cart, ecommerce, paypal, e-commerce, online store, store, shop, cart, digital goods, downloadable products, product catalog, facebook
 Requires at least: 3.5
 Tested up to: 4.4
 Stable tag: 4.1.2
 
-Ecwid is a full-featured shopping cart that can be added to any Wordpress site in less than 5 minutes. Start using Ecwid for free today.
+Powerful, easy to use shopping cart. PCI DSS Level 1: same as your bank. Sell on the go iPhone&Android app. Professional support. Free plan available
 
 == Description ==
 **Wordpress.com officially recommends Ecwid as an e-commerce solution to millions of its users!**
 
-[Ecwid](http://www.ecwid.com?source=wporg-plugin-site "Ecwid site") is a powerful and easy-to-use shopping cart solution that allows you to sell on your WordPress website. Join over *800,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
+Ecwid is a powerful, secure and easy-to-use shopping cart solution that allows you to sell on your WordPress website. Join over *900,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
 
-= Full-featured Shopping Cart =
+= PCI DSS validated Level 1 Service Provider =
 
-Ecwid is a free e-commerce solution that is designed to fit any existing site. Simply set up this plugin and your products, categories and checkout pages will automatically embed on your WordPress site and adjust themselves to the given page size and layout. Quickly launch your online shop and use [Ecwid's rich feature set](http://www.ecwid.com/features?source=wporg-plugin-site "Ecwid features") to attract more customers to your WordPress store.
+Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with Ecwid, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout your Ecwid store is PCI DSS compliant from the beginning.
 
-= Data Security and Seamless Upgrades =
+= Free Support =
 
-With Ecwid, your store data is fully hosted on our secure servers. So, regardless of the hosting you use, you get free of cost:
+Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and community forums. Unlimited chat and phone support available in premium plans.
 
-* unlimited storage and regular backups 
+
+= Merchant Mobile Apps =
+
+Ecwid provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Everything is automatically synchronized with your Wordpress store.
+
+= Unlimited Storage, Automatic Backups and Seamless Upgrades =
+
+With Ecwid, your store data is fully hosted on our secure servers. Regardless of the hosting service you use, your Ecwid store includes:
+
+* unlimited storage
+* regular backups
 * seamless upgrades and security updates
-* secure checkout via encrypted HTTPS connection
 
 So, you don't need to worry about software updates, security patches and server maintenance - we do that for you. Your online store gets all the new features and bug fixes automatically.
 
+= Facebook Storefront =
 
-= Mobile Responsive Design =
-
-Ecwid works fine on any Wordpress site, especially on those running mobile-optimized themes. Your store looks perfect on any smartphone and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
-
-
-= Social Commerce =
-
-Unlock power of social commerce with Ecwid – add your existing online store to Facebook in a few clicks and sell to millions of Facebook users. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook store fronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
-
+Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
 
 = Sell Everywhere =
 
-With Ecwid, you can mirror your online shop on many websites, blogs, social sites and marketplaces like *Google Shopping*, *Yahoo* and *Shopping.com* and sell simultaneously everywhere. Add your store to as many sites as you want, manage it from one place.
+With Ecwid, you can include your online shop on multiple websites, blogs, social sites and marketplaces like *Google Shopping* and *eBay* and sell simultaneously everywhere. Add your store to as many sites as you want, manage it from one place.
+
+= Mobile Responsive Design =
+
+Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
 
 
-= Lightning Fast =
+= Free Plan Available =
 
-New-gen technologies make Ecwid much faster than usual shopping carts regardless the hosting service you use. 
+The Free plan is always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your business grows, Ecwid will grow with you. When the time is right, consider upgrading to one of our premium plans to get more robust ecommerce features. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
 
 
-= Free =
-Although Ecwid is packed with high-value features, Free plan is always available with no setup charges and no transaction fees. Get your online store up and running without paying anything. As your business grows, you can consider upgrading to one of our premium plans to get more ecommerce features. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
-
-= See In Action =
+= See Ecwid In Action =
 
 * [Demo Store](http://www.ecwid.com/demo?source=wporg-plugin-site "Ecwid demo")
 * [Ecwid Control panel](https://my.ecwid.com/?source=wporg-plugin-site "Ecwid Control Panel") (you will be able to create a free Ecwid account)
-
 
 = Ecwid Site =
 
