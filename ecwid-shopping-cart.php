@@ -2710,6 +2710,11 @@ function ecwid_get_categories_js_url($callback) {
 	return 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback;
 }
 
+
+function ecwid_use_old_landing() {
+	return get_option('ecwid_installation_date') % 10 >= 0;
+}
+
 /*
  * Basically a copy of has_shortcode that returns the matched shortcode
  */
@@ -2729,7 +2734,7 @@ function ecwid_find_shortcodes( $content, $tag ) {
 			if ( $tag === $shortcode[2] ) {
 				$result[] = $shortcode;
 			} elseif ( !empty($shortcode[5]) && $found = ecwid_find_shortcodes( $shortcode[5], $tag ) ) {
-				$result[] = $found;
+				$result = array_merge($result, $found);
 			}
 		}
 
@@ -2739,10 +2744,6 @@ function ecwid_find_shortcodes( $content, $tag ) {
 		return $result;
 	}
 	return false;
-}
-
-function ecwid_use_old_landing() {
-	return get_option('ecwid_installation_date') % 10 >= 0;
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
