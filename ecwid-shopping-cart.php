@@ -1464,6 +1464,21 @@ EOT;
 
 }
 
+add_action('in_admin_header', 'ecwid_disable_other_notices');
+function ecwid_disable_other_notices() {
+
+	if (get_current_screen()->base != 'toplevel_page_ecwid') return;
+	global $wp_filter;
+
+	foreach ($wp_filter['admin_notices'] as $priority => $collection) {
+		foreach ($collection as $name => $item) {
+			if ($name != 'ecwid_show_admin_messages') {
+				unset($wp_filter['admin_notices'][$priority][$name]);
+			}
+		}
+	}
+}
+
 function ecwid_show_admin_messages() {
 	if (is_admin()) {
 		Ecwid_Message_Manager::show_messages();
