@@ -2020,7 +2020,7 @@ function ecwid_general_settings_do_page() {
 				$time = time() - get_option('ecwid_time_correction', 0);
 				$page = 'dashboard';
 				$iframe_src = sprintf(
-					'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+					'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 					get_ecwid_store_id(),
 					Ecwid_Api_V3::get_token(),
 					$time,
@@ -2039,7 +2039,7 @@ function ecwid_general_settings_do_page() {
 						$time = strtotime($result['headers']['date']);
 
 						$iframe_src = sprintf(
-							'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+							'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 							get_ecwid_store_id(),
 							Ecwid_Api_V3::get_token(),
 							$time,
@@ -2080,7 +2080,7 @@ function ecwid_admin_do_page( $page ) {
 	$time = time() - get_option('ecwid_time_correction', 0);
 
 	$iframe_src = sprintf(
-		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s',
+		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 		get_ecwid_store_id(),
 		Ecwid_Api_V3::get_token(),
 		$time,
