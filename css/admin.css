@@ -475,3 +475,10 @@ body[class*="_page_ecwid"] .ecwid-message {
 		display: block;
 	}
 }
+
+.toplevel_page_ecwid #wpbody-content > .updated:not(.ecwid-message),
+.toplevel_page_ecwid #wpbody-content > .update-nag:not(.ecwid-message),
+.toplevel_page_ecwid #wpbody-content > .error:not(.ecwid-message)
+{
+	display: none;
+}
