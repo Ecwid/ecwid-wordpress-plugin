@@ -1953,7 +1953,7 @@ function ecwid_get_register_link()
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
 	$result = $api->create_store();
-	if ($result['response']['code'] == 200) {
+	if (is_array($result) && $result['response']['code'] == 200) {
 		$data = json_decode($result['body']);
 
 		update_option('ecwid_store_id', $data->id);
@@ -2727,7 +2727,7 @@ function ecwid_get_categories_js_url($callback) {
 
 
 function ecwid_use_old_landing() {
-	return get_option('ecwid_installation_date') % 10 >= 2;
+	return get_option('ecwid_installation_date') % 10 >= 2 || version_compare(get_bloginfo('version'), '3.7') < 0;
 }
 
 /*

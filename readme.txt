@@ -8,8 +8,6 @@ Stable tag: 4.1.2
 Powerful, easy to use shopping cart. PCI DSS Level 1: same as your bank. Sell on the go iPhone&Android app. Professional support. Free plan available
 
 == Description ==
-**Wordpress.com officially recommends Ecwid as an e-commerce solution to millions of its users!**
-
 Ecwid is a powerful, secure and easy-to-use shopping cart solution that allows you to sell on your WordPress website. Join over *900,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
 
 = PCI DSS validated Level 1 Service Provider =
