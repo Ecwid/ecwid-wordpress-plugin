@@ -2727,7 +2727,7 @@ function ecwid_get_categories_js_url($callback) {
 
 
 function ecwid_use_old_landing() {
-	return get_option('ecwid_installation_date') % 10 >= 0;
+	return get_option('ecwid_installation_date') % 10 >= 2;
 }
 
 /*
