@@ -16,7 +16,7 @@ class Ecwid_Kissmetrics {
 		$fire_in_background = array( 'wpPluginDeactivated' );
 		$raw_names = array( 'Signed Up' );
 
-		$name = in_array( $event, $raw_names ) ? self::EVENT_PREFIX . $event : $event;
+		$name = in_array( $event, $raw_names ) ? $event : self::EVENT_PREFIX . $event;
 
 		if ( in_array( $event, $fire_in_background ) ) {
 			self::$instance->_record( $name );
