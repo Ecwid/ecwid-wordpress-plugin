@@ -12,14 +12,21 @@ class Ecwid_Kissmetrics {
 		self::$instance = new Ecwid_Kissmetrics();
 	}
 
-	public static function record($event) {
-		$fire_in_background = array('wpPluginDeactivated');
+	public static function record( $event ) {
+		$fire_in_background = array( 'wpPluginDeactivated' );
+		$raw_names = array( 'Signed Up' );
 
-		if (in_array($event, $fire_in_background)) {
-			self::$instance->_record(self::EVENT_PREFIX . $event);
+		$name = in_array( $event, $raw_names ) ? self::EVENT_PREFIX . $event : $event;
+
+		if ( in_array( $event, $fire_in_background ) ) {
+			self::$instance->_record( $name );
 		} else {
-			self::$instance->_enqueue_record(self::EVENT_PREFIX . $event);
+			self::$instance->_enqueue_record( $name );
 		}
+	}
+
+	public static function set( $name, $value ) {
+		self::$instance->_enqueue_property( $name, $value );
 	}
 
 	private function __construct() {

@@ -1961,6 +1961,14 @@ function ecwid_create_store() {
 		$api->save_token($data->token);
 		update_option('ecwid_oauth_scope', 'read_profile read_catalog allow_sso');
 
+		Ecwid_Kissmetrics::record('Signed Up');
+		Ecwid_Kissmetrics::set( 'plan_id', 'WPORG_SKINNY_FREE-1' );
+		Ecwid_Kissmetrics::set( 'plan_period', '1' );
+		Ecwid_Kissmetrics::set( 'plan_name', 'WPORG_SKINNY_FREE' );
+		Ecwid_Kissmetrics::set( 'is_paid', 'false' );
+		Ecwid_Kissmetrics::set( 'channelid', 'wporg' );
+		Ecwid_Kissmetrics::set( 'registered_via_api', 'true' );
+
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
