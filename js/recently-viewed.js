@@ -13,7 +13,7 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 		Ecwid.OnPageLoaded.add(
 			function(page) {
 
-				if (page.type == 'PRODUCT') {
+				if (page.type == 'PRODUCT' && jQuery('.ecwid-productBrowser-details').length > 0) {
 					var product = {
 						id: page.productId.toString(),
 						name: page.name
@@ -30,7 +30,7 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 	},
 
 	addViewedProduct: function(product) {
-		product.image = jQuery('.ecwid-productBrowser-details-thumbnail .gwt-Image').attr('src');
+		product.image = jQuery('.ecwid-productBrowser-gallery-image .gwt-Image').attr('src');
 		product.link = window.location.href;
 		product.name = jQuery('.ecwid-productBrowser-head').text();
 		if (jQuery('.ecwid-productBrowser-price .ecwid-productBrowser-price-value').length > 0) {
