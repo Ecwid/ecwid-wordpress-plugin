@@ -3,9 +3,9 @@ Contributors: ecwid
 Tags: ecwid, shopping cart, ecommerce, paypal, e-commerce, online store, store, shop, cart, digital goods, downloadable products, product catalog, facebook
 Requires at least: 3.5
 Tested up to: 4.4
-Stable tag: 4.1.2
+Stable tag: 4.1.3
 
-Powerful, easy to use shopping cart. PCI DSS Level 1: same as your bank. Sell on the go iPhone&Android app. Professional support. Free plan available
+Powerful, easy to use shopping cart. Bank level PCI DSS Level 1 security. Sell on the go iPhone & Android app. Superb support. Free plan available.
 
 == Description ==
 Ecwid is a powerful, secure and easy-to-use shopping cart solution that allows you to sell on your WordPress website. Join over *900,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
@@ -104,6 +104,9 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.1.3 =
+- Improvements for the plugin Dashboard page layout and a few minor fixes. 
+
 = 4.1.2 =
 - **Ecwid mobile apps badges of the dashboard page.** We made a facelift for the plugin dashboard page footer and included mobile apps badges there to make it easier for new users to find and install Ecwid mobile applications for iPhone, iPad and Android. Why bother to install it? It allows you to manage your store and sell on the go. 
 - **Fixes for the embedded store Control Panel.** There were issues in the store control panel when the Wordpress site was hosted on a server with incorrect system date set. We made the plugin tolerant of this kind of hosting issues – the embedded store Control Panel should now be displayed fine on every server. 
