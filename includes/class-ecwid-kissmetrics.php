@@ -35,7 +35,7 @@ class Ecwid_Kissmetrics {
 
 	public function enqueue_script() {
 		wp_enqueue_script('ecwid-kissmetrics', 'https://scripts.kissmetrics.com/' . self::API_KEY . '.2.js');
-		wp_enqueue_script('ecwid-kissmetrics-events', ECWID_PLUGIN_URL . 'js/kissmetrics.js', array( 'ecwid-kissmetrics' ) );
+		wp_enqueue_script('ecwid-kissmetrics-events', ECWID_PLUGIN_URL . 'js/kissmetrics.js', array( 'ecwid-kissmetrics' ), get_option('ecwid_plugin_version') );
 
 
 		$this->_enqueue_property('Storefront URL', ecwid_get_store_page_url());
