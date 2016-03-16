@@ -41,8 +41,6 @@ add_shortcode('ecwid', 'ecwid_shortcode');
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
-add_action( 'wp_ajax_ecwid_ajax_seo_title', 'ecwid_ajax_seo_title' );
-add_action( 'wp_ajax_nopriv_ecwid_ajax_seo_title', 'ecwid_ajax_seo_title' );
 add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
 
 if ( is_admin() ){ 
@@ -236,24 +234,7 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
 
-	if (function_exists('wp_get_document_title')) {
-		wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
-
-		global $ecwid_seo_title_mode;
-
-		$ecwid_seo_title_mode = 'none';
-		$original_title       = wp_get_document_title();
-		$ecwid_seo_title_mode = 'placeholder';
-		$title_template       = wp_get_document_title();
-		$ecwid_seo_title_mode = 'normal';
-
-		wp_localize_script( 'ecwid-frontend-js', 'ecwid_ajax_object', array(
-				'ajax_url'       => admin_url( 'admin-ajax.php' ),
-				'original_title' => $original_title,
-				'title_template' => $title_template
-			)
-		);
-	}
+	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 
 	if ((bool)get_option('ecwid_use_chameleon')) {
 		wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
@@ -882,29 +863,8 @@ function ecwid_seo_title_parts($parts)
 	return $parts;
 }
 
-function ecwid_ajax_seo_title()
-{
-	$title = _ecwid_get_seo_title();
-	echo $title;
-	$template = $_GET['title_template'];
-
-	$result = str_replace('ECWID_SEO_TITLE', $title, $template);
-
-	echo $result;
-	wp_die();
-}
-
-
 function _ecwid_get_seo_title()
 {
-	global $ecwid_seo_title_mode;
-
-	if ($ecwid_seo_title_mode == 'placeholder') {
-		return 'ECWID_SEO_TITLE';
-	} else if ($ecwid_seo_title_mode == 'none') {
-		return '';
-	}
-
 	if (!isset($_GET['_escaped_fragment_']) || !ecwid_is_api_enabled()) return;
 
 	$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
