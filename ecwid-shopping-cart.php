@@ -1618,11 +1618,6 @@ function ecwid_build_menu() {
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
 }
 
-function ecwid_add_meta_boxes()
-{
-	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side' );
-}
-
 function ecwid_get_categories() {
 	$categories = EcwidPlatform::cache_get('all_categories');
 
@@ -1657,6 +1652,9 @@ function ecwid_nav_menu_items($items)
 
 		$items[$key]->menu_order += $counter;
 
+		if ($item->object == 'ecwid-my-account') {
+			$item->url = ecwid_get_store_page_url() . '#!/~/';
+		}
 		if (in_array('ecwid-store-with-categories', $item->classes) && !empty($categories)) {
 			foreach ($categories as $category) {
 				$counter ++;
@@ -1690,6 +1688,8 @@ function ecwid_nav_menu_items($items)
 			$counter++;
 		}
 	}
+
+	//die(var_dump($items));
 	return $items;
 }
 
@@ -1700,6 +1700,35 @@ function ecwid_reset_categories_cache()
 	}
 
 	wp_cache_delete('all_categories', 'ecwid');
+}
+
+
+add_action('init', 'ecwid_nav_menu_init');
+
+function ecwid_nav_menu_init() {
+	register_post_type('ecwid_menu_item',
+		array(
+			'labels' => array(
+				'name'              => __('Ecwid Menu Item'),
+			),
+			'supports' => array('title'),
+
+			// Doesn't need to be listed most places as it's not a valid content item on it's own
+			'public'                => false, // Base setting. More specific settings below
+			'exclude_from_search'   => true,
+			'publicly_queryable'    => false,
+			'show_ui'               => false,
+			'show_in_menu'          => false,
+			'show_in_nav_menus'     => false,
+			'show_in_admin_bar'     => false,
+			'has_archive'           => false,
+		)
+	);
+}
+
+function ecwid_add_meta_boxes()
+{
+	add_meta_box( 'ecwid_nav_links', __( 'Store', 'ecwid-shopping-cart' ), 'ecwid_nav_menu_links', 'nav-menus', 'side' );
 }
 
 function ecwid_nav_menu_links()
@@ -1744,7 +1773,8 @@ function ecwid_nav_menu_links()
 						<label class="menu-item-title">
 							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo $value['list-name']; ?>
 						</label>
-						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
+						<input type="hidden" class="menu-item-object" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object]" value="<?php echo $value['classes']; ?>" />
+						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="ecwid_menu_item" />
 						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html(isset($value['label']) ? $value['label'] : $key ); ?>" />
 						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( ecwid_get_store_page_url() . '#!/~/' . $value['url']); ?>" />
 						<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" value="<?php echo $value['classes']; ?>" />
