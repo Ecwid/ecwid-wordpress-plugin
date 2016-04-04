@@ -20,7 +20,9 @@ class Ecwid_Widget_Search extends WP_Widget {
 
 		echo ecwid_get_scriptjs_code();
 		echo ecwid_get_product_browser_url_script();
-		echo '<script data-cfasync="false" type="text/javascript"> xSearchPanel("style="); </script>';
+
+		$code = ecwid_get_search_js_code();
+		echo '<script data-cfasync="false" type="text/javascript"> ' . $code . ' </script>';
 
 		echo '<!-- /noptimize -->';
 		echo '</div>';

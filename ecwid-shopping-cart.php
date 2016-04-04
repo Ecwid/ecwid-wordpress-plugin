@@ -430,6 +430,7 @@ function ecwid_check_version()
 		update_option('ecwid_use_chameleon', true);
 
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
+		add_option('ecwid_use_new_search', 'Y');
 	} elseif ($upgrade) {
 
 		ecwid_plugin_add_oauth();
@@ -441,6 +442,7 @@ function ecwid_check_version()
 		add_option('ecwid_chameleon_links', '');
 
 		add_option('ecwid_use_new_horizontal_categories', '');
+		add_option('ecwid_use_new_search', '');
 	}
 
 	if (1 || $fresh_install || $upgrade) {
@@ -1051,6 +1053,14 @@ EOT;
 	return $result;
 }
 
+function ecwid_get_search_js_code() {
+	if (get_option('ecwid_use_new_search', false)) {
+		return 'xSearch("style=");';
+	} else {
+		return 'xSearchPanel("style=")';
+	}
+}
+
 function ecwid_searchbox_shortcode($attributes) {
 
 	$params = shortcode_atts(
@@ -1064,8 +1074,9 @@ function ecwid_searchbox_shortcode($attributes) {
 
 	$result = '';
 	if (!empty($ecwid_show_search_box)) {
+		$code = ecwid_get_search_js_code();
   	$result = <<<EOT
-<script data-cfasync="false" type="text/javascript"> xSearchPanel("style="); </script>
+<script data-cfasync="false" type="text/javascript"> $code </script>
 EOT;
   }
 
@@ -1378,7 +1389,8 @@ function ecwid_ajax_get_product_info() {
 add_filter('autoptimize_filter_js_exclude','ecwid_override_jsexclude',10,1);
 function ecwid_override_jsexclude($exclude)
 {
-	return $exclude . ', xSearchPanel("style=")';
+	$code = ecwid_get_search_js_code();
+	return $exclude . ", $code";
 }
 
 function ecwid_store_activate() {
@@ -1860,6 +1872,7 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_enable_advanced_theme_layout' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
+				register_setting( 'ecwid_options_page', 'ecwid_use_new_search' );
 				break;
 		}
 
