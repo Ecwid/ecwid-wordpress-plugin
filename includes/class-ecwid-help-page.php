@@ -44,7 +44,7 @@ class Ecwid_Help_Page {
 
 	public function send_contact_us_email( $subject, $message ) {
 
-		$to = 'marvin@ecwid.com';
+		$to = get_option( 'ecwid_support_email' );
 
 		$body_lines = array();
 		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {

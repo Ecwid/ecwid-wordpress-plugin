@@ -448,6 +448,10 @@ function ecwid_check_version()
 			add_option('ecwid_remote_get_timeout', '5');
 		}
 
+		if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3')) {
+			add_option( 'ecwid_support_email', 'wordpress@ecwid.com' );
+		}
+
 		$all_plugins = get_plugins();
 		$has_woo = ecwid_get_woocommerce_status();
 
