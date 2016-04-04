@@ -1,4 +1,5 @@
-#update-nav-menu ul.menu li.menu-item.ecwid-link .field-url
+#update-nav-menu ul.menu li.menu-item.ecwid-link .field-url,
+#update-nav-menu ul.menu li.menu-item.ecwid-link .link-to-original
 {
     display: none;
 }
@@ -52,3 +53,4 @@
     float: left;
     margin-top: 0px;
 }
+
