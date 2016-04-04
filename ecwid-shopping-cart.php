@@ -113,10 +113,12 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kissmetrics.php';
+if (is_admin()) {
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
+}
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
-
 
 function ecwid_init_integrations()
 {
@@ -442,7 +444,7 @@ function ecwid_check_version()
 		add_option('ecwid_use_new_horizontal_categories', '');
 	}
 
-	if ($fresh_install || $upgrade) {
+	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.4')) {
 			add_option('ecwid_fetch_url_use_file_get_contents', '');
 			add_option('ecwid_remote_get_timeout', '5');
@@ -2153,7 +2155,6 @@ function ecwid_admin_orders_do_page() {
 
 function ecwid_help_do_page() {
 
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
 	$help = new Ecwid_Help_Page();
 	$faqs = $help->get_faqs();
 

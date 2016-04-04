@@ -1,6 +1,35 @@
 <?php
 
 class Ecwid_Help_Page {
+	public function __construct() {
+		add_action('admin_post_ecwid_contact_us', array( $this, 'submit_contact_us') );
+	}
+
+	public function submit_contact_us() {
+		if ( !current_user_can('administrator') || !wp_verify_nonce($_POST['wp-nonce'], 'ecwid_contact_us') ) {
+			wp_redirect('admin.php?page=ecwid-help');
+			wp_die();
+		}
+
+		$to = get_option( 'ecwid_support_email' );
+
+		$body_lines = array();
+		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
+			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
+		}
+		$body_lines[] = 'Store URL: ' . ecwid_get_store_page_url();
+		$body_lines[] = 'Wp theme: ' . ecwid_get_theme_name();
+		$body_lines[] = 'Ecwid plugin version: ' . get_option('ecwid_plugin_version');
+		$body_lines[] = 'Wordpress version: '  . get_bloginfo('version');
+		$body_lines[] = $_POST['email']['body'];
+
+		wp_mail(
+			$to,
+			$_POST['email']['subject'],
+			implode(PHP_EOL, $body_lines)
+		);
+	}
+
 	public function get_faqs() {
 		global $faqs;
 
@@ -41,25 +70,6 @@ class Ecwid_Help_Page {
 
 		return $result;
 	}
-
-	public function send_contact_us_email( $subject, $message ) {
-
-		$to = get_option( 'ecwid_support_email' );
-
-		$body_lines = array();
-		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
-			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
-		}
-		$body_lines[] = 'Store URL: ' . ecwid_get_store_page_url();
-		$body_lines[] = 'Wp theme: ' . ecwid_get_theme_name();
-		$body_lines[] = 'Ecwid plugin version: ' . get_option('ecwid_plugin_version');
-		$body_lines[] = 'Wordpress version: '  . get_bloginfo('version');
-		$body_lines[] = $message;
-
-		wp_mail(
-			$to,
-			$subject,
-			implode(PHP_EOL, $body_lines)
-		);
-	}
 }
+
+$ecwid_help_page = new Ecwid_Help_Page();

@@ -12,7 +12,7 @@
 
 		<div class="hds-container">
 			<div class="hds-wrapper">
-				<form class="hds-form" method="get" action="//help.ecwid.com/portal/articles/search">
+				<form class="hds-form" method="get" action="//help.ecwid.com/portal/articles/search" onsubmit="help-page searchquerysubmited">
 					<div class="input-wrapper input-prepend">
 						<input type="text" class="form-control q" value="" name="q" id="q" placeholder="<?php _e( 'e.g. Customize my store', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
 						<input type='hidden' name='t' value=''/>
@@ -93,8 +93,10 @@
 
 		<div class="block-topics-link">
 
-			<a href="https://help.ecwid.com/customer/portal/topics/686891--collection-browse-by-topic" class="horizontal-icolink"><?php _e( 'Browse all topics', 'ecwid-shopping-cart' ); ?>
-				<i class="icon-arr-right"></i></a>
+			<a href="https://help.ecwid.com/customer/portal/topics/686891--collection-browse-by-topic" class="horizontal-icolink">
+				<?php _e( 'Browse all topics', 'ecwid-shopping-cart' ); ?>
+				<i class="icon-arr-right"></i>
+			</a>
 
 		</div>
 
@@ -220,10 +222,13 @@
 		<h2><?php _e( 'Send a message to our support team', 'ecwid-shopping-cart' ); ?>	</h2>
 
 		<div class="contact-form">
-			<form action="//help.ecwid.com/customer/portal/emails" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate">
+			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate" onsubmit="javascript:ecwid_kissmetrics_record('help-page email-contact-form submitted');">
+				<input type="hidden" name="action" value="ecwid_contact_us" />
+				<input type="hidden" name="wp-nonce" value="<?php echo wp_create_nonce('ecwid_contact_us'); ?>" />
 				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
 				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	"></textarea>
 				<div class="btn-container">
+					<button id="email_submit" name="commit" class="btn btn-medium btn-aqua" type="submit"><span><span><?php _e( 'Send Message', 'ecwid-shopping-cart' ); ?>	</span></span></button>
 					<button id="email_submit" name="commit" class="btn btn-medium btn-aqua" type="submit"><span><span><?php _e( 'Send Message', 'ecwid-shopping-cart' ); ?>	</span></span></button>
 				</div>
 			</form>
@@ -233,3 +238,7 @@
 	<?php endif; ?>
 
 </div>
+
+<script type="text/javascript">
+	ecwid_kissmetrics_record('help-page viewed');
+</script>
