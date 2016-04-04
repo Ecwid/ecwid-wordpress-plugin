@@ -64,11 +64,11 @@
 		<div class="block-faq-wrap">
 			<ul class="block-faq-list">
 				<?php foreach ($faqs as $idx => $faq): if ($idx % 2 == 0): ?>
-				<li class="index-article<?php if ($idx >= $col_size) echo ' index-article--hidden' ?>" rel="<?php echo $faq->id; ?>">
-					<a class="index-article-title" href="<?php echo $faq->href; ?>" onclick="return false;">
+				<li class="index-article<?php if ($idx >= $col_size) echo ' index-article--hidden' ?>">
+					<a class="index-article-title" href="#" onclick="return false;">
 						<i class="icon-down"></i><?php echo $faq->title; ?>
 					</a>
-					<div class="index-article-body" rel="<?php echo $faq->id; ?>">
+					<div class="index-article-body">
 						<?php echo $faq->body; ?>
 					</div>
 				</li>
@@ -78,11 +78,11 @@
 
 			<ul class="block-faq-list">
 				<?php foreach ($faqs as $idx => $faq): if ($idx % 2 == 1): ?>
-					<li class="index-article<?php if ($idx >= $col_size) echo ' index-article--hidden' ?>" rel="<?php echo $faq->id; ?>">
-						<a class="index-article-title" href="<?php echo $faq->href; ?>" onclick="return false;">
+					<li class="index-article<?php if ($idx >= $col_size) echo ' index-article--hidden' ?>">
+						<a class="index-article-title" href="#" onclick="return false;">
 							<i class="icon-down"></i><?php echo $faq->title; ?>
 						</a>
-						<div class="index-article-body" rel="<?php echo $faq->id; ?>">
+						<div class="index-article-body">
 							<?php echo $faq->body; ?>
 						</div>
 					</li>

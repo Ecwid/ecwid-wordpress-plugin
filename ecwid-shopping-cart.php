@@ -449,12 +449,33 @@ function ecwid_check_version()
 		}
 
 		$all_plugins = get_plugins();
-		$has_woo = array_key_exists('woocommerce/woocommerce.php', $all_plugins);
+		$has_woo = ecwid_get_woocommerce_status();
 
 		if ($has_woo) {
 			add_option('ecwid_extended_help', true);
 		}
 	}
+}
+
+function ecwid_get_woocommerce_status() {
+
+	$woo = EcwidPlatform::cache_get('woo_status');
+
+	if (is_null($woo)) {
+		$woo = 0;
+		$all_plugins = get_plugins();
+		if (array_key_exists('woocommerce/woocommerce.php', $all_plugins)) {
+			$active_plugins = get_option('active_plugins');
+			if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
+				$woo = 2;
+			} else {
+				$woo = 1;
+			}
+		}
+		EcwidPlatform::cache_set('woo_status', $woo, 60 * 60 * 24);
+	}
+
+	return $woo;
 }
 
 function ecwid_migrations_is_original_plugin_version_older_than($version)
@@ -2558,17 +2579,7 @@ function ecwid_gather_usage_stats()
 
 	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_remote_get_fails');
 
-	$woo = 0;
-	$all_plugins = get_plugins();
-	if (array_key_exists('woocommerce/woocommerce.php', $all_plugins)) {
-		$active_plugins = get_option('active_plugins');
-		if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
-			$woo = 2;
-		} else {
-			$woo = 1;
-		}
-	}
-	$usage_stats['has_woocommerce'] = $woo;
+	$usage_stats['has_woocommerce'] = ecwid_get_woocommerce_status();
 
 	return $usage_stats;
 }

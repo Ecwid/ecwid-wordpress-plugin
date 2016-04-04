@@ -738,7 +738,7 @@ textarea {
 	padding: 0;
 	text-indent: 0;
 	text-decoration: underline;
-	word-break: break-all; }
+	word-break: normal; }
 @media (min-width: 768px) {
 	.block-faq {
 		padding: 30px 0; } }

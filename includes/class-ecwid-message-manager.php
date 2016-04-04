@@ -262,7 +262,7 @@ TXT
 				return $is_newbie && ($is_ecwid_settings || $is_store_page);
 
 			case 'on_appearance_widgets':
-				return isset($_GET['from-ecwid']) && $admin_page == 'widgets';
+				return isset($_GET['from-ecwid']) && $_GET['from-ecwid'] != 'true' && $admin_page == 'widgets';
 
 			case 'please_vote':
 				$install_date = get_option('ecwid_installation_date');
