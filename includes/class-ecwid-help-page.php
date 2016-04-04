@@ -28,6 +28,8 @@ class Ecwid_Help_Page {
 			$_POST['email']['subject'],
 			implode(PHP_EOL, $body_lines)
 		);
+
+		wp_redirect(admin_url('admin.php?page=ecwid-help'));
 	}
 
 	public function get_faqs() {

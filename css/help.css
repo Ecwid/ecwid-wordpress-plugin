@@ -470,6 +470,11 @@ textarea {
 	font-family: "Open Sans"; }
 
 /*-------hds-search-----------------------------------------------------------------------------------*/
+/* that fixes the right border being overla*/
+.ecwid-help input {
+	margin: 0px;
+}
+
 .input-wrapper .hds-dropdown {
 	width: 100%;
 	position: absolute;
