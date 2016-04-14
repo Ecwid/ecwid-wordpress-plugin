@@ -192,8 +192,13 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 #available-widgets .widget-top.ecwid-widget-highlighted {
 	background: #1d7ac4;
-	color: white;
 	font-weight: normal;
+}
+
+
+#available-widgets .widget-top.ecwid-widget-highlighted,
+#available-widgets .widget-top.ecwid-widget-highlighted h3 {
+	color: white;
 }
 
 .widgets-php #available-widgets .ecwid-widget .widget-top .widget-title h4,

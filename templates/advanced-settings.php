@@ -140,8 +140,9 @@
 
 					<div class="note">
 						<?php echo sprintf(
-							__('The new search widget better adapts to your site and looks nicer. You can add the search bar to your site either in the <a %s>store page editor</a> or in the Appearance -> Widgets section.', 'ecwid-shopping-cart'),
-							'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"'
+							__('The new search widget better adapts to your site and looks nicer. You can add the search bar to your site either in the <a %s>store page editor</a> or in the <a %s>Appearance -> Widgets</a> section.', 'ecwid-shopping-cart'),
+							'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"',
+							'href=widgets.php?from-ecwid=true'
 						); ?>
 					</div>
 				</div>

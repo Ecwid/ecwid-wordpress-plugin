@@ -575,4 +575,4 @@ msgid "Enable the new search widget"
 msgstr "Включить новый виджет поиска"
 
 msgid "The new search widget better adapts to your site and looks nicer. You can add the search bar to your site either in the <a %s>store page editor</a> or in the Appearance -> Widgets section."
-msgstr "Новый виджет поиска лучше адаптируется к сайту и лучше выглядит. Добавить виджет поиска по товарам на сайт можно <a %s>в настройках страницы магазина</a> или в настройках внешнего вида сайта (меню Виджеты)."
+msgstr "Новый виджет поиска лучше адаптируется к сайту и лучше выглядит. Добавить виджет поиска по товарам на сайт можно <a %s>в настройках страницы магазина</a> или в настройках внешнего вида сайта (меню <a %s>Виджеты</a>)."
