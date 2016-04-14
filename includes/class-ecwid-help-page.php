@@ -21,12 +21,19 @@ class Ecwid_Help_Page {
 		$body_lines[] = 'Wp theme: ' . ecwid_get_theme_name();
 		$body_lines[] = 'Ecwid plugin version: ' . get_option('ecwid_plugin_version');
 		$body_lines[] = 'Wordpress version: '  . get_bloginfo('version');
+		$body_lines[] = '';
+		$body_lines[] = 'Message:';
+		$body_lines[] = '';
 		$body_lines[] = $_POST['email']['body'];
+
+		global $current_user;
+		$reply_to = $current_user->user_email;
 
 		wp_mail(
 			$to,
 			$_POST['email']['subject'],
-			implode(PHP_EOL, $body_lines)
+			implode(PHP_EOL, $body_lines),
+			array('Reply-To' => $reply_to)
 		);
 
 		wp_redirect(admin_url('admin.php?page=ecwid-help'));
