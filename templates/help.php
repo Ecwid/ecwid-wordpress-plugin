@@ -14,7 +14,7 @@
 			<div class="hds-wrapper">
 				<form class="hds-form" method="get" target="_blank" action="https://help.ecwid.com/customer/portal/articles/search" onsubmit="help-page searchquerysubmited">
 					<div class="input-wrapper input-prepend">
-						<input type="text" class="form-control q" value="" name="q" id="q" placeholder="<?php _e( 'e.g. Customize my store', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
+						<input type="text" class="form-control q" value="" name="q" id="q" placeholder="<?php _e( 'E.g. How to set up shipping', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
 						<input type='hidden' name='t' value=''/>
 						<span class="hds-loader"></span>
 						<button type="submit" class="hds-submit btn" id="hds-submit">
