@@ -94,7 +94,7 @@
 		<div class="block-topics-link">
 
 			<a href="https://help.ecwid.com/customer/portal/topics/686891--collection-browse-by-topic" class="horizontal-icolink">
-				<?php _e( 'Browse all topics', 'ecwid-shopping-cart' ); ?>
+				<?php _e( 'See more', 'ecwid-shopping-cart' ); ?>
 				<i class="icon-arr-right"></i>
 			</a>
 

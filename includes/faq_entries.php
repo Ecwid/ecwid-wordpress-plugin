@@ -4,7 +4,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How secure is this plugin? Is my store PCI DSS compliant?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with Ecwid, you won\’t have any problems with the bank you do business with. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin">More details.</a>'			, 'ecwid-shopping-cart'
+'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with Ecwid, you won’t have any problems with the bank you do business with. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin">More details.</a>'			, 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
 	),
@@ -31,13 +31,13 @@ $faqs = array(
 'You can add product search box, cart widget and more on the <a href="%s">"Appearance / Widgets page"</a> here in your site admin. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Sidebar%%20widgets">More details.</a>'
 			, 'ecwid-shopping-cart'
 			),
-			admin_url("widgets.php")
+			admin_url("widgets.php?from-ecwid=true")
 		)
 	),
 	array(
 		'title' => __( 'How much does Ecwid cost?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Our 4 account types vary by number of products, types of functionality, and level of support. For more information, check out our <a target="_blank" href="https://www.ecwid.com/pricing">pricing page. </a>
+'Our 4 account types vary by number of products, types of functionality, and level of support. For more information, check out our <a target="_blank" href="https://www.ecwid.com/pricing">pricing page.</a>
 <br />Free - Up to 10 products
 <br />Venture - $15/month
 <br />Business  - $35/month
