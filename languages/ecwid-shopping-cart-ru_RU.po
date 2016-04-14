@@ -570,3 +570,6 @@ msgstr "Создание магазина"
 
 msgid "Manage Store on iPhone, iPad or Android"
 msgstr "Управляйте магазином с iPhone, iPad, Android"
+
+msgid "Help"
+msgstr "Помощь"

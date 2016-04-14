@@ -683,7 +683,7 @@ TEXT;
 	);
 
 	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-help",
+			"id" => "ecwid-faq",
 			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
 			"parent" => "ecwid-main",
 			'href' =>  __('https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable', 'ecwid-shopping-cart'),
@@ -702,6 +702,14 @@ TEXT;
 			'target' => '_blank'
 		)
 	));
+
+	$wp_admin_bar->add_menu(array(
+			"id" => "ecwid-help",
+			"title" => __("Help", 'ecwid-shopping-cart'),
+			"parent" => "ecwid-main",
+			'href' =>  admin_url('admin.php?page=ecwid-help')
+		)
+	);
 }
 
 function ecwid_content_has_productbrowser($content) {
