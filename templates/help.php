@@ -27,31 +27,31 @@
 		</div>
 		<ul class="shortcuts">
 			<li>
-				<a href="//help.ecwid.com/customer/en/portal/topics/626757-ecwid-basics/articles" target="_blank" class="shortcut-item">
+				<a href="https://help.ecwid.com/customer/en/portal/topics/626757-ecwid-basics/articles" target="_blank" class="shortcut-item">
 					<span class="iconhelp-101"></span>
 					<span class="shortcut-item-text"><?php _e( 'Ecwid Basics', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="//help.ecwid.com/customer/en/portal/topics/626764-manage-your-ecwid-store/articles" target="_blank" class="shortcut-item">
+				<a href="https://help.ecwid.com/customer/en/portal/topics/626764-manage-your-ecwid-store/articles" target="_blank" class="shortcut-item">
 					<span class="iconhelp-manage"></span>
 					<span class="shortcut-item-text"><?php _e( 'Manage Your Ecwid Store', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="//help.ecwid.com/customer/en/portal/topics/618835-customize-your-store/articles" target="_blank" class="shortcut-item">
+				<a href="https://help.ecwid.com/customer/en/portal/topics/618835-customize-your-store/articles" target="_blank" class="shortcut-item">
 					<span class="iconhelp-custom"></span>
 					<span class="shortcut-item-text"><?php _e( 'Customize Your Store', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="//help.ecwid.com/customer/en/portal/topics/626765-billing-questions/articles" target="_blank" class="shortcut-item">
+				<a href="https://help.ecwid.com/customer/en/portal/topics/626765-billing-questions/articles" target="_blank" class="shortcut-item">
 					<span class="iconhelp-billing"></span>
 					<span class="shortcut-item-text"><?php _e( 'Billing Questions', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="//help.ecwid.com/customer/en/portal/topics/618834-technical-reference/articles" target="_blank" class="shortcut-item">
+				<a href="https://help.ecwid.com/customer/en/portal/topics/618834-technical-reference/articles" target="_blank" class="shortcut-item">
 					<span class="iconhelp-api"></span>
 					<span class="shortcut-item-text"><?php _e( 'Technical Reference', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
@@ -203,13 +203,13 @@
 			<ul>
 				<li>
 					<div class="block-help-item">
-						<a href="//help.ecwid.com/customer/portal/emails/new" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
+						<a href="https://help.ecwid.com/customer/portal/emails/new" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
 						<p><?php _e( 'Still have questions about Ecwid? Let us know! We will be glad to help you with your Ecwid store.', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
 				<li>
 					<div class="block-help-item">
-						<a href="//www.ecwid.com/forums" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
+						<a href="https://www.ecwid.com/forums" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
 						<p><?php _e( 'Join the Ecwid community. Discuss support topics and store ideas with other Ecwid users.', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
