@@ -33,7 +33,7 @@ class Ecwid_Help_Page {
 			$to,
 			$_POST['email']['subject'],
 			implode(PHP_EOL, $body_lines),
-			array('Reply-To' => $reply_to)
+			'Reply-To:' . $reply_to
 		);
 
 		wp_redirect(admin_url('admin.php?page=ecwid-help'));
