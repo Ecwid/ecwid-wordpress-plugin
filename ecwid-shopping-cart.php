@@ -702,14 +702,6 @@ TEXT;
 			'target' => '_blank'
 		)
 	));
-
-	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-help",
-			"title" => __("Help", 'ecwid-shopping-cart'),
-			"parent" => "ecwid-main",
-			'href' =>  admin_url('admin.php?page=ecwid-help')
-		)
-	);
 }
 
 function ecwid_content_has_productbrowser($content) {
@@ -1661,9 +1653,9 @@ function ecwid_build_menu() {
 
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
 	add_submenu_page(
-		'',
-		__('Ecwid help', 'ecwid-shopping-cart'),
-		__('Ecwid help', 'ecwid-shopping-cart'),
+		'ecwid',
+		__('Help', 'ecwid-shopping-cart'),
+		__('Help', 'ecwid-shopping-cart'),
 		'manage_options', 'ecwid-help', 'ecwid_help_do_page'
 	);
 }
