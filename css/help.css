@@ -605,7 +605,6 @@ textarea {
 .block-search {
 	/* testing */ }
 .block-search .hds-container .hds-wrapper {
-	border: 1px solid #d2d2d2;
 	max-width: 740px;
 	margin: 0 auto;
 	width: 87%; }
@@ -617,7 +616,7 @@ textarea {
 .block-search .hds-container .form-control {
 	border-radius: 6px;
 	box-shadow: none;
-	border-color: transparent; }
+	border-color: #d2d2d2; }
 .block-search .hds-container .form-control:focus {
 	border: 2px solid #005694;
 	background-color: #fff;
@@ -626,7 +625,10 @@ textarea {
 	.block-search .hds-container .form-control {
 		height: 55px;
 		padding: 3px 237px 3px 20px;
-		font-size: 20px; } }
+		font-size: 20px; }
+	.block-search .hds-container .form-control:focus {
+		padding: 2px 236px 2px 19px; } }
+
 @media (min-width: 768px) {
 	.block-search .hds-container .btn {
 		height: 45px;

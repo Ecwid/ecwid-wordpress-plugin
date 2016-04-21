@@ -228,7 +228,8 @@
 				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
 				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	"></textarea>
 				<div class="btn-container">
-					<button id="email_submit" name="commit" class="btn btn-medium btn-aqua" type="submit"><span><span><?php _e( 'Send Message', 'ecwid-shopping-cart' ); ?>	</span></span></button>
+					<button id="email_submit" name="commit" class="btn btn-medium btn-aqua" type="submit">
+						<span><span><?php _e( 'Send Message', 'ecwid-shopping-cart' ); ?>	</span></span></button>
 				</div>
 			</form>
 		</div>
