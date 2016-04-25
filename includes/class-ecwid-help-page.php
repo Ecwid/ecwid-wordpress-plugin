@@ -8,8 +8,17 @@ class Ecwid_Help_Page {
 
 	public function submit_contact_us() {
 
-		if ( !current_user_can('administrator') || !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
+		if ( !current_user_can('administrator') ) {
 			header('403 Access Denied');
+
+			die();
+		}
+		if ( !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
+			header('403 Access Denied');
+			echo json_encode(array(
+				'nonce' => wp_create_nonce(self::CONTACT_US_ACTION_NAME)
+			));
+
 			die();
 		}
 
