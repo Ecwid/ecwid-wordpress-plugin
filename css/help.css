@@ -881,7 +881,6 @@ textarea {
 		padding: 30px 0; } }
 
 .block-contact .send-error {
-	visibility: hidden;
 	color: red;
 	text-align: center;
 	margin-top: 5px;

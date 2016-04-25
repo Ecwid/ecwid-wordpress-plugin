@@ -257,10 +257,9 @@
 
 <script type="text/javascript">
 	jQuery('#email_subject, #email_body').focus(function() {
-		jQuery('.block-contact .send-error').fadeTo(1500,0.1, function() {
-			jQuery('.block-contact .send-error').css('visibility', 'hidden');
-		});
+		jQuery('.block-contact .send-error').hide();
 	});
+
 	jQuery('#contact-ecwid-support').click(function() {
 		jQuery('.block-contact .btn').addClass('btn-loading');
 
