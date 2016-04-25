@@ -31,14 +31,14 @@ class Ecwid_Help_Page {
 		$body_lines[] = '';
 		$body_lines[] = 'Message:';
 		$body_lines[] = '';
-		$body_lines[] = $_POST['email']['body'];
+		$body_lines[] = $_POST['body'];
 
 		global $current_user;
 		$reply_to = $current_user->user_email;
 
 		$result = wp_mail(
 			$to,
-			$_POST['email']['subject'],
+			$_POST['subject'],
 			implode(PHP_EOL, $body_lines),
 			'Reply-To:' . $reply_to
 		);
