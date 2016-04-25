@@ -257,14 +257,14 @@
 
 <script type="text/javascript">
 	jQuery('#email_subject, #email_body').focus(function() {
-		jQuery('.block-contact .error').fadeTo(1500,0.1, function() {
-			jQuery('.block-contact .error').css('visibility', 'hidden');
+		jQuery('.block-contact .send-error').fadeTo(1500,0.1, function() {
+			jQuery('.block-contact .send-error').css('visibility', 'hidden');
 		});
 	});
 	jQuery('#contact-ecwid-support').click(function() {
 		jQuery('.block-contact .btn').addClass('btn-loading');
 
-		jQuery.ajax(ajaxurl + '?action=<?php echo Ecwid_Help_Page::CONTACT_US_ACTION_NAME; ?>', {
+		$result = jQuery.ajax(ajaxurl + '?action=<?php echo Ecwid_Help_Page::CONTACT_US_ACTION_NAME; ?>', {
 			'method': 'POST',
 			'data': {
 				'subject'  : jQuery('#email_subject').val(),
@@ -283,10 +283,11 @@
 				}
 			},
 			'error': function(data) {
-				jQuery('.block-contact .error').show();
+				jQuery('.block-contact .send-error').show();
 				jQuery('.block-contact .btn').removeClass('btn-loading');
 			}
 		});
+
 		return false;
 	});
 	jQuery('#show-ecwid-contact-again').click(function() {
