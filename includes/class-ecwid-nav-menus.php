@@ -39,6 +39,16 @@ class Ecwid_Nav_Menus {
 	}
 
 	public function add_meta_box() {
+/*		$locations = get_nav_menu_locations();
+
+		$nav = wp_get_nav_menu_object(11);
+		wp_update_nav_menu_item(11, 0, array(
+				'menu-item-title' => 'Store',
+				'menu-item-object' => 'ecwid-store-with-categories',
+				'menu-item-type' => 'ecwid_menu_item',
+				'menu-item-status' => 'publish')
+		);
+*/
 		add_meta_box('ecwid_nav_links', __('Store', 'ecwid-shopping-cart'), array( $this, 'create_menu_items'), 'nav-menus', 'side');
 	}
 
