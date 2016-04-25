@@ -885,6 +885,7 @@ textarea {
 	text-align: center;
 	margin-top: 5px;
 	font-size: 80%;
+	display: none;
 }
 
 .block-sent {
