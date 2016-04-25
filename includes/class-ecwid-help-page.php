@@ -15,9 +15,6 @@ class Ecwid_Help_Page {
 		}
 		if ( !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
 			header('403 Access Denied');
-			echo json_encode(array(
-				'nonce' => wp_create_nonce(self::CONTACT_US_ACTION_NAME)
-			));
 
 			die();
 		}
