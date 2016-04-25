@@ -224,12 +224,12 @@
 		<div class="contact-form">
 			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate" onsubmit="javascript:ecwid_kissmetrics_record('help-page email-contact-form submitted');">
 				<input type="hidden" name="action" value="ecwid_contact_us" />
-				<input type="hidden" name="wp-nonce" value="<?php echo wp_create_nonce('ecwid_contact_us'); ?>" />
+				<input type="hidden" name="wp-nonce" id="wp-nonce" value="<?php echo wp_create_nonce( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ); ?>" />
 				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
 				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	"></textarea>
 				<div class="btn-container">
-					<button id="email_submit" class="btn btn-medium btn-aqua btn-loading" type="submit">
-						<span class="btn-text">Send Message</span>
+					<button id="contact-ecwid-support" class="btn btn-medium btn-aqua" type="submit">
+						<span class="btn-text"><?php _e( 'Send Message', 'ecwid-shopping-cart'); ?></span>
 						<div class="loader">
 							<div class="ecwid-spinner spin-right">
 								<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -243,6 +243,11 @@
 				</div>
 			</form>
 		</div>
+	</div>
+	<div class="block-sent">
+		<h2><?php _e( 'Your email has been sent', 'ecwid-shopping-cart'); ?></h2>
+		<p><?php _e(' Thank you very much for contacting us! We will get back to you shortly.', 'ecwid-shopping-cart'); ?></p>
+		<p><a id="show-ecwid-contact-again" href="#"><?php _e( 'You can send a new request here.', 'ecwid-shopping-cart'); ?></a></p>
 
 	</div>
 	<?php endif; ?>
@@ -250,5 +255,38 @@
 </div>
 
 <script type="text/javascript">
+	jQuery('#contact-ecwid-support').click(function() {
+		jQuery('.block-contact .btn').addClass('btn-loading');
+
+		jQuery.ajax(ajaxurl + '?action=<?php echo Ecwid_Help_Page::CONTACT_US_ACTION_NAME; ?>', {
+			'method': 'POST',
+			'data': {
+				'subject'  : jQuery('#email_subject').val(),
+				'body'     : jQuery('#email_body').val(),
+				'wp-nonce' : jQuery('#wp-nonce').val(),
+				'accepts'  : 'json',
+				'dataType' : 'json'
+			},
+			'success': function(data) {
+				var result = jQuery.parseJSON(data);
+				if (result) {
+					jQuery('#wp-nonce').val(result.nonce);
+					jQuery('.block-contact').hide();
+					jQuery('.block-sent').show();
+					jQuery('.block-contact .btn').removeClass('btn-loading');
+				}
+			},
+			'error': function(data) {
+				alert('error');
+				jQuery('.block-contact .btn').removeClass('btn-loading');
+			}
+		});
+		return false;
+	});
+	jQuery('#show-ecwid-contact-again').click(function() {
+		jQuery('.block-sent').hide();
+		jQuery('.block-contact').show();
+		return false;
+	});
 	ecwid_kissmetrics_record('help-page viewed');
 </script>

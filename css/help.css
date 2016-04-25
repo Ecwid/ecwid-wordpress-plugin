@@ -353,6 +353,8 @@ a.underlined {
 .btn-aqua {
 	background-color: #4eaccb;
 	color: #fff; }
+.btn-aqua svg {
+	fill: #4eaccb; }
 
 .btn-aqua:hover {
 	background-color: #6ebfd8;
@@ -878,6 +880,16 @@ textarea {
 	.block-contact {
 		padding: 30px 0; } }
 
+.block-sent {
+	display: none;
+	padding: 20px 0 40px;
+	text-align: center; }
+.block-sent h2 {
+	margin-bottom: 20px; }
+@media screen and (min-width: 768px) {
+	.block-sent {
+		padding: 30px 0 60px; } }
+
 .contact-form .form-control {
 	font-size: 14px;
 	height: 45px;
@@ -939,19 +951,19 @@ textarea {
 .btn.btn-small .loader .ecwid-spinner {
 	height: 40px;
 	width: 40px; }
-​
+
 @keyframes spinright {
 	0% {
 		transform: rotate(0deg); }
 	100% {
 		transform: rotate(360deg); } }
-​
+
 @-webkit-keyframes spinright {
 	0% {
 		-webkit-transform: rotate(0deg); }
 	100% {
 		-webkit-transform: rotate(360deg); } }
-​
+
 @keyframes fadein {
 	0% {
 		opacity: 0; }

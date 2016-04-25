@@ -1,15 +1,22 @@
 <?php
 
 class Ecwid_Help_Page {
+	const CONTACT_US_ACTION_NAME = 'ecwid_contact_us';
 	public function __construct() {
-		add_action('admin_post_ecwid_contact_us', array( $this, 'submit_contact_us') );
+		add_action('wp_ajax_' . self::CONTACT_US_ACTION_NAME, array( $this, 'submit_contact_us') );
 	}
 
 	public function submit_contact_us() {
-		if ( !current_user_can('administrator') || !wp_verify_nonce($_POST['wp-nonce'], 'ecwid_contact_us') ) {
-			wp_redirect('admin.php?page=ecwid-help');
+
+		if ( !current_user_can('administrator') || !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
+			global $wp_query;
+
+			$wp_query->set_404();
+
+			error_log('hit error');
 			wp_die();
 		}
+		error_log('hit success');
 
 		$to = get_option( 'ecwid_support_email' );
 
@@ -29,14 +36,26 @@ class Ecwid_Help_Page {
 		global $current_user;
 		$reply_to = $current_user->user_email;
 
-		wp_mail(
+		$result = wp_mail(
 			$to,
 			$_POST['email']['subject'],
 			implode(PHP_EOL, $body_lines),
 			'Reply-To:' . $reply_to
 		);
 
-		wp_redirect(admin_url('admin.php?page=ecwid-help'));
+		if ($result) {
+			$nonce = wp_create_nonce( self::CONTACT_US_ACTION_NAME );
+
+			echo json_encode(
+				array(
+					'nonce' => $nonce
+				)
+			);
+			wp_die();
+		} else {
+			header('500 Send mail failed');
+			wp_die();
+		}
 	}
 
 	public function get_faqs() {
