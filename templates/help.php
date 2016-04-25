@@ -240,6 +240,7 @@
 							</div>
 						</div>
 					</button>
+					<div class="error"><?php _e('Send message failed', 'ecwid-shopping-cart'); ?></div>
 				</div>
 			</form>
 		</div>
@@ -255,6 +256,9 @@
 </div>
 
 <script type="text/javascript">
+	jQuery('#email_subject, #email_body').focus(function() {
+		jQuery('.block-contact .error').fadeOut(2000);
+	});
 	jQuery('#contact-ecwid-support').click(function() {
 		jQuery('.block-contact .btn').addClass('btn-loading');
 
@@ -277,7 +281,7 @@
 				}
 			},
 			'error': function(data) {
-				alert('error');
+				jQuery('.block-contact .error').show();
 				jQuery('.block-contact .btn').removeClass('btn-loading');
 			}
 		});

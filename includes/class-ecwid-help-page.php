@@ -9,12 +9,8 @@ class Ecwid_Help_Page {
 	public function submit_contact_us() {
 
 		if ( !current_user_can('administrator') || !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
-			global $wp_query;
-
-			$wp_query->set_404();
-
-			error_log('hit error');
-			wp_die();
+			header('403 Access Denied');
+			die();
 		}
 		error_log('hit success');
 
