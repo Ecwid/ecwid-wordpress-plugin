@@ -12,7 +12,6 @@ class Ecwid_Help_Page {
 			header('403 Access Denied');
 			die();
 		}
-		error_log('hit success');
 
 		$to = get_option( 'ecwid_support_email' );
 
@@ -50,7 +49,7 @@ class Ecwid_Help_Page {
 			wp_die();
 		} else {
 			header('500 Send mail failed');
-			wp_die();
+			die();
 		}
 	}
 

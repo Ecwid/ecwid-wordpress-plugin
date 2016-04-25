@@ -880,6 +880,14 @@ textarea {
 	.block-contact {
 		padding: 30px 0; } }
 
+.block-contact .send-error {
+	visibility: hidden;
+	color: red;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 80%;
+}
+
 .block-sent {
 	display: none;
 	padding: 20px 0 40px;
