@@ -668,6 +668,43 @@ TEXT;
 			'target' => '_blank'
 		)
 	));
+
+
+	$wp_admin_bar->add_menu( array(
+		'id' => 'ecwid-proof-of-concept',
+		'title' => 'Add store with categories to first menu',
+		'href' => admin_url('admin-post.php?action=ecwid_add_menu&back=' . urlencode($_SERVER['REQUEST_URI'])),
+	));
+}
+
+add_action('admin_post_ecwid_add_menu', 'ecwid_add_menu');
+
+function ecwid_add_menu() {
+	_ecwid_add_menu();
+
+	header("location: " . $_REQUEST['back']);
+}
+
+function _ecwid_add_menu() {
+	$locations = get_nav_menu_locations();
+
+	if (empty($locations)) return;
+
+	foreach ($locations as $name => $menu_id) {
+		if ($menu_id > 0) {
+			break;
+		}
+	}
+
+	if ($menu_id == 0) return;
+
+	$nav = wp_get_nav_menu_object($menu_id);
+	wp_update_nav_menu_item(11, 0, array(
+			'menu-item-title' => 'Store',
+			'menu-item-object' => 'ecwid-store-with-categories',
+			'menu-item-type' => 'ecwid_menu_item',
+			'menu-item-status' => 'publish')
+	);
 }
 
 function ecwid_content_has_productbrowser($content) {
