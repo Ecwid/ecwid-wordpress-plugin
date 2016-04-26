@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
 	Ecwid.OnPageLoaded.add(function(page) {
 		if (page.type == 'CART') {
 			window.ecwidCurrentMenuPage = 'cart';
-		} else if (page.type == 'ACCOUNT_SETTINGS') {
+		} else if (page.type == 'ACCOUNT_SETTINGS' || page.type == 'ORDERS' || page.type == 'ADDRESS_BOOK') {
 			window.ecwidCurrentMenuPage = 'my-account';
 		} else if (page.type == 'SEARCH') {
 			window.ecwidCurrentMenuPage = 'product-search';
@@ -18,7 +18,8 @@ jQuery(document).ready(function() {
 	Ecwid.OnPageLoaded.add(refreshEcwidMenuItemsSelection);
 
 	function refreshEcwidMenuItemsSelection() {
-		jQuery('ul.menu').each(function (idx, el) {
+		$allMenus = jQuery('ul').has('li.menu-item');
+		$allMenus.each(function (idx, el) {
 			var current = findCurrentEcwidMenuItem(el);
 			if (current) {
 				highlightCurrentMenuItem(el, current);
