@@ -904,7 +904,7 @@ textarea {
 	text-align: center; }
 .block-sent h2 {
 	margin-bottom: 20px; }
-block-sent p {
+.block-sent p {
 	font-size: 14px;
 }
 @media screen and (min-width: 768px) {
