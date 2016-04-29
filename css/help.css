@@ -365,7 +365,7 @@ a.underlined {
 	color: #fff; }
 
 .btn-aqua:focus {
-	border-color: #0c5c77; }
+	border-color: #4eaccb; }
 
 .btn-blue {
 	background-color: #5196c7;
@@ -395,7 +395,7 @@ a.btn-upgrade,
 	height: 40px;
 	width: 100%;
 	padding: 4px 8px;
-	border: 1px solid #aaa;
+	border: 1px solid #ddd;
 	border-radius: 3px;
 	background-color: #fff;
 	color: #333;
@@ -436,6 +436,12 @@ a.btn-upgrade,
 .form-control.invalid:focus {
 	background-color: #fff;
 	box-shadow: 0 0 4px #F5C0C0; }
+
+.form-control.submitted {
+	opacity: .3;
+	-webkit-transition: opacity .3s linear;
+	transition: opacity .3s linear;
+}
 
 /* Input appends*/
 .input-append,
@@ -540,7 +546,7 @@ textarea {
 @media screen and (min-width: 768px) {
 	.main-container h2 {
 		font-size: 30px;
-		margin: 35px auto 55px; } }
+		margin: 20px auto 20px; } }
 
 /*------block-search-index----------------------------------------------------------------------------*/
 .block-search-index {
@@ -884,8 +890,12 @@ textarea {
 	color: red;
 	text-align: center;
 	margin-top: 5px;
-	font-size: 80%;
+	font-size: 14px;
 	display: none;
+}
+
+.block-contact, .block-sent {
+	height: 480px;
 }
 
 .block-sent {
@@ -894,6 +904,9 @@ textarea {
 	text-align: center; }
 .block-sent h2 {
 	margin-bottom: 20px; }
+block-sent p {
+	font-size: 14px;
+}
 @media screen and (min-width: 768px) {
 	.block-sent {
 		padding: 30px 0 60px; } }
@@ -983,7 +996,10 @@ textarea {
 		opacity: 0; }
 	100% {
 		opacity: 1; } }
+/* form errors */
 
-
-
-
+.form-control.form-error {
+	border-color: #dc3232;
+	-webkit-box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
+	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
+}

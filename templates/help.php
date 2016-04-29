@@ -260,8 +260,33 @@
 		jQuery('.block-contact .send-error').hide();
 	});
 
+	jQuery('#email_subject, #email_body').blur(function() {
+		if (jQuery(this).hasClass('form-error') && jQuery(this).val().trim()) {
+			jQuery(this).removeClass('form-error');
+		}
+	});
+
+	ecwid_contact_form_has_errors = function() {
+		var has_errors = false;
+		jQuery('#email_subject, #email_body').each(function() {
+			if (!jQuery(this).val().trim()) {
+				jQuery(this).addClass('form-error');
+				has_errors = true;
+			}
+		});
+
+		if (has_errors) {
+			return true;
+		}
+		return false;
+	}
+
 	jQuery('#contact-ecwid-support').click(function() {
+
+		if (ecwid_contact_form_has_errors()) return false;
+
 		jQuery('.block-contact .btn').addClass('btn-loading');
+		jQuery('.block-contact .form-control').addClass('submitted');
 
 		$result = jQuery.ajax(ajaxurl + '?action=<?php echo Ecwid_Help_Page::CONTACT_US_ACTION_NAME; ?>', {
 			'method': 'POST',
@@ -278,12 +303,17 @@
 					jQuery('#wp-nonce').val(result.nonce);
 					jQuery('.block-contact').hide();
 					jQuery('.block-sent').show();
-					jQuery('.block-contact .btn').removeClass('btn-loading');
+					jQuery('.block-contact .form-control').val("");
+				} else {
+					jQuery('.block-contact .send-error').show();
 				}
 			},
 			'error': function(data) {
 				jQuery('.block-contact .send-error').show();
+			},
+			'complete': function() {
 				jQuery('.block-contact .btn').removeClass('btn-loading');
+				jQuery('.block-contact .form-control').removeClass('submitted');
 			}
 		});
 
@@ -294,5 +324,6 @@
 		jQuery('.block-contact').show();
 		return false;
 	});
+
 	ecwid_kissmetrics_record('help-page viewed');
 </script>
