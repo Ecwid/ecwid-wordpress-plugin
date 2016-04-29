@@ -2009,7 +2009,8 @@ function ecwid_general_settings_do_page() {
 			if ( ecwid_use_old_landing() ) {
 				require_once( ECWID_PLUGIN_DIR . '/templates/landing_old.php' );
 			} else if ($api->does_store_exist($current_user->user_email)) {
-				Ecwid_Kissmetrics::record( 'Existing Store Found' );
+				Ecwid_Kissmetrics::set( 'existing account on install', true );
+				Ecwid_Kissmetrics::record( 'account is found connect page viewed' );
 				require_once ECWID_PLUGIN_DIR . '/templates/connect.php';
 			} else {
 				require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
