@@ -14,3 +14,7 @@
 .ecwid-shopping-cart-search button {
 	padding: 0.15em 0.3em !important;
 }
+
+.ecwid-productBrowser-details-rightPanel table td {
+	padding: 0 !important;
+}
