@@ -21,6 +21,8 @@ class Ecwid_Theme_Base {
 		$theme = new Ecwid_Theme_Base();
 		$theme->name = $name;
 
+		if (is_admin()) return;
+
 		if ( in_array( 'scroll', $props ) ) {
 			$theme->create_scroller();
 		}
