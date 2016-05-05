@@ -699,7 +699,7 @@ function _ecwid_add_menu() {
 	if ($menu_id == 0) return;
 
 	$nav = wp_get_nav_menu_object($menu_id);
-	wp_update_nav_menu_item(11, 0, array(
+	wp_update_nav_menu_item($menu_id, 0, array(
 			'menu-item-title' => 'Store',
 			'menu-item-object' => 'ecwid-store-with-categories',
 			'menu-item-type' => 'ecwid_menu_item',
