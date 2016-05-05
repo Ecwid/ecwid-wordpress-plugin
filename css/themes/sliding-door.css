@@ -1,0 +1,7 @@
+html#ecwid_html body#ecwid_body #container {
+	margin-left: 200px;
+	margin-right: 200px;
+}
+html#ecwid_html body#ecwid_body #content {
+	width: 550px;
+}
