@@ -4,6 +4,8 @@ define( 'ECWID_THEMES_DIR', ECWID_PLUGIN_DIR . 'includes/themes' );
 
 add_action('after_switch_theme', 'ecwid_after_switch_theme');
 
+require ECWID_THEMES_DIR . '/class-ecwid-theme-base.php';
+
 
 function ecwid_get_theme_name()
 {
@@ -35,25 +37,31 @@ function ecwid_get_theme_identification()
 
 function ecwid_apply_theme($theme_name = null)
 {
-	$themes = array(
+	$generic_themes = array(
+		'pixova-lite' 		=> array( 'js', 'scroll' ),
+		'accesspress-mag' => array( 'css' ),
+		'attitude' 				=> array( 'css-no-parent' ),
+		'customizr'				=> array( 'js', 'css' ),
+		'edin'						=> array( 'js' ),
+		'evolve'					=> array( 'css-no-parent' ),
+		'mantra'					=> array( 'css-no-parent' ),
+		'pagelines'				=> array( 'js', 'scroll' ),
+		'responsiveboat'  => array( 'css' ),
+		'twentyfourteen'  => array( 'css', 'scroll' ),
+		'twentytwelve'		=> array( 'js', 'scroll' )
+	);
+	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
+
+	$custom_themes = array(
 		'bretheon',
 		'responsive',
-		'twentyfourteen',
-		'pagelines',
 		'envision',
 		'twentyfifteen',
-		'customizr',
-		'evolve',
-		'twentytwelve',
 		'genesis',
 		'twentysixteen',
-		'mantra',
-		'attitude',
-		'responsiveboat',
 		'central',
-		'edin',
-		'accesspress-mag'
 	);
+	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
 
 
 	if (empty($theme_name)) {
@@ -66,26 +74,18 @@ function ecwid_apply_theme($theme_name = null)
 		$theme_name = 'responsiveboat';
 	}
 
-	if (in_array($theme_name, $themes)) {
-
+	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
-	}
-
-	$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
-
-	if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
-		require_once( $theme_file );
+		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
+		if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
+			require_once( $theme_file );
+		}
+	} else if ( array_key_exists( $theme_name, $generic_themes ) ) {
+		Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}
 }
 
 function ecwid_after_switch_theme()
 {
 	ecwid_apply_theme();
-
-	global $ecwid_current_theme;
-
-	update_option(
-		'ecwid_advanced_theme_layout',
-		isset($ecwid_current_theme) && $ecwid_current_theme->has_advanced_layout ? 'Y' : 'N'
-	);
 }
