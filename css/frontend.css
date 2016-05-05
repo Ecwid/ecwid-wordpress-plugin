@@ -16,3 +16,8 @@ html#ecwid_html body#ecwid_body .ecwid-SearchPanel input {
 .ecwid-shopping-cart-categories .horizontal-menu-item {
 	background-image: none;
 }
+
+html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-name {
+	font-size: inherit;
+	color: inherit;
+}

@@ -69,8 +69,6 @@ html#ecwid_html body#ecwid_body .ecwid-productsList .ecwid-productsList-image .e
 
 html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-name
 {
-	font-size: 12px;
-
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -187,11 +185,6 @@ html#ecwid_html body#ecwid_body .ecwid-productsList div.ecwid-productsList-image
 .ecwid-productsList.width-l ul li .ecwid-productsList-price {
 	top: 50%;
 	margin-top: -2px;
-}
-
-html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-name
-{
-	font-size: 12px;
 }
 
 html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-price
