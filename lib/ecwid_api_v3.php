@@ -186,6 +186,8 @@ class Ecwid_Api_V3
 		$store_url = ecwid_get_store_page_url();
 		$site_name = get_bloginfo('name');
 		$site_email = get_option('admin_email');
+		$timezone = get_option('timezone_string', 'UTC+0');
+
 		$params = array(
 			'merchant' => array(
 				'email' => $admin_email,
@@ -211,6 +213,8 @@ class Ecwid_Api_V3
 				  'mailNotifications' => array(
 					'adminNotificationEmails' => array($site_email),
 					'customerNotificationFromEmail' => $site_email
+				), 'formatsAndUnits' => array(
+					'timezone' => $timezone
 				)
 			),
 		);
