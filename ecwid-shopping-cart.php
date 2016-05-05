@@ -1106,8 +1106,10 @@ function ecwid_categories_shortcode($attributes) {
 		  $store_id = get_ecwid_store_id();
 		  $ver = get_option('ecwid_plugin_version');
 		  $result = <<<HTML
-<div id="horizontal-menu" data-storeid="$store_id"></div>
-<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1.2/horizontal-widget.js?ver=$ver"></script>
+		  <div id="ecwid-store-categories-$store_id"></div>
+		  <div>
+				<script data-cfasync="false" type="text/javascript"> xCategoriesV2("id=ecwid-store-categories-$store_id"); </script>
+			</div>
 HTML;
 	  } else {
 		  $result = <<<EOT
