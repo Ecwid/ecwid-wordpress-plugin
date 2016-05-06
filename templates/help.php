@@ -210,7 +210,7 @@
 				<li>
 					<div class="block-help-item">
 						<a href="https://www.ecwid.com/forums" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
-						<p><?php _e( 'Discuss all things Ecwid with other users from our online community.', 'ecwid-shopping-cart' ); ?>	</p>
+						<p><?php _e( 'Join the Ecwid community. Discuss support topics and store ideas with other Ecwid users.', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
 			</ul>
