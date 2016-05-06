@@ -428,7 +428,6 @@ body[class*="_page_ecwid"] .ecwid-message {
 .ecwid-admin-footer {
 	display: table;
 	width:100%;
-	padding: 0 20px;
 }
 
 .ecwid-connect .ecwid-admin-footer .ecwid-app-badges-block {
@@ -442,8 +441,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 	font-size: 13px;
 }
 
-.ecwid-admin-footer-block:last-child {
-	padding-right: 0px;
+
+.ecwid-admin-footer-block:first-child {
+	padding-left: 20px;
 }
 
 
