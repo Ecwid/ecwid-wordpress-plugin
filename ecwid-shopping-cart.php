@@ -41,8 +41,6 @@ add_shortcode('ecwid', 'ecwid_shortcode');
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
-add_filter('wp_get_nav_menu_items', 'ecwid_nav_menu_items');
-
 if ( is_admin() ){ 
   add_action('admin_init', 'ecwid_settings_api_init');
 	add_action('admin_init', 'ecwid_check_version');

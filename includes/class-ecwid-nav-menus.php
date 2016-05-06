@@ -93,7 +93,7 @@ class Ecwid_Nav_Menus {
 
 	public function process_menu_items($items)
 	{
-		if (is_admin()) {
+		if ( is_admin() || empty($items) ) {
 			return $items;
 		}
 
