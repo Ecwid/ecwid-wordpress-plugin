@@ -1,11 +1,9 @@
 jQuery(document).ready(function() {
-    var ecwidClasses = {
-        'ecwid-store': 'store',
-        'ecwid-cart': 'cart',
-        'ecwid-my-account': 'account',
-        'ecwid-product-search': 'search',
-        'ecwid-store-with-categories': 'storeWithCategories'
-    };
+
+    var ecwidClasses = {};
+    for (var i in ecwid_params.items) {
+        ecwidClasses[i] = ecwid_params.items[i].km;
+    }
 
     if (ecwid_params.first_run && jQuery('#ecwid_nav_links-hide:checked').length == 0) {
         jQuery('#ecwid_nav_links-hide').click();
@@ -71,10 +69,9 @@ jQuery(document).ready(function() {
 
     findEcwidLink = function(element) {
 
-        var classes = jQuery('.edit-menu-item-classes', element).val().split(' ');
-        for (var i = 0; i < classes.length; i++) {
-            if (ecwidClasses.hasOwnProperty(classes[i])) {
-                return classes[i];
+        for (var i in ecwidClasses) {
+            if (jQuery(element).hasClass('menu-item-' + i)) {
+                return i;
             }
         }
 
