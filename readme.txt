@@ -104,6 +104,17 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 * [Ecwid site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
 
 == Changelog ==
+= 4.2.1 =
+- **New Help page in the plugin settings.** We have a lot helpful articles and ecommerce tips in the Ecwid Help center at help.ecwid.com. In this update, we made it closer to you – the Help page with FAQ and a simple search field is now available right in the plugin settings. Have a question about your online store? Refer to the new Ecwid->Help page in your Wordpress admin backend.
+- **Better compatibility with Accesspress Store and Sliding Door themes.** We adjusted Ecwid storefront look a bit to better match these Wordpress themes layout and fonts. 
+- **Fixed a bug in the product page titles.** You might notice that the product page titles repeated the product name twice. We fixed it. 
+
+
+= 4.2 =
+- **New Search Widget.** We released a new search widget that’s vastly improved over the previous one. You can enable it on the "Ecwid -> Advanced" settings page in you Wordpress backend. The new search widget is fully adaptive, automatically fits in its parent section, and looks great with any site’s theme. It also fits your sidebar even if it's very narrow, so feel free to add product search to your site sidebar in the "Appearance -> Widgets" section of your site admin.
+- **Fixed a bug in the categories menu on mobile devices.** You might notice that the product categories menu disappeared on your site when it's opened on a mobile device with narrow screen. It's now fixed – the categories menu looks great on any screen size.
+- Bug fixes and improvements for the Recently Viewed Products widget.
+
 = 4.1.3 =
 - Improvements for the plugin Dashboard page layout and a few minor fixes. 
 
