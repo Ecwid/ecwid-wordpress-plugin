@@ -70,6 +70,12 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 	{
 		update_post_meta($page_id, '_wp_page_template', 'full-width-page.php');
 	}
+	
+	protected function need_advanced_layout()
+ 	{
+ 		return get_option('ecwid_advanced_theme_layout') == 'Y';
+	}
+
 }
 
 global $ecwid_current_theme;
