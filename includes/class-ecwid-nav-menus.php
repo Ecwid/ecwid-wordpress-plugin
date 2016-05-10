@@ -111,38 +111,40 @@ class Ecwid_Nav_Menus {
 				$item->url = ecwid_get_store_page_url() . '#!/~/' . $ecwid_menu_type['url'];
 			}
 
-			$categories = ecwid_get_categories();
-			if ($item->object == 'ecwid-store-with-categories' && !empty($categories)) {
-				foreach ($categories as $category) {
-					$counter ++;
-					$post = new stdClass;
-					$post->ID = 0;
-					$post->post_author = '';
-					$post->post_date = '';
-					$post->post_date_gmt = '';
-					$post->post_password = '';
-					$post->post_name = '';
-					$post->post_type = $item->post_type;
-					$post->post_status = 'publish';
-					$post->to_ping = '';
-					$post->pinged = '';
-					$post->post_parent = 0;
-					$post->menu_order = $item->menu_order + $counter;
-					$post->menu_item_parent = $item->ID;
-					$post->url = ecwid_get_store_page_url() . $category->link;
-					$post->classes = '';
-					$post->type = 'post';
-					$post->db_id = 0;
-					$post->title = $category->name;
-					$post->target = '';
-					$post->object = '';
-					$post->attr_title = '';
-					$post->description = '';
-					$post->xfn = '';
-					$post->object_id = 0;
-					array_splice($items, $key + $counter, 0, array($post));
+			if ($item->object == 'ecwid-store-with-categories') {
+				$categories = ecwid_get_categories();
+				if (!empty($categories)) {
+					foreach ($categories as $category) {
+						$counter++;
+						$post                   = new stdClass;
+						$post->ID               = 0;
+						$post->post_author      = '';
+						$post->post_date        = '';
+						$post->post_date_gmt    = '';
+						$post->post_password    = '';
+						$post->post_name        = '';
+						$post->post_type        = $item->post_type;
+						$post->post_status      = 'publish';
+						$post->to_ping          = '';
+						$post->pinged           = '';
+						$post->post_parent      = 0;
+						$post->menu_order       = $item->menu_order + $counter;
+						$post->menu_item_parent = $item->ID;
+						$post->url              = ecwid_get_store_page_url() . $category->link;
+						$post->classes          = '';
+						$post->type             = 'post';
+						$post->db_id            = 0;
+						$post->title            = $category->name;
+						$post->target           = '';
+						$post->object           = '';
+						$post->attr_title       = '';
+						$post->description      = '';
+						$post->xfn              = '';
+						$post->object_id        = 0;
+						array_splice($items, $key + $counter, 0, array( $post ));
+					}
+					$counter++;
 				}
-				$counter++;
 			}
 		}
 

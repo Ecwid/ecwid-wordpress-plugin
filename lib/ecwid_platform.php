@@ -56,7 +56,7 @@ class EcwidPlatform {
 
 	static public function cache_get($name)
 	{
-		get_transient('ecwid_' . $name);
+		return get_transient('ecwid_' . $name);
 	}
 
 	static public function cache_set($name, $value, $expires_after)
