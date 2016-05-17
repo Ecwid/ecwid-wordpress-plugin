@@ -238,28 +238,11 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 
 	if ((bool)get_option('ecwid_use_chameleon')) {
-		wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
-
-		$primary = get_option('ecwid_chameleon_primary');
-		$background = get_option('ecwid_chameleon_background');
-		$links = get_option('ecwid_chameleon_links');
-
-		$localize = array();
-
-		if (get_option('ecwid_chameleon_primary')) {
-			$localize['primary_color'] = get_option('ecwid_chameleon_primary');
+		if (ecwid_migrations_is_original_plugin_version_older_than('4.2.1.3')) {
+			ecwid_enqueue_external_chameleon();
+		} else {
+			ecwid_enqueue_builtin_chameleon();
 		}
-		if (get_option('ecwid_chameleon_background')) {
-			$localize['primary_background'] = get_option('ecwid_chameleon_background');
-		}
-		if (get_option('ecwid_chameleon_links')) {
-			$localize['primary_link'] = get_option('ecwid_chameleon_links');
-		}
-
-		if (!empty($localize)) {
-			wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', $localize);
-		}
-
 	}
 
 	if (is_active_widget(false, false, 'ecwidrecentlyviewed')) {
@@ -274,6 +257,50 @@ function ecwid_enqueue_frontend() {
 			)
 		);
 	}
+}
+
+function ecwid_enqueue_external_chameleon() {
+	wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
+
+	$primary    = get_option('ecwid_chameleon_primary');
+	$background = get_option('ecwid_chameleon_background');
+	$links      = get_option('ecwid_chameleon_links');
+
+	$localize = array();
+
+	if (get_option('ecwid_chameleon_primary')) {
+		$localize['primary_color'] = get_option('ecwid_chameleon_primary');
+	}
+	if (get_option('ecwid_chameleon_background')) {
+		$localize['primary_background'] = get_option('ecwid_chameleon_background');
+	}
+	if (get_option('ecwid_chameleon_links')) {
+		$localize['primary_link'] = get_option('ecwid_chameleon_links');
+	}
+
+	if (!empty( $localize )) {
+		wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', $localize);
+	}
+}
+
+function ecwid_enqueue_builtin_chameleon() {
+	wp_enqueue_script('ecwid-chameleon-js', ECWID_PLUGIN_URL . '/js/chameleon.js', array(), get_option('ecwid_plugin_version'), true);
+
+	$colors = array();
+
+	foreach (array('foreground', 'background', 'link', 'price', 'button') as $kind) {
+		$color = get_option( 'ecwid_chameleon_colors_' . $kind );
+		if ( $color ) {
+			$colors['color-' . $kind] = $color;
+		}
+	}
+
+	if (empty($colors)) {
+		$colors = 'auto';
+	}
+	wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', array(
+		'colors' => $colors
+	));
 }
 
 function ecwid_load_textdomain() {
@@ -434,6 +461,15 @@ function ecwid_check_version()
 
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3')) {
 			add_option( 'ecwid_support_email', 'wordpress@ecwid.com' );
+		}
+
+
+		if (!ecwid_migrations_is_original_plugin_version_older_than('4.2.1.3')) {
+			add_option('ecwid_chameleon_colors_foreground', '');
+			add_option('ecwid_chameleon_colors_background', '');
+			add_option('ecwid_chameleon_colors_link', '');
+			add_option('ecwid_chameleon_colors_button', '');
+			add_option('ecwid_chameleon_colors_price', '');
 		}
 
 		$all_plugins = get_plugins();
