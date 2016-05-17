@@ -79,13 +79,7 @@ jQuery(document).ready(function() {
     }
 
     isStoreWithCategories = function(element) {
-        for (var i in ecwidClasses) {
-            if (i == 'ecwid-store-with-categories') {
-                return true;
-            }
-        }
-
-        return false;
+        return jQuery(element).hasClass('menu-item-ecwid-store-with-categories');
     }
 
     resetCache = function(callback) {
