@@ -113,6 +113,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kissmetrics.php';
 if (is_admin()) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
 }
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
@@ -1498,6 +1499,10 @@ EOT;
 		}
 	}
 
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+
+	Ecwid_Nav_Menus::add_menu_on_activate();
+
 	Ecwid_Message_Manager::enable_message('on_activate');
 	Ecwid_Kissmetrics::record('wpPluginActivated');
 
@@ -1692,11 +1697,6 @@ function ecwid_reset_categories_cache()
 	}
 
 	wp_cache_delete('all_categories', 'ecwid');
-}
-
-
-function ecwid_add_meta_boxes()
-{
 }
 
 function ecwid_register_admin_styles($hook_suffix) {

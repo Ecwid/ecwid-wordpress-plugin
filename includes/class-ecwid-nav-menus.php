@@ -38,16 +38,47 @@ class Ecwid_Nav_Menus {
 		);
 	}
 
-	public function add_meta_box() {
-/*		$locations = get_nav_menu_locations();
+	static public function add_menu_on_activate( ) {
 
-		$nav = wp_get_nav_menu_object(11);
-		wp_update_nav_menu_item(11, 0, array(
+		$locations = get_nav_menu_locations();
+
+		if (empty($locations)) return;
+
+		foreach ($locations as $name => $menu_id) {
+			if ($menu_id > 0) {
+				break;
+			}
+		}
+		if ($menu_id == 0) return;
+
+		$existing = self::_find_existing_store_page_menu($menu_id);
+		if ($existing) return;
+
+		$items = wp_get_nav_menu_items($menu_id);
+
+		wp_update_nav_menu_item($menu_id, 0, array(
 				'menu-item-title' => 'Store',
 				'menu-item-object' => 'ecwid-store-with-categories',
 				'menu-item-type' => 'ecwid_menu_item',
 				'menu-item-status' => 'publish')
 		);
+	}
+
+	static protected function _find_existing_store_page_menu($menu_id) {
+		$items = wp_get_nav_menu_items($menu_id);
+
+		if (empty($items)) return null;
+
+		foreach ($items as $item) {
+			if ( $item->object == 'page' && $item->object_id == ecwid_get_current_store_page_id() )
+				return $item;
+		}
+
+		return null;
+	}
+
+	public function add_meta_box() {
+/*
 */
 		add_meta_box('ecwid_nav_links', __('Store', 'ecwid-shopping-cart'), array( $this, 'create_menu_items'), 'nav-menus', 'side');
 	}
