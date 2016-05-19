@@ -1972,6 +1972,10 @@ function ecwid_general_settings_do_page() {
 
 function ecwid_admin_do_page( $page ) {
 
+	if ($_GET['show_timeout'] == '1') {
+		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
+		die();
+	}
 	global $ecwid_oauth;
 
 	if ($page == 'dashboard') {
@@ -1994,8 +1998,10 @@ function ecwid_admin_do_page( $page ) {
 	);
 
 	$result = EcwidPlatform::fetch_url($iframe_src);
-	if ($result['code'] != 200) {
 
+	if (empty($result['code']) && empty($result['data'])) {
+		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
+	} else if ($result['code'] != 200) {
 		if (ecwid_test_oauth(true)) {
 			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 		} else {

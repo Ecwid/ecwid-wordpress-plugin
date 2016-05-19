@@ -480,3 +480,51 @@ body[class*="_page_ecwid"] .ecwid-message {
 		display: block;
 	}
 }
+
+.ecwid-admin-timeout .box {
+	margin: 20px auto;
+	border: 2px solid #ed917d;
+	min-width: 290px;
+	max-width: 600px;
+	padding: 45px 85px 30px 85px;
+	box-sizing: border-box;
+	background: #f5ffef;
+	font-family: Open Sans, Trebuchet MS, Helvetica, Verdana, sans-serif;
+}
+
+.ecwid-admin-timeout .box .logo {
+	width: auto;
+	height: 65px;
+}
+.ecwid-admin-timeout .box .logo svg {
+	max-height: 65px;
+}
+
+.ecwid-admin-timeout .box .logo svg path {
+	fill: #ed917d;
+}
+
+.ecwid-admin-timeout .box .title {
+	text-align: center;
+	font-size: 18px;
+	padding: 15px 0 5px;
+}
+
+.ecwid-admin-timeout .box .text {
+	text-align: center;
+	font-size: 14px;
+	line-height: 24px;
+	padding: 5px 0;
+}
+
+.ecwid-admin-timeout a {
+	color: #04a2ca;
+	text-decoration: none;
+	-webkit-transition: color 0.1s linear;
+	transition: color 0.1s linear;
+}
+
+.ecwid-admin-timeout a:hover {
+	color: #006995;
+}
+

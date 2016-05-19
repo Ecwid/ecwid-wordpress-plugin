@@ -69,23 +69,39 @@ class EcwidPlatform {
 		return wp_parse_args($args, $defaults);
 	}
 
-	static public function fetch_url($url)
+	static public function fetch_url($url, $options = array())
 	{
+		$default_timeout = 10;
+
+		$ctx = stream_context_create(
+			array(
+				'http'=> array(
+					'timeout' => $default_timeout
+				)
+			)
+		);
+
 		$use_file_get_contents = get_option('ecwid_fetch_url_use_file_get_contents', false);
 
-		if ($use_file_get_contents == 'Y') {
-				$result = @file_get_contents($url);
+		if ($use_file_get_contents) {
+				$result = @file_get_contents($url, null, $ctx);
 		} else {
 				if (get_option('ecwid_http_use_stream', false)) {
 					self::$http_use_streams = true;
 				}
-				$result = wp_remote_get( $url, array( 'timeout' => get_option( 'ecwid_remote_get_timeout', 5 ) ) );
+				$result = wp_remote_get( $url, array_merge(
+						$options,
+						array(
+							'timeout' => get_option( 'ecwid_remote_get_timeout', $default_timeout )
+						)
+					)
+				);
 
 				if (get_option('ecwid_http_use_stream', false)) {
 					self::$http_use_streams = false;
 				}
 				if (!is_array($result)) {
-						$result = @file_get_contents($url);
+						$result = @file_get_contents($url, null, $ctx);
 						if (!empty($result)) {
 								update_option('ecwid_fetch_url_use_file_get_contents', true);
 						}
@@ -116,7 +132,7 @@ class EcwidPlatform {
 				'message' => $result->get_error_message()
 			);
 
-			$get_contents = file_get_contents($url);
+			$get_contents = @file_get_contents($url, null, $ctx);
 			if ($get_contents !== false) {
 				$return = array(
 					'code' => 200,
