@@ -8,7 +8,10 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_recently_viewed', 'description' => __('Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop.', 'ecwid-shopping-cart'));
 		parent::__construct('ecwidrecentlyviewed', __('Recently Viewed Products', 'ecwid-shopping-cart'), $widget_ops);
-		$recently_viewed = json_decode(stripslashes(@$_COOKIE['ecwid-shopping-cart-recently-viewed']));
+		$recently_viewed = false;
+		if (isset($_COOKIE['ecwid-shopping-cart-recently-viewed'])) {
+			$recently_viewed = json_decode(stripslashes($_COOKIE['ecwid-shopping-cart-recently-viewed']));
+		}
 
 		if ($recently_viewed && $recently_viewed->store_id != get_ecwid_store_id() && !is_admin()) {
 			setcookie('ecwid-shopping-cart-recently-viewed', null, strtotime('-1 day'));

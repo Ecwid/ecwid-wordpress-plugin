@@ -249,7 +249,9 @@ class Ecwid_OAuth {
 			$this->state->mode = self::MODE_CONNECT;
 		}
 
-		$this->state->create_store_clicked = @$_COOKIE['ecwid_create_store_clicked'];
+		if (isset($_COOKIE['ecwid_create_store_clicked'])) {
+			$this->state->create_store_clicked = $_COOKIE['ecwid_create_store_clicked'];
+		}
 	}
 
 	public function get_state() {
