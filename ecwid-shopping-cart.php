@@ -1018,6 +1018,7 @@ function ecwid_get_scriptjs_code($force_lang = null) {
 		$force_lang_str = !empty($force_lang) ? "&lang=$force_lang" : '';
 		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . '&data_platform=wporg' . $force_lang_str . '"></script>';
 		$s = $s . ecwid_sso();
+		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) jQuery.mobile.hashListeningEnabled = false;</script>';
 		$ecwid_script_rendered = true;
 
 		return $s;
