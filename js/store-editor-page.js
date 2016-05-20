@@ -102,7 +102,7 @@ jQuery(document).ready(function() {
 	checkEcwid = function() {
 
 		var hasEcwid = false;
-		if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
+		if (typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
 			content = tinyMCE.activeEditor.getBody();
 
 			hasEcwid = jQuery(content).find('.ecwid-store-editor').length > 0;
@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
 		} else {
 			jQuery('.wp-media-buttons').removeClass('has-ecwid');
 		}
-		if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+		if (typeof tinymce != 'undefined' && tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
 			var body = tinymce.activeEditor.dom.doc.body;
 			var button = tinymce.activeEditor.dom.select('#ecwid-edit-store-button');
 

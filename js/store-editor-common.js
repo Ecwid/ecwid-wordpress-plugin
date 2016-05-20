@@ -1,4 +1,6 @@
 function ecwid_get_store_shortcode(content) {
+
+	if (!wp.shortcode) return false;
 	var found = false;
 	var index = 0;
 
