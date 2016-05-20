@@ -1,19 +1,16 @@
 <div class="ecwid-admin-footer">
 	<div class="ecwid-admin-footer-block ecwid-app-badges-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Manage Store on iPhone, iPad or Android', 'ecwid-shopping-cart'); ?></h4>
-		<div class="ecwid-app-badges">
-			<a href="https://itunes.apple.com/en/app/ecwid/id626731456?mt=8"target="_blank" rel="nofollow">
-				<?php ecwid_embed_svg('black-app-store'); ?>
-			</a>
-			<a href="https://play.google.com/store/apps/details?id=com.ecwid.android">
-				<?php ecwid_embed_svg('black-google'); ?>
+		<div class="ecwid-admin-footer-text">
+			<a target="_blank" id="ecwid-get-mobile-app" href="admin.php?page=ecwid-admin-mobile">
+				<?php _e( 'Get Ecwid mobile app', 'ecwid-shopping-cart' ); ?>
 			</a>
 		</div>
 	</div>
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Questions?', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
-			<?php echo sprintf(__('<a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'href="mailto:wordpress@ecwid.com"'); ?>
+			<?php echo sprintf(__('<a href="admin.php?page=ecwid-help">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'href="mailto:wordpress@ecwid.com"'); ?>
 		</div>
 	</div>
 <?php if (@$show_reconnect): ?>

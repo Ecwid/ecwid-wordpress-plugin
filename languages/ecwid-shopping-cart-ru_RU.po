@@ -556,7 +556,7 @@ msgstr "https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org
 msgid "Questions?"
 msgstr "Есть вопросы?"
 
-msgid "<a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
+msgid "<a href=\"admin.php?page=ecwid-help\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
 msgstr "Посетите <a target=\"_blank\" href=\"https://help.ecwid.com/customer/ru/portal/articles/1085017-wordpress-org\">Центр поддержки Эквида</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
 
 msgid "Want to connect another Ecwid store?"
@@ -579,3 +579,6 @@ msgstr "Новый виджет поиска лучше адаптируется
 
 msgid "Help"
 msgstr "Помощь"
+
+msgid "Get Ecwid mobile app"
+msgstr "Установить мобильное приложение"

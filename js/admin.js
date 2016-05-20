@@ -1,4 +1,13 @@
-	jQuery(document).ready(function() {
+jQuery(document).ready(function() {
+	window.ecwidOpenAdminPage = function(place) {
+		jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
+			ecwidAppNs: "ecwid-wp-plugin",
+			method: "openPage",
+			data: place
+		}), "*")
+	}
+
+
 	jQuery('#hide-vote-message').click(function() {
 		jQuery('#hide-vote-message').addClass('hiding');
 		jQuery.getJSON(
@@ -111,7 +120,7 @@
 			title: ecwid_l10n.orders,
 			place: 'orders',
 			km: 'Sales'
-		},
+		}
 	];
 
 	if (jQuery('#ecwid-frame').length > 0) {
@@ -125,12 +134,8 @@
 					var ecwidMenu = jQuery(this).data('ecwid-menu');
 					jQuery('.toplevel_page_ecwid *.current').removeClass('current');
 					jQuery(this).addClass('current').closest('li').addClass('current');
-					jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
-						ecwidAppNs: "ecwid-wp-plugin",
-						method: "openPage",
-						data: ecwidMenu.place
-					}), "*")
 
+					ecwidOpenAdminPage(ecwidMenu.place);
 					ecwid_kissmetrics_record(ecwidMenu.km + ' Page Viewed');
 
 					return false;
@@ -138,7 +143,17 @@
 		}
 	}
 
-		jQuery('#wp-admin-bar-ecwid-main-default a').click(function() {
-			ecwid_kissmetrics_record('Top Menu Clicked');
-		});
+	jQuery('#wp-admin-bar-ecwid-main-default a').click(function() {
+		ecwid_kissmetrics_record('Top Menu Clicked');
+	});
+
+	jQuery('#ecwid-get-mobile-app').click(function() {
+		ecwidOpenAdminPage('mobile');
+
+		return false;
+	});
+
+	if (document.location.hash == 'mobile') {
+		ecwidOpenAdminPage('mobile');
+	}
 });

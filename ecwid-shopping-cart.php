@@ -1663,6 +1663,7 @@ function ecwid_build_menu() {
 	}
 
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
+	add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ecwid-admin-mobile', 'ecwid_admin_mobile_do_page');
 	add_submenu_page(
 		'ecwid',
 		__('Help', 'ecwid-shopping-cart'),
@@ -2020,6 +2021,11 @@ function ecwid_admin_products_do_page() {
 
 function ecwid_admin_orders_do_page() {
 	ecwid_admin_do_page('orders');
+}
+
+
+function ecwid_admin_mobile_do_page() {
+	ecwid_admin_do_page('mobile');
 }
 
 function ecwid_help_do_page() {
