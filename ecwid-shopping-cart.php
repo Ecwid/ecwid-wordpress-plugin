@@ -856,7 +856,7 @@ function ecwid_trim_description($description)
 
 function ecwid_ajax_hide_message($params)
 {
-	if (!current_user_can('administrator')) {
+	if (!current_user_can('manage_options')) {
 		return;
 	}
 
@@ -1269,7 +1269,7 @@ function ecwid_shortcode($attributes)
 
 function ecwid_productbrowser_shortcode($shortcode_params) {
 
-		if (current_user_can('administrator')) {
+		if (current_user_can('manage_options')) {
 			Ecwid_Kissmetrics::record('storefrontIsOpened');
 		}
 	
@@ -1694,7 +1694,7 @@ function ecwid_get_categories() {
 
 function ecwid_reset_categories_cache()
 {
-	if (!current_user_can('administrator')) {
+	if (!current_user_can('manage_options')) {
 		return;
 	}
 
@@ -2074,7 +2074,7 @@ function ecwid_process_oauth_params() {
 
 function ecwid_admin_post_connect()
 {
-	if (!current_user_can('administrator')) {
+	if (!current_user_can('manage_options')) {
 		return;
 	}
 
@@ -2181,7 +2181,7 @@ function ecwid_debug_do_page() {
 }
 
 function ecwid_get_debug_file() {
-	if (!current_user_can('administrator')) {
+	if (!current_user_can('manage_options')) {
 		return;
 	}
 
@@ -2208,7 +2208,7 @@ function ecwid_dashboard_widget_function() {
 }
 
 function ecwid_add_dashboard_widgets() {
-  if (current_user_can('administrator')) {
+  if (current_user_can('manage_options')) {
     wp_add_dashboard_widget('ecwid_dashboard_widget', __('Recommendations for Your Online Store', 'ecwid-shopping-cart'), 'ecwid_dashboard_widget_function');
   }
 }
