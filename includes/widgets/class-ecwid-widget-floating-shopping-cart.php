@@ -17,7 +17,10 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 	}
 
 	public function widget($args, $instance) {
-		$output =
+
+		echo '<!-- noptimize -->';
+		echo ecwid_get_scriptjs_code();
+		echo
 <<<HTML
  <div class="ecwid-float-icons">
             <div class="ecwid-cart-icon off">
@@ -28,7 +31,7 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
             </div>
     </div>
 HTML;
+		echo '<!-- /noptimize -->';
 
-		echo $output;
 	}
 }

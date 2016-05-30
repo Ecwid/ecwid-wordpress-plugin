@@ -1,6 +1,6 @@
 html#ecwid_html body#ecwid_body .ecwid-float-icons {
 	position: fixed;
-	top: 0;
+	bottom: 50px;
 	right: -8px;
 	z-index: 3;
 	padding-top: 0;
@@ -105,6 +105,7 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a {
 	transform: translate3D(0, 0, 0);
 	-webkit-transition: -webkit-transform .3s ease-in-out 0s, border-color .1s ease-in-out 0s;
 	transition: transform .3s ease-in-out 0s, border-color .1s ease-in-out 0s;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
 }
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:hover {
 	border-color: #34797c;
@@ -127,7 +128,7 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:active svg path[fill]
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg {
 	width: 20px;
 	height: 26px;
-	margin: 10px 13px;
+	margin: 9px 12px;
 	display: block;
 	-webkit-transform: rotate(0deg);
 	transform: rotate(0deg);

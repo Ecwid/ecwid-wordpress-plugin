@@ -22,9 +22,3 @@ var Cart = function() {
 
 var x = new Cart();
 x.init();
-
-jQuery(document).ready(function() {
-	if (jQuery('#wpadminbar').length > 0) {
-		jQuery('.ecwid-float-icons').css('margin-top', jQuery('#wpadminbar').height() + 'px');
-	}
-});
