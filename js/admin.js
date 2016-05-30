@@ -58,7 +58,8 @@
 					'ecwid-widget-minicart': 'shoppingCart',
 					'ecwid-widget-minicart_miniview': 'miniShoppingCart',
 					'ecwid-widget-vcategories': 'storeCategories',
-					'ecwid-widget-storelink': 'storePageLink'
+					'ecwid-widget-storelink': 'storePageLink',
+					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart'
 				};
 			}
 
