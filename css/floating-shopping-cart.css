@@ -5,17 +5,42 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons {
 	z-index: 3;
 	padding-top: 0;
 }
-@media (min-width: 600px) {
-	html#ecwid_html body#ecwid_body .ecwid-float-icons {
-		right: 20px;
+
+html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
+	bottom: auto;
+	top: 25px;
+	right: 25px;
+	left: auto;
+}
+
+html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topleft {
+	bottom: auto;
+	top: 25px;
+	right: auto;
+	left: 25px;
+}
+
+html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomleft {
+	top: auto;
+	bottom: 25px;
+	right: auto;
+	left: 25px;
+}
+
+
+html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomright {
+	top: auto;
+	bottom: 25px;
+	right: 25px;
+	left: auto;
+}
+
+@media (max-width: 600px) {
+	html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
+		right: -8px;
 	}
 }
-@media (min-width: 768px) {
-	html#ecwid_html body#ecwid_body .ecwid-float-icons {
-		right: 25px;
-		padding-top: 5px;
-	}
-}
+
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div {
 	height: 48px;
 	padding-top: 20px;

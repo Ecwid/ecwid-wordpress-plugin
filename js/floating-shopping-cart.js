@@ -20,5 +20,7 @@ var Cart = function() {
 	}
 };
 
-var x = new Cart();
-x.init();
+if (window.Ecwid) {
+	var x = new Cart();
+	x.init();
+}
