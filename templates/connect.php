@@ -24,7 +24,7 @@
 		<?php if (!$connection_error): ?>
 
 		<div class="note initial with-oauth">
-			<?php _e( 'After clicking button you need to login and accept permissions to use our plugin', 'ecwid-shopping-cart' ); ?>
+			<?php _e( 'To sell using Ecwid, you must allow WordPress to access the Ecwid plugin. The connect button will direct you to your Ecwid account where you can provide permission.', 'ecwid-shopping-cart' ); ?>
 		</div>
 
 		<?php endif; ?>
@@ -36,7 +36,7 @@
 
 		<div class="create-account-link">
 			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>">
-				<?php _e( "Don't have Ecwid account? Create it here", 'ecwid-shopping-cart' ); ?>
+				<?php _e( "Don't have an Ecwid account? Create one now.", 'ecwid-shopping-cart' ); ?>
 			</a>
 		</div>
 	</div>
