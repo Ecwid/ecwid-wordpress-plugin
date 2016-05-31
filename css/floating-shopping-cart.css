@@ -14,21 +14,6 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
 	left: auto;
 }
 
-html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topleft {
-	bottom: auto;
-	top: 25px;
-	right: auto;
-	left: 25px;
-}
-
-html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomleft {
-	top: auto;
-	bottom: 25px;
-	right: auto;
-	left: 25px;
-}
-
-
 html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomright {
 	top: auto;
 	bottom: 25px;

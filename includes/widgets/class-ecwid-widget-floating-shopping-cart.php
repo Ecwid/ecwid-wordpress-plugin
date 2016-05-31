@@ -4,9 +4,7 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 
 	static protected $positions = array(
 		'topright',
-		'bottomright',
-		'topleft',
-		'bottomleft'
+		'bottomright'
 	);
 
 	static protected $default_position = 'bottomright';
@@ -73,14 +71,6 @@ HTML;
 			. __('Top right', 'ecwid-shopping-cart')
 			. '</label></p>';
 
-		echo '<p><label><input type="radio" name="' . $this->get_field_name('position') . '" value="topleft"'
-			. ($position == 'topleft' ? ' checked="checked"' : '') . '/>'
-			. __('Top left', 'ecwid-shopping-cart')
-			. '</label></p>';
-		echo '<p><label><input type="radio" name="' . $this->get_field_name('position') . '" value="bottomleft"'
-			. ($position == 'bottomleft' ? ' checked="checked"' : '') . '/>'
-			. __('Bottom left', 'ecwid-shopping-cart')
-			. '</label></p>';
 	}
 
 }
