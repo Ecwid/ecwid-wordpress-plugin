@@ -20,7 +20,7 @@
 		<?php endif; ?>
 
 		<div class="connect-button">
-			<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Connect Ecwid store', 'ecwid-shopping-cart' ); ?></a>
+			<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 
 		<?php if ($connection_error && $ecwid_oauth->get_error() == 'cancelled'): ?>
@@ -43,7 +43,7 @@
 		<?php else: ?>
 
 			<div class="note">
-				<?php _e( 'After clicking button you need to login and accept permissions to use our plugin', 'ecwid-shopping-cart' ); ?>
+				<?php _e( 'To sell using Ecwid, you must allow WordPress to access the Ecwid plugin. The connect button will direct you to your Ecwid account where you can provide permission.', 'ecwid-shopping-cart' ); ?>
 			</div>
 		<?php endif; ?>
 	</div>
