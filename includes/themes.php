@@ -49,7 +49,8 @@ function ecwid_apply_theme($theme_name = null)
 		'responsiveboat'  => array( 'css' ),
 		'twentyfourteen'  => array( 'css', 'scroll' ),
 		'twentytwelve'		=> array( 'js', 'scroll' ),
-		'sliding-door'		=> array( 'css-no-parent' )
+		'sliding-door'		=> array( 'css-no-parent' ),
+		'zerif-lite'			=> array( 'css-no-parent' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -71,7 +72,7 @@ function ecwid_apply_theme($theme_name = null)
 
 	$theme_file = '';
 
-	if ($theme_name == 'zerif-lite' && function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
+	if (function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
 		$theme_name = 'responsiveboat';
 	}
 

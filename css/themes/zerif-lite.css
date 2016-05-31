@@ -1,0 +1,7 @@
+html#ecwid_html body#ecwid_body .ecwid-search-widget {
+	font-size: 16px !important;
+}
+
+html#ecwid_html body#ecwid_body .ecwid table {
+	line-height: inherit;
+}
