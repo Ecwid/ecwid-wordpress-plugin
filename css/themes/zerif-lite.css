@@ -1,5 +1,5 @@
-html#ecwid_html body#ecwid_body .ecwid-search-widget {
-	font-size: 16px !important;
+html#ecwid_html body#ecwid_body div.ecwid-search-widget {
+	font-size: 16px;
 }
 
 html#ecwid_html body#ecwid_body .ecwid table {
