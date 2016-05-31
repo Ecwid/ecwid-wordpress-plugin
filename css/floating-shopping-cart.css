@@ -4,6 +4,7 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons {
 	right: -8px;
 	z-index: 3;
 	padding-top: 0;
+	box-sizing: content-box;
 }
 
 html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
@@ -125,6 +126,7 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a {
 	background-color: #fff;
 	border: 1px solid #439CA0;
 	border-radius: 50%;
+	box-sizing: border-box;
 	position: relative;
 	-webkit-transform: translate3D(0, 0, 0);
 	transform: translate3D(0, 0, 0);
