@@ -1,7 +1,8 @@
 jQuery(document).ready(function() {
 
-	refreshEcwidMenuItemsSelection();
+	if (typeof Ecwid == 'undefined') return;
 
+	refreshEcwidMenuItemsSelection();
 
 	Ecwid.OnPageLoaded.add(function(page) {
 		if (page.type == 'CART') {
