@@ -24,3 +24,32 @@ show_reconnect = function() {
 	).appendTo('body');
 
 }
+
+
+function ecwidSetPopupCentering(iframeSelector) {
+	if (!iframeSelector) {
+		if (console) console.log("Selector should be set");
+		return;
+	}
+	var iframeElement = document.querySelector(iframeSelector);
+	if (iframeElement === null) {
+		if (console) console.log("Element not found by selector " + iframeSelector);
+		return;
+	}
+	window.addEventListener('scroll', function(e) {
+		sendCenteringSettings(iframeElement);
+	});
+	window.addEventListener('resize', function(e) {
+		sendCenteringSettings(iframeElement);
+	});
+	sendCenteringSettings(iframeElement);
+	function sendCenteringSettings(iframeElement) {
+		var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		var clientHeight = window.innerHeight;
+		var data = {
+			parentWindowVisibleHeight: clientHeight,
+			visibleHeightAboveIframe: iframeElement.getBoundingClientRect().top
+		};
+		iframeElement.contentWindow.postMessage(JSON.stringify({data: data, method: 'setupPopupCentering'}), '*');
+	}
+}

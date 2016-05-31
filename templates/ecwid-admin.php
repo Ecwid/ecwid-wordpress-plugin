@@ -13,6 +13,7 @@
 		},false);
 
 		$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
+		ecwidSetPopupCentering('#ecwid-frame');
 	});
 	//]]>
 
