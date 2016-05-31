@@ -143,6 +143,20 @@ class EcwidPlatform {
 		}
 
 		if ( empty($return['data']) || $return['code'] != 200 ) {
+
+			$log_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
+			$log_url .= '&url=' . urlencode(get_bloginfo('url'));
+			$log_url .= '&target_url=' . urlencode($url);
+			if (get_option('ecwid_http_use_stream', false)) {
+				$log_url .= '&method=stream';
+			} elseif (get_option('ecwid_fetch_url_use_file_get_contents')) {
+				$log_url .= '&method=filegetcontents';
+			}
+
+			$log_url .= '&code=' . $return['code'];
+			$log_url .= '&message=' . urlencode($return['message']);
+
+			EcwidPlatform::fetch_url($log_url);
 			update_option('ecwid_remote_get_fails', 1);
 		} 
 
