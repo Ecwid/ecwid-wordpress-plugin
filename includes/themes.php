@@ -50,7 +50,8 @@ function ecwid_apply_theme($theme_name = null)
 		'twentyfourteen'  => array( 'css', 'scroll' ),
 		'twentytwelve'		=> array( 'js', 'scroll' ),
 		'sliding-door'		=> array( 'css-no-parent' ),
-		'zerif-lite'			=> array( 'css-no-parent' )
+		'zerif-lite'			=> array( 'css-no-parent' ),
+		'storefront'			=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 

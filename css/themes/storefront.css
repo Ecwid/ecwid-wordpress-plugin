@@ -1,0 +1,7 @@
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart div.ecwid-productBrowser-productsList-thumbnail {
+	padding-top: 15px;
+}
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart div.ecwid-productBrowser-productsList-details {
+	padding-top: 15px;
+	padding-bottom: 25px;
+}
