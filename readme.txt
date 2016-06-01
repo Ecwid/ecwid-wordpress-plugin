@@ -1,54 +1,54 @@
 === Ecwid Ecommerce Shopping Cart ===
 Contributors: ecwid
-Tags: ecommerce cart, ecommerce, downloadable products, e-commerce, Facebook ecommerce, online store, paypal ecommerce, product catalog, shop, shopping cart, store, woocommerce, wordpress ecommerce
+Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.5
-Stable tag: 4.2.1.2
+Stable tag: 4.2.1.3
 
-Powerful, easy to use shopping cart. Bank level PCI DSS Level 1 security. Sell on the go iPhone & Android app. Superb support. Free plan available.
+Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
-Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned online store on your WordPress website. Join over *900,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
+Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *900,000* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
 
 = PCI DSS validated Level 1 Service Provider =
 
-Ecwid Ecommerce Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with the Ecwid ecommerce plugin, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout, your Ecwid shopping cart is PCI DSS compliant from the beginning.
+Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with the Ecwid plugin, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout, your Ecwid shopping cart is PCI DSS compliant from the beginning.
 
 = Free Ecommerce Support =
 
-Friendly and knowledgeable ecommerce support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
+Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
 
 
 = Merchant Mobile Apps =
 
-Ecwid Ecommerce Shopping Cart provides free mobile applications for iOS and Android to manage your ecommerce store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Your ecommerce data is automatically synchronized with your Wordpress shopping cart, Facebook store and other online storefronts.
+Ecwid Shopping Cart provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Your ecommerce data is automatically synchronized with your Wordpress shopping cart, Facebook store and other online storefronts.
 
 = Unlimited Storage, Automatic Backups and Seamless Upgrades =
 
-With the Ecwid Ecommerce Shopping Cart, your online store data is fully hosted on our secure servers. Regardless of the WordPress hosting service you use, your Ecwid online store includes:
+With the Ecwid Shopping Cart, your online store data is fully hosted on our secure servers. Regardless of the WordPress hosting service you use, your Ecwid online store includes:
 
 * unlimited storage
 * regular backups
 * seamless upgrades and security updates
 
-So you don't need to worry about ecommerce software updates, security patches and server maintenance – we do that for you. Your online store gets all the new ecommerce features and bug fixes automatically.
+So you don't need to worry about software updates, security patches and server maintenance – we do that for you. Your online store gets all the new ecommerce features and bug fixes automatically.
 
 = Facebook Ecommerce =
 
-Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid Ecommerce Shopping Cart will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
+Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
 
 = Sell Everywhere =
 
-With the Ecwid Ecommerce Shopping Cart, you can include your online shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Google Shopping* and *eBay* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
+With Ecwid, you can include your online shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Google Shopping* and *eBay* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
 
 = Mobile Responsive Design =
 
-Ecwid Ecommerce Shopping Cart works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
+Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
 
 
 = Your Favorite Free Plugin =
 
-Ecwid Ecommerce Shopping Cart offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust ecommerce features and preferred support. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
+Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
 
 
 = See Ecwid In Action =
@@ -77,14 +77,14 @@ Ecwid Ecommerce Shopping Cart offers a free plan that’s always available with 
 
 **Uploading the plugin zip archive in Wordpress admin backend**
 
-1. Download Ecwid Ecommerce plugin from this page (click *Download* button)
+1. Download Ecwid plugin from this page (click *Download* button)
 1. In your Wordpress admin backend, navigate to *Plugins → Add new*
 1. Click *Upload* link and choose the saved zip file in the appeared dialog window.
 1. Click *Install*
 
 **Uploading plugin folder to Wordpress directory on your server**
 
-1. Download Ecwid ecommerce plugin from this page (click *Download* button)
+1. Download Ecwid plugin from this page (click *Download* button)
 1. Unpack the downloaded zip archive
 1. Upload ecwid-shopping-cart directory from the archive to the `/wp-content/plugins/` directory on your server
 
@@ -93,19 +93,69 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 == Screenshots ==
 
-1. 
-2. 
-3. 
-4. 
-5. 
+1.
+2.
+3.
+4.
+5.
 
 == Frequently Asked Questions ==
 
-* [FAQ](http://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable- "Install Ecwid on Wordpress")
-* [Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
-* [Ecwid ecommerce site](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid Site")
+= How secure is this plugin? Is my store PCI DSS compliant? =
+
+Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin).
+
+ = How much does Ecwid cost? =
+
+Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support.
+* Free - Up to 10 products
+* Venture - $15/month
+* Business - $35/month
+* Unlimited - $99/month
+Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://www.ecwid.com/pricing).
+
+
+ = How can I manage my online shop from a mobile device? =
+
+Ecwid shopping cart provides mobile applications for iOS and Android to manage your online store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. [More details on Ecwid mobile apps](https://www.ecwid.com/ecwid-mobile).
+
+ = How do I set up a storefront on Facebook with Ecwid shopping cart? =
+
+You can add your online shop to any web presence, including your Facebook business page. Ecwid plugin will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook).
+
+ = How can I add a shopping cart widget to my site sidebar? =
+
+You can add a product search box, shopping cart widget and other tools on the Appearance/Widgets page here in your site admin. [Read more about Ecwid sidebar widgets](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Sidebar%20widgets).
+
+ = How do I add my store products to a sitemap? =
+
+To create a sitemap for your WordPress shop, we recommend using the fully compatible [Google XML Sitemaps](https://wordpress.org/plugins/google-sitemap-generator/) or [Yoast WordPress SEO](https://wordpress.org/plugins/wordpress-seo/) plugins. Generating a sitemap that contains links to store categories and product pages will help index your pages faster. Please note that the store sitemap option is only available to paid Ecwid users.
+
+
+ = How do I add store categories to the site menu? =
+
+You can add the store categories menu to your site menu to help your customers easily navigate your online shop. Just open "Appearance > Menus" in your WordPress control panel and add the "Store with Categories Menu" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site.
+
+ = How do I migrate my shop from Shopify or Woocommerce? =
+
+You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center]( https://help.ecwid.com/customer/portal/articles/1169671).
+
+
+* [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
+* [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.3 =
+- **New Minicart Widget.** We added a new floating minicart widget.  You can enable it on the "Appearance -> Widgets"  page in you Wordpress backend. The new search widget appears as soon as a customer adds something to the cart and resides at the top right or bottom right position on the screen so that the customer always sees it and can easily proceed to checkout. The minicart widget also contains a counter displaying the number of products in the cart. Feel free to add it to your site – it's free!
+- **Look and feel improvements and minor layout fixes in the themes Zerif-lite, Storefront, Pixova-lite and Accesspress Mag.** Thanks to the Chameleon skin feature we released a few months ago, Ecwid looks good with every Wordpress theme. Now it became even better in these four popular themes.
+- **Fixed a bug on the category pages in mobile view.** In some Wordpress themes, click on category icon returned an error and got customer back to the category listing page, when the store was opened from a mobile device. We fixed that and now there shouldn't be any troubles with viewing your shop on mobile devices.
+- **Fixed a bug preventing Ecwid plugin working well with the Envira Galleries plugin.** Those of you using Envira Galleries on the site might notice it doesn't work properly on the pages containing Ecwid. We fixed that, you can now use the both plugins, they should work fine together.
+- **Improved the plugin settings page footer.** It now includes a link to the mobile app page inside Ecwid Control Panel, which significantly simplified the Ecwid mobile apps installation.
+- **Fixed a few more minor bugs on the plugin settings pages.** We're constantly improving the plugin settings pages to make store managements as convenient as possible. If you find any trouble working with your store in the plugin, please let us know.
+
+= 4.2.1.3 =
+- Fixes for the perfomance issues on some sites.
+
 = 4.2.1.2 =
 - Fixes an error appearing on some sites with the previous version of the plugin.
 
