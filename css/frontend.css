@@ -21,7 +21,3 @@ html#ecwid_html body#ecwid_body .ecwid-productsList ul li .ecwid-productsList-na
 	font-size: inherit;
 	color: inherit;
 }
-
-html#ecwid_html body#ecwid_body.ecwid-shopping-cart span.ecwid-categories-category {
-	font-size: 20px;
-}
