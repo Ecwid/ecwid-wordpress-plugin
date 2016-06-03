@@ -18,7 +18,7 @@ define("ECWID_DEMO_STORE_ID", 1003);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
-define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '4.2.1.3.1' );
+define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '10.4.4' );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -333,6 +333,7 @@ function ecwid_404_on_broken_escaped_fragment() {
 			global $wp_query;
 
 			$wp_query->set_404();
+			status_header(404);
 		}
 	}
 }
