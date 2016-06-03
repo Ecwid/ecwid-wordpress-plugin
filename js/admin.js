@@ -68,7 +68,8 @@ jQuery(document).ready(function() {
 					'ecwid-widget-minicart_miniview': 'miniShoppingCart',
 					'ecwid-widget-vcategories': 'storeCategories',
 					'ecwid-widget-storelink': 'storePageLink',
-					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart'
+					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart',
+					'ecwid-widget-vcategorislist': 'storeRootCategories'
 				};
 			}
 
@@ -81,6 +82,56 @@ jQuery(document).ready(function() {
 			}
 			debugger;
 		});
+	}
+
+	if (location.href.match(/wp-admin\/widgets.php/)) {
+		resetCache = function(callback) {
+
+			jQuery.getJSON(
+					'admin-ajax.php',
+					{
+						action: 'ecwid_reset_categories_cache'
+					},
+					callback
+			);
+		}
+
+		var $message = jQuery('<p>')
+				.addClass('ecwid-reset-cats-message')
+				.text(ecwid_l10n.reset_cache_message)
+				.appendTo(jQuery('.ecwid-reset-categories-cache-block'));
+
+		$target = jQuery('<p class="ecwid-cats-reset-cache">').insertAfter($message);
+
+		jQuery('<span>')
+				.text(ecwid_l10n.cache_updated)
+				.addClass('ecwid-reset-categories-cache-updated')
+				.appendTo($target);
+
+		jQuery('<a>')
+				.text(ecwid_l10n.reset_cats_cache)
+				.attr('href', 'javascript:void(0);')
+				.addClass('ecwid-reset-categories-cache')
+				.appendTo($target)
+				.click(function() {
+
+					var that = this;
+					jQuery(this).css('cursor', 'wait');
+					resetCache(function() {
+						jQuery(that).fadeOut(100, function() {
+							jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeIn(100, function() {
+								setTimeout(function () {
+									jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeOut(500, function () {
+										jQuery(that).fadeIn(500);
+									})
+								}, 4000);
+							});
+						});
+
+						jQuery(that).css('cursor', 'pointer');
+					});
+				});
+
 	}
 
 	jQuery('.drop-down').each(function(idx, el) {

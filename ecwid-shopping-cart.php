@@ -1699,7 +1699,7 @@ function ecwid_reset_categories_cache()
 		return;
 	}
 
-	wp_cache_delete('all_categories', 'ecwid');
+	EcwidPlatform::cache_reset('all_categories');
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
@@ -1813,9 +1813,11 @@ function ecwid_common_admin_scripts() {
 		'products' => __('Products', 'ecwid-shopping-cart'),
 		'products_url' => 'admin.php?page=ecwid-admin-products',
 		'orders' => __('Orders', 'ecwid-shopping-cart'),
-		'orders_url' => 'admin.php?page=ecwid-admin-orders'
+		'orders_url' => 'admin.php?page=ecwid-admin-orders',
+		'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
+		'cache_updated' => __('Done', 'ecwid-shopping-cart'),
+		'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
 	));
-
 }
 
 function ecwid_get_register_link()
@@ -2388,7 +2390,8 @@ function ecwid_gather_stats()
 		'ecwid_use_new_horizontal_categories',
 		'is_wp_newbie',
 		'ecwid_remote_get_fails',
-		'has_woocommerce'
+		'has_woocommerce',
+		'store_root_cats_widget'
 	);
 
 	$usage_stats = ecwid_gather_usage_stats();
@@ -2461,6 +2464,7 @@ function ecwid_gather_usage_stats()
 	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_remote_get_fails');
 
 	$usage_stats['has_woocommerce'] = ecwid_get_woocommerce_status();
+	$usage_stats['store_root_cats_widget'] = (bool) is_active_widget(false, false, 'ecwidvcategorieslist');
 
 	return $usage_stats;
 }

@@ -582,3 +582,9 @@ msgstr "Помощь"
 
 msgid "Get Ecwid mobile app"
 msgstr "Установить мобильное приложение"
+
+msgid "Store Root Categories"
+msgstr "Корневые категории магазина"
+
+msgid "Adds root categories list to the sidebar to let your customers navigate the store."
+msgstr "Показывает список корневых категорий для удобной навигации по магазину."
