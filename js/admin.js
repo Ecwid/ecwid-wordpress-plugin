@@ -96,12 +96,7 @@ jQuery(document).ready(function() {
 			);
 		}
 
-		var $message = jQuery('<p>')
-				.addClass('ecwid-reset-cats-message')
-				.text(ecwid_l10n.reset_cache_message)
-				.appendTo(jQuery('.ecwid-reset-categories-cache-block'));
-
-		$target = jQuery('<p class="ecwid-cats-reset-cache">').insertAfter($message);
+		$target = jQuery('<p class="ecwid-cats-reset-cache">').appendTo(jQuery('.ecwid-reset-categories-cache-block'));
 
 		jQuery('<span>')
 				.text(ecwid_l10n.cache_updated)
