@@ -32,6 +32,7 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div {
 	padding-top: 20px;
 	-webkit-transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
 	transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
+	box-sizing: content-box;
 }
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div.off {
 	height: 0;
