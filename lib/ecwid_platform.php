@@ -156,7 +156,7 @@ class EcwidPlatform {
 			$log_url .= '&code=' . $return['code'];
 			$log_url .= '&message=' . urlencode($return['message']);
 
-			EcwidPlatform::fetch_url($log_url);
+			wp_remote_get($log_url);
 			update_option('ecwid_remote_get_fails', 1);
 		} 
 
