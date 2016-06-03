@@ -64,6 +64,10 @@ class EcwidPlatform {
 		set_transient('ecwid_' . $name, $value, $expires_after);
 	}
 
+	static public function cache_reset($name) {
+		delete_transient('ecwid_' . $name);
+	}
+
 	static public function parse_args($args, $defaults)
 	{
 		return wp_parse_args($args, $defaults);
