@@ -582,3 +582,9 @@ msgstr "Помощь"
 
 msgid "Get Ecwid mobile app"
 msgstr "Установить мобильное приложение"
+
+msgid "Shopping Cart (Floating)"
+msgstr "Корзина (Плавающая)"
+
+msgid "Adds a shopping cart widget to the top right corner of your site."
+msgstr "Добавляет плавающий виджет корзины со счетчиком товаров."
