@@ -597,3 +597,9 @@ msgstr "Обновить список категорий"
 
 msgid "Done"
 msgstr "Готово"
+
+msgid "Shopping Cart (Floating)"
+msgstr "Корзина (Плавающая)"
+
+msgid "Adds a shopping cart widget to the top right corner of your site."
+msgstr "Добавляет плавающий виджет корзины со счетчиком товаров."
