@@ -588,3 +588,12 @@ msgstr "Корневые категории магазина"
 
 msgid "Adds root categories list to the sidebar to let your customers navigate the store."
 msgstr "Показывает список корневых категорий для удобной навигации по магазину."
+
+msgid "Browse by Category"
+msgstr "Категории магазина"
+
+msgid "Refresh categories list"
+msgstr "Обновить список категорий"
+
+msgid "Done"
+msgstr "Готово"

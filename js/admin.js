@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
 					'ecwid-widget-vcategories': 'storeCategories',
 					'ecwid-widget-storelink': 'storePageLink',
 					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart',
-					'ecwid-widget-vcategorislist': 'storeRootCategories'
+					'ecwid-widget-vcategorieslist': 'storeRootCategories'
 				};
 			}
 
@@ -80,53 +80,17 @@ jQuery(document).ready(function() {
 					break;
 				}
 			}
-			debugger;
+
+			jQuery('input[value=ecwidvcategorieslist]').closest('.widget').each(function(idx, el) {
+				prepareVerticalCategoriesWidget(el);
+			});
 		});
 	}
 
 	if (location.href.match(/wp-admin\/widgets.php/)) {
-		resetCache = function(callback) {
-
-			jQuery.getJSON(
-					'admin-ajax.php',
-					{
-						action: 'ecwid_reset_categories_cache'
-					},
-					callback
-			);
-		}
-
-		$target = jQuery('<p class="ecwid-cats-reset-cache">').appendTo(jQuery('.ecwid-reset-categories-cache-block'));
-
-		jQuery('<span>')
-				.text(ecwid_l10n.cache_updated)
-				.addClass('ecwid-reset-categories-cache-updated')
-				.appendTo($target);
-
-		jQuery('<a>')
-				.text(ecwid_l10n.reset_cats_cache)
-				.attr('href', 'javascript:void(0);')
-				.addClass('ecwid-reset-categories-cache')
-				.appendTo($target)
-				.click(function() {
-
-					var that = this;
-					jQuery(this).css('cursor', 'wait');
-					resetCache(function() {
-						jQuery(that).fadeOut(100, function() {
-							jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeIn(100, function() {
-								setTimeout(function () {
-									jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeOut(500, function () {
-										jQuery(that).fadeIn(500);
-									})
-								}, 4000);
-							});
-						});
-
-						jQuery(that).css('cursor', 'pointer');
-					});
-				});
-
+		jQuery('input[value=ecwidvcategorieslist]').closest('.widget').each(function(idx, el) {
+			prepareVerticalCategoriesWidget(el);
+		});
 	}
 
 	jQuery('.drop-down').each(function(idx, el) {
@@ -204,3 +168,55 @@ jQuery(document).ready(function() {
 		ecwidOpenAdminPage('mobile');
 	}
 });
+
+prepareVerticalCategoriesWidget = function(element) {
+
+	element = jQuery(element);
+
+	if (element.data('vcategoriesInitialized')) return;
+
+	if (jQuery('input.widget-id', element).val() == 'ecwidvcategorieslist-__i__') return;
+
+	resetCache = function(callback) {
+		jQuery.getJSON(
+				'admin-ajax.php',
+				{
+					action: 'ecwid_reset_categories_cache'
+				},
+				callback
+		);
+	}
+
+	$target = jQuery('<p class="ecwid-cats-reset-cache">').appendTo(jQuery('.ecwid-reset-categories-cache-block', element));
+
+	jQuery('<span>')
+			.text(ecwid_l10n.cache_updated)
+			.addClass('ecwid-reset-categories-cache-updated')
+			.appendTo($target);
+
+	var a = jQuery('<a>')
+			.text(ecwid_l10n.reset_cats_cache)
+			.attr('href', 'javascript:void(0);')
+			.addClass('ecwid-reset-categories-cache')
+			.appendTo($target);
+	a.click(function() {
+
+		var that = this;
+		jQuery(that).css('cursor', 'wait');
+		resetCache(function() {
+			jQuery(that).fadeOut(100, function() {
+				jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeIn(100, function() {
+					setTimeout(function () {
+						jQuery(that).prev('.ecwid-reset-categories-cache-updated').fadeOut(500, function () {
+							jQuery(that).fadeIn(500);
+						})
+					}, 4000);
+				});
+			});
+
+			jQuery(that).css('cursor', 'pointer');
+		});
+	});
+
+	element.data('vcategoriesInitialized', true);
+}
