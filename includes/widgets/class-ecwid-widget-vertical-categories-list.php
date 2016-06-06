@@ -19,7 +19,7 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 		if (empty($categories)) return;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Categories', 'ecwid-shopping-cart' ) : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Browse by Category', 'ecwid-shopping-cart' ) : $instance['title'], $instance, $this->id_base );
 
 		echo $args['before_widget'];
 		if ( $title ) {
@@ -65,7 +65,7 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => __( 'Browse by Category', 'ecwid-shopping-cart' ) ) );
 		$title = sanitize_text_field( $instance['title'] );
 		?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
