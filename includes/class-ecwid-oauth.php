@@ -102,6 +102,7 @@ class Ecwid_OAuth {
 		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
+		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
 
 		// Reset "Create store cookie" set previously to display the landing page
