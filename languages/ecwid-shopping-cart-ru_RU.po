@@ -35,7 +35,7 @@ msgid "Ecwid Store"
 msgstr "Магазин Ecwid"
 
 msgid "Setup"
-msgstr "Настройки"
+msgstr "Установка"
 
 msgid "Dashboard"
 msgstr "Консоль"

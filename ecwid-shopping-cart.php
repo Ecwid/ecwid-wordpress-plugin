@@ -1718,7 +1718,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
-				'register_link' => ecwid_get_register_link()
+				'registerLink' => ecwid_get_register_link()
 			));
 			if (ecwid_use_old_landing()) {
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
@@ -1852,7 +1852,8 @@ function ecwid_get_register_link()
 
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
-	$result = $api->create_store();
+	//$result = $api->create_store();
+	$result = 'zxczxczxc';
 	if (is_array($result) && $result['response']['code'] == 200) {
 		$data = json_decode($result['body']);
 
@@ -1872,6 +1873,7 @@ function ecwid_create_store() {
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
+		EcwidPlatform::cache_set( 'user_was_redirected_to_ecwid_site_to_create_account', 1, 60*60*24 );
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		Ecwid_Kissmetrics::record( 'Create Store Failed' );
 	}
@@ -1883,9 +1885,17 @@ function ecwid_general_settings_do_page() {
 
 	$connection_error = isset( $_GET['connection_error'] );
 
+	//die( var_dump( EcwidPlatform::cache_set( 'user_was_redirected_to_ecwid_site_to_create_account') ) );
+
 	if ( $store_id == ECWID_DEMO_STORE_ID ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
-		if ( isset( $connection_error ) && $no_oauth ) {
+
+		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
+		$customer_returned_from_creating_store_at_ecwid =
+			EcwidPlatform::cache_get( 'user_was_redirected_to_ecwid_site_to_create_account' );
+
+		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid ) {
+			EcwidPlatform::cache_reset( 'user_was_redirected_to_ecwid_site_to_create_account' );
 			require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
 		} else {
 			$register = ! $connection_error && ! isset( $_GET['connect'] ) && ! @$_COOKIE['ecwid_create_store_clicked'];
