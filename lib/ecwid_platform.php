@@ -146,7 +146,7 @@ class EcwidPlatform {
 			}
 		}
 
-		if ( empty($return['data']) || $return['code'] != 200 ) {
+		if ( ( empty($return['data']) || $return['code'] != 200 ) && !isset($options['self_call']) ) {
 
 			$log_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
 			$log_url .= '&url=' . urlencode(get_bloginfo('url'));
@@ -160,7 +160,7 @@ class EcwidPlatform {
 			$log_url .= '&code=' . $return['code'];
 			$log_url .= '&message=' . urlencode($return['message']);
 
-			wp_remote_get($log_url);
+			self::fetch_url($log_url, array('self_call' => 1));
 			update_option('ecwid_remote_get_fails', 1);
 		} 
 
@@ -171,23 +171,26 @@ class EcwidPlatform {
 		return self::fetch_url($url);
 	}
 
-	static public function http_post_request($url, $data = array())
+	static public function http_post_request($url, $data = array(), $params = array())
 	{
 		$result = null;
+
+		$args =array();
+
+		if (!empty($params)) {
+			$args = $params;
+		}
+
+		$args['body'] = $data;
+
 		if (get_option('ecwid_http_use_stream', false) !== true) {
 
-			$result = wp_remote_post(
-				$url,
-				array( 'body' => $data )
-			);
+			$result = wp_remote_post( $url, $args );
 		}
 
 		if ( !is_array($result) ) {
 			self::$http_use_streams = true;
-			$result = wp_remote_post(
-				$url,
-				array('body' => $data)
-			);
+			$result = wp_remote_post( $url, $args );
 			self::$http_use_streams = false;
 
 			if ( is_array($result) ) {

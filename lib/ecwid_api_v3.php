@@ -225,7 +225,8 @@ class Ecwid_Api_V3
 		);
 		$url = $this->build_request_url($this->_stores_api_url, $request_params);
 
-		$result = EcwidPlatform::http_post_request($url, json_encode($params));
+		$result = EcwidPlatform::http_post_request($url, json_encode($params), array('timeout' => 20));
+
 		return $result;
 	}
 
