@@ -280,13 +280,13 @@ msgstr "Подключите магазин<br /> к своему WordPress са
 msgid "Connect Ecwid store"
 msgstr "Подключить"
 
-msgid "After clicking button you need to login and accept permissions to use our plugin"
+msgid "To sell using Ecwid, you must allow WordPress to access the Ecwid plugin. The connect button will direct you to your Ecwid account where you can provide permission."
 msgstr "Нажмите на кнопку, авторизуйтесь в Эквиде и выдайте запрошенные права доступа"
 
 msgid "Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again."
 msgstr "Ошибка подключения: после нажатия на кнопку, авторизуйтесь в Эквиде и предоставьте запрашиваемые права."
 
-msgid "Don't have Ecwid account? Create it here"
+msgid "Don't have an Ecwid account? Create one now."
 msgstr "Ещё нет аккаунта в Эквиде? Зарегистрируйтесь"
 
 msgid "Store ID"
