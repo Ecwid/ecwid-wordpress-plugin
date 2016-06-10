@@ -36,7 +36,7 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 		product.link = window.location.href;
 		product.name = jQuery('.ecwid-productBrowser-head').text();
 		if (jQuery('.ecwid-productBrowser-price .ecwid-productBrowser-price-value').length > 0) {
-			product.price = jQuery('.ecwid-productBrowser-price .ecwid-productBrowser-price-value').html();
+			product.price = jQuery('.ecwid-productBrowser-price .ecwid-productBrowser-price-value').text();
 		} else {
 			product.price = jQuery('.ecwid-productBrowser-price').html();
 		}
