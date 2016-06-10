@@ -1852,8 +1852,7 @@ function ecwid_get_register_link()
 
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
-	//$result = $api->create_store();
-	$result = 'zxczxczxc';
+	$result = $api->create_store();
 	if (is_array($result) && $result['response']['code'] == 200) {
 		$data = json_decode($result['body']);
 
