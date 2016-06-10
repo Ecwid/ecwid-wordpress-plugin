@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.5
-Stable tag: 4.2.1.3
+Stable tag: 4.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -145,6 +145,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.4 =
+- **New store categories sidebar widget.** The new categories widget displays your online store root categories list in the site sidebar to let your customers navigate the store easily. Compared to the legacy sidebar categories widget, the new one fits your site layout perfectly – its style is fully based on your theme fonts and styles and looks good on any device and screen size. Find it under Appearance->Widgets->Store Root Categories.
+- **Fixed an issue with the categories list in the page default category option.** Ecwid Ecommerce plugin allows you to define a store category shown by default when a customer opens the store page. This could be used to feature some part of your products or display different categories on different site pages. In some cases, the drop-down selector of categories in this tool didn't have the actual categories list from your store (e.g. when you add a new category). We fixed this. You can continue using this tool – it should work good.
+- A few minor fixes and improvements.
+
 = 4.3 =
 - **New Minicart Widget.** We added a new floating minicart widget.  You can enable it on the "Appearance -> Widgets"  page in you Wordpress backend. The new search widget appears as soon as a customer adds something to the cart and resides at the top right or bottom right position on the screen so that the customer always sees it and can easily proceed to checkout. The minicart widget also contains a counter displaying the number of products in the cart. Feel free to add it to your site – it's free!
 - **Look and feel improvements and minor layout fixes in the themes Zerif-lite, Storefront, Pixova-lite and Accesspress Mag.** Thanks to the Chameleon skin feature we released a few months ago, Ecwid looks good with every Wordpress theme. Now it became even better in these four popular themes.
