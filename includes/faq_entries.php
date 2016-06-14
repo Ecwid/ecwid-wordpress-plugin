@@ -11,7 +11,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How can I manage my store from a mobile device?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Ecwid provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. <a target="_blank" href="https://www.ecwid.com/ecwid-mobile">More details.'
+'Ecwid provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. <a target="_blank" href="https://www.ecwid.com/ecwid-mobile">More details.</a>'
 			, 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
@@ -19,7 +19,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How to set up a storefront on Facebook with Ecwid?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook">More details.</a>'
+'You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook">More details.</a>'
 			, 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
@@ -37,12 +37,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How much does Ecwid cost?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Our 4 account types vary by number of products, types of functionality, and level of support. For more information, check out our <a target="_blank" href="https://www.ecwid.com/pricing">pricing page.</a>
-<br />Free - Up to 10 products
-<br />Venture - $15/month
-<br />Business  - $35/month
-<br />Unlimited - $99/month
-Pro Tip: You can also save money by enrolling in our annual plans.'
+'Our 4 account types vary by number of products, types of functionality, and level of support. For more information, check out our <a target="_blank" href="https://www.ecwid.com/pricing">pricing page.</a><br /><br />Free - Up to 10 products<br />Venture - $15/month<br />Business  - $35/month<br />Unlimited - $99/month<br /><br />Pro Tip: You can also save money by enrolling in our annual plans.'
 			, 'ecwid-shopping-cart'
 		)
 	),
@@ -56,7 +51,7 @@ Pro Tip: You can also save money by enrolling in our annual plans.'
 	array(
 		'title' => __( 'How do I put my products in the sitemap?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'To create sitemap for your Wordpress site we suggest using <a target="_blank" href="https://wordpress.org/plugins/google-sitemap-generator/">Google XML Sitemaps</a>  or <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast Wordpress SEO</a>. &nbsp;plugins. These plugins are fully compatible with Ecwid and allow to generate a sitemap that will contain links to categories and product pages, so the store pages will get indexed faster. Please note that this option is available to <a href="https://www.ecwid.com/pricing">paid Ecwid users</a>.'			, 'ecwid-shopping-cart'
+'To create sitemap for your Wordpress site we suggest using <a target="_blank" href="https://wordpress.org/plugins/google-sitemap-generator/">Google XML Sitemaps</a>  or <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast Wordpress SEO</a>. &nbsp;plugins. These plugins are fully compatible with Ecwid and allow to generate a sitemap that will contain links to categories and product pages, so the store pages will get indexed faster. Please note that this option is available to <a target="_blank" href="https://www.ecwid.com/pricing">paid Ecwid users</a>.', 'ecwid-shopping-cart'
 		)
 	),
 	array(
