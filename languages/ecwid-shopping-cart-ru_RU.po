@@ -610,6 +610,9 @@ msgstr "Как вам помочь?"
 msgid "E.g. How to set up shipping"
 msgstr "Например, как настроить платежи?"
 
+msgid "Search the Knowledge Base"
+msgstr "Искать в базе знаний"
+
 msgid "Ecwid Basics"
 msgstr "Начало работы"
 
@@ -650,13 +653,13 @@ msgid "Is it possible to display my store on the site home page?"
 msgstr "Как добавить магазин на домашнюю страницу?"
 
 msgid "You can display your store on the site main page. Adjust the \"Reading\" settings of your site as described in our <a href=\"https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#displaystoreonhomepage\">Help Center.</a>"
-msgstr "Перейдите на страницу «Настройки > Чтение» и выберите «Store» в выпадающем списке главной страницы. <a href=\"\">Подробные инструкции.</a>"
+msgstr "Перейдите на страницу <a href=\"options-reading.php\">«Настройки > Чтение»</a> и выберите «Магазин	» в выпадающем списке главной страницы."
 
 msgid "How secure is this plugin? Is my store PCI DSS compliant?"
 msgstr "Безопасен ли Эквид?"
 
 msgid "Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. <a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin\">More details.</a>"
-msgstr "Эквид сертифицирован по стандарту PCI DSS Level 1. Это высший уровень соответствия мировым требованиям безопасной передачи данных: информация вашего магазина и ваших клиентов надёжно защищена. <a href=\"\">Подробнее о безопасности.</a>"
+msgstr "Эквид сертифицирован по стандарту PCI DSS Level 1. Это высший уровень соответствия мировым требованиям безопасной передачи данных: информация вашего магазина и ваших клиентов надёжно защищена."
 
 msgid "How do I put my products in the sitemap?"
 msgstr "Как добавить товары в карту сайта (sitemap)?"
@@ -680,16 +683,28 @@ msgid "How to set up a storefront on Facebook with Ecwid?"
 msgstr "Как добавить магазин на Facebook?"
 
 msgid "You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook\">More details.</a>"
-msgstr "Вы можете разместить магазин не только на своём WordPress-сайте, но и на любой другой странице включая Facebook. Зеркальная копия витрины мгновенно отражает любые изменения в магазине. Новые товары в каталоге, наличие на складе, заказы и покупатели – все данные распространяются между витринами на лету. <a target=\"_blank\" href="">Подробнее об установке на Facebook.</a>"
+msgstr "Вы можете разместить магазин не только на своём WordPress-сайте, но и на любой другой странице включая Facebook. Зеркальная копия витрины мгновенно отражает любые изменения в магазине. Новые товары в каталоге, наличие на складе, заказы и покупатели – все данные распространяются между витринами на лету. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/ru/articles/207806665-Facebook-%D0%A4%D0%B5%D0%B9%D1%81%D0%B1%D1%83%D0%BA-\">Подробнее об установке на Facebook.</a>"
 
 msgid "How can I add a cart widget to my site sidebar?"
 msgstr "Как добавить корзину в боковую панель сайта (sidebar)?"
 
 msgid "You can add product search box, cart widget and more on the <a href=\"%s\">\"Appearance / Widgets page\"</a> here in your site admin. <a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Sidebar%%20widgets\">More details.</a>"
-msgstr "Вы можете добавить корзину, форму для поиска товаров и другие элементы магазина в боковую панель на странице <a href=\"%s\">«Внешний вид > Виджеты»</a>. <a target=\"_blank\" href=\"\">Подробные инструкции.</a>"
+msgstr "Вы можете добавить корзину, форму для поиска товаров и другие элементы магазина в боковую панель на странице <a href=\"%s\">«Внешний вид > Виджеты»</a>."
 
 msgid "How can I manage my store from a mobile device?"
 msgstr "Как быстро внести изменения в каталог товаров?"
 
 msgid "Ecwid provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. <a target=\"_blank\" href=\"https://www.ecwid.com/ecwid-mobile\">More details.</a>"
 msgstr "Лучший способ быстро изменить что-либо в товаре – воспользоваться мобильным приложение. Приложение Эквида для iOS и Android доступно с любым платным тарифным планом и поможет вам управлять заказами, вносить изменения в каталог товаров и регистрировать новые покупки при личных встречах с покупателями где бы вы ни находились. <a target=\"_blank\" href=\"https://www.ecwid.ru/blog/quick-mobile-connect.html\">Подробнее о мобильном приложении.</a>"
+
+msgid "Send a message to our support team"
+msgstr "Письмо в службу поддержки"
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "Type in your message here"
+msgstr "Ваш вопрос"
+
+msgid "Send Message"
+msgstr "Отправить"
