@@ -158,7 +158,7 @@ class EcwidPlatform {
 			}
 
 			$log_url .= '&data_code=' . $return['code'];
-			$log_url .= '&data_message=' . urlencode($return['message']);
+			$log_url .= '&data_message=' . urlencode(@$return['message']);
 
 			self::fetch_url($log_url, array('self_call' => 1));
 			update_option('ecwid_remote_get_fails', 1);

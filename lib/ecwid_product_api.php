@@ -189,9 +189,9 @@ class EcwidProductApi {
         // quick and lightweight request
         $api_url = $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/profile";
 
-        $this->process_request($api_url);
+        $result = $this->process_request($api_url);
 
-        return $this->error_code === '';
+        return $this->error_code === '' && $result && !isset($result['error']);
     }
 
     function get_method_response_stream($method)
