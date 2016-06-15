@@ -1217,6 +1217,32 @@ function ecwid_product_shortcode($shortcode_attributes) {
 	return ecwid_wrap_shortcode_content($result, 'product', $shortcode_attributes);
 }
 
+function ecwid_install_theme() {
+	if ( ! class_exists( 'Theme_Upgrader', false ) ) {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	}
+
+	wp_enqueue_script( 'customize-loader' );
+
+	$title = __('Install Themes');
+	$parent_file = 'themes.php';
+	$submenu_file = 'themes.php';
+	require_once(ABSPATH . 'wp-admin/admin-header.php');
+
+	$upgrader = new Theme_Upgrader( );
+	$result = $upgrader->install("https://plugins.ecwid.com/files/ecwid-ecommerce.zip");
+
+	if ( !$result || is_wp_error($result) ) {
+		echo '<a href="javascript:history.back()">' . __('Back') . '</a>';
+	} else {
+		echo '<script type="text/javascript">location.href="customize.php?theme=ecwid-ecommerce";</script>';
+
+		Ecwid_Message_Manager::disable_message( 'install_ecwid_theme' );
+	}
+
+	include(ABSPATH . 'wp-admin/admin-footer.php');
+}
+
 function ecwid_shortcode($attributes)
 {
 	$attributes = shortcode_atts(
@@ -1513,7 +1539,7 @@ EOT;
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
-	$pages = array('toplevel_page_ecwid', 'admin_page_ecwid-help');
+	$pages = array('toplevel_page_ecwid', 'admin_page_ecwid-help', 'admin_page-ecwid-install-theme');
 
 	if (!in_array(get_current_screen()->base, $pages)) return;
 
@@ -1671,6 +1697,9 @@ function ecwid_build_menu() {
 		__('Help', 'ecwid-shopping-cart'),
 		'manage_options', 'ecwid-help', 'ecwid_help_do_page'
 	);
+	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
+
+	Ecwid_Message_Manager::reset_hidden_messages();
 }
 
 function ecwid_get_categories() {
@@ -2452,16 +2481,7 @@ function ecwid_gather_usage_stats()
 	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
 	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
 
-	$wp_date = get_option('ecwid_wp_install_date');
-	if (!$wp_date) {
-		global $wpdb;
-		$oldest_user = strtotime($wpdb->get_var("SELECT min(`user_registered`) FROM {$wpdb->users}"));
-		$oldest_post = strtotime($wpdb->get_var("SELECT min(`post_date`) FROM {$wpdb->posts}"));
-		$wpconfig_create = filectime(ABSPATH . '/wp-config.php');
-
-		$wp_date = min($oldest_user, $oldest_post, $wpconfig_create);
-		update_option('ecwid_wp_install_date', $wp_date);
-	}
+	$wp_date = ecwid_get_wp_install_date();
 
 	$ecwid_date = get_option('ecwid_installation_date');
 
@@ -2476,6 +2496,23 @@ function ecwid_gather_usage_stats()
 	$usage_stats['store_root_cats_widget'] = (bool) is_active_widget(false, false, 'ecwidvcategorieslist');
 
 	return $usage_stats;
+}
+
+function ecwid_get_wp_install_date( ) {
+	global $wpdb;
+
+	$wp_date = get_option( 'ecwid_wp_install_date' );
+	if ( ! $wp_date ) {
+		global $wpdb;
+		$oldest_user     = strtotime( $wpdb->get_var( "SELECT min(`user_registered`) FROM {$wpdb->users}" ) );
+		$oldest_post     = strtotime( $wpdb->get_var( "SELECT min(`post_date`) FROM {$wpdb->posts}" ) );
+		$wpconfig_create = filectime( ABSPATH . '/wp-config.php' );
+
+		$wp_date = min( $oldest_user, $oldest_post, $wpconfig_create );
+		update_option( 'ecwid_wp_install_date', $wp_date );
+	}
+
+	return $wp_date;
 }
 
 function ecwid_check_for_remote_connection_errors()

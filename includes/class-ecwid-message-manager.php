@@ -230,6 +230,14 @@ TXT
 				'message' => Ecwid_Message_Manager::get_oauth_message(),
 				'hideable' => false,
 				'type' => 'error'
+			),
+
+			'install_ecwid_theme' => array(
+				'title' => 'Some install theme title',
+				'message' => 'Some install theme message',
+				'primary_title' => 'Primary button title',
+				'primary_url' => 'admin.php?page=ecwid-install-theme',
+				'hideable' => true
 			)
 		);
 	}
@@ -281,6 +289,32 @@ TXT
 				}
 
 				return $result;
+
+			case "install_ecwid_theme":
+				$install_date = ecwid_get_wp_install_date();
+				$theme = ecwid_get_theme_identification();
+
+				$default_themes = array(
+					'twentyten',
+					'twentyeleven',
+					'twentytwelve',
+					'twentythirteen',
+					'twentyfourteen',
+					'twentyfifteen',
+					'twentysixteen'
+				);
+
+				$is_default_theme = in_array($theme, $default_themes);
+				$is_newbie = (time() - $install_date) < 60*60*24*31;
+				$is_ecwid_connected = get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
+				$is_installing = get_current_screen()->base == 'admin_page_ecwid-install-theme';
+				$is_theme_installed = wp_get_theme('ecwid-ecommerce');
+
+				if ( $is_theme_installed ) {
+					$this->disable_message( 'install_ecwid_theme' );
+				}
+
+				return $is_default_theme && $is_newbie && $is_ecwid_connected && !$is_installing && !$is_theme_installed;
 		}
 	}
 
