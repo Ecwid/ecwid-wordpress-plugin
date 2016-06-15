@@ -236,6 +236,10 @@ TXT
 
 	protected function need_to_show_message($name)
 	{
+		if ( !current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
 		$admin_page = '';
 		if (function_exists('get_current_screen')) {
 			$screen = get_current_screen();
