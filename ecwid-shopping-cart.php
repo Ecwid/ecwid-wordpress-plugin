@@ -1868,6 +1868,7 @@ function ecwid_create_store() {
 		Ecwid_Kissmetrics::set( 'is_paid', 'false' );
 		Ecwid_Kissmetrics::set( 'channelid', 'wporg' );
 		Ecwid_Kissmetrics::set( 'registered_via_api', 'true' );
+		Ecwid_Kissmetrics::record('accountConnected');
 
 		header( 'HTTP/1.1 200 OK' );
 
