@@ -1698,8 +1698,6 @@ function ecwid_build_menu() {
 		'manage_options', 'ecwid-help', 'ecwid_help_do_page'
 	);
 	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
-
-	Ecwid_Message_Manager::reset_hidden_messages();
 }
 
 function ecwid_get_categories() {
