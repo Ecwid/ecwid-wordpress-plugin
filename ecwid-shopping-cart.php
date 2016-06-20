@@ -1235,6 +1235,7 @@ function ecwid_install_theme() {
 	if ( !$result || is_wp_error($result) ) {
 		echo '<a href="javascript:history.back()">' . __('Back') . '</a>';
 	} else {
+		_e( 'Preparing theme preview...', 'ecwid-shopping-cart' );
 		echo '<script type="text/javascript">location.href="customize.php?theme=ecwid-ecommerce";</script>';
 
 		Ecwid_Message_Manager::disable_message( 'install_ecwid_theme' );
@@ -1907,7 +1908,7 @@ function ecwid_create_store() {
 }
 
 function ecwid_general_settings_do_page() {
-	
+
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );
