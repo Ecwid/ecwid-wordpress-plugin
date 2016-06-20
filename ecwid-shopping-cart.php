@@ -1873,7 +1873,8 @@ function ecwid_create_store() {
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
-		EcwidPlatform::cache_set( 'user_was_redirected_to_ecwid_site_to_create_account', 1, 60*60*24 );
+
+
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		Ecwid_Kissmetrics::record( 'Create Store Failed' );
 	}
