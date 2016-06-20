@@ -25,7 +25,7 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 
 	public function widget($args, $instance) {
 
-		$position = $instance['position'];
+		$position = @$instance['position'];
 		if (!in_array($position, self::$positions)) {
 			$position = self::$default_position;
 		}
