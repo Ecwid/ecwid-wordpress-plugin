@@ -12,12 +12,11 @@
 
 		<div class="hds-container">
 			<div class="hds-wrapper">
-				<form class="hds-form" method="get" target="_blank" action="https://help.ecwid.com/customer/portal/articles/search" onsubmit="help-page searchquerysubmited">
+				<form class="hds-form" method="get" target="_blank" data-action="<?php _e( 'https://support.ecwid.com/hc/en-us/search', 'ecwid-shopping-cart'); ?>" onsubmit="help-page searchquerysubmited">
 					<div class="input-wrapper input-prepend">
-						<input type="text" class="form-control q" value="" name="q" id="q" placeholder="<?php _e( 'E.g. How to set up shipping', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
-						<input type='hidden' name='t' value=''/>
+						<input type="text" class="form-control q" value="" id="q" placeholder="<?php _e( 'E.g. How to set up shipping', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
 						<span class="hds-loader"></span>
-						<button type="submit" class="hds-submit btn" id="hds-submit">
+						<button type="submit" class="hds-submit btn" id="hds-submit" onClick="">
 							<span class="icon-search"></span>
 							<span class="btn-text"><?php _e( 'Search the Knowledge Base', 'ecwid-shopping-cart' ); ?>	</span>
 						</button>
@@ -27,31 +26,31 @@
 		</div>
 		<ul class="shortcuts">
 			<li>
-				<a href="https://help.ecwid.com/customer/en/portal/topics/626757-ecwid-basics/articles" target="_blank" class="shortcut-item">
+				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201706719-Ecwid-Basics', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
 					<span class="iconhelp-101"></span>
 					<span class="shortcut-item-text"><?php _e( 'Ecwid Basics', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.ecwid.com/customer/en/portal/topics/626764-manage-your-ecwid-store/articles" target="_blank" class="shortcut-item">
+				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201758475-Manage-Your-Ecwid-Store', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
 					<span class="iconhelp-manage"></span>
 					<span class="shortcut-item-text"><?php _e( 'Manage Your Ecwid Store', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.ecwid.com/customer/en/portal/topics/618835-customize-your-store/articles" target="_blank" class="shortcut-item">
+				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201758445-Customize-Your-Store', 'ecwid-shopping-cart'); ?>" target="_blank" class="shortcut-item">
 					<span class="iconhelp-custom"></span>
 					<span class="shortcut-item-text"><?php _e( 'Customize Your Store', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.ecwid.com/customer/en/portal/topics/626765-billing-questions/articles" target="_blank" class="shortcut-item">
+				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201706799-Billing-Questions', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
 					<span class="iconhelp-billing"></span>
 					<span class="shortcut-item-text"><?php _e( 'Billing Questions', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.ecwid.com/customer/en/portal/topics/618834-technical-reference/articles" target="_blank" class="shortcut-item">
+				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201702859-Technical-Reference', 'ecwid-shopping-cart'); ?>" target="_blank" class="shortcut-item">
 					<span class="iconhelp-api"></span>
 					<span class="shortcut-item-text"><?php _e( 'Technical Reference', 'ecwid-shopping-cart' ); ?>	</span>
 				</a>
@@ -93,7 +92,7 @@
 
 		<div class="block-topics-link">
 
-			<a href="https://help.ecwid.com/customer/portal/topics/686891--collection-browse-by-topic" class="horizontal-icolink">
+			<a href="#" class="horizontal-icolink">
 				<?php _e( 'See more', 'ecwid-shopping-cart' ); ?>
 				<i class="icon-arr-right"></i>
 			</a>
@@ -203,13 +202,13 @@
 			<ul>
 				<li>
 					<div class="block-help-item">
-						<a href="https://help.ecwid.com/customer/portal/emails/new" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
+						<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart'); ?>" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
 						<p><?php _e( 'Still have questions about Ecwid? Let us know!', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
 				<li>
 					<div class="block-help-item">
-						<a href="https://www.ecwid.com/forums" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
+						<a href="<?php _e( 'https://www.ecwid.com/forums', 'ecwid-shopping-cart'); ?>" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
 						<p><?php _e( 'Join the Ecwid community. Discuss support topics and store ideas with other Ecwid users.', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
@@ -256,6 +255,10 @@
 </div>
 
 <script type="text/javascript">
+	jQuery('.hds-form').submit(function() {
+		jQuery(this).attr('action', jQuery(this).data('action') + '#q=' + encodeURIComponent(jQuery('#q').val()));
+	})
+
 	jQuery('#email_subject, #email_body').focus(function() {
 		jQuery('.block-contact .send-error').hide();
 	});

@@ -4,7 +4,7 @@ class Ecwid_Message_Manager
 {
 	protected $messages = array();
 
-	protected function Ecwid_Message_Manager()
+	protected function __construct()
 	{
 		$this->init_messages();
 	}
@@ -244,6 +244,10 @@ TXT
 
 	protected function need_to_show_message($name)
 	{
+		if ( !current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
 		$admin_page = '';
 		if (function_exists('get_current_screen')) {
 			$screen = get_current_screen();

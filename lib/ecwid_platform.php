@@ -149,16 +149,16 @@ class EcwidPlatform {
 		if ( ( empty($return['data']) || $return['code'] != 200 ) && !isset($options['self_call']) ) {
 
 			$log_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
-			$log_url .= '&url=' . urlencode(get_bloginfo('url'));
-			$log_url .= '&target_url=' . urlencode($url);
+			$log_url .= '&data_url=' . urlencode(get_bloginfo('url'));
+			$log_url .= '&data_target_url=' . urlencode($url);
 			if (get_option('ecwid_http_use_stream', false)) {
-				$log_url .= '&method=stream';
+				$log_url .= '&data_method=stream';
 			} elseif (get_option('ecwid_fetch_url_use_file_get_contents')) {
-				$log_url .= '&method=filegetcontents';
+				$log_url .= '&data_method=filegetcontents';
 			}
 
-			$log_url .= '&code=' . $return['code'];
-			$log_url .= '&message=' . urlencode($return['message']);
+			$log_url .= '&data_code=' . $return['code'];
+			$log_url .= '&data_message=' . urlencode(@$return['message']);
 
 			self::fetch_url($log_url, array('self_call' => 1));
 			update_option('ecwid_remote_get_fails', 1);

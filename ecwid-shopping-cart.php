@@ -232,7 +232,7 @@ add_action('wp_ajax_nopriv_ecwid_get_product_info', 'ecwid_ajax_get_product_info
 function ecwid_enqueue_frontend() {
 
 	wp_enqueue_script('jquery-ui-widget');
-	wp_register_script('ecwid-products-list-js', ECWID_PLUGIN_URL . 'js/products-list.js', array('jquery-ui-widget'), get_option('ecwid_plugin_version'));
+	wp_register_script('ecwid-products-list-js', ECWID_PLUGIN_URL . 'js/products-list.js', array('jquery', 'jquery-ui', 'jquery-ui-widget'), get_option('ecwid_plugin_version'));
 	wp_register_style('ecwid-products-list-css', ECWID_PLUGIN_URL . 'css/products-list.css', array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
@@ -707,7 +707,7 @@ TEXT;
 			"id" => "ecwid-faq",
 			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
 			"parent" => "ecwid-main",
-			'href' =>  __('https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable', 'ecwid-shopping-cart'),
+			'href' =>  __('https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-', 'ecwid-shopping-cart'),
 			'meta' => array(
 				'target' => '_blank'
 			)
@@ -1700,10 +1700,10 @@ function ecwid_build_menu() {
 	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
 }
 
-function ecwid_get_categories() {
+function ecwid_get_categories($nocache = false) {
 	$categories = EcwidPlatform::cache_get('all_categories');
 
-	if ( false == $categories ) {
+	if ( false == $categories || $nocache ) {
 		$callback = 'ecwidcatscallback';
 		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
 		$result = $result['data'];
@@ -1714,7 +1714,7 @@ function ecwid_get_categories() {
 
 		$categories = json_decode($result);
 
-		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 12);
+		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 2);
 	}
 
 	return $categories;
@@ -1895,6 +1895,7 @@ function ecwid_create_store() {
 		Ecwid_Kissmetrics::set( 'is_paid', 'false' );
 		Ecwid_Kissmetrics::set( 'channelid', 'wporg' );
 		Ecwid_Kissmetrics::set( 'registered_via_api', 'true' );
+		Ecwid_Kissmetrics::record('accountConnected');
 
 		header( 'HTTP/1.1 200 OK' );
 
@@ -2013,7 +2014,7 @@ function ecwid_general_settings_do_page() {
 
 function ecwid_admin_do_page( $page ) {
 
-	if ($_GET['show_timeout'] == '1') {
+	if (@$_GET['show_timeout'] == '1') {
 		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 		die();
 	}
@@ -2176,7 +2177,7 @@ function ecwid_get_categories_for_selector() {
 		return $result;
 	}
 
-	$result = walk_through_categories(ecwid_get_categories(), "");
+	$result = walk_through_categories(ecwid_get_categories(true), "");
 
 	return $result;
 }
