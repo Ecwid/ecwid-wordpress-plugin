@@ -142,6 +142,9 @@ class Ecwid_Nav_Menus {
 				$item->url = ecwid_get_store_page_url() . '#!/~/' . $ecwid_menu_type['url'];
 			}
 
+			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
+				$item->url = ecwid_get_store_page_url();
+			}
 			if ($item->object == 'ecwid-store-with-categories') {
 				$categories = ecwid_get_categories();
 				if (!empty($categories)) {
