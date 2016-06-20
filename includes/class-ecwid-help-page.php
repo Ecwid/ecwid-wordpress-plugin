@@ -68,7 +68,7 @@ class Ecwid_Help_Page {
 
 		$result = array();
 		foreach ( $faqs as $idx => $faq ) {
-			if ( $faq['priority'] == 'newbie_with_woo' ) {
+			if ( isset($faq['priority']) && $faq['priority'] == 'newbie_with_woo' ) {
 				$installed_within_two_weeks = time() - get_option( 'ecwid_installation_date' ) < 60 * 60 * 24 * 14;
 
 				if ( ecwid_get_woocommerce_status() && $installed_within_two_weeks ) {
@@ -91,7 +91,6 @@ class Ecwid_Help_Page {
 
 		$result = array();
 		foreach ($faqs as $faq) {
-			$faq['href'] = 'https://help.ecwid.com/' . $faq['href'];
 			$faq['body'] = preg_replace('!<img alt="" src="([^"]*)"!', '<img alt="" src="' . ECWID_PLUGIN_URL . '/images/help/' . '$1"', $faq['body']);
 
 			$result[] = (object) $faq;
