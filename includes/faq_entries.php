@@ -4,7 +4,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How secure is this plugin? Is my store PCI DSS compliant?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin">More details.</a>'			, 'ecwid-shopping-cart'
+'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#secureplugin">More details.</a>'			, 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
 	),
@@ -19,7 +19,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How to set up a storefront on Facebook with Ecwid?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook">More details.</a>'
+'You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#How%20to%20add%20my%20store%20to%20Facebook">More details.</a>'
 			, 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
@@ -28,7 +28,7 @@ $faqs = array(
 		'title' => __( 'How can I add a cart widget to my site sidebar?', 'ecwid-shopping-cart' ),
 		'body' => sprintf(
 			__(
-'You can add product search box, cart widget and more on the <a href="%s">"Appearance / Widgets page"</a> here in your site admin. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Sidebar%%20widgets">More details.</a>'
+'You can add product search box, cart widget and more on the <a href="%s">"Appearance / Widgets page"</a> here in your site admin. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#Sidebar%%20widgets">More details.</a>'
 			, 'ecwid-shopping-cart'
 			),
 			admin_url("widgets.php?from-ecwid=true")
@@ -57,14 +57,14 @@ $faqs = array(
 	array(
 		'title' => __( 'How to add a single product with the add to bag button to the site pages?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'To feature a single product on a separate page or blog post of your site, use <b>[ecwid_product]</b> shortcode. <a target="_blank" href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Howtoembedasingleproductonapageorpostofmysite">How to use it.</a>'
+'To feature a single product on a separate page or blog post of your site, use <b>[ecwid_product]</b> shortcode. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#Howtoembedasingleproductonapageorpostofmysite">How to use it.</a>'
 			, 'ecwid-shopping-cart'
 		)
 	),
 	array(
 		'title' => __( 'Is it possible to display my store on the site home page?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'You can display your store on the site main page. Adjust the "Reading" settings of your site as described in our <a href="https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#displaystoreonhomepage">Help Center.</a>'
+'You can display your store on the site main page. Adjust the "Reading" settings of your site as described in our <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#displaystoreonhomepage">Help Center.</a>'
 			, 'ecwid-shopping-cart'
 		)
 	)

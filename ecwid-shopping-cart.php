@@ -707,7 +707,7 @@ TEXT;
 			"id" => "ecwid-faq",
 			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
 			"parent" => "ecwid-main",
-			'href' =>  __('https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable', 'ecwid-shopping-cart'),
+			'href' =>  __('https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-', 'ecwid-shopping-cart'),
 			'meta' => array(
 				'target' => '_blank'
 			)
