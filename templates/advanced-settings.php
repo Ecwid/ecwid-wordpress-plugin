@@ -31,15 +31,6 @@
 			<div class="note">
 				<?php _e('By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. "Featured Products") to new visitors.', 'ecwid-shopping-cart'); ?>
 			</div>
-			<div class="note">
-			<?php if (!ecwid_is_paid_account()): ?>
-				<?php echo sprintf(
-						__('In order to set this option, <a %s>find an ID of the necessary category</a> and save it here.', 'ecwid-shopping-cart'),
-						'target="_blank" href="http://kb.ecwid.com/w/page/23947812/How%20to%20get%20ID%20of%20your%20product%20or%20category"'
-					);
-				?>
-			<?php endif; ?>
-			</div>
 		</div>
 
 		<hr />

@@ -205,9 +205,6 @@ msgstr "ID категории по умолчанию"
 msgid "By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. \"Featured Products\") to new visitors."
 msgstr "По умолчанию, магазин показывает корневые категории. Здесь можно выбрать другую категорию для отображения, когда покупатель впервые открывает ваш магазин. Это может быть полезно, если у вас есть только одна категория или вы хотите показывать определённые набор товаров (например, специальные предложения) новым пользователям."
 
-msgid "In order to set this option, <a %s>find an ID of the necessary category</a> and save it here."
-msgstr "Чтобы выставить категорию, <a %s>найдите ID нужной категории</a> и введите в это поле."
-
 msgid "Single Sign-On Secret Key"
 msgstr "Секретный ключ системы единой авторизации"
 
