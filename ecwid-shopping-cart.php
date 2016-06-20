@@ -1673,10 +1673,10 @@ function ecwid_build_menu() {
 	);
 }
 
-function ecwid_get_categories() {
+function ecwid_get_categories($nocache = false) {
 	$categories = EcwidPlatform::cache_get('all_categories');
 
-	if ( false == $categories ) {
+	if ( false == $categories || $nocache ) {
 		$callback = 'ecwidcatscallback';
 		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
 		$result = $result['data'];
@@ -1687,7 +1687,7 @@ function ecwid_get_categories() {
 
 		$categories = json_decode($result);
 
-		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 12);
+		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 2);
 	}
 
 	return $categories;
@@ -2150,7 +2150,7 @@ function ecwid_get_categories_for_selector() {
 		return $result;
 	}
 
-	$result = walk_through_categories(ecwid_get_categories(), "");
+	$result = walk_through_categories(ecwid_get_categories(true), "");
 
 	return $result;
 }
