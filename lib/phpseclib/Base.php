@@ -531,6 +531,10 @@ class Ecwid_Crypt_Base
         }
     }
 
+    function __construct($mode = CRYPT_MODE_CBC) {
+        $this->Ecwid_Crypt_Base($mode);
+    }
+
     /**
      * Sets the initialization vector. (optional)
      *

@@ -4,7 +4,7 @@ class Ecwid_Message_Manager
 {
 	protected $messages = array();
 
-	protected function Ecwid_Message_Manager()
+	protected function __construct()
 	{
 		$this->init_messages();
 	}
