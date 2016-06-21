@@ -9,20 +9,6 @@
     font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-    font-family: 'ecwid-plugin-icons';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default .ab-icon.ecwid-top-menu-item {
     font: 400 20px/1 'ecwid-plugin-icons' !important;
     -webkit-font-smoothing: antialiased;
