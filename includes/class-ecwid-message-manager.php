@@ -230,6 +230,14 @@ TXT
 				'message' => Ecwid_Message_Manager::get_oauth_message(),
 				'hideable' => false,
 				'type' => 'error'
+			),
+
+			'install_ecwid_theme' => array(
+				'title' => __( 'Looking for a Wordpress theme for your store?', 'ecwid-shopping-cart' ),
+				'message' => __ ( 'We created the "Ecwid Ecommerce" theme to make Ecwid stores like yours look great in WordPress. Give it a try – the Ecwid theme is free.', 'ecwid-shopping-cart' ),
+				'primary_title' => __( 'Install the Ecwid theme', 'ecwid-shopping-cart' ),
+				'primary_url' => 'admin.php?page=ecwid-install-theme',
+				'hideable' => true
 			)
 		);
 	}
@@ -285,6 +293,38 @@ TXT
 				}
 
 				return $result;
+
+			case "install_ecwid_theme":
+				$install_date = ecwid_get_wp_install_date();
+				$theme = ecwid_get_theme_identification();
+
+				$default_themes = array(
+					'twentyten',
+					'twentyeleven',
+					'twentytwelve',
+					'twentythirteen',
+					'twentyfourteen',
+					'twentyfifteen',
+					'twentysixteen'
+				);
+
+				$is_default_theme = in_array($theme, $default_themes);
+				$is_newbie = (time() - $install_date) < 60*60*24*31;
+				$is_ecwid_connected = get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
+				$is_installing = get_current_screen()->base == 'admin_page_ecwid-install-theme';
+				$theme_object = wp_get_theme('ecwid-ecommerce');
+				$err = $theme_object->errors();
+				$is_theme_installed = $theme_object;
+				if ($is_theme_installed) {
+					if ($err && $err->get_error_code() == 'theme_not_found') {
+						$is_theme_installed = false;
+					}
+				}
+
+				if ( $is_default_theme && $is_newbie && $is_ecwid_connected && !$is_installing && !$is_theme_installed ) {
+					return true;
+				}
+
 		}
 	}
 
