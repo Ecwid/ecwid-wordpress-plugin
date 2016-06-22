@@ -233,9 +233,9 @@ TXT
 			),
 
 			'install_ecwid_theme' => array(
-				'title' => 'Some install theme title',
-				'message' => 'Some install theme message',
-				'primary_title' => 'Primary button title',
+				'title' => __( 'Looking for a Wordpress theme for your store?', 'ecwid-shopping-cart' ),
+				'message' => __ ( 'We created the "Ecwid Ecommerce" theme to make Ecwid stores like yours look great in WordPress. Give it a try – the Ecwid theme is free.', 'ecwid-shopping-cart' ),
+				'primary_title' => __( 'Install the Ecwid theme', 'ecwid-shopping-cart' ),
 				'primary_url' => 'admin.php?page=ecwid-install-theme',
 				'hideable' => true
 			)
