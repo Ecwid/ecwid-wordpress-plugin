@@ -479,6 +479,11 @@ class Ecwid_Crypt_Base
      */
     var $skip_key_adjustment = false;
 
+
+    function __construct($mode = CRYPT_MODE_CBC) {
+        $this->Ecwid_Crypt_Base($mode);
+    }
+
     /**
      * Default Constructor.
      *
@@ -529,10 +534,6 @@ class Ecwid_Crypt_Base
         if ($this->use_inline_crypt !== false && function_exists('create_function')) {
             $this->use_inline_crypt = true;
         }
-    }
-
-    function __construct($mode = CRYPT_MODE_CBC) {
-        $this->Ecwid_Crypt_Base($mode);
     }
 
     /**

@@ -241,6 +241,7 @@ class Ecwid_Crypt_Rijndael extends Ecwid_Crypt_Base
      */
     var $kl;
 
+
     /**
      * Default Constructor.
      *
@@ -264,14 +265,16 @@ class Ecwid_Crypt_Rijndael extends Ecwid_Crypt_Base
      * @param int $mode
      * @access public
      */
-    function Ecwid_Crypt_Rijndael($mode = CRYPT_RIJNDAEL_MODE_CBC)
+
+
+    function __construct($mode = CRYPT_RIJNDAEL_MODE_CBC) {
+        parent::__construct($mode = CRYPT_RIJNDAEL_MODE_CBC);
+    }    function Ecwid_Crypt_Rijndael($mode = CRYPT_RIJNDAEL_MODE_CBC)
     {
         parent::Ecwid_Crypt_Base($mode);
     }
 
-    function __construct($mode = CRYPT_RIJNDAEL_MODE_CBC) {
-        parent::__construct($mode = CRYPT_RIJNDAEL_MODE_CBC);
-    }
+
 
     /**
      * Sets the key length.

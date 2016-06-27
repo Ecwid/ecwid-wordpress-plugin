@@ -166,9 +166,9 @@ jQuery.widget('ecwid.productsList', {
 			link: jQuery(singleProductContainer).data('single-product-link'),
 		}
 		if (jQuery('.ecwid-productBrowser-price .gwt-HTML', singleProductContainer).length > 0) {
-			product.price = jQuery('.ecwid-productBrowser-price .gwt-HTML', singleProductContainer).html();
+			product.price = jQuery('.ecwid-productBrowser-price .gwt-HTML', singleProductContainer).text();
 		} else {
-			product.price = jQuery('.ecwid-price', singleProductContainer).html();
+			product.price = jQuery('.ecwid-price', singleProductContainer).text();
 		}
 		this.addProduct(product, true);
 	},
