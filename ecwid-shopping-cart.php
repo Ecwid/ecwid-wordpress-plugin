@@ -2016,7 +2016,7 @@ function ecwid_general_settings_do_page() {
 
 function ecwid_admin_do_page( $page ) {
 
-	if (@$_GET['show_timeout'] == '1') {
+	if (isset($_GET['show_timeout']) && $_GET['show_timeout'] == '1') {
 		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 		die();
 	}
