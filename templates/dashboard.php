@@ -9,7 +9,6 @@ if ($message) {
 } else {
 }
 */
-Ecwid_Message_Manager::show_message('no_oauth');
  ?>
 <div class="wrap ecwid-admin ecwid-dashboard">
 	<div class="box">
