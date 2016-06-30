@@ -794,13 +794,12 @@ function ecwid_product_browser_url_in_head() {
 
 
 function ecwid_canonical() {
-	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
-	if (!$allowed) return;
+
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
 
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-	if (!$params) return;
-
-	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return;
 
 	$api = ecwid_new_product_api();
 
@@ -815,16 +814,26 @@ function ecwid_canonical() {
 	echo '<link rel="canonical" href="' . esc_attr($link) . '" />' . PHP_EOL;
 }
 
+function ecwid_is_applicable_escaped_fragment() {
+
+	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
+	if (!$allowed) return false;
+
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+	if (!$params) return false;
+
+	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return false;
+
+	return true;
+}
+
 function ecwid_meta_description() {
 
-    $allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
-    if (!$allowed) return;
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
 
-    $params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-    if (!$params) return;
-
-    if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return;
-
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
     $api = ecwid_new_product_api();
     if ($params['mode'] == 'product') {
         $product = $api->get_product($params['id']);
@@ -938,9 +947,13 @@ function ecwid_seo_title_parts($parts)
 
 function _ecwid_get_seo_title()
 {
-	if (!isset($_GET['_escaped_fragment_']) || !ecwid_is_api_enabled()) return;
 
-	$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
+
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+
 	$ecwid_seo_title = '';
 
 	$separator = ecwid_get_title_separator();
@@ -1414,22 +1427,29 @@ EOT;
 
 
 function ecwid_parse_escaped_fragment($escaped_fragment) {
-	$fragment = urldecode($escaped_fragment);
-	$return = array();
+	static $parsed = array();
 
-	if (preg_match('/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches)) {
-		parse_str($matches[3], $return);
-		$return['mode'] = $matches[2];
-	} elseif (preg_match('!.*/(p|c)/([0-9]*)!', $fragment, $matches)) {
-		if (count($matches) == 3 && in_array($matches[1], array('p', 'c'))) {
-			$return  = array(
-				'mode' => 'p' == $matches[1] ? 'product' : 'category',
-				'id' => $matches[2]
-			);
+	if (empty($parsed[$escaped_fragment])) {
+
+		$fragment = urldecode( $escaped_fragment );
+		$return   = array();
+
+		if ( preg_match( '/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches ) ) {
+			parse_str( $matches[3], $return );
+			$return['mode'] = $matches[2];
+		} elseif ( preg_match( '!.*/(p|c)/([0-9]*)!', $fragment, $matches ) ) {
+			if ( count( $matches ) == 3 && in_array( $matches[1], array( 'p', 'c' ) ) ) {
+				$return = array(
+					'mode' => 'p' == $matches[1] ? 'product' : 'category',
+					'id'   => $matches[2]
+				);
+			}
 		}
+
+		$parsed[$escaped_fragment] = $return;
 	}
 
-	return $return;
+	return $parsed[$escaped_fragment];
 }
 
 function ecwid_ajax_get_product_info() {
