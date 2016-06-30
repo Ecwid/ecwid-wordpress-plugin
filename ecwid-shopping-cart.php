@@ -32,11 +32,14 @@ if ( ! defined( 'ECWID_PLUGIN_URL' ) ) {
 	define( 'ECWID_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
+if ( ! defined('ECWID_SHORTCODES_DIR' ) ) {
+	define( 'ECWID_SHORTCODES_DIR', ECWID_PLUGIN_DIR . 'includes/shortcodes' );
+}
+
 // Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
 add_action('sm_buildmap', 'ecwid_build_google_xml_sitemap');
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-add_shortcode('ecwid_productbrowser', 'ecwid_productbrowser_shortcode');
 add_shortcode('ecwid', 'ecwid_shortcode');
 
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
@@ -105,6 +108,8 @@ $ecwid_script_rendered = false; // controls single script.js on page
 require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
+require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
@@ -1286,7 +1291,11 @@ function ecwid_shortcode($attributes)
 				$widget = 'searchbox';
 			}
 
-			$result .= call_user_func_array('ecwid_' . $widget . '_shortcode', array($attributes));
+			if ( class_exists( 'Ecwid_Shortcode_' . $widget ) ) {
+				$result .= call_user_func_array(array('Ecwid_Shortcode_' . $widget , 'render'), array($attributes));
+			} else {
+				$result .= call_user_func_array( 'ecwid_' . $widget . '_shortcode', array( $attributes ) );
+			}
 		}
 	}
 
@@ -1294,124 +1303,6 @@ function ecwid_shortcode($attributes)
 
 	return $result;
 }
-
-function ecwid_productbrowser_shortcode($shortcode_params) {
-
-		if (current_user_can('manage_options')) {
-			Ecwid_Kissmetrics::record('storefrontIsOpened');
-		}
-	
-		$atts = shortcode_atts(
-			array(
-				'categories_per_row' => false,
-				'grid' => false,
-				'list' => false,
-				'table' => false,
-				'search_view' => false,
-				'category_view' => false
-			), $shortcode_params
-		);
-
-		$grid = explode(',', $atts['grid']);
-	  if (count($grid) == 2) {
-			$atts['grid_rows'] = intval($grid[0]);
-			$atts['grid_cols'] = intval($grid[1]);
-		} else {
-			list($atts['grid_rows'], $atts['grid_cols']) = array(false, false);
-		}
-
-    $store_id = get_ecwid_store_id();
-    $list_of_views = array('list','grid','table');
-
-    $ecwid_pb_categoriesperrow = $atts['categories_per_row'] ? $atts['categories_per_row'] : get_option('ecwid_pb_categoriesperrow');
-    $ecwid_pb_productspercolumn_grid = $atts['grid_rows'] ? $atts['grid_rows'] : get_option('ecwid_pb_productspercolumn_grid');
-    $ecwid_pb_productsperrow_grid = $atts['grid_cols'] ? $atts['grid_cols'] : get_option('ecwid_pb_productsperrow_grid');
-    $ecwid_pb_productsperpage_list = $atts['list'] ? $atts['list'] : get_option('ecwid_pb_productsperpage_list');
-    $ecwid_pb_productsperpage_table = $atts['table'] ? $atts['table'] : get_option('ecwid_pb_productsperpage_table');
-    $ecwid_pb_defaultview = $atts['category_view'] ? $atts['category_view'] : get_option('ecwid_pb_defaultview');
-    $ecwid_pb_searchview = $atts['search_view'] ? $atts['search_view'] : get_option('ecwid_pb_searchview');
-
-    $ecwid_mobile_catalog_link = get_option('ecwid_mobile_catalog_link');
-    $ecwid_default_category_id =
-        !empty($shortcode_params) && array_key_exists('default_category_id', $shortcode_params)
-        ? $shortcode_params['default_category_id']
-        : get_option('ecwid_default_category_id');
-
-    if (empty($ecwid_pb_categoriesperrow)) {
-        $ecwid_pb_categoriesperrow = 3;
-    }
-    if (empty($ecwid_pb_productspercolumn_grid)) {
-        $ecwid_pb_productspercolumn_grid = 3;
-    }
-    if (empty($ecwid_pb_productsperrow_grid)) {
-        $ecwid_pb_productsperrow_grid = 3;
-    }
-    if (empty($ecwid_pb_productsperpage_list)) {
-        $ecwid_pb_productsperpage_list = 10;
-    }
-    if (empty($ecwid_pb_productsperpage_table)) {
-        $ecwid_pb_productsperpage_table = 20;
-    }
-
-    if (empty($ecwid_pb_defaultview) || !in_array($ecwid_pb_defaultview, $list_of_views)) {
-        $ecwid_pb_defaultview = 'grid';
-    }
-    if (empty($ecwid_pb_searchview) || !in_array($ecwid_pb_searchview, $list_of_views)) {
-        $ecwid_pb_searchview = 'list';
-    }
-
-	  if (empty($ecwid_default_category_id)) {
-        $ecwid_default_category_str = '';
-    } else {
-        $ecwid_default_category_str = ',"defaultCategoryId='. $ecwid_default_category_id .'"';
-    }
-
-    $plain_content = '';
-
-    if (ecwid_can_display_html_catalog()) {
-		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_product_api.php';
-		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
-
-		$page_url = get_page_link();
-
-		$catalog = new EcwidCatalog($store_id, $page_url);
-
-		if (isset($params['mode']) && !empty($params['mode'])) {
-			if ($params['mode'] == 'product') {
-				$plain_content = $catalog->get_product($params['id']);
-				$url = ecwid_get_product_url(ecwid_new_product_api()->get_product($params['id']));
-			} elseif ($params['mode'] == 'category') {
-				$plain_content = $catalog->get_category($params['id']);
-				$ecwid_default_category_str = ',"defaultCategoryId=' . $params['id'] . '"';
-				$url = ecwid_get_category_url(ecwid_new_product_api()->get_category($params['id']));
-			}
-
-		} else {
-			$plain_content = $catalog->get_category(intval($ecwid_default_category_id));
-			if (empty($plain_content)) {
-				$plain_content = $catalog->get_category(0);
-			} else {
-				$url = ecwid_get_category_url(ecwid_new_product_api()->get_category($params['id']));
-			}
-		}
-		if ($url) {
-			$parsed = parse_url($url);
-			$plain_content .= '<script data-cfasync="false" type="text/javascript"> if (!document.location.hash) document.location.hash = "'. $parsed['fragment'] . '";</script>';
-		}
-    }
-
-	$s = '';
-
-	$s = <<<EOT
-    <div id="ecwid-store-$store_id">
-		{$plain_content}
-	</div>
-	<script data-cfasync="false" type="text/javascript"> xProductBrowser("categoriesPerRow=$ecwid_pb_categoriesperrow","views=grid($ecwid_pb_productspercolumn_grid,$ecwid_pb_productsperrow_grid) list($ecwid_pb_productsperpage_list) table($ecwid_pb_productsperpage_table)","categoryView=$ecwid_pb_defaultview","searchView=$ecwid_pb_searchview","style="$ecwid_default_category_str, "id=ecwid-store-$store_id");</script>
-EOT;
-    return ecwid_wrap_shortcode_content($s, 'product-browser', $shortcode_params);
-}
-
 
 function ecwid_parse_escaped_fragment($escaped_fragment) {
 	$fragment = urldecode($escaped_fragment);

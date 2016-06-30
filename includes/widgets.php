@@ -14,6 +14,13 @@ if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 }
 
 function ecwid_sidebar_widgets_init() {
+
+	$disable_widgets = apply_filters('ecwid_disable_widgets', false);
+
+	if ($disable_widgets) {
+		return;
+	}
+
 	register_widget('Ecwid_Widget_Badge');
 	register_widget('Ecwid_Widget_Search');
 
