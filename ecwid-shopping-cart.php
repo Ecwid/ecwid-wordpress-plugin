@@ -1932,8 +1932,6 @@ function ecwid_general_settings_do_page() {
 
 	$connection_error = isset( $_GET['connection_error'] );
 
-	//die( var_dump( EcwidPlatform::cache_set( 'user_was_redirected_to_ecwid_site_to_create_account') ) );
-
 	if ( $store_id == ECWID_DEMO_STORE_ID ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
 
@@ -2561,11 +2559,10 @@ function ecwid_sso() {
 
     $current_user = wp_get_current_user();
 
-	die(var_dump($current_user));
-	
-		$signin_url = wp_login_url(ecwid_get_store_page_url());
-		$signout_url = wp_logout_url(ecwid_get_store_page_url());
-		$sign_in_out_urls = <<<JS
+
+	$signin_url = wp_login_url(ecwid_get_store_page_url());
+	$signout_url = wp_logout_url(ecwid_get_store_page_url());
+	$sign_in_out_urls = <<<JS
 window.EcwidSignInUrl = '$signin_url';
 window.EcwidSignOutUrl = '$signout_url';
 window.Ecwid.OnAPILoaded.add(function() {
