@@ -1871,8 +1871,7 @@ function ecwid_get_register_link()
 {
 	$link = 'https://my.ecwid.com/cp/?source=wporg&partner=wporg%s#register';
 
-	global $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 
 	$user_data = '';
 	if ($current_user->ID && function_exists('get_user_meta')) {
@@ -2560,9 +2559,10 @@ function ecwid_sso() {
         return "";
     }
 
-    global $current_user;
-    get_currentuserinfo();
+    $current_user = wp_get_current_user();
 
+	die(var_dump($current_user));
+	
 		$signin_url = wp_login_url(ecwid_get_store_page_url());
 		$signout_url = wp_logout_url(ecwid_get_store_page_url());
 		$sign_in_out_urls = <<<JS
