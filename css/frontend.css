@@ -8,7 +8,9 @@ html#ecwid_html body#ecwid_body .ecwid-SearchPanel input {
 	max-width: 300px;
 }
 
-.ecwid-shopping-cart-categories #horizontal-menu {
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-shopping-cart-categories #horizontal-menu,
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid-shopping-cart-categories .horizontal-menu
+{
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
