@@ -64,8 +64,10 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 					$ids[] = $product->id;
 					$hide = $counter > $instance['number_of_products'] ? ' hidden' : '';
 
+					$force_image = '';
 					if ($api) {
 						$product_https = $api->get_product_https($product->id);
+						$force_image = $product_https['imageUrl'];
 					}
 
 					$name = isset($product_https) ? $product_https['name']: '';
@@ -73,7 +75,7 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 					echo <<<HTML
 	<a class="product$hide" href="$product->link" alt="$name" title="$name">
 		<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-$product->id" data-single-product-link="$product->link" itemscope itemtype="http://schema.org/Product" data-single-product-id="$product->id">
-			<div itemprop="image" data-force-image="$product_https[imageUrl]"></div>
+			<div itemprop="image" data-force-image="$force_image"></div>
 			<div class="ecwid-title" itemprop="name"></div>
 			<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price"></div></div>
 		</div>
