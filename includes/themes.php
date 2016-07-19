@@ -63,6 +63,7 @@ function ecwid_apply_theme($theme_name = null)
 		'genesis',
 		'twentysixteen',
 		'central',
+		'trend'
 	);
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
 

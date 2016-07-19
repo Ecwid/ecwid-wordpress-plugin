@@ -4,11 +4,7 @@ require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 
 class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
-	public function __construct() {
-		add_shortcode('ecwid_' . $this->_get_name(), array( $this, 'render' ) );
-	}
-
-	protected function _get_name() {
+	public function get_shortcode_name() {
 		return 'productbrowser';
 	}
 
@@ -16,24 +12,23 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		return 'product-browser';
 	}
 
-	protected static function _get_instance() {
-
-		if ( empty( static::$instance ) ) {
-			static::$instance = new Ecwid_Shortcode_productBrowser();
-		}
-
-		return static::$instance;
+	public function get_html_id() {
+		return 'ecwid-store-' . get_ecwid_store_id();
 	}
 
-	public function _render($shortcode_params) {
+	public function get_ecwid_widget_function_name() {
+		return 'xProductBrowser';
+	}
+
+	public function render() {
 		if (current_user_can('manage_options')) {
 			Ecwid_Kissmetrics::record('storefrontIsOpened');
 		}
 
-		parent::_render($shortcode_params);
+		return parent::render();
 	}
 
-	public function render_placeholder($params) {
+	public function render_placeholder( ) {
 
 		$store_id = get_ecwid_store_id();
 
@@ -75,8 +70,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			}
 		}
 
+		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
-		<div id="ecwid-store-$store_id">
+		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname">
 		{$plain_content}
 	</div>
 HTML;
@@ -84,7 +80,7 @@ HTML;
 		return $result;
 	}
 
-	protected function _build_params($shortcode_params) {
+	protected function _process_params( $shortcode_params = array() ) {
 
 		$atts = shortcode_atts(
 			array(
