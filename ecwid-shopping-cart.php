@@ -18,7 +18,7 @@ define("ECWID_DEMO_STORE_ID", 1003);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
-define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '10.4.4' );
+define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '4.4.2.1' );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
