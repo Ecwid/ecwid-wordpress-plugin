@@ -43,7 +43,7 @@ class Ecwid_OAuth {
 	}
 
 
-	public function get_auth_dialog_url()
+	public function get_auth_dialog_url( )
 	{
 		$action = 'ecwid_oauth';
 		if ( $this->_is_reconnect()  ) {
@@ -55,6 +55,24 @@ class Ecwid_OAuth {
 		return $this->api->get_oauth_dialog_url(
 			admin_url( $redirect_uri ),
 			implode(' ', $this->_get_scope() )
+		);
+	}
+
+	public function get_sso_reconnect_dialog_url()
+	{
+		$action = 'ecwid_oauth';
+		if ( $this->_is_reconnect()  ) {
+			$action = 'ecwid_oauth_reconnect';
+		}
+
+		$redirect_uri = 'admin.php?page=ecwid_advanced';
+
+		$scope = $this->_get_scope();
+		$scope[] = 'create_customers';
+
+		return $this->api->get_oauth_dialog_url(
+			admin_url( $redirect_uri ),
+			implode(' ', $scope )
 		);
 	}
 

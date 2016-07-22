@@ -475,6 +475,10 @@ function ecwid_check_version()
 			add_option('ecwid_chameleon_colors_price', '');
 		}
 
+		if (ecwid_migrations_is_original_plugin_version_older_than('4.4.3')) {
+			add_option('ecwid_enable_sso');
+		}
+
 		$all_plugins = get_plugins();
 		$has_woo = ecwid_get_woocommerce_status();
 
@@ -1831,6 +1835,7 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_search' );
+				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
 				break;
 		}
 
@@ -1838,6 +1843,10 @@ function ecwid_settings_api_init() {
 			Ecwid_Kissmetrics::record('chameleonSkinOff');
 		} else if (!get_option('ecwid_use_chameleon') && @$_POST['ecwid_use_chameleon']) {
 			Ecwid_Kissmetrics::record('chameleonSkinOn');
+		}
+
+		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
+			update_option('ecwid_sso_secret_key', '');
 		}
 	}
 
@@ -2038,6 +2047,10 @@ function ecwid_admin_do_page( $page ) {
 	}
 	global $ecwid_oauth;
 
+	if ($_GET['ecwid_page']) {
+		$page = $_GET['ecwid_page'];
+	}
+
 	if ($page == 'dashboard') {
 		$show_reconnect = true;
 		if (isset($_GET['just-created'])) {
@@ -2202,6 +2215,11 @@ function ecwid_get_categories_for_selector() {
 
 function ecwid_advanced_settings_do_page() {
 	$categories = ecwid_get_categories_for_selector();
+
+	$is_sso_enabled = ecwid_is_sso_enabled();
+
+	global $ecwid_oauth;
+	$reconnect_link = $ecwid_oauth->get_sso_reconnect_dialog_url();
 
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
@@ -2551,11 +2569,22 @@ function ecwid_check_for_remote_connection_errors()
 	return $results;
 }
 
+function ecwid_is_sso_enabled() {
+	global $ecwid_oauth;
+
+	$is_sso_enabled = false;
+
+	$is_apiv3_sso = ecwid_is_paid_account() && get_option('ecwid_is_sso_enabled') && $ecwid_oauth->has_scope('create_customers');
+	$is_apiv1_sso = ecwid_is_paid_account() && get_option('ecwid_sso_secret_key');
+
+	$is_sso_enabled = $is_apiv3_sso || $is_apiv1_sso;
+
+	return $is_sso_enabled;
+}
+
 function ecwid_sso() {
-    $key = get_option('ecwid_sso_secret_key');
-    if (empty($key)) {
-        return "";
-    }
+
+	if (!ecwid_is_sso_enabled()) return;
 
     $current_user = wp_get_current_user();
 
@@ -2574,58 +2603,35 @@ window.Ecwid.OnAPILoaded.add(function() {
 });
 JS;
 
-	/*
-	$signin_url = wp_login_url("URL_TO_REDIRECT");
-	$signout_url = wp_logout_url('URL_TO_REDIRECT');
-	$sign_in_out_urls = <<<JS
-window.EcwidSignInUrl = '$signin_url';
-window.EcwidSignOutUrl = '$signout_url';
-window.Ecwid.OnAPILoaded.add(function() {
-
-    window.Ecwid.setSignInUrls({
-        signInUrl: '$signin_url',
-        signOutUrl: '$signout_url'
-    });
-
-
-		window.Ecwid.setSignInProvider({
-			addSignInLinkToPB: function() { return true; },
-			signIn: function() {
-				location.href = window.EcwidSignInUrl.replace('URL_TO_REDIRECT', encodeURIComponent(location.href));
-			},
-			signOut: function() {
-				location.href = window.EcwidSignOutUrl.replace('URL_TO_REDIRECT', encodeURIComponent(location.href));
-			},
-			canSignOut: true,
-			canSignIn: true
-		});
-
-});
-
-
-JS;
-*/
 	$ecwid_sso_profile = '';
     if ($current_user->ID) {
-			$meta = get_user_meta($current_user->ID);
+		$meta = get_user_meta($current_user->ID);
 
-
-      $user_data = array(
-            'appId' => "wp_" . get_ecwid_store_id(),
+	    $user_data = array(
             'userId' => "{$current_user->ID}",
             'profile' => array(
-            'email' => $current_user->user_email,
-            'billingPerson' => array(
-        	  'name' => $meta['first_name'][0] . ' ' . $meta['last_name'][0]
-					)
-        )
-      );
-			$user_data = base64_encode(json_encode($user_data));
-			$time = time();
-			$hmac = ecwid_hmacsha1("$user_data $time", $key);
+                'email' => $current_user->user_email,
+                'billingPerson' => array(
+	                'name' => $meta['first_name'][0] . ' ' . $meta['last_name'][0]
+                )
+            )
+        );
 
-			$ecwid_sso_profile ="$user_data $hmac $time";
-    }
+	    global $ecwid_oauth;
+	    if ($ecwid_oauth->has_scope('create_customers')) {
+		    $key = Ecwid_Api_V3::CLIENT_SECRET;
+		    $userData['appClientId'] = 'wporg-plugin';
+	    } else {
+		    $key = get_option('ecwid_sso_secret_key');
+		    $user_data['appId'] = "wp_" . get_ecwid_store_id();
+	    }
+
+		$user_data = base64_encode(json_encode($user_data));
+		$time = time();
+		$hmac = ecwid_hmacsha1("$user_data $time", $key);
+
+		$ecwid_sso_profile ="$user_data $hmac $time";
+	}
 
 	return <<<HTML
 <script data-cfasync="false" type="text/javascript">

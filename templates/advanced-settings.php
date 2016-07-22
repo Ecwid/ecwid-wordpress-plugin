@@ -37,25 +37,40 @@
 
 		<?php endif; ?>
 
+		<div class="pure-control-group checkbox">
+			<div class="label">
+				<label for="ecwid_is_sso_enabled">
 
-		<div class="pure-control-group last">
-			<label for="ecwid_sso_secret_key">
-				<?php _e('Single Sign-On Secret Key', 'ecwid-shopping-cart'); ?>
-			</label>
+					<input
+						id="ecwid_is_sso_enabled"
+						name="ecwid_is_sso_enabled"
+						type="checkbox"
+						<?php if ( $is_sso_enabled ) : ?>
+							checked="checked"
+						<?php endif; ?>
+					/>
+					<?php _e('Customer Single Sign-On', 'ecwid-shopping-cart'); ?>
+				</label>
 
-			<input
-				id="ecwid_sso_secret_key"
-				type="text"
-				name="ecwid_sso_secret_key"
-				placeholder="<?php _e('Single Sign-On Secret Key', 'ecwid-shopping-cart'); ?>"
-				value="<?php echo esc_attr(get_option('ecwid_sso_secret_key')); ?>"
-				/>
+				<div class="note">
+					<?php _e('Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'); ?>
+				</div>
+				<?php if (!ecwid_is_paid_account()): ?>
+				<div class="note">
+					<?php echo sprintf(__('This feature is available on the Ecwid\'s Venture plan and above. <a %s>Please upgrade to get it.</a>', 'ecwid-shopping-cart'), 'target="_blank" href="admin.php?page=ecwid&ecwid_page=' . urlencode('billing:feature=sso&plan=ecwid_venture') . '"'); ?>
+				</div>
+				<?php endif; ?>
+				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key')): ?>
+					<div class="note">
+						<?php echo sprintf(__('To allow Ecwid automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>', 'ecwid-shopping-cart'), 'href="' . $reconnect_link . '"'); ?>
+					</div>
+				<?php endif; ?>
 
-			<div class="note">
-				<?php _e('Single Sign-On Secret Key is an option that allows your customers access to your WordPress site as well as the Ecwid shopping cart. When customers log in to your site, they will automatically be logged in to your Ecwid store as well. It makes sense to enable this feature if your visitors actually create accounts in your WordPress website.', 'ecwid-shopping-cart'); ?>
-			</div>
-			<div class="note grayed-links">
-				<?php _e('To enable this feature, copy the Single Sign On Secret key from the store control panel to the input above. You can find the key on the "<a href="https://my.ecwid.com/cp/CP.html#legacy_api" target="_blank">Legacy API Keys</a>" page. This feature is available for <a href="https://www.ecwid.com/pricing" target="_blank">paid users</a> only.', 'ecwid-shopping-cart'); ?>
+				<?php if ( !get_option('users_can_register' ) ): ?>
+				<div class="note">
+					<?php echo sprintf(__('To make sure your customer can actually log in to your site and store, enable registration in the <a %s>site settings</a>', 'ecwid-shopping-cart'), 'href="options-general.php"'); ?>
+				</div>
+				<?php endif; ?>
 			</div>
 		</div>
 
