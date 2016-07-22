@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.5
-Stable tag: 4.4.1.2
+Stable tag: 4.4.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -19,7 +19,7 @@ Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for
 Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
 
 
-= Merchant Mobile Apps =
+= eCommerce Mobile Apps =
 
 Ecwid Shopping Cart provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Your ecommerce data is automatically synchronized with your Wordpress shopping cart, Facebook store and other online storefronts.
 
@@ -93,7 +93,7 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 == Screenshots ==
 
-1.
+1. Storefront
 2.
 3.
 4.
@@ -145,6 +145,13 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.4.3 =
+- **Minor fixes and improvements.**
+
+= 4.4.2 =
+- **Fixed a few layout issues in the categories menu layout and the "Store root categories" widget.** Both wigets should look good now on any site and let your customers navigate your store easily. If you find any issue in the categories navigation in your store, please let us know. 
+- **Fixed an issue for meta title and description fields (SEO) for the sites with Yoast SEO plugin installed.** The issue appeared on the sites where the store is installed on the main (home) page – meta title and description didn't work properly. We fixed this. Ecwid shopping cart plugin is totally compatible with Yoast SEO so we recommend using them together to make your store more visible in search engines.
+
 = 4.4.1.2 =
 - Fixes PHP warning messages appearing on some server configurations.
 
