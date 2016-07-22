@@ -93,6 +93,7 @@ if ( is_admin() ){
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
   add_filter('the_content', 'ecwid_content_started', 0);
   add_filter('body_class', 'ecwid_body_class');
+  add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
   $ecwid_seo_title = '';
 }
 add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
@@ -207,6 +208,30 @@ function ecwid_body_class($classes)
 	}
 
 	return $classes;
+}
+
+function ecwid_redirect_canonical($redirect_url, $requested_url) {
+	if (!is_front_page()) {
+		return $redirect_url;
+	}
+
+	if (strpos($requested_url, '_escaped_fragment_') === false) {
+		return $redirect_url;
+	}
+
+	$parsed = parse_url($requested_url);
+	$query = array();
+	parse_str($parsed['query'], $query);
+
+	if (!array_key_exists('_escaped_fragment_', $query)) {
+		return $redirect_url;
+	}
+
+	if (!ecwid_page_has_productbrowser(get_the_ID())) {
+		return $redirect_url;
+	}
+
+	return $requested_url;
 }
 
 function ecwid_ie8_fonts_inclusion()
