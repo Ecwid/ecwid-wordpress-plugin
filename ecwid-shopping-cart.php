@@ -324,12 +324,13 @@ function ecwid_404_on_broken_escaped_fragment() {
 
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
+		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
 		if ($params['mode'] == 'product') {
 			$result = $api->get_product($params['id']);
-		} elseif ($params['mode'] == 'category') {
+		} elseif (!$is_root_cat && $params['mode'] == 'category') {
 			$result = $api->get_category($params['id']);
 		}
-		if (empty($result)) {
+		if (!$is_root_cat && empty($result)) {
 			global $wp_query;
 
 			$wp_query->set_404();
