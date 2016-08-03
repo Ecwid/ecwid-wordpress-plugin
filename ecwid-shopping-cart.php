@@ -1630,6 +1630,8 @@ function ecwid_uninstall() {
 
 		delete_option("ecwid_plugin_version");
 	  delete_option("ecwid_use_chameleon");
+
+	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
 
 function ecwid_abs_intval($value) {

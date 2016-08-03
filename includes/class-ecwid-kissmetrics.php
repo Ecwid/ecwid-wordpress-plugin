@@ -13,7 +13,7 @@ class Ecwid_Kissmetrics {
 	}
 
 	public static function record( $event ) {
-		$fire_in_background = array( 'wpPluginDeactivated' );
+		$fire_in_background = array( 'wpPluginDeactivated', 'wpPluginUninstalled' );
 		$raw_names = array( 'Signed Up' );
 
 		$name = in_array( $event, $raw_names ) ? $event : self::EVENT_PREFIX . $event;
