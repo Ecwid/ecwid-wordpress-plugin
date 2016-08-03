@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 4.4
+Version: 4.4.3
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -18,7 +18,7 @@ define("ECWID_DEMO_STORE_ID", 1003);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
-define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '10.4.4' );
+define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '4.4.2.1' );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -326,13 +326,14 @@ function ecwid_404_on_broken_escaped_fragment() {
 
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
+		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
 		if ($params['mode'] == 'product') {
 			$result = $api->get_product($params['id']);
-		} elseif ($params['mode'] == 'category') {
+		} elseif (!$is_root_cat && $params['mode'] == 'category') {
 			$result = $api->get_category($params['id']);
 		}
 
-		if (empty($result)) {
+		if (!$is_root_cat && empty($result)) {
 			global $wp_query;
 
 			$wp_query->set_404();
@@ -797,13 +798,12 @@ function ecwid_product_browser_url_in_head() {
 
 
 function ecwid_canonical() {
-	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
-	if (!$allowed) return;
+
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
 
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-	if (!$params) return;
-
-	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return;
 
 	$api = ecwid_new_product_api();
 
@@ -818,16 +818,26 @@ function ecwid_canonical() {
 	echo '<link rel="canonical" href="' . esc_attr($link) . '" />' . PHP_EOL;
 }
 
+function ecwid_is_applicable_escaped_fragment() {
+
+	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
+	if (!$allowed) return false;
+
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+	if (!$params) return false;
+
+	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return false;
+
+	return true;
+}
+
 function ecwid_meta_description() {
 
-    $allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
-    if (!$allowed) return;
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
 
-    $params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-    if (!$params) return;
-
-    if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return;
-
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
     $api = ecwid_new_product_api();
     if ($params['mode'] == 'product') {
         $product = $api->get_product($params['id']);
@@ -941,9 +951,13 @@ function ecwid_seo_title_parts($parts)
 
 function _ecwid_get_seo_title()
 {
-	if (!isset($_GET['_escaped_fragment_']) || !ecwid_is_api_enabled()) return;
 
-	$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+	if (!ecwid_is_applicable_escaped_fragment()) {
+		return;
+	}
+
+	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+
 	$ecwid_seo_title = '';
 
 	$separator = ecwid_get_title_separator();
@@ -1008,10 +1022,10 @@ function ecwid_content_started($content)
 
 function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
-    return "<!-- Ecwid shopping cart plugin v 4.4 --><!-- noptimize -->"
+    return "<!-- Ecwid shopping cart plugin v 4.4.3 --><!-- noptimize -->"
 		   . ecwid_get_scriptjs_code(@$attrs['lang'])
 	       . "<div class=\"ecwid-shopping-cart-$name\">$content</div>"
-		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.4 -->";
+		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.4.3 -->";
 }
 
 function ecwid_get_scriptjs_code($force_lang = null) {
@@ -1191,22 +1205,29 @@ function ecwid_shortcode($attributes)
 }
 
 function ecwid_parse_escaped_fragment($escaped_fragment) {
-	$fragment = urldecode($escaped_fragment);
-	$return = array();
+	static $parsed = array();
 
-	if (preg_match('/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches)) {
-		parse_str($matches[3], $return);
-		$return['mode'] = $matches[2];
-	} elseif (preg_match('!.*/(p|c)/([0-9]*)!', $fragment, $matches)) {
-		if (count($matches) == 3 && in_array($matches[1], array('p', 'c'))) {
-			$return  = array(
-				'mode' => 'p' == $matches[1] ? 'product' : 'category',
-				'id' => $matches[2]
-			);
+	if (empty($parsed[$escaped_fragment])) {
+
+		$fragment = urldecode( $escaped_fragment );
+		$return   = array();
+
+		if ( preg_match( '/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches ) ) {
+			parse_str( $matches[3], $return );
+			$return['mode'] = $matches[2];
+		} elseif ( preg_match( '!.*/(p|c)/([0-9]*)!', $fragment, $matches ) ) {
+			if ( count( $matches ) == 3 && in_array( $matches[1], array( 'p', 'c' ) ) ) {
+				$return = array(
+					'mode' => 'p' == $matches[1] ? 'product' : 'category',
+					'id'   => $matches[2]
+				);
+			}
 		}
+
+		$parsed[$escaped_fragment] = $return;
 	}
 
-	return $return;
+	return $parsed[$escaped_fragment];
 }
 
 function ecwid_ajax_get_product_info() {
@@ -1629,8 +1650,7 @@ function ecwid_get_register_link()
 {
 	$link = 'https://my.ecwid.com/cp/?source=wporg&partner=wporg%s#register';
 
-	global $current_user;
-	get_currentuserinfo();
+	$current_user = wp_get_current_user();
 
 	$user_data = '';
 	if ($current_user->ID && function_exists('get_user_meta')) {
@@ -1690,8 +1710,6 @@ function ecwid_general_settings_do_page() {
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );
-
-	//die( var_dump( EcwidPlatform::cache_set( 'user_was_redirected_to_ecwid_site_to_create_account') ) );
 
 	if ( $store_id == ECWID_DEMO_STORE_ID ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
@@ -2318,12 +2336,12 @@ function ecwid_sso() {
         return "";
     }
 
-    global $current_user;
-    get_currentuserinfo();
+    $current_user = wp_get_current_user();
 
-		$signin_url = wp_login_url(ecwid_get_store_page_url());
-		$signout_url = wp_logout_url(ecwid_get_store_page_url());
-		$sign_in_out_urls = <<<JS
+
+	$signin_url = wp_login_url(ecwid_get_store_page_url());
+	$signout_url = wp_logout_url(ecwid_get_store_page_url());
+	$sign_in_out_urls = <<<JS
 window.EcwidSignInUrl = '$signin_url';
 window.EcwidSignOutUrl = '$signout_url';
 window.Ecwid.OnAPILoaded.add(function() {

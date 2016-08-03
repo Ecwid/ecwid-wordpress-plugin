@@ -118,7 +118,7 @@
                     </div>
                     <div class="ecwid-features-bottom-item-text">
                         <h3><?php _e('Global Reach', 'ecwid-shopping-cart'); ?></h3>
-                        <p><?php _e('More than 800,000 merchants in 175 countries', 'ecwid-shopping-cart'); ?></p>
+                        <p><?php _e('Over 1 million merchants in 175 countries', 'ecwid-shopping-cart'); ?></p>
                     </div>
                 </div>
             </div>

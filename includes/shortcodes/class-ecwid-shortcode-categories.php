@@ -13,23 +13,10 @@ class Ecwid_Shortcode_Categories extends Ecwid_Shortcode_Base {
 	}
 
 	public function get_ecwid_widget_function_name() {
-		return 'xCategories';
-	}
-
-	public function render_script() {
 		if ( get_option('ecwid_use_new_horizontal_categories') ) {
-			$store_id = get_ecwid_store_id();
-			$ver = get_option('ecwid_plugin_version');
-			$result = <<<HTML
-<div id="horizontal-menu" data-storeid="$store_id"></div>
-<script src="https://djqizrxa6f10j.cloudfront.net/horizontal-category-widget/v1.2/horizontal-widget.js?ver=$ver"></script>
-HTML;
+			return 'xCategoriesV2';
 		} else {
-			$result = <<<HTML
-<script data-cfasync="false" type="text/javascript"> xCategories("style="); </script>
-HTML;
+			return 'xCategories';
 		}
-
-		return $result;
 	}
 }

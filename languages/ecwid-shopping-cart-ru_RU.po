@@ -559,7 +559,7 @@ msgstr "Посетите <a target=\"_blank\" href=\"https://support.ecwid.com/h
 msgid "Want to connect another Ecwid store?"
 msgstr "Хотите подключить другой Эквид-магазин?"
 
-msgid "You can reconnect on <a %s>this page</a>"
+msgid "<a %s>Reconnect</a>"
 msgstr "<a %s>Отвязать Эквид-аккаунт от сайта и подключить другой</a>"
 
 msgid "Creating store"

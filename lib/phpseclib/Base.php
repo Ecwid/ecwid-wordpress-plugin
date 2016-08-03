@@ -479,11 +479,6 @@ class Ecwid_Crypt_Base
      */
     var $skip_key_adjustment = false;
 
-
-    function __construct($mode = CRYPT_MODE_CBC) {
-        $this->Ecwid_Crypt_Base($mode);
-    }
-
     /**
      * Default Constructor.
      *
@@ -508,6 +503,10 @@ class Ecwid_Crypt_Base
      * @param int $mode
      * @access public
      */
+    function __construct($mode = CRYPT_MODE_CBC) {
+        $this->Ecwid_Crypt_Base($mode);
+    }
+
     function Ecwid_Crypt_Base($mode = CRYPT_MODE_CBC)
     {
         // $mode dependent settings
