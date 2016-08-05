@@ -3,21 +3,21 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.5
-Stable tag: 4.4.2
+Stable tag: 4.4.4
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
 Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
 
-= PCI DSS validated Level 1 Service Provider =
 
-Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with the Ecwid plugin, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout, your Ecwid shopping cart is PCI DSS compliant from the beginning.
+= Automatic Shipping and Taxes =
 
-= Free Ecommerce Support =
+The Ecwid ecommerce plugin integrates with major carriers including USPS, UPS, FedEx, Canada Post, Australia Post, and others to automatically calculate shipping rates. Taxes are also automated and can be set-up in a few clicks.  Automated tax rate calculations are available for the U.S., Canada, and EU VAT.  Additionally, integration with TaxJar provides automatic sales tax reporting and filing in the U.S.
 
-Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
+= Facebook Ecommerce =
 
+Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
 
 = eCommerce Mobile Apps =
 
@@ -33,9 +33,13 @@ With the Ecwid Shopping Cart, your online store data is fully hosted on our secu
 
 So you don't need to worry about software updates, security patches and server maintenance – we do that for you. Your online store gets all the new ecommerce features and bug fixes automatically.
 
-= Facebook Ecommerce =
+= PCI DSS validated Level 1 Service Provider =
 
-Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
+Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with the Ecwid plugin, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout, your Ecwid shopping cart is PCI DSS compliant from the beginning.
+
+= Free Support =
+
+Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
 
 = Sell Everywhere =
 
@@ -121,11 +125,11 @@ Ecwid shopping cart provides mobile applications for iOS and Android to manage y
 
  = How do I set up a storefront on Facebook with Ecwid shopping cart? =
 
-You can add your online shop to any web presence, including your Facebook business page. Ecwid plugin will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#How%20to%20add%20my%20store%20to%20Facebook).
+You can add your online shop to any web presence, including your Facebook business page. Ecwid plugin will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. [More details](https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#addtoFacebook).
 
  = How can I add a shopping cart widget to my site sidebar? =
 
-You can add a product search box, shopping cart widget and other tools on the Appearance/Widgets page here in your site admin. [Read more about Ecwid sidebar widgets](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#Sidebar%20widgets).
+You can add a product search box, shopping cart widget and other tools on the Appearance/Widgets page here in your site admin. [Read more about Ecwid sidebar widgets](https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#Sidebarwidgets).
 
  = How do I add my store products to a sitemap? =
 
@@ -145,6 +149,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.4.4 =
+- ** Minor improvements and fixes.**
+
 = 4.4.3 =
 - **Minor fixes and improvements.**
 
