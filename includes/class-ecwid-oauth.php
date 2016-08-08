@@ -65,7 +65,7 @@ class Ecwid_OAuth {
 			$action = 'ecwid_oauth_reconnect';
 		}
 
-		$redirect_uri = 'admin.php?page=ecwid_advanced';
+		$redirect_uri = 'admin.php?page=ecwid-advanced';
 
 		$scope = $this->_get_scope();
 		$scope[] = 'create_customers';
