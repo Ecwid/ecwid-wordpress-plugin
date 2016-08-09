@@ -2161,7 +2161,12 @@ function ecwid_admin_post_connect()
 
 	if (ecwid_test_oauth(true)) {
 
-		wp_redirect($ecwid_oauth->get_auth_dialog_url());
+		if (@isset($_GET['api_v3_sso'])) {
+			$ecwid_oauth->update_state(array('redirect_uri' => 'admin.php?page=ecwid-advanced'));
+			wp_redirect($ecwid_oauth->get_sso_reconnect_dialog_url());
+		} else {
+			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
+		}
 	} else if (!isset($_GET['reconnect'])) {
 		wp_redirect('admin.php?page=ecwid&oauth=no&connection_error');
 	} else {
@@ -2219,7 +2224,8 @@ function ecwid_advanced_settings_do_page() {
 	$is_sso_enabled = ecwid_is_sso_enabled();
 
 	global $ecwid_oauth;
-	$reconnect_link = $ecwid_oauth->get_sso_reconnect_dialog_url();
+
+	$reconnect_link = admin_url('admin-post.php?action=ecwid_connect&reconnect&api_v3_sso');
 
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
@@ -2587,7 +2593,6 @@ function ecwid_sso() {
 	if (!ecwid_is_sso_enabled()) return;
 
     $current_user = wp_get_current_user();
-
 
 	$signin_url = wp_login_url(ecwid_get_store_page_url());
 	$signout_url = wp_logout_url(ecwid_get_store_page_url());

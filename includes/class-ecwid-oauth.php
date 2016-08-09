@@ -60,12 +60,7 @@ class Ecwid_OAuth {
 
 	public function get_sso_reconnect_dialog_url()
 	{
-		$action = 'ecwid_oauth';
-		if ( $this->_is_reconnect()  ) {
-			$action = 'ecwid_oauth_reconnect';
-		}
-
-		$redirect_uri = 'admin.php?page=ecwid-advanced';
+		$redirect_uri = 'admin-post.php?action=ecwid_oauth_reconnect';
 
 		$scope = $this->_get_scope();
 		$scope[] = 'create_customers';
