@@ -2134,7 +2134,7 @@ function ecwid_process_oauth_params() {
 		$ecwid_oauth->update_state( array( 'mode' => 'connect' ) );
 	}
 
-	if ($is_reconnect) {
+	if ($is_reconnect && !isset($_GET['api_v3_sso'])) {
 		$ecwid_oauth->update_state( array(
 			'mode' => 'reconnect',
 			// explicitly set to empty array if not available to reset current state
@@ -2165,7 +2165,7 @@ function ecwid_admin_post_connect()
 	if (ecwid_test_oauth(true)) {
 
 		if (@isset($_GET['api_v3_sso'])) {
-			$ecwid_oauth->update_state(array('redirect_uri' => 'admin.php?page=ecwid-advanced'));
+			$ecwid_oauth->update_state(array('mode' => 'reconnect', 'return_url' => 'admin.php?page=ecwid-advanced'));
 			wp_redirect($ecwid_oauth->get_sso_reconnect_dialog_url());
 		} else {
 			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
