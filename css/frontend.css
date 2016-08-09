@@ -28,10 +28,6 @@ html#ecwid_html body#ecwid_body .ecwid tr:hover td {
 	color: inherit;
 }
 
-html#ecwid_html body#ecwid_body.ecwid-shopping-cart span.ecwid-categories-category {
-	font-size: 20px;
-}
-
 html#ecwid_html body#ecwid_body .ecwid table {
 	line-height: inherit;
 }

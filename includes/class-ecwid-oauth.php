@@ -250,7 +250,7 @@ class Ecwid_OAuth {
 
 	protected function _load_state() {
 		if (isset($_COOKIE['ecwid_oauth_state'])) {
-			$this->state = @unserialize( $_COOKIE['ecwid_oauth_state'] );
+			$this->state = @json_decode( $_COOKIE['ecwid_oauth_state'] );
 
 		}
 
@@ -277,7 +277,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _save_state() {
-		setcookie('ecwid_oauth_state', serialize($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
 	}
 
 	public function get_reconnect_error() {

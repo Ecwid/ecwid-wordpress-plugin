@@ -17,7 +17,7 @@
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Want to connect another Ecwid store?', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
-			<?php echo sprintf(__('You can reconnect on <a %s>this page</a>', 'ecwid-shopping-cart'), 'href="admin.php?page=ecwid&reconnect"'); ?>
+			<?php echo sprintf(__('<a %s>Reconnect</a>', 'ecwid-shopping-cart'), 'href="admin.php?page=ecwid&reconnect"'); ?>
 		</div>
 	</div>
 <?php endif; ?>

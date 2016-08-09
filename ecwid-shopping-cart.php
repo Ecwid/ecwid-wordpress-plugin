@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 4.4.1.2
+Version: 4.4.4
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -18,7 +18,7 @@ define("ECWID_DEMO_STORE_ID", 1003);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
-define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '10.4.4' );
+define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '4.4.2.1' );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -324,12 +324,13 @@ function ecwid_404_on_broken_escaped_fragment() {
 
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
+		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
 		if ($params['mode'] == 'product') {
 			$result = $api->get_product($params['id']);
-		} elseif ($params['mode'] == 'category') {
+		} elseif (!$is_root_cat && $params['mode'] == 'category') {
 			$result = $api->get_category($params['id']);
 		}
-		if (empty($result)) {
+		if (!$is_root_cat && empty($result)) {
 			global $wp_query;
 
 			$wp_query->set_404();
@@ -1022,10 +1023,10 @@ function ecwid_content_started($content)
 
 function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
-    return "<!-- Ecwid shopping cart plugin v 4.4.1.2 --><!-- noptimize -->"
+    return "<!-- Ecwid shopping cart plugin v 4.4.4 --><!-- noptimize -->"
 		   . ecwid_get_scriptjs_code(@$attrs['lang'])
 	       . "<div class=\"ecwid-shopping-cart-$name\">$content</div>"
-		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.4.1.2 -->";
+		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.4.4 -->";
 }
 
 function ecwid_get_scriptjs_code($force_lang = null) {
@@ -1633,6 +1634,8 @@ function ecwid_uninstall() {
 
 		delete_option("ecwid_plugin_version");
 	  delete_option("ecwid_use_chameleon");
+
+	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
 
 function ecwid_abs_intval($value) {
