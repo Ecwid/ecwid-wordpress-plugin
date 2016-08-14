@@ -39,7 +39,7 @@
 
 		<div class="pure-control-group checkbox">
 			<div class="label">
-				<label for="ecwid_is_sso_enabled">
+				<label for="ecwid_is_sso_enabled" class="premium-feature">
 
 					<input
 						id="ecwid_is_sso_enabled"
@@ -56,8 +56,15 @@
 					<?php _e('Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'); ?>
 				</div>
 				<?php if (!ecwid_is_paid_account()): ?>
-				<div class="note">
-					<?php echo sprintf(__('This feature is available on the Ecwid\'s Venture plan and above. <a %s>Please upgrade to get it.</a>', 'ecwid-shopping-cart'), 'target="_blank" href="admin.php?page=ecwid&ecwid_page=' . urlencode('billing:feature=sso&plan=ecwid_venture') . '"'); ?>
+				<div class="upgrade-note">
+					<a
+						class="button ecwid-button button-green" target="_blank"
+						href="admin.php?page=ecwid&ecwid_page=billing%3Afeature%3Dsso%26plan%3Decwid_venture">
+						<?php _e( 'Connect this feature', 'ecwid-shopping-cart' ); ?>
+					</a>
+					<div class="note grayed-links">
+						<?php echo sprintf(__('This feature is available on the Ecwid\'s Venture plan and above', 'ecwid-shopping-cart'), ''); ?>
+					</div>
 				</div>
 				<?php endif; ?>
 				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key')): ?>
