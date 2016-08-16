@@ -1727,17 +1727,16 @@ function ecwid_get_categories($nocache = false) {
 	$categories = EcwidPlatform::cache_get('all_categories');
 
 	if ( false == $categories || $nocache ) {
-		$callback = 'ecwidcatscallback';
-		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
-		$result = $result['data'];
+		$request = Ecwid_Http::create_get(
+			'get_categories_through_endpoint',
+			ecwid_get_categories_js_url(),
+			array(Ecwid_Http::POLICY_IGNORE_ERRORS, Ecwid_Http::POLICY_EXPECT_JSONP)
+		);
+		$categories = $request->do_request();
 
-		$prefix_length = strlen($callback . '(');
-		$suffix_length = strlen(');');
-		$result = substr($result, $prefix_length, strlen($result) - $suffix_length - $prefix_length - 1);
-
-		$categories = json_decode($result);
-
-		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 2);
+		if (!is_null($categories)) {
+			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
+		}
 	}
 
 	return $categories;
@@ -2812,8 +2811,15 @@ function ecwid_embed_svg($name) {
 	echo $code;
 }
 
-function ecwid_get_categories_js_url($callback) {
-	return 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback;
+function ecwid_get_categories_js_url($callback = null) {
+
+	$url = 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id();
+
+	if ($callback) {
+		$url .= '&callback=' . $callback;
+	}
+
+	return $url;
 }
 
 

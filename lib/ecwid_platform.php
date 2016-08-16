@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ecwid_requests.php';
+
 class EcwidPlatform {
 
 	static protected $http_use_streams = false;
