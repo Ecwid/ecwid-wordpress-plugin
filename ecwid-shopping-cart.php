@@ -1550,11 +1550,22 @@ EOT;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_post($id);
 	}
+	if (is_null($_tmp_page)) {
+		$id = get_option('ecwid_store_page_id_auto');
+
+		if (!empty($id) and ($id > 0)) {
+			$_tmp_page = get_post($id);
+		}
+	}
 	if ($_tmp_page !== null) {
 		$my_post = array();
 		$my_post['ID'] = $id;
 		$my_post['post_status'] = 'publish';
 		wp_update_post( $my_post );
+
+		if ($id == get_option('ecwid_store_page_id_auto')) {
+			update_option('ecwid_store_page_id', $id);
+		}
 
 	} else {
 		ecwid_load_textdomain();
