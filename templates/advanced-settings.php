@@ -56,7 +56,7 @@
 				<div class="note">
 					<?php _e('Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'); ?>
 				</div>
-				<?php if (1 || !ecwid_is_paid_account()): ?>
+				<?php if (!ecwid_is_paid_account()): ?>
 				<div class="upgrade-note">
 					<a
 						class="button ecwid-button button-green" target="_blank"
