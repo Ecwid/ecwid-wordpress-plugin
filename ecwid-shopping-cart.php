@@ -2628,18 +2628,22 @@ JS;
 	    global $ecwid_oauth;
 	    if ($ecwid_oauth->has_scope('create_customers')) {
 		    $key = Ecwid_Api_V3::CLIENT_SECRET;
-		    $userData['appClientId'] = 'wporg-plugin';
+		    $user_data['appClientId'] = Ecwid_Api_V3::CLIENT_ID;
 	    } else {
 		    $key = get_option('ecwid_sso_secret_key');
 		    $user_data['appId'] = "wp_" . get_ecwid_store_id();
 	    }
 
-		$user_data = base64_encode(json_encode($user_data));
+		$user_data_encoded = base64_encode(json_encode($user_data));
 		$time = time();
-		$hmac = ecwid_hmacsha1("$user_data $time", $key);
+		$hmac = ecwid_hmacsha1("$user_data_encoded $time", $key);
 
-		$ecwid_sso_profile ="$user_data $hmac $time";
-	}
+		$ecwid_sso_profile = "$user_data_encoded $hmac $time";
+
+
+	    //die(var_dump($user_data, json_encode($user_data), $ecwid_sso_profile));
+    }
+
 
 	return <<<HTML
 <script data-cfasync="false" type="text/javascript">

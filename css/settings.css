@@ -737,15 +737,16 @@ display: none;
 	margin-top: 10px;
 }
 
-label.premium-feature:after {
+label.premium-feature svg {
 	height: 10px;
 	width: 10px;
-	min-height:10px;
-	min-width:10px;
-	background: url('../images/ecwid_wp_attention.gif') no-repeat;
-	content:"";
 	display:inline-block;
 }
+
+label.premium-feature svg path {
+	fill: #f9af17;
+}
+
 
 @media screen and (max-width: 960px) {
 	.ecwid-popup {
