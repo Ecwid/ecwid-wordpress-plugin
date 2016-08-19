@@ -38,6 +38,7 @@ class Ecwid_Api_V3
 		update_option(self::TOKEN_OPTION_NAME, $value);
 	}
 
+	/*
 	public function get_categories($input_params)
 	{
 		$params = array('token');
@@ -107,6 +108,7 @@ class Ecwid_Api_V3
 
 		return $result->items;
 	}
+	*/
 
 	protected static function _load_token()
 	{
@@ -163,7 +165,11 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($this->_stores_api_url, $params);
 
-		$result = EcwidPlatform::http_get_request($url);
+		$request = Ecwid_Http::create_get('does_store_exist', $url, array(
+			Ecwid_Http::POLICY_RETURN_VERBOSE
+		));
+
+		$result = $request->do_request();
 
 		return @$result['code'] == 200;
 	}

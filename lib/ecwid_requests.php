@@ -11,11 +11,26 @@ abstract class Ecwid_Http {
 	protected $processed_data;
 	protected $timeout;
 	protected $jsonp_callback = null;
+	protected $code;
+	protected $message;
+	protected $headers;
 
 	const TRANSPORT_CHECK_EXPIRATION = 60 * 60 * 24;
 
+	/**
+	 * No error handling whatsoever
+	 */
 	const POLICY_IGNORE_ERRORS = 'ignore_errors';
+
+	/**
+	 * Data received will be interpreted as jsonp
+	 */
 	const POLICY_EXPECT_JSONP  = 'expect_jsonp';
+
+	/**
+	 * Returns all response data with headers and such instead of data only
+	 */
+	const POLICY_RETURN_VERBOSE = 'return_verbose';
 
 	abstract protected function _do_request($url, $args);
 
@@ -23,6 +38,15 @@ abstract class Ecwid_Http {
 		$this->name = $name;
 		$this->url = $url;
 		$this->policies = $policies;
+	}
+
+	public function get_response_meta() {
+		return array(
+			'data' => $this->raw_result,
+			'code' => $this->code,
+			'message' => $this->message,
+			'headers' => $this->headers
+		);
 	}
 
 	public function do_request($args) {
@@ -39,6 +63,8 @@ abstract class Ecwid_Http {
 
 	public static function create_get($name, $url, $params) {
 		$transport_class = self::_get_transport($name, $url, $params);
+		$transport_class = 'Ecwid_HTTP_Get_WpRemoteGet';
+		//$transport_class = 'Ecwid_HTTP_Get_Fopen';
 
 		if (!$transport_class) {
 			$transport_class = self::_detect_get_transport($name, $url, $params);
@@ -53,10 +79,28 @@ abstract class Ecwid_Http {
 		return $transport;
 	}
 
+	public static function create_post($name, $url, $params) {
+		$transport_class = self::_post_transport($name, $url, $params);
+		$transport_class = 'Ecwid_HTTP_Post_WpRemotePost';
+		//$transport_class = 'Ecwid_HTTP_Post_Fopen';
+
+		if (!$transport_class) {
+			$transport_class = self::_detect_post_transport($name, $url, $params);
+		}
+
+		if (empty($transport_class)) {
+			return null;
+		}
+
+		$transport = new $transport_class($name, $url, $params);
+
+		return $transport;
+	}
+
 	protected static function _get_transport($name) {
 		$data = EcwidPlatform::get('get_transport_' . $name);
 
-		if (!empty($data) && $data['use_default']) {
+		if (!empty($data) && @$data['use_default']) {
 			return self::_get_default_transport();
 		}
 
@@ -67,7 +111,46 @@ abstract class Ecwid_Http {
 		return null;
 	}
 
+
+	protected static function _post_transport($name) {
+		$data = EcwidPlatform::get('get_transport_' . $name);
+
+		if (!empty($data) && @$data['use_default']) {
+			return self::_post_default_transport();
+		}
+
+		if (!empty(@$data['preferred']) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
+			return $data['preferred'];
+		}
+
+		return null;
+	}
+
 	protected static function _detect_get_transport($name, $url, $params) {
+
+		foreach (self::_get_transports() as $transport_class) {
+			$transport = new $transport_class($name, $url, $params);
+
+			$result = $transport->do_request();
+
+			if (!$transport->is_error) {
+				self::_set_transport_for_request(
+					$name,
+					array(
+						'preferred' => $transport_class,
+						'last_check' => time()
+					)
+				);
+
+				return $transport_class;
+			}
+		}
+
+		return null;
+	}
+
+
+	protected static function _detect_post_transport($name, $url, $params) {
 
 		foreach (self::_get_transports() as $transport_class) {
 			$transport = new $transport_class($name, $url, $params);
@@ -102,8 +185,16 @@ abstract class Ecwid_Http {
 		return 'Ecwid_HTTP_Get_WpRemoteGet';
 	}
 
+	protected static function _post_default_transport() {
+		return 'Ecwid_HTTP_Post_WpRemotePost';
+	}
+
 	protected static function _get_transports() {
 		return array('Ecwid_HTTP_Get_WpRemoteGet', 'Ecwid_HTTP_Get_Fopen');
+	}
+
+	protected static function _post_transports() {
+		return array('Ecwid_HTTP_Post_WpRemotePost', 'Ecwid_HTTP_Post_Fopen');
 	}
 
 	protected function _trigger_error() {
@@ -128,6 +219,11 @@ abstract class Ecwid_Http {
 			$result = substr($raw_data, $prefix_length, strlen($result) - $suffix_length - $prefix_length - 1);
 
 			$result = json_decode($result);
+		}
+
+		if ($this->_has_policy( self::POLICY_RETURN_VERBOSE ) ) {
+			$result = $this->get_response_meta();
+			$result['data'] = $raw_data;
 		}
 
 		$this->processed_data = $result;
@@ -157,13 +253,14 @@ class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
 		);
 
 		if (is_wp_error($this->raw_result)) {
-			return $this->_handle_error();
+			$this->_trigger_error();
 
 			return $this->raw_result;
 		}
 
 		$this->code = $this->raw_result['response']['code'];
 		$this->message = $this->raw_result['response']['message'];
+		$this->headers = $this->raw_result['headers'];
 
 		return $this->raw_result['body'];
 	}
@@ -173,33 +270,133 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 
 	protected function _do_request($url, $args) {
 
-		$ctx = stream_context_create($this->_build_stream_context_args($args));
-		$handle = @fopen($url, 'r', $ctx);
+		$stream_context_args = array('http'=> array());
+		if (@$args['timeout']) {
+			$stream_context_args['http']['timeout'] = $args['timeout'];
+		}
+
+		$ctx = stream_context_create($stream_context_args);
+		$handle = @fopen($url, 'r', null, $ctx);
 
 		if (!$handle) {
-			$this->_handle_error();
+			$this->_trigger_error();
 
 			return null;
 		}
 
-		$this->result = stream_get_contents($handle);
+		$this->raw_result = stream_get_contents($handle);
 
-		$stream_meta = stream_get_meta_data($handle);
-		$status = explode(' ', $stream_meta['wrapper_data'][0]);
-		$this->code = $status[1];
-		$this->message = $status[2];
+		$this->headers = $this->_get_meta($handle);
+		$this->code = $this->headers['code'];
+		$this->message = $this->headers['message'];
 
 		return $this->raw_result;
 	}
 
-	protected function _build_stream_context_args($args) {
+	protected function _get_meta($handle) {
+		$meta = stream_get_meta_data($handle);
+
 		$result = array();
 
-		if (@$args['timeout']) {
-			$result['timeout'] = $args['timeout'];
+		foreach ($meta['wrapper_data'] as $item) {
+
+			$match = array();
+			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
+				$result['code'] = $match[1];
+				$result['message'] = $match[2];
+			}
+
+			$colon_pos = strpos($item, ':');
+
+			if (!$colon_pos) continue;
+
+			$name = substr($item, 0, $colon_pos);
+			$result[strtolower($name)] = trim(substr($item, $colon_pos + 1));
 		}
 
 		return $result;
 	}
+}
+
+abstract class Ecwid_HTTP_Post extends Ecwid_Http {
+
+}
+
+class Ecwid_HTTP_Post_WpRemotePost extends Ecwid_Http_Post {
+
+	protected function _do_request($url, $args) {
+
+		$this->raw_result = wp_remote_post(
+			$url,
+			$args
+		);
+
+		if (is_wp_error($this->raw_result)) {
+			$this->_trigger_error();
+
+			return $this->raw_result;
+		}
+
+		$this->code = $this->raw_result['response']['code'];
+		$this->message = $this->raw_result['response']['message'];
+		$this->headers = $this->raw_result['headers'];
+
+		return $this->raw_result['body'];
+
+	}
+}
+
+class Ecwid_HTTP_Post_Fopen extends Ecwid_Http_Post {
+	protected function _do_request($url, $args) {
+
+		$stream_context_args = array('http'=> array());
+		if (@$args['timeout']) {
+			$stream_context_args['http']['timeout'] = $args['timeout'];
+			$stream_context_args['http']['method'] = 'POST';
+			$stream_context_args['http']['content'] = $args['data'];
+		}
+
+		$ctx = stream_context_create($stream_context_args);
+		$handle = @fopen($url, 'r', null, $ctx);
+
+		if (!$handle) {
+			$this->_trigger_error();
+
+			return null;
+		}
+
+		$this->raw_result = stream_get_contents($handle);
+
+		$this->headers = $this->_get_meta($handle);
+		$this->code = $this->headers['code'];
+		$this->message = $this->headers['message'];
+
+		return $this->raw_result;
+	}
+
+	protected function _get_meta($handle) {
+		$meta = stream_get_meta_data($handle);
+
+		$result = array();
+
+		foreach ($meta['wrapper_data'] as $item) {
+
+			$match = array();
+			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
+				$result['code'] = $match[1];
+				$result['message'] = $match[2];
+			}
+
+			$colon_pos = strpos($item, ':');
+
+			if (!$colon_pos) continue;
+
+			$name = substr($item, 0, $colon_pos);
+			$result[strtolower($name)] = trim(substr($item, $colon_pos + 1));
+		}
+
+		return $result;
+	}
+
 
 }
