@@ -1653,8 +1653,8 @@ function ecwid_uninstall() {
     delete_option("ecwid_installation_date");
     delete_option('ecwid_hide_appearance_menu');
 
-		delete_option("ecwid_plugin_version");
-	  delete_option("ecwid_use_chameleon");
+	delete_option("ecwid_plugin_version");
+	delete_option("ecwid_use_chameleon");
 
 	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
@@ -2551,7 +2551,7 @@ function ecwid_get_wp_install_date( ) {
 		global $wpdb;
 		$oldest_user     = strtotime( $wpdb->get_var( "SELECT min(`user_registered`) FROM {$wpdb->users}" ) );
 		$oldest_post     = strtotime( $wpdb->get_var( "SELECT min(`post_date`) FROM {$wpdb->posts}" ) );
-		$wpconfig_create = filectime( ABSPATH . '/wp-config.php' );
+		$wpconfig_create = @filectime( ABSPATH . '/wp-config.php' );
 
 		$wp_date = min( $oldest_user, $oldest_post, $wpconfig_create );
 		update_option( 'ecwid_wp_install_date', $wp_date );
