@@ -93,6 +93,7 @@ if ( is_admin() ){
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
   add_filter('the_content', 'ecwid_content_started', 0);
   add_filter('body_class', 'ecwid_body_class');
+  add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
   $ecwid_seo_title = '';
 }
 add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
@@ -207,6 +208,30 @@ function ecwid_body_class($classes)
 	}
 
 	return $classes;
+}
+
+function ecwid_redirect_canonical($redirect_url, $requested_url) {
+	if (!is_front_page()) {
+		return $redirect_url;
+	}
+
+	if (strpos($requested_url, '_escaped_fragment_') === false) {
+		return $redirect_url;
+	}
+
+	$parsed = parse_url($requested_url);
+	$query = array();
+	parse_str($parsed['query'], $query);
+
+	if (!array_key_exists('_escaped_fragment_', $query)) {
+		return $redirect_url;
+	}
+
+	if (!ecwid_page_has_productbrowser(get_the_ID())) {
+		return $redirect_url;
+	}
+
+	return $requested_url;
 }
 
 function ecwid_ie8_fonts_inclusion()
@@ -1529,11 +1554,22 @@ EOT;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_post($id);
 	}
+	if (is_null($_tmp_page)) {
+		$id = get_option('ecwid_store_page_id_auto');
+
+		if (!empty($id) and ($id > 0)) {
+			$_tmp_page = get_post($id);
+		}
+	}
 	if ($_tmp_page !== null) {
 		$my_post = array();
 		$my_post['ID'] = $id;
 		$my_post['post_status'] = 'publish';
 		wp_update_post( $my_post );
+
+		if ($id == get_option('ecwid_store_page_id_auto')) {
+			update_option('ecwid_store_page_id', $id);
+		}
 
 	} else {
 		ecwid_load_textdomain();
@@ -1632,8 +1668,8 @@ function ecwid_uninstall() {
     delete_option("ecwid_installation_date");
     delete_option('ecwid_hide_appearance_menu');
 
-		delete_option("ecwid_plugin_version");
-	  delete_option("ecwid_use_chameleon");
+	delete_option("ecwid_plugin_version");
+	delete_option("ecwid_use_chameleon");
 
 	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
@@ -2554,7 +2590,7 @@ function ecwid_get_wp_install_date( ) {
 		global $wpdb;
 		$oldest_user     = strtotime( $wpdb->get_var( "SELECT min(`user_registered`) FROM {$wpdb->users}" ) );
 		$oldest_post     = strtotime( $wpdb->get_var( "SELECT min(`post_date`) FROM {$wpdb->posts}" ) );
-		$wpconfig_create = filectime( ABSPATH . '/wp-config.php' );
+		$wpconfig_create = @filectime( ABSPATH . '/wp-config.php' );
 
 		$wp_date = min( $oldest_user, $oldest_post, $wpconfig_create );
 		update_option( 'ecwid_wp_install_date', $wp_date );
