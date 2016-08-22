@@ -737,6 +737,11 @@ display: none;
 	margin-top: 10px;
 }
 
+.ecwid-button.button-green:hover {
+	background: #2cc40b;
+	color: white;
+}
+
 label.premium-feature svg {
 	height: 10px;
 	width: 10px;
