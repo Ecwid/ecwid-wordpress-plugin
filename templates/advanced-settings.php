@@ -48,6 +48,9 @@
 						<?php if ( $is_sso_enabled ) : ?>
 							checked="checked"
 						<?php endif; ?>
+						<?php if ( $is_sso_checkbox_disabled ) : ?>
+						disabled="disabled"
+					    <?php endif; ?>
 					/>
 					<?php _e('Customer Single Sign-On', 'ecwid-shopping-cart'); ?>
 					<?php ecwid_embed_svg('star'); ?>
@@ -68,7 +71,7 @@
 					</div>
 				</div>
 				<?php endif; ?>
-				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key')): ?>
+				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key') && !$has_create_customers_scope): ?>
 					<div class="note">
 						<?php echo sprintf(__('To allow Ecwid automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>', 'ecwid-shopping-cart'), 'href="' . $reconnect_link . '"'); ?>
 					</div>
