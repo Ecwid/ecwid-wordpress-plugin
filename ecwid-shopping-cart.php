@@ -2228,6 +2228,10 @@ function ecwid_advanced_settings_do_page() {
 
 	global $ecwid_oauth;
 
+	$has_create_customers_scope = $ecwid_oauth->has_scope('create_customers');
+
+	$is_sso_checkbox_disabled = !$is_sso_enabled && !$has_create_customers_scope && empty(get_option('ecwid_sso_secret_key'));
+	
 	$reconnect_link = admin_url('admin-post.php?action=ecwid_connect&reconnect&api_v3_sso');
 
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
