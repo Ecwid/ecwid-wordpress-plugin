@@ -63,7 +63,10 @@ class Ecwid_OAuth {
 		$redirect_uri = 'admin-post.php?action=ecwid_oauth_reconnect';
 
 		$scope = $this->_get_scope();
-		$scope[] = 'create_customers';
+
+		if (!in_array('create_customers', $scope)) {
+			$scope[] = 'create_customers';
+		}
 
 		return $this->api->get_oauth_dialog_url(
 			admin_url( $redirect_uri ),
@@ -177,7 +180,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso' );
+		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers' );
 	}
 
 	protected function trigger_auth_error($mode = 'default')
