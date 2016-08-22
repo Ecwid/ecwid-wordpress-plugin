@@ -102,6 +102,7 @@ class Ecwid_OAuth {
 		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
+		update_option( 'ecwid_api_check_time', 0 );
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
 
