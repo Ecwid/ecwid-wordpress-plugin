@@ -1,0 +1,6 @@
+
+.et-pb-all-modules .et_pb_ecwid:before,
+.et_pb_saved_layouts_list .et_pb_ecwid:before{
+	font-family: ecwid-plugin-icons;
+	content: "\e603";
+}

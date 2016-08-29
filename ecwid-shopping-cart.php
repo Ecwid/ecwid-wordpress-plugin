@@ -125,7 +125,8 @@ function ecwid_init_integrations()
 
 	$integrations = array(
 		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
-		'wpseo' => 'wordpress-seo/wp-seo.php'
+		'wpseo' => 'wordpress-seo/wp-seo.php',
+		'divibuilder' => 'divi-builder/divi-builder.php'
 	);
 
 	foreach ($integrations as $key => $plugin) {
@@ -1849,100 +1850,6 @@ function ecwid_settings_api_init() {
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
 	}
-
-
-	if (class_exists('ET_Builder_Module')) {
-		class ET_Builder_Module_Ecwid extends ET_Builder_Module {
-			function init() {
-				$this->name            = __( 'Ecwid', 'et_builder' );
-				$this->slug            = 'et_pb_ecwid';
-				$this->use_row_content = TRUE;
-				$this->decode_entities = TRUE;
-
-				$this->whitelisted_fields = array(
-					'raw_content',
-					'admin_label',
-					'module_id',
-					'module_class',
-					'max_width',
-				);
-			}
-
-			function get_fields() {
-				$fields = array(
-					'raw_content'  => array(
-						'label'           => __( 'Content', 'et_builder' ),
-						'type'            => 'textarea',
-						'option_category' => 'basic_option',
-						'description'     => __( 'Here you can create the content that will be used within the module.', 'et_builder' ),
-					),
-					'admin_label'  => array(
-						'label'       => __( 'Admin Label', 'et_builder' ),
-						'type'        => 'text',
-						'description' => __( 'This will change the label of the module in the builder for easy identification.', 'et_builder' ),
-					),
-					'module_id'    => array(
-						'label'           => __( 'CSS ID', 'et_builder' ),
-						'type'            => 'text',
-						'option_category' => 'configuration',
-						'description'     => __( 'Enter an optional CSS ID to be used for this module. An ID can be used to create custom CSS styling, or to create links to particular sections of your page.', 'et_builder' ),
-					),
-					'module_class' => array(
-						'label'           => __( 'CSS Class', 'et_builder' ),
-						'type'            => 'text',
-						'option_category' => 'configuration',
-						'description'     => __( 'Enter optional CSS classes to be used for this module. A CSS class can be used to create custom CSS styling. You can add multiple classes, separated with a space.', 'et_builder' ),
-					),
-					'max_width'    => array(
-						'label'           => __( 'Max Width', 'et_builder' ),
-						'type'            => 'text',
-						'option_category' => 'layout',
-						'tab_slug'        => 'advanced',
-						'validate_unit'   => TRUE,
-					),
-				);
-
-				return $fields;
-			}
-
-			function shortcode_callback( $atts, $content = NULL, $function_name ) {
-				$module_id    = $this->shortcode_atts['module_id'];
-				$module_class = $this->shortcode_atts['module_class'];
-				$max_width    = $this->shortcode_atts['max_width'];
-
-				$module_class = ET_Builder_Element::add_module_order_class( $module_class, $function_name );
-
-				$this->shortcode_content = et_builder_replace_code_content_entities( $this->shortcode_content );
-
-				if ( '' !== $max_width ) {
-					ET_Builder_Element::set_style( $function_name, array(
-						'selector'    => '%%order_class%%',
-						'declaration' => sprintf(
-							'max-width: %1$s;',
-							esc_html( et_builder_process_range_value( $max_width ) )
-						),
-					) );
-				}
-
-				$output = sprintf(
-					'<div%2$s class="et_pb_code et_pb_module%3$s">
-					%1$s
-				</div> <!-- .et_pb_code -->',
-					$this->shortcode_content,
-					( '' !== $module_id ? sprintf( ' id="%1$s"', esc_attr( $module_id ) ) : '' ),
-					( '' !== $module_class ? sprintf( ' %1$s', esc_attr( $module_class ) ) : '' )
-				);
-
-				return $output;
-			}
-		}
-
-		new ET_Builder_Module_Ecwid;
-	}
-
-
-
-
 }
 
 function ecwid_common_admin_scripts() {
