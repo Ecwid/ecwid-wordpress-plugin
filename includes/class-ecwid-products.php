@@ -30,7 +30,7 @@ class Ecwid_Products {
 			require ECWID_PLUGIN_DIR . '/templates/product.php';
 
 			$contents = ob_get_contents();
-			return 'abc';
+			return $contents;
 		}
 
 		return $content;
