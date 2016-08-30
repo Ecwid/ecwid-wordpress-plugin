@@ -64,7 +64,7 @@
 					<a
 						class="button ecwid-button button-green" target="_blank"
 						href="admin.php?page=ecwid&ecwid_page=billing%3Afeature%3Dsso%26plan%3Decwid_venture">
-						<?php _e( 'Connect this feature', 'ecwid-shopping-cart' ); ?>
+						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
 					</a>
 					<div class="note grayed-links">
 						<?php echo sprintf(__('This feature is available on the Ecwid\'s Venture plan and above', 'ecwid-shopping-cart'), ''); ?>
