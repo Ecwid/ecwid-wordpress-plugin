@@ -1277,15 +1277,18 @@ function ecwid_install_theme() {
 
 function ecwid_shortcode($attributes)
 {
+
+	$defaults = ecwid_get_default_pb_size();
+
 	$attributes = shortcode_atts(
 		array(
 			'widgets' 					  => 'productbrowser',
 			'categories_per_row'  => '3',
 			'category_view' 		  => 'grid',
 			'search_view' 			  => 'grid',
-			'grid' 							  => '3,3',
-			'list' 							  => '10',
-			'table' 						  => '20',
+			'grid' 							  => $defaults['grid_rows'] . ',' . $defaults['grid_columns'],
+			'list' 							  => $defaults['list_rows'],
+			'table' 						  => $defaults['table_rows'],
 			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
 			'lang' => ''
@@ -1368,20 +1371,22 @@ function ecwid_productbrowser_shortcode($shortcode_params) {
         ? $shortcode_params['default_category_id']
         : get_option('ecwid_default_category_id');
 
+	$defaults = ecwid_get_default_pb_size();
+
     if (empty($ecwid_pb_categoriesperrow)) {
         $ecwid_pb_categoriesperrow = 3;
     }
     if (empty($ecwid_pb_productspercolumn_grid)) {
-        $ecwid_pb_productspercolumn_grid = 3;
+        $ecwid_pb_productspercolumn_grid = $defaults['grid_rows'];
     }
     if (empty($ecwid_pb_productsperrow_grid)) {
-        $ecwid_pb_productsperrow_grid = 3;
+        $ecwid_pb_productsperrow_grid = $defaults['grid_columns'];
     }
     if (empty($ecwid_pb_productsperpage_list)) {
-        $ecwid_pb_productsperpage_list = 10;
+        $ecwid_pb_productsperpage_list = $defaults['list_rows'];
     }
     if (empty($ecwid_pb_productsperpage_table)) {
-        $ecwid_pb_productsperpage_table = 20;
+        $ecwid_pb_productsperpage_table = $defaults['list_rows'];
     }
 
     if (empty($ecwid_pb_defaultview) || !in_array($ecwid_pb_defaultview, $list_of_views)) {
@@ -1496,8 +1501,9 @@ function ecwid_store_activate() {
 		Ecwid_Kissmetrics::record('firstactivated');
 	}
 	$my_post = array();
+	$defaults = ecwid_get_default_pb_size();
 	$content = <<<EOT
-[ecwid widgets="productbrowser minicart categories search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[ecwid widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 	add_option("ecwid_store_page_id_auto", '', '', 'yes');
@@ -1510,10 +1516,10 @@ EOT;
 
 	add_option("ecwid_pb_categoriesperrow", '3', '', 'yes');
 
-	add_option("ecwid_pb_productspercolumn_grid", '3', '', 'yes');
-	add_option("ecwid_pb_productsperrow_grid", '3', '', 'yes');
-	add_option("ecwid_pb_productsperpage_list", '10', '', 'yes');
-	add_option("ecwid_pb_productsperpage_table", '20', '', 'yes');
+	add_option("ecwid_pb_productspercolumn_grid", $defaults['grid_rows'], '', 'yes');
+	add_option("ecwid_pb_productsperrow_grid", $defaults['grid_columns'], '', 'yes');
+	add_option("ecwid_pb_productsperpage_list", $defaults['list_rows'], '', 'yes');
+	add_option("ecwid_pb_productsperpage_table", $defaults['table_rows'], '', 'yes');
 
 	add_option("ecwid_pb_defaultview", 'grid', '', 'yes');
 	add_option("ecwid_pb_searchview", 'list', '', 'yes');
@@ -2704,6 +2710,15 @@ function ecwid_can_display_html_catalog()
 	$profile = $api->get_profile();
 	if (!$profile) return;
 	return $profile['closed'] != true;
+}
+
+function ecwid_get_default_pb_size() {
+	return array(
+		'grid_rows' =>    8,
+		'grid_columns' => 5,
+		'list_rows' =>    40,
+		'table_rows' =>   220
+	);
 }
 
 function ecwid_is_paid_account()
