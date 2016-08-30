@@ -110,6 +110,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kissmetrics.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
+
 
 if (is_admin()) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -1757,6 +1759,17 @@ function ecwid_build_menu() {
 		'manage_options', 'ecwid-help', 'ecwid_help_do_page'
 	);
 	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
+
+	add_submenu_page('', 'Ecwid sync', '', 'manage_options', 'ecwid-sync', 'ecwid_sync_do_page');
+}
+
+function ecwid_sync_do_page() {
+
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
+
+	$prods = new Ecwid_Products();
+
+	require_once ECWID_PLUGIN_DIR . 'templates/sync.php';
 }
 
 function ecwid_get_categories($nocache = false) {
