@@ -305,6 +305,8 @@ function ecwid_enqueue_external_chameleon() {
 		$localize['primary_link'] = get_option('ecwid_chameleon_links');
 	}
 
+	$localize['font'] = 'auto';
+
 	if (!empty( $localize )) {
 		wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', $localize);
 	}
