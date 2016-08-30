@@ -1326,6 +1326,8 @@ function ecwid_shortcode($attributes)
 
 	update_option('ecwid_store_shortcode_used', time());
 
+	$result .= apply_filters('ecwid_shortcode_content', $result);
+
 	return $result;
 }
 
