@@ -553,8 +553,8 @@ msgstr "https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG"
 msgid "Questions?"
 msgstr "Есть вопросы?"
 
-msgid "<a href=\"admin.php?page=ecwid-help\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
-msgstr "Посетите <a target=\"_blank\" href=\"https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG\">Центр поддержки Эквида</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
+msgid "<a href=\"admin.php?page=ecwid-help\">Read FAQ or contact support</a>"
+msgstr "<a href=\"admin.php?page=ecwid-help\">Посетите Центр поддержки Эквида или напишите нам</a>"
 
 msgid "Want to connect another Ecwid store?"
 msgstr "Хотите подключить другой Эквид-магазин?"

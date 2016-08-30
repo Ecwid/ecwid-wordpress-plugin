@@ -500,13 +500,6 @@ function ecwid_check_version()
 			add_option('ecwid_chameleon_colors_button', '');
 			add_option('ecwid_chameleon_colors_price', '');
 		}
-
-		$all_plugins = get_plugins();
-		$has_woo = ecwid_get_woocommerce_status();
-
-		if ($has_woo) {
-			add_option('ecwid_extended_help', true);
-		}
 	}
 }
 
