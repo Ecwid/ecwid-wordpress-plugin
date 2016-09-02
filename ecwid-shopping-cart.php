@@ -2718,10 +2718,10 @@ function ecwid_can_display_html_catalog()
 
 function ecwid_get_default_pb_size() {
 	return array(
-		'grid_rows' =>    8,
-		'grid_columns' => 5,
-		'list_rows' =>    40,
-		'table_rows' =>   220
+		'grid_rows' =>    10,
+		'grid_columns' => 3,
+		'list_rows' =>    60,
+		'table_rows' =>   60
 	);
 }
 
