@@ -328,7 +328,8 @@ function ecwid_enqueue_builtin_chameleon() {
 		$colors = 'auto';
 	}
 	wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', array(
-		'colors' => $colors
+		'colors' => $colors,
+		'font' => 'auto'
 	));
 }
 
