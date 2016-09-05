@@ -15,6 +15,7 @@ register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
 define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
+define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
@@ -2090,6 +2091,10 @@ function ecwid_admin_do_page( $page ) {
 		$page = $_GET['ecwid_page'];
 	}
 
+	if ($page == ecwid_get_admin_iframe_upgrade_page()) {
+		update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
+	}
+
 	if ($page == 'dashboard') {
 		$show_reconnect = true;
 		if (isset($_GET['just-created'])) {
@@ -2271,6 +2276,10 @@ function ecwid_advanced_settings_do_page() {
 	$reconnect_link = admin_url('admin-post.php?action=ecwid_connect&reconnect&api_v3_sso');
 
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
+}
+
+function ecwid_get_admin_iframe_upgrade_page() {
+	return 'billing:feature=sso&plan=ecwid_venture';
 }
 
 function ecwid_appearance_settings_do_page() {
@@ -2743,8 +2752,7 @@ function ecwid_is_api_enabled()
     $ecwid_api_check_time = get_option('ecwid_api_check_time');
     $now = time();
 
-    if ( $now > ($ecwid_api_check_time + 60 * 60 * 3) && get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
-        // check whether API is available once in 3 hours
+    if ( $now > ($ecwid_api_check_time + ECWID_API_AVAILABILITY_CHECK_TIME) && get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
         $ecwid = ecwid_new_product_api();
 
         $ecwid_is_api_enabled = ($ecwid->is_api_enabled() ? 'on' : 'off');

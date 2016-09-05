@@ -63,7 +63,7 @@
 				<div class="upgrade-note">
 					<a
 						class="button ecwid-button button-green" target="_blank"
-						href="admin.php?page=ecwid&ecwid_page=billing%3Afeature%3Dsso%26plan%3Decwid_venture">
+						href="admin.php?page=ecwid&ecwid_page=<?php echo urlencode(ecwid_get_admin_iframe_upgrade_page()); ?>">
 						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
 					</a>
 					<div class="note grayed-links">
