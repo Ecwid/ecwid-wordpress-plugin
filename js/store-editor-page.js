@@ -58,7 +58,12 @@ jQuery(document).ready(function() {
 			}
 		}
 
-		var widgets = attributes.widgets.split(/[^a-z^A-Z^0-9^-^_]/);
+		var widgets = attributes.widgets;
+		if (typeof widgets == 'undefined') {
+			widgets = "productbrowser search categories minicart";
+		}
+
+		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
 
 		return {
 			'show_search': jQuery.inArray('search', widgets) != -1,
