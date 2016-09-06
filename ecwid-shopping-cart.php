@@ -1280,7 +1280,6 @@ function ecwid_install_theme() {
 
 function ecwid_shortcode($attributes)
 {
-
 	$defaults = ecwid_get_default_pb_size();
 
 	$attributes = shortcode_atts(
@@ -1329,7 +1328,7 @@ function ecwid_shortcode($attributes)
 
 	update_option('ecwid_store_shortcode_used', time());
 
-	$result .= apply_filters('ecwid_shortcode_content', $result);
+	$result = apply_filters('ecwid_shortcode_content', $result);
 
 	return $result;
 }
