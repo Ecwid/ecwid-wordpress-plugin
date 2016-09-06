@@ -126,7 +126,8 @@ function ecwid_init_integrations()
 
 	$integrations = array(
 		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
-		'wpseo' => 'wordpress-seo/wp-seo.php'
+		'wpseo' => 'wordpress-seo/wp-seo.php',
+		'divibuilder' => 'divi-builder/divi-builder.php'
 	);
 
 	foreach ($integrations as $key => $plugin) {
@@ -1888,7 +1889,6 @@ function ecwid_settings_api_init() {
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
 	}
-
 }
 
 function ecwid_common_admin_scripts() {
