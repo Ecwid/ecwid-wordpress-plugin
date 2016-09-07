@@ -2,8 +2,8 @@
 Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 4.4.4
+Tested up to: 4.6
+Stable tag: 4.5
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,8 +149,19 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.5 =
+- **Update in the Single Sign On Module (Ecwid SSO).** Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. We updated it to use the latest Ecwid ecommerce APIs to make it more convenient for you. Now the module doesn't require a separate API key – it works seamlessly with no extra setup.
+- **Compatibility with Divi builder editor.** Divi builder adds a nice WYSIWYG editor to the Wordpress admin. Ecwid shopping cart now is compatible with that editor – so you can add Ecwid store shortcode right from the Divi builder editor, no need to switch back to the default Wordpress editor if you prefer to use the Divi's one. 
+- **Fix for a bug in the store appearance popup.** The store widgets settings were hidden when the "widgets" part was manually removed from the Ecwid shortcode in the page editor in Wordpress admin. We fixed that, now the settings popup should work fine. 
+- **Slight improvements in Chameleon.** The "Chameleon skin" option in the plugin Advanced settings automatically adjusts the store texts and styles to match those of your site. We continue improving it so that it works better with all sites. 
+- **Fixed a bug with store pages duplicates.** Previously, an extra Store page was created each time you deactivated and re-activated the plugin. It's fixed – now the Ecwid plugin remembers the store page and use it however often you deactivate/activate the plugin. 
+- Slight layout improvements for the stores embedded into sites with Salient theme installed.
+
+= 4.4.5 =
+- **Minor fixes and improvements.**
+
 = 4.4.4 =
-- ** Minor improvements and fixes.**
+- **Minor fixes and improvements.**
 
 = 4.4.3 =
 - **Minor fixes and improvements.**
