@@ -116,9 +116,9 @@ class Ecwid_Products {
 					'image' => $product->imageUrl,
 					'ecwid_id' => $product->id,
 					'_sku'  => $product->sku,
-//					'_visibility' => 'visible',
-//					'_stock_status' => 'instock',
-//					'_virtual' => 'no',
+					'_visibility' => 'visible',
+					'_stock_status' => 'instock',
+					'_virtual' => 'no',
 
 				),
 				'post_status' => 'publish'
@@ -130,7 +130,6 @@ class Ecwid_Products {
 
 		// if woocommerce not active
 		if (ecwid_get_woocommerce_status() != 2) {
-			die(var_dump(ecwid_get_woocommerce_status()));
 			register_post_type( self::POST_TYPE_PRODUCT,
 				array(
 					'public'              => TRUE,
