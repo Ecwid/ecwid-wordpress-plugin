@@ -15,8 +15,7 @@ class Ecwid_Products {
 
 		add_action('init', array($this, 'register_post_type'));
 		add_action('admin_init', array($this, 'register_post_type'));
-		add_filter( 'the_content', array( __CLASS__, 'content' ) );
-
+		add_filter( 'the_content', array( $this, 'content' ) );
 	}
 
 	public function content($content) {
@@ -104,7 +103,7 @@ class Ecwid_Products {
 			$id = $row->post_id;
 		}
 
-		wp_insert_post(
+		$id = wp_insert_post(
 			array(
 				'ID' => $id,
 				'post_title' => $product->name,
@@ -124,6 +123,33 @@ class Ecwid_Products {
 				'post_status' => 'publish'
 			)
 		);
+
+		$image_id = get_post_meta($id, '_thumbnail_id');
+
+		if ( !$image_id ) {
+			$file = download_url($product->imageUrl);
+
+			$uploaded = wp_upload_bits( basename($product->imageUrl), null, file_get_contents($file) );
+			unlink($file);
+
+			$filetype = wp_check_filetype( $uploaded['file'], null );
+			$file = $uploaded['file'];
+
+			$wp_upload_dir = wp_upload_dir();
+			$attachment = array(
+				'guid'           => $wp_upload_dir['url'] . '/' . basename( $file ),
+				'post_mime_type' => $filetype['type'],
+				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file ) ),
+				'post_content'   => '',
+				'post_status'    => 'inherit'
+			);
+
+			$attachment_id = wp_insert_attachment( $attachment, $file, $id );
+			$attach_data = wp_generate_attachment_metadata( $attachment_id, $file );
+			wp_update_attachment_metadata( $attachment_id, $attach_data );
+			set_post_thumbnail( $id, $attachment_id );
+		}
+
 	}
 
 	public function register_post_type() {
