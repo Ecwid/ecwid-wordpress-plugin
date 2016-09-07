@@ -8,7 +8,7 @@ class Ecwid_Products {
 	protected $_api;
 
 	const OPTION_UPDATE_TIME = 'update_time';
-	const POST_TYPE_PRODUCT = 'ecwid_product';
+	const POST_TYPE_PRODUCT = 'product';
 
 	public function __construct() {
 		$this->_api = new Ecwid_Api_V3(get_ecwid_store_id());
@@ -111,9 +111,15 @@ class Ecwid_Products {
 				'post_content' => $product->description,
 				'post_type' => self::POST_TYPE_PRODUCT,
 				'meta_input' => array(
-					'price' => $product->price,
+					'_price' => $product->price,
+					'_regular_price' => $product->price,
 					'image' => $product->imageUrl,
-					'ecwid_id' => $product->id
+					'ecwid_id' => $product->id,
+					'_sku'  => $product->sku,
+//					'_visibility' => 'visible',
+//					'_stock_status' => 'instock',
+//					'_virtual' => 'no',
+
 				),
 				'post_status' => 'publish'
 			)
@@ -122,17 +128,21 @@ class Ecwid_Products {
 
 	public function register_post_type() {
 
-		register_post_type( self::POST_TYPE_PRODUCT,
-			array(
-				'public'              => true,
-				'capability_type'     => 'product',
-				'map_meta_cap'        => true,
-				'publicly_queryable'  => true,
-				'exclude_from_search' => false,
-				'hierarchical'        => false,
-				'show_in_nav_menus'   => true
-			)
-		);
+		// if woocommerce not active
+		if (ecwid_get_woocommerce_status() != 2) {
+			die(var_dump(ecwid_get_woocommerce_status()));
+			register_post_type( self::POST_TYPE_PRODUCT,
+				array(
+					'public'              => TRUE,
+					'capability_type'     => 'product',
+					'map_meta_cap'        => TRUE,
+					'publicly_queryable'  => TRUE,
+					'exclude_from_search' => FALSE,
+					'hierarchical'        => FALSE,
+					'show_in_nav_menus'   => TRUE
+				)
+			);
+		}
 	}
 }
 

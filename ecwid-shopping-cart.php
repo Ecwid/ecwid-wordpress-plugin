@@ -516,7 +516,7 @@ function ecwid_check_version()
 
 function ecwid_get_woocommerce_status() {
 
-	$woo = EcwidPlatform::cache_get('woo_status');
+	$woo = EcwidPlatform::cache_get('woo_status', null);
 
 	if (is_null($woo)) {
 		$woo = 0;
@@ -2705,8 +2705,6 @@ JS;
 
 		$ecwid_sso_profile = "$user_data_encoded $hmac $time";
 
-
-	    //die(var_dump($user_data, json_encode($user_data), $ecwid_sso_profile));
     }
 
 
