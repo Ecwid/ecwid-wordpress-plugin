@@ -54,9 +54,14 @@ class EcwidPlatform {
 		return __('Price', 'ecwid-shopping-cart');
 	}
 
-	static public function cache_get($name)
+	static public function cache_get($name, $default = false)
 	{
-		return get_transient('ecwid_' . $name);
+		$result = get_transient('ecwid_' . $name);
+		if ($default !== false && $result === false) {
+			return $default;
+		}
+
+		return $result;
 	}
 
 	static public function cache_set($name, $value, $expires_after)
