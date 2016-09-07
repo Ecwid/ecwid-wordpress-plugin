@@ -51,6 +51,11 @@
 	background: #cacaca;
 }
 
+
+.ecwid-settings .pure-control-group.checkbox label.disabled {
+	color: #999;
+}
+
 @media screen and (max-width: 782px) {
 	.ecwid-settings.general-settings,
 	.ecwid-settings.appearance-settings,
@@ -224,5 +229,6 @@
 	.ecwid-settings .pure-control-group.checkbox label {
 		display: inline-block;
 	}
+
 }
 

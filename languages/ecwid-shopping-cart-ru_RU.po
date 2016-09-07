@@ -205,15 +205,6 @@ msgstr "ID категории по умолчанию"
 msgid "By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. \"Featured Products\") to new visitors."
 msgstr "По умолчанию, магазин показывает корневые категории. Здесь можно выбрать другую категорию для отображения, когда покупатель впервые открывает ваш магазин. Это может быть полезно, если у вас есть только одна категория или вы хотите показывать определённые набор товаров (например, специальные предложения) новым пользователям."
 
-msgid "Single Sign-On Secret Key"
-msgstr "Секретный ключ системы единой авторизации"
-
-msgid "Single Sign-On Secret Key is an option that allows your customers access to your WordPress site as well as the Ecwid shopping cart. When customers log in to your site, they will automatically be logged in to your Ecwid store as well. It makes sense to enable this feature if your visitors actually create accounts in your WordPress website."
-msgstr "Эта функция позволяет включить систему единой авторизации: когда покупатели вошли в свой аккаунт на вашем сайте, они автоматически входят в свой Эквид-аккаунт, даже если раньше у них его не было. Эта функция может быть полезна в случае, если ваши посетители создают свои аккаунты на вашем сайте."
-
-msgid "To enable this feature, copy the Single Sign On Secret key from the store control panel to the input above. You can find the key on the \"<a href=\"https://my.ecwid.com/cp/CP.html#legacy_api\" target=\"_blank\">Legacy API Keys</a>\" page. This feature is available for <a href=\"https://www.ecwid.com/pricing\" target=\"_blank\">paid users</a> only."
-msgstr "Чтобы включить эту функцию, скопируйте секретный ключ из панели управления магазином в текстовое поле выше. Ключ можно найти на странице \"<a href=\"https://my.ecwid.com/cp/CP.html#legacy_api\" target=\"_blank\">Ключи для предыдущей версии API</a>\". Эта функция доступна только пользователям с <a href=\"https://www.ecwid.ru/pricing\" target=\"_blank\">платным аккаунтом</a>."
-
 msgid "Save changes"
 msgstr "Сохранить изменения"
 
@@ -553,8 +544,8 @@ msgstr "https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG"
 msgid "Questions?"
 msgstr "Есть вопросы?"
 
-msgid "<a href=\"admin.php?page=ecwid-help\">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>"
-msgstr "Посетите <a target=\"_blank\" href=\"https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG\">Центр поддержки Эквида</a> или напишите нам на <a %s>wordpress@ecwid.com</a>"
+msgid "<a href=\"admin.php?page=ecwid-help\">Read FAQ or contact support</a>"
+msgstr "<a href=\"admin.php?page=ecwid-help\">Посетите Центр поддержки Эквида или напишите нам</a>"
 
 msgid "Want to connect another Ecwid store?"
 msgstr "Хотите подключить другой Эквид-магазин?"
@@ -706,6 +697,21 @@ msgstr "Ваш вопрос"
 msgid "Send Message"
 msgstr "Отправить"
 
+msgid "Customer Single Sign-On"
+msgstr "Единый вход для покупателей"
+
+msgid "Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again."
+msgstr "Объединяет учетную запись покупателя на сайте с его учетной записью в магазине. Когда единый вход включен, покупателю не нужно логиниться дважды – на сайте и в магазине. После входа в свой аккаунт на сайте покупатель может смотреть историю своих заказов и оформлять новый заказ с предзаполненным email и адресом доставки."
+
+msgid "This feature is available on the Ecwid's Venture plan and above. <a %s>Please upgrade to get it.</a>"
+msgstr "Чтобы включить \"Единый вход\", <a %s>подпишитесь на платный план в Эквиде</a>. Доступно на плане Venture и выше."
+
+msgid "To allow Ecwid automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>"
+msgstr "Чтобы плагин автоматически объединял учетные записи пользователя на сайте и в магазине, нужно дать ему доступ до данных покупателей в магазине. <a %s>Перейдите по этой ссылке, чтобы предоставить доступ</a>."
+
+msgid "To make sure your customer can actually log in to your site and store, enable registration in the <a %s>site settings</a>"
+msgstr "Чтобы покупатели смогли регистрироваться, убедитесь, что регистрация включена в <a %s>настройках сайта</a>"
+
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
 
@@ -729,3 +735,5 @@ msgstr "https://support.ecwid.com/hc/ru/sections/201706799-%D0%9F%D0%BE%D0%B4%D0
 
 msgid "https://support.ecwid.com/hc/en-us/sections/201702859-Technical-Reference"
 msgstr "https://support.ecwid.com/hc/ru/sections/201702859-%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F-%D0%B8%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F"
+
+

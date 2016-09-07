@@ -10,7 +10,7 @@
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Questions?', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
-			<?php echo sprintf(__('<a href="admin.php?page=ecwid-help">Read FAQ</a> or contact support at <a %s>wordpress@ecwid.com</a>', 'ecwid-shopping-cart'), 'href="mailto:wordpress@ecwid.com"'); ?>
+			<?php _e('<a href="admin.php?page=ecwid-help">Read FAQ or contact support</a>', 'ecwid-shopping-cart'); ?>
 		</div>
 	</div>
 <?php if (@$show_reconnect): ?>
