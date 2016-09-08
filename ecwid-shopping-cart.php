@@ -523,7 +523,7 @@ function ecwid_get_woocommerce_status() {
 		$all_plugins = get_plugins();
 		if (array_key_exists('woocommerce/woocommerce.php', $all_plugins)) {
 			$active_plugins = get_option('active_plugins');
-			if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
+			if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', $active_plugins))) {
 				$woo = 2;
 			} else {
 				$woo = 1;

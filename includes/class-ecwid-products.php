@@ -16,6 +16,8 @@ class Ecwid_Products {
 		add_action('init', array($this, 'register_post_type'));
 		add_action('admin_init', array($this, 'register_post_type'));
 		add_filter( 'the_content', array( $this, 'content' ) );
+		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
+		add_filter( 'get_template_part_template-parts/content', array($this, 'template'), 10, 2 );
 	}
 
 	public function content($content) {
@@ -25,14 +27,27 @@ class Ecwid_Products {
 			$ecwid_id = get_post_meta(get_the_ID(), 'ecwid_id');
 			$ecwid_id = $ecwid_id[0];
 
-			ob_start();
-			require ECWID_PLUGIN_DIR . '/templates/product.php';
+			if (is_singular()) {
+				ob_start();
+				require ECWID_PLUGIN_DIR . '/templates/product.php';
 
-			$contents = ob_get_contents();
-			return $contents;
+				$contents = ob_get_contents();
+				ob_end_clean();
+
+				return $contents;
+			}
 		}
 
 		return $content;
+	}
+
+	public function thumbnail($html) {
+
+		if (get_post_type() == self::POST_TYPE_PRODUCT && is_singular()) {
+			return '';
+		}
+
+		return $html;
 	}
 
 	public function sync() {
@@ -164,7 +179,8 @@ class Ecwid_Products {
 					'publicly_queryable'  => TRUE,
 					'exclude_from_search' => FALSE,
 					'hierarchical'        => FALSE,
-					'show_in_nav_menus'   => TRUE
+					'show_in_nav_menus'   => TRUE,
+					'show_ui'             => false
 				)
 			);
 		}
