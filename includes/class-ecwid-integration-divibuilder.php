@@ -4,10 +4,14 @@ class Ecwid_Integration_Divibuilder {
 	public function __construct() {
 		if (is_admin()) {
 			add_action('admin_init', 'ecwid_create_divi_module' );
-			wp_enqueue_style('ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css', array('et_pb_admin_css'));
+			add_action('admin_enqueue_style', array($this, 'enqueue_style'));
 		} else {
 			add_action('wp', 'ecwid_create_divi_module' );
 		}
+	}
+
+	public function enqueue_style() {
+		wp_enqueue_style('ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css', array('et_pb_admin_css'));
 	}
 }
 
