@@ -72,6 +72,10 @@ class Ecwid_Nav_Menus {
 		foreach ($items as $item) {
 			if ( $item->object == 'page' && $item->object_id == ecwid_get_current_store_page_id() )
 				return $item;
+
+			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
+				return $item;
+			}
 		}
 
 		return null;
