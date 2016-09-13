@@ -1554,6 +1554,8 @@ EOT;
 
 	/* All new options should go to check_version thing */
 
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+
 	$id = get_option("ecwid_store_page_id");	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
@@ -1577,6 +1579,7 @@ EOT;
 		}
 
 	} else {
+
 		ecwid_load_textdomain();
 		$my_post['post_title'] = __('Store', 'ecwid-shopping-cart');
 		$my_post['post_content'] = $content;
@@ -1587,13 +1590,13 @@ EOT;
 		$id = wp_insert_post( $my_post );
 		update_option('ecwid_store_page_id', $id);
 
+		Ecwid_Nav_Menus::replace_auto_added_menu();
+
 		if (ecwid_get_theme_identification() == 'responsive') {
 			update_post_meta($id, '_wp_page_template', 'full-width-page.php');
 			update_option("ecwid_show_search_box", 'Y');
 		}
 	}
-
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 
 	Ecwid_Nav_Menus::add_menu_on_activate();
 
