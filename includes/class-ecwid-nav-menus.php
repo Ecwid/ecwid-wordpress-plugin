@@ -64,6 +64,30 @@ class Ecwid_Nav_Menus {
 		);
 	}
 
+	static public function replace_auto_added_menu() {
+
+		$options = get_option('nav_menu_options');
+		$autofill = $options['auto_add'];
+		if (empty($autofill)) {
+			return false;
+		}
+
+		$store_page_id = get_option('ecwid_store_page_id');
+		foreach ($autofill as $menu_id) {
+			$items = wp_get_nav_menu_items($menu_id);
+			foreach ($items as $item) {
+				if ( $item->object == 'page' && $item->object_id == $store_page_id && time() - strtotime($item->post_date_gmt) < 60 ) {
+					$result = wp_update_nav_menu_item($menu_id, $item->db_id, array(
+							'menu-item-title' => $item->title,
+							'menu-item-status' => $item->status,
+							'menu-item-object' => 'ecwid-store-with-categories',
+							'menu-item-type' => 'ecwid_menu_item')
+					);
+				}
+			}
+		}
+	}
+
 	static protected function _find_existing_store_page_menu($menu_id) {
 		$items = wp_get_nav_menu_items($menu_id);
 
@@ -72,6 +96,10 @@ class Ecwid_Nav_Menus {
 		foreach ($items as $item) {
 			if ( $item->object == 'page' && $item->object_id == ecwid_get_current_store_page_id() )
 				return $item;
+
+			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
+				return $item;
+			}
 		}
 
 		return null;

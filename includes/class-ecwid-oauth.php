@@ -43,7 +43,7 @@ class Ecwid_OAuth {
 	}
 
 
-	public function get_auth_dialog_url()
+	public function get_auth_dialog_url( )
 	{
 		$action = 'ecwid_oauth';
 		if ( $this->_is_reconnect()  ) {
@@ -55,6 +55,22 @@ class Ecwid_OAuth {
 		return $this->api->get_oauth_dialog_url(
 			admin_url( $redirect_uri ),
 			implode(' ', $this->_get_scope() )
+		);
+	}
+
+	public function get_sso_reconnect_dialog_url()
+	{
+		$redirect_uri = 'admin-post.php?action=ecwid_oauth_reconnect';
+
+		$scope = $this->_get_scope();
+
+		if (!in_array('create_customers', $scope)) {
+			$scope[] = 'create_customers';
+		}
+
+		return $this->api->get_oauth_dialog_url(
+			admin_url( $redirect_uri ),
+			implode(' ', $scope )
 		);
 	}
 
@@ -102,6 +118,7 @@ class Ecwid_OAuth {
 		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
+		update_option( 'ecwid_api_check_time', 0 );
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
 
@@ -163,7 +180,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso' );
+		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers' );
 	}
 
 	protected function trigger_auth_error($mode = 'default')
@@ -237,7 +254,7 @@ class Ecwid_OAuth {
 
 	protected function _load_state() {
 		if (isset($_COOKIE['ecwid_oauth_state'])) {
-			$this->state = @unserialize( $_COOKIE['ecwid_oauth_state'] );
+			$this->state = @json_decode( $_COOKIE['ecwid_oauth_state'] );
 
 		}
 
@@ -264,7 +281,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _save_state() {
-		setcookie('ecwid_oauth_state', serialize($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
 	}
 
 	public function get_reconnect_error() {

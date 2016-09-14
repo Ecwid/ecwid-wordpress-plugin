@@ -41,22 +41,29 @@ jQuery(document).ready(function() {
 			attributes.search_view = undefined;
 		}
 
+		var defaults = getDefaultParams();
+
 		if (!attributes.grid || attributes.grid.match(/^\d+,\d+$/) === null) {
-			attributes.grid = '3,3';
+			attributes.grid = defaults.grid_columns + ',' + defaults.grid_rows;
 		}
 
 		var grid = attributes.grid.match(/^(\d+),(\d+)/);
 		attributes.grid_rows = grid[1];
 		attributes.grid_columns = grid[2];
 
-		for (var i in {'categories_per_row': 3, 'list': 10, 'table': 20, 'grid_rows': 3, 'grid_columns': 3, 'default_category_id': 0}) {
+		for (var i in {'categories_per_row': defaults.categories_per_row, 'list': defaults.list_rows, 'table': defaults.table_rows, 'grid_rows': defaults.grid_rows, 'grid_columns': defaults.grid_columns, 'default_category_id': 0}) {
 			parsed = parseInt(attributes[i]);
 			if (isNaN(parsed) || parsed < 0) {
 				attributes[i] = undefined;
 			}
 		}
 
-		var widgets = attributes.widgets.split(/[^a-z^A-Z^0-9^-^_]/);
+		var widgets = attributes.widgets;
+		if (typeof widgets == 'undefined') {
+			widgets = "productbrowser search categories minicart";
+		}
+
+		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
 
 		return {
 			'show_search': jQuery.inArray('search', widgets) != -1,
@@ -85,10 +92,10 @@ jQuery(document).ready(function() {
 			'show_minicart': true,
 			'show_categories': true,
 			'categories_per_row': 3,
-			'grid_rows': 3,
-			'grid_columns': 3,
-			'table_rows': 20,
-			'list_rows': 10,
+			'grid_rows': ecwid_pb_defaults.grid_rows,
+			'grid_columns': ecwid_pb_defaults.grid_columns,
+			'table_rows': ecwid_pb_defaults.table_rows,
+			'list_rows': ecwid_pb_defaults.list_rows,
 			'default_category_id': 0,
 			'category_view': 'grid',
 			'search_view': 'list',

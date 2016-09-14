@@ -729,6 +729,29 @@ display: none;
 	font-size: 36px;
 }
 
+.ecwid-button.button-green {
+	background: #29b80a;
+	color: white;
+	border-color: #199806;
+	padding: 0 10px;
+	margin-top: 10px;
+}
+
+.ecwid-button.button-green:hover {
+	background: #2cc40b;
+	color: white;
+}
+
+label.premium-feature svg {
+	height: 10px;
+	width: 10px;
+	display:inline-block;
+}
+
+label.premium-feature svg path {
+	fill: #f9af17;
+}
+
 
 @media screen and (max-width: 960px) {
 	.ecwid-popup {
