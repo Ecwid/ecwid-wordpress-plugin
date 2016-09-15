@@ -1778,7 +1778,7 @@ function ecwid_get_categories($nocache = false) {
 		$request = Ecwid_Http::create_get(
 			'get_categories_through_endpoint',
 			ecwid_get_categories_js_url(),
-			array(Ecwid_Http::POLICY_IGNORE_ERRORS, Ecwid_Http::POLICY_EXPECT_JSONP)
+			array( Ecwid_Http::POLICY_EXPECT_JSONP )
 		);
 		$categories = $request->do_request();
 
@@ -2313,7 +2313,6 @@ function ecwid_debug_do_page() {
 	}
 
 	global $ecwid_oauth;
-	$request = Ecwid_Http::create_post('test_post', $ecwid_oauth->get_test_post_url(), array());
 
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }

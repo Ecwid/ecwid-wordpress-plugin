@@ -236,7 +236,7 @@ class Ecwid_Api_V3
 			array(
 				'timeout' => 20,
 				'headers' => array(
-					'Content-Type' => 'application/json;application/json;charest="utf-8"')
+					'Content-Type' => 'application/json;charest="utf-8"')
 			)
 		);
 

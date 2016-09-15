@@ -23,7 +23,17 @@ abstract class Ecwid_Http {
 	const POLICY_IGNORE_ERRORS = 'ignore_errors';
 
 	/**
-	 * Data received will be interpreted as jsonp
+	 * Data sent and received will be treated like jsonp
+	 */
+	const POLICY_RETURN_JSON  = 'return_json';
+
+	/**
+	 * Data received will be interpreted as json array
+	 */
+	const POLICY_RETURN_JSON_ARRAY  = 'expect_json_array';
+
+	/**
+	 * Data sent and received will be treated like jsonp
 	 */
 	const POLICY_EXPECT_JSONP  = 'expect_jsonp';
 
@@ -49,16 +59,27 @@ abstract class Ecwid_Http {
 		);
 	}
 
-	public function do_request($args) {
+	public function do_request($args = array()) {
 		$url = $this->_preprocess_url($this->url);
 
 		$data = $this->_do_request($url, $args);
 
-		if ( is_null( $data ) ) return null;
+		if ( is_null( $data ) || $this->is_error ) return null;
 
 		$this->_process_data($data);
 
 		return $this->processed_data;
+	}
+
+	public static function create_error_report($message) {
+		$error_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=' . urlencode($message) . '&url=' . urlencode(get_bloginfo('url'));
+		return self::create_get(
+			'error_report',
+			$error_url,
+			array(
+				self::POLICY_IGNORE_ERRORS
+			)
+		);
 	}
 
 	public static function create_get($name, $url, $params) {
@@ -81,8 +102,8 @@ abstract class Ecwid_Http {
 
 	public static function create_post($name, $url, $params) {
 		$transport_class = self::_post_transport($name, $url, $params);
-		$transport_class = 'Ecwid_HTTP_Post_WpRemotePost';
-		//$transport_class = 'Ecwid_HTTP_Post_Fopen';
+		//$transport_class = 'Ecwid_HTTP_Post_WpRemotePost';
+		$transport_class = 'Ecwid_HTTP_Post_Fopen';
 
 		if (!$transport_class) {
 			$transport_class = self::_detect_post_transport($name, $url, $params);
@@ -201,9 +222,13 @@ abstract class Ecwid_Http {
 		$this->is_error = true;
 		$this->error = $this->raw_result;
 
-		if ( $this->has_policy(self::IGNORE_ERRORS) ) {
-			return;
+		self::_set_transport_for_request($this->name, null);
+
+		if ( $this->_has_policy(self::POLICY_IGNORE_ERRORS) ) {
+			return false;
 		}
+
+		return true;
 	}
 
 	protected function _has_policy( $policy ) {
@@ -221,7 +246,15 @@ abstract class Ecwid_Http {
 			$result = json_decode($result);
 		}
 
-		if ($this->_has_policy( self::POLICY_RETURN_VERBOSE ) ) {
+		if ( in_array( self::POLICY_RETURN_JSON_ARRAY, $this->policies ) ) {
+			$result = json_decode($raw_data, true);
+		}
+
+		if ( in_array( self::POLICY_RETURN_JSON, $this->policies ) ) {
+			$result = json_decode($raw_data);
+		}
+
+		if ( $this->_has_policy( self::POLICY_RETURN_VERBOSE ) ) {
 			$result = $this->get_response_meta();
 			$result['data'] = $raw_data;
 		}
@@ -241,6 +274,17 @@ abstract class Ecwid_Http {
 }
 
 abstract class Ecwid_HTTP_Get extends Ecwid_Http {
+	protected function _trigger_error() {
+		$continue = parent::_trigger_error();
+
+		if (!$continue) {
+			return false;
+		}
+
+		$report = $this->create_error_report($this->message);
+
+		$report->do_request();
+	}
 }
 
 class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
@@ -264,6 +308,17 @@ class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
 
 		return $this->raw_result['body'];
 	}
+
+	protected function _trigger_error() {
+
+		if (is_wp_error($this->error)) {
+			$a = new WP_Error;
+
+			$this->error_message = $this->error->get_error_message();
+		}
+
+		return parent::_trigger_error();
+	}
 }
 
 class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
@@ -280,6 +335,9 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 
 		if (!$handle) {
 			$this->_trigger_error();
+
+			$last = error_get_last();
+			$this->message = $last['message'];
 
 			return null;
 		}
@@ -349,18 +407,31 @@ class Ecwid_HTTP_Post_WpRemotePost extends Ecwid_Http_Post {
 class Ecwid_HTTP_Post_Fopen extends Ecwid_Http_Post {
 	protected function _do_request($url, $args) {
 
-		$stream_context_args = array('http'=> array());
+		$stream_context_args = array(
+			'http'=> array(
+				'method' => 'POST',
+				'headers' => 'Content-Type: application/x-www-form-urlencoded\r\n'
+			)
+		);
 		if (@$args['timeout']) {
 			$stream_context_args['http']['timeout'] = $args['timeout'];
-			$stream_context_args['http']['method'] = 'POST';
-			$stream_context_args['http']['content'] = $args['data'];
 		}
+
+		if (@$args['headers']) {
+			$stream_context_args['http']['headers'] = $args['headers'];
+		}
+
+		if (@$args['body']) {
+			$stream_context_args['http']['content'] = http_build_query($args['body']);
+		}
+
 
 		$ctx = stream_context_create($stream_context_args);
 		$handle = @fopen($url, 'r', null, $ctx);
 
 		if (!$handle) {
 			$this->_trigger_error();
+			$this->message = error_get_last();
 
 			return null;
 		}

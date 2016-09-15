@@ -75,6 +75,11 @@ class EcwidPlatform {
 		return wp_parse_args($args, $defaults);
 	}
 
+	static public function report_error($error) {
+		$request = Ecwid_HTTP::create_error_report($error);
+		$request->do_request();
+	}
+
 	static public function fetch_url($url, $options = array())
 	{
 		$default_timeout = 10;
