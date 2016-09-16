@@ -280,6 +280,7 @@ abstract class Ecwid_HTTP_Get extends Ecwid_Http {
 		if (!$continue) {
 			return false;
 		}
+		update_option('ecwid_remote_get_fails', 1);
 
 		$report = $this->create_error_report($this->message);
 
