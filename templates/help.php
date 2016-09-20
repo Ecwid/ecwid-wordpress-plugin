@@ -216,6 +216,7 @@
 		</div>
 	</div>
 
+	<?php if (!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))): ?>
 	<div class="block-contact">
 		<h2><?php _e( 'Send a message to our support team', 'ecwid-shopping-cart' ); ?>	</h2>
 
@@ -249,6 +250,7 @@
 		<p><a id="show-ecwid-contact-again" href="#"><?php _e( 'You can send a new request here.', 'ecwid-shopping-cart'); ?></a></p>
 
 	</div>
+	<?php endif; ?>
 
 </div>
 
