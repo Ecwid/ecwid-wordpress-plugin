@@ -19,4 +19,12 @@ class Ecwid_Shortcode_Categories extends Ecwid_Shortcode_Base {
 			return 'xCategories';
 		}
 	}
+
+	public function render_placeholder() {
+		$classname = $this->_get_html_class_name();
+		$id = $this->get_html_id();
+		return <<<HTML
+<div class="ecwid-shopping-cart-$classname"><div id="$id"></div></div>
+HTML;
+	}
 }
