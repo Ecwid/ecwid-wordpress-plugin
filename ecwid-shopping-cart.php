@@ -286,6 +286,10 @@ function ecwid_enqueue_frontend() {
 			)
 		);
 	}
+
+	if (is_plugin_active('contact-form-7-designer/cf7-styles.php')) {
+		wp_enqueue_script('ecwid-cf7designer', ECWID_PLUGIN_URL . 'js/cf7designer.js', array(), get_option('ecwid-plugin-version'), true);
+	}
 }
 
 function ecwid_enqueue_external_chameleon() {
