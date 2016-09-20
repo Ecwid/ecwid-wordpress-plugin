@@ -1,0 +1,1 @@
+window.History.html4Mode=1;

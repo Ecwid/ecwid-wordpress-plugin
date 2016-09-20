@@ -296,7 +296,7 @@ TXT
 
 			case "install_ecwid_theme":
 				return false;
-				
+
 				$install_date = ecwid_get_wp_install_date();
 				$theme = ecwid_get_theme_identification();
 

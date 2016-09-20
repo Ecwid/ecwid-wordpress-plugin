@@ -52,7 +52,8 @@ function ecwid_apply_theme($theme_name = null)
 		'sliding-door'		=> array( 'css-no-parent' ),
 		'zerif-lite'			=> array( 'css-no-parent' ),
 		'storefront'			=> array( 'css' ),
-		'salient'               => array( 'css-no-parent')
+		'salient'               => array( 'css-no-parent'),
+		'flora'                 => array('js')
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
