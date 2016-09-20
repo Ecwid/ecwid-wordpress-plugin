@@ -716,7 +716,7 @@ TEXT;
 	$wp_admin_bar->add_menu( array(
 		'id' => 'ecwid-main',
 		'title' => '<span class="ab-icon ecwid-top-menu-item"></span>',
-		'href' => 'admin.php?page=ecwid',
+		'href' => admin_url('admin.php?page=ecwid'),
 	));
 
 	$wp_admin_bar->add_menu(array(
