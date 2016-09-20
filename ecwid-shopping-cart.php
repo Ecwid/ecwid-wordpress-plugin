@@ -268,6 +268,17 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 
+	if ( get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
+		wp_enqueue_script( 'ecwid-post-product', ECWID_PLUGIN_URL . 'js/post-product.js', array(), get_option( 'ecwid_plugin_version' ), TRUE );
+
+		$meta = get_post_meta(get_the_ID(), 'ecwid_id');
+
+		wp_localize_script( 'ecwid-post-product', 'ecwidPost', array(
+			'productId' => $meta[0],
+			'storePageUrl' => ecwid_get_store_page_url()
+		) );
+	}
+
 	if ((bool)get_option('ecwid_use_chameleon')) {
 		if (ecwid_migrations_is_original_plugin_version_older_than( ECWID_VERSION_BUILTIN_CHAMELEON )) {
 			ecwid_enqueue_external_chameleon();

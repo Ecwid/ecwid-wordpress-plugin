@@ -11,13 +11,13 @@ class Ecwid_Products {
 	const POST_TYPE_PRODUCT = 'product';
 
 	public function __construct() {
+
 		$this->_api = new Ecwid_Api_V3(get_ecwid_store_id());
 
 		add_action('init', array($this, 'register_post_type'));
 		add_action('admin_init', array($this, 'register_post_type'));
 		add_filter( 'the_content', array( $this, 'content' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
-		add_filter( 'get_template_part_template-parts/content', array($this, 'template'), 10, 2 );
 	}
 
 	public function content($content) {
