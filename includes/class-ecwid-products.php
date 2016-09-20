@@ -144,14 +144,21 @@ class Ecwid_Products {
 		$offset = 0;
 		$limit  = 100;
 
+		$start = microtime(true);
+
+		$total_fetch = 0;
+		$total_insert = 0;
+
 		while ( ! $over ) {
 			$this->_debug_status('offset: ' . $offset);
 
+			$time = microtime(true);
 			$products = $this->_api->search_products( array(
 				'updatedFrom' => $this->get_last_update_time(),
 				'limit'       => $limit,
 				'offset'      => $offset
 			) );
+			$total_fetch += microtime(true) - $time;
 
 			$this->_debug_status('found: ' . $products->total);
 
@@ -160,9 +167,11 @@ class Ecwid_Products {
 				break;
 			}
 
+			$time = microtime(true);
 			foreach ( $products->items as $product ) {
 				$this->_process_product( $product );
 			}
+			$total_insert += microtime(true) - $time;
 
 			if ( $products->total < $offset + $limit ) {
 				break;
@@ -172,6 +181,11 @@ class Ecwid_Products {
 
 			$offset += $limit;
 		}
+
+		$over = microtime(true);
+		$this->_debug_status('total: ' . ($over - $start));
+		$this->_debug_status('fetch:' . $total_fetch);
+		$this->_debug_status('insert:' . $total_insert);
 	}
 
 	protected function _find_post_by_product_id($product_id) {
@@ -297,6 +311,7 @@ class Ecwid_Products {
 	protected function _debug_status($message) {
 		if (!defined('DOING_AJAX')) {
 			echo $message . '<br />';
+			flush();
 		}
 	}
 }

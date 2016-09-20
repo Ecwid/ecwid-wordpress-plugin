@@ -2377,6 +2377,11 @@ function get_ecwid_store_id() {
 }
 
 function ecwid_sync_products() {
+	set_time_limit(3600);
+	if (!defined('DOING_AJAX')) {
+	 echo '<html><body>Lets begin<br />';
+		flush();
+	}
 	$p = new Ecwid_Products();
 	$p->sync();
 
