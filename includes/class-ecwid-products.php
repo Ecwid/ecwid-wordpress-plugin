@@ -50,122 +50,6 @@ class Ecwid_Products {
 		return $html;
 	}
 
-	public function sync() {
-		$over = false;
-
-		$offset = 0;
-		$limit = 3;
-
-		while (!$over) {
-			echo 'offset: ' . $offset . '<br />';
-
-			$products = $this->_api->search_products(array(
-				'updatedFrom' => $this->get_last_update_time(),
-				'limit' => $limit,
-				'offset' => $offset
-			));
-
-			echo 'found: ' . $products->total . '<br />';
-
-			if ($products->total == 0) {
-				$over = true;
-				break;
-			}
-
-			foreach ($products->items as $product) {
-				$this->_sync_product($product);
-			}
-
-			if ($products->total < $offset + $limit) {
-				break;
-			}
-
-			echo 'offset: ' . $offset . '<br />';
-
-			$offset += $limit;
-		}
-	}
-
-	public function is_in_sync() {
-		$stats = $this->_api->get_store_update_stats();
-
-		$update_time = strtotime($stats->productsUpdated);
-
-		$last_update = $this->get_last_update_time();
-
-		return $last_update > $update_time;
-	}
-
-	public function get_last_update_time() {
-		return EcwidPlatform::get(self::OPTION_UPDATE_TIME);
-	}
-
-	protected function _sync_product($product) {
-
-		$q = new WP_Query(array(
-			'post_type' => self::POST_TYPE_PRODUCT,
-			'meta_key' => 'ecwid_id',
-			'meta_value' => $product->id
-          )
-		);
-
-		global $wpdb;
-
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = '%s' LIMIT 1", 'ecwid_id', $product->id ) );
-
-		$id = null;
-		if (!empty($row)) {
-			$id = $row->post_id;
-		}
-
-		$id = wp_insert_post(
-			array(
-				'ID' => $id,
-				'post_title' => $product->name,
-				'post_content' => $product->description,
-				'post_type' => self::POST_TYPE_PRODUCT,
-				'meta_input' => array(
-					'_price' => $product->price,
-					'_regular_price' => $product->price,
-					'image' => $product->imageUrl,
-					'ecwid_id' => $product->id,
-					'_sku'  => $product->sku,
-					'_visibility' => 'visible',
-					'_stock_status' => 'instock',
-					'_virtual' => 'no',
-
-				),
-				'post_status' => 'publish'
-			)
-		);
-
-		$image_id = get_post_meta($id, '_thumbnail_id');
-
-		if ( !$image_id ) {
-			$file = download_url($product->imageUrl);
-
-			$uploaded = wp_upload_bits( basename($product->imageUrl), null, file_get_contents($file) );
-			unlink($file);
-
-			$filetype = wp_check_filetype( $uploaded['file'], null );
-			$file = $uploaded['file'];
-
-			$wp_upload_dir = wp_upload_dir();
-			$attachment = array(
-				'guid'           => $wp_upload_dir['url'] . '/' . basename( $file ),
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file ) ),
-				'post_content'   => '',
-				'post_status'    => 'inherit'
-			);
-
-			$attachment_id = wp_insert_attachment( $attachment, $file, $id );
-			$attach_data = wp_generate_attachment_metadata( $attachment_id, $file );
-			wp_update_attachment_metadata( $attachment_id, $attach_data );
-			set_post_thumbnail( $id, $attachment_id );
-		}
-
-	}
 
 	public function register_post_type() {
 
@@ -183,6 +67,236 @@ class Ecwid_Products {
 					'show_ui'             => false
 				)
 			);
+		}
+	}
+
+
+	public function is_in_sync() {
+		$stats = $this->_api->get_store_update_stats();
+
+		$update_time = strtotime($stats->productsUpdated);
+
+		$last_update = EcwidPlatform::get(self::OPTION_UPDATE_TIME);
+
+		return $last_update > $update_time;
+	}
+
+	public function get_last_update_time() {
+		return strftime('%F %T', EcwidPlatform::get(self::OPTION_UPDATE_TIME));
+	}
+
+	public function set_last_update_time($time) {
+		EcwidPlatform::set(self::OPTION_UPDATE_TIME, $time);
+	}
+
+	public function sync() {
+		$this->_process_deleted_products();
+		$this->_process_products();
+
+		$this->set_last_update_time(time());
+	}
+
+	public function delete_all_products() {
+		global $wpdb;
+
+		$result = $wpdb->get_col( $wpdb->prepare(
+			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '%s'", 'ecwid_id'
+		));
+
+		foreach ($result as $post_id) {
+			wp_delete_post($post_id);
+		}
+	}
+
+	public function disable_all_products() {
+		global $wpdb;
+
+		$result = $wpdb->get_col( $wpdb->prepare(
+			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '%s'", 'ecwid_id'
+		));
+
+		foreach ($result as $post_id) {
+			wp_update_post(array(
+				'ID' => $post_id,
+				'post_status' => 'draft'
+			));
+		}
+	}
+
+	public function enable_all_products() {
+		global $wpdb;
+
+		$result = $wpdb->get_col( $wpdb->prepare(
+			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '%s'", 'ecwid_id'
+		));
+
+		foreach ($result as $post_id) {
+			wp_update_post(array(
+				'ID' => $post_id,
+				'post_status' => 'publish'
+			));
+		}
+	}
+
+	protected function _process_products() {
+		$over = FALSE;
+
+		$offset = 0;
+		$limit  = 100;
+
+		while ( ! $over ) {
+			$this->_debug_status('offset: ' . $offset);
+
+			$products = $this->_api->search_products( array(
+				'updatedFrom' => $this->get_last_update_time(),
+				'limit'       => $limit,
+				'offset'      => $offset
+			) );
+
+			$this->_debug_status('found: ' . $products->total);
+
+			if ( $products->total == 0 ) {
+				$over = TRUE;
+				break;
+			}
+
+			foreach ( $products->items as $product ) {
+				$this->_process_product( $product );
+			}
+
+			if ( $products->total < $offset + $limit ) {
+				break;
+			}
+
+			$this->_debug_status('offset: ' . $offset);
+
+			$offset += $limit;
+		}
+	}
+
+	protected function _find_post_by_product_id($product_id) {
+		global $wpdb;
+
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = '%s' LIMIT 1", 'ecwid_id', $product_id ) );
+
+		$id = null;
+		if (!empty($row)) {
+			$id = $row->post_id;
+		}
+
+		return $id;
+	}
+
+	protected function _process_product( $product ) {
+
+		$id = $this->_find_post_by_product_id( $product->id );
+
+		if ( !$product->enabled ) {
+			if ( !is_null( $id ) ) {
+				wp_delete_post( $id );
+			}
+
+			return null;
+		}
+
+		return $this->_sync_product( $product, $id );
+	}
+
+	protected function _sync_product( $product, $post_id = null ) {
+
+		$post_id = wp_insert_post(
+			array(
+				'ID'           => $post_id,
+				'post_title'   => $product->name,
+				'post_content' => $product->description,
+				'post_type'    => self::POST_TYPE_PRODUCT,
+				'meta_input'   => array(
+					'_price'         => $product->price,
+					'_regular_price' => $product->price,
+					'image'          => $product->imageUrl,
+					'ecwid_id'       => $product->id,
+					'_sku'           => $product->sku,
+					'_visibility'    => 'visible',
+					'_stock_status'  => 'instock',
+					'_virtual'       => 'no',
+
+				),
+				'post_status'  => 'publish'
+			)
+		);
+
+		$image_id = get_post_meta( $post_id, '_thumbnail_id' );
+
+		if ( ! $image_id ) {
+			$file = download_url( $product->imageUrl );
+
+			$uploaded = wp_upload_bits( basename( $product->imageUrl ), NULL, file_get_contents( $file ) );
+			unlink( $file );
+
+			$filetype = wp_check_filetype( $uploaded['file'], NULL );
+			$file     = $uploaded['file'];
+
+			$wp_upload_dir = wp_upload_dir();
+			$attachment    = array(
+				'guid'           => $wp_upload_dir['url'] . '/' . basename( $file ),
+				'post_mime_type' => $filetype['type'],
+				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file ) ),
+				'post_content'   => '',
+				'post_status'    => 'inherit'
+			);
+
+			$attachment_id = wp_insert_attachment( $attachment, $file, $post_id );
+			$attach_data   = wp_generate_attachment_metadata( $attachment_id, $file );
+			wp_update_attachment_metadata( $attachment_id, $attach_data );
+			set_post_thumbnail( $post_id, $attachment_id );
+		}
+
+		return $post_id;
+	}
+
+	protected function _process_deleted_products() {
+		$over = FALSE;
+
+		$offset = 0;
+		$limit  = 100;
+
+		while ( ! $over ) {
+			$this->_debug_status('offset: ' . $offset);
+
+			$products = $this->_api->get_deleted_products( array(
+				'from_date' => $this->get_last_update_time(),
+				'limit'       => $limit,
+				'offset'      => $offset
+			) );
+
+			$this->_debug_status('found: ' . $products->total);
+
+			if ( $products->total == 0 ) {
+				$over = TRUE;
+				break;
+			}
+
+			foreach ( $products->items as $product ) {
+				$post_id = $this->_find_post_by_product_id($product->id);
+
+				if ($post_id) {
+					wp_delete_post( $post_id );
+				}
+			}
+
+			if ( $products->total < $offset + $limit ) {
+				break;
+			}
+
+			$this->_debug_status('offset: ' . $offset);
+
+			$offset += $limit;
+		}
+	}
+
+	protected function _debug_status($message) {
+		if (!defined('DOING_AJAX')) {
+			echo $message . '<br />';
 		}
 	}
 }

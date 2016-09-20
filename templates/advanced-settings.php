@@ -168,6 +168,8 @@
 				</div>
 			</div>
 
+			<?php require_once 'sync.php'; ?>
+
 	</fieldset>
 
 	<fieldset>

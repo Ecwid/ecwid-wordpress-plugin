@@ -89,7 +89,7 @@ class Ecwid_Api_V3
 		$params = array('token');
 
 		if (array_key_exists('updatedFrom', $input_params)) {
-			$params['updatedfrom'] = $input_params['updatedFrom'];
+			$params['updatedFrom'] = $input_params['updatedFrom'];
 		}
 
 		if (array_key_exists('offset', $input_params)) {
@@ -116,6 +116,36 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
+	public function get_deleted_products($input_params) {
+		$params = array('token');
+
+		if (array_key_exists('from_date', $input_params)) {
+			$params['from_date'] = $input_params['from_date'];
+		}
+
+		if (array_key_exists('offset', $input_params)) {
+			$params['offset'] = $input_params['offset'];
+		}
+
+		if (array_key_exists('limit', $input_params)) {
+			$params['limit'] = $input_params['limit'];
+		}
+
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_products_api_url . '/deleted',
+				$params
+			)
+		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result;
+	}
 
 	public function get_products($input_params)
 	{
