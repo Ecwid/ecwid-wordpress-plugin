@@ -97,7 +97,6 @@ HTML;
 		}
 
 		$id = $this->get_html_id();
-		$pieces[] = "id=$id";
 
 		return '"' . implode('","', $pieces) . '"';
 	}
