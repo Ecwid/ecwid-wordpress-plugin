@@ -54,7 +54,7 @@ abstract class Ecwid_Shortcode_Base {
 		);
 
 		$function = $this->get_ecwid_widget_function_name();
-		
+
 		return <<<HTML
 <script data-cfasync="false" type="text/javascript"> $function($params_string);</script>
 HTML;
@@ -92,8 +92,11 @@ HTML;
 		return '';
 	}
 
-	public function build_params_string($params) {
+	public function build_params_string($params = null) {
 
+		if (is_null($params)) {
+			$params = $this->_params;
+		}
 
 		$pieces = array();
 		if ( !empty ( $params ) ) {
