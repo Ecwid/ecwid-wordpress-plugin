@@ -84,8 +84,6 @@ abstract class Ecwid_Http {
 
 	public static function create_get($name, $url, $params) {
 		$transport_class = self::_get_transport($name, $url, $params);
-		$transport_class = 'Ecwid_HTTP_Get_WpRemoteGet';
-		//$transport_class = 'Ecwid_HTTP_Get_Fopen';
 
 		if (!$transport_class) {
 			$transport_class = self::_detect_get_transport($name, $url, $params);
@@ -102,8 +100,6 @@ abstract class Ecwid_Http {
 
 	public static function create_post($name, $url, $params) {
 		$transport_class = self::_post_transport($name, $url, $params);
-		//$transport_class = 'Ecwid_HTTP_Post_WpRemotePost';
-		$transport_class = 'Ecwid_HTTP_Post_Fopen';
 
 		if (!$transport_class) {
 			$transport_class = self::_detect_post_transport($name, $url, $params);
