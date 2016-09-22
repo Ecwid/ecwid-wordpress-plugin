@@ -1,7 +1,7 @@
 <?php
 abstract class Ecwid_Shortcode_Base {
 
-	protected $_params;
+	protected $_params = array();
 	protected $_lang;
 	protected $_should_render = true;
 	protected $_index;
@@ -46,9 +46,15 @@ abstract class Ecwid_Shortcode_Base {
 	}
 
 	public function render_script() {
-		$params_string = $this->build_params_string();
+		$params_string = $this->build_params_string(
+			array_merge(
+				$this->_params,
+				array('id' => $this->get_html_id())
+			)
+		);
+
 		$function = $this->get_ecwid_widget_function_name();
-		$id = $this->get_html_id();
+		
 		return <<<HTML
 <script data-cfasync="false" type="text/javascript"> $function($params_string);</script>
 HTML;
@@ -86,17 +92,15 @@ HTML;
 		return '';
 	}
 
-	public function build_params_string() {
+	public function build_params_string($params) {
 
 
 		$pieces = array();
-		if ( !empty ( $this->_params ) ) {
-			foreach ( $this->_params as $key => $value ) {
+		if ( !empty ( $params ) ) {
+			foreach ( $params as $key => $value ) {
 				$pieces[] = "$key=$value";
 			}
 		}
-
-		$id = $this->get_html_id();
 
 		return '"' . implode('","', $pieces) . '"';
 	}

@@ -69,6 +69,9 @@ HTML;
 		$args = $shortcode->build_params_string();
 		$id = $shortcode->get_html_id();
 		$widgetType = substr($shortcode->get_ecwid_widget_function_name(), 1);
+		if ($widgetType == 'Search') {
+			$widgetType = 'SearchWidget';
+		}
 		$store_id = get_ecwid_store_id();
 
 		$code = <<<HTML
