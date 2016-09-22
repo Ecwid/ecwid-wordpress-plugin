@@ -15,7 +15,7 @@ abstract class Ecwid_Http {
 	protected $message;
 	protected $headers;
 
-	const TRANSPORT_CHECK_EXPIRATION = 60 * 60 * 24;
+	const TRANSPORT_CHECK_EXPIRATION = 86400;
 
 	/**
 	 * No error handling whatsoever
