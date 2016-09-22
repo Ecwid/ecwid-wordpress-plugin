@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ecwid_requests.php';
+
 class EcwidPlatform {
 
 	static protected $http_use_streams = false;
@@ -71,6 +73,11 @@ class EcwidPlatform {
 	static public function parse_args($args, $defaults)
 	{
 		return wp_parse_args($args, $defaults);
+	}
+
+	static public function report_error($error) {
+		$request = Ecwid_HTTP::create_error_report($error);
+		$request->do_request();
 	}
 
 	static public function fetch_url($url, $options = array())

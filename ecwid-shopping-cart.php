@@ -1764,7 +1764,7 @@ function ecwid_build_menu() {
 		);
 	}
 
-	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid-debug', 'ecwid_debug_do_page');
+	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid_debug', 'ecwid_debug_do_page');
 	add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ecwid-admin-mobile', 'ecwid_admin_mobile_do_page');
 	add_submenu_page(
 		'ecwid',
@@ -1779,17 +1779,16 @@ function ecwid_get_categories($nocache = false) {
 	$categories = EcwidPlatform::cache_get('all_categories');
 
 	if ( false == $categories || $nocache ) {
-		$callback = 'ecwidcatscallback';
-		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
-		$result = $result['data'];
+		$request = Ecwid_Http::create_get(
+			'get_categories_through_endpoint',
+			ecwid_get_categories_js_url(),
+			array( Ecwid_Http::POLICY_EXPECT_JSONP )
+		);
+		$categories = $request->do_request();
 
-		$prefix_length = strlen($callback . '(');
-		$suffix_length = strlen(');');
-		$result = substr($result, $prefix_length, strlen($result) - $suffix_length - $prefix_length - 1);
-
-		$categories = json_decode($result);
-
-		$result = EcwidPlatform::cache_set('all_categories', $categories, 60 * 60 * 2);
+		if (!is_null($categories)) {
+			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
+		}
 	}
 
 	return $categories;
@@ -2042,36 +2041,24 @@ function ecwid_general_settings_do_page() {
 			} else {
 				$time = time() - get_option('ecwid_time_correction', 0);
 				$page = 'dashboard';
-					$iframe_src = sprintf(
-						'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
-						get_ecwid_store_id(),
-						Ecwid_Api_V3::get_token(),
-						$time,
-						hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
-						$page,
-						substr( get_bloginfo( 'language' ), 0, 2 )
-					);
 
-				$result = EcwidPlatform::fetch_url( $iframe_src );
+				$iframe_src = ecwid_get_iframe_src($time, $page);
+
+				$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+				$result = $request->do_request(array(
+					'timeout' => 20
+				));
 
 				if ($result['code'] == 403 && strpos($result['data'], 'Token too old') !== false ) {
-
-					$result = wp_remote_get($iframe_src);
 
 					if (isset($result['headers']['date'])) {
 						$time = strtotime($result['headers']['date']);
 
-						$iframe_src = sprintf(
-							'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
-							get_ecwid_store_id(),
-							Ecwid_Api_V3::get_token(),
-							$time,
-							hash('sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET),
-							$page,
-							substr(get_bloginfo('language'), 0, 2)
-						);
+						$iframe_src = ecwid_get_iframe_src($time, $page);
 
-						$result = EcwidPlatform::fetch_url($iframe_src);
+						$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+
+						$result = $request->do_request();
 
 						if ($result['code'] == 200) {
 							update_option('ecwid_time_correction', time() - $time);
@@ -2087,6 +2074,19 @@ function ecwid_general_settings_do_page() {
 			}
 		}
 	}
+}
+
+function ecwid_get_iframe_src($time, $page) {
+
+	return sprintf(
+		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
+		get_ecwid_store_id(),
+		Ecwid_Api_V3::get_token(),
+		$time,
+		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
+		$page,
+		substr( get_bloginfo( 'language' ), 0, 2 )
+	);
 }
 
 function ecwid_admin_do_page( $page ) {
@@ -2114,17 +2114,11 @@ function ecwid_admin_do_page( $page ) {
 
 	$time = time() - get_option('ecwid_time_correction', 0);
 
-	$iframe_src = sprintf(
-		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
-		get_ecwid_store_id(),
-		Ecwid_Api_V3::get_token(),
-		$time,
-		hash('sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET),
-		$page,
-		substr(get_bloginfo('language'), 0, 2)
-	);
+	$iframe_src = ecwid_get_iframe_src($time, $page);
 
-	$result = EcwidPlatform::fetch_url($iframe_src);
+	$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+
+	$result = $request->do_request();
 
 	if (empty($result['code']) && empty($result['data'])) {
 		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
@@ -2321,6 +2315,8 @@ function ecwid_debug_do_page() {
 
 		$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
 	}
+
+	global $ecwid_oauth;
 
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }
@@ -2802,8 +2798,15 @@ function ecwid_embed_svg($name) {
 	echo $code;
 }
 
-function ecwid_get_categories_js_url($callback) {
-	return 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id() . '&callback=' . $callback;
+function ecwid_get_categories_js_url($callback = null) {
+
+	$url = 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id();
+
+	if ($callback) {
+		$url .= '&callback=' . $callback;
+	}
+
+	return $url;
 }
 
 
