@@ -1,0 +1,29 @@
+<?php
+
+include_once "shortcodes/class-ecwid-shortcode-productbrowser.php";
+include_once "shortcodes/class-ecwid-shortcode-minicart.php";
+include_once "shortcodes/class-ecwid-shortcode-search.php";
+include_once "shortcodes/class-ecwid-shortcode-categories.php";
+
+add_shortcode('ecwid_productbrowser', 'ecwid_render_shortcode');
+add_shortcode('ecwid_minicart', 'ecwid_render_shortcode');
+add_shortcode('ecwid_search', 'ecwid_render_shortcode');
+add_shortcode('ecwid_categories', 'ecwid_render_shortcode');
+
+function ecwid_render_shortcode($params, $content = '', $name) {
+	$names = array('productbrowser', 'minicart', 'search', 'categories');
+
+	$prefix = substr($name, 0, 6);
+
+	if ($prefix != 'ecwid_') return '';
+
+	$base = substr($name, 6);
+
+	if (in_array($base, $names)) {
+		$classname = 'Ecwid_Shortcode_' . $base;
+
+		$shortcode = new $classname($params);
+
+		return $shortcode->render();
+	}
+}
