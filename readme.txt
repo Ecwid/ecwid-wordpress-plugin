@@ -149,6 +149,14 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.6 =
+- **Compatibility with the "Contact form 7 designer" plugin** . When installed, the "Contact form 7 designer" plugin  adds its own code to the <html> and <body> tags on the page on every page of the site. This conflicted with Ecwid storefront styles. We fixed that – now if you use the both plugin t the same time, your site pages styles should work fine. Note: this plugin is not the same as the popular "Contact form 7". Ecwid ecommerce functionality works well with the latter, so don't worry if you use it on your site. 
+- **Fix for a store links issue in the "Flora" theme by Wyde.** Users with "Flora" theme on their sites reported that there are glitches in the way Ecwid online store links behave in that theme. We fixed that – Ecwid now works well with "Flora". 
+- **Compatibility with the "Trend" Wordpress theme.** Ecwid shopping cart is designed to work great with all WordPress themes. However, we sometimes see that Ecwid has troubles working with some AJAX-driven WordPress themes. We found a way to fix this and started working on improving the plugin. With this release, the Ecwid plugin becomes compatible with the beautiful "Trend" theme. We'll get to the other AJAX themes in the future releases. If you find a theme that Ecwid has troubles with, please let us know – we'll fix that.
+- **Fixed a bug with the store menu item duplicates.** In a recent update, we fixed duplicate Store pages appearing when you deactivate and re-activate the plugin several times. In this release, we fixed a similar bug with the "Store" menu items. However often you enable/disable the plugin, the site navigation menu now works properly, keeping a single Store link, unless you deliberately add a few shop links to the menu (e.g. to have store category links in the menu).
+- Minor improvement and fixes to make the plugin more stable and user friendly. 
+
+
 = 4.5 =
 - **Update in the Single Sign On Module (Ecwid SSO).** Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. We updated it to use the latest Ecwid ecommerce APIs to make it more convenient for you. Now the module doesn't require a separate API key – it works seamlessly with no extra setup.
 - **Compatibility with Divi builder editor.** Divi builder adds a nice WYSIWYG editor to the Wordpress admin. Ecwid shopping cart now is compatible with that editor – so you can add Ecwid store shortcode right from the Divi builder editor, no need to switch back to the default Wordpress editor if you prefer to use the Divi's one. 
