@@ -4,7 +4,7 @@ require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 
 class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 
-	protected function _process_params( $shortcode_attributes ) {
+	protected function _process_params( $shortcode_attributes = array() ) {
 
 		$params = shortcode_atts(
 			array(
@@ -47,5 +47,13 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 
 	public function get_ecwid_widget_function_name() {
 		return 'xMinicart';
+	}
+
+	public function build_params_string($params = null) {
+		if (!is_null($params) && array_key_exists('id', $params)) {
+			unset($params['id']);
+		}
+
+		return parent::build_params_string($params);
 	}
 }

@@ -9,7 +9,7 @@ abstract class Ecwid_Shortcode_Base {
 	static protected $shortcodes = array();
 
 	abstract public function get_shortcode_name();
-	abstract protected function _process_params( $params );
+	abstract protected function _process_params( $shortcode_params = array() );
 	abstract public function get_ecwid_widget_function_name();
 
 	public function __construct( $params ) {
