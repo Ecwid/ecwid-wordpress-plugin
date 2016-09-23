@@ -14,7 +14,7 @@ abstract class Ecwid_Shortcode_Base {
 
 	public function __construct( $params ) {
 
-		if ($params['lang']) {
+		if (isset($params['lang']) && $params['lang']) {
 			$this->_lang = $params['lang'];
 		}
 		$this->_process_params( $params );

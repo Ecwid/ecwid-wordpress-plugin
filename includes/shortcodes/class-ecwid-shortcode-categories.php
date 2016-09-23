@@ -5,7 +5,7 @@ require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 class Ecwid_Shortcode_Categories extends Ecwid_Shortcode_Base {
 
 	protected function _process_params( $params = array() ) {
-		$this->_should_render = $params['is_ecwid_shortcode'] ? true : get_option('ecwid_show_categories');
+		$this->_should_render = (isset($params['is_ecwid_shortcode']) && $params['is_ecwid_shortcode']) ? true : get_option('ecwid_show_categories');
 	}
 
 	public function get_shortcode_name() {
