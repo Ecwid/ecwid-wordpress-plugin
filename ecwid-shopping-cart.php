@@ -260,8 +260,13 @@ add_action('wp_ajax_nopriv_ecwid_get_product_info', 'ecwid_ajax_get_product_info
 
 function ecwid_enqueue_frontend() {
 
-	wp_enqueue_script('jquery-ui-widget');
-	wp_register_script('ecwid-products-list-js', ECWID_PLUGIN_URL . 'js/products-list.js', array('jquery', 'jquery-ui-widget'), get_option('ecwid_plugin_version'));
+	if (!wp_script_is('jquery-ui-widget')) {
+		wp_enqueue_script('jquery-ui-widget', includes_url() . 'js/jquery/ui/widget.min.js', array('jquery'));
+	}
+
+	wp_register_script('ecwid-products-list-js', ECWID_PLUGIN_URL . 'js/products-list.js', array('jquery-ui-widget'), get_option('ecwid_plugin_version'));
+	wp_enqueue_script('ecwid-products-list-js');
+
 	wp_register_style('ecwid-products-list-css', ECWID_PLUGIN_URL . 'css/products-list.css', array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
@@ -1274,6 +1279,14 @@ function ecwid_ajax_get_product_info() {
 	}
 
 	exit();
+}
+
+function ecwid_get_search_js_code() {
+	if (get_option('ecwid_use_new_search', false)) {
+		return 'xSearch("style=");';
+	} else {
+		return 'xSearchPanel("style=")';
+	}
 }
 
 add_filter('autoptimize_filter_js_exclude','ecwid_override_jsexclude',10,1);
