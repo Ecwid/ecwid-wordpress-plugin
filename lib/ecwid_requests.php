@@ -64,7 +64,9 @@ abstract class Ecwid_Http {
 
 		$data = $this->_do_request($url, $args);
 
-		if ( is_null( $data ) || $this->is_error ) return null;
+		if ( is_null( $data ) || $this->is_error ) {
+			return null;
+		}
 
 		$this->_process_data($data);
 
@@ -121,8 +123,9 @@ abstract class Ecwid_Http {
 			return self::_get_default_transport();
 		}
 
-		if (!empty(@$data['preferred']) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
-			return $data['preferred'];
+		$preferred = @$data['preferred'];
+		if (!empty($preferred) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
+			return $preferred;
 		}
 
 		return null;
@@ -130,14 +133,14 @@ abstract class Ecwid_Http {
 
 
 	protected static function _post_transport($name) {
-		$data = EcwidPlatform::get('get_transport_' . $name);
+		$data = EcwidPlatform::get('get_post_transport_' . $name);
 
 		if (!empty($data) && @$data['use_default']) {
 			return self::_post_default_transport();
 		}
-
-		if (!empty(@$data['preferred']) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
-			return $data['preferred'];
+		$preferred = @$data['preferred'];
+		if (!empty($preferred) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
+			return $preferred;
 		}
 
 		return null;
@@ -169,7 +172,7 @@ abstract class Ecwid_Http {
 
 	protected static function _detect_post_transport($name, $url, $params) {
 
-		foreach (self::_get_transports() as $transport_class) {
+		foreach (self::_post_transports() as $transport_class) {
 			$transport = new $transport_class($name, $url, $params);
 
 			$result = $transport->do_request();
