@@ -85,6 +85,7 @@ abstract class Ecwid_Http {
 	}
 
 	public static function create_get($name, $url, $params) {
+
 		$transport_class = self::_get_transport($name, $url, $params);
 
 		if (!$transport_class) {
@@ -283,7 +284,9 @@ abstract class Ecwid_HTTP_Get extends Ecwid_Http {
 
 		$report = $this->create_error_report($this->message);
 
-		$report->do_request();
+		if (!is_null($report)) {
+			$report->do_request();
+		}
 	}
 }
 
