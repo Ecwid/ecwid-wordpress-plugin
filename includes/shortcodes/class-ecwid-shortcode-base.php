@@ -28,10 +28,11 @@ abstract class Ecwid_Shortcode_Base {
 
 	public function wrap_code($code) {
 
-		return "<!-- Ecwid shopping cart plugin v 4.4 --><!-- noptimize -->"
+		$version = get_option('ecwid_plugin_version');
+		return "<!-- Ecwid shopping cart plugin v $version --><!-- noptimize -->"
 	       . ecwid_get_scriptjs_code($this->_lang)
 	       . $code
-	       . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v 4.4 -->";
+	       . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v $version -->";
 	}
 
 	public function render() {
