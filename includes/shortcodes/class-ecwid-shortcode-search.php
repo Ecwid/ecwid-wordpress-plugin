@@ -16,7 +16,7 @@ class Ecwid_Shortcode_Search extends Ecwid_Shortcode_Base {
 		if (get_option('ecwid_use_new_search', false)) {
 			return 'xSearch';
 		} else {
-			return 'xSearchBox';
+			return 'xSearchPanel';
 		}
 	}
 }
