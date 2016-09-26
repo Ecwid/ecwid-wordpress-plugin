@@ -50,7 +50,7 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 	}
 
 	public function build_params_string($params = null) {
-		if (!is_null($params) && array_key_exists('id', $params)) {
+		if (!is_null($params) && array_key_exists('id', $params) && isset($params['layout']) && $params['layout'] == 'MiniAttachToProductBrowser') {
 			unset($params['id']);
 		}
 
