@@ -279,11 +279,7 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 
 	if ((bool)get_option('ecwid_use_chameleon')) {
-		if (ecwid_migrations_is_original_plugin_version_older_than( ECWID_VERSION_BUILTIN_CHAMELEON )) {
-			ecwid_enqueue_external_chameleon();
-		} else {
-			ecwid_enqueue_builtin_chameleon();
-		}
+		ecwid_enqueue_builtin_chameleon();
 	}
 
 	if (is_active_widget(false, false, 'ecwidrecentlyviewed')) {
@@ -301,32 +297,6 @@ function ecwid_enqueue_frontend() {
 
 	if (is_plugin_active('contact-form-7-designer/cf7-styles.php')) {
 		wp_enqueue_script('ecwid-cf7designer', ECWID_PLUGIN_URL . 'js/cf7designer.js', array(), get_option('ecwid-plugin-version'), true);
-	}
-}
-
-function ecwid_enqueue_external_chameleon() {
-	wp_enqueue_script('ecwid-chameleon-js', 'https://dj925myfyz5v.cloudfront.net/widgets/chameleon/v1/ecwid-chameleon.js', array(), get_option('ecwid_plugin_version'), true);
-
-	$primary    = get_option('ecwid_chameleon_primary');
-	$background = get_option('ecwid_chameleon_background');
-	$links      = get_option('ecwid_chameleon_links');
-
-	$localize = array();
-
-	if (get_option('ecwid_chameleon_primary')) {
-		$localize['primary_color'] = get_option('ecwid_chameleon_primary');
-	}
-	if (get_option('ecwid_chameleon_background')) {
-		$localize['primary_background'] = get_option('ecwid_chameleon_background');
-	}
-	if (get_option('ecwid_chameleon_links')) {
-		$localize['primary_link'] = get_option('ecwid_chameleon_links');
-	}
-
-	$localize['font'] = 'auto';
-
-	if (!empty( $localize )) {
-		wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', $localize);
 	}
 }
 
@@ -490,6 +460,13 @@ function ecwid_check_version()
 
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
 		add_option('ecwid_use_new_search', 'Y');
+
+		add_option('ecwid_chameleon_colors_foreground', '');
+		add_option('ecwid_chameleon_colors_background', '');
+		add_option('ecwid_chameleon_colors_link', '');
+		add_option('ecwid_chameleon_colors_button', '');
+		add_option('ecwid_chameleon_colors_price', '');
+
 	} elseif ($upgrade) {
 
 		ecwid_plugin_add_oauth();
@@ -512,15 +489,6 @@ function ecwid_check_version()
 
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3')) {
 			add_option( 'ecwid_support_email', 'wordpress@ecwid.com' );
-		}
-
-
-		if (!ecwid_migrations_is_original_plugin_version_older_than( ECWID_VERSION_BUILTIN_CHAMELEON )) {
-			add_option('ecwid_chameleon_colors_foreground', '');
-			add_option('ecwid_chameleon_colors_background', '');
-			add_option('ecwid_chameleon_colors_link', '');
-			add_option('ecwid_chameleon_colors_button', '');
-			add_option('ecwid_chameleon_colors_price', '');
 		}
 
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.4.5')) {
