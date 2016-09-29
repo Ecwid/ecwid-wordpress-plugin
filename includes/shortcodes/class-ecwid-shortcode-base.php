@@ -29,10 +29,14 @@ abstract class Ecwid_Shortcode_Base {
 	public function wrap_code($code) {
 
 		$version = get_option('ecwid_plugin_version');
-		return "<!-- Ecwid shopping cart plugin v $version --><!-- noptimize -->"
-	       . ecwid_get_scriptjs_code($this->_lang)
-	       . $code
-	       . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v $version -->";
+
+		$shortcode_content = ecwid_get_scriptjs_code($this->_lang) . $code;
+
+		$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
+	       . $shortcode_content
+	       . "<!-- END Ecwid Shopping Cart v $version -->";
+
+		return apply_filters('ecwid_shortcode_content', $shortcode_content);
 	}
 
 	public function render() {

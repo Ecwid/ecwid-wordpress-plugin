@@ -135,7 +135,8 @@ function ecwid_init_integrations()
 	$integrations = array(
 		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
 		'wpseo' => 'wordpress-seo/wp-seo.php',
-		'divibuilder' => 'divi-builder/divi-builder.php'
+		'divibuilder' => 'divi-builder/divi-builder.php',
+		'autoptimize' => 'autoptimize/autoptimize.php'
 	);
 
 	foreach ($integrations as $key => $plugin) {
@@ -1033,10 +1034,14 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
 	$version = get_option('ecwid_plugin_version');
 
-    return "<!-- Ecwid shopping cart plugin v $version --><!-- noptimize -->"
-		   . ecwid_get_scriptjs_code(@$attrs['lang'])
-	       . "<div class=\"ecwid-shopping-cart-$name\">$content</div>"
-		   . "<!-- /noptimize --><!-- END Ecwid Shopping Cart v $version -->";
+	$shortcode_content = ecwid_get_scriptjs_code(@$attrs['lang'])
+	                     . "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
+
+	$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
+	                     . $shortcode_content
+	                     . "<!-- END Ecwid Shopping Cart v $version -->";
+
+	return apply_filters('ecwid_shortcode_content', $shortcode_content);
 }
 
 function ecwid_get_scriptjs_code($force_lang = null) {
@@ -1452,13 +1457,6 @@ function ecwid_ajax_get_product_info() {
 	}
 
 	exit();
-}
-
-add_filter('autoptimize_filter_js_exclude','ecwid_override_jsexclude',10,1);
-function ecwid_override_jsexclude($exclude)
-{
-	$code = ecwid_get_search_js_code();
-	return $exclude . ", $code";
 }
 
 function ecwid_store_activate() {
