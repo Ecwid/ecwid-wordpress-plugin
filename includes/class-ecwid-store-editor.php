@@ -16,8 +16,8 @@ class Ecwid_Store_Editor {
 	public function init()
 	{
 		$current_screen = get_current_screen();
-		
-		if ($current_screen->base != 'post') {
+
+		if ( $current_screen->base != 'post' || !in_array($current_screen->post_type, array('post', 'page')) ) {
 			return;
 		}
 
