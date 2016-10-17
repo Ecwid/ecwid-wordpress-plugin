@@ -238,6 +238,11 @@ class EcwidPlatform {
 		return $transports;
 	}
 
+	static public function is_set_time_limit_available() {
+		return function_exists('set_time_limit' )
+		       && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) == false
+		       && ! ini_get( 'safe_mode' );
+	}
 }
 
 add_filter('http_api_transports', array('EcwidPlatform', 'http_api_transports'));

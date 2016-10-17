@@ -142,6 +142,16 @@ function ecwid_init_integrations()
 	}
 }
 
+add_action('admin_post_ecwid_estimate_sync', 'ecwid_estimate_sync');
+
+function ecwid_estimate_sync() {
+	$p = new Ecwid_Products();
+
+	$result = $p->estimate_sync();
+
+	echo json_encode($result);
+}
+
 $version = get_bloginfo('version');
 
 function ecwid_add_breadcrumbs_navxt($trail)
@@ -1801,6 +1811,8 @@ function ecwid_sync_do_page() {
 
 	$prods = new Ecwid_Products();
 
+	$estimation = $prods->estimate_sync();
+
 	require_once ECWID_PLUGIN_DIR . 'templates/sync.php';
 }
 
@@ -1809,6 +1821,7 @@ function ecwid_get_categories($nocache = false) {
 
 	if ( false == $categories || $nocache ) {
 		$callback = 'ecwidcatscallback';
+
 		$result = EcwidPlatform::fetch_url(ecwid_get_categories_js_url($callback));
 		$result = $result['data'];
 
@@ -1992,7 +2005,7 @@ function ecwid_create_store() {
 	if (is_array($result) && $result['response']['code'] == 200) {
 		$data = json_decode($result['body']);
 
-		update_option('ecwid_store_id', $data->id);
+		ecwid_update_store_id($data->id);
 
 		$api->save_token($data->token);
 		update_option('ecwid_oauth_scope', 'read_profile read_catalog allow_sso');
@@ -2314,9 +2327,13 @@ function ecwid_advanced_settings_do_page() {
 
 	$is_sso_checkbox_disabled = !$is_sso_enabled && !$has_create_customers_scope && empty(get_option('ecwid_sso_secret_key'));
 	
-	$reconnect_link = admin_url('admin-post.php?action=ecwid_connect&reconnect&api_v3_sso');
+	$reconnect_link = get_reconnect_link();
 
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
+}
+
+function get_reconnect_link() {
+	return admin_url('admin-post.php?action=ecwid_connect&reconnect&api_v3_sso');
 }
 
 function ecwid_get_admin_iframe_upgrade_page() {
@@ -2377,6 +2394,7 @@ function get_ecwid_store_id() {
 }
 
 function ecwid_sync_products() {
+
 	set_time_limit(3600);
 	if (!defined('DOING_AJAX')) {
 	 echo '<html><body>Lets begin<br />';
@@ -2392,6 +2410,115 @@ function ecwid_sync_products() {
 		wp_redirect('admin.php?page=ecwid-advanced');
 	}
 }
+
+
+function ecwid_sync_progress_callback($status) {
+	if (!@$status['event']) {
+		$status['event'] = 'progress';
+	}
+
+	echo 'event: ' . $status['event'] . "\n";
+
+	echo 'data: ' . json_encode($status) . "\n\n";
+	flush();
+}
+
+add_action('admin_post_ecwid_sync_sse', 'ecwid_sync_products_sse');
+function ecwid_sync_products_sse() {
+	set_time_limit(0);
+
+	header("Content-Type: text/event-stream\n\n");
+
+	$p = new Ecwid_Products();
+
+	$p->set_sync_progress_callback('ecwid_sync_progress_callback');
+	$p->sync();
+
+	ecwid_sync_progress_callback(
+		array(
+			'event' => 'completed'
+		)
+	);
+}
+
+function ecwid_slow_sync_progress($status) {
+	global $ecwid_sync_status;
+
+	if (!isset($ecwid_sync_status)) {
+		$ecwid_sync_status = array(
+			'limit'  => -1,
+			'offset' => -1,
+			'total'  => -1,
+			'count'  => -1,
+			'updated' => 0,
+			'deleted_disabled' => 0,
+			'created' => 0,
+			'deleted' => 0,
+			'skipped_deleted' => 0
+		);
+	}
+
+	if ($status['event'] == 'fetching_products' || $status['event'] == 'fetching_deleted_product_ids') {
+		$ecwid_sync_status['offset'] = $status['offset'];
+		$ecwid_sync_status['limit'] = $status['limit'];
+	} else if ($status['event'] == 'found_updated' || $status['event'] == 'found_deleted') {
+		$ecwid_sync_status['total'] = $status['total'];
+		$ecwid_sync_status['count'] = $status['count'];
+
+	} else if ($status['event'] == 'created_product') {
+		$ecwid_sync_status['created']++;
+	} else if ($status['event'] == 'updated_product') {
+		$ecwid_sync_status['updated']++;
+	} else if ($status['event'] == 'deleted_disabled_product') {
+		$ecwid_sync_status['deleted_disabled']++;
+	} else if ($status['event'] == 'deleted_product') {
+		$ecwid_sync_status['deleted'] ++;
+	} else if ($status['event'] == 'skipped_deleted') {
+		$ecwid_sync_status['skipped_deleted']++;
+	}
+}
+
+add_action('admin_post_ecwid_sync_no_sse', 'ecwid_sync_products_no_sse');
+function ecwid_sync_products_no_sse() {
+	$p = new Ecwid_Products();
+
+	error_log(var_export($_GET, true));
+
+	$p->set_sync_progress_callback('ecwid_slow_sync_progress');
+
+	$over = $p->sync(array(
+		'mode' => $_GET['mode'] == 'deleted' ? 'deleted' : 'updated',
+		'offset' => intval($_GET['offset']),
+		'one_at_a_time' => true,
+		'from' => $_GET['time']
+	));
+
+	global $ecwid_sync_status;
+
+	if (!$over) {
+		echo json_encode($ecwid_sync_status);
+	} else {
+		echo json_encode(array_merge($ecwid_sync_status, array('status' => 'complete')));
+	}
+}
+
+add_action('admin_post_ecwid_tick', 'ecwid_tick');
+
+function ecwid_tick() {
+
+	var_dump(ini_get('max_execution_time'));
+	set_time_limit(12345);
+	var_dump(ini_get('max_execution_time'));
+	die();
+	error_log('tick');
+	header("Content-Type: text/event-stream\n\n");
+	for ($i = 0; $i < 30; $i++) {
+		echo "data: $i \n\n";
+		flush();
+		usleep(20000);
+	}
+}
+
 
 function ecwid_dashboard_widget_function() {
 	if (!is_ssl()) {
@@ -2804,6 +2931,14 @@ function ecwid_get_default_pb_size() {
 		'list_rows' =>    60,
 		'table_rows' =>   60
 	);
+}
+
+function ecwid_update_store_id( $new_store_id ) {
+	update_option( 'ecwid_store_id', $new_store_id );
+	update_option( 'ecwid_is_api_enabled', 'off' );
+	update_option( 'ecwid_api_check_time', 0 );
+
+	do_action('ecwid_update_store_id', $new_store_id);
 }
 
 function ecwid_is_paid_account()

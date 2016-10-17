@@ -100,8 +100,19 @@ class Ecwid_Api_V3
 			$params['limit'] = $input_params['limit'];
 		}
 
+
+		if (array_key_exists('sortBy', $input_params)) {
+			$params['sortBy'] = $input_params['sortBy'];
+		}
+
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
+				$this->_products_api_url,
+				$params
+			)
+		);
+
+		error_log('fetching ' . $this->build_request_url(
 				$this->_products_api_url,
 				$params
 			)
@@ -112,6 +123,8 @@ class Ecwid_Api_V3
 		}
 
 		$result = json_decode($result['data']);
+
+		error_log('found ' . count($result->items));
 
 		return $result;
 	}
@@ -313,6 +326,10 @@ class Ecwid_Api_V3
 		);
 
 		return $result;
+	}
+
+	public static function format_time($time) {
+		return strftime('%F %T', $time);
 	}
 
 	protected function build_request_url($url, $params)

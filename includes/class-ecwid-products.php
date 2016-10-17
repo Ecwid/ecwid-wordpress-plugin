@@ -6,18 +6,33 @@ require_once ECWID_PLUGIN_DIR . '/lib/ecwid_platform.php';
 class Ecwid_Products {
 
 	protected $_api;
+	protected $_status;
+	protected $_sync_progress_callback;
 
-	const OPTION_UPDATE_TIME = 'update_time';
 	const POST_TYPE_PRODUCT = 'product';
 
 	public function __construct() {
 
 		$this->_api = new Ecwid_Api_V3(get_ecwid_store_id());
 
-		add_action('init', array($this, 'register_post_type'));
-		add_action('admin_init', array($this, 'register_post_type'));
+		add_action( 'init', array($this, 'register_post_type' ) );
+		add_action( 'admin_init', array($this, 'register_post_type' ) );
+		add_action( 'ecwid_update_store_id', $this, 'on_update_store_id' );
 		add_filter( 'the_content', array( $this, 'content' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
+
+		$this->_status = new Ecwid_Products_Sync_Status();
+		$this->_status->load();
+
+		$this->_sync_progress_callback = '__return_false';
+	}
+
+	public function on_update_store_id() {
+		$this->_status->reset_dates();
+	}
+
+	public function set_sync_progress_callback($callback) {
+		$this->_sync_progress_callback = $callback;
 	}
 
 	public function content($content) {
@@ -53,6 +68,8 @@ class Ecwid_Products {
 
 	public function register_post_type() {
 
+		// @todo rewrite flush
+
 		// if woocommerce not active
 		if (ecwid_get_woocommerce_status() != 2) {
 			register_post_type( self::POST_TYPE_PRODUCT,
@@ -81,19 +98,65 @@ class Ecwid_Products {
 		return $last_update > $update_time;
 	}
 
-	public function get_last_update_time() {
-		return strftime('%F %T', EcwidPlatform::get(self::OPTION_UPDATE_TIME));
-	}
-
 	public function set_last_update_time($time) {
 		EcwidPlatform::set(self::OPTION_UPDATE_TIME, $time);
 	}
 
-	public function sync() {
-		$this->_process_deleted_products();
-		$this->_process_products();
+	public function estimate_sync() {
 
-		$this->set_last_update_time(time());
+		$updated = $this->_api->search_products( array(
+			'updatedFrom' => $this->_status->get_updated_from(),
+			'limit'       => 1,
+			'offset'      => 0,
+			'sortBy'      => 'UPDATED_TIME_ASC'
+		) );
+
+
+		$deleted = $this->_api->get_deleted_products( array(
+			'from_date' => $this->_status->get_deleted_from(),
+			'limit'       => 1,
+			'offset'      => 0
+		) );
+
+		$result = array(
+			'total_deleted' => $deleted->total,
+			'total_updated' => $updated->total
+		);
+
+		$result['last_update'] = Ecwid_Api_V3::format_time($this->_status->get_last_sync_time());
+		if ($updated->total > 0) {
+			$result['updated_from'] = $updated->items[0]->updated;
+			$result['last_updated'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
+		}
+
+		if ($deleted->total > 0) {
+			$result['deleted_from'] = $deleted->items[0]->date;
+			$result['last_deleted'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
+		}
+
+		return $result;
+	}
+
+	public function sync($settings = null) {
+
+		$did_something = false;
+
+		if (!$settings || $settings['mode'] == 'deleted') {
+			$did_something = $this->_process_deleted_products( $settings );
+		}
+
+		if (!$settings || $settings['one_at_a_time'] && !$did_something) {
+			$did_something = $this->_process_products($settings);
+		}
+
+		if (!$settings || $settings['one_at_a_time'] && !$did_something) {
+
+			$this->_status->update_last_sync_time( time() );
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public function delete_all_products() {
@@ -138,54 +201,66 @@ class Ecwid_Products {
 		}
 	}
 
-	protected function _process_products() {
+	protected function _process_products($settings) {
 		$over = FALSE;
 
 		$offset = 0;
 		$limit  = 100;
+		if ($settings && @$settings['offset']) {
+			$offset = $settings['offset'];
+		}
 
-		$start = microtime(true);
-
-		$total_fetch = 0;
-		$total_insert = 0;
+		if ($settings && $settings['from']) {
+			$updated_from = $settings['from'];
+		} else {
+			$updated_from = $this->_status->get_updated_from();
+		}
 
 		while ( ! $over ) {
-			$this->_debug_status('offset: ' . $offset);
 
-			$time = microtime(true);
-			$products = $this->_api->search_products( array(
-				'updatedFrom' => $this->get_last_update_time(),
+			$this->_status_event(array(
+				'event' => 'fetching_products',
+				'offset' => $offset,
+				'limit' => $limit
+			));
+
+			$params = array(
+				'updatedFrom' => $updated_from,
 				'limit'       => $limit,
-				'offset'      => $offset
-			) );
-			$total_fetch += microtime(true) - $time;
+				'offset'      => $offset,
+				'sortBy'      => 'UPDATED_TIME_ASC'
+			);
 
-			$this->_debug_status('found: ' . $products->total);
+			$products = $this->_api->search_products( $params );
 
-			if ( $products->total == 0 ) {
+			$this->_status_event(
+				array_merge(
+					$params,
+					array(
+						'event' => 'found_updated',
+						'total' => $products->total,
+						'count' => $products->count
+					)
+				)
+			);
+
+			if ( $products->total == 0 || $products->count == 0 ) {
 				$over = TRUE;
-				break;
+				return false;
 			}
 
-			$time = microtime(true);
 			foreach ( $products->items as $product ) {
 				$this->_process_product( $product );
 			}
-			$total_insert += microtime(true) - $time;
 
-			if ( $products->total < $offset + $limit ) {
+			if ( $products->total < $offset + $limit || @$settings['one_at_a_time'] ) {
 				break;
 			}
-
-			$this->_debug_status('offset: ' . $offset);
 
 			$offset += $limit;
 		}
 
-		$over = microtime(true);
-		$this->_debug_status('total: ' . ($over - $start));
-		$this->_debug_status('fetch:' . $total_fetch);
-		$this->_debug_status('insert:' . $total_insert);
+		return true;
 	}
 
 	protected function _find_post_by_product_id($product_id) {
@@ -210,17 +285,24 @@ class Ecwid_Products {
 				wp_delete_post( $id );
 			}
 
+			$this->_status_event(
+				array(
+					'event' => 'deleted_disabled_product',
+					'product' => $product
+				)
+			);
+
 			return null;
 		}
 
 		return $this->_sync_product( $product, $id );
 	}
 
-	protected function _sync_product( $product, $post_id = null ) {
+	protected function _sync_product( $product, $existing_post_id = null ) {
 
 		$post_id = wp_insert_post(
 			array(
-				'ID'           => $post_id,
+				'ID'           => $existing_post_id,
 				'post_title'   => $product->name,
 				'post_content' => $product->description,
 				'post_type'    => self::POST_TYPE_PRODUCT,
@@ -233,6 +315,7 @@ class Ecwid_Products {
 					'_visibility'    => 'visible',
 					'_stock_status'  => 'instock',
 					'_virtual'       => 'no',
+					'_updatedTimestamp' => $product->updateTimestamp
 
 				),
 				'post_status'  => 'publish'
@@ -242,52 +325,69 @@ class Ecwid_Products {
 		$image_id = get_post_meta( $post_id, '_thumbnail_id' );
 
 		if ( ! $image_id ) {
-			$file = download_url( $product->imageUrl );
-
-			$uploaded = wp_upload_bits( basename( $product->imageUrl ), NULL, file_get_contents( $file ) );
-			unlink( $file );
-
-			$filetype = wp_check_filetype( $uploaded['file'], NULL );
-			$file     = $uploaded['file'];
-
-			$wp_upload_dir = wp_upload_dir();
-			$attachment    = array(
-				'guid'           => $wp_upload_dir['url'] . '/' . basename( $file ),
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file ) ),
-				'post_content'   => '',
-				'post_status'    => 'inherit'
-			);
-
-			$attachment_id = wp_insert_attachment( $attachment, $file, $post_id );
-			$attach_data   = wp_generate_attachment_metadata( $attachment_id, $file );
-			wp_update_attachment_metadata( $attachment_id, $attach_data );
-			set_post_thumbnail( $post_id, $attachment_id );
+			$this->_upload_product_thumbnail( $product, $post_id );
 		}
+
+		$this->_status->update_last_updated($product->updateTimestamp);
+
+		$this->_status_event(
+			array(
+				'event' => $existing_post_id ? 'updated_product' : 'created_product',
+				'product' => $product
+			)
+		);
 
 		return $post_id;
 	}
 
-	protected function _process_deleted_products() {
+	protected function _process_deleted_products($settings = array()) {
 		$over = FALSE;
 
 		$offset = 0;
 		$limit  = 100;
 
-		while ( ! $over ) {
-			$this->_debug_status('offset: ' . $offset);
+		if ($settings && @$settings['offset']) {
+			$offset = $settings['offset'];
+		}
 
-			$products = $this->_api->get_deleted_products( array(
-				'from_date' => $this->get_last_update_time(),
+		if ($settings && $settings['from']) {
+			$deleted_from = $settings['from'];
+		} else {
+			$deleted_from = $this->_status->get_updated_from();
+		}
+
+		$deleted_from = $this->_status->get_deleted_from();
+		while ( ! $over ) {
+
+			$this->_status_event(array(
+				'event' => 'fetching_deleted_product_ids',
+				'offset' => $offset,
+				'limit' => $limit
+			));
+
+			$params = array(
+				'from_date' => $deleted_from,
 				'limit'       => $limit,
 				'offset'      => $offset
-			) );
+			);
 
-			$this->_debug_status('found: ' . $products->total);
+			$products = $this->_api->get_deleted_products( $params );
+
+			$this->_status_event(
+				array_merge(
+					$params,
+
+					array(
+						'event' => 'found_deleted',
+						'total' => $products->total,
+						'count' => $products->count
+					)
+				)
+			);
 
 			if ( $products->total == 0 ) {
 				$over = TRUE;
-				break;
+				return false;
 			}
 
 			foreach ( $products->items as $product ) {
@@ -295,23 +395,139 @@ class Ecwid_Products {
 
 				if ($post_id) {
 					wp_delete_post( $post_id );
+					$this->_status_event(
+						array(
+							'event' => 'deleted_product',
+							'product' => $product
+						)
+					);
+				} else {
+					$this->_status_event(
+						array(
+							'event' => 'skipped_deleted',
+							'product' => $product
+						)
+					);
 				}
+
+				$this->_status->update_last_deleted($product->date);
 			}
 
-			if ( $products->total < $offset + $limit ) {
-				break;
+			if ( $products->total < $offset + $limit || @$settings['one_at_a_time'] ) {
+				return true;
 			}
-
-			$this->_debug_status('offset: ' . $offset);
 
 			$offset += $limit;
 		}
 	}
 
-	protected function _debug_status($message) {
-		if (!defined('DOING_AJAX')) {
-			echo $message . '<br />';
-			flush();
+	protected function _status_event($event) {
+		if ($this->_sync_progress_callback) {
+			call_user_func($this->_sync_progress_callback, $event);
+		}
+	}
+
+	protected function _upload_product_thumbnail( $product, $post_id ) {
+		$file = download_url( $product->imageUrl );
+
+		if (is_wp_error($file)) return;
+
+		$uploaded = wp_upload_bits( basename( $product->imageUrl ), NULL, file_get_contents( $file ) );
+		unlink( $file );
+
+		$filetype = wp_check_filetype( $uploaded['file'], NULL );
+		$file     = $uploaded['file'];
+
+		$wp_upload_dir = wp_upload_dir();
+		$attachment    = array(
+			'guid'           => $wp_upload_dir['url'] . '/' . basename( $file ),
+			'post_mime_type' => $filetype['type'],
+			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file ) ),
+			'post_content'   => '',
+			'post_status'    => 'inherit'
+		);
+
+		$attachment_id = wp_insert_attachment( $attachment, $file, $post_id );
+		$attach_data   = wp_generate_attachment_metadata( $attachment_id, $file );
+		wp_update_attachment_metadata( $attachment_id, $attach_data );
+		set_post_thumbnail( $post_id, $attachment_id );
+	}
+}
+
+class Ecwid_Products_Sync_Status {
+
+	const OPTION_UPDATE_TIME = 'update_time';
+	const OPTION_LAST_PRODUCT_UPDATE_TIME = 'last_product_update_time';
+	const OPTION_LAST_PRODUCT_DELETE_TIME = 'last_product_delete_time';
+	const OPTION_LAST_UPDATED_POST_ID = 'last_updated_post_id';
+
+	public $last_sync_time;
+	public $last_updated_product_time;
+	public $last_deleted_product_time;
+	public $current_operation;
+	public $error;
+	protected $_last_updated_post_id;
+
+	public function load() {
+		$this->last_sync_time = EcwidPlatform::get(self::OPTION_UPDATE_TIME);
+		$this->last_updated_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_UPDATE_TIME);
+		$this->last_deleted_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_DELETE_TIME);
+	}
+
+	public function get_last_sync_time() {
+		return $this->last_sync_time;
+	}
+
+	public function update_last_sync_time($date) {
+		$this->_set_date_option(self::OPTION_UPDATE_TIME, $date);
+		$this->update_last_deleted($date);
+		$this->update_last_updated($date);
+	}
+
+	public function update_last_deleted($date) {
+		$this->_set_date_option(self::OPTION_LAST_PRODUCT_DELETE_TIME, $date);
+	}
+
+	public function set_last_updated_post_id($id) {
+		EcwidPlatform::set(self::OPTION_LAST_UPDATED_POST_ID, $id);
+	}
+
+	public function update_last_updated($date) {
+		$this->_set_date_option(self::OPTION_LAST_PRODUCT_UPDATE_TIME, $date);
+	}
+
+	public function get_updated_from() {
+
+		if (!$this->last_updated_product_time) {
+			return $this->get_last_sync_time();
+		}
+
+		return $this->last_updated_product_time;
+	}
+
+	public function get_deleted_from() {
+		if (!$this->last_deleted_product_time) {
+			return $this->get_last_sync_time();
+		}
+
+		return $this->last_deleted_product_time;
+	}
+
+	public function _set_date_option($option, $date) {
+		if (!is_int($date)) {
+			$date = strtotime($date);
+		}
+		EcwidPlatform::set($option, $date);
+	}
+
+	public function reset_dates() {
+		foreach(
+			array(
+				self::OPTION_LAST_PRODUCT_DELETE_TIME,
+				self::OPTION_LAST_PRODUCT_UPDATE_TIME,
+				self::OPTION_UPDATE_TIME
+			) as $option) {
+			EcwidPlatform::set($option, 0);
 		}
 	}
 }
