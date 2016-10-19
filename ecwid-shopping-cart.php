@@ -1636,6 +1636,59 @@ function ecwid_uninstall() {
 	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
 
+function ecwid_is_old_search_widget_used()
+{
+	if (get_option('ecwid_use_new_search')) {
+		return false;
+	}
+
+	if (Ecwid_Widget_Search::is_active_widget()) {
+		return true;
+	}
+
+	$widgets = ecwid_get_store_shortcode_widgets();
+	if (in_array('search', $widgets)) {
+		return true;
+	}
+
+	return false;
+}
+
+function ecwid_is_old_cats_widget_used()
+{
+	if (get_option('ecwid_use_new_horizontal_categories')) {
+		return false;
+	}
+
+	$widgets = ecwid_get_store_shortcode_widgets();
+	if (in_array('categories', $widgets)) {
+		return true;
+	}
+
+	return false;
+}
+
+
+function ecwid_get_store_shortcode_widgets()
+{
+	if (get_option('ecwid_use_new_horizontal_categories') && get_option('ecwid_use_new_search')) return false;
+
+	$page_contents = get_post(ecwid_get_current_store_page_id())->post_content;
+	$shortcodes = ecwid_find_shortcodes($page_contents, 'ecwid');
+	if (!$shortcodes) {
+		return null;
+	}
+
+	$shortcode = $shortcodes[0];
+	$attributes = shortcode_parse_atts($shortcode[3]);
+
+	if (!isset($attributes['widgets'])) {
+		return null;
+	}
+
+	return explode(' ', $attributes['widgets']);
+}
+
 function ecwid_abs_intval($value) {
 	if (!is_null($value))
     	return abs(intval($value));

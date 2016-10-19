@@ -54,6 +54,24 @@ TXT
 		return $message;
 	}
 
+	public static function get_upgrade_search_and_cats_message() {
+		$is_old_search = ecwid_is_old_search_widget_used();
+		$is_old_categories = ecwid_is_old_cats_widget_used();
+
+		$main_message = __( 'Updated %s widgets are available for your Ecwid store. They more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions. ', 'ecwid-shopping-cart' );
+
+		$widgets = '';
+		if ($is_old_search && $is_old_categories) {
+			$widgets = _x( 'Search and Categories', 'upgrade widgets_message', 'ecwid-shopping-cart' );
+		} else if ( $is_old_search ) {
+			$widgets = _x( 'Search', 'upgrade widgets_message', 'ecwid-shopping-cart' );
+		} else if ( $is_old_categories ) {
+			$widgets = _x( 'Categories', 'upgrade widgets_message', 'ecwid-shopping-cart' );
+		}
+
+		return sprintf($main_message, $widgets);
+	}
+
 	public static function show_message($name, $params = array())
 	{
 		$mm = self::get_instance();
@@ -238,6 +256,13 @@ TXT
 				'primary_title' => __( 'Install the Ecwid theme', 'ecwid-shopping-cart' ),
 				'primary_url' => 'admin.php?page=ecwid-install-theme',
 				'hideable' => true
+			),
+
+			'upgrade_search_and_cats' => array(
+				'message' => Ecwid_Message_Manager::get_upgrade_search_and_cats_message(),
+				'hideable' => true,
+				'primary_title' => __ ( 'Open Ecwid store settings', 'ecwid-shopping-cart' ),
+				'primary_url' => 'admin.php?page=ecwid-advanced'
 			)
 		);
 	}
@@ -294,9 +319,10 @@ TXT
 
 				return $result;
 
-			case "install_ecwid_theme":
-				return false;
+			case "upgrade_search_and_cats":
+				return ecwid_is_old_cats_widget_used() || ecwid_is_old_search_widget_used();
 
+			case "install_ecwid_theme":
 				$install_date = ecwid_get_wp_install_date();
 				$theme = ecwid_get_theme_identification();
 
