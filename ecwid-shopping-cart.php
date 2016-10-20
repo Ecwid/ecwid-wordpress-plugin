@@ -52,7 +52,6 @@ if ( is_admin() ){
 	add_action('admin_init', 'ecwid_process_oauth_params');
   add_action('admin_notices', 'ecwid_show_admin_messages');
   add_action('admin_menu', 'ecwid_build_menu');
-  add_action('wp_dashboard_setup', 'ecwid_add_dashboard_widgets' );
   add_action('admin_enqueue_scripts', 'ecwid_common_admin_scripts');
   add_action('admin_enqueue_scripts', 'ecwid_register_admin_styles');
   add_action('admin_enqueue_scripts', 'ecwid_register_settings_styles');
@@ -2343,18 +2342,6 @@ function get_ecwid_store_id() {
 	}
 
 	return $store_id;
-}
-
-function ecwid_dashboard_widget_function() {
-	if (!is_ssl()) {
-		require_once ECWID_PLUGIN_DIR . 'templates/wp-dashboard-widget.php';
-	}
-}
-
-function ecwid_add_dashboard_widgets() {
-  if (current_user_can('manage_options')) {
-    wp_add_dashboard_widget('ecwid_dashboard_widget', __('Recommendations for Your Online Store', 'ecwid-shopping-cart'), 'ecwid_dashboard_widget_function');
-  }
 }
 
 function ecwid_save_post($post_id)
