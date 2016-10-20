@@ -53,7 +53,7 @@ function ecwid_apply_theme($theme_name = null)
 		'zerif-lite'			=> array( 'css-no-parent' ),
 		'storefront'			=> array( 'css' ),
 		'salient'               => array( 'css-no-parent'),
-		'flora'                 => array('js')
+		'flora'                 => array('js'),
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -66,10 +66,11 @@ function ecwid_apply_theme($theme_name = null)
 		'twentysixteen',
 		'central',
 		'mfupdate',
-		'trend'
+		'trend',
+		'Boundless'
 	);
-	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
 
+	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
 
 	if (empty($theme_name)) {
 		$theme_name = ecwid_get_theme_identification();
