@@ -712,7 +712,7 @@ msgstr "Чтобы плагин автоматически объединял у
 msgid "To make sure your customer can actually log in to your site and store, enable registration in the <a %s>site settings</a>"
 msgstr "Чтобы покупатели смогли регистрироваться, убедитесь, что регистрация включена в <a %s>настройках сайта</a>"
 
-msgid "Updated %s widgets are available for your Ecwid store. They more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions."
+msgid "Updated %s widgets are available for your Ecwid store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions."
 msgstr "Блоки %s в вашем Эквид-магазине обновлены – теперь они выглядят приятнее и лучше работают на мобильных. Пожалуйста, включите новый вид блоков поиска и категорий на странице настроек плагина. В одном следующих обновлений плагина они будут включены автоматически для всех пользователей."
 
 msgctxt "upgrade widgets message"

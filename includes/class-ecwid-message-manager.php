@@ -58,7 +58,7 @@ TXT
 		$is_old_search = ecwid_is_old_search_widget_used();
 		$is_old_categories = ecwid_is_old_cats_widget_used();
 
-		$main_message = __( 'Updated %s widgets are available for your Ecwid store. They more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions. ', 'ecwid-shopping-cart' );
+		$main_message = __( 'Updated %s widgets are available for your Ecwid store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions. ', 'ecwid-shopping-cart' );
 
 		$widgets = '';
 		if ($is_old_search && $is_old_categories) {
