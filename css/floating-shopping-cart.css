@@ -7,25 +7,32 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons {
 	box-sizing: content-box;
 }
 
+html#ecwid_html body#ecwid_body .ecwid-float-icons {
+	left: auto;
+	right: 0px;
+	padding-right: 25px;
+}
+
 html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
 	bottom: auto;
 	top: 25px;
-	right: 25px;
-	left: auto;
 }
 
 html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomright {
 	top: auto;
 	bottom: 25px;
-	right: 25px;
-	left: auto;
 }
 
 @media (max-width: 600px) {
 	html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
 		right: -8px;
 	}
-}
+
+	html#ecwid_html body#ecwid_body .ecwid-float-icons {
+		padding-left: 25px;
+	}
+
+	}
 
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div {
 	height: 48px;
@@ -157,4 +164,8 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg path[stroke] {
 }
 html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg path[fill] {
 	fill: #439CA0;
+}
+
+.ecwid-float-icons {
+	overflow: hidden;
 }
