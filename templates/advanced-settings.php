@@ -1,7 +1,8 @@
+<h2><?php _e('Ecwid Shopping Cart — Advanced settings', 'ecwid-shopping-cart'); ?></h2>
+
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings advanced-settings" method="POST" action="options.php">
 
-	<h2><?php _e('Ecwid Shopping Cart — Advanced settings', 'ecwid-shopping-cart'); ?></h2>
 
 	<?php settings_fields('ecwid_options_page'); ?>
 	<input type="hidden" name="settings_section" value="advanced" />
