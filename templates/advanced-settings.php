@@ -168,7 +168,7 @@
 				</div>
 			</div>
 
-			<?php require_once 'sync.php'; ?>
+			<?php if (get_option('ecwid_local_base_enabled')) ecwid_sync_do_page(); ?>
 
 	</fieldset>
 

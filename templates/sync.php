@@ -22,6 +22,7 @@ jQuery('#sync_button').click(function() {
 	} else {
 		sync_by_chunks();
 	}
+	return false;
 });
 
 function sync_sse() {
@@ -55,7 +56,10 @@ function sync_sse() {
 	});
 
 
-	source.addEventListener('created', function(e) {
+	source.addEventListener('created_product', function(e) {
+		var data = jQuery.parseJSON(e.data);
+
+		jQuery('#current_item').text(data.product.name + ' id:' + data.product.id + ' sku:' + data.product.sku);
 		increment_progress_counter('created');
 	});
 
@@ -150,7 +154,13 @@ jQuery('#sync_button_slow').click(function() {
 	jQuery('#current_item').text('Started importing...');
 
 	do_no_sse_sync(mode, offset, limit);
+
+	return false;
 });
+	jQuery('#sync_button_reset').click(function() {
+		location.href='admin-post.php?action=ecwid_sync_reset';
+		return false;
+	});
 });
 </script>
 
@@ -162,6 +172,7 @@ jQuery('#sync_button_slow').click(function() {
 
 <button id="sync_button">GO</button>
 <button id="sync_button_slow">GO SLOW</button>
+<button id="sync_button_reset">RESET</button>
 <div>set_time_limit + SSE available: <span id="sse_on"></span></div>
 
 <div>

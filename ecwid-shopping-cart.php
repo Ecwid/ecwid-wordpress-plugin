@@ -2478,6 +2478,17 @@ function ecwid_slow_sync_progress($status) {
 	}
 }
 
+add_action('admin_post_ecwid_sync_reset', 'ecwid_sync_reset');
+
+function ecwid_sync_reset()
+{
+	EcwidPlatform::set(Ecwid_Products_Sync_Status::OPTION_UPDATE_TIME, 0);
+	EcwidPlatform::set(Ecwid_Products_Sync_Status::OPTION_LAST_PRODUCT_UPDATE_TIME, 0);
+	EcwidPlatform::set(Ecwid_Products_Sync_Status::OPTION_LAST_PRODUCT_DELETE_TIME, 0);
+
+	wp_redirect('admin.php?page=ecwid-advanced');
+}
+
 add_action('admin_post_ecwid_sync_no_sse', 'ecwid_sync_products_no_sse');
 function ecwid_sync_products_no_sse() {
 	$p = new Ecwid_Products();
@@ -2509,14 +2520,15 @@ function ecwid_tick() {
 	var_dump(ini_get('max_execution_time'));
 	set_time_limit(12345);
 	var_dump(ini_get('max_execution_time'));
-	die();
 	error_log('tick');
 	header("Content-Type: text/event-stream\n\n");
 	for ($i = 0; $i < 30; $i++) {
 		echo "data: $i \n\n";
 		flush();
-		usleep(20000);
+		sleep(2);
+		//usleep(2000);
 	}
+	die();
 }
 
 
