@@ -12,6 +12,11 @@ class Ecwid_Theme_Trend extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
+		// That actually means that ajax loading is disabled. Really ambigious naming
+		if (!BW::get_option('disable_ajax_loading')) {
+			return;
+		}
+
 		add_filter('ecwid_disable_widgets', '__return_true');
 		add_filter('ecwid_shortcode_custom_renderer', array($this, 'get_custom_renderer'));
 		add_filter('the_content', array($this, 'add_shortcodes'));
