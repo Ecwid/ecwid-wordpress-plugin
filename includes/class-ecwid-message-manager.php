@@ -323,6 +323,7 @@ TXT
 				return ecwid_is_old_cats_widget_used() || ecwid_is_old_search_widget_used();
 
 			case "install_ecwid_theme":
+				return false;
 				$install_date = ecwid_get_wp_install_date();
 				$theme = ecwid_get_theme_identification();
 
