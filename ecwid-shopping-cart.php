@@ -473,10 +473,6 @@ function ecwid_check_version()
 		do_action('ecwid_plugin_upgraded', array( 'old' => $stored_version, 'new' => $current_version ) );
 		update_option('ecwid_plugin_version', $current_version);
 
-		add_option('ecwid_chameleon_primary', '');
-		add_option('ecwid_chameleon_background', '');
-		add_option('ecwid_chameleon_links', '');
-
 		add_option('ecwid_use_new_horizontal_categories', '');
 		add_option('ecwid_use_new_search', '');
 	}
@@ -1500,10 +1496,6 @@ EOT;
 	add_option("ecwid_installation_date", time());
 
 	add_option('ecwid_hide_appearance_menu', get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID ? 'Y' : 'N', '', 'yes');
-
-	add_option('ecwid_chameleon_primary', '');
-	add_option('ecwid_chameleon_background', '');
-	add_option('ecwid_chameleon_links', '');
 
 	/* All new options should go to check_version thing */
 
