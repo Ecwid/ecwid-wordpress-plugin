@@ -56,7 +56,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 			} else {
 				$id = intval($this->_get_param_default_category_id($params));
-				$plain_content = $catalog->get_category();
+				$plain_content = $catalog->get_category($id);
 				if (empty($plain_content)) {
 					$plain_content = $catalog->get_category(0);
 				} else {
