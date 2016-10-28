@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.6
-Stable tag: 4.5
+Stable tag: 4.7
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,21 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.7 =
+- Fixed a layout issue in the floating cart widget in the "Mobius" WordPress theme.
+- Fixed a few issues with the Single Sign On functionality in the plugin. 
+- Improvements for compatibility with GravityView plugin. You can use that plugin and Ecwid ecommerce shopping cart together – they should work with no issues.
+
+= 4.6.3 =
+- Fixes infinite loading issue that occurred under certain store configurations.
+
+= 4.6.2 =
+- Fix for the legacy search shortcode ([ecwid_searchbox]), which was broken in the recent 4.6 release.
+
+= 4.6.1 =
+- The latest update (v 4.6) had a bug in the sidebar widgets (search box and recently viewed products). The widgets did not display and generated error/warning messages on the sites. We fixed that. 
+- Another issue with the latest update is related to the legacy Ecwid shortcodes ([ecwid_script], [ecwid_productbrowser] etc). On the old installations (2 years old and more), the warning messages appeared – you might notice them on the store page. We now fixed this and everything should be fine, all Ecwid plugin installations work well.
+
 = 4.6 =
 - **Compatibility with the "Contact form 7 designer" plugin** . When installed, the "Contact form 7 designer" plugin  adds its own code to the <html> and <body> tags on the page on every page of the site. This conflicted with Ecwid storefront styles. We fixed that – now if you use the both plugin t the same time, your site pages styles should work fine. Note: this plugin is not the same as the popular "Contact form 7". Ecwid ecommerce functionality works well with the latter, so don't worry if you use it on your site. 
 - **Fix for a store links issue in the "Flora" theme by Wyde.** Users with "Flora" theme on their sites reported that there are glitches in the way Ecwid online store links behave in that theme. We fixed that – Ecwid now works well with "Flora". 
