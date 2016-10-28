@@ -486,11 +486,11 @@ function ecwid_check_version()
 		}
 
 
-		add_option('ecwid_chameleon_colors_foreground', '');
-		add_option('ecwid_chameleon_colors_background', '');
-		add_option('ecwid_chameleon_colors_link', '');
-		add_option('ecwid_chameleon_colors_button', '');
-		add_option('ecwid_chameleon_colors_price', '');
+        add_option('ecwid_chameleon_colors_foreground', '');
+        add_option('ecwid_chameleon_colors_background', '');
+        add_option('ecwid_chameleon_colors_link', '');
+        add_option('ecwid_chameleon_colors_button', '');
+        add_option('ecwid_chameleon_colors_price', '');
 	}
 }
 
@@ -1639,9 +1639,13 @@ function ecwid_is_old_search_widget_used()
 	}
 
 	$widgets = ecwid_get_store_shortcode_widgets();
-	if (in_array('search', $widgets)) {
+	if ($widgets && in_array('search', $widgets)) {
 		return true;
 	}
+
+	$shortcodes = ecwid_find_shortcodes(get_post(ecwid_get_current_store_page_id())->post_content, 'ecwid_search');
+
+	if ($shortcodes) return true;
 
 	return false;
 }
@@ -1653,9 +1657,13 @@ function ecwid_is_old_cats_widget_used()
 	}
 
 	$widgets = ecwid_get_store_shortcode_widgets();
-	if (in_array('categories', $widgets)) {
+	if ($widgets && in_array('categories', $widgets)) {
 		return true;
 	}
+
+	$shortcodes = ecwid_find_shortcodes(get_post(ecwid_get_current_store_page_id())->post_content, 'ecwid_categories');
+
+	if ($shortcodes) return true;
 
 	return false;
 }
