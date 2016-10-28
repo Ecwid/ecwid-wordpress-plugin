@@ -461,12 +461,6 @@ function ecwid_check_version()
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
 		add_option('ecwid_use_new_search', 'Y');
 
-		add_option('ecwid_chameleon_colors_foreground', '');
-		add_option('ecwid_chameleon_colors_background', '');
-		add_option('ecwid_chameleon_colors_link', '');
-		add_option('ecwid_chameleon_colors_button', '');
-		add_option('ecwid_chameleon_colors_price', '');
-
 	} elseif ($upgrade) {
 
 		ecwid_plugin_add_oauth();
@@ -490,6 +484,13 @@ function ecwid_check_version()
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.4.5')) {
 			add_option('ecwid_enable_sso');
 		}
+
+
+		add_option('ecwid_chameleon_colors_foreground', '');
+		add_option('ecwid_chameleon_colors_background', '');
+		add_option('ecwid_chameleon_colors_link', '');
+		add_option('ecwid_chameleon_colors_button', '');
+		add_option('ecwid_chameleon_colors_price', '');
 	}
 }
 
