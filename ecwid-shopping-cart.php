@@ -1643,9 +1643,15 @@ function ecwid_is_old_search_widget_used()
 		return true;
 	}
 
-	$shortcodes = ecwid_find_shortcodes(get_post(ecwid_get_current_store_page_id())->post_content, 'ecwid_search');
+	$post = get_post(ecwid_get_current_store_page_id());
+	if ($post && !is_wp_error($post)) {
 
-	if ($shortcodes) return true;
+		$shortcodes = ecwid_find_shortcodes( $post->post_content, 'ecwid_search' );
+
+		if ( $shortcodes ) {
+			return TRUE;
+		}
+	}
 
 	return false;
 }
@@ -1661,9 +1667,12 @@ function ecwid_is_old_cats_widget_used()
 		return true;
 	}
 
-	$shortcodes = ecwid_find_shortcodes(get_post(ecwid_get_current_store_page_id())->post_content, 'ecwid_categories');
+	$post = get_post(ecwid_get_current_store_page_id());
+	if ($post && !is_wp_error($post)) {
+		$shortcodes = ecwid_find_shortcodes( $post->post_content, 'ecwid_categories');
 
-	if ($shortcodes) return true;
+		if ($shortcodes) return true;
+	}
 
 	return false;
 }
