@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.6
-Stable tag: 4.7
+Stable tag: 4.7.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.7.1 =
+- Fixed a few warning messages appearing on some sites with the new version of the plugin.
+
 = 4.7 =
 - Fixed a layout issue in the floating cart widget in the "Mobius" WordPress theme.
 - Fixed a few issues with the Single Sign On functionality in the plugin. 
