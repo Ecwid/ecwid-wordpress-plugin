@@ -1290,10 +1290,16 @@ function ecwid_product_shortcode($shortcode_attributes) {
 		$attributes['link'] = 'no';
 	}
 
+
+	$version = $attributes['version'];
+	if (!in_array($version, array('1', '2'))) {
+		$version = 1;
+	}
+
 	$widget_parts = array();
-	if ($attributes['version'] == 1) {
+	if ($version == 1) {
 		$widget_parts = _ecwid_get_single_product_widget_parts_v1($attributes);
-	} else if ($attributes['version'] == 2) {
+	} else if ($version == 2) {
 		$widget_parts = _ecwid_get_single_product_widget_parts_v2($attributes);
 	}
 
