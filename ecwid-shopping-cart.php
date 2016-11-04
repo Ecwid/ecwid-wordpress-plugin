@@ -1029,8 +1029,13 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
 	$version = get_option('ecwid_plugin_version');
 
-	$shortcode_content = ecwid_get_scriptjs_code(@$attrs['lang'])
-	                     . "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
+	$shortcode_content = ecwid_get_scriptjs_code(@$attrs['lang']);
+
+	if ($name == 'product2') {
+		$shortcode_content .= $content;
+	} else {
+		$shortcode_content .= "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
+	}
 
 	$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
 	                     . $shortcode_content
@@ -1327,7 +1332,9 @@ function ecwid_product_shortcode($shortcode_attributes) {
 
 	update_option('ecwid_single_product_used', time());
 
-	return ecwid_wrap_shortcode_content($result, 'product', $shortcode_attributes);
+	$name = 'product' . $version;
+
+	return ecwid_wrap_shortcode_content($result, $name, $shortcode_attributes);
 }
 
 function _ecwid_get_single_product_widget_parts_v1($attributes) {
