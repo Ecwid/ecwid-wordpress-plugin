@@ -31,3 +31,7 @@ html#ecwid_html body#ecwid_body .ecwid tr:hover td {
 html#ecwid_html body#ecwid_body .ecwid table {
 	line-height: inherit;
 }
+
+.ecwid-SingleProduct-v2 {
+	box-sizing: content-box;
+}
