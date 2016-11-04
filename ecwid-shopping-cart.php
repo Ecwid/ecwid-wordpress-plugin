@@ -2165,9 +2165,6 @@ function ecwid_admin_do_page( $page ) {
 
 	if ($page == 'dashboard') {
 		$show_reconnect = true;
-		if (isset($_GET['just-created'])) {
-			$page = 'dashboard:wizard=ADD_PRODUCTS';
-		}
 	}
 
 	$time = time() - get_option('ecwid_time_correction', 0);
