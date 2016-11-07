@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.6
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.7.2 =
+- **Added support for the Ecwid’s improved single product widgets.** To feature a single product on a separate page or blog post of your ecommerce site, you can use the [ecwid_product] shortcode. We improved the look and feel of the single product widgets in Ecwid and added those improvements to the single product shortcode version #2. You can use it like this: [ecwid_product id="12345" version=2]. Do not forget to replace 12345 in this example with the actual product ID. 
+- **Fixed error messages appearing on some Wordpress sites with the "Trend" theme installed.** If you use Ecwid shopping cart with Trend theme and recently noticed an error message in your site admin backend, please use this update this update – it should fix that issue. 
+
 = 4.7.1 =
 - Fixed a few warning messages appearing on some sites with the new version of the plugin.
 
