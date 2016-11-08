@@ -92,6 +92,7 @@ if ( is_admin() ){
   add_action('wp_head', 'ecwid_meta');
   add_action('wp_head', 'ecwid_canonical');
   add_action('wp_head', 'ecwid_seo_compatibility_restore', 1000);
+	add_action('wp_head', 'ecwid_add_chameleon');
 	add_action('wp_head', 'ecwid_send_stats');
 	add_action('wp_head', 'ecwid_product_browser_url_in_head');
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
@@ -277,10 +278,6 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 
-	if ((bool)get_option('ecwid_use_chameleon')) {
-		ecwid_enqueue_builtin_chameleon();
-	}
-
 	if (is_active_widget(false, false, 'ecwidrecentlyviewed')) {
 		wp_enqueue_script('ecwid-recently-viewed', ECWID_PLUGIN_URL . 'js/recently-viewed-common.js', array('jquery', 'utils'), get_option('ecwid_plugin_version'), true);
 
@@ -299,8 +296,10 @@ function ecwid_enqueue_frontend() {
 	}
 }
 
-function ecwid_enqueue_builtin_chameleon() {
-	wp_enqueue_script('ecwid-chameleon-js', ECWID_PLUGIN_URL . '/js/chameleon.js', array(), get_option('ecwid_plugin_version'), true);
+function ecwid_add_chameleon() {
+	if (!get_option('ecwid_use_chameleon')) {
+		return;
+	}
 
 	$colors = array();
 
@@ -314,10 +313,22 @@ function ecwid_enqueue_builtin_chameleon() {
 	if (empty($colors)) {
 		$colors = 'auto';
 	}
-	wp_localize_script('ecwid-chameleon-js', 'ecwidChameleon', array(
+
+	$chameleon = json_encode(array(
 		'colors' => $colors,
-		'font' => 'auto'
+		fonts => 'auto'
 	));
+
+	echo <<<HTML
+<script type="text/javascript">
+window.ec = {
+	config: {
+		chameleon: $chameleon
+	}
+}
+</script>
+HTML;
+
 }
 
 function ecwid_load_textdomain() {
