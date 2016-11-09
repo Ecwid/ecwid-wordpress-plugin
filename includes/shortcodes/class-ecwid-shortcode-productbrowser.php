@@ -21,10 +21,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	public function render() {
-		if (current_user_can('manage_options')) {
-			Ecwid_Kissmetrics::record('storefrontIsOpened');
-		}
-
 		return parent::render();
 	}
 

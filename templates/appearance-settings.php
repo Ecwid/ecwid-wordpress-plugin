@@ -220,7 +220,3 @@
 </form>
 
 </div>
-
-<script type="text/javascript">
-	ecwid_kissmetrics_record('Appearance Page Viewed');
-</script>

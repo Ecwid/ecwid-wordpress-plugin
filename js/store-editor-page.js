@@ -347,8 +347,6 @@ ecwid_open_store_popup = function() {
 			.removeClass('active')
 			.filter('[data-content=' + current + ']').addClass('active');
 
-	ecwid_kissmetrics_record(shortcode ? 'editStoreButtonClick' : 'addStoreButtonClick');
-
 	updatePreview();
 
 	if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {

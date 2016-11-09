@@ -116,7 +116,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kissmetrics.php';
 
 if (is_admin()) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -1185,9 +1184,6 @@ EOT;
 
 
 function ecwid_productbrowser_shortcode($shortcode_params) {
-	if (current_user_can('manage_options')) {
-		Ecwid_Kissmetrics::record('storefrontIsOpened');
-	}
 
 	$atts = shortcode_atts(
 		array(
@@ -1527,9 +1523,6 @@ function ecwid_ajax_get_product_info() {
 
 function ecwid_store_activate() {
 
-	if (get_option('ecwid_store_id', null) === null) {
-		Ecwid_Kissmetrics::record('firstactivated');
-	}
 	$my_post = array();
 	$defaults = ecwid_get_default_pb_size();
 	$content = <<<EOT
@@ -1617,8 +1610,6 @@ EOT;
 	Ecwid_Nav_Menus::add_menu_on_activate();
 
 	Ecwid_Message_Manager::enable_message('on_activate');
-	Ecwid_Kissmetrics::record('wpPluginActivated');
-
 }
 
 add_action('in_admin_header', 'ecwid_disable_other_notices');
@@ -1667,7 +1658,6 @@ function ecwid_store_deactivate() {
 	}
 
 	Ecwid_Message_Manager::reset_hidden_messages();
-	Ecwid_Kissmetrics::record('wpPluginDeactivated');
 }
 
 function ecwid_uninstall() {
@@ -1694,8 +1684,6 @@ function ecwid_uninstall() {
 
 	delete_option("ecwid_plugin_version");
 	delete_option("ecwid_use_chameleon");
-
-	Ecwid_Kissmetrics::record('wpPluginUninstalled');
 }
 
 function ecwid_is_old_search_widget_used()
@@ -1971,12 +1959,6 @@ function ecwid_settings_api_init() {
 				break;
 		}
 
-		if (get_option('ecwid_use_chameleon') && !@$_POST['ecwid_use_chameleon']) {
-			Ecwid_Kissmetrics::record('chameleonSkinOff');
-		} else if (!get_option('ecwid_use_chameleon') && @$_POST['ecwid_use_chameleon']) {
-			Ecwid_Kissmetrics::record('chameleonSkinOn');
-		}
-
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
 		}
@@ -2047,22 +2029,12 @@ function ecwid_create_store() {
 		$api->save_token($data->token);
 		update_option('ecwid_oauth_scope', 'read_profile read_catalog allow_sso');
 
-		Ecwid_Kissmetrics::record('Signed Up');
-		Ecwid_Kissmetrics::set( 'plan_id', 'WPORG_SKINNY_FREE-1' );
-		Ecwid_Kissmetrics::set( 'plan_period', '1' );
-		Ecwid_Kissmetrics::set( 'plan_name', 'WPORG_SKINNY_FREE' );
-		Ecwid_Kissmetrics::set( 'is_paid', 'false' );
-		Ecwid_Kissmetrics::set( 'channelid', 'wporg' );
-		Ecwid_Kissmetrics::set( 'registered_via_api', 'true' );
-		Ecwid_Kissmetrics::record('accountConnected');
-
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
 
 
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
-		Ecwid_Kissmetrics::record( 'Create Store Failed' );
 	}
 }
 
@@ -2091,8 +2063,6 @@ function ecwid_general_settings_do_page() {
 			if ( ecwid_use_old_landing() ) {
 				require_once( ECWID_PLUGIN_DIR . '/templates/landing_old.php' );
 			} else if ($api->does_store_exist($current_user->user_email)) {
-				Ecwid_Kissmetrics::set( 'existing account on install', true );
-				Ecwid_Kissmetrics::record( 'account is found connect page viewed' );
 				require_once ECWID_PLUGIN_DIR . '/templates/connect.php';
 			} else {
 				require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
@@ -2522,147 +2492,6 @@ function ecwid_get_product_browser_url_script()
 
 	return $str;
 
-}
-
-function ecwid_send_stats()
-{
-	$storeid = get_ecwid_store_id();
-
-	if ($storeid == ECWID_DEMO_STORE_ID) {
-		$storeid = 805056;
-	}
-
-	$last_stats_sent = get_option('ecwid_stats_sent_date');
-	if (!$last_stats_sent) {
-		add_option('ecwid_stats_sent_date', time());
-	} else if ($last_stats_sent + 24*60*60 > time()) {
-		return;
-	}
-
-	$stats = ecwid_gather_stats();
-
-	$url = 'http://' . APP_ECWID_COM . '/script.js?' . $storeid . '&data_platform=wporg';
-
-
-	foreach ($stats as $name => $value) {
-		$url .= '&data_wporg_' . $name . '=' . urlencode($value);
-	}
-
-	$link = '';
-	if (ecwid_is_store_page_available()) {
-		$link = ecwid_get_store_page_url();
-	} else {
-		$link = get_bloginfo('url');
-	}
-
-	wp_remote_get($url, array('headers' => array('Referer' => $link)));
-
-	update_option('ecwid_stats_sent_date', time());
-}
-
-function ecwid_gather_stats()
-{
-	$usage_version = 1;
-
-	$stats = array();
-
-	$stats['version'] = get_bloginfo('version');
-	$stats['theme'] = ecwid_get_theme_identification();
-
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	$vector_contents = array(
-		'paid',
-		'display_search',
-		'horizontal_categories_enabled',
-		'minicart_enabled',
-		'search_widget',
-		'vcategories_widget',
-		'minicart_normal_widget',
-		'minicart_mini_widget',
-		'badge_widget',
-		'sso_enabled',
-		'default_category',
-		'google_xml_sitemaps_used',
-		'ecwid_product_advisor_used',
-		'ecwid_single_product_used',
-		'ecwid_store_shortcode_used',
-		'store_link_widget',
-		'recently_viewed_widget',
-		'avalanche_used',
-		'chameleon_used',
-		'http_post_fails',
-		'ecwid_use_new_horizontal_categories',
-		'is_wp_newbie',
-		'ecwid_remote_get_fails',
-		'has_woocommerce',
-		'store_root_cats_widget'
-	);
-
-	$usage_stats = ecwid_gather_usage_stats();
-	$stats['usage'] = '';
-
-	$usage = '';
-	foreach ($vector_contents as $index => $item) {
-		$usage[$index] = is_string($usage_stats[$item]) ? $usage_stats[$item] : (int)$usage_stats[$item];
-	}
-	$stats['usage'] = $usage_version . '_' . implode('', $usage);
-
-	$stats['wp_install_date'] = $usage_stats['wp_install_date'];
-	$stats['plugin_install_date'] = $usage_stats['wp_install_date'];
-
-	$checked = get_option('ecwid_checked_for_remote_connection_errors', null);
-	if (is_null($checked) || $usage_stats['ecwid_remote_get_fails'] || $usage_stats['http_post_fails']) {
-		$results = ecwid_check_for_remote_connection_errors();
-		if (!empty($results)) {
-			$stats = array_merge($stats, $results);
-		}
-		update_option('ecwid_checked_for_remote_connection_errors', empty($results));
-	}
-
-	return $stats;
-}
-
-function ecwid_gather_usage_stats()
-{
-	$usage_stats = array();
-	$usage_stats['paid'] = ecwid_is_paid_account();
-	$usage_stats['display_search'] = (bool) get_option('ecwid_show_search_box');
-	$usage_stats['horizontal_categories_enabled'] = (bool) get_option('ecwid_show_categories');
-	$usage_stats['minicart_enabled'] = (bool) get_option('ecwid_enable_minicart');
-	$usage_stats['search_widget'] = (bool) is_active_widget(false, false, 'ecwidsearch');
-	$usage_stats['vcategories_widget'] = (bool) is_active_widget(false, false, 'ecwidvcategories');
-	$usage_stats['minicart_normal_widget'] = (bool) is_active_widget(false, false, 'ecwidminicart');
-	$usage_stats['minicart_mini_widget'] = (bool) is_active_widget(false, false, 'ecwidminicart_miniview');
-	$usage_stats['badge_widget'] = (bool) is_active_widget(false, false, 'ecwidbadge');
-	$usage_stats['sso_enabled'] = (bool) get_option('ecwid_sso_secret_key');
-	$usage_stats['default_category'] = (bool) get_option('ecwid_default_category_id');
-	$usage_stats['google_xml_sitemaps_used'] = (bool) is_plugin_active('google-sitemap-generator/sitemap.php');
-	$usage_stats['ecwid_product_advisor_used'] = (bool) is_plugin_active('ecwid-useful-tools/ecwid-product-advisor.php');
-	$usage_stats['ecwid_single_product_used'] = (bool) (get_option('ecwid_single_product_used') + 60*60*24*14 > time());
-	$usage_stats['ecwid_store_shortcode_used'] = (bool) (get_option('ecwid_store_shortcode_used') + 60*60*24*14 > time());
-	$usage_stats['store_link_widget'] = (bool) is_active_widget(false, false, 'ecwidstorelink');
-	$usage_stats['recently_viewed_widget'] = (bool) is_active_widget(false, false, 'ecwidrecentlyviewed');
-	$usage_stats['avalanche_used'] = (bool) is_plugin_active('ecwid-widgets-avalanche/ecwid_widgets_avalanche.php');
-	$usage_stats['chameleon_used'] = (bool)get_option('ecwid_use_chameleon');
-	$usage_stats['http_post_fails'] = get_option('ecwid_last_oauth_fail_time') > 0;
-	$usage_stats['ecwid_use_new_horizontal_categories'] = (bool) get_option('ecwid_use_new_horizontal_categories');
-
-	$wp_date = ecwid_get_wp_install_date();
-
-	$ecwid_date = get_option('ecwid_installation_date');
-
-	$usage_stats['wp_install_date'] = $wp_date;
-	$usage_stats['plugin_install_date'] = $ecwid_date;
-
-	$usage_stats['is_wp_newbie'] = (bool) (($ecwid_date - $wp_date)  / 60 / 60 / 24 <= 30);
-
-	$usage_stats['ecwid_remote_get_fails'] = (bool) get_option('ecwid_remote_get_fails');
-
-	$usage_stats['has_woocommerce'] = ecwid_get_woocommerce_status();
-	$usage_stats['store_root_cats_widget'] = (bool) is_active_widget(false, false, 'ecwidvcategorieslist');
-
-	return $usage_stats;
 }
 
 function ecwid_get_wp_install_date( ) {

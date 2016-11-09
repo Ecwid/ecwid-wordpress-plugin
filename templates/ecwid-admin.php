@@ -23,8 +23,3 @@
 		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
 
 <?php require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>
-
-
-<script type="text/javascript">
-	ecwid_kissmetrics_record('<?php echo $page; ?> Page Viewed');
-</script>

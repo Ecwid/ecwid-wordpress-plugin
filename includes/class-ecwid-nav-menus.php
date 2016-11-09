@@ -263,35 +263,35 @@ class Ecwid_Nav_Menus {
 				'classes'   => 'ecwid-cart',
 				'url'       => 'cart',
 				'label'     => __('Shopping Cart', 'ecwid-shopping-cart'),
-				'km'				=> 'cart'
+				'name'		=> 'cart'
 			),
 			'ecwid-product-search' => array(
 				'list-name' => __('Product Search', 'ecwid-shopping-cart'),
 				'classes'   => 'ecwid-product-search',
 				'url'       => 'search',
 				'label'     => __('Product Search', 'ecwid-shopping-cart'),
-				'km' 				=> 'search'
+				'name' 		=> 'search'
 			),
 			'ecwid-my-account' => array(
 				'list-name' => __('My Account', 'ecwid-shopping-cart'),
 				'classes'   => 'ecwid-my-account',
 				'url'       => 'accountSettings',
 				'label'     => __('My Account', 'ecwid-shopping-cart'),
-				'km'				=> 'account'
+				'name'		=> 'account'
 			),
 			'ecwid-store' => array(
 				'list-name' => __('Store', 'ecwid-shopping-cart'),
 				'classes'   => 'ecwid-store',
 				'url'       => '',
 				'label'     => __('Store', 'ecwid-shopping-cart'),
-				'km'				=> 'store'
+				'name'		=> 'store'
 			),
 			'ecwid-store-with-categories' => array(
 				'list-name' => __('Store with Categories Menu', 'ecwid-shopping-cart'),
 				'classes'   => 'ecwid-store-with-categories',
 				'url'       => '',
 				'label'     => __('Store', 'ecwid-shopping-cart'),
-				'km'				=> 'store-with-categories'
+				'name'		=> 'store-with-categories'
 			)
 		);
 

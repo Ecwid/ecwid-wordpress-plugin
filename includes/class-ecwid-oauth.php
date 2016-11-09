@@ -119,7 +119,6 @@ class Ecwid_OAuth {
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
-		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		update_option( 'ecwid_store_id', $result->store_id );
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );

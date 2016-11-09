@@ -221,7 +221,7 @@
 		<h2><?php _e( 'Send a message to our support team', 'ecwid-shopping-cart' ); ?>	</h2>
 
 		<div class="contact-form">
-			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate" onsubmit="javascript:ecwid_kissmetrics_record('help-page email-contact-form submitted');">
+			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate">
 				<input type="hidden" name="action" value="ecwid_contact_us" />
 				<input type="hidden" name="wp-nonce" id="wp-nonce" value="<?php echo wp_create_nonce( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ); ?>" />
 				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
@@ -327,6 +327,4 @@
 		jQuery('.block-contact').show();
 		return false;
 	});
-
-	ecwid_kissmetrics_record('help-page viewed');
 </script>

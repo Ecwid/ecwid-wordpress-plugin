@@ -42,10 +42,10 @@
 			</div>
 		</div>
 		<div class="ecwid-button">
-			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect();ecwid_kissmetrics_record('createAccountButtonClick');">
+			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect();">
 				<?php _e('Create Ecwid store', 'ecwid-shopping-cart'); ?>
 			</a>
-			<a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect"  onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');">
+			<a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect">
 				<?php _e('Connect your store', 'ecwid-shopping-cart'); ?>
 			</a>
 			<div class="button-description-mobile on-register">
@@ -59,11 +59,11 @@
 			</div>
 			<div class="ecwid-button-description on-register">
 				<?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?>
-				<a href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
+				<a href="admin-post.php?action=ecwid_connect"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
 			</div>
 			<div class="ecwid-button-description on-connect">
 				<?php _e('Don\'t have an Ecwid account?', 'ecwid-shopping-cart'); ?>
-				<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();ecwid_kissmetrics_record('createAccountButtonClick');"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
+				<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
 			</div>
 			<div class="button-description-mobile on-register">
 				<?php _e('You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'); ?>
@@ -147,25 +147,21 @@
 		<h2><?php _e('Start selling <br>on your WordPress <nobr>site for free</nobr>', 'ecwid-shopping-cart'); ?>
 		</h2>
 		<div class="ecwid-button">
-			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect(); ecwid_kissmetrics_record('createAccountButtonClick');">
+			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" class="button button--blue on-register"  onclick="javascript:switch_to_connect();>
 				<?php _e('Get Started, Create Ecwid Account', 'ecwid-shopping-cart'); ?>
 			</a>
-			<a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');">
+			<a class="button button--green on-connect" href="admin-post.php?action=ecwid_connect">
 				<?php _e('Connect your store', 'ecwid-shopping-cart'); ?>
 			</a>
 			<div class="ecwid-button-description on-register">
 				<?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?>
-				<a href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
+				<a href="admin-post.php?action=ecwid_connect""><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
 			</div>
 			<div class="ecwid-button-description on-connect">
 				<?php _e('Don\'t have an Ecwid account?', 'ecwid-shopping-cart'); ?>
-				<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();ecwid_kissmetrics_record('createAccountButtonClick');"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
+				<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>" onclick="javascript:switch_to_connect();"><?php _e('Register at Ecwid for free', 'ecwid-shopping-cart'); ?></a>
 			</div>
 
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	ecwid_kissmetrics_record('Welcome Page Viewed');
-</script>
