@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 4.7.2
+Version: 4.7.3
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -62,8 +62,7 @@ if ( is_admin() ){
 	add_action('wp_ajax_ecwid_create_store', 'ecwid_create_store');
   add_filter('plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions');
   add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
-  add_action('admin_head', 'ecwid_send_stats');
-  add_action('save_post', 'ecwid_save_post');
+	add_action('save_post', 'ecwid_save_post');
   add_action('init', 'ecwid_apply_theme', 0);
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ecwid_connect', 'ecwid_admin_post_connect');
@@ -93,7 +92,6 @@ if ( is_admin() ){
   add_action('wp_head', 'ecwid_canonical');
   add_action('wp_head', 'ecwid_seo_compatibility_restore', 1000);
 	add_action('wp_head', 'ecwid_add_chameleon');
-	add_action('wp_head', 'ecwid_send_stats');
 	add_action('wp_head', 'ecwid_product_browser_url_in_head');
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
   add_filter('the_content', 'ecwid_content_started', 0);
@@ -315,7 +313,7 @@ function ecwid_add_chameleon() {
 
 	$chameleon = json_encode(array(
 		'colors' => $colors,
-		fonts => 'auto'
+		'font' => 'auto'
 	));
 
 	echo <<<HTML

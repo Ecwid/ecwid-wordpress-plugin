@@ -3,7 +3,7 @@ Contributors: ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.6
-Stable tag: 4.7.2
+Stable tag: 4.7.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.7.3 =
+- **Improvements for the new Ecwid’s single product widget.** Now it's possible to use the "show_price_on_button=0" and “show_border=0” parameters in the shortcode to disable the price on buy now button and widget border respectively. If you want to hide the widget border, for example, the resulting code will like this: [ecwid_product id="12345" version=2 show_border=0]. Do not forget to replace 12345 in this example with the actual product ID.
+
+- Fixed a bug with the floating shopping cart: the floating cart widget didn't appear on some rare Wordpress themes, we fixed that. Now it should work fine.
+
 = 4.7.2 =
 - **Added support for the Ecwid’s improved single product widgets.** To feature a single product on a separate page or blog post of your ecommerce site, you can use the [ecwid_product] shortcode. We improved the look and feel of the single product widgets in Ecwid and added those improvements to the single product shortcode version #2. You can use it like this: [ecwid_product id="12345" version=2]. Do not forget to replace 12345 in this example with the actual product ID. 
 - **Fixed error messages appearing on some Wordpress sites with the "Trend" theme installed.** If you use Ecwid shopping cart with Trend theme and recently noticed an error message in your site admin backend, please use this update this update – it should fix that issue. 
