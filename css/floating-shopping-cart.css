@@ -20,7 +20,8 @@ body.ecwid-floating-shopping-cart .ecwid-float-icons.position-topright {
 
 body.ecwid-floating-shopping-cart .ecwid-float-icons.position-bottomright {
 	top: auto;
-	bottom: 25px;
+	bottom: 18px;
+	/* -7px to compensate the increased height of the widget that makes sure the shadow is not cut */
 }
 
 @media (max-width: 600px) {
@@ -35,7 +36,7 @@ body.ecwid-floating-shopping-cart .ecwid-float-icons.position-bottomright {
 	}
 
 body.ecwid-floating-shopping-cart .ecwid-float-icons > div {
-	height: 48px;
+	height: 55px;
 	padding-top: 20px;
 	-webkit-transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
 	transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
