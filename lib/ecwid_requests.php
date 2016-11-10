@@ -73,17 +73,6 @@ abstract class Ecwid_Http {
 		return $this->processed_data;
 	}
 
-	public static function create_error_report($message) {
-		$error_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=' . urlencode($message) . '&url=' . urlencode(get_bloginfo('url'));
-		return self::create_get(
-			'error_report',
-			$error_url,
-			array(
-				self::POLICY_IGNORE_ERRORS
-			)
-		);
-	}
-
 	public static function create_get($name, $url, $params) {
 
 		$transport_class = self::_get_transport($name, $url, $params);
@@ -282,11 +271,7 @@ abstract class Ecwid_HTTP_Get extends Ecwid_Http {
 		}
 		update_option('ecwid_remote_get_fails', 1);
 
-		$report = $this->create_error_report($this->message);
-
-		if (!is_null($report)) {
-			$report->do_request();
-		}
+		ecwid_log_error($this->message);
 	}
 }
 

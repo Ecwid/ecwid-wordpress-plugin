@@ -76,8 +76,7 @@ class EcwidPlatform {
 	}
 
 	static public function report_error($error) {
-		$request = Ecwid_HTTP::create_error_report($error);
-		$request->do_request();
+		ecwid_log_error(json_encode($error));
 	}
 
 	static public function fetch_url($url, $options = array())
