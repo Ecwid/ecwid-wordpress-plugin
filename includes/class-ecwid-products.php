@@ -10,6 +10,7 @@ class Ecwid_Products {
 	protected $_sync_progress_callback;
 
 	const POST_TYPE_PRODUCT = 'product';
+	const DB_ALIAS_OUT_OF_STOCK = 'ecwid_out_of_stock';
 
 	public function __construct() {
 
@@ -20,11 +21,41 @@ class Ecwid_Products {
 		add_action( 'ecwid_update_store_id', $this, 'on_update_store_id' );
 		add_filter( 'the_content', array( $this, 'content' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
-
+		if (EcwidPlatform::get('hide_out_of_stock')) {
+			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
+			add_filter( 'posts_join_paged', array( $this, 'join_out_of_stock' ) );
+		}
 		$this->_status = new Ecwid_Products_Sync_Status();
 		$this->_status->load();
 
 		$this->_sync_progress_callback = '__return_false';
+	}
+
+	public function where_out_of_stock($where) {
+		if (!is_search()) {
+			return $where;
+		}
+		$where .= ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_value=1 ';
+
+		return $where;
+	}
+
+	public function join_out_of_stock($join) {
+		if (!is_search()) {
+			return $join;
+		}
+
+		if (!$join) {
+			$join = '';
+		}
+
+		global $wpdb;
+
+		$join .= 'LEFT JOIN ' . $wpdb->postmeta .' ' . self::DB_ALIAS_OUT_OF_STOCK
+		         . ' ON ' . $wpdb->posts . '.id = ' . self::DB_ALIAS_OUT_OF_STOCK . '.post_id'
+			     . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_key=' . '"in_stock"';
+
+		return $join;
 	}
 
 	public function on_update_store_id() {
@@ -69,6 +100,8 @@ class Ecwid_Products {
 	public function register_post_type() {
 
 		// @todo rewrite flush
+
+		flush_rewrite_rules();
 
 		// if woocommerce not active
 		if (ecwid_get_woocommerce_status() != 2) {
@@ -134,6 +167,13 @@ class Ecwid_Products {
 			$result['last_deleted'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
 
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+
+		if ($profile && $profile->settings) {
+			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
+		}
+		
 		return $result;
 	}
 
@@ -313,9 +353,8 @@ class Ecwid_Products {
 					'ecwid_id'       => $product->id,
 					'_sku'           => $product->sku,
 					'_visibility'    => 'visible',
-					'_stock_status'  => 'instock',
-					'_virtual'       => 'no',
-					'_updatedTimestamp' => $product->updateTimestamp
+					'in_stock'  => $product->inStock ? '1' : '0',
+					'_updatedTimestamp' => $product->updateTimestamp,
 
 				),
 				'post_status'  => 'publish'
