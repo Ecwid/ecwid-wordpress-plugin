@@ -1929,6 +1929,7 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_search' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
+				register_setting( 'ecwid_options_page', 'ecwid_local_base_enabled' );
 				break;
 		}
 

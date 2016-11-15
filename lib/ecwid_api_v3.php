@@ -254,7 +254,19 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
-	//	die(var_dump($result, $url, $this->get_token()));
+		return json_decode($result['data']);
+	}
+
+	public function get_store_profile() {
+
+		$url = $this->_api_url . $this->store_id . '/profile';
+
+		$params = array(
+			'token' => $this->get_token()
+		);
+
+		$url = $this->build_request_url($url, $params);
+		$result = EcwidPlatform::fetch_url($url);
 
 		return json_decode($result['data']);
 	}

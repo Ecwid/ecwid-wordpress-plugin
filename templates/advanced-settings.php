@@ -168,7 +168,35 @@
 				</div>
 			</div>
 
+			<hr />
+
+			<div class="pure-control-group checkbox">
+				<div class="label">
+					<label for="ecwid_local_base_enabled">
+
+						<input
+							id="ecwid_local_base_enabled"
+							name="ecwid_local_base_enabled"
+							type="checkbox"
+							<?php if (get_option('ecwid_local_base_enabled') == 'Y'): ?>
+								checked="checked"
+							<?php endif; ?>
+							value="Y"
+						/>
+						<?php _e('Enable local db <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+					</label>
+
+					<div class="note">
+						<?php _e('Note for local db in english', 'ecwid-shopping-cart'); ?>
+					</div>
+				</div>
+			</div>
+
 			<?php if (get_option('ecwid_local_base_enabled')) ecwid_sync_do_page(); ?>
+
+			<div class="note grayed-links">
+				<?php _e('Bottom text with <a href="">kb link</a>', 'ecwid-shopping-cart'); ?>
+			</div>
 
 	</fieldset>
 
