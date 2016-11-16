@@ -723,8 +723,12 @@ msgctxt "upgrade widgets message"
 msgid "Categories"
 msgstr "Категорий"
 
+msgctxt "upgrade widgets message"
 msgid "Search and Categories"
 msgstr "Поиска и Категорий"
+
+msgid "Open Ecwid store settings"
+msgstr "Открыть настройки плагина Ecwid"
 
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
