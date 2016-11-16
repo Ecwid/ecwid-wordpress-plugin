@@ -43,13 +43,12 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 
 		if (typeof this.products[product.id] == 'undefined') {
 			this.addProduct(product);
+			if (this.is_api_available) {
+				this._updateFromServer(product.id);
+			}
 		} else {
 			this.sort.splice(this.sort.indexOf(product.id), 1);
 			this._addToSort(product.id);
-		}
-
-		if (this.is_api_available) {
-			this._updateFromServer(product.id);
 		}
 
 		this._render();
@@ -80,4 +79,3 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 		return sort.reverse().slice(0, this.option('max')).reverse();
 	}
 });
-
