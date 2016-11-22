@@ -311,13 +311,16 @@ function ecwid_add_chameleon() {
 		'font' => 'auto'
 	));
 
+	$colors = json_encode($colors);
+	$font = '"auto"';
+
 	echo <<<HTML
 <script type="text/javascript">
-window.ec = {
-	config: {
-		chameleon: $chameleon
-	}
-}
+window.ec = window.ec || Object();
+window.ec.config = window.ec.config || Object();
+window.ec.config.chameleon = window.ec.config.chameleon || Object();
+window.ec.config.chameleon.font = $font;
+window.ec.config.chameleon.colors = $colors;
 </script>
 HTML;
 

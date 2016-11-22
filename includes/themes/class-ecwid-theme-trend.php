@@ -47,7 +47,7 @@ HTML;
 		window.ecwid_script_defer = true;
 		window.ecwid_dynamic_widgets = true;
 
-		if (typeof Ecwid != 'undefined') Ecwid.destroy();
+		if (typeof Ecwid != 'undefined' && Ecwid.destroy) Ecwid.destroy();
 
 if (typeof ecwid_shortcodes != 'undefined') {
 			window._xnext_initialization_scripts = ecwid_shortcodes;
