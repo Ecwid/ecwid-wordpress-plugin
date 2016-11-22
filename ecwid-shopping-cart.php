@@ -1085,7 +1085,11 @@ function ecwid_get_scriptjs_code($force_lang = null) {
     if (!$ecwid_script_rendered) {
 		$store_id = get_ecwid_store_id();
 		$force_lang_str = !empty($force_lang) ? "&lang=$force_lang" : '';
-		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . '&data_platform=wporg' . $force_lang_str . '"></script>';
+	    $params = '&data_platform=wporg' . $force_lang_str;
+	    if (get_option('ecwid_local_base_enabled')) {
+		    $params .= '&data_sync_products=1';
+	    }
+		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . $params . '"></script>';
 		$s = $s . ecwid_sso();
 		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 		$ecwid_script_rendered = true;
