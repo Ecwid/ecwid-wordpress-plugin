@@ -141,7 +141,7 @@
 			</div>
 		</div>
 
-			<?php if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') || get_option('ecwid_use_new_horizontal_categories') != 'Y'): ?>
+			<?php if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') || get_option('ecwid_use_new_search') != 'Y'): ?>
 			<hr />
 
 			<div class="pure-control-group checkbox">
