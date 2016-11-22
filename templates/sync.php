@@ -179,32 +179,24 @@ jQuery('#sync-button-slow').click(function() {
 <?php endif; ?>
 
 <div class="sync-block" id="sync-button">
-	<a id="sync-button"><?php _e('Update local db', 'ecwid-shopping-cart'); ?></a>
-	<a id="sync-button-slow"><?php _e('Update local db', 'ecwid-shopping-cart'); ?></a>
+	<a id="sync-button"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
+	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>
-<div class="sync-block" id="updating"><?php ecwid_embed_svg('update'); ?><?php _e('The products are being updated. Please, wait a few minutes.', 'ecwid-shopping-cart'); ?></div>
+<div class="sync-block" id="updating"><?php ecwid_embed_svg('update'); ?><?php _e('We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart'); ?></div>
 
 <div class="sync-block" id="update-progress">
-	<?php _e(
-		sprintf(
-			'Products updated %s out of %s',
+	<?php echo sprintf(__( 'Products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
 			'<span id="total_updated">' . ($estimation['total_updated'] + $estimation['total_deleted']) . '</span>'
-		)
-	);
+		);
 	?>
 </div>
 <div class="sync-block" id="complete">
-	<?php _e( 'The products have been updated successfully', 'ecwid-shopping-cart' ); ?>
-</div>
-
-<div class="sync-block" id="sync-error">
-	<span class="message"><?php _e( 'We could not update some products', 'ecwid-shopping-cart' ); ?></span>
-	<a href=""><?php _e( 'Report error', 'ecwid-shopping-cart' ); ?></a>
+	<?php _e( 'Products are successfully synchronized. The product pages are up to date.', 'ecwid-shopping-cart' ); ?>
 </div>
 
 <div class="sync-block" id="last-sync-date">
-	<?php _e( 'Last sync date', 'ecwid-shopping-cart' ); ?>:
+	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
 	<span id="sync_date"><?php echo strftime( '%F', $estimation['last_update_time'] ); ?> </span>
 </div>
 
