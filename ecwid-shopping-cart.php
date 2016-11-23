@@ -311,21 +311,33 @@ function ecwid_add_chameleon() {
 		$colors = 'auto';
 	}
 
-	$chameleon = json_encode(array(
-		'colors' => $colors,
-		'font' => 'auto'
-	));
-
 	$colors = json_encode($colors);
 	$font = '"auto"';
+
+	$chameleon = apply_filters( 'ecwid_chameleon_settings', array('colors' => $colors, 'font' => $font));
+
+	if (!is_array($chameleon)) {
+		$chameleon = array(
+			'colors' => $colors,
+			'font'   => $font
+		);
+	}
+
+	if (!isset($chameleon['colors'])) {
+		$chameleon['colors'] = json_encode($colors);
+	}
+
+	if (!isset($chameleon['font'])) {
+		$chameleon['font'] = $font;
+	}
 
 	echo <<<HTML
 <script type="text/javascript">
 window.ec = window.ec || Object();
 window.ec.config = window.ec.config || Object();
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.chameleon.font = $font;
-window.ec.config.chameleon.colors = $colors;
+window.ec.config.chameleon.font = $chameleon[font];
+window.ec.config.chameleon.colors = $chameleon[colors];
 </script>
 HTML;
 

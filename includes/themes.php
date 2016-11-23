@@ -67,7 +67,8 @@ function ecwid_apply_theme($theme_name = null)
 		'central',
 		'mfupdate',
 		'trend',
-		'Boundless'
+		'Boundless',
+		'twentyseventeen'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
