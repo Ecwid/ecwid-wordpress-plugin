@@ -202,7 +202,7 @@
 
 	<fieldset>
 
-		<div class="pure-control-group">
+		<div class="pure-control-group" style="margin-top: 30px">
 			<button type="submit" class="<?php echo ECWID_MAIN_BUTTON_CLASS; ?>">
 				<?php _e('Save changes', 'ecwid-shopping-cart'); ?>
 			</button>
