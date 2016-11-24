@@ -9,7 +9,7 @@ class Ecwid_Theme_2017 extends Ecwid_Theme_Base
 	public function __construct()
 	{
 		parent::__construct();
-
+		wp_enqueue_style( 'ecwid-theme', ECWID_PLUGIN_URL . 'css/themes/2017.css', array('twentyseventeen-style'), get_option('ecwid_plugin_version') );
 		add_action( 'ecwid_plugin_installed', array( $this, 'on_ecwid_plugin_installed' ) );
 		add_action( 'ecwid_chameleon_settings', array( $this, 'chameleon_settings' ) );
 	}
