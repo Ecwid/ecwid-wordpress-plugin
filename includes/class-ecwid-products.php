@@ -26,6 +26,8 @@ class Ecwid_Products {
 		add_filter( 'the_content', array( $this, 'content' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
+		add_action( 'wp_ajax_nopriv_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
+		add_action('wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
 
 		if (EcwidPlatform::get('hide_out_of_stock')) {
 			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
@@ -37,7 +39,12 @@ class Ecwid_Products {
 		$this->_sync_progress_callback = '__return_false';
 	}
 
-
+	public function enqueue_frontend() {
+		wp_enqueue_script('ecwid-product-page', ECWID_PLUGIN_URL . 'js/product.js', array('jquery'), get_option('ecwid_plugin_version'));
+		wp_localize_script('ecwid-product-page', 'ecwidProduct', array(
+			'ajaxurl' => admin_url('admin-ajax.php')
+		));
+	}
 
 	public function where_out_of_stock($where) {
 		if (!is_search()) {
@@ -66,14 +73,19 @@ class Ecwid_Products {
 		return $join;
 	}
 
-	public function ajax_get_post_link($product_id) {
+	public function ajax_get_post_link() {
+
+		if ( !isset( $_REQUEST['product_id'] ) ) {
+			return;
+		}
+		$product_id = intval( @$_REQUEST['product_id'] );
 		$post_id = $this->_find_post_by_product_id($product_id);
 
-		echo get_permalink('4');
-
 		if ($post_id) {
-			echo get_permalink($post_id);
+			echo json_encode(get_permalink($post_id));
 		}
+
+		exit();
 	}
 
 	public function on_update_store_id() {
