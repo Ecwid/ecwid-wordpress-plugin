@@ -182,8 +182,14 @@ jQuery('#sync-button-slow').click(function() {
 	<a id="sync-button"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>
-<div class="sync-block" id="updating"><?php ecwid_embed_svg('update'); ?><?php _e('We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart'); ?></div>
-
+<div class="sync-block" id="updating">
+	<div>
+		<?php ecwid_embed_svg('update'); ?>
+	</div>
+	<div>
+		<?php _e('We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart'); ?>
+	</div>
+</div>
 <div class="sync-block" id="update-progress">
 	<?php echo sprintf(__( 'Products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
