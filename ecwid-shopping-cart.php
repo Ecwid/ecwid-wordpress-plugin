@@ -2110,6 +2110,11 @@ function ecwid_general_settings_do_page() {
 				$iframe_src = ecwid_get_iframe_src($time, $page);
 
 				$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+				if (!$request) {
+					echo Ecwid_Message_Manager::show_message('no_oauth');
+					return;
+				}
+
 				$result = $request->do_request(array(
 					'timeout' => 20
 				));
@@ -2122,7 +2127,10 @@ function ecwid_general_settings_do_page() {
 						$iframe_src = ecwid_get_iframe_src($time, $page);
 
 						$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-
+                        if (!$request) {
+                            echo Ecwid_Message_Manager::show_message('no_oauth');
+                            return;
+                        }
 						$result = $request->do_request();
 
 						if ($result['code'] == 200) {
@@ -2179,6 +2187,10 @@ function ecwid_admin_do_page( $page ) {
 	$iframe_src = ecwid_get_iframe_src($time, $page);
 
 	$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+    if (!$request) {
+        echo Ecwid_Message_Manager::show_message('no_oauth');
+        return;
+    }
 
 	$result = $request->do_request();
 
