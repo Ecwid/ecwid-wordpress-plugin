@@ -804,22 +804,23 @@ label.premium-feature svg path {
 #sync-container #sync-button,
 #sync-container #sync-button-slow {
 	cursor: pointer;
+	margin-bottom: 10px;
 }
 
 #sync-container #update-progress {
 	padding-left: 30px;
 	margin-top: -6px;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #sync-container #complete {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #updating {
 	line-height: 26px;
 	color: #298CBA;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #updating svg {
@@ -844,6 +845,10 @@ label.premium-feature svg path {
 .sync-block#updating {
 	margin-bottom: 10px;
 	line-height: initial;
+}
+
+.sync-block#updating .sync-icon {
+	width: 30px;
 }
 
 @keyframes rotation {

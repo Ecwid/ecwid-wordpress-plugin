@@ -183,7 +183,7 @@ jQuery('#sync-button-slow').click(function() {
 	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>
 <div class="sync-block" id="updating">
-	<div>
+	<div class="sync-icon">
 		<?php ecwid_embed_svg('update'); ?>
 	</div>
 	<div>
@@ -203,7 +203,13 @@ jQuery('#sync-button-slow').click(function() {
 
 <div class="sync-block" id="last-sync-date">
 	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
-	<span id="sync_date"><?php echo $estimation['last_update']; ?> </span>
+	<span id="sync_date">
+        <?php if ( $estimation['last_update'] == 0 ): ?>
+            <?php _e( 'Not syncronized yet', 'ecwid-shopping-cart' ); ?>
+        <?php else: ?>
+            <?php echo date( __( "Y/m/d g:i:s a" ), $estimation['last_update'] ); ?>
+        <?php endif; ?>
+    </span>
 </div>
 
 

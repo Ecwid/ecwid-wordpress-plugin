@@ -198,8 +198,9 @@ class Ecwid_Products {
 			'total_updated' => $updated->total
 		);
 
-		$result['last_update'] = Ecwid_Api_V3::format_time($this->_status->get_last_sync_time());
-		if ($updated->total > 0) {
+		$result['last_update_string'] = Ecwid_Api_V3::format_time($this->_status->get_last_sync_time());
+        $result['last_update'] = $this->_status->get_last_sync_time();
+        if ($updated->total > 0) {
 			$result['updated_from'] = $updated->items[0]->updated;
 			$result['last_updated'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
