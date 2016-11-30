@@ -205,7 +205,7 @@ jQuery('#sync-button-slow').click(function() {
 	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
 	<span id="sync_date">
         <?php if ( $estimation['last_update'] == 0 ): ?>
-            <?php _e( 'Not syncronized yet', 'ecwid-shopping-cart' ); ?>
+            <?php _e( 'Not synchronized yet', 'ecwid-shopping-cart' ); ?>
         <?php else: ?>
             <?php echo date( __( "Y/m/d g:i:s a" ), $estimation['last_update'] ); ?>
         <?php endif; ?>
