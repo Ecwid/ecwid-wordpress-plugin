@@ -1,4 +1,4 @@
-<div id="sync-container" class="state-initial">
+<div id="sync-container" class="state-initial"<?php if (!get_option('ecwid_local_base_enabled', false)) echo ' style="display:none"'; ?>>
 <?php $prods = new Ecwid_Products(); $api = new Ecwid_Api_V3(get_ecwid_store_id()); ?>
 
 <script>
@@ -16,6 +16,10 @@ if (sse_available) {
 	jQuery('#sse_on').html('NO');
 	jQuery('#sync-container').addClass('no-sse');
 }
+
+jQuery('#ecwid_local_base_enabled').click(function() {
+   jQuery('#sync-container').css('display', (jQuery(this).is(':checked')) ? '' : 'none');
+});
 
 jQuery('#sync-button').click(function() {
 	if (sse_available) {

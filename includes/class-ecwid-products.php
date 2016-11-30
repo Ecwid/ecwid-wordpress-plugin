@@ -15,11 +15,13 @@ class Ecwid_Products {
 
 	public function __construct() {
 
+        $this->_api = new Ecwid_Api_V3(get_ecwid_store_id());
+        $this->_status = new Ecwid_Products_Sync_Status();
+        $this->_status->load();
+
 		if ( ! self::is_enabled() ) {
 			return;
 		}
-
-		$this->_api = new Ecwid_Api_V3(get_ecwid_store_id());
 
 		add_action( 'init', array($this, 'register_post_type' ) );
 		add_action( 'admin_init', array($this, 'register_post_type' ) );
@@ -34,8 +36,6 @@ class Ecwid_Products {
 			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
 			add_filter( 'posts_join_paged', array( $this, 'join_out_of_stock' ) );
 		}
-		$this->_status = new Ecwid_Products_Sync_Status();
-		$this->_status->load();
 
 		$this->_sync_progress_callback = '__return_false';
 	}

@@ -192,7 +192,7 @@
 				</div>
 			</div>
 
-			<?php if (get_option('ecwid_local_base_enabled')) ecwid_sync_do_page(); ?>
+            <?php ecwid_sync_do_page(); ?>
 
 			<div class="note grayed-links">
 				<?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>

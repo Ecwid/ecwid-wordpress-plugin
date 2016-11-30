@@ -2440,7 +2440,7 @@ function ecwid_sync_products_sse() {
 	set_time_limit(0);
 
 	header("Content-Type: text/event-stream\n\n");
-
+    Ecwid_Products::enable();
 	$p = new Ecwid_Products();
 
 	$p->set_sync_progress_callback('ecwid_sync_progress_callback');
@@ -2455,6 +2455,9 @@ function ecwid_sync_products_sse() {
 
 function ecwid_slow_sync_progress($status) {
 	global $ecwid_sync_status;
+	if (!Ecwid_Products::is_enabled()) {
+        Ecwid_Products::enable();
+	}
 
 	if (!isset($ecwid_sync_status)) {
 		$ecwid_sync_status = array(
