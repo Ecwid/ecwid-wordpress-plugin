@@ -11,10 +11,11 @@ class Ecwid_Products {
 
 	const POST_TYPE_PRODUCT = 'product';
 	const DB_ALIAS_OUT_OF_STOCK = 'ecwid_out_of_stock';
+	const OPTION_ENABLED = 'ecwid_local_base_enabled';
 
 	public function __construct() {
 
-		if ( ! get_option( 'ecwid_local_base_enabled' ) ) {
+		if ( ! self::is_enabled() ) {
 			return;
 		}
 
@@ -127,27 +128,38 @@ class Ecwid_Products {
 	}
 
 
+    public static function is_enabled() {
+        return get_option( self::OPTION_ENABLED, false );
+    }
+
+    public static function enable() {
+	    flush_rewrite_rules(true);
+        update_option( self::OPTION_ENABLED, 1 );
+    }
+
+    public static function disable() {
+        flush_rewrite_rules(true);
+        update_option( self::OPTION_ENABLED, false );
+    }
+
 	public function register_post_type() {
 
 		// @todo rewrite flush
 
 		flush_rewrite_rules();
 
-		// if woocommerce not active
-		if (ecwid_get_woocommerce_status() != 2) {
-			register_post_type( self::POST_TYPE_PRODUCT,
-				array(
-					'public'              => TRUE,
-					'capability_type'     => 'product',
-					'map_meta_cap'        => TRUE,
-					'publicly_queryable'  => TRUE,
-					'exclude_from_search' => FALSE,
-					'hierarchical'        => FALSE,
-					'show_in_nav_menus'   => TRUE,
-					'show_ui'             => false
-				)
-			);
-		}
+        register_post_type( self::POST_TYPE_PRODUCT,
+            array(
+                'public'              => TRUE,
+                'capability_type'     => 'product',
+                'map_meta_cap'        => TRUE,
+                'publicly_queryable'  => TRUE,
+                'exclude_from_search' => FALSE,
+                'hierarchical'        => FALSE,
+                'show_in_nav_menus'   => TRUE,
+                'show_ui'             => false
+            )
+        );
 	}
 
 
@@ -538,9 +550,9 @@ class Ecwid_Products_Sync_Status {
 	protected $_last_updated_post_id;
 
 	public function load() {
-		$this->last_sync_time = EcwidPlatform::get(self::OPTION_UPDATE_TIME);
-		$this->last_updated_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_UPDATE_TIME);
-		$this->last_deleted_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_DELETE_TIME);
+		$this->last_sync_time = EcwidPlatform::get(self::OPTION_UPDATE_TIME, 0);
+		$this->last_updated_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_UPDATE_TIME, 0);
+		$this->last_deleted_product_time = EcwidPlatform::get(self::OPTION_LAST_PRODUCT_DELETE_TIME, 0);
 	}
 
 	public function get_last_sync_time() {

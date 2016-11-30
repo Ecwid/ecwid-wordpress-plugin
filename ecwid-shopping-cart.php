@@ -535,7 +535,7 @@ function ecwid_check_version()
 			add_option('ecwid_enable_sso');
 		}
 
-		add_option('ecwid_local_base_enabled');
+		add_option(  Ecwid_Products::is_enabled() );
 	}
 }
 
@@ -1086,7 +1086,7 @@ function ecwid_get_scriptjs_code($force_lang = null) {
 		$store_id = get_ecwid_store_id();
 		$force_lang_str = !empty($force_lang) ? "&lang=$force_lang" : '';
 	    $params = '&data_platform=wporg' . $force_lang_str;
-	    if (get_option('ecwid_local_base_enabled')) {
+	    if ( Ecwid_Products::is_enabled() ) {
 		    $params .= '&data_sync_products=1';
 	    }
 		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . $params . '"></script>';
@@ -1902,7 +1902,7 @@ function ecwid_plugin_actions($links) {
 
 function ecwid_settings_api_init() {
 
-	if ( isset( $_POST['settings_section'] ) ) {
+    if ( isset( $_POST['settings_section'] ) ) {
 		switch ( $_POST['settings_section'] ) {
 			case 'appearance':
 				register_setting( 'ecwid_options_page', 'ecwid_enable_minicart' );
@@ -1933,7 +1933,6 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_search' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
-				register_setting( 'ecwid_options_page', 'ecwid_local_base_enabled' );
 				break;
 		}
 
@@ -1942,6 +1941,12 @@ function ecwid_settings_api_init() {
 		} else if (!get_option('ecwid_use_chameleon') && @$_POST['ecwid_use_chameleon']) {
 			Ecwid_Kissmetrics::record('chameleonSkinOn');
 		}
+
+        if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Products::OPTION_ENABLED]) && !Ecwid_Products::is_enabled()) {
+            Ecwid_Products::enable();
+        } else if ($_POST['settings_section'] == 'advanced' && !isset($_POST[Ecwid_Products::OPTION_ENABLED]) && Ecwid_Products::is_enabled()) {
+            Ecwid_Products::disable();
+        }
 
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
@@ -1953,6 +1958,8 @@ function ecwid_settings_api_init() {
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
 	}
+
+
 }
 
 function ecwid_common_admin_scripts() {

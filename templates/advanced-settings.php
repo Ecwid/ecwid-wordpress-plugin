@@ -172,13 +172,13 @@
 
 			<div class="pure-control-group checkbox">
 				<div class="label">
-					<label for="ecwid_local_base_enabled">
+					<label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
 
 						<input
-							id="ecwid_local_base_enabled"
-							name="ecwid_local_base_enabled"
+							id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+							name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
 							type="checkbox"
-							<?php if (get_option('ecwid_local_base_enabled') == 'Y'): ?>
+							<?php if ( Ecwid_Products::is_enabled() ): ?>
 								checked="checked"
 							<?php endif; ?>
 							value="Y"

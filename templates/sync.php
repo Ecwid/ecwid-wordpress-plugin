@@ -203,7 +203,7 @@ jQuery('#sync-button-slow').click(function() {
 
 <div class="sync-block" id="last-sync-date">
 	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
-	<span id="sync_date"><?php echo strftime( '%F', $estimation['last_update_time'] ); ?> </span>
+	<span id="sync_date"><?php echo $estimation['last_update']; ?> </span>
 </div>
 
 
