@@ -1,5 +1,8 @@
 <div id="sync-container" class="state-initial"<?php if (!get_option('ecwid_local_base_enabled', false)) echo ' style="display:none"'; ?>>
-<?php $prods = new Ecwid_Products(); $api = new Ecwid_Api_V3(get_ecwid_store_id()); ?>
+<?php
+$prods = new Ecwid_Products();
+$api = new Ecwid_Api_V3(get_ecwid_store_id());
+?>
 
 <script>
 jQuery(document).ready(function() {
@@ -36,43 +39,10 @@ function sync_sse() {
 	var source = new EventSource('admin-post.php?action=ecwid_sync_sse');
 	source.addEventListener('completed', function(e) {
 
+	    var data = jQuery.parseJSON(e.data);
 		jQuery('#sync-container').removeClass('state-in-progress').addClass('state-complete');
+		jQuery('#sync-date').text(data.last_update);
 		source.close();
-	});
-
-	source.addEventListener('start', function(e) {
-
-	});
-
-	source.addEventListener('updated_product', function(e) {
-		var data = jQuery.parseJSON(e.data);
-
-		jQuery('#current_item').text(data.product.name + ' id:' + data.product.id + ' sku:' + data.product.sku);
-		increment_progress_counter('updated');
-	});
-
-	source.addEventListener('deleted_product', function(e) {
-		var data = jQuery.parseJSON(e.data);
-
-		jQuery('#current_item').text('Deleted product # ' + data.product.id);
-
-		increment_progress_counter('deleted');
-	});
-
-	source.addEventListener('skipped_deleted', function(e) {
-		increment_progress_counter('skipped_deleted');
-	});
-
-
-	source.addEventListener('created_product', function(e) {
-		var data = jQuery.parseJSON(e.data);
-
-		jQuery('#current_item').text(data.product.name + ' id:' + data.product.id + ' sku:' + data.product.sku);
-		increment_progress_counter('created');
-	});
-
-	source.addEventListener('deleted_disabled', function(e) {
-		increment_progress_counter('deleted_disabled');
 	});
 
 	source.addEventListener('fetching_products', function(e) {
@@ -92,7 +62,7 @@ function sync_sse() {
 	});
 }
 
-var updatedFrom = '<?php echo $estimation['updated_from']; ?>';
+var updatedFrom = '<?php echo $estimation['last_update']; ?>';
 
 function do_no_sse_sync(mode, offset, limit, time) {
 	jQuery.getJSON('admin-post.php?action=ecwid_sync_no_sse&mode=' + mode + '&offset=' + offset + '&limit=' + limit + '&time=' + updatedFrom, {}, process_no_sse_sync);
@@ -207,62 +177,13 @@ jQuery('#sync-button-slow').click(function() {
 
 <div class="sync-block" id="last-sync-date">
 	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
-	<span id="sync_date">
+	<span id="sync-date">
         <?php if ( $estimation['last_update'] == 0 ): ?>
             <?php _e( 'Not synchronized yet', 'ecwid-shopping-cart' ); ?>
         <?php else: ?>
-            <?php echo date( __( "Y/m/d g:i:s a" ), $estimation['last_update'] ); ?>
+            <?php echo ecwid_format_date( $estimation['last_update'] ); ?>
         <?php endif; ?>
     </span>
-</div>
-
-
-<div style="display:none">
-<button id="sync-button_reset">RESET</button>
-<div>set_time_limit + SSE available: <span id="sse_on"></span></div>
-
-<div>
-	last update: <?php echo $estimation['last_update']; ?>
-</div>
-
-<div>
-	last updated product time: <?php echo $estimation['updated_from']; ?>
-</div>
-
-<div>
-	last deleted product time: <?php echo $estimation['deleted_from']; ?>
-</div>
-
-<div>
-	total to add/update: <?php echo $estimation['total_updated']; ?>
-</div>
-<div>
-	total to delete: <?php echo $estimation['total_deleted']; ?>
-</div>
-
-<div>
-	Currently processing: <span id="current_item"></span>
-</div>
-
-<div>
-	total updated: <span id="updated">0</span>
-</div>
-
-<div>
-	total deleted: <span id="deleted">0</span>
-</div>
-
-<div>
-	total created: <span id="created">0</span>
-</div>
-
-<div>
-	total deleted disabled: <span id="deleted_disabled">0</span>
-</div>
-
-<div>
-	total skipped deleted: <span id="skipped_deleted">0</span>
-</div>
 </div>
 
 </div>

@@ -177,6 +177,10 @@ class Ecwid_Products {
 		EcwidPlatform::set(self::OPTION_UPDATE_TIME, $time);
 	}
 
+	public function get_last_sync_time() {
+	    return $this->_status->get_last_sync_time();
+    }
+
 	public function estimate_sync() {
 
 		$updated = $this->_api->search_products( array(
@@ -200,6 +204,7 @@ class Ecwid_Products {
 
 		$result['last_update_string'] = Ecwid_Api_V3::format_time($this->_status->get_last_sync_time());
         $result['last_update'] = $this->_status->get_last_sync_time();
+
         if ($updated->total > 0) {
 			$result['updated_from'] = $updated->items[0]->updated;
 			$result['last_updated'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);

@@ -2448,9 +2448,14 @@ function ecwid_sync_products_sse() {
 
 	ecwid_sync_progress_callback(
 		array(
-			'event' => 'completed'
+			'event' => 'completed',
+			'last_update' => ecwid_format_date( $p->get_last_sync_time() )
 		)
 	);
+}
+
+function ecwid_format_date( $unixtime ) {
+	return date( __( "Y/m/d g:i:s a" ), $unixtime );
 }
 
 function ecwid_slow_sync_progress($status) {
@@ -2524,7 +2529,7 @@ function ecwid_sync_products_no_sse() {
 	if (!$over) {
 		echo json_encode($ecwid_sync_status);
 	} else {
-		echo json_encode(array_merge($ecwid_sync_status, array('status' => 'complete')));
+		echo json_encode(array_merge($ecwid_sync_status, array('status' => 'complete', 'last_update' => ecwid_format_date( $p->get_last_sync_time() ))));
 	}
 }
 
