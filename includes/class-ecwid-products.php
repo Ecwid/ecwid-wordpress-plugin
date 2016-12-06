@@ -567,6 +567,7 @@ class Ecwid_Products_Sync_Status {
 
 	public function update_last_sync_time($date) {
 		$this->_set_date_option(self::OPTION_UPDATE_TIME, $date);
+		$this->last_sync_time = $date;
 		$this->update_last_deleted($date);
 		$this->update_last_updated($date);
 	}
