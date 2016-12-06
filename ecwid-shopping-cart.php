@@ -2153,7 +2153,7 @@ function ecwid_admin_do_page( $page ) {
 	}
 	global $ecwid_oauth;
 
-	if ($_GET['ecwid_page']) {
+	if (isset($_GET['ecwid_page'])) {
 		$page = $_GET['ecwid_page'];
 	}
 
