@@ -34,7 +34,13 @@ class EcwidProductApi {
         $result = false;
 
         $request = $this->get_request($url);
+
+        if (!$request) {
+            return false;
+        }
+
         $fetch_result = $request->do_request();
+
 
         if ($fetch_result['code'] == 200) {
             $this->error = '';

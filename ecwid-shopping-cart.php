@@ -1872,6 +1872,11 @@ function ecwid_get_categories($nocache = false) {
 			ecwid_get_categories_js_url(),
 			array( Ecwid_Http::POLICY_EXPECT_JSONP )
 		);
+
+		if (!$request) {
+			return false;
+		}
+
 		$categories = $request->do_request();
 
 		if (!is_null($categories)) {

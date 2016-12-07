@@ -27,7 +27,7 @@ class Ecwid_Message_Manager
 				__( <<<TXT
 Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the Ecwid server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
 <br /><br />
-Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP POST requests are disabled on this server".
+Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to app.ecwid.com and my.ecwid.com are blocked.".
 <br /><br />
 Please also feel free to contact us at <a %s>wordpress@ecwid.com</a> and we will help you handle it with your hosting.
 <br /><br />
