@@ -1632,15 +1632,20 @@ function ecwid_disable_other_notices() {
 
 	if (!in_array(get_current_screen()->base, $pages)) return;
 
+
 	global $wp_filter;
 
-	foreach ($wp_filter['admin_notices'] as $priority => $collection) {
+	if (!$wp_filter || !isset($wp_filter['admin_notices']) || !class_exists('WP_Hook') || ! ( $wp_filter['admin_notices'] instanceof WP_Hook) ) {
+   		return;
+    }
+
+	foreach ($wp_filter['admin_notices']->callbacks as $priority => $collection) {
 		foreach ($collection as $name => $item) {
 			if ($name != 'ecwid_show_admin_messages') {
-				unset($wp_filter['admin_notices'][$priority][$name]);
+				remove_action('admin_notices', $item['function'], $priority);
 			}
 		}
-	}
+    }
 }
 
 function ecwid_show_admin_messages() {
