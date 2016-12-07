@@ -9,3 +9,7 @@ html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products li a:hover {
 	-moz-box-shadow: none;
 	box-shadow: none;
 }
+
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .entry-content {
+	width: auto;
+}
