@@ -17,7 +17,8 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 				'link' => 'yes',
 				'version' => '1',
 				'show_border' => '1',
-				'show_price_on_button' => '1'
+				'show_price_on_button' => '1',
+                'center_align' => '0'
 			),
 			$shortcode_params
 		);
@@ -100,12 +101,26 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 	protected function _get_widget_parts_v2() {
 		$price_location_attributes = '  data-spw-price-location="button"';
-		$bordered_class = ' ecwid-SingleProduct-v2-bordered';
-		if ($this->params['show_border'] == 0) {
+
+		$main_div_classes = array(
+		    'ecwid',
+            'ecwid-SingleProduct-v2',
+            'ecwid-Product',
+            'ecwid-Product-' . $this->params['id']
+        );
+
+		if ($this->params['show_border'] != 0) { // defaults to 1
 			$bordered_class = '';
+			$main_div_classes[] = 'ecwid-SingleProduct-v2-bordered';
 		}
 
-		if ($this->params['show_price_on_button'] == 0) {
+		if ($this->params['center_align'] == 1) { // defaults to 0
+		    $main_div_classes[] = 'ecwid-SingleProduct-v2-centered';
+        }
+
+        $main_div_class = implode( ' ', $main_div_classes );
+
+		if ($this->params['show_price_on_button'] == 0) { // defaults to 1
 			$price_location_attributes = '';
 		}
 
@@ -122,12 +137,20 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 				'qty' 	   => '<div customprop="qty"></div>',
 				'addtobag' => '<div customprop="addtobag"></div>'
 			),
-			'opening_div' => sprintf('<div class="ecwid ecwid-SingleProduct-v2' . $bordered_class . ' ecwid-Product ecwid-Product-%d"'
+			'opening_div' => sprintf('<div class="' . $main_div_class . '" '
 			                         . 'itemscope itemtype="http://schema.org/Product" data-single-product-id="%d" id="%s">',
-									$this->params['id'],
 									$this->params['id'],
 									$this->get_html_id()
 			)
 		);
 	}
+
+
+    public function build_params_string($params = null) {
+        if ( !is_null( $params ) && array_key_exists( 'id', $params ) ) {
+            unset( $params['id'] );
+        }
+
+        return parent::build_params_string( $params );
+    }
 }
