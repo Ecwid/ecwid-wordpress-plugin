@@ -26,6 +26,6 @@ function ecwid_render_shortcode($params, $content = '', $name) {
 
 		$shortcode = new $classname($params);
 
-		return $shortcode->render();
+		return $shortcode->render( array( 'legacy' => true ) );
 	}
 }

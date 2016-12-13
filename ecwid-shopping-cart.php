@@ -1110,29 +1110,6 @@ function ecwid_get_search_js_code() {
 	}
 }
 
-function ecwid_searchbox_shortcode($attributes) {
-
-	$shortcode = new Ecwid_Shortcode_Search($attributes);
-
-	return $shortcode->render();
-}
-
-function ecwid_categories_shortcode($attributes) {
-
-
-	$shortcode = new Ecwid_Shortcode_Categories($attributes);
-
-	return $shortcode->render();
-}
-
-
-function ecwid_productbrowser_shortcode($shortcode_params) {
-
-	$shortcode = new Ecwid_Shortcode_ProductBrowser($shortcode_params);
-
-	return $shortcode->render();
-}
-
 function _ecwid_get_single_product_widget_parts_v1($attributes) {
 	return array(
 		'display_items' => array(
