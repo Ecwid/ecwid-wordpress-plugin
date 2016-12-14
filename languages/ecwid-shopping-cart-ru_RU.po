@@ -730,6 +730,9 @@ msgstr "Поиска и Категорий"
 msgid "Open Ecwid store settings"
 msgstr "Открыть настройки плагина Ecwid"
 
+msgid "To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the \"Add product\" dialog."
+msgstr "Чтобы показать товары магазина в диалоге вставки товара, плагину нужно подключиться к вашему магазину. От вас потребуется только разрешить плагину доступ к вашему магазину."
+
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
 
