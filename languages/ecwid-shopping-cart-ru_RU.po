@@ -733,6 +733,51 @@ msgstr "Открыть настройки плагина Ecwid"
 msgid "To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the \"Add product\" dialog."
 msgstr "Чтобы показать товары магазина в диалоге вставки товара, плагину нужно подключиться к вашему магазину. От вас потребуется только разрешить плагину доступ к вашему магазину."
 
+msgid "Name"
+msgstr "Название"
+
+msgid "SKU"
+msgstr "Артикул"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Insert"
+msgstr "Вставить"
+
+msgid "Add Product"
+msgstr "Добавить товар"
+
+msgid "Customize widget"
+msgstr "Настроить внешний вид"
+
+msgid "Choose product properties to display in widget:"
+msgstr "Выберите элементы товара для отображения:"
+
+msgid "Picture"
+msgstr "Изображение"
+
+msgid "Title"
+msgstr "Название"
+
+msgid "Options"
+msgstr "Параметры"
+
+msgid "«Add to bag» button"
+msgstr "Кнопка \"Купить\""
+
+msgid "Widget frame"
+msgstr "Показать рамку"
+
+msgid "Outside widget «Add to bag button»"
+msgstr "Внешняя кнопка \"Купить\""
+
+msgid "Center align widget"
+msgstr "Выровнять по центру"
+
+msgid "Choose CSS style options for widget:"
+msgstr "Выберите настройки CSS-стилей:"
+
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
 
