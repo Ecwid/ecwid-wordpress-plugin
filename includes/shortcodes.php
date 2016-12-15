@@ -11,6 +11,7 @@ add_shortcode('ecwid_minicart', 'ecwid_render_shortcode');
 add_shortcode('ecwid_search', 'ecwid_render_shortcode');
 add_shortcode('ecwid_categories', 'ecwid_render_shortcode');
 add_shortcode('ecwid_product', 'ecwid_render_shortcode');
+add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
 
 function ecwid_render_shortcode($params, $content = '', $name) {
 	$names = array('productbrowser', 'minicart', 'search', 'categories', 'product');
@@ -28,4 +29,12 @@ function ecwid_render_shortcode($params, $content = '', $name) {
 
 		return $shortcode->render( array( 'legacy' => true ) );
 	}
+}
+
+
+function ecwid_searchbox_shortcode($params, $content = '', $name) {
+
+    $shortcode = new Ecwid_Shortcode_Search($params);
+
+    return $shortcode->render( array( 'legacy' => true ) );
 }
