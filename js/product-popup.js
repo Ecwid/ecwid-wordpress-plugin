@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
     popup().data( 'defaultSortBy', 'ADDED_TIME_DESC' );
 
     jQuery('#insert-ecwid-product-button').click(function() {
-        if (typeof ecwidProductWidgetParams != 'undefined' && typeof ecwidProductWidgetParams.no_token != 'undefined') {
+        if (ecwidProductWidgetParams && typeof ecwidProductWidgetParams.no_token != 'undefined') {
             location.href='admin.php?page=ecwid&reconnect&reason=spw';
             return false;
         }
