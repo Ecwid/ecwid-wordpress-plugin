@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
 
     populateWidgetParams = function() {
 
-        if (typeof ecwidProductWidgetParams != 'undefined') {
+        if (ecwidProductWidgetParams) {
             for (var i in ecwidProductWidgetParams.display) {
                 jQuery('input[type=checkbox][data-display-option=' + i + ']')
                     .prop('checked', true);
