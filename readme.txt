@@ -2,13 +2,13 @@
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
-Tested up to: 4.6
-Stable tag: 4.7.3
+Tested up to: 4.7
+Stable tag: 4.7.6
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
-Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
+Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages. 
 
 
 = Automatic Shipping and Taxes =
@@ -149,9 +149,20 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.7.6 =
+- Fix for the legacy search shortcode ([ecwid_searchbox]), which was broken in the recent 4.7.5 release.
+
+= 4.7.5 =
+- **A few enhancements for the Wordpress brand new "Twenty Seventeen" theme.** Ecwid store page in that theme will look better with this update – we made the page layout a bit wider to make sure it's convenient for your buyers to navigate the catalog. 
+- **Another improvement for the new Ecwid single product widget.** Now it's possible to use the "center_align=1" parameter in the shortcode to make the widget center aligned on the page. You may want to use that if you place one product widget per page – in this case, it will look better when center-aligned. An example shortcode: [ecwid_product id="12345" version=2 center_align=1]. Do not forget to replace 12345 in this example with the actual product ID.
+- Minor fixes for the "Trend" Wordpress theme.
+
+= 4.7.4 =
+- **WordPress 4.7 and Twenty Seventeen theme compatibility.** The new WordPress version with the 2017 theme is coming soon. Ecwid shopping cart plugin is ready for the upcoming changes – everything will work well. Feel free to upgrade your site to WordPress 4.7 as soon as it's released and try a new theme. 
+- Minor fixes and improvements.
+
 = 4.7.3 =
 - **Improvements for the new Ecwid’s single product widget.** Now it's possible to use the "show_price_on_button=0" and “show_border=0” parameters in the shortcode to disable the price on buy now button and widget border respectively. If you want to hide the widget border, for example, the resulting code will like this: [ecwid_product id="12345" version=2 show_border=0]. Do not forget to replace 12345 in this example with the actual product ID.
-
 - Fixed a bug with the floating shopping cart: the floating cart widget didn't appear on some rare Wordpress themes, we fixed that. Now it should work fine.
 
 = 4.7.2 =
