@@ -183,7 +183,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers' );
+		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers', 'public_storefront' );
 	}
 
 	protected function trigger_auth_error($mode = 'default')
