@@ -457,8 +457,8 @@ msgstr "Здесь будет отображаться ваш магазин."
 msgid "Demo Store"
 msgstr "Демонстрационный магазин"
 
-msgid "Chameleon skin <sup>beta</sup>"
-msgstr "Тема \"Хамелеон\" <sup>бета</sup>"
+msgid "Chameleon skin"
+msgstr "Тема \"Хамелеон\""
 
 msgid "Automatic adjustment of your store design to your Wordpress theme. Whatever Wordpress theme you use, Ecwid will detect predominant colors and font and use them in your product catalog."
 msgstr "Автоматическая подстройка внешнего вида магазина под стили темы сайта. Включите эту опцию, чтобы Эквид определял цвета и шрифты сайта и использовал их в каталоге товаров."

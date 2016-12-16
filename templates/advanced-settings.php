@@ -99,7 +99,7 @@
 							checked="checked"
 						<?php endif; ?>
 						/>
-					<?php _e('Chameleon skin <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+					<?php _e('Chameleon skin', 'ecwid-shopping-cart'); ?>
 				</label>
 
 				<div class="note">

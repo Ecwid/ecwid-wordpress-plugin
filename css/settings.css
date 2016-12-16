@@ -767,6 +767,9 @@ label.premium-feature svg path {
 		bottom: 0px;
 	}
 }
+#sync-container {
+	line-height: normal;
+}
 
 #sync-container #sync-button-slow {
 	display: none;
@@ -804,17 +807,21 @@ label.premium-feature svg path {
 #sync-container #sync-button,
 #sync-container #sync-button-slow {
 	cursor: pointer;
-	margin-bottom: 10px;
 }
 
 #sync-container #update-progress {
 	padding-left: 30px;
-	margin-top: -6px;
 	font-weight: 600;
 }
 
 #sync-container #complete {
 	font-weight: 600;
+}
+
+#sync-container #complete,
+#sync-container #sync-button,
+#sync-container #updating {
+	height: 3em;
 }
 
 #updating {
@@ -830,7 +837,6 @@ label.premium-feature svg path {
 	animation-timing-function: linear;
 	display: inline-block;
 	vertical-align: middle;
-	margin-bottom: 4px;
 }
 
 #updating svg path {
@@ -843,7 +849,6 @@ label.premium-feature svg path {
 }
 
 .sync-block#updating {
-	margin-bottom: 10px;
 	line-height: initial;
 }
 
