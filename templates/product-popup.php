@@ -42,11 +42,19 @@
 <script type="text/template" id="tmpl-add-product-form">
     <form action="">
         <p class="products-search">
-            <label class="screen-reader-text" for="product-search-input">
-                <?php _e( 'Search', 'ecwid-shopping-cart' ); ?>
-            </label>
-            <input type="search" id="product-search-input" name="s" value="">
-            <input type="submit" id="search-submit" class="button" value="<?php _e( 'Search', 'ecwid-shopping-cart' ); ?>">
+            <span class="search-input">
+                <label class="screen-reader-text" for="product-search-input">
+                    <?php _e( 'Search', 'ecwid-shopping-cart' ); ?>
+                </label>
+                <input type="search" id="product-search-input" name="s" value="" placeholder="<?php _e( 'Search products', 'ecwid-shopping-cart' ); ?>">
+            </span>
+            <span class="search-button">
+                <button type="submit" id="search-submit" class="button">
+                    <span class="button-text"><?php _e( 'Search', 'ecwid-shopping-cart' ); ?></span>
+                    <img class="searching-icon" src="<?php echo(esc_attr(ECWID_PLUGIN_URL)); ?>/images/download.gif" />
+                </button>
+                <!--input type="submit" id="search-submit" class="button" value="<?php _e( 'Search', 'ecwid-shopping-cart' ); ?>"-->
+            </span>
         </p>
     </form>
 
@@ -59,9 +67,7 @@
                     {{{ data.prev_pages }}}
                     <span class="paging-input">
                     <label for="current-page-selector" class="screen-reader-text"><?php _e( 'Current Page', 'ecwid-shopping-cart' ); ?></label>
-                    <input class="current-page" id="current-page-selector" type="text"
-                           name="paged" value="{{ data.page }}" size="2" aria-describedby="table-paging">
-                    <span class="tablenav-paging-text"> of <span class="total-pages">{{ data.total_pages }}</span></span></span>
+                    <span class="tablenav-paging-text">{{ data.page }} of <span class="total-pages">{{ data.total_pages }}</span></span></span>
                     {{{ data.next_pages }}}
 
                 </span>
@@ -129,6 +135,7 @@ jQuery(document).ready(function() {
             }
         }
 
+        jQuery('#search-submit').addClass('searching');
 
         jQuery.getJSON(ajaxurl, data, function(data) {
 
@@ -200,6 +207,7 @@ jQuery(document).ready(function() {
             renderSearchParams();
             assignHandlers();
             setCurrentProduct(null);
+            jQuery('#search-submit').removeClass('searching');
         });
     }
 
@@ -219,7 +227,7 @@ jQuery(document).ready(function() {
                         <a href="#" class="media-menu-item" data-content="customize"><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?></a>
                     </div>
                 </div>
-                <div class="media-frame-title add-product">
+                <div class="media-frame-title add-product active">
                     <h1><?php _e( 'Add Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
 
@@ -238,19 +246,19 @@ jQuery(document).ready(function() {
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="picture" data-display-option="picture">
-                                        <?php _e( 'Picture', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Picture', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="title" data-display-option="title">
-                                        <?php _e( 'Title', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Title', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="price" data-display-option="price">
-                                        <?php _e( 'Price', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Price', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -258,19 +266,19 @@ jQuery(document).ready(function() {
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="options" data-display-option="options">
-                                        <?php _e( 'Options', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Options', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="quantity" data-display-option="qty">
-                                        <?php _e( 'Quantity', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Quantity', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="add-to-bag" data-display-option="addtobag">
-                                        <?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -281,13 +289,13 @@ jQuery(document).ready(function() {
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="widget_frame" data-shortcode-attribute="show_border">
-                                        <?php _e( 'Widget frame', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Widget frame', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="widget_frame" data-shortcode-attribute="center_align">
-                                        <?php _e( 'Center align widget', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Center align widget', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -295,7 +303,7 @@ jQuery(document).ready(function() {
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" name="outside_widget" data-shortcode-attribute="show_price_on_button">
-                                        <?php _e( 'Outside widget «Add to bag button»', 'ecwid-shopping-cart' ); ?>
+                                        <span><?php _e( 'Outside widget «Add to bag button»', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -306,6 +314,8 @@ jQuery(document).ready(function() {
                 <div class="media-frame-toolbar">
                     <div class="media-toolbar">
                         <div class="media-toolbar-primary add-product">
+                            <a target="_blank" class="toolbar-link customize-appearance" data-content="customize" href="#"><?php _e( 'customize appearance', 'ecwid-shopping-cart' ); ?></a>
+                            <a target="_blank" class="toolbar-link add-product" data-content="add-product" style="display: none" href="#"><?php _e( 'select product', 'ecwid-shopping-cart' ); ?></a>
                             <a href="#" class="button media-button button-primary button-large media-button-select"><?php _e( 'Insert', 'ecwid-shopping-cart' ); ?></a>
                         </div>
                     </div>

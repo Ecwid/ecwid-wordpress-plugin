@@ -15,9 +15,21 @@ jQuery(document).ready(function() {
         populateWidgetParams();
     });
 
+    jQuery(document).keydown(function(e) {
+        if (e.keyCode == 27 && popup().hasClass('open')) {
+            popup().removeClass('open');
+            return false;
+        }
+    });
+
     jQuery('.media-modal-close', popup()).click(function() {
         popup().removeClass('open');
     });
+
+    jQuery('.toolbar-link', popup()).click(function() {
+        changeTab(jQuery(this).data('content'));
+        return false;
+    })
 
     populateWidgetParams = function() {
 
@@ -33,12 +45,20 @@ jQuery(document).ready(function() {
         }
     };
 
-    jQuery('.media-menu-item', popup()).click(function() {
+    changeTab = function(tab) {
         jQuery('.media-menu .media-menu-item', popup()).removeClass('active');
-        jQuery(this).addClass('active');
+        jQuery('.media-menu .media-menu-item[data-content=' + tab + ']', popup()).addClass('active');
 
-        jQuery('.media-modal-content', popup()).attr('data-active-dialog', jQuery(this).attr('data-content'));
-        jQuery('.media-menu').removeClass('visible');
+        jQuery('.media-modal-content', popup()).attr('data-active-dialog', tab);
+        jQuery('.media-menu', popup()).removeClass('visible');
+
+        jQuery('.toolbar-link').show();
+        jQuery('.toolbar-link[data-content=' + tab + ']', popup()).hide();
+    }
+
+    jQuery('.media-menu-item', popup()).click(function() {
+        changeTab(jQuery(this).attr('data-content'));
+
         return false;
     });
 
@@ -236,13 +256,14 @@ jQuery(document).ready(function() {
 
         if (typeof(searchParams.sortBy) != 'undefined') {
             if (searchParams.sortBy == 'NAME_ASC') {
-                jQuery('#name').addClass('asc');
+                jQuery('#name').addClass('sorted asc');
+
             } else if (searchParams.sortBy == 'NAME_DESC') {
-                jQuery('#name').addClass('desc');
+                jQuery('#name').addClass('sorted desc');
             } else if (searchParams.sortBy == 'SKU_ASC') {
-                jQuery('#sku').addClass('asc');
+                jQuery('#sku').addClass('sorted asc');
             } else if (searchParams.sortBy == 'SKU_DESC') {
-                jQuery('#sku').addClass('desc');
+                jQuery('#sku').addClass('sorted desc');
             }
         }
     }
