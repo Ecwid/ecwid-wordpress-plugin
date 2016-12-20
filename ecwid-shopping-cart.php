@@ -1795,13 +1795,13 @@ function ecwid_get_register_link()
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
 	$result = $api->create_store();
-	if (is_array($result) && $result['response']['code'] == 200) {
-		$data = json_decode($result['body']);
+	if ( is_array( $result ) && $result['response']['code'] == 200 ) {
+		$data = json_decode( $result['body'] );
 
-		update_option('ecwid_store_id', $data->id);
+		update_option( 'ecwid_store_id', $data->id );
 
-		$api->save_token($data->token);
-		update_option('ecwid_oauth_scope', 'read_profile read_catalog allow_sso');
+		$api->save_token( $data->token );
+		update_option( 'ecwid_oauth_scope', 'read_profile read_catalog allow_sso create_customers public_storefront' );
 
 		header( 'HTTP/1.1 200 OK' );
 
