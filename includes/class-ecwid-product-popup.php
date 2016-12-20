@@ -25,7 +25,7 @@ class Ecwid_Product_Popup {
             return;
         }
 
-        if (!Ecwid_Api_V3::get_token()) {
+        if (Ecwid_Api_V3::get_token()) {
             add_action('media_buttons_context', array($this, 'add_editor_button'));
             add_action('admin_enqueue_scripts', array($this, 'add_scripts'));
             add_action('in_admin_header', array($this, 'add_popup'));
