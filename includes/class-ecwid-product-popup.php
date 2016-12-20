@@ -88,7 +88,7 @@ class Ecwid_Product_Popup {
 
         $title = __( 'Add Product', 'ecwid-shopping-cart' );
         $button = <<<HTML
-	<a href="#" id="insert-ecwid-product-button" class="button add-ecwid ecwid_button" title="$title">
+	<a href="#" id="insert-ecwid-product-button" class="button add-ecwid-product ecwid_button" title="$title">
 		$title
 	</a>
 HTML;
@@ -100,11 +100,21 @@ HTML;
         wp_enqueue_style( 'ecwid-product-popup', ECWID_PLUGIN_URL . 'css/product-popup.css', array(), get_option('ecwid_plugin_version') );
         wp_enqueue_script( 'ecwid-product-popup', ECWID_PLUGIN_URL . 'js/product-popup.js', array(), get_option('ecwid_plugin_version') );
 
+        $data = array();
         if (!Ecwid_Api_V3::get_token()) {
-            wp_localize_script('ecwid-product-popup', 'ecwidProductWidgetParams', array('no_token' => 1));
+            $data = array('no_token' => 1);
         } else {
-            wp_localize_script('ecwid-product-popup', 'ecwidProductWidgetParams', EcwidPlatform::get('spw_display_params'));
+            $data = EcwidPlatform::get('spw_display_params');
         }
+
+        $data['labels'] = array(
+            'firstPage' => __( 'First Page', 'ecwid-shopping-cart' ),
+            'prevPage' => __( 'Previous Page', 'ecwid-shopping-cart' ),
+            'nextPage' => __( 'Next Page', 'ecwid-shopping-cart' ),
+            'lastPage' => __( 'Last Page', 'ecwid-shopping-cart' ),
+        );
+
+        wp_localize_script('ecwid-product-popup', 'ecwidSpwParams', $data);
     }
 
     public function add_popup() {

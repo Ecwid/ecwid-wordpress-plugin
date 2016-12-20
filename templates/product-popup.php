@@ -105,117 +105,6 @@
     </tr>
 </script>
 
-<script type="text/javascript">
-
-jQuery(document).ready(function() {
-
-    var popup = function() {
-        return jQuery('#ecwid-product-popup-content');
-    };
-
-    ecwidSpwSearchProducts = function() {
-
-        var data = {
-            'action': 'ecwid-search-products'
-        };
-
-        var params = popup().data('searchParams');
-
-        if (params) {
-            if (params.keyword) {
-                data.keyword = params.keyword;
-            }
-
-            if (params.sortBy) {
-                data.sortBy = params.sortBy;
-            }
-
-            if (params.page) {
-                data.page = params.page;
-            }
-        }
-
-        jQuery('#search-submit').addClass('searching');
-
-        jQuery.getJSON(ajaxurl, data, function(data) {
-
-            if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
-                params = getSearchParams();
-                params.page = 1;
-                setSearchParams(params);
-            }
-
-            var enabledPageTemplate = wp.template( 'pagination-button-enabled' );
-            var disabledPageTemplate = wp.template( 'pagination-button-disabled' );
-
-            var prevPages = '';
-            if (getSearchParams() && getSearchParams().page == 1) {
-                prevPages = disabledPageTemplate( { symbol: '«' } ) + disabledPageTemplate( { symbol: '‹' } );
-            } else {
-                prevPages = enabledPageTemplate({
-                        'symbol': '«',
-                        'name': 'first',
-                        'label': '<?php _e( 'First Page', 'ecwid-shopping-cart' ); ?>'
-                    }) + enabledPageTemplate({
-                        'symbol': '‹',
-                        'name': 'prev',
-                        'label': '<?php _e( 'Previous Page', 'ecwid-shopping-cart' ); ?>'
-                    });
-            }
-
-            var nextPages = '';
-            if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
-                nextPages = disabledPageTemplate( { symbol: '›' } ) + disabledPageTemplate( { symbol: '»' } );
-            } else {
-                nextPages = enabledPageTemplate({
-                        'symbol': '›',
-                        'name': 'next',
-                        'label': '<?php _e( 'Next Page', 'ecwid-shopping-cart' ); ?>'
-                    }) + enabledPageTemplate({
-                        'symbol': '»',
-                        'name': 'last',
-                        'label': '<?php _e( 'Last Page', 'ecwid-shopping-cart' ); ?>',
-                        'page': Math.ceil(data.total / data.limit)
-                    });
-            }
-
-            var formTemplate = wp.template( 'add-product-form' );
-
-            var tableTemplate = wp.template( 'products-list' );
-
-            var tableHTML = tableTemplate();
-
-            jQuery('.media-frame-content.ecwid-add-product.add-product').empty().append(
-                formTemplate( {
-                    'tableHTML' : tableHTML,
-                    'page': data.offset / data.limit + 1,
-                    'total_pages': Math.ceil(data.total / data.limit),
-                    'total_items': data.total + ' items',
-                    'prev_pages': prevPages,
-                    'next_pages': nextPages
-                })
-            );
-
-            if (data.total > 0) {
-                for (var i = 0; i < data.items.length; i++) {
-                    addProduct(data.items[i]);
-                }
-            } else {
-                showEmpty(params.keyword);
-            }
-
-            renderSearchParams();
-            assignHandlers();
-            setCurrentProduct(null);
-            jQuery('#search-submit').removeClass('searching');
-        });
-    }
-
-    renderAddProductForm();
-});
-
-</script>
-
 <div id="ecwid-product-popup-content">
     <div class="media-modal wp-core-ui">
         <div class="media-modal-content" data-mode="add-product" data-active-dialog="add-product">
@@ -245,19 +134,19 @@ jQuery(document).ready(function() {
                             <div class="widget-settings__left">
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="picture" data-display-option="picture">
+                                        <input type="checkbox" checked="checked" name="picture" data-display-option="picture">
                                         <span><?php _e( 'Picture', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="title" data-display-option="title">
+                                        <input type="checkbox" checked="checked" name="title" data-display-option="title">
                                         <span><?php _e( 'Title', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="price" data-display-option="price">
+                                        <input type="checkbox" checked="checked" name="price" data-display-option="price">
                                         <span><?php _e( 'Price', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
@@ -265,7 +154,7 @@ jQuery(document).ready(function() {
                             <div class="widget-settings__right">
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="options" data-display-option="options">
+                                        <input type="checkbox" checked="checked" name="options" data-display-option="options">
                                         <span><?php _e( 'Options', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
@@ -277,7 +166,7 @@ jQuery(document).ready(function() {
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="add-to-bag" data-display-option="addtobag">
+                                        <input type="checkbox" checked="checked" name="add-to-bag" data-display-option="addtobag">
                                         <span><?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
@@ -288,13 +177,13 @@ jQuery(document).ready(function() {
                             <div class="widget-settings__left">
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="widget_frame" data-shortcode-attribute="show_border">
+                                        <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="show_border">
                                         <span><?php _e( 'Widget frame', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="widget_frame" data-shortcode-attribute="center_align">
+                                        <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="center_align">
                                         <span><?php _e( 'Center align widget', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
@@ -302,7 +191,7 @@ jQuery(document).ready(function() {
                             <div class="widget-settings__right">
                                 <div class="pure-control-group">
                                     <label>
-                                        <input type="checkbox" name="outside_widget" data-shortcode-attribute="show_price_on_button">
+                                        <input type="checkbox" checked="checked" name="outside_widget" data-shortcode-attribute="show_price_on_button">
                                         <span><?php _e( 'Outside widget «Add to bag button»', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
