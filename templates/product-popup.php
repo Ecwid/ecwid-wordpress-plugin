@@ -46,7 +46,7 @@
                 <label class="screen-reader-text" for="product-search-input">
                     <?php _e( 'Search', 'ecwid-shopping-cart' ); ?>
                 </label>
-                <input type="search" id="product-search-input" name="s" value="" placeholder="<?php _e( 'Search products', 'ecwid-shopping-cart' ); ?>">
+                <input type="search" id="product-search-input" name="s" value="" placeholder="<?php _e( 'Title or SKU', 'ecwid-shopping-cart' ); ?>">
             </span>
             <span class="search-button">
                 <button type="submit" id="search-submit" class="button">
@@ -178,13 +178,13 @@
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="show_border">
-                                        <span><?php _e( 'Widget frame', 'ecwid-shopping-cart' ); ?></span>
+                                        <span><?php _e( 'Add border', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="center_align">
-                                        <span><?php _e( 'Center align widget', 'ecwid-shopping-cart' ); ?></span>
+                                        <span><?php _e( 'Center align on a page', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>

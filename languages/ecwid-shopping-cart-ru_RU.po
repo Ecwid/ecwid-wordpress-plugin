@@ -749,7 +749,13 @@ msgid "Add Product"
 msgstr "Добавить товар"
 
 msgid "Customize widget"
-msgstr "Настроить внешний вид"
+msgstr "Внешний вид"
+
+msgid "customize appearance"
+msgstr "настроить внешний вид"
+
+msgid "select product"
+msgstr "выбрать товар"
 
 msgid "Choose product properties to display in widget:"
 msgstr "Выберите элементы товара для отображения:"
@@ -766,17 +772,26 @@ msgstr "Параметры"
 msgid "«Add to bag» button"
 msgstr "Кнопка \"Купить\""
 
-msgid "Widget frame"
-msgstr "Показать рамку"
+msgid "Quantity"
+msgstr "Количество"
+
+msgid "Add border"
+msgstr "Показывать рамку"
 
 msgid "Outside widget «Add to bag button»"
-msgstr "Внешняя кнопка \"Купить\""
+msgstr "Показывать цену в кнопке \"Купить\""
 
-msgid "Center align widget"
-msgstr "Выровнять по центру"
+msgid "Center align on a page"
+msgstr "Выровнять карточку по центру страницы"
 
 msgid "Choose CSS style options for widget:"
 msgstr "Выберите настройки CSS-стилей:"
+
+msgid "Title or SKU"
+msgstr "Название или артикул"
+
+msgid "Nothing found for <span class=\"empty-page__term\">\"{{ data.term }}\"</span>"
+msgstr "По запросу <span class=\"empty-page__term\">\"{{ data.term }}\"</span> ничего не найдено"
 
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
