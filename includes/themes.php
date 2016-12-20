@@ -38,22 +38,23 @@ function ecwid_get_theme_identification()
 function ecwid_apply_theme($theme_name = null)
 {
 	$generic_themes = array(
-		'pixova-lite' 		=> array( 'js', 'scroll' ),
-		'accesspress-mag' => array( 'css' ),
-		'attitude' 				=> array( 'css-no-parent' ),
-		'customizr'				=> array( 'js', 'css' ),
-		'edin'						=> array( 'js' ),
-		'evolve'					=> array( 'css-no-parent' ),
-		'mantra'					=> array( 'css-no-parent' ),
-		'pagelines'				=> array( 'js', 'scroll' ),
-		'responsiveboat'  => array( 'css' ),
-		'twentyfourteen'  => array( 'css', 'scroll' ),
+		'pixova-lite'		=> array( 'js', 'scroll' ),
+		'accesspress-mag'	=> array( 'css' ),
+		'attitude'			=> array( 'css-no-parent' ),
+		'customizr'			=> array( 'js', 'css' ),
+		'edin'				=> array( 'js' ),
+		'evolve'			=> array( 'css-no-parent' ),
+		'mantra'			=> array( 'css-no-parent' ),
+		'pagelines'			=> array( 'js', 'scroll' ),
+		'responsiveboat'	=> array( 'css' ),
+		'twentyfourteen'	=> array( 'css', 'scroll' ),
 		'twentytwelve'		=> array( 'js', 'scroll' ),
 		'sliding-door'		=> array( 'css-no-parent' ),
-		'zerif-lite'			=> array( 'css-no-parent' ),
-		'storefront'			=> array( 'css' ),
-		'salient'               => array( 'css-no-parent'),
-		'flora'                 => array('js'),
+		'zerif-lite'		=> array( 'css-no-parent' ),
+		'storefront'		=> array( 'css' ),
+		'salient'			=> array( 'css-no-parent'),
+		'flora'				=> array( 'js' ),
+        'thevoux-wp'		=> array( 'js' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
