@@ -5962,7 +5962,7 @@ body, html {
 
     #ecwid-product-popup-content .search-input {
         width: 100%;
-        padding-right:10px;
+        padding-right: 10px;
     }
 
     #ecwid-product-popup-content .search-input input {
@@ -5973,5 +5973,14 @@ body, html {
     #ecwid-product-popup-content .search-input {
         display: table-cell;
         vertical-align: middle;
+    }
+
+    #ecwid-product-popup-content .wp-list-table thead {
+        display: none;
+    }
+
+    .add-product .products .product-thumb > div {
+        width: 50px;
+        height: 50px;
     }
 }
