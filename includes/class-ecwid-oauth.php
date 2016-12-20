@@ -330,8 +330,8 @@ class Ecwid_OAuth {
 
 		if (isset($this->state->reason)) {
 			switch ( $this->state->reason ) {
-				case '1':
-					$reconnect_message = "Message 1";
+				case 'spw':
+					$reconnect_message = __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' );;
 					break;
 				case '2':
 					$reconnect_message = "Message 2";
