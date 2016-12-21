@@ -39,9 +39,9 @@ jQuery(document).ready(function() {
 
     var populateWidgetParams = function() {
 
-        jQuery('input[type=checkbox]', popup()).prop('checked', false);
-
         if (ecwidSpwParams && ecwidSpwParams.display) {
+            jQuery('input[type=checkbox]', popup()).prop('checked', false);
+
             for (var i in ecwidSpwParams.display) {
                 jQuery('input[type=checkbox][data-display-option=' + i + ']')
                     .prop('checked', true);
