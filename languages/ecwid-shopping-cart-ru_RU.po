@@ -757,8 +757,8 @@ msgstr "настроить внешний вид"
 msgid "select product"
 msgstr "выбрать товар"
 
-msgid "Choose product properties to display in widget:"
-msgstr "Выберите элементы товара для отображения:"
+msgid "Choose product properties to display in widget"
+msgstr "Выберите элементы товара для отображения"
 
 msgid "Picture"
 msgstr "Изображение"
@@ -778,7 +778,7 @@ msgstr "Количество"
 msgid "Add border"
 msgstr "Показывать рамку"
 
-msgid "Outside widget «Add to bag button»"
+msgid "Show price inside the \"Buy now\" button"
 msgstr "Показывать цену в кнопке \"Купить\""
 
 msgid "Center align on a page"

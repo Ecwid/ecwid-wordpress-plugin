@@ -130,7 +130,7 @@
                 <div class="media-frame-content ecwid-add-product customize">
                     <div class="store-settings-wrapper ecwid-search ecwid-minicart ecwid-categories" data-ecwid-widget-hover="">
                         <div class="widget-settings">
-                            <h3><?php _e( 'Choose product properties to display in widget:', 'ecwid-shopping-cart' ); ?></h3>
+                            <h3><?php _e( 'Choose product properties to display in widget', 'ecwid-shopping-cart' ); ?></h3>
                             <div class="widget-settings__left">
                                 <div class="pure-control-group">
                                     <label>
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="widget-settings">
-                            <h3><?php _e( 'Choose CSS style options for widget:', 'ecwid-shopping-cart' ); ?></h3>
+                            <h3><?php _e( 'Appearance', 'ecwid-shopping-cart' ); ?></h3>
                             <div class="widget-settings__left">
                                 <div class="pure-control-group">
                                     <label>
@@ -192,7 +192,7 @@
                                 <div class="pure-control-group">
                                     <label>
                                         <input type="checkbox" checked="checked" name="outside_widget" data-shortcode-attribute="show_price_on_button">
-                                        <span><?php _e( 'Outside widget «Add to bag button»', 'ecwid-shopping-cart' ); ?></span>
+                                        <span><?php _e( 'Show price inside the "Buy now" button', 'ecwid-shopping-cart' ); ?></span>
                                     </label>
                                 </div>
                             </div>
