@@ -169,6 +169,9 @@ jQuery(document).ready(function() {
     };
 
     var setSearchParams = function( params ) {
+        if (typeof params.page == 'undefined') {
+            params.page = 1;
+        }
         popup().data('searchParams', params);
     };
 
