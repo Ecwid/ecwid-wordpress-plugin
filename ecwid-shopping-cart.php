@@ -295,14 +295,6 @@ function ecwid_enqueue_frontend() {
 		) );
 	}
 
-	if ((bool)get_option('ecwid_use_chameleon')) {
-		if (ecwid_migrations_is_original_plugin_version_older_than( ECWID_VERSION_BUILTIN_CHAMELEON )) {
-			ecwid_enqueue_external_chameleon();
-		} else {
-			ecwid_enqueue_builtin_chameleon();
-		}
-	}
-
 	if (is_active_widget(false, false, 'ecwidrecentlyviewed')) {
 		wp_enqueue_script('ecwid-recently-viewed', ECWID_PLUGIN_URL . 'js/recently-viewed-common.js', array('jquery', 'utils'), get_option('ecwid_plugin_version'), true);
 
