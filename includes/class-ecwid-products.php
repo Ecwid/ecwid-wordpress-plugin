@@ -9,7 +9,7 @@ class Ecwid_Products {
 	protected $_status;
 	protected $_sync_progress_callback;
 
-	const POST_TYPE_PRODUCT = 'product';
+	const POST_TYPE_PRODUCT = 'ecwid_product';
 	const DB_ALIAS_OUT_OF_STOCK = 'ecwid_out_of_stock';
 	const OPTION_ENABLED = 'ecwid_local_base_enabled';
 
@@ -19,13 +19,14 @@ class Ecwid_Products {
         $this->_status = new Ecwid_Products_Sync_Status();
         $this->_status->load();
 
+		add_action( 'ecwid_update_store_id', array( $this, 'on_update_store_id' ) );
+
 		if ( ! self::is_enabled() ) {
 			return;
 		}
 
 		add_action( 'init', array($this, 'register_post_type' ) );
 		add_action( 'admin_init', array($this, 'register_post_type' ) );
-		add_action( 'ecwid_update_store_id', $this, 'on_update_store_id' );
 		add_filter( 'the_content', array( $this, 'content' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
@@ -141,6 +142,10 @@ class Ecwid_Products {
         flush_rewrite_rules(true);
         update_option( self::OPTION_ENABLED, false );
     }
+
+    public static function reset_sync_date() {
+		Ecwid_Products_Sync_Status::reset_dates();
+	}
 
 	public function register_post_type() {
 
@@ -608,7 +613,7 @@ class Ecwid_Products_Sync_Status {
 		EcwidPlatform::set($option, $date);
 	}
 
-	public function reset_dates() {
+	public static function reset_dates() {
 		foreach(
 			array(
 				self::OPTION_LAST_PRODUCT_DELETE_TIME,
