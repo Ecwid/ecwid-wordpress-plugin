@@ -712,6 +712,87 @@ msgstr "Чтобы плагин автоматически объединял у
 msgid "To make sure your customer can actually log in to your site and store, enable registration in the <a %s>site settings</a>"
 msgstr "Чтобы покупатели смогли регистрироваться, убедитесь, что регистрация включена в <a %s>настройках сайта</a>"
 
+msgid "Updated %s widgets are available for your Ecwid store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions."
+msgstr "Блоки %s в вашем Эквид-магазине обновлены – теперь они выглядят приятнее и лучше работают на мобильных. Пожалуйста, включите новый вид блоков поиска и категорий на странице настроек плагина. В одном следующих обновлений плагина они будут включены автоматически для всех пользователей."
+
+msgctxt "upgrade widgets message"
+msgid "Search"
+msgstr "Поиска"
+
+msgctxt "upgrade widgets message"
+msgid "Categories"
+msgstr "Категорий"
+
+msgctxt "upgrade widgets message"
+msgid "Search and Categories"
+msgstr "Поиска и Категорий"
+
+msgid "Open Ecwid store settings"
+msgstr "Открыть настройки плагина Ecwid"
+
+msgid "To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the \"Add product\" dialog."
+msgstr "Чтобы показать товары магазина в диалоге вставки товара, плагину нужно подключиться к вашему магазину. От вас потребуется только разрешить плагину доступ к вашему магазину."
+
+msgid "Name"
+msgstr "Название"
+
+msgid "SKU"
+msgstr "Артикул"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Insert"
+msgstr "Вставить"
+
+msgid "Add Product"
+msgstr "Добавить товар"
+
+msgid "Customize widget"
+msgstr "Внешний вид"
+
+msgid "customize appearance"
+msgstr "настроить внешний вид"
+
+msgid "select product"
+msgstr "выбрать товар"
+
+msgid "Choose product properties to display in widget"
+msgstr "Выберите элементы товара для отображения"
+
+msgid "Picture"
+msgstr "Изображение"
+
+msgid "Title"
+msgstr "Название"
+
+msgid "Options"
+msgstr "Параметры"
+
+msgid "«Add to bag» button"
+msgstr "Кнопка \"Купить\""
+
+msgid "Quantity"
+msgstr "Количество"
+
+msgid "Add border"
+msgstr "Показывать рамку"
+
+msgid "Show price inside the \"Buy now\" button"
+msgstr "Показывать цену в кнопке \"Купить\""
+
+msgid "Center align on a page"
+msgstr "Выровнять карточку по центру страницы"
+
+msgid "Choose CSS style options for widget:"
+msgstr "Выберите настройки CSS-стилей:"
+
+msgid "Title or SKU"
+msgstr "Название или артикул"
+
+msgid "Nothing found for <span class=\"empty-page__term\">\"{{ data.term }}\"</span>"
+msgstr "По запросу <span class=\"empty-page__term\">\"{{ data.term }}\"</span> ничего не найдено"
+
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
 

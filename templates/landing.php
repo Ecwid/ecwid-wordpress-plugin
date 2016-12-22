@@ -47,7 +47,7 @@
             </div>
             <div class="create-store-have-account ecwid-button-description">
                 <span class="create-store-have-account-question"><?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?></span>
-                <a class="create-store-have-account-link" href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
+                <a class="create-store-have-account-link" href="admin-post.php?action=ecwid_connect"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
             </div>
             <div class="button-description-mobile">
                 <?php _e('You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'); ?>
@@ -158,12 +158,8 @@
 
             <div class="ecwid-button-description">
                 <?php _e('Already have Ecwid account?', 'ecwid-shopping-cart'); ?>
-                <a href="admin-post.php?action=ecwid_connect" onclick="javascript:ecwid_kissmetrics_record('connectStoreButtonClick');"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
+                <a href="admin-post.php?action=ecwid_connect"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    ecwid_kissmetrics_record('Welcome Page Viewed');
-</script>

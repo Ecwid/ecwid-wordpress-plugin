@@ -20,7 +20,7 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 
 	function widget($args, $instance) {
 
-		wp_enqueue_script('ecwid-recently-viewed-js', ECWID_PLUGIN_URL . 'js/recently-viewed.js', array('jquery', 'utils', 'ecwid-products-list-js'), get_option('ecwid_plugin_version'));
+		wp_enqueue_script('ecwid-recently-viewed-js', ECWID_PLUGIN_URL . 'js/recently-viewed.js', array('ecwid-products-list-js'), get_option('ecwid_plugin_version'));
 		wp_enqueue_style('ecwid-products-list-css');
 		wp_enqueue_style('ecwid-recently-viewed-css', ECWID_PLUGIN_URL . 'css/recently-viewed.css', array(), get_option('ecwid_plugin_version'));
 		extract($args);

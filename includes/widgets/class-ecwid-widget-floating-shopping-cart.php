@@ -13,7 +13,14 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 		$widget_ops = array('classname' => 'widget_ecwid_floating_shopping_cart', 'description' => __("Adds a shopping cart widget to the top right corner of your site.", 'ecwid-shopping-cart') );
 		parent::__construct('ecwidfloatingshoppingcart', __('Shopping Cart (Floating)', 'ecwid-shopping-cart'), $widget_ops);
 
-		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+		add_action('init', array($this, 'init'));
+	}
+
+	public function init() {
+		if ( is_active_widget(false, false, $this->id_base, true ) ) {
+			add_filter( 'body_class', array($this, 'body_class' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		}
 	}
 
 	public function enqueue_scripts() {
@@ -21,6 +28,12 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 
 		wp_enqueue_script('ecwid-floating-shopping-cart', ECWID_PLUGIN_URL . '/js/floating-shopping-cart.js', array('jquery'), get_option('ecwid_plugin_version'), true);
 		wp_enqueue_style('ecwid-floating-shopping-cart', ECWID_PLUGIN_URL . 'css/floating-shopping-cart.css', array(), get_option('ecwid_plugin_version'));
+	}
+
+	public function body_class($classes) {
+		$classes[] = 'ecwid-floating-shopping-cart';
+
+		return $classes;
 	}
 
 	public function widget($args, $instance) {

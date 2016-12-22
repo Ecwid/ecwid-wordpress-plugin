@@ -19,10 +19,28 @@ class EcwidProductApi {
         $this->store_id = intval($store_id);
     }
 
+	function get_request($url) {
+		return Ecwid_HTTP::create_get(
+			'api_v1_request',
+			$url,
+			array(
+				Ecwid_HTTP::POLICY_RETURN_JSON_ARRAY, Ecwid_HTTP::POLICY_RETURN_VERBOSE
+			)
+		);
+	}
+
     function process_request($url) {
 
         $result = false;
-        $fetch_result = EcwidPlatform::fetch_url($url);
+
+        $request = $this->get_request($url);
+
+        if (!$request) {
+            return false;
+        }
+
+        $fetch_result = $request->do_request();
+
 
         if ($fetch_result['code'] == 200) {
             $this->error = '';
@@ -215,7 +233,8 @@ class EcwidProductApi {
             if (ini_get('allow_url_fopen')) {
                 $stream = fopen($request_url, 'r');
             } else {
-                $response = EcwidPlatform::fetch_url($request_url);
+	            $request = $this->get_request($request_url);
+                $response = $request->do_request();
                 $body = $response['data'];
                 $stream = fopen('php://temp', 'rw');
                 fwrite($stream, $body);

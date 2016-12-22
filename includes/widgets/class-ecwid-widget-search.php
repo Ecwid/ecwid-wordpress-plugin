@@ -1,6 +1,10 @@
 <?php
 class Ecwid_Widget_Search extends WP_Widget {
 
+	static public function is_active_widget() {
+		return is_active_widget(false, false, 'ecwidsearch');
+	}
+
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_search', 'description' => __("Displays a simple search box for your customers to find a product in your storex", 'ecwid-shopping-cart'));
 		parent::__construct('ecwidsearch', __('Product Search', 'ecwid-shopping-cart'), $widget_ops);

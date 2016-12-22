@@ -38,6 +38,7 @@ class Ecwid_Api_V3
 		update_option(self::TOKEN_OPTION_NAME, $value);
 	}
 
+
 	public function get_categories($input_params)
 	{
 		$params = array('token');
@@ -87,45 +88,22 @@ class Ecwid_Api_V3
 
 	public function search_products($input_params) {
 		$params = array('token');
-
-		if (array_key_exists('updatedFrom', $input_params)) {
-			$params['updatedFrom'] = $input_params['updatedFrom'];
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
+		foreach ($passthru as $name) {
+			if ( array_key_exists( $name, $input_params ) ) {
+				$params[$name] = $input_params[$name];
+			}
 		}
-
-		if (array_key_exists('offset', $input_params)) {
-			$params['offset'] = $input_params['offset'];
-		}
-
-		if (array_key_exists('limit', $input_params)) {
-			$params['limit'] = $input_params['limit'];
-		}
-
-
-		if (array_key_exists('sortBy', $input_params)) {
-			$params['sortBy'] = $input_params['sortBy'];
-		}
-
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
 				$this->_products_api_url,
 				$params
 			)
 		);
-
-		error_log('fetching ' . $this->build_request_url(
-				$this->_products_api_url,
-				$params
-			)
-		);
-
 		if ($result['code'] != '200') {
 			return false;
 		}
-
 		$result = json_decode($result['data']);
-
-		error_log('found ' . count($result->items));
-
 		return $result;
 	}
 
@@ -163,9 +141,14 @@ class Ecwid_Api_V3
 	public function get_products($input_params)
 	{
 		$params = array('token');
-		if (array_key_exists('category', $input_params)) {
-			$params['category'] = $input_params['category'];
-		}
+
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
+
+		foreach ($passthru as $name) {
+		    if ( array_key_exists( $name, $input_params ) ) {
+		        $params[$name] = $input_params[$name];
+            }
+        }
 
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
@@ -177,10 +160,9 @@ class Ecwid_Api_V3
 		if ($result['code'] != '200') {
 			return false;
 		}
-
 		$result = json_decode($result['data']);
 
-		return $result->items;
+		return $result;
 	}
 
 	protected static function _load_token()
@@ -238,7 +220,11 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($this->_stores_api_url, $params);
 
-		$result = EcwidPlatform::http_get_request($url);
+		$request = Ecwid_Http::create_get('does_store_exist', $url, array(
+			Ecwid_Http::POLICY_RETURN_VERBOSE
+		));
+
+		$result = $request->do_request();
 
 		return @$result['code'] == 200;
 	}
@@ -333,7 +319,7 @@ class Ecwid_Api_V3
 			array(
 				'timeout' => 20,
 				'headers' => array(
-					'Content-Type' => 'application/json;application/json;charest="utf-8"')
+					'Content-Type' => 'application/json;charset="utf-8"')
 			)
 		);
 

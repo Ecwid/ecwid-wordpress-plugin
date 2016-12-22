@@ -45,7 +45,6 @@ jQuery(document).ready(function() {
 					jQuery(el).prependTo(jQuery('#widget-list'));
 				}
 				jQuery('.widget-top', el).addClass('ecwid-widget-highlighted');
-				ecwid_kissmetrics_record('Ecwid-widgets Page Viewed');
 			}
 
 			var classname = el.id.match(/ecwid(.*)-__i__/);
@@ -71,14 +70,6 @@ jQuery(document).ready(function() {
 					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart',
 					'ecwid-widget-vcategorieslist': 'storeRootCategories'
 				};
-			}
-
-			for (var i in this.widgets) {
-				if (widgetElement.find('.' + i).length > 0) {
-					ecwid_kissmetrics_record('sb-widget ' + this.widgets[i] + 'Added');
-					ecwid_kissmetrics_record('sb-widget-added');
-					break;
-				}
 			}
 
 			jQuery('input[value=ecwidvcategorieslist]').closest('.widget').each(function(idx, el) {
@@ -117,20 +108,17 @@ jQuery(document).ready(function() {
 		{
 			url: ecwid_l10n.dashboard_url,
 			title: ecwid_l10n.dashboard,
-			place: 'dashboard',
-			km: 'Dashboard'
+			place: 'dashboard'
 		},
 		{
 			url: ecwid_l10n.products_url,
 			title: ecwid_l10n.products,
-			place: 'products',
-			km: 'Products'
+			place: 'products'
 		},
 		{
 			url: ecwid_l10n.orders_url,
 			title: ecwid_l10n.orders,
-			place: 'orders',
-			km: 'Sales'
+			place: 'orders'
 		}
 	];
 
@@ -147,16 +135,11 @@ jQuery(document).ready(function() {
 					jQuery(this).addClass('current').closest('li').addClass('current');
 
 					ecwidOpenAdminPage(ecwidMenu.place);
-					ecwid_kissmetrics_record(ecwidMenu.km + ' Page Viewed');
 
 					return false;
 				});
 		}
 	}
-
-	jQuery('#wp-admin-bar-ecwid-main-default a').click(function() {
-		ecwid_kissmetrics_record('Top Menu Clicked');
-	});
 
 	jQuery('#ecwid-get-mobile-app').click(function() {
 		ecwidOpenAdminPage('mobile');

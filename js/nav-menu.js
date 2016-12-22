@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
     var ecwidClasses = {};
     for (var i in ecwid_params.items) {
-        ecwidClasses[i] = ecwid_params.items[i].km;
+        ecwidClasses[i] = ecwid_params.items[i].name;
     }
 
     if (ecwid_params.first_run && jQuery('#ecwid_nav_links-hide:checked').length == 0) {
@@ -59,14 +59,6 @@ jQuery(document).ready(function() {
         }
     }
 
-    trackAddedMenuItems = function(element) {
-        var ecwidLink = findEcwidLink(element);
-        if (!findEcwidLink(element)) return;
-
-        ecwid_kissmetrics_record('menu-items ' + ecwidClasses[ecwidLink] + 'Added');
-        ecwid_kissmetrics_record('menu-items-added');
-    }
-
     findEcwidLink = function(element) {
 
         for (var i in ecwidClasses) {
@@ -104,8 +96,6 @@ jQuery(document).ready(function() {
         if (!jQuery(e.srcElement).hasClass('menu-item')) return;
 
         processEcwidLinks(e.srcElement);
-
-        trackAddedMenuItems(e.srcElement);
     });
 
 });

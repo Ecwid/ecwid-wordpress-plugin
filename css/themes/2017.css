@@ -1,0 +1,15 @@
+.colors-dark .ecwid-productsList ul li a,
+#widgets .ecwid-productsList ul li a
+{
+	background: transparent;
+}
+
+html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products li a:hover {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .entry-content {
+	width: auto;
+}

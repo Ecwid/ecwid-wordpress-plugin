@@ -1,4 +1,4 @@
-html#ecwid_html body#ecwid_body .ecwid-float-icons {
+body.ecwid-floating-shopping-cart .ecwid-float-icons {
 	position: fixed;
 	bottom: 50px;
 	right: -8px;
@@ -7,62 +7,71 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons {
 	box-sizing: content-box;
 }
 
-html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
-	bottom: auto;
-	top: 25px;
-	right: 25px;
+body.ecwid-floating-shopping-cart .ecwid-float-icons {
 	left: auto;
+	right: 0px;
+	padding-right: 25px;
 }
 
-html#ecwid_html body#ecwid_body .ecwid-float-icons.position-bottomright {
+body.ecwid-floating-shopping-cart .ecwid-float-icons.position-topright {
+	bottom: auto;
+	top: 25px;
+}
+
+body.ecwid-floating-shopping-cart .ecwid-float-icons.position-bottomright {
 	top: auto;
 	bottom: 25px;
-	right: 25px;
-	left: auto;
 }
 
 @media (max-width: 600px) {
-	html#ecwid_html body#ecwid_body .ecwid-float-icons.position-topright {
+	body.ecwid-floating-shopping-cart .ecwid-float-icons.position-topright {
 		right: -8px;
 	}
-}
 
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div {
+	body.ecwid-floating-shopping-cart .ecwid-float-icons {
+		padding-left: 25px;
+	}
+
+	}
+
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div {
 	height: 48px;
+	margin-left: 5px;
+	margin-bottom: 5px;
 	padding-top: 20px;
 	-webkit-transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
 	transition: height .15s ease-in-out 0s, padding .15s ease-in-out 0s;
 	box-sizing: content-box;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.off {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.off {
 	height: 0;
 	padding-top: 0;
 	-webkit-transition: height .15s ease-in-out .3s, padding .15s ease-in-out .3s;
 	transition: height .15s ease-in-out .3s, padding .15s ease-in-out .3s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.off a {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.off a {
 	-webkit-transform: translate3D(80px, 0, 0);
 	transform: translate3D(80px, 0, 0);
 	-webkit-transition: -webkit-transform .3s ease-in-out .1s;
 	transition: transform .3s ease-in-out .1s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.off a svg {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.off a svg {
 	-webkit-transform: rotate(270deg);
 	transform: rotate(270deg);
 	-webkit-transition: -webkit-transform .3s ease-in-out .1s;
 	transition: transform .3s ease-in-out .1s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.search-icon a svg {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.search-icon a svg {
 	width: 24px;
 	height: 24px;
 	margin: 11px 0 0 11px;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon.off a::after {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon.off a::after {
 	opacity: 0;
 	-webkit-transition: opacity .2s ease-in-out 0s;
 	transition: opacity .2s ease-in-out 0s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon a::after {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon a::after {
 	display: block;
 	min-width: 24px;
 	height: 24px;
@@ -84,28 +93,28 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon a::afte
 	transition: opacity .15s ease-in-out .2s;
 }
 @media (min-width: 600px) {
-	html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon a::after {
+	body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon a::after {
 		right: -8px;
 	}
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon .ecwid {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon .ecwid {
 	position: relative;
 	top: -100%;
 	left: 0;
 	width: 100%;
 	height: 100%;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon .ecwid .ecwid-minicart {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon .ecwid .ecwid-minicart {
 	background-color: transparent !important;
 	width: 100% !important;
 	height: 100% !important;
 	border: 0 none !important;
 	opacity: 0 !important;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div.ecwid-cart-icon .ecwid .ecwid-minicart * {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div.ecwid-cart-icon .ecwid .ecwid-minicart * {
 	display: none;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a {
 	display: block;
 	width: 46px;
 	height: 46px;
@@ -120,25 +129,25 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a {
 	transition: transform .3s ease-in-out 0s, border-color .1s ease-in-out 0s;
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:hover {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:hover {
 	border-color: #34797c;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:hover svg path[stroke] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:hover svg path[stroke] {
 	stroke: #34797c;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:hover svg path[fill] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:hover svg path[fill] {
 	fill: #34797c;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:active {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:active {
 	border-color: #6dbec2;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:active svg path[stroke] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:active svg path[stroke] {
 	stroke: #6dbec2;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a:active svg path[fill] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a:active svg path[fill] {
 	fill: #6dbec2;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a svg {
 	width: 20px;
 	height: 26px;
 	margin: 9px 12px;
@@ -148,13 +157,17 @@ html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg {
 	-webkit-transition: -webkit-transform .3s ease-in-out 0s;
 	transition: transform .3s ease-in-out 0s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg path {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a svg path {
 	-webkit-transition: fill .1s ease-in-out 0s, stroke .1s ease-in-out 0s;
 	transition: fill .1s ease-in-out 0s, stroke .1s ease-in-out 0s;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg path[stroke] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a svg path[stroke] {
 	stroke: #439CA0;
 }
-html#ecwid_html body#ecwid_body .ecwid-float-icons > div a svg path[fill] {
+body.ecwid-floating-shopping-cart .ecwid-float-icons > div a svg path[fill] {
 	fill: #439CA0;
+}
+
+.ecwid-float-icons {
+	overflow: hidden;
 }

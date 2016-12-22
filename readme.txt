@@ -1,14 +1,14 @@
 === Ecwid Ecommerce Shopping Cart ===
-Contributors: ecwid
+Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 4.4.4
+Tested up to: 4.7
+Stable tag: 4.7.6
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
-Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages.
+Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages. 
 
 
 = Automatic Shipping and Taxes =
@@ -149,8 +149,68 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.8 =
+- **New "Add product" button in the Wordpress post and page editor.** Now you have a useful and easy tool to place a product from your store on any page or post on your site. Just open any post or page in your Wordpress admin panel, click the "Add product" button in the editor, select the product you want to see on that page and click "Insert" – a product widget will appear on that page after you publish the chnages. The new "Add product" popup allows customizing the appearance of the widget so you can choose whether you want to see the picture along with title, price and quantity selector or just a simple Buy now button. Product widgets that you put on your site are seamlessly integrated with your store and shopping cart — wherever you place a product or buy now button on your site, the customers will be able to add it to the cart and proceed to checkout as if it was a regular store page. We recommend using product widgets and buy now buttons on every page or post where you mention the products or services you sell – this way you will provide an easy and natural way for a customer to know more about the product and buy it from the same page, be it a blog post, an "About" page, a testimonial or any other page on your ecommerce site. Enjoy!
+
+= 4.7.6 =
+- Fix for the legacy search shortcode ([ecwid_searchbox]), which was broken in the recent 4.7.5 release.
+
+= 4.7.5 =
+- **A few enhancements for the Wordpress brand new "Twenty Seventeen" theme.** Ecwid store page in that theme will look better with this update – we made the page layout a bit wider to make sure it's convenient for your buyers to navigate the catalog. 
+- **Another improvement for the new Ecwid single product widget.** Now it's possible to use the "center_align=1" parameter in the shortcode to make the widget center aligned on the page. You may want to use that if you place one product widget per page – in this case, it will look better when center-aligned. An example shortcode: [ecwid_product id="12345" version=2 center_align=1]. Do not forget to replace 12345 in this example with the actual product ID.
+- Minor fixes for the "Trend" Wordpress theme.
+
+= 4.7.4 =
+- **WordPress 4.7 and Twenty Seventeen theme compatibility.** The new WordPress version with the 2017 theme is coming soon. Ecwid shopping cart plugin is ready for the upcoming changes – everything will work well. Feel free to upgrade your site to WordPress 4.7 as soon as it's released and try a new theme. 
+- Minor fixes and improvements.
+
+= 4.7.3 =
+- **Improvements for the new Ecwid’s single product widget.** Now it's possible to use the "show_price_on_button=0" and “show_border=0” parameters in the shortcode to disable the price on buy now button and widget border respectively. If you want to hide the widget border, for example, the resulting code will like this: [ecwid_product id="12345" version=2 show_border=0]. Do not forget to replace 12345 in this example with the actual product ID.
+- Fixed a bug with the floating shopping cart: the floating cart widget didn't appear on some rare Wordpress themes, we fixed that. Now it should work fine.
+
+= 4.7.2 =
+- **Added support for the Ecwid’s improved single product widgets.** To feature a single product on a separate page or blog post of your ecommerce site, you can use the [ecwid_product] shortcode. We improved the look and feel of the single product widgets in Ecwid and added those improvements to the single product shortcode version #2. You can use it like this: [ecwid_product id="12345" version=2]. Do not forget to replace 12345 in this example with the actual product ID. 
+- **Fixed error messages appearing on some Wordpress sites with the "Trend" theme installed.** If you use Ecwid shopping cart with Trend theme and recently noticed an error message in your site admin backend, please use this update this update – it should fix that issue. 
+
+= 4.7.1 =
+- Fixed a few warning messages appearing on some sites with the new version of the plugin.
+
+= 4.7 =
+- Fixed a layout issue in the floating cart widget in the "Mobius" WordPress theme.
+- Fixed a few issues with the Single Sign On functionality in the plugin. 
+- Improvements for compatibility with GravityView plugin. You can use that plugin and Ecwid ecommerce shopping cart together – they should work with no issues.
+
+= 4.6.3 =
+- Fixes infinite loading issue that occurred under certain store configurations.
+
+= 4.6.2 =
+- Fix for the legacy search shortcode ([ecwid_searchbox]), which was broken in the recent 4.6 release.
+
+= 4.6.1 =
+- The latest update (v 4.6) had a bug in the sidebar widgets (search box and recently viewed products). The widgets did not display and generated error/warning messages on the sites. We fixed that. 
+- Another issue with the latest update is related to the legacy Ecwid shortcodes ([ecwid_script], [ecwid_productbrowser] etc). On the old installations (2 years old and more), the warning messages appeared – you might notice them on the store page. We now fixed this and everything should be fine, all Ecwid plugin installations work well.
+
+= 4.6 =
+- **Compatibility with the "Contact form 7 designer" plugin** . When installed, the "Contact form 7 designer" plugin  adds its own code to the <html> and <body> tags on the page on every page of the site. This conflicted with Ecwid storefront styles. We fixed that – now if you use the both plugin t the same time, your site pages styles should work fine. Note: this plugin is not the same as the popular "Contact form 7". Ecwid ecommerce functionality works well with the latter, so don't worry if you use it on your site. 
+- **Fix for a store links issue in the "Flora" theme by Wyde.** Users with "Flora" theme on their sites reported that there are glitches in the way Ecwid online store links behave in that theme. We fixed that – Ecwid now works well with "Flora". 
+- **Compatibility with the "Trend" Wordpress theme.** Ecwid shopping cart is designed to work great with all WordPress themes. However, we sometimes see that Ecwid has troubles working with some AJAX-driven WordPress themes. We found a way to fix this and started working on improving the plugin. With this release, the Ecwid plugin becomes compatible with the beautiful "Trend" theme. We'll get to the other AJAX themes in the future releases. If you find a theme that Ecwid has troubles with, please let us know – we'll fix that.
+- **Fixed a bug with the store menu item duplicates.** In a recent update, we fixed duplicate Store pages appearing when you deactivate and re-activate the plugin several times. In this release, we fixed a similar bug with the "Store" menu items. However often you enable/disable the plugin, the site navigation menu now works properly, keeping a single Store link, unless you deliberately add a few shop links to the menu (e.g. to have store category links in the menu).
+- Minor improvement and fixes to make the plugin more stable and user friendly. 
+
+
+= 4.5 =
+- **Update in the Single Sign On Module (Ecwid SSO).** Single Sign-On allows your customers to have a single login for your WordPress site and your Ecwid store. We updated it to use the latest Ecwid ecommerce APIs to make it more convenient for you. Now the module doesn't require a separate API key – it works seamlessly with no extra setup.
+- **Compatibility with Divi builder editor.** Divi builder adds a nice WYSIWYG editor to the Wordpress admin. Ecwid shopping cart now is compatible with that editor – so you can add Ecwid store shortcode right from the Divi builder editor, no need to switch back to the default Wordpress editor if you prefer to use the Divi's one. 
+- **Fix for a bug in the store appearance popup.** The store widgets settings were hidden when the "widgets" part was manually removed from the Ecwid shortcode in the page editor in Wordpress admin. We fixed that, now the settings popup should work fine. 
+- **Slight improvements in Chameleon.** The "Chameleon skin" option in the plugin Advanced settings automatically adjusts the store texts and styles to match those of your site. We continue improving it so that it works better with all sites. 
+- **Fixed a bug with store pages duplicates.** Previously, an extra Store page was created each time you deactivated and re-activated the plugin. It's fixed – now the Ecwid plugin remembers the store page and use it however often you deactivate/activate the plugin. 
+- Slight layout improvements for the stores embedded into sites with Salient theme installed.
+
+= 4.4.5 =
+- **Minor fixes and improvements.**
+
 = 4.4.4 =
-- ** Minor improvements and fixes.**
+- **Minor fixes and improvements.**
 
 = 4.4.3 =
 - **Minor fixes and improvements.**

@@ -1,7 +1,8 @@
+<h2><?php _e('Ecwid Shopping Cart — Advanced settings', 'ecwid-shopping-cart'); ?></h2>
+
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings advanced-settings" method="POST" action="options.php">
 
-	<h2><?php _e('Ecwid Shopping Cart — Advanced settings', 'ecwid-shopping-cart'); ?></h2>
 
 	<?php settings_fields('ecwid_options_page'); ?>
 	<input type="hidden" name="settings_section" value="advanced" />
@@ -140,9 +141,10 @@
 			</div>
 		</div>
 
-			<hr <?php echo ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') ? '' : ' hidden'; ?> />
+			<?php if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') || get_option('ecwid_use_new_search') != 'Y'): ?>
+			<hr />
 
-			<div class="pure-control-group checkbox<?php echo ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') ? '' : ' hidden'; ?>">
+			<div class="pure-control-group checkbox">
 				<div class="label">
 					<label for="ecwid_use_new_search">
 
@@ -167,6 +169,7 @@
 					</div>
 				</div>
 			</div>
+			<?php endif; ?>
 
 			<hr />
 
@@ -210,8 +213,3 @@
 	</fieldset>
 </form>
 </div>
-
-
-<script type="text/javascript">
-	ecwid_kissmetrics_record('Advanced Page Viewed');
-</script>

@@ -98,10 +98,14 @@ class Ecwid_OAuth {
 
 		$params['grant_type'] = 'authorization_code';
 
-		$return = EcwidPlatform::http_post_request('https://my.ecwid.com/api/oauth/token', $params);
+		$request = Ecwid_HTTP::create_post( 'oauth_authorize', 'https://my.ecwid.com/api/oauth/token', array(
+			Ecwid_HTTP::POLICY_RETURN_VERBOSE
+		));
 
-		if (is_array($return) && isset($return['body'])) {
-			$result = json_decode($return['body']);
+		$return = $request->do_request(array('body' => $params));
+
+		if (is_array($return) && isset($return['data'])) {
+			$result = json_decode($return['data']);
 		}
 
 		if (
@@ -115,8 +119,8 @@ class Ecwid_OAuth {
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
-		Ecwid_Kissmetrics::record( $reconnect ? 'accountReconnected' : 'accountConnected' );
 		ecwid_update_store_id( $result->store_id );
+
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );
 		EcwidPlatform::cache_reset( 'all_categories' );
@@ -180,7 +184,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers' );
+		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers', 'public_storefront' );
 	}
 
 	protected function trigger_auth_error($mode = 'default')
@@ -208,8 +212,7 @@ class Ecwid_OAuth {
 		}
 
 		if (isset($last_error)) {
-			$url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=' . urlencode($last_error) . '&url=' . urlencode(get_bloginfo('url'));
-			EcwidPlatform::fetch_url($url);
+			EcwidPlatform::report_error($last_error);
 		}
 
 		wp_redirect('admin.php?page=ecwid&connection_error' . ($mode == self::MODE_RECONNECT ? '&reconnect' : ''));
@@ -328,8 +331,8 @@ class Ecwid_OAuth {
 
 		if (isset($this->state->reason)) {
 			switch ( $this->state->reason ) {
-				case '1':
-					$reconnect_message = "Message 1";
+				case 'spw':
+					$reconnect_message = __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' );;
 					break;
 				case '2':
 					$reconnect_message = "Message 2";
