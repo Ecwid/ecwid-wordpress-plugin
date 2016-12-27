@@ -1912,6 +1912,12 @@ function ecwid_general_settings_do_page() {
 
 function ecwid_get_iframe_src($time, $page) {
 
+	if (function_exists('get_user_locale')) {
+		$lang = get_user_locale();
+	} else {
+		$lang = get_locale();
+	}
+
 	return sprintf(
 		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 		get_ecwid_store_id(),
@@ -1919,7 +1925,7 @@ function ecwid_get_iframe_src($time, $page) {
 		$time,
 		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Api_V3::CLIENT_SECRET ),
 		$page,
-		substr( get_bloginfo( 'language' ), 0, 2 )
+		substr( $lang, 0, 2 )
 	);
 }
 
