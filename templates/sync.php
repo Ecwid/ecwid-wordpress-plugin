@@ -45,7 +45,15 @@ function sync_sse() {
 		source.close();
 	});
 
-	source.addEventListener('fetching_products', function(e) {
+    source.addEventListener('created_product', function(e) {
+        increment_progress_counter(1);
+    });
+
+    source.addEventListener('updated_product', function(e) {
+        increment_progress_counter(1);
+    });
+
+    source.addEventListener('fetching_products', function(e) {
 		var data = jQuery.parseJSON(e.data);
 
 		jQuery('#current_item').text(
@@ -103,12 +111,14 @@ function process_no_sse_sync(data) {
 function update_no_sse_stuff(data) {
 	var counters = ['created', 'updated', 'deleted', 'skipped_deleted', 'deleted_disabled'];
 	for (var i = 0; i < counters.length; i++) {
-		increment_progress_counter(counters[i], data[counters[i]]);
+		increment_progress_counter(data[counters[i]]);
 	}
 }
 
-function increment_progress_counter(name, increment = 1) {
-	if (increment == 0) {
+function increment_progress_counter(increment = 1) {
+    debugger;
+
+    if (increment == 0) {
 		return;
 	}
 
