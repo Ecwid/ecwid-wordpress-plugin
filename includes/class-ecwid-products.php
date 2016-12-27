@@ -197,10 +197,6 @@ class Ecwid_Products {
 
 	public function register_post_type() {
 
-		// @todo rewrite flush
-
-		flush_rewrite_rules();
-
         register_post_type( self::POST_TYPE_PRODUCT,
             array(
                 'public'              => TRUE,
@@ -210,7 +206,7 @@ class Ecwid_Products {
                 'exclude_from_search' => FALSE,
                 'hierarchical'        => FALSE,
                 'show_in_nav_menus'   => TRUE,
-                'show_ui'             => false,
+                'show_ui'             => false
             )
         );
 	}
