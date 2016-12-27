@@ -441,27 +441,31 @@ class Ecwid_Products {
 
 	protected function _sync_product( $product, $existing_post_id = null ) {
 
+		$meta = array(
+			'_price'         	=> $product->price,
+			'_regular_price' 	=> $product->price,
+			'image'          	=> $product->imageUrl,
+			'ecwid_id'       	=> $product->id,
+			'_sku'           	=> $product->sku,
+			'_visibility'    	=> 'visible',
+			'_ecwid_url'	 	=> substr( $product->url, strpos( $product->url, '#!' ) ),
+			'in_stock'  		=> $product->inStock ? '1' : '0',
+			'_updatedTimestamp' => $product->updateTimestamp,
+		);
+
 		$post_id = wp_insert_post(
 			array(
 				'ID'           => $existing_post_id,
 				'post_title'   => $product->name,
 				'post_content' => $product->description,
 				'post_type'    => self::POST_TYPE_PRODUCT,
-				'meta_input'   => array(
-					'_price'         => $product->price,
-					'_regular_price' => $product->price,
-					'image'          => $product->imageUrl,
-					'ecwid_id'       => $product->id,
-					'_sku'           => $product->sku,
-					'_visibility'    => 'visible',
-					'_ecwid_url'	 => substr( $product->url, strpos( $product->url, '#!' ) ),
-					'in_stock'  => $product->inStock ? '1' : '0',
-					'_updatedTimestamp' => $product->updateTimestamp,
-
-				),
 				'post_status'  => 'publish'
 			)
 		);
+
+		foreach ($meta as $key => $value) {
+			add_post_meta($post_id, $key, $value, true);
+		}
 
 		$image_id = get_post_meta( $post_id, '_thumbnail_id' );
 
