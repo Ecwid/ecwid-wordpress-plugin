@@ -31,7 +31,7 @@ class Ecwid_Products {
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_ajax_nopriv_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
-		add_action('wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
 
