@@ -67,7 +67,9 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 					$force_image = '';
 					if ($api) {
 						$product_https = $api->get_product_https($product->id);
-						$force_image = $product_https['imageUrl'];
+						if ( isset( $product_https['imageUrl'] ) ) {
+							$force_image = $product_https['imageUrl'];
+						}
 					}
 
 					$name = isset($product_https) ? $product_https['name']: '';

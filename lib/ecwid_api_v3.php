@@ -38,7 +38,7 @@ class Ecwid_Api_V3
 		update_option(self::TOKEN_OPTION_NAME, $value);
 	}
 
-	/*
+
 	public function get_categories($input_params)
 	{
 		$params = array('token');
@@ -85,8 +85,61 @@ class Ecwid_Api_V3
 
 		return $result;
 	}
-*/
-    public function search_products($input_params) {
+
+	public function search_products($input_params) {
+		$params = array('token');
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
+		foreach ($passthru as $name) {
+			if ( array_key_exists( $name, $input_params ) ) {
+				$params[$name] = $input_params[$name];
+			}
+		}
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_products_api_url,
+				$params
+			)
+		);
+		if ($result['code'] != '200') {
+			return false;
+		}
+		$result = json_decode($result['data']);
+		return $result;
+	}
+
+	public function get_deleted_products($input_params) {
+		$params = array('token');
+
+		if (array_key_exists('from_date', $input_params)) {
+			$params['from_date'] = $input_params['from_date'];
+		}
+
+		if (array_key_exists('offset', $input_params)) {
+			$params['offset'] = $input_params['offset'];
+		}
+
+		if (array_key_exists('limit', $input_params)) {
+			$params['limit'] = $input_params['limit'];
+		}
+
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_products_api_url . '/deleted',
+				$params
+			)
+		);
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+
+		$result = json_decode($result['data']);
+
+		return $result;
+	}
+
+	public function get_products($input_params)
+	{
 		$params = array('token');
 
 		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
@@ -176,6 +229,34 @@ class Ecwid_Api_V3
 		return @$result['code'] == 200;
 	}
 
+	public function get_store_update_stats() {
+
+		$url = $this->_api_url . $this->store_id . '/latest-stats';
+
+		$params = array(
+			'token' => $this->get_token()
+		);
+
+		$url = $this->build_request_url($url, $params);
+		$result = EcwidPlatform::fetch_url($url);
+
+		return json_decode($result['data']);
+	}
+
+	public function get_store_profile() {
+
+		$url = $this->_api_url . $this->store_id . '/profile';
+
+		$params = array(
+			'token' => $this->get_token()
+		);
+
+		$url = $this->build_request_url($url, $params);
+		$result = EcwidPlatform::fetch_url($url);
+
+		return json_decode($result['data']);
+	}
+
 	public function create_store()
 	{
 		global $current_user;
@@ -243,6 +324,10 @@ class Ecwid_Api_V3
 		);
 
 		return $result;
+	}
+
+	public static function format_time($time) {
+		return strftime('%F %T', $time);
 	}
 
 	protected function build_request_url($url, $params)

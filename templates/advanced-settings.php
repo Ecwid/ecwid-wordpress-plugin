@@ -100,7 +100,7 @@
 							checked="checked"
 						<?php endif; ?>
 						/>
-					<?php _e('Chameleon skin <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+					<?php _e('Chameleon skin', 'ecwid-shopping-cart'); ?>
 				</label>
 
 				<div class="note">
@@ -171,11 +171,41 @@
 			</div>
 			<?php endif; ?>
 
+			<hr />
+
+			<div class="pure-control-group checkbox">
+				<div class="label">
+					<label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
+
+						<input
+							id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+							name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+							type="checkbox"
+							<?php if ( Ecwid_Products::is_enabled() ): ?>
+								checked="checked"
+							<?php endif; ?>
+							value="Y"
+						/>
+						<?php _e('Integration with search on your site <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+					</label>
+
+					<div class="note">
+						<?php _e( 'Ecwid stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ); ?>
+					</div>
+				</div>
+			</div>
+
+            <?php ecwid_sync_do_page(); ?>
+
+			<div class="note grayed-links">
+				<?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
+			</div>
+
 	</fieldset>
 
 	<fieldset>
 
-		<div class="pure-control-group">
+		<div class="pure-control-group" style="margin-top: 30px">
 			<button type="submit" class="<?php echo ECWID_MAIN_BUTTON_CLASS; ?>">
 				<?php _e('Save changes', 'ecwid-shopping-cart'); ?>
 			</button>

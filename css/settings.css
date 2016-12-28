@@ -766,3 +766,96 @@ label.premium-feature svg path {
 		bottom: 0px;
 	}
 }
+#sync-container {
+	line-height: normal;
+}
+
+#sync-container #sync-button-slow {
+	display: none;
+}
+
+#sync-container.no-sse #sync-button-slow {
+	display: initial;
+}
+
+#sync-container.no-sse #sync-button {
+	display: none;
+}
+
+#sync-container .sync-block {
+	display: none;
+}
+
+#sync-container.state-initial #sync-button,
+#sync-container.state-initial #last-sync-date,
+
+#sync-container.state-in-progress #updating,
+#sync-container.state-in-progress #update-progress,
+
+#sync-container.state-complete #complete,
+#sync-container.state-complete #last-sync-date,
+#sync-container.state-complete #sync-error
+{
+	display: block;
+}
+
+#sync-container #sync-error .message {
+	color: #d34f2b;
+}
+
+#sync-container #sync-button,
+#sync-container #sync-button-slow {
+	cursor: pointer;
+}
+
+#sync-container #update-progress {
+	padding-left: 30px;
+	font-weight: 600;
+}
+
+#sync-container #complete {
+	font-weight: 600;
+}
+
+#sync-container #complete,
+#sync-container #sync-button,
+#sync-container #updating {
+	height: 3em;
+}
+
+#updating {
+	line-height: 26px;
+	color: #298CBA;
+	font-weight: 600;
+}
+
+#updating svg {
+	animation-name: rotation;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#updating svg path {
+	fill: #298CBA;
+}
+
+.sync-block#updating > div {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.sync-block#updating {
+	line-height: initial;
+}
+
+.sync-block#updating .sync-icon {
+	width: 30px;
+}
+
+@keyframes rotation {
+0% {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}

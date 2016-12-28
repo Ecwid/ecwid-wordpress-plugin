@@ -119,7 +119,8 @@ class Ecwid_OAuth {
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
-		update_option( 'ecwid_store_id', $result->store_id );
+		ecwid_update_store_id( $result->store_id );
+
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );
 		EcwidPlatform::cache_reset( 'all_categories' );

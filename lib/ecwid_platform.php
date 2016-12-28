@@ -56,9 +56,14 @@ class EcwidPlatform {
 		return __('Price', 'ecwid-shopping-cart');
 	}
 
-	static public function cache_get($name)
+	static public function cache_get($name, $default = false)
 	{
-		return get_transient('ecwid_' . $name);
+		$result = get_transient('ecwid_' . $name);
+		if ($default !== false && $result === false) {
+			return $default;
+		}
+
+		return $result;
 	}
 
 	static public function cache_set($name, $value, $expires_after)
@@ -239,6 +244,11 @@ class EcwidPlatform {
 		return $transports;
 	}
 
+	static public function is_set_time_limit_available() {
+		return function_exists('set_time_limit' )
+		       && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) == false
+		       && ! ini_get( 'safe_mode' );
+	}
 }
 
 add_filter('http_api_transports', array('EcwidPlatform', 'http_api_transports'));
