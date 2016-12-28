@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.7.6
+Stable tag: 4.9
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.9 =
+- **Integration with Wordpress search**. This new feature will make your ecommerce site search find store products among other site pages and posts. So, when your customer searches for something on your site, they will see both site content and store products in the search results and will be able to navigate directly to the product pages from there. Please enable it on the Ecwid/Advanced settings page in your Wordpress backend and do not forget to click "Synchronize products" link. The feature is now in beta stage and we are actively improving it. So if you face any trouble with it, please let us know.
+
 = 4.8 =
 - **New "Add product" button in the Wordpress post and page editor.** Now you have a useful and easy tool to place a product from your store on any page or post on your site. Just open any post or page in your Wordpress admin panel, click the "Add product" button in the editor, select the product you want to see on that page and click "Insert" – a product widget will appear on that page after you publish the chnages. The new "Add product" popup allows customizing the appearance of the widget so you can choose whether you want to see the picture along with title, price and quantity selector or just a simple Buy now button. Product widgets that you put on your site are seamlessly integrated with your store and shopping cart — wherever you place a product or buy now button on your site, the customers will be able to add it to the cart and proceed to checkout as if it was a regular store page. We recommend using product widgets and buy now buttons on every page or post where you mention the products or services you sell – this way you will provide an easy and natural way for a customer to know more about the product and buy it from the same page, be it a blog post, an "About" page, a testimonial or any other page on your ecommerce site. Enjoy!
 
