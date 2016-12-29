@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.9
+Stable tag: 4.9.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.9.1 =
+- **Fixed an issue in the new integrated search functionality** causing javascript errors on site pages where no store widgets are installed. Feel free to enable and try the new search feature on the plugin settings (Ecwid Store -> Advanced)
+- **Improvement for the Single Sign On.** If you have Single Sign On (SSO) enabled in the plugin settings and your customer do not have name specified in their profile, the store account will use their nickname as the firstname. This will make store more friendly for your new buyers. (edited)
+
 = 4.9 =
 - **Integration with Wordpress search**. This new feature will make your ecommerce site search find store products among other site pages and posts. So, when your customer searches for something on your site, they will see both site content and store products in the search results and will be able to navigate directly to the product pages from there. Please enable it on the Ecwid/Advanced settings page in your Wordpress backend and do not forget to click "Synchronize products" link. The feature is now in beta stage and we are actively improving it. So if you face any trouble with it, please let us know.
 
