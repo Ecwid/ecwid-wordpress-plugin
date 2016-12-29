@@ -2586,12 +2586,18 @@ JS;
     if ($current_user->ID) {
 		$meta = get_user_meta($current_user->ID);
 
+		$name = $meta['first_name'][0] . ' ' . $meta['last_name'][0];
+
+		if ($name == ' ') {
+			$name = $meta['nickname'][0];
+		}
+
 	    $user_data = array(
             'userId' => "{$current_user->ID}",
             'profile' => array(
                 'email' => $current_user->user_email,
                 'billingPerson' => array(
-	                'name' => $meta['first_name'][0] . ' ' . $meta['last_name'][0]
+	                'name' => $name
                 )
             )
         );
