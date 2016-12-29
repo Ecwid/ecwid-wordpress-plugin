@@ -224,6 +224,10 @@ class Ecwid_Api_V3
 			Ecwid_Http::POLICY_RETURN_VERBOSE
 		));
 
+		if (!$request) {
+			return false;
+		}
+
 		$result = $request->do_request();
 
 		return @$result['code'] == 200;

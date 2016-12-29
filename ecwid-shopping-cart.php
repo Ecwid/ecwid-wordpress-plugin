@@ -1869,7 +1869,6 @@ function ecwid_create_store() {
 
 	} else {
 
-
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 	}
 }
