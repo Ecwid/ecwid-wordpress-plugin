@@ -4856,7 +4856,7 @@ body, html {
     float: right;
 }
 
-.hidden {
+#ecwid-product-popup-content .hidden {
     display: none !important;
     visibility: hidden !important;
 }
