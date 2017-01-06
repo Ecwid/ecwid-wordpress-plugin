@@ -748,6 +748,9 @@ msgstr "Вставить"
 msgid "Add Product"
 msgstr "Добавить товар"
 
+msgid "Choose Product"
+msgstr "Выбрать товар"
+
 msgid "Customize widget"
 msgstr "Внешний вид"
 

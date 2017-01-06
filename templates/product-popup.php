@@ -112,12 +112,12 @@
             <div class="media-frame wp-core-ui">
                 <div class="media-frame-menu">
                     <div class="media-menu">
-                        <a href="#" class="media-menu-item active" data-content="add-product"><?php _e( 'Add Product', 'ecwid-shopping-cart' ); ?></a>
+                        <a href="#" class="media-menu-item active" data-content="add-product"><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?></a>
                         <a href="#" class="media-menu-item" data-content="customize"><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?></a>
                     </div>
                 </div>
                 <div class="media-frame-title add-product active">
-                    <h1><?php _e( 'Add Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+                    <h1><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
 
                 <div class="media-frame-title customize">
