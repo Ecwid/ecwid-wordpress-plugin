@@ -219,6 +219,10 @@ jQuery(document).ready(function() {
 
     var clickProduct = function() {
 
+        if (jQuery('.empty-page', this).length > 0) {
+            return;
+        }
+
         if (jQuery(this).hasClass('selected-product')) {
             jQuery(this).closest('tbody').find('tr').removeClass('selected-product');
             setCurrentProduct(null);
