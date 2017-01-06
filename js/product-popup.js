@@ -491,7 +491,7 @@ jQuery(document).ready(function() {
 
         jQuery('#ecwid-reset-search').click(function() {
             setSearchParams({});
-            updateSearchParams();
+            buildProductsTable(getInitialSearchData());
         });
     };
 

@@ -93,12 +93,8 @@
             <div class="empty-page">
                 <div class="empty-page__title"><?php _e( 'Nothing found for <span class="empty-page__term">"{{ data.term }}"</span>', 'ecwid-shopping-cart' ); ?></div>
                 <div class="empty-page__suggestions">
-                    <div class="empty-page__suggestions-title"><?php _e( 'Suggestions:', 'ecwid-shopping-cart' ); ?></div>
-                    <ul class="empty-page__suggestions-list">
-                        <li><?php _e( 'Make sure that all words are spelled correctly', 'ecwid-shopping-cart' ); ?></li>
-                        <li><?php _e( 'Try to search by SKU', 'ecwid-shopping-cart' ); ?></li>
-                        <li><a href="#" id="ecwid-reset-search"><?php _e( 'Browse all products', 'ecwid-shopping-cart' ); ?></a></li>
-                    </ul>
+                    <?php _e( 'Try another search.', 'ecwid-shopping-cart' ); ?>
+                    <a href="#" id="ecwid-reset-search"><?php _e( 'Browse all products.', 'ecwid-shopping-cart' ); ?></a>
                 </div>
             </div>
         </td>

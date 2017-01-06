@@ -796,6 +796,12 @@ msgstr "Название или артикул"
 msgid "Nothing found for <span class=\"empty-page__term\">\"{{ data.term }}\"</span>"
 msgstr "По запросу <span class=\"empty-page__term\">\"{{ data.term }}\"</span> ничего не найдено"
 
+msgid "Try another search."
+msgstr "Попробуйте другой запрос."
+
+msgid "Browse all products."
+msgstr "Показать все товары."
+
 msgid "https://www.ecwid.com/forums"
 msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
 
