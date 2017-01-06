@@ -263,38 +263,44 @@ jQuery(document).ready(function() {
             setSearchParams(params);
         }
 
+
         var enabledPageTemplate = wp.template( 'pagination-button-enabled' );
         var disabledPageTemplate = wp.template( 'pagination-button-disabled' );
 
-        var prevPages = '';
-        if (getSearchParams() && getSearchParams().page == 1) {
-            prevPages = disabledPageTemplate( { symbol: '«' } ) + disabledPageTemplate( { symbol: '‹' } );
-        } else {
-            prevPages = enabledPageTemplate({
-                    'symbol': '«',
-                    'name': 'first',
-                    'label': ecwidSpwParams.labels.firstPage
-                }) + enabledPageTemplate({
-                    'symbol': '‹',
-                    'name': 'prev',
-                    'label': ecwidSpwParams.labels.prevPage
-                });
-        }
+        var totalPages = Math.ceil(data.total / data.limit);
 
+        var prevPages = '';
         var nextPages = '';
-        if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
-            nextPages = disabledPageTemplate( { symbol: '›' } ) + disabledPageTemplate( { symbol: '»' } );
-        } else {
-            nextPages = enabledPageTemplate({
-                    'symbol': '›',
-                    'name': 'next',
-                    'label': ecwidSpwParams.labels.nextPage
-                }) + enabledPageTemplate({
-                    'symbol': '»',
-                    'name': 'last',
-                    'label': ecwidSpwParams.labels.lastPage,
-                    'page': Math.ceil(data.total / data.limit)
-                });
+
+        if (totalPages > 1) {
+            if (getSearchParams() && getSearchParams().page == 1) {
+                prevPages = disabledPageTemplate({symbol: '«'}) + disabledPageTemplate({symbol: '‹'});
+            } else {
+                prevPages = enabledPageTemplate({
+                        'symbol': '«',
+                        'name': 'first',
+                        'label': ecwidSpwParams.labels.firstPage
+                    }) + enabledPageTemplate({
+                        'symbol': '‹',
+                        'name': 'prev',
+                        'label': ecwidSpwParams.labels.prevPage
+                    });
+            }
+
+            if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
+                nextPages = disabledPageTemplate({symbol: '›'}) + disabledPageTemplate({symbol: '»'});
+            } else {
+                nextPages = enabledPageTemplate({
+                        'symbol': '›',
+                        'name': 'next',
+                        'label': ecwidSpwParams.labels.nextPage
+                    }) + enabledPageTemplate({
+                        'symbol': '»',
+                        'name': 'last',
+                        'label': ecwidSpwParams.labels.lastPage,
+                        'page': Math.ceil(data.total / data.limit)
+                    });
+            }
         }
 
         var formTemplate = wp.template( 'add-product-form' );
@@ -326,6 +332,10 @@ jQuery(document).ready(function() {
         assignHandlers();
         setCurrentProduct(null);
         jQuery('#search-submit').removeClass('searching');
+
+        if (totalPages <= 1) {
+            jQuery('.tablenav.bottom', popup()).hide();
+        }
 
         if (!getInitialSearchData()) {
             setInitialSearchData(data);
