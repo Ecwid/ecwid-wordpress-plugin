@@ -75,8 +75,15 @@ jQuery(document).ready(function() {
         return false;
     });
 
-    jQuery('h1', popup()).click(function() {
+    var closeTopMenuOnExternalClick = function(e) {
         jQuery('.media-menu').toggleClass('visible');
+        popup().unbind('click', closeTopMenuOnExternalClick);
+    }
+
+    jQuery('h1', popup()).click(function(e) {
+        e.stopPropagation();
+        jQuery('.media-menu').toggleClass('visible');
+        popup().click(closeTopMenuOnExternalClick);
     });
 
 
