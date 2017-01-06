@@ -501,3 +501,31 @@ jQuery(document).ready(function() {
 
     updateSearchParams();
 });
+
+ecwidRenderCheckboxOption = function(data) {
+
+    if (!this.template) {
+        this.template = wp.template( 'checkbox-option' );
+    }
+
+    if (data.section == 'display-options') {
+        var name = data.displayOptionName;
+        if (!name) {
+            name = data.name;
+        }
+        data.additionalAttributes = 'data-display-option="' + name + '"';
+    } else if (data.section == 'shortcode-attributes') {
+        var name = data.name;
+        data.additionalAttributes = 'data-shortcode-attribute="' + data.name + '"';
+    }
+
+
+    if (!this.nextTarget || this.nextTarget == 'right') {
+        this.nextTarget = 'left';
+    } else {
+        this.nextTarget = 'right';
+    }
+
+    jQuery('#ecwid-product-popup-content .widget-settings.' + data.section + ' .widget-settings__' + this.nextTarget)
+        .append(this.template(data));
+}

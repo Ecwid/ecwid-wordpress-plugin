@@ -101,6 +101,17 @@
     </tr>
 </script>
 
+<script type="text/template" id="tmpl-checkbox-option">
+    <label class="checkbox-option">
+        <span>
+            <input type="checkbox" checked="checked" name="{{ data.name }}" {{{ data.additionalAttributes }}}>
+        </span>
+        <span class="label">
+            {{ data.label }}
+        </span>
+    </label>
+</script>
+
 <div id="ecwid-product-popup-content">
     <div class="media-modal wp-core-ui">
         <div class="media-modal-content" data-mode="add-product" data-active-dialog="add-product">
@@ -125,73 +136,78 @@
 
                 <div class="media-frame-content ecwid-add-product customize">
                     <div class="store-settings-wrapper ecwid-search ecwid-minicart ecwid-categories" data-ecwid-widget-hover="">
-                        <div class="widget-settings">
+                        <div class="widget-settings display-options">
                             <h3><?php _e( 'Choose product properties to display in widget', 'ecwid-shopping-cart' ); ?></h3>
-                            <div class="widget-settings__left">
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="picture" data-display-option="picture">
-                                        <span><?php _e( 'Picture', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="title" data-display-option="title">
-                                        <span><?php _e( 'Title', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="price" data-display-option="price">
-                                        <span><?php _e( 'Price', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="widget-settings__right">
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="options" data-display-option="options">
-                                        <span><?php _e( 'Options', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" name="quantity" data-display-option="qty">
-                                        <span><?php _e( 'Quantity', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="add-to-bag" data-display-option="addtobag">
-                                        <span><?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                            </div>
+                            <div class="widget-settings__left"></div>
+                            <div class="widget-settings__right"></div>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function() {
+                                    ecwidRenderCheckboxOption.section = 'display-options';
+
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'picture',
+                                        'label': '<?php _e( 'Picture', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'options',
+                                        'label': '<?php _e( 'Options', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'title',
+                                        'label': '<?php _e( 'Title', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'quantity',
+                                        'label': '<?php _e( 'Quantity', 'ecwid-shopping-cart' ); ?>',
+                                        'displayOptionName': 'qty'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'price',
+                                        'label': '<?php _e( 'Price', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'display-options',
+                                        'name': 'addtobag',
+                                        'label': '<?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                });
+                            </script>
+
                         </div>
-                        <div class="widget-settings">
+                        <div class="widget-settings shortcode-attributes">
                             <h3><?php _e( 'Appearance', 'ecwid-shopping-cart' ); ?></h3>
-                            <div class="widget-settings__left">
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="show_border">
-                                        <span><?php _e( 'Add border', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="widget_frame" data-shortcode-attribute="center_align">
-                                        <span><?php _e( 'Center align on a page', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="widget-settings__right">
-                                <div class="pure-control-group">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="outside_widget" data-shortcode-attribute="show_price_on_button">
-                                        <span><?php _e( 'Show price inside the "Buy now" button', 'ecwid-shopping-cart' ); ?></span>
-                                    </label>
-                                </div>
-                            </div>
+
+                            <div class="widget-settings__left"></div>
+                            <div class="widget-settings__right"></div>
+
+                            <script type="text/javascript">
+                                jQuery(document).ready(function() {
+                                    ecwidRenderCheckboxOption.nextTarget = 'left';
+                                    ecwidRenderCheckboxOption.section = 'shortcode-attributes';
+
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'shortcode-attributes',
+                                        'name': 'show_border',
+                                        'label': '<?php _e( 'Add border', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'shortcode-attributes',
+                                        'name': 'show_price_on_button',
+                                        'label': '<?php _e( 'Show price inside the "Buy now" button', 'ecwid-shopping-cart' ); ?>'
+                                    });
+                                    ecwidRenderCheckboxOption({
+                                        'section': 'shortcode-attributes',
+                                        'name': 'center_align',
+                                        'label': '<?php _e( 'Center align on a page', 'ecwid-shopping-cart' ); ?>'
+                                    });
+
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

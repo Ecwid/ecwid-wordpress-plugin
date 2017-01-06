@@ -5846,14 +5846,21 @@ body, html {
     padding-left: 43px;
 }
 
-#ecwid-product-popup-content .widget-settings .pure-control-group {
+#ecwid-product-popup-content .widget-settings .checkbox-option {
     margin: 35px 0px;
+    display: table;
 }
 
-#ecwid-product-popup-content .widget-settings .pure-control-group label {
+#ecwid-product-popup-content .widget-settings .checkbox-option > * {
+    display: table-cell;
+}
+
+
+#ecwid-product-popup-content .widget-settings .checkbox-option .label {
     color: black;
     font-size: 16px;
     font-weight: 400;
+    line-height: 1.4em;
 }
 
 #ecwid-product-popup-content .add-product .empty-page {
