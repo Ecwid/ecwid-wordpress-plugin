@@ -15,7 +15,12 @@ jQuery(document).ready(function() {
 
         populateWidgetParams();
         setSearchParams({});
-        updateSearchParams();
+
+        if (getInitialSearchData()) {
+            buildProductsTable(getInitialSearchData());
+        } else {
+            updateSearchParams();
+        }
 
         popup().addClass('open');
 
@@ -137,15 +142,16 @@ jQuery(document).ready(function() {
            params.display[params.display.length] = jQuery(el).data('display-option');
         });
 
+        if (params.display.length == 0) {
+            params.display = 'picture title price options addtobag';
+        } else {
+            params.display = params.display.join(' ');
+        }
+
         jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
             params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
         });
 
-        if (params.display.length > 0) {
-            params.display = params.display.join(' ');
-        } else {
-            params.display = undefined;
-        }
         var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
         var shortcode = '[ecwid_product';
@@ -166,6 +172,14 @@ jQuery(document).ready(function() {
 
     var getCurrentProduct = function() {
         return popup().data('currentProduct');
+    };
+
+    var setInitialSearchData = function( data ) {
+        popup().data('initialSearchData', data);
+    };
+
+    var getInitialSearchData = function() {
+        return popup().data('initialSearchData');
     };
 
     var setSearchParams = function( params ) {
@@ -232,78 +246,83 @@ jQuery(document).ready(function() {
 
         jQuery('#search-submit').addClass('searching');
 
-        jQuery.getJSON(ajaxurl, data, function(data) {
+        jQuery.getJSON(ajaxurl, data, buildProductsTable);
+    }
 
-            if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
-                params = getSearchParams();
-                params.page = 1;
-                setSearchParams(params);
+    var buildProductsTable = function(data) {
+        if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
+            params = getSearchParams();
+            params.page = 1;
+            setSearchParams(params);
+        }
+
+        var enabledPageTemplate = wp.template( 'pagination-button-enabled' );
+        var disabledPageTemplate = wp.template( 'pagination-button-disabled' );
+
+        var prevPages = '';
+        if (getSearchParams() && getSearchParams().page == 1) {
+            prevPages = disabledPageTemplate( { symbol: '«' } ) + disabledPageTemplate( { symbol: '‹' } );
+        } else {
+            prevPages = enabledPageTemplate({
+                    'symbol': '«',
+                    'name': 'first',
+                    'label': ecwidSpwParams.labels.firstPage
+                }) + enabledPageTemplate({
+                    'symbol': '‹',
+                    'name': 'prev',
+                    'label': ecwidSpwParams.labels.prevPage
+                });
+        }
+
+        var nextPages = '';
+        if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
+            nextPages = disabledPageTemplate( { symbol: '›' } ) + disabledPageTemplate( { symbol: '»' } );
+        } else {
+            nextPages = enabledPageTemplate({
+                    'symbol': '›',
+                    'name': 'next',
+                    'label': ecwidSpwParams.labels.nextPage
+                }) + enabledPageTemplate({
+                    'symbol': '»',
+                    'name': 'last',
+                    'label': ecwidSpwParams.labels.lastPage,
+                    'page': Math.ceil(data.total / data.limit)
+                });
+        }
+
+        var formTemplate = wp.template( 'add-product-form' );
+
+        var tableTemplate = wp.template( 'products-list' );
+
+        var tableHTML = tableTemplate();
+
+        jQuery('.media-frame-content.ecwid-add-product.add-product').empty().append(
+            formTemplate( {
+                'tableHTML' : tableHTML,
+                'page': data.offset / data.limit + 1,
+                'total_pages': Math.ceil(data.total / data.limit),
+                'total_items': data.total + ' items',
+                'prev_pages': prevPages,
+                'next_pages': nextPages
+            })
+        );
+
+        if (data.total > 0) {
+            for (var i = 0; i < data.items.length; i++) {
+                addProduct(data.items[i]);
             }
+        } else {
+            showEmpty(params.keyword);
+        }
 
-            var enabledPageTemplate = wp.template( 'pagination-button-enabled' );
-            var disabledPageTemplate = wp.template( 'pagination-button-disabled' );
+        renderSearchParams();
+        assignHandlers();
+        setCurrentProduct(null);
+        jQuery('#search-submit').removeClass('searching');
 
-            var prevPages = '';
-            if (getSearchParams() && getSearchParams().page == 1) {
-                prevPages = disabledPageTemplate( { symbol: '«' } ) + disabledPageTemplate( { symbol: '‹' } );
-            } else {
-                prevPages = enabledPageTemplate({
-                        'symbol': '«',
-                        'name': 'first',
-                        'label': ecwidSpwParams.labels.firstPage
-                    }) + enabledPageTemplate({
-                        'symbol': '‹',
-                        'name': 'prev',
-                        'label': ecwidSpwParams.labels.prevPage
-                    });
-            }
-
-            var nextPages = '';
-            if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
-                nextPages = disabledPageTemplate( { symbol: '›' } ) + disabledPageTemplate( { symbol: '»' } );
-            } else {
-                nextPages = enabledPageTemplate({
-                        'symbol': '›',
-                        'name': 'next',
-                        'label': ecwidSpwParams.labels.nextPage
-                    }) + enabledPageTemplate({
-                        'symbol': '»',
-                        'name': 'last',
-                        'label': ecwidSpwParams.labels.lastPage,
-                        'page': Math.ceil(data.total / data.limit)
-                    });
-            }
-
-            var formTemplate = wp.template( 'add-product-form' );
-
-            var tableTemplate = wp.template( 'products-list' );
-
-            var tableHTML = tableTemplate();
-
-            jQuery('.media-frame-content.ecwid-add-product.add-product').empty().append(
-                formTemplate( {
-                    'tableHTML' : tableHTML,
-                    'page': data.offset / data.limit + 1,
-                    'total_pages': Math.ceil(data.total / data.limit),
-                    'total_items': data.total + ' items',
-                    'prev_pages': prevPages,
-                    'next_pages': nextPages
-                })
-            );
-
-            if (data.total > 0) {
-                for (var i = 0; i < data.items.length; i++) {
-                    addProduct(data.items[i]);
-                }
-            } else {
-                showEmpty(params.keyword);
-            }
-
-            renderSearchParams();
-            assignHandlers();
-            setCurrentProduct(null);
-            jQuery('#search-submit').removeClass('searching');
-        });
+        if (!getInitialSearchData()) {
+            setInitialSearchData(data);
+        }
     }
 
 
