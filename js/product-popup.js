@@ -365,7 +365,7 @@ jQuery(document).ready(function() {
 
         jQuery( '.ecwid-add-product.add-product .wp-list-table.products tbody' ).append(emptyTemplate({term:term}));
 
-        jQuery( '.tablenav', popup()).hide();
+        jQuery( '.tablenav,.wp-list-table.products thead', popup()).hide();
     };
 
     var updateSearchParams = function(newParams) {
