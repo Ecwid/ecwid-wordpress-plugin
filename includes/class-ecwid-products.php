@@ -35,12 +35,23 @@ class Ecwid_Products {
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
 
+		add_filter( 'post_class', array($this, 'post_class' ) );
+
 		if (EcwidPlatform::get('hide_out_of_stock')) {
 			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
 			add_filter( 'posts_join_paged', array( $this, 'join_out_of_stock' ) );
 		}
 
 		$this->_sync_progress_callback = '__return_false';
+	}
+
+	public function post_class($classes) {
+
+		if ( is_search() ) {
+			$classes[] = 'type-page';
+		}
+
+		return $classes;
 	}
 
 	public function enqueue_frontend() {
