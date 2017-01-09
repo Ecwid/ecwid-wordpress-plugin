@@ -113,7 +113,6 @@ class Ecwid_Products {
 
 		$product_id = intval( @$_REQUEST['product_id'] );
 
-		$url = $this->_get_post_link();
 		$post_id = $this->_find_post_by_product_id( $product_id );
 
 		if ($post_id) {
