@@ -88,7 +88,7 @@
 </script>
 
 <script type="text/template" id="tmpl-no-products">
-    <tr>
+    <tr class="empty">
         <td colspan="3">
             <div class="empty-page">
                 <div class="empty-page__title"><?php _e( 'Nothing found for <span class="empty-page__term">"{{ data.term }}"</span>', 'ecwid-shopping-cart' ); ?></div>

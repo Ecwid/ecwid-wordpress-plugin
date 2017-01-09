@@ -5869,6 +5869,9 @@ body, html {
     margin: 60px auto 40px;
     padding: 0 20px;
 }
+#ecwid-product-popup-content .add-product .empty {
+    cursor: default;
+}
 #ecwid-product-popup-content .add-product .empty-page__term {
     font-style: italic;
 }
