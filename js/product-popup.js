@@ -134,6 +134,9 @@ jQuery(document).ready(function() {
         });
 
         jQuery.getJSON(ajaxurl, {action: 'ecwid-save-spw-params', params: params});
+
+        ecwidSpwParams.display = params.display;
+        ecwidSpwParams.attributes = params.attributes;
     };
 
     var buildShortcode = function() {
