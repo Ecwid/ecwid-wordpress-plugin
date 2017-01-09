@@ -2300,7 +2300,8 @@ function ecwid_sync_products_sse() {
 }
 
 function ecwid_format_date( $unixtime ) {
-	return date( __( "Y/m/d g:i:s a" ), $unixtime );
+
+	return date_i18n( get_option('date_format') . ' ' . get_option('time_format'), $unixtime + get_option( 'gmt_offset' ) * 60 * 60 );
 }
 
 function ecwid_slow_sync_progress($status) {
