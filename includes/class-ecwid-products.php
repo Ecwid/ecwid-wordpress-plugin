@@ -130,8 +130,14 @@ class Ecwid_Products {
 			return '';
 		}
 
-		$url = get_post_meta( $post_id, '_ecwid_url' );
-		$url = ecwid_get_store_page_url() . $url[0];
+		$url = get_post_meta( $post_id, '_ecwid_url', true );
+
+		if ( strpos( $url, '#!' ) === false ) {
+			$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
+			$url = '#!/p/' . $ecwid_product_id;
+		}
+
+		$url = ecwid_get_store_page_url() . $url;
 
 		return $url;
 	}
