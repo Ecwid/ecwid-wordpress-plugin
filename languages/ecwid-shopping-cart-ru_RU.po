@@ -835,6 +835,9 @@ msgstr "Эквид хранит данные товаров магазина в 
 msgid "Synchronize products"
 msgstr "Синхронизировать товары"
 
+msgid "Not synchronized yet"
+msgstr "Не синхронизовано"
+
 msgid "Products are successfully synchronized. The product pages are up to date."
 msgstr "Товары успешно синхронизированы. Страницы товаров обновлены."
 
