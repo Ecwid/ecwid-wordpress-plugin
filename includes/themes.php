@@ -54,7 +54,8 @@ function ecwid_apply_theme($theme_name = null)
 		'storefront'		=> array( 'css' ),
 		'salient'			=> array( 'css-no-parent'),
 		'flora'				=> array( 'js' ),
-        'thevoux-wp'		=> array( 'js' )
+        'thevoux-wp'		=> array( 'js' ),
+		'zerogravity'		=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
