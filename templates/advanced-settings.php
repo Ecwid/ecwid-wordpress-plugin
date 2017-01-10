@@ -141,36 +141,6 @@
 			</div>
 		</div>
 
-			<?php if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3.1') || get_option('ecwid_use_new_search') != 'Y'): ?>
-			<hr />
-
-			<div class="pure-control-group checkbox">
-				<div class="label">
-					<label for="ecwid_use_new_search">
-
-						<input
-							id="ecwid_use_new_search"
-							name="ecwid_use_new_search"
-							type="checkbox"
-							<?php if (get_option('ecwid_use_new_search') == 'Y'): ?>
-								checked="checked"
-							<?php endif; ?>
-							value="Y"
-						/>
-						<?php _e('Enable the new search widget', 'ecwid-shopping-cart'); ?>
-					</label>
-
-					<div class="note">
-						<?php echo sprintf(
-							__('The new search widget better adapts to your site and looks nicer. You can add the search bar to your site either in the <a %s>store page editor</a> or in the <a %s>Appearance -> Widgets</a> section.', 'ecwid-shopping-cart'),
-							'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"',
-							'href=widgets.php?from-ecwid=true'
-						); ?>
-					</div>
-				</div>
-			</div>
-			<?php endif; ?>
-
 			<hr />
 
 			<div class="pure-control-group checkbox">

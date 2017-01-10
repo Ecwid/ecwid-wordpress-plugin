@@ -559,12 +559,6 @@ msgstr "Создание магазина"
 msgid "Manage Store on iPhone, iPad or Android"
 msgstr "Управляйте магазином с iPhone, iPad, Android"
 
-msgid "Enable the new search widget"
-msgstr "Включить новый виджет поиска"
-
-msgid "The new search widget better adapts to your site and looks nicer. You can add the search bar to your site either in the <a %s>store page editor</a> or in the Appearance -> Widgets section."
-msgstr "Новый виджет поиска лучше адаптируется к сайту и лучше выглядит. Добавить виджет поиска по товарам на сайт можно <a %s>в настройках страницы магазина</a> или в настройках внешнего вида сайта (меню <a %s>Виджеты</a>)."
-
 msgid "Help"
 msgstr "Помощь"
 
@@ -716,16 +710,8 @@ msgid "Updated %s widgets are available for your Ecwid store. They are more mobi
 msgstr "Блоки %s в вашем Эквид-магазине обновлены – теперь они выглядят приятнее и лучше работают на мобильных. Пожалуйста, включите новый вид блоков поиска и категорий на странице настроек плагина. В одном следующих обновлений плагина они будут включены автоматически для всех пользователей."
 
 msgctxt "upgrade widgets message"
-msgid "Search"
-msgstr "Поиска"
-
-msgctxt "upgrade widgets message"
 msgid "Categories"
 msgstr "Категорий"
-
-msgctxt "upgrade widgets message"
-msgid "Search and Categories"
-msgstr "Поиска и Категорий"
 
 msgid "Open Ecwid store settings"
 msgstr "Открыть настройки плагина Ecwid"

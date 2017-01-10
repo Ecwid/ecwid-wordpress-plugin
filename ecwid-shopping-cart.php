@@ -501,7 +501,6 @@ function ecwid_check_version()
 		update_option('ecwid_use_chameleon', true);
 
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
-		add_option('ecwid_use_new_search', 'Y');
 
 	} elseif ($upgrade) {
 
@@ -510,7 +509,6 @@ function ecwid_check_version()
 		update_option('ecwid_plugin_version', $current_version);
 
 		add_option('ecwid_use_new_horizontal_categories', '');
-		add_option('ecwid_use_new_search', '');
 	}
 
 	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
@@ -535,6 +533,8 @@ function ecwid_check_version()
         add_option('ecwid_chameleon_colors_link', '');
         add_option('ecwid_chameleon_colors_button', '');
         add_option('ecwid_chameleon_colors_price', '');
+
+		update_option('ecwid_use_new_search', 'Y');
 	}
 }
 
@@ -1492,34 +1492,6 @@ function ecwid_uninstall() {
 	delete_option("ecwid_use_chameleon");
 }
 
-function ecwid_is_old_search_widget_used()
-{
-	if (get_option('ecwid_use_new_search')) {
-		return false;
-	}
-
-	if (Ecwid_Widget_Search::is_active_widget()) {
-		return true;
-	}
-
-	$widgets = ecwid_get_store_shortcode_widgets();
-	if ($widgets && in_array('search', $widgets)) {
-		return true;
-	}
-
-	$post = get_post(ecwid_get_current_store_page_id());
-	if ($post && !is_wp_error($post)) {
-
-		$shortcodes = ecwid_find_shortcodes( $post->post_content, 'ecwid_search' );
-
-		if ( $shortcodes ) {
-			return TRUE;
-		}
-	}
-
-	return false;
-}
-
 function ecwid_is_old_cats_widget_used()
 {
 	if (get_option('ecwid_use_new_horizontal_categories')) {
@@ -1544,7 +1516,7 @@ function ecwid_is_old_cats_widget_used()
 
 function ecwid_get_store_shortcode_widgets()
 {
-	if (get_option('ecwid_use_new_horizontal_categories') && get_option('ecwid_use_new_search')) return false;
+	if (get_option('ecwid_use_new_horizontal_categories')) return false;
 
 	$page_contents = get_post(ecwid_get_current_store_page_id())->post_content;
 	$shortcodes = ecwid_find_shortcodes($page_contents, 'ecwid');
@@ -1779,7 +1751,6 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_sso_secret_key' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
-				register_setting( 'ecwid_options_page', 'ecwid_use_new_search' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
 				break;
 		}
