@@ -109,6 +109,10 @@ HTML;
             $data = EcwidPlatform::get('spw_display_params');
         }
 
+        if ( !isset( $data['display'] ) ) {
+        	$data['display'] = array('picture' => 1, 'title' => 1, 'price' => 1, 'addtobag' => 1, 'options' => 1);
+		}
+
         $data['labels'] = array(
             'firstPage' => __( 'First Page', 'ecwid-shopping-cart' ),
             'prevPage' => __( 'Previous Page', 'ecwid-shopping-cart' ),

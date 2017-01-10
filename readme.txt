@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.9.1
+Stable tag: 4.9.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.9.2 =
+- **Improvements and fixes for the new "Add product" button in the Wordpress editor.** We recently added a tool for inserting a product from your store to any page or post on your site. In this update, we polished the tool look and feel, fixed a few issues and improved performance. To try it, click the "Add product" button in the editor in your Wordpress admin backend.
+- **Fixed an issue with the "Screen options" and "Help" Wordpress menus in the page editor in Wordpress admin backend.** Those Wordpress functions were slightly affected by the new "Add product" functionality of the Ecwid e-commerce plugin and might not work well. We fixed that. Everything should work properly now.
+- **A few fixes for the new integrated search functionality.** Feel free to enable and try the new search feature on the plugin settings (Ecwid Store -> Advanced) — it will make your store products available in your site regular pages/posts search.
+
 = 4.9.1 =
 - **Fixed an issue in the new integrated search functionality** causing javascript errors on site pages where no store widgets are installed. Feel free to enable and try the new search feature on the plugin settings (Ecwid Store -> Advanced)
 - **Improvement for the Single Sign On.** If you have Single Sign On (SSO) enabled in the plugin settings and your customer do not have name specified in their profile, the store account will use their nickname as the firstname. This will make store more friendly for your new buyers. (edited)
