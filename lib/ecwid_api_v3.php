@@ -311,6 +311,15 @@ class Ecwid_Api_V3
 				)
 			),
 		);
+
+		$ref = apply_filters( 'ecwid_get_new_store_ref_id', '' );
+
+		if ($ref) {
+			$params['affiliatePartner']['ambassador'] = array(
+				'ref' => $ref
+			);
+		}
+
 		$request_params =  array(
 			'appClientId',
 			'appSecretKey',

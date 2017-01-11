@@ -63,6 +63,15 @@
 	<?php endforeach; ?>
 </div>
 
+<h2>Misc</h2>
+    <div class="section">
+        <div>Theme identification</div>
+        <div><?php echo ecwid_get_theme_identification(); ?></div>
+    </div>
+    <div class="section">
+        <div>Affiliate Ref ID</div>
+        <div><?php echo apply_filters( 'ecwid_get_new_store_ref_id', '' ); ?></div>
+    </div>
 <h2>Options</h2>
 
 <div>
