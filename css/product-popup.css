@@ -3432,7 +3432,7 @@ div.has-badge::after,
 }
 
 /* Notices */
-.notice {
+#ecwid-product-popup-content .notice {
     display: block;
     font-size: 12px;
     font-family: 'Open Sans', sans-serif;
