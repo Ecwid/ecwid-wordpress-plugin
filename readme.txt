@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.9.2
+Stable tag: 4.9.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.9.3 =
+- **Fixed an issue with erroneous “Restore backup” messages in the editor in Wordpress admin backend.** One of the recent changes in our plugin made the WordPress editor display messages like “The backup of this post in your browser is different from the version below.” In fact, the messages did not mean there was a change that had not been not saved. The restore backup messages are normally hidden by Wordpress, but one of our CSS changes (editor page layout tweaks) made them appear. All your data is safe and the warning messages were displayed by mistake. We fixed them now and they should not appear anymore.
+
 = 4.9.2 =
 - **Improvements and fixes for the new "Add product" button in the Wordpress editor.** We recently added a tool for inserting a product from your store to any page or post on your site. In this update, we polished the tool look and feel, fixed a few issues and improved performance. To try it, click the "Add product" button in the editor in your Wordpress admin backend.
 - **Fixed an issue with the "Screen options" and "Help" Wordpress menus in the page editor in Wordpress admin backend.** Those Wordpress functions were slightly affected by the new "Add product" functionality of the Ecwid e-commerce plugin and might not work well. We fixed that. Everything should work properly now.
