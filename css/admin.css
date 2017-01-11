@@ -360,7 +360,8 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 #ecwid-frame {
-	border: 1px solid #e5e5e5;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
 	max-width: 1440px;
 }
 
