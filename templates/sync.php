@@ -156,11 +156,12 @@ jQuery('#sync-button-slow').click(function() {
 });
 </script>
 
-<?php $api = new Ecwid_Api_V3(); if ( !$api->get_token() ): ?>
+<?php if ( !Ecwid_Api_V3::get_token() ): ?>
 <div>
-	No token. <a href="<?php echo get_reconnect_link(); ?>">Reconnect</a>
+    <?php _e( 'To enable this feature, the plugin needs a permission to read your store product information.', 'ecwid-shopping-cart' ); ?>
+	<a href="<?php echo get_reconnect_link(); ?>"><?php _e( 'Provide access.', 'ecwid-shopping-cart' ); ?></a>
 </div>
-<?php endif; ?>
+<?php else: ?>
 
 <div class="sync-block" id="sync-button">
 	<a id="sync-button"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
@@ -195,5 +196,6 @@ jQuery('#sync-button-slow').click(function() {
         <?php endif; ?>
     </span>
 </div>
+<?php endif; ?>
 
 </div>

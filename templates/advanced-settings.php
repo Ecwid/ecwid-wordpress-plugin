@@ -155,6 +155,9 @@
 								checked="checked"
 							<?php endif; ?>
 							value="Y"
+                            <?php if ( !Ecwid_Products::is_feature_available() ): ?>
+                                disabled="disabled"
+                            <?php endif; ?>
 						/>
 						<?php _e('Integration with search on your site <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
 					</label>

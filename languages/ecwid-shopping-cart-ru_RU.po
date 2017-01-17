@@ -838,3 +838,9 @@ msgstr "Товары загружаются. Это может занять не
 
 msgid "Products synchronized: %s out of %s"
 msgstr "Загружено товаров: %s из %s"
+
+msgid "To enable this feature, the plugin needs a permission to read your store product information."
+msgstr "Чтобы включить интеграцию с поиском, нужно дать плагину доступ до данных товаров в магазине."
+
+msgid "Provide access."
+msgstr "Перейдите по этой ссылке, чтобы предоставить доступ."

@@ -183,7 +183,7 @@ class Ecwid_Products {
 
 
     public static function is_enabled() {
-        return get_option( self::OPTION_ENABLED, false );
+        return self::is_feature_available() && get_option( self::OPTION_ENABLED, false );
     }
 
     public static function enable() {
@@ -195,6 +195,10 @@ class Ecwid_Products {
         flush_rewrite_rules(true);
         update_option( self::OPTION_ENABLED, false );
     }
+
+    public static function is_feature_available() {
+		return Ecwid_Api_V3::get_token() != false;
+	}
 
     public static function reset_sync_date() {
 		Ecwid_Products_Sync_Status::reset_dates();
@@ -236,6 +240,8 @@ class Ecwid_Products {
     }
 
 	public function estimate_sync() {
+
+		if ( !Ecwid_Api_V3::get_token() ) return array('last_update' => 0);
 
 		$updated = $this->_api->search_products( array(
 			'updatedFrom' => $this->_status->get_updated_from(),
