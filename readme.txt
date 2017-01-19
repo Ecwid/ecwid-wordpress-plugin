@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.9.3
+Stable tag: 4.9.4
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 4.9.4 =
+- **The new search widget is now enabled for every site.** We released the new search widget in the version 4.2 — it is mobile friendly and looks great with any wordpress ecommerce theme. We made it possible to turn on/off the new widget temporarily to make sure every site would have time to try it before it’s enabled for everyone. Now it’s enabled. If you have it enabled previously, nothing will change for you — your search widget is already updated. If you have the old search widget displayed on your site, this update will replace it with the new one. Please let us know if you have any trouble with the new widget.
+- **Fixed a minor issue with displaying store control panel on the Ecwid Dashboard page in Wordpress admin backend**. The control panel previously might be displayed with a horizontal scrolling. We fixed that — it should look fine now.
+- Layout fixes for the ZeroGravity Wordpress theme.
+
 = 4.9.3 =
 - **Fixed an issue with erroneous “Restore backup” messages in the editor in Wordpress admin backend.** One of the recent changes in our plugin made the WordPress editor display messages like “The backup of this post in your browser is different from the version below.” In fact, the messages did not mean there was a change that had not been not saved. The restore backup messages are normally hidden by Wordpress, but one of our CSS changes (editor page layout tweaks) made them appear. All your data is safe and the warning messages were displayed by mistake. We fixed them now and they should not appear anymore.
 
