@@ -534,6 +534,8 @@ function ecwid_check_version()
         add_option('ecwid_chameleon_colors_button', '');
         add_option('ecwid_chameleon_colors_price', '');
 
+        add_option(Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION, '');
+
 		update_option('ecwid_use_new_search', 'Y');
 	}
 }
