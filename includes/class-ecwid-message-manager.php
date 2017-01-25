@@ -56,11 +56,11 @@ TXT
 
 	public static function get_upgrade_cats_message() {
 
-		$main_message = __( 'Updated %s widgets are available for your Ecwid store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions.', 'ecwid-shopping-cart' );
+		$main_message = __( 'Updated %s widgets are available for your %s store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions.', 'ecwid-shopping-cart' );
 
 		$widgets = _x( 'Categories', 'upgrade widgets message', 'ecwid-shopping-cart' );
 
-		return sprintf($main_message, $widgets);
+		return sprintf($main_message, Ecwid_WL::get_brand(), $widgets);
 	}
 
 	public static function show_message($name, $params = array())
@@ -200,9 +200,9 @@ TXT
 	{
 		return array(
 			'on_activate' => array(
-				'title' => __('Greetings! Your Ecwid plugin is now active.', 'ecwid-shopping-cart'),
+				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => __('Set up Ecwid Store', 'ecwid-shopping-cart'),
+				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid',
 				'hideable'  => true,
 				'default'  => 'disabled'
@@ -218,7 +218,7 @@ TXT
 			),
 
 			'on_appearance_widgets' => array(
-				'message' => __('To add extra functions to your store, drag and drop Ecwid store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ),
+				'message' => sprintf( __( 'To add extra functions to your store, drag and drop %s store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ),
 				'secondary_title' => __('Back to Store Settings', 'ecwid-shopping-cart'),
 				'secondary_url'   => 'admin.php?page=ecwid-appearance',
 				'hideable'  => true
@@ -226,10 +226,11 @@ TXT
 
 			'please_vote' => array(
 				'message' => sprintf(
-					__('Do you like your Ecwid online store? We\'d appreciate it if you add your review and vote for the plugin on Wordpress site.', 'ecwid-shopping-cart'),
+					__('Do you like your %s online store? We\'d appreciate it if you add your review and vote for the plugin on WordPress site.', 'ecwid-shopping-cart'),
+					Ecwid_WL::get_brand(),
 					'target="_blank" href="http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart"'
 				),
-				'primary_title' => __('Rate Ecwid at WordPress.org', 'ecwid-shopping-cart'),
+				'primary_title' => sprintf( __( 'Rate %s at WordPress.org', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
 				'primary_url' => 'http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart',
 				'hideable' => true
 			),
@@ -252,7 +253,7 @@ TXT
 			'upgrade_cats' => array(
 				'message' => Ecwid_Message_Manager::get_upgrade_cats_message(),
 				'hideable' => true,
-				'primary_title' => __ ( 'Open Ecwid store settings', 'ecwid-shopping-cart' ),
+				'primary_title' => sprintf( __( 'Open %s store settings', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid-advanced'
 			)
 		);

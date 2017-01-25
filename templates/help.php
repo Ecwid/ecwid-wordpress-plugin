@@ -202,7 +202,7 @@
 			<ul>
 				<li>
 					<div class="block-help-item">
-						<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart'); ?>" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
+						<a href="<?php esc_html_e( Ecwid_WL::get_contact_us_url(), 'ecwid-shopping-cart' ); ?>" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
 						<p><?php _e( 'Still have questions about Ecwid? Let us know!', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>

@@ -113,6 +113,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wl.php';
 
 if (is_admin()) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -535,6 +536,8 @@ function ecwid_check_version()
         add_option('ecwid_chameleon_colors_price', '');
 
 		update_option('ecwid_use_new_search', 'Y');
+
+		Ecwid_WL::load_from_ini();
 	}
 }
 
@@ -693,17 +696,19 @@ function ecwid_seo_compatibility_restore()
 function add_ecwid_admin_bar_node() {
 	global $wp_admin_bar;
 
-	if ( !is_super_admin() || !is_admin_bar_showing() )
+	if ( !is_super_admin() || !is_admin_bar_showing() || Ecwid_WL::is_wl() )
 		return;
 
 	$theme     = ecwid_get_theme_name();
 	$store_url = ecwid_get_store_page_url();
 
 
+	$brand = Ecwid_WL::get_brand();
 	if (!is_admin()) {
-		$subject = sprintf(__('Ecwid plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), $theme);
+		$subject = sprintf( __('%s plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), Ecwid_WL::get_brand(), $theme );
+
 		$body = <<<TEXT
-Hey Ecwid,
+Hey %s,
 
 My store looks bad with my theme on Wordpress.
 
@@ -715,11 +720,11 @@ Can you have a look?
 Thanks.
 TEXT;
 	} else {
-		$subject = __('I have a problem with my Ecwid store', 'ecwid-shopping-cart');
+		$subject = __('I have a problem with my %s store', 'ecwid-shopping-cart');
 		$body = <<<TEXT
-Hey Ecwid,
+Hey %s,
 
-I have a problem with my Ecwid store.
+I have a problem with my store.
 
 [Please provide details here]
 
@@ -733,7 +738,7 @@ TEXT;
 	}
 
 	$body = __($body, 'ecwid-shopping-cart');
-	$body = sprintf($body, $theme, $store_url);
+	$body = sprintf($body, Ecwid_WL::get_brand(), $theme, $store_url);
 
 	$wp_admin_bar->add_menu( array(
 		'id' => 'ecwid-main',
@@ -1050,8 +1055,9 @@ function ecwid_add_credits($powered_by)
 
 		$new_powered_by = '<li>';
 		$new_powered_by .= sprintf(
-			__('<a %s>Online store powered by Ecwid</a>', 'ecwid-shopping-cart'),
-			'target="_blank" href="//www.ecwid.com?source=wporg-metalink"'
+			__('<a %s>Online store powered by %s</a>', 'ecwid-shopping-cart'),
+			'target="_blank" href="//www.ecwid.com?source=wporg-metalink"',
+			Ecwid_WL::get_brand()
 		);
 		$new_powered_by .= '</li>';
 
@@ -1546,8 +1552,8 @@ function ecwid_build_menu() {
 	$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 	add_menu_page(
-		__('Ecwid shopping cart settings', 'ecwid-shopping-cart'),
-		__('Ecwid Store', 'ecwid-shopping-cart'),
+		sprintf( __('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+		sprintf( __('%s Store', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
 		'manage_options',
 		'ecwid',
 		'ecwid_general_settings_do_page',
@@ -1614,12 +1620,15 @@ function ecwid_build_menu() {
 
 	add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ecwid_debug', 'ecwid_debug_do_page');
 	add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ecwid-admin-mobile', 'ecwid_admin_mobile_do_page');
-	add_submenu_page(
-		'ecwid',
-		__('Help', 'ecwid-shopping-cart'),
-		__('Help', 'ecwid-shopping-cart'),
-		'manage_options', 'ecwid-help', 'ecwid_help_do_page'
-	);
+
+	if ( !Ecwid_WL::is_wl() ) {
+		add_submenu_page(
+			'ecwid',
+			__('Help', 'ecwid-shopping-cart'),
+			__('Help', 'ecwid-shopping-cart'),
+			'manage_options', 'ecwid-help', 'ecwid_help_do_page'
+		);
+	}
 	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
 
 	add_submenu_page('', 'Ecwid sync', '', 'manage_options', 'ecwid-sync', 'ecwid_sync_do_page');
@@ -1887,7 +1896,8 @@ function ecwid_general_settings_do_page() {
 
 			if ($connection_error || isset($_GET['reconnect'])) {
 				if (isset($_GET['reason'])) switch ($_GET['reason']) {
-					case 'spw': $reconnect_message = __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ); break;
+					case 'spw': $reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() );
+					break;
 				}
 
 				$scopes = '';
@@ -2474,7 +2484,7 @@ function ecwid_get_entity_url($entity, $type) {
 function ecwid_get_product_browser_url_script()
 {
 	$str = '';
-	if (ecwid_is_store_page_available()) {
+	if (ecwid_is_store_page_available() && get_the_ID() != 4) {
 		$url = ecwid_get_store_page_url();
 
 		$str = '<script data-cfasync="false" type="text/javascript">var ecwid_ProductBrowserURL = "' . esc_js($url) . '";</script>';

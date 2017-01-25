@@ -2,7 +2,7 @@
 	<div class="box">
 		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
 			<h3>
-				<?php _e( 'Ecwid Shopping Cart', 'ecwid-shopping-cart' ); ?>
+				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 			</h3>
 		</div>
 		<div class="greeting-image">
@@ -36,14 +36,14 @@
 
 			<div class="note auth-error">
 				<span>
-					<?php _e( 'Looks like your site does not support remote POST requests that are required for Ecwid API to work. Please, contact your hosting provider to enable cURL.', 'ecwid-shopping-cart' ); ?>
+					<?php printf( __( 'Looks like your site does not support remote POST requests that are required for %s API to work. Please, contact your hosting provider to enable cURL.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 				</span>
 			</div>
 
 		<?php else: ?>
 
 			<div class="note">
-				<?php _e( 'To sell using Ecwid, you must allow WordPress to access the Ecwid plugin. The connect button will direct you to your Ecwid account where you can provide permission.', 'ecwid-shopping-cart' ); ?>
+				<?php printf( __( 'To sell using %1$s, you must allow WordPress to access the %1$s plugin. The connect button will direct you to your %1$s account where you can provide permission.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 			</div>
 		<?php endif; ?>
 	</div>

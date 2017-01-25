@@ -15,7 +15,7 @@ if ($message) {
 		<div class="head">
 			<?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
 			<h3>
-				<?php _e( 'Ecwid Shopping Cart', 'ecwid-shopping-cart' ); ?>
+				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 			</h3>
 			<div class="store-id drop-down">
 					<span>
@@ -39,7 +39,7 @@ if ($message) {
 					<?php _e('Congratulations!', 'ecwid-shopping-cart'); ?>
 				</div>
 				<div class="greeting-message mobile-br">
-					<?php _e( 'Your Ecwid store is now connected<br /> to your WordPress website', 'ecwid-shopping-cart' ); ?>
+					<?php printf( __( 'Your %s store is now connected<br /> to your WordPress website', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 				</div>
 			<?php else: ?>
 
@@ -47,7 +47,7 @@ if ($message) {
 					<?php _e('Greetings!', 'ecwid-shopping-cart'); ?>
 				</div>
 				<div class="greeting-message mobile-br">
-					<?php _e( 'Your Ecwid store is connected<br /> to your WordPress website', 'ecwid-shopping-cart' ); ?>
+					<?php printf( __( 'Your %s store is connected<br /> to your WordPress website', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 				</div>
 			<?php endif; ?>
 

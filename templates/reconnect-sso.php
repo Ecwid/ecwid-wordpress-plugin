@@ -2,7 +2,7 @@
 	<div class="box">
 		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
 			<h3>
-				<?php _e( 'Ecwid Shopping Cart', 'ecwid-shopping-cart' ); ?>
+				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
 			</h3>
 		</div>
 
