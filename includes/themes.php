@@ -85,6 +85,10 @@ function ecwid_apply_theme($theme_name = null)
 		$theme_name = 'responsiveboat';
 	}
 
+	if (!$theme_name) {
+		return;
+	}
+
 	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
 		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
