@@ -56,7 +56,8 @@ function ecwid_apply_theme($theme_name = null)
 		'flora'					=> array( 'js' ),
         'thevoux-wp'			=> array( 'js' ),
 		'zerogravity'			=> array( 'css' ),
-		'skt-design-agency-pro' => array( 'css-no-parent' )
+		'skt-design-agency-pro' => array( 'css-no-parent' ),
+		'uncode'			    => array( 'css-no-parent' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
