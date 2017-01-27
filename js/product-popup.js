@@ -93,7 +93,6 @@ jQuery(document).ready(function() {
 
         if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
             tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
-            tinymce.activeEditor.execCommand('mceSetContent', false, tinymce.activeEditor.getBody().innerHTML);
         } else {
 
             getCursorPosition = function(el) {
