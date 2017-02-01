@@ -268,8 +268,22 @@ HTML;
 add_action('wp_ajax_ecwid_get_product_info', 'ecwid_ajax_get_product_info' );
 add_action('wp_ajax_nopriv_ecwid_get_product_info', 'ecwid_ajax_get_product_info' );
 
+add_filter('redirect_canonical', 'ecwid_redirect_canonical2', 10, 3);
+
+function ecwid_redirect_canonical2($redir, $req) {
+	global $wp_query;
+
+	if ($wp_query->get('page_id') == ecwid_get_current_store_page_id() && $req . '/' == $redir) {
+		return false;
+	}
+
+	return $redir;
+}
 
 function ecwid_enqueue_frontend() {
+
+
+	global $wp_query;
 
 	if (!wp_script_is('jquery-ui-widget')) {
 		wp_enqueue_script('jquery-ui-widget', includes_url() . 'js/jquery/ui/widget.min.js', array('jquery'));
@@ -358,7 +372,8 @@ window.ec.config = window.ec.config || Object();
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
-</script>
+window.ec.config.storefrontUrls.cleanUrls = true;
+window.ec.config.baseUrl = 'wordpress/461/store';</script>
 HTML;
 
 }
@@ -416,7 +431,21 @@ function ecwid_503_on_store_closed() {
 	}
 }
 
+function custom_rewrite_basic() {
+
+	$rules = get_option( 'rewrite_rules' );
+
+		//die(var_dump($rules));
+
+	add_rewrite_rule('^store/.*', 'index.php?page_id=4', 'top');
+	flush_rewrite_rules(true);
+}
+add_action('init', 'custom_rewrite_basic');
+
+
 function ecwid_backward_compatibility() {
+
+
     // Backward compatibility with 1.1.2 and earlier
     if (isset($_GET['ecwid_product_id']) || isset($_GET['ecwid_category_id'])) {
 
