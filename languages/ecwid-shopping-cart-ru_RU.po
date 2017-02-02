@@ -139,7 +139,7 @@ msgid ""
 "need to re-connect your site to your %s store. This will only require you to "
 "accept permissions request – so that the plugin will be able to list your "
 "products in the \"Add product\" dialog."
-msgstr ""
+msgstr "Чтобы показать товары магазина в диалоге вставки товара, плагину нужно подключиться к вашему магазину %s. От вас потребуется только разрешить плагину доступ к вашему магазину."
 
 #: ecwid-shopping-cart.php:2390
 msgid "Recommendations for Your Online Store"
