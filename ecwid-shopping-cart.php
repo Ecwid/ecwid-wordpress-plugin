@@ -1197,34 +1197,6 @@ function _ecwid_get_single_product_widget_parts_v2($attributes) {
 	);
 }
 
-
-function ecwid_install_theme() {
-	if ( ! class_exists( 'Theme_Upgrader', false ) ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	}
-
-	wp_enqueue_script( 'customize-loader' );
-
-	$title = __('Install Themes');
-	$parent_file = 'themes.php';
-	$submenu_file = 'themes.php';
-	require_once(ABSPATH . 'wp-admin/admin-header.php');
-
-	$upgrader = new Theme_Upgrader( );
-	$result = $upgrader->install("https://plugins.ecwid.com/files/ecwid-ecommerce.zip");
-
-	if ( !$result || is_wp_error($result) ) {
-		echo '<a href="javascript:history.back()">' . __('Back') . '</a>';
-	} else {
-		_e( 'Preparing theme preview...', 'ecwid-shopping-cart' );
-		echo '<script type="text/javascript">location.href="themes.php?theme=ecwid-ecommerce";</script>';
-
-		Ecwid_Message_Manager::disable_message( 'install_ecwid_theme' );
-	}
-
-	include(ABSPATH . 'wp-admin/admin-footer.php');
-}
-
 function ecwid_shortcode($attributes)
 {
 	$defaults = ecwid_get_default_pb_size();
@@ -1419,7 +1391,7 @@ EOT;
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
-	$pages = array('toplevel_page_ecwid', 'admin_page_ecwid-help', 'admin_page-ecwid-install-theme');
+	$pages = array('toplevel_page_ecwid', 'admin_page_ecwid-help');
 
 	if (!in_array(get_current_screen()->base, $pages)) return;
 
@@ -1629,7 +1601,6 @@ function ecwid_build_menu() {
 			'manage_options', 'ecwid-help', 'ecwid_help_do_page'
 		);
 	}
-	add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
 
 	add_submenu_page('', 'Ecwid sync', '', 'manage_options', 'ecwid-sync', 'ecwid_sync_do_page');
 }
