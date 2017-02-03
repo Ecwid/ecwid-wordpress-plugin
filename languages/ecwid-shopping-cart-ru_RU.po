@@ -876,7 +876,8 @@ msgid ""
 "enables a local storage mode: the products will be stored both in the cloud "
 "and on your site. The site search results will list product pages as well as "
 "regular pages/posts of your site."
-msgstr ""
+msgstr "%s хранит данные товаров магазина в защищенном облачном хранилище, и показывает их прямо на странице магазина, когда посетитель открывает товар. Поэтому данные товаров не хранятся на вашем сайте, а поиск по сайту находит только страницы и записи сайта — не находит товары магазина. Эта настройка включает локальное хранение товаров: данные товаров будут храниться и в облачном хранилище, и прямо на вашем сайте. Поиск по сайту будет показывать страницы товаров магазина так же, как записи или страницы, размещенные на сайте."
+
 
 #: templates/advanced-settings.php:174
 msgid ""
@@ -988,7 +989,7 @@ msgstr "Вид страницы результатов поиска по умо�
 #: templates/connect.php:5 templates/dashboard.php:18
 #: templates/reconnect-sso.php:5 templates/reconnect.php:5
 msgid "%s Shopping Cart"
-msgstr ""
+msgstr "Интернет-магазин %s"
 
 #: templates/connect.php:13 templates/reconnect.php:13
 msgid "Connect your store<br /> to this WordPress site"
@@ -1240,11 +1241,12 @@ msgstr "Регистрация бесплатна, кредитная карта
 msgid ""
 "Connection error: please click the button again and give permissions for "
 "this plugin<br /> to show your %s store on this site."
-msgstr ""
+msgstr "Ошибка подключения: после нажатия на кнопку, авторизуйтесь в %s и предоставьте запрашиваемые права."
+
 
 #: templates/landing.php:49 templates/landing.php:160
 msgid "Already have %s account?"
-msgstr ""
+msgstr "Уже есть аккаунт в %s?"
 
 #: templates/landing.php:50 templates/landing_old.php:62
 msgid "Connect your store to Wordpress site"
@@ -1254,7 +1256,7 @@ msgstr "Подключить магазин к своему сайту"
 msgid ""
 "You will be asked to log in to your %s Control Panel<br />and give "
 "permissions to show your store on this site"
-msgstr ""
+msgstr "Вам будет предложено войти в панель управления %s<br />и предоставить права доступа для отображения магазина на вашем сайте"
 
 #: templates/landing.php:56 templates/landing_old.php:75
 msgid "Get ready to sell online"
@@ -1277,7 +1279,7 @@ msgstr ""
 msgid ""
 "Use %s's mobile-POS to swipe credit cards and sell on the go. Your orders "
 "and inventory are always synchronized with your online store."
-msgstr ""
+msgstr "Используйте мобильное приложение %s, чтобы получать и обрабатывать заказы в любой точке продаж. Все изменения синхронизируются с магазином на лету."
 
 #: templates/landing.php:75 templates/landing_old.php:94
 msgid "Features"
