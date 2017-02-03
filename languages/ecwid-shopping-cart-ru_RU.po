@@ -47,18 +47,6 @@ msgstr "Сообщить о проблеме"
 msgid "<a %s>Online store powered by %s</a>"
 msgstr "<a %s>Интернет магазин построен на Эквиде</a>"
 
-#: ecwid-shopping-cart.php:1208
-msgid "Install Themes"
-msgstr ""
-
-#: ecwid-shopping-cart.php:1217
-msgid "Back"
-msgstr ""
-
-#: ecwid-shopping-cart.php:1219
-msgid "Preparing theme preview..."
-msgstr ""
-
 #: ecwid-shopping-cart.php:1394 includes/class-ecwid-nav-menus.php:111
 #: includes/class-ecwid-nav-menus.php:283
 #: includes/class-ecwid-nav-menus.php:286
@@ -274,20 +262,6 @@ msgstr ""
 #: includes/class-ecwid-message-manager.php:233
 msgid "Rate %s at WordPress.org"
 msgstr "Оценить %s на WordPress.org"
-
-#: includes/class-ecwid-message-manager.php:246
-msgid "Looking for a Wordpress theme for your store?"
-msgstr ""
-
-#: includes/class-ecwid-message-manager.php:247
-msgid ""
-"We created the \"Ecwid Ecommerce\" theme to make Ecwid stores like yours "
-"look great in WordPress. Give it a try – the Ecwid theme is free."
-msgstr ""
-
-#: includes/class-ecwid-message-manager.php:248
-msgid "Install the Ecwid theme"
-msgstr ""
 
 #: includes/class-ecwid-message-manager.php:256
 msgid "Open %s store settings"
@@ -1331,7 +1305,7 @@ msgstr "Глобальное решение"
 
 #: templates/landing.php:121
 msgid "Over 1 million merchants in 175 countries"
-msgstr ""
+msgstr "Более миллиона продавцов из 175 стран"
 
 #: templates/landing.php:128 templates/landing_old.php:147
 msgid "Start selling <br>on your WordPress <nobr>site for free</nobr>"
