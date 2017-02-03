@@ -65,7 +65,7 @@ class Ecwid_Products {
 	public function redirect_to_store_page() {
 		$post = get_post();
 
-		if ( $post->post_type == self::POST_TYPE_PRODUCT && is_single() ) {
+		if ( $post && $post->post_type == self::POST_TYPE_PRODUCT && is_single() ) {
 			$url = $this->_get_post_link($post->ID);
 
 			if ($url) {
