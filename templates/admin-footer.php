@@ -1,4 +1,5 @@
 <div class="ecwid-admin-footer">
+	<?php if ( !Ecwid_WL::is_wl() ): ?>
 	<div class="ecwid-admin-footer-block ecwid-app-badges-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Manage Store on iPhone, iPad or Android', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
@@ -13,6 +14,7 @@
 			<?php _e('<a href="admin.php?page=ecwid-help">Read FAQ or contact support</a>', 'ecwid-shopping-cart'); ?>
 		</div>
 	</div>
+<?php endif; ?>
 <?php if (@$show_reconnect): ?>
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php printf( __('Want to connect another %s store?', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?></h4>
