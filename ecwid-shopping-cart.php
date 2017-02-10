@@ -1795,6 +1795,10 @@ function ecwid_settings_api_init() {
             Ecwid_Products::disable();
         }
 
+		if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Products::OPTION_ENABLED]) && !Ecwid_Seo_Links::is_enabled()) {
+			flush_rewrite_rules();
+		}
+
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
 		}
