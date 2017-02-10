@@ -13,26 +13,46 @@ class Ecwid_Store_Page {
 			}
 		}
 
-		$api = new Ecwid_Api_V3();
-		if ( $api->is_available() ) {
-			$cached = EcwidPlatform::cache_get( 'product_url_' . $id );
+		$url = self::get_product_url_from_api( $id );
+		if ( $url ) {
+			return $url;
+		}
 
-			if ( $cached ) {
-				return $cached;
-			}
+		return self::get_product_url_default_fallback( $id );
+	}
+
+	public static function get_product_url_from_api($id ) {
+		$cached = EcwidPlatform::cache_get( 'product_url_' . $id );
+
+		if ( $cached ) {
+			return $cached;
+		}
+
+		$api = new Ecwid_Api_V3();
+
+		if ( $api->is_available() ) {
 
 			$product = $api->get_product( $id );
 
 			if ( $product ) {
-				$url = $product->url;
+				self::register_product( $product );
 
-				EcwidPlatform::cache_set( 'product_url_' . $id, $url, DAY_IN_SECONDS * 30 );
+				return $product->url;
 			}
-
-			return $url;
 		}
 
+	}
+
+	public static function get_product_url_default_fallback ( $id ) {
 		return self::get_store_url() . '#!/p/' . $id;
+	}
+
+	public static function register_product( $product ) {
+		EcwidPlatform::cache_set( 'product_url_' . $product->id, $product->url, DAY_IN_SECONDS * 30 );
+	}
+
+	public static function register_category( $category ) {
+		EcwidPlatform::cache_set( 'category_url_' . $category->id, $category->url, DAY_IN_SECONDS * 30 );
 	}
 
 	public static function get_category_url( $id )
@@ -54,7 +74,7 @@ class Ecwid_Store_Page {
 			if ( $category ) {
 				$url = $category->url;
 
-				EcwidPlatform::cache_set( 'category_url_' . $id, $url, DAY_IN_SECONDS * 30 );
+				self::register_category( $category );
 			}
 
 			return $url;

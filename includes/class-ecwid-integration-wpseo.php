@@ -86,10 +86,10 @@ XML;
 	{
 		$url = htmlspecialchars($url);
 		$imageCode = '';
-		$image = @$obj['originalImageUrl'];
+		$image = @$obj->originalImageUrl;
 		if ($image) {
 			$image = htmlspecialchars($image);
-			$title = htmlspecialchars($obj['name']);
+			$title = htmlspecialchars($obj->name);
 			$imageCode = <<<XML
 				<image:image>
 					<image:title>$title</image:title>
@@ -98,6 +98,7 @@ XML;
 				</image:image>
 XML;
     }
+
 		$this->sitemap .= <<<XML
 	<url>
 		<loc>$url</loc>

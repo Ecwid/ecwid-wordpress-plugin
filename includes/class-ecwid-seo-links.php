@@ -8,6 +8,7 @@ class Ecwid_Seo_Links {
 	public function __construct()
 	{
 		if ( self::is_enabled() ) {
+
 			add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
 
@@ -45,6 +46,7 @@ JS;
 	}
 
 	public function build_rewrite_rules( $original_rules ) {
+
 		$pages = get_pages( array( 'status' => 'publish,private' ) );
 
 		$rules = array();

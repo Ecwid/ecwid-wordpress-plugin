@@ -142,15 +142,18 @@ class Ecwid_Products {
 
 		$url = get_post_meta( $post_id, '_ecwid_seo_url', true );
 
-		// If there is no seo url or the current
-		if ( !$url || strpos( get_post_meta( $post_id, '_ecwid_url', true), '#!' ) === false ) {
-			$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
-			$url = '#!/p/' . $ecwid_product_id;
-
-			$url = $store_page_url . $url;
+		if ( $url ) {
+			return $url;
 		}
 
-		return $url;
+		$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
+
+		$url = Ecwid_Store_Page::get_product_url_from_api( $ecwid_product_id );
+		if ( $url ) {
+			return $url;
+		}
+
+		return Ecwid_Store_Page::get_product_url_default_fallback( $ecwid_product_id );
 	}
 
 
@@ -308,6 +311,7 @@ class Ecwid_Products {
 		}
 
 		if (!$settings || $settings['one_at_a_time'] && !$did_something) {
+
 			$did_something = $this->_process_products($settings);
 		}
 
