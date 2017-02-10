@@ -120,7 +120,7 @@ HTML;
 		$post = get_post($page_id);
 
 		if (empty($recently_viewed->products)) {
-			echo '<a class="show-if-empty" href="' . ecwid_get_store_page_url() . '">' . $store_link_message . '</a>';
+			echo '<a class="show-if-empty" href="' . Ecwid_Store_Page::get_store_url() . '">' . $store_link_message . '</a>';
 		}
 
 		echo $after_widget;

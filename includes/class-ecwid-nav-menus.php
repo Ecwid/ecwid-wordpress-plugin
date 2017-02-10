@@ -112,7 +112,7 @@ class Ecwid_Nav_Menus {
 	}
 
 	public function enqueue_frontend_assets() {
-		if (ecwid_get_current_store_page_id() != get_the_ID()) {
+		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() ) {
 			return;
 		}
 
@@ -167,11 +167,11 @@ class Ecwid_Nav_Menus {
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
 			if ($ecwid_menu_type) {
-				$item->url = ecwid_get_store_page_url() . '#!/~/' . $ecwid_menu_type['url'];
+				$item->url = Ecwid_Store_Page::get_menu_item_url($ecwid_menu_type);
 			}
 
 			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
-				$item->url = ecwid_get_store_page_url();
+				$item->url = Ecwid_Store_Page::get_store_page_url();
 			}
 			if ($item->object == 'ecwid-store-with-categories') {
 				$categories = ecwid_get_categories();
@@ -192,7 +192,7 @@ class Ecwid_Nav_Menus {
 						$post->post_parent      = 0;
 						$post->menu_order       = $item->menu_order + $counter;
 						$post->menu_item_parent = $item->ID;
-						$post->url              = ecwid_get_store_page_url() . $category->link;
+						$post->url              = Ecwid_Store_Page::get_category_url( $category->id );
 						$post->classes          = '';
 						$post->type             = 'post';
 						$post->db_id            = 0;
@@ -230,7 +230,7 @@ class Ecwid_Nav_Menus {
 							<input type="hidden" class="menu-item-object" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-object]" value="<?php echo $value['classes']; ?>" />
 							<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-type]" value="ecwid_menu_item" />
 							<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-title]" value="<?php echo esc_html($value['label'] ); ?>" />
-							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-url]" value="<?php echo esc_url(ecwid_get_store_page_url() . '#!/~/' . $value['url']); ?>" />
+							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-url]" value="<?php echo esc_url(Ecwid_Store_Page::get_store_page_url() . '#!/~/' . $value['url']); ?>" />
 						</li>
 						<?php
 						$i--;

@@ -21,12 +21,14 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 	}
 
-	public function is_api_available()
+	public function is_available()
 	{
 		$token = $this->_load_token();
 		if ( $token ) {
 			return true;
 		}
+
+		return false;
 	}
 
 	public static function save_token($token)
@@ -86,6 +88,33 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
+	public function get_product( $product_id ) {
+		$url = $this->_products_api_url . '/' . $product_id;
+
+		$params = array('token');
+
+		$result = EcwidPlatform::fetch_url(
+			$this->build_request_url(
+				$this->_products_api_url,
+				$params
+			)
+		);
+
+		if ( !isset( $params['baseUrl'] ) ) {
+			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
+		}
+
+		if ( Ecwid_Seo_Links::is_enabled() ) {
+			$params['cleanUrls'] = 'true';
+		}
+
+		if ($result['code'] != '200') {
+			return false;
+		}
+		$result = json_decode($result['data']);
+		return $result;
+	}
+
 	public function search_products($input_params) {
 		$params = array('token');
 		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
@@ -94,12 +123,22 @@ class Ecwid_Api_V3
 				$params[$name] = $input_params[$name];
 			}
 		}
+
+		if ( !isset( $params['baseUrl'] ) ) {
+			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
+		}
+
+		if ( Ecwid_Seo_Links::is_enabled() ) {
+			$params['cleanUrls'] = 'true';
+		}
+
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
 				$this->_products_api_url,
 				$params
 			)
 		);
+
 		if ($result['code'] != '200') {
 			return false;
 		}
@@ -276,7 +315,7 @@ class Ecwid_Api_V3
 		}
 		$admin_name = "$admin_first $admin_last";
 		$admin_nickname = $current_user->display_name;
-		$store_url = ecwid_get_store_page_url();
+		$store_url = Ecwid_Store_Page::get_store_url();
 		$site_name = get_bloginfo('name');
 		$site_email = get_option('admin_email');
 		$timezone = get_option('timezone_string', 'UTC+0');

@@ -37,8 +37,8 @@ TXT
 		),
 				'href="mailto:wordpress@ecwid.com"',
 				'target="_blank" href="http://my.ecwid.com"',
-				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
-				ecwid_get_store_page_url()
+				'href="' . Ecwid_Store_Page::get_store_page_url() . '" target="_blank"',
+				Ecwid_Store_Page::get_store_page_url()
 			);
 		} else {
 			$message = sprintf(
@@ -46,8 +46,8 @@ TXT
 				$wp_remote_post_error,
 				'href="mailto:wordpress@ecwid.com"',
 				'target="_blank" href="http://my.ecwid.com"',
-				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
-				ecwid_get_store_page_url()
+				'href="' . Ecwid_Store_Page::get_store_page_url() . '" target="_blank"',
+				Ecwid_Store_Page::get_store_page_url()
 			);
 		}
 
@@ -170,7 +170,7 @@ TXT
 		}
 
 		if ($name == 'on_storeid_set') {
-			$params['primary_url'] = ecwid_get_store_page_url();
+			$params['primary_url'] = Ecwid_Store_Page::get_store_page_url();
 			$params['secondary_url'] = 'post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true';
 		}
 
