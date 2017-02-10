@@ -135,7 +135,7 @@
 				<div class="note">
 					<?php echo sprintf(
 						__('The new category menu looks better and is more mobile-friendly. If you haven\'t yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the "Show categories" option)', 'ecwid-shopping-cart'),
-						'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"'
+						'href="post.php?post=' . Ecwid_Store_Page::get_current_store_page_id() . '&action=edit&show-ecwid=true"'
 					); ?>
 				</div>
 			</div>
