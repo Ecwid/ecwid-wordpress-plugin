@@ -212,7 +212,7 @@ class EcwidCatalog
 		{
 			foreach ($categories as $category) 
 			{
-				$category_url = $this->get_category_url($category);
+				$category_url = Ecwid_Store_Page::get_category_url( $category['id'] );
 
 				$category_name = $category["name"];
 				$return .= $this->_l('<div class="ecwid_catalog_category_name">', 1);
@@ -226,7 +226,7 @@ class EcwidCatalog
 			foreach ($products as $product) 
 			{
 
-				$product_url = $this->get_product_url($product);
+				$product_url = Ecwid_Store_Page::get_product_url( $product['id'] );
 
 				$product_name = $product['name'];
 				$product_price = $product['price'] . ' ' . $profile['currency'];

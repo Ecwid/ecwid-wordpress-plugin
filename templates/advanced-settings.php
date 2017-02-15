@@ -174,6 +174,8 @@
             <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
         </div>
 
+        <?php if (ecwid_migrations_is_original_plugin_version_older_than( '5' ) ): ?>
+
         <hr />
 
         <div class="pure-control-group checkbox">
@@ -205,6 +207,7 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 	</fieldset>
 
 	<fieldset>

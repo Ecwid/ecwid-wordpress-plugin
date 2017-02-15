@@ -11,12 +11,13 @@ class Ecwid_Seo_Links {
 
 			add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
+			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 
 			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
 		}
 	}
 
-	function redirect_canonical( $redir, $req ) {
+	public function redirect_canonical( $redir, $req ) {
 		global $wp_query;
 
 		$page_id = $wp_query->get( 'page_id' );
@@ -26,6 +27,26 @@ class Ecwid_Seo_Links {
 		}
 
 		return $redir;
+	}
+
+	public function redirect_escaped_fragment() {
+		if ( ecwid_can_display_html_catalog() ) {
+			$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+
+			if ( !isset( $params['mode'] ) ) {
+				return;
+			}
+
+			if ( $params['mode'] == 'product' ) {
+				$redirect = Ecwid_Store_Page::get_product_url( $params['id'] );
+			} else if ($params['mode'] == 'category') {
+				$redirect = Ecwid_Store_Page::get_category_url( $params['id'] );
+			}
+
+			if ($redirect) {
+				wp_redirect( $redirect, 301 );
+			}
+		}
 	}
 
 	public function add_js_config() {
@@ -70,27 +91,6 @@ JS;
 		$permalink = get_option( 'permalink_structure' );
 
 		return $permalink != '';
-	}
-
-	public function get_product_url( $id )
-	{
-		if ( Ecwid_Products::is_enabled() ) {
-			global $ecwid_products;
-
-			$link = $ecwid_products->get_product_link( $id );
-			if ( $link ) {
-				return $link;
-			}
-		}
-
-		if ( $this->is_enabled() ) {
-
-		}
-	}
-
-	public function get_category_url( $id )
-	{
-
 	}
 }
 

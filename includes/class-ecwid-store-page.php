@@ -43,7 +43,7 @@ class Ecwid_Store_Page {
 
 	}
 
-	public static function get_product_url_default_fallback ( $id ) {
+	public static function get_product_url_default_fallback( $id ) {
 		return self::get_store_url() . '#!/p/' . $id;
 	}
 
@@ -83,9 +83,15 @@ class Ecwid_Store_Page {
 		return self::get_store_url() . '#!/c/' . $id;
 	}
 
-	public static function get_menu_item_url()
+	public static function get_menu_item_url( $menu_item )
 	{
-
+		$suffix = '';
+		if ( Ecwid_Seo_Links::is_enabled() ) {
+			$suffix = $menu_item['clean-url'];
+		} else {
+			$suffix = '#!' . $menu_item['url'];
+		}
+		return self::get_store_url() . $suffix;
 	}
 
 	public static function get_cart_url()

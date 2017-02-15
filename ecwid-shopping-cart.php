@@ -541,6 +541,9 @@ function ecwid_check_version()
 	}
 
 	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
+
+		add_option( Ecwid_Seo_Links::OPTION_ENABLED, true );
+
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 			add_option('ecwid_fetch_url_use_file_get_contents', '');
 			add_option('ecwid_remote_get_timeout', '5');
@@ -554,10 +557,12 @@ function ecwid_check_version()
 			add_option('ecwid_enable_sso');
 		}
 
+		if ( ecwid_migrations_is_original_plugin_version_older_than('5') ) {
+			update_option( Ecwid_Seo_Links::OPTION_ENABLED, 0 );
+		}
+
 
 		add_option( Ecwid_Products::OPTION_ENABLED, Ecwid_Products::is_enabled() );
-
-		add_option( Ecwid_Seo_Links::OPTION_ENABLED, Ecwid_Seo_Links::is_enabled() );
 
 		add_option('ecwid_chameleon_colors_foreground', '');
         add_option('ecwid_chameleon_colors_background', '');
