@@ -1800,8 +1800,12 @@ function ecwid_settings_api_init() {
             Ecwid_Products::disable();
         }
 
-		if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Products::OPTION_ENABLED]) && !Ecwid_Seo_Links::is_enabled()) {
-			flush_rewrite_rules();
+		if ($_POST['settings_section'] == 'advanced') {
+			$seo_turned_on = isset( $_POST[Ecwid_Products::OPTION_ENABLED] ) && !Ecwid_Seo_Links::is_enabled();
+			$seo_turned_off = !isset( $_POST[Ecwid_Products::OPTION_ENABLED] ) && Ecwid_Seo_Links::is_enabled();
+			if ( $seo_turned_on || $seo_turned_off ) {
+				flush_rewrite_rules();
+			}
 		}
 
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
