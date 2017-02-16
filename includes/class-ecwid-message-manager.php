@@ -177,7 +177,7 @@ TXT
 		if ($name == 'on_appearance_widgets') {
 
 			if (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'appearance') {
-				$admin_page = 'admin.php?page=ecwid-appearance';
+				$admin_page = Ecwid_Admin::get_dashboard_url() . '-appearance';
 			} elseif (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'new') {
 				$admin_page = 'post-new.php?post_type=page';
 			} elseif (isset($_GET['from-ecwid']) && is_numeric($_GET['from-ecwid'])) {
@@ -203,7 +203,7 @@ TXT
 				'title' => __('Greetings! Your Ecwid plugin is now active.', 'ecwid-shopping-cart'),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
 				'primary_title' => __('Set up Ecwid Store', 'ecwid-shopping-cart'),
-				'primary_url' => 'admin.php?page=ecwid',
+				'primary_url' => Ecwid_Admin::get_dashboard_url(),
 				'hideable'  => true,
 				'default'  => 'disabled'
 			),
@@ -213,14 +213,14 @@ TXT
 				'title' => __('Your store is almost ready!', 'ecwid-shopping-cart' ),
 				'message' => __('Complete setup and start selling', 'ecwid-shopping-cart' ),
 				'primary_title' => __('Complete Setup', 'ecwid-shopping-cart' ),
-				'primary_url'   => 'admin.php?page=ecwid',
+				'primary_url'   => Ecwid_Admin::get_dashboard_url(),
 				'hideable'  => true
 			),
 
 			'on_appearance_widgets' => array(
 				'message' => __('To add extra functions to your store, drag and drop Ecwid store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ),
 				'secondary_title' => __('Back to Store Settings', 'ecwid-shopping-cart'),
-				'secondary_url'   => 'admin.php?page=ecwid-appearance',
+				'secondary_url'   => Ecwid_Admin::get_dashboard_url() . '-appearance',
 				'hideable'  => true
 			),
 
@@ -245,7 +245,7 @@ TXT
 				'title' => __( 'Looking for a Wordpress theme for your store?', 'ecwid-shopping-cart' ),
 				'message' => __ ( 'We created the "Ecwid Ecommerce" theme to make Ecwid stores like yours look great in WordPress. Give it a try – the Ecwid theme is free.', 'ecwid-shopping-cart' ),
 				'primary_title' => __( 'Install the Ecwid theme', 'ecwid-shopping-cart' ),
-				'primary_url' => 'admin.php?page=ecwid-install-theme',
+				'primary_url' => Ecwid_Admin::get_dashboard_url() . '-install-theme',
 				'hideable' => true
 			),
 
@@ -253,7 +253,7 @@ TXT
 				'message' => Ecwid_Message_Manager::get_upgrade_cats_message(),
 				'hideable' => true,
 				'primary_title' => __ ( 'Open Ecwid store settings', 'ecwid-shopping-cart' ),
-				'primary_url' => 'admin.php?page=ecwid-advanced'
+				'primary_url' => Ecwid_Admin::get_dashboard_url() . '-advanced'
 			)
 		);
 	}

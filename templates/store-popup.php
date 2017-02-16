@@ -233,7 +233,7 @@
 								<div class="store-id"><?php _e('Demo store', 'ecwid-shopping-cart'); ?></div>
 							<?php endif; ?>
 								<div class="setting-link">
-									<a target="_blank" href="admin.php?page=ecwid"><?php _e('Open store dashboard', 'ecwid-shopping-cart'); ?>
+									<a target="_blank" href="<?php echo Ecwid_Admin::get_dashboard_url(); ?>"><?php _e('Open store dashboard', 'ecwid-shopping-cart'); ?>
 								</div>
 						</div>
 						<div class="media-toolbar-primary add-store">
