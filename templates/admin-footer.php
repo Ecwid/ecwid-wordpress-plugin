@@ -10,7 +10,7 @@
 	<div class="ecwid-admin-footer-block">
 		<h4 class="ecwid-admin-footer-title"><?php _e('Questions?', 'ecwid-shopping-cart'); ?></h4>
 		<div class="ecwid-admin-footer-text">
-			<?php _e('<a href="' . Ecwid_Admin::get_dashboard_url() . '-help">Read FAQ or contact support</a>', 'ecwid-shopping-cart'); ?>
+			<?php _e('<a href="admin.php?page=ec-help">Read FAQ or contact support</a>', 'ecwid-shopping-cart'); ?>
 		</div>
 	</div>
 <?php if (@$show_reconnect): ?>
