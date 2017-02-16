@@ -53,6 +53,7 @@ class Ecwid_Api_V3
 				$params[$name] = $input_params[$name];
 			}
 		}
+
 		if ( !isset( $params['baseUrl'] ) ) {
 			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
 		}
@@ -84,6 +85,15 @@ class Ecwid_Api_V3
 		}
 
 		$params = array('token');
+
+
+		if ( !isset( $params['baseUrl'] ) ) {
+			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
+		}
+
+		if ( Ecwid_Seo_Links::is_enabled() ) {
+			$params['cleanUrls'] = 'true';
+		}
 
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
