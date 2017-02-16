@@ -1137,6 +1137,10 @@ function ecwid_get_scriptjs_code($force_lang = null) {
 	    if ( Ecwid_Products::is_enabled() ) {
 		    $params .= '&data_sync_products=1';
 	    }
+
+	    if ( Ecwid_Seo_Links::is_enabled() ) {
+	    	$params .= '&data_clean_urls=1';
+		}
 		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . $params . '"></script>';
 		$s = $s . ecwid_sso();
 		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
