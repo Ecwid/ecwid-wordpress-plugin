@@ -62,17 +62,20 @@ class EcwidSitemapBuilder {
 			if ($products->items) {
 
 				foreach ($products->items as $item) {
-					Ecwid_Store_Page::register_product($item);
+					if ( $item->enabled ) {
 
-					$url = Ecwid_Store_Page::get_product_url($item->id);
+						Ecwid_Store_Page::register_product($item);
 
-					call_user_func(
-						$this->callback,
-						$url,
-						self::PRIORITY_PRODUCT,
-						'weekly',
-						$item
-					);
+						$url = Ecwid_Store_Page::get_product_url($item->id);
+
+						call_user_func(
+							$this->callback,
+							$url,
+							self::PRIORITY_PRODUCT,
+							'weekly',
+							$item
+						);
+					}
 				}
 			}
 
