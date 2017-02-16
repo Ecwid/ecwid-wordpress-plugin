@@ -87,6 +87,15 @@ JS;
 		return self::is_feature_available() && get_option( self::OPTION_ENABLED );
 	}
 
+	public static function enable() {
+		// flush
+	}
+
+	public static function disable() {
+		// flush
+		// drop cached links
+	}
+
 	public static function is_feature_available() {
 		$permalink = get_option( 'permalink_structure' );
 

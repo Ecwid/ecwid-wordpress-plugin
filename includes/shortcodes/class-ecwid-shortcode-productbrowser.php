@@ -62,7 +62,12 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 			if ($url) {
 				$parsed = parse_url($url);
-				$plain_content .= '<script data-cfasync="false" type="text/javascript"> if (!document.location.hash) document.location.hash = "'. $parsed['fragment'] . '";</script>';
+
+				if ( $parsed['fragment'] ) {
+					$plain_content .= '<script data-cfasync="false" type="text/javascript"> if (!document.location.hash) document.location.hash = "'. $parsed['fragment'] . '";</script>';
+				} else {
+					$plain_content .= '<script data-cfasync="false" type="text/javascript"> document.location = "' . esc_js($url) . '";</script>';
+				}
 			}
 		}
 
