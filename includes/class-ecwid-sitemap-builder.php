@@ -32,9 +32,8 @@ class EcwidSitemapBuilder {
 			if ($categories->items) {
 
 				foreach ($categories->items as $item) {
-					Ecwid_Store_Page::register_category($item);
 
-					$url = Ecwid_Store_Page::get_category_url($item->id);
+					$url = $item->url;
 
 					call_user_func(
 						$this->callback,
@@ -64,9 +63,7 @@ class EcwidSitemapBuilder {
 				foreach ($products->items as $item) {
 					if ( $item->enabled ) {
 
-						Ecwid_Store_Page::register_product($item);
-
-						$url = Ecwid_Store_Page::get_product_url($item->id);
+						$url = $item->url;
 
 						call_user_func(
 							$this->callback,

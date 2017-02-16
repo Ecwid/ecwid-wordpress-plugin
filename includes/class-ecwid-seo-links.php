@@ -7,9 +7,12 @@ class Ecwid_Seo_Links {
 
 	public function __construct()
 	{
+		// Should always run, check for enabled inside: once the option is turned on, it should rebuild the rules right away,
+		// therefore the action must me registered
+		add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
+
 		if ( self::is_enabled() ) {
 
-			add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 
@@ -68,6 +71,8 @@ JS;
 
 	public function build_rewrite_rules( $original_rules ) {
 
+		if ( !self::is_enabled() ) return;
+
 		$pages = get_pages( array( 'status' => 'publish,private' ) );
 
 		$rules = array();
@@ -88,12 +93,13 @@ JS;
 	}
 
 	public static function enable() {
-		// flush
+		update_option( self::OPTION_ENABLED, true );
+		flush_rewrite_rules();
 	}
 
 	public static function disable() {
-		// flush
-		// drop cached links
+		update_option( self::OPTION_ENABLED, false );
+		flush_rewrite_rules();
 	}
 
 	public static function is_feature_available() {
