@@ -197,9 +197,15 @@
                     <?php _e('SEO friendly clean URLs', 'ecwid-shopping-cart'); ?>
                 </label>
 
+                <?php if ( Ecwid_Seo_Links::is_feature_available() ): ?>
                 <div class="note">
                     <?php _e( 'This enables new clean URLs format in your store. The new urls do not contain hash sign (\'#\'), so they look nicer and are better indexed by Google.', 'ecwid-shopping-cart' ); ?>
                 </div>
+                <?php else: ?>
+                <div class="note">
+					<?php printf( __( 'To enable clean URLs in your store, you will need to enable pretty permalinks in your WordPress site settings. Navigate to <a%s>Settings->Permalink</a> and enable the "Post name" permalink type.', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'options-permalink.php' ) . '"'); ?>
+                </div>
+                <?php endif; ?>
 
 
                 <div class="note grayed-links">
