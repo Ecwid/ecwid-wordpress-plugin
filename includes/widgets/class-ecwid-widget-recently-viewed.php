@@ -17,7 +17,7 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 			setcookie('ecwid-shopping-cart-recently-viewed', null, strtotime('-1 day'));
 		}
 
-		add_action( 'init', array($this, 'enqueue' ) );
+		add_action( 'wp_enqueue_scripts', array($this, 'enqueue' ) );
 	}
 
 	function enqueue() {
