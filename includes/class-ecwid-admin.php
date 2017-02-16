@@ -33,7 +33,7 @@ class Ecwid_Admin {
 			$title,
 			$title,
 			'manage_options',
-			'ecwid',
+			'ec',
 			'ecwid_general_settings_do_page'
 		);
 
