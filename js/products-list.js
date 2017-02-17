@@ -107,6 +107,15 @@ jQuery.widget('ecwid.productsList', {
 		var container = jQuery('.'+ this._getProductClass(product.id), this.el);
 
 		if (product.link != '') {
+
+			if ( window.ec && window.ec.config && window.ec.config.baseUrl ) {
+                var match = product.link.match(/([^-^\/]*)-p([0-9]*)$/);
+                if (match && match.length == 3) {
+                	product.link = '#!/' + match[1] + '/p/' + match[2];
+				}
+			}
+
+			console.log(product.link);
 			jQuery('a', container)
 					.attr('href', product.link)
 					.attr('title', product.name);
