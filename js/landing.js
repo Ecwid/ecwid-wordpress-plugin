@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
 
 						jQuery(show_on_success, $context).fadeIn(300);
 						setTimeout(function() {
-							location.href="admin.php?page=ecwid";
+							location.href="admin.php?page=ec-store";
 						}, 1000);
 					})
 				},

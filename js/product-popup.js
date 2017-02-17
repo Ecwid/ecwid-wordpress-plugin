@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 
     jQuery('#insert-ecwid-product-button').click(function() {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
-            location.href='admin.php?page=ecwid&reconnect&reason=spw';
+            location.href='admin.php?page=ec-store&reconnect&reason=spw';
             return false;
         }
 
