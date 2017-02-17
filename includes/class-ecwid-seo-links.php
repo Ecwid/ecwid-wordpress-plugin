@@ -25,7 +25,7 @@ class Ecwid_Seo_Links {
 
 		$page_id = $wp_query->get( 'page_id' );
 
-		if ( $page_id && ecwid_page_has_productbrowser($page_id)  && $req . '/' == $redir ) {
+		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && $req . '/' == $redir ) {
 			return false;
 		}
 
@@ -57,7 +57,7 @@ class Ecwid_Seo_Links {
 		global $wp_query;
 		$page_id = $wp_query->get( 'page_id' );
 
-		$has_store = ecwid_page_has_productbrowser($page_id);
+		$has_store = ecwid_page_has_productbrowser( $page_id ) ;
 
 		if ( !$has_store ) return;
 
@@ -78,7 +78,7 @@ JS;
 		$rules = array();
 		foreach ( $pages as $page ) {
 			if ( ecwid_page_has_productbrowser( $page->ID ) ) {
-				$link = get_page_uri($page);
+				$link = get_page_uri( $page );
 
 				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page->ID;
 			}
