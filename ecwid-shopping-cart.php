@@ -533,6 +533,7 @@ function ecwid_check_version()
         add_option('ecwid_chameleon_colors_link', '');
         add_option('ecwid_chameleon_colors_button', '');
         add_option('ecwid_chameleon_colors_price', '');
+		add_option('ecwid_disable_pb_url', false );
 
         add_option(Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION, '');
 
@@ -2475,10 +2476,13 @@ function ecwid_get_entity_url($entity, $type) {
 
 function ecwid_get_product_browser_url_script()
 {
+	if ( get_option('ecwid_disable_pb_url' ) ) {
+		return;
+	}
+
 	$str = '';
 	if (ecwid_is_store_page_available()) {
 		$url = ecwid_get_store_page_url();
-
 		$str = '<script data-cfasync="false" type="text/javascript">var ecwid_ProductBrowserURL = "' . esc_js($url) . '";</script>';
 	}
 
