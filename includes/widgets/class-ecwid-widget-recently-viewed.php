@@ -123,7 +123,7 @@ HTML;
 
 		$store_link_message = empty($instance['store_link_title']) ? __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart') : $instance['store_link_title'];
 
-		$page_id = ecwid_get_current_store_page_id();
+		$page_id = Ecwid_Store_Page::get_current_store_page_id();
 		$post = get_post($page_id);
 
 		if (empty($recently_viewed->products)) {
