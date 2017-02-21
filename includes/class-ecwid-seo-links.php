@@ -75,6 +75,8 @@ JS;
 
 		$page_id = get_option( 'ecwid_store_page_id' );
 
+		$rules = array();
+
 		if ( ecwid_page_has_productbrowser( $page_id ) ) {
 			$link = get_page_uri( $page_id );
 
