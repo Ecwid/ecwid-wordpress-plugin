@@ -73,15 +73,12 @@ JS;
 
 		if ( !self::is_enabled() ) return;
 
-		$pages = get_pages( array( 'status' => 'publish,private' ) );
+		$page_id = get_option( 'ecwid_store_page_id' );
 
-		$rules = array();
-		foreach ( $pages as $page ) {
-			if ( ecwid_page_has_productbrowser( $page->ID ) ) {
-				$link = get_page_uri( $page );
+		if ( ecwid_page_has_productbrowser( $page_id ) ) {
+			$link = get_page_uri( $page_id );
 
-				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page->ID;
-			}
+			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
 		}
 
 		return array_merge( $rules, $original_rules );
