@@ -71,7 +71,7 @@ JS;
 
 	public function build_rewrite_rules( $original_rules ) {
 
-		if ( !self::is_enabled() ) return;
+		if ( !self::is_enabled() ) return $original_rules;
 
 		$page_id = get_option( 'ecwid_store_page_id' );
 
