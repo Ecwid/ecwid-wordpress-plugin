@@ -65,7 +65,7 @@ class Ecwid_Products {
 	public function redirect_to_store_page() {
 		$post = get_post();
 
-		if ( $post->post_type == self::POST_TYPE_PRODUCT && is_single() ) {
+		if ( $post && $post->post_type == self::POST_TYPE_PRODUCT && is_single() ) {
 			$url = $this->_get_post_link($post->ID);
 
 			if ($url) {
@@ -113,33 +113,47 @@ class Ecwid_Products {
 
 		$product_id = intval( @$_REQUEST['product_id'] );
 
-		$post_id = $this->_find_post_by_product_id( $product_id );
+		$link = $this->get_product_link( $product_id );
 
-		if ($post_id) {
-			echo json_encode( $this->_get_post_link( $post_id ) );
+		if ( $link ) {
+			echo json_encode($link);
 		}
 
 		exit();
 	}
 
+	public function get_product_link( $product_id ) {
+		$post_id = $this->_find_post_by_product_id( $product_id );
+
+		if ($post_id) {
+			return $this->_get_post_link( $post_id );
+		}
+
+		return '';
+	}
+
 	protected function _get_post_link( $post_id ) {
 
-		$store_page_url = ecwid_get_store_page_url();
+		$store_page_url = Ecwid_Store_Page::get_store_url();
 
 		if (! $store_page_url) {
 			return '';
 		}
 
-		$url = get_post_meta( $post_id, '_ecwid_url', true );
+		$url = get_post_meta( $post_id, '_ecwid_seo_url', true );
 
-		if ( strpos( $url, '#!' ) === false ) {
-			$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
-			$url = '#!/p/' . $ecwid_product_id;
+		if ( $url ) {
+			return $url;
 		}
 
-		$url = ecwid_get_store_page_url() . $url;
+		$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
 
-		return $url;
+		$url = Ecwid_Store_Page::get_product_url_from_api( $ecwid_product_id );
+		if ( $url ) {
+			return $url;
+		}
+
+		return Ecwid_Store_Page::get_product_url_default_fallback( $ecwid_product_id );
 	}
 
 
@@ -297,6 +311,7 @@ class Ecwid_Products {
 		}
 
 		if (!$settings || $settings['one_at_a_time'] && !$did_something) {
+
 			$did_something = $this->_process_products($settings);
 		}
 
@@ -462,6 +477,10 @@ class Ecwid_Products {
 			'in_stock'  		=> $product->inStock ? '1' : '0',
 			'_updatedTimestamp' => $product->updateTimestamp,
 		);
+
+		if ( Ecwid_Seo_Links::is_enabled() ) {
+			$meta['_ecwid_seo_url'] = $product->url;
+		}
 
 		$post_id = wp_insert_post(
 			array(
@@ -688,4 +707,4 @@ class Ecwid_Products_Sync_Status {
 	}
 }
 
-$p = new Ecwid_Products();
+$ecwid_products = new Ecwid_Products();

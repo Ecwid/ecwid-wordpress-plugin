@@ -25,7 +25,7 @@ class Ecwid_Help_Page {
 		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
 			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
 		}
-		$body_lines[] = 'Store URL: ' . ecwid_get_store_page_url();
+		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_page_url();
 		$body_lines[] = 'Wp theme: ' . ecwid_get_theme_name();
 		$body_lines[] = 'Ecwid plugin version: ' . get_option('ecwid_plugin_version');
 		$body_lines[] = 'Wordpress version: '  . get_bloginfo('version');

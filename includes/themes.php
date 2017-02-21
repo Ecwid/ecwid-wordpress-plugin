@@ -87,7 +87,6 @@ function ecwid_apply_theme($theme_name = null)
 		$theme_name = 'responsiveboat';
 	}
 
-	$theme_name = '';
 	if (!$theme_name) {
 		return;
 	}

@@ -16,13 +16,20 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 		if ($recently_viewed && $recently_viewed->store_id != get_ecwid_store_id() && !is_admin()) {
 			setcookie('ecwid-shopping-cart-recently-viewed', null, strtotime('-1 day'));
 		}
+
+		add_action( 'wp_enqueue_scripts', array($this, 'enqueue' ) );
+	}
+
+	function enqueue() {
+		if ( is_active_widget( false, false, $this->id_base ) ) {
+			wp_enqueue_script('ecwid-recently-viewed-js', ECWID_PLUGIN_URL . 'js/recently-viewed.js', array('ecwid-products-list-js', 'utils'), get_option('ecwid_plugin_version'));
+			wp_enqueue_style('ecwid-products-list-css');
+			wp_enqueue_style('ecwid-recently-viewed-css', ECWID_PLUGIN_URL . 'css/recently-viewed.css', array(), get_option('ecwid_plugin_version'));
+		}
 	}
 
 	function widget($args, $instance) {
 
-		wp_enqueue_script('ecwid-recently-viewed-js', ECWID_PLUGIN_URL . 'js/recently-viewed.js', array('ecwid-products-list-js'), get_option('ecwid_plugin_version'));
-		wp_enqueue_style('ecwid-products-list-css');
-		wp_enqueue_style('ecwid-recently-viewed-css', ECWID_PLUGIN_URL . 'css/recently-viewed.css', array(), get_option('ecwid_plugin_version'));
 		extract($args);
 
 		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
@@ -116,11 +123,11 @@ HTML;
 
 		$store_link_message = empty($instance['store_link_title']) ? __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart') : $instance['store_link_title'];
 
-		$page_id = ecwid_get_current_store_page_id();
+		$page_id = Ecwid_Store_Page::get_current_store_page_id();
 		$post = get_post($page_id);
 
 		if (empty($recently_viewed->products)) {
-			echo '<a class="show-if-empty" href="' . ecwid_get_store_page_url() . '">' . $store_link_message . '</a>';
+			echo '<a class="show-if-empty" href="' . Ecwid_Store_Page::get_store_url() . '">' . $store_link_message . '</a>';
 		}
 
 		echo $after_widget;

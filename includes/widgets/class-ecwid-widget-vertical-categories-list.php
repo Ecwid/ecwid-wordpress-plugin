@@ -30,7 +30,7 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 
 		foreach ($categories as $category) {
 			echo '<li>';
-			echo '<a href="' . ecwid_get_store_page_url() . $category->link . '">' . $category->name . '</a>';
+			echo '<a href="' . Ecwid_Store_Page::get_category_url( $category->id ) . '">' . $category->name . '</a>';
 			echo '</li>';
 		}
 
