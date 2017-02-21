@@ -25,7 +25,7 @@ class Ecwid_Seo_Links {
 
 		$page_id = $wp_query->get( 'page_id' );
 
-		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && $req . '/' == $redir ) {
+		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && strcasecmp($req . '/', $redir) == 0 ) {
 			return false;
 		}
 
