@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 4.9.4
+Stable tag: 5.0
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,15 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+- **SEO friendly clean URLs.** This is major new feature that we recommend everyone to enable. We made store pages URLs clean and SEO friendly. The new URLs do not contain hash sign ("#"), which makes your store better indexed by Google. There are less extra characters like '/', '~' or'!', so the page address looks cleaner. As previously, the new product and category pages URLs include product/category titles to make them easily readable both for Google and for your customers. Of course, no page refresh happens when the customer browses your store: the store pages with new URLs work without page reload, as it's been always worked in Ecwid. So, you have your quickly loading store pages with new SEO friendly URLs. To enable the new URLs, navigate to the Ecwid plugin Advanced settings and tick the "SEO friendly URLs" checkbox. Note: the old URLs format is supported as well, so all your existing links will continue to work fine. 
+
+- **An improvement for the floating cart sidebar widget.** Now, when you add the widget to any sidebar, the widget will displayed on every site page regardless of whether the sidebar is available on that page or not. This makes it easier for your customer to access their shopping cart and check out. 
+
+- **A few fixes for the integrated search.** Recently we added a new feature that integrates your site search with your store products to list them when your customers use the site's general post/page search. We continue improving it and fixing issues you are reporting. Thank you! 
+
+- **A few improvements and fixes for the "Add product" button in the WordPress editor** to make it easier for your to add your store products to your site pages. 
+
+
 = 4.9.4 =
 - **The new search widget is now enabled for every site.** We released the new search widget in the version 4.2 — it is mobile friendly and looks great with any wordpress ecommerce theme. We made it possible to turn on/off the new widget temporarily to make sure every site would have time to try it before it’s enabled for everyone. Now it’s enabled. If you have it enabled previously, nothing will change for you — your search widget is already updated. If you have the old search widget displayed on your site, this update will replace it with the new one. Please let us know if you have any trouble with the new widget.
 - **Fixed a minor issue with displaying store control panel on the Ecwid Dashboard page in Wordpress admin backend**. The control panel previously might be displayed with a horizontal scrolling. We fixed that — it should look fine now.
