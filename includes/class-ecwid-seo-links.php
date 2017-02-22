@@ -73,11 +73,19 @@ JS;
 
 		if ( !self::is_enabled() ) return $original_rules;
 
-		$page_id = get_option( 'ecwid_store_page_id' );
-
 		$rules = array();
 
+		$page_id = get_option( 'ecwid_store_page_id' );
+
 		if ( ecwid_page_has_productbrowser( $page_id ) ) {
+			$link = get_page_uri( $page_id );
+
+			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+		}
+
+		$page_id = get_option( 'ecwid_store_page_id_auto' );
+
+		if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
 			$link = get_page_uri( $page_id );
 
 			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
