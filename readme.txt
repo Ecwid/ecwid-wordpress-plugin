@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 5.0
+Stable tag: 5.0.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.0.3 =
 - **SEO friendly clean URLs.** This is major new feature that we recommend everyone to enable. We made store pages URLs clean and SEO friendly. The new URLs do not contain hash sign ("#"), which makes your store better indexed by Google. There are less extra characters like '/', '~' or'!', so the page address looks cleaner. As previously, the new product and category pages URLs include product/category titles to make them easily readable both for Google and for your customers. Of course, no page refresh happens when the customer browses your store: the store pages with new URLs work without page reload, as it's been always worked in Ecwid. So, you have your quickly loading store pages with new SEO friendly URLs. To enable the new URLs, navigate to the Ecwid plugin Advanced settings and tick the "SEO friendly URLs" checkbox. Note: the old URLs format is supported as well, so all your existing links will continue to work fine. 
 
 - **An improvement for the floating cart sidebar widget.** Now, when you add the widget to any sidebar, the widget will displayed on every site page regardless of whether the sidebar is available on that page or not. This makes it easier for your customer to access their shopping cart and check out. 
