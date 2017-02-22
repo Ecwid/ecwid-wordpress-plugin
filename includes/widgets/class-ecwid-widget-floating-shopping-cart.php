@@ -82,6 +82,13 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
                 </a>
             </div>
     </div>
+	<script type="text/javascript">
+		if (window.EcwidFloatingShoppingCart) {
+		    debugger;
+		    var ecwid_floating_shopping_cart = new EcwidFloatingShoppingCart();
+		    ecwid_floating_shopping_cart.init();
+		}
+	</script>
 HTML;
 		echo '<!-- /noptimize -->';
 	}
