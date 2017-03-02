@@ -542,7 +542,7 @@ function ecwid_check_version()
 
 	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
 
-		add_option( Ecwid_Seo_Links::OPTION_ENABLED, true );
+		add_option( Ecwid_Seo_Links::OPTION_ENABLED, false );
 
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 			add_option('ecwid_fetch_url_use_file_get_contents', '');
@@ -556,13 +556,6 @@ function ecwid_check_version()
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.4.5')) {
 			add_option('ecwid_enable_sso');
 		}
-
-		if ( ecwid_migrations_is_original_plugin_version_older_than( '5' ) ) {
-			update_option( Ecwid_Seo_Links::OPTION_ENABLED, 0 );
-		} else {
-			Ecwid_Seo_Links::enable();
-		}
-
 
 		add_option( Ecwid_Products::OPTION_ENABLED, Ecwid_Products::is_enabled() );
 
