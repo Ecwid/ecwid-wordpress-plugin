@@ -2400,8 +2400,6 @@ add_action('admin_post_ecwid_sync_no_sse', 'ecwid_sync_products_no_sse');
 function ecwid_sync_products_no_sse() {
 	$p = new Ecwid_Products();
 
-	error_log(var_export($_GET, true));
-
 	$p->set_sync_progress_callback('ecwid_slow_sync_progress');
 
 	$over = $p->sync(array(
