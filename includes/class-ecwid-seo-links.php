@@ -24,8 +24,7 @@ class Ecwid_Seo_Links {
 		global $wp_query;
 
 		$page_id = $wp_query->get( 'page_id' );
-
-		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && strcasecmp($req . '/', $redir) == 0 ) {
+		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && strcasecmp( $req . '/', $redir ) == 0 ) {
 			return false;
 		}
 
@@ -34,9 +33,9 @@ class Ecwid_Seo_Links {
 
 	public function redirect_escaped_fragment() {
 		if ( ecwid_can_display_html_catalog() ) {
-			$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+			$params = ecwid_parse_escaped_fragment( $_GET[ '_escaped_fragment_' ] );
 
-			if ( !isset( $params['mode'] ) ) {
+			if ( !isset( $params[ 'mode' ] ) ) {
 				return;
 			}
 
@@ -57,7 +56,7 @@ class Ecwid_Seo_Links {
 		global $wp_query;
 		$page_id = $wp_query->get( 'page_id' );
 
-		$has_store = ecwid_page_has_productbrowser( $page_id ) ;
+		$has_store = ecwid_page_has_productbrowser( $page_id );
 
 		if ( !$has_store ) return;
 
@@ -79,6 +78,7 @@ JS;
 
 		if ( ecwid_page_has_productbrowser( $page_id ) ) {
 			$link = get_page_uri( $page_id );
+
 
 			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
 		}
