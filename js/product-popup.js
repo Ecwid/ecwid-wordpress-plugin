@@ -506,8 +506,9 @@ jQuery(document).ready(function() {
 
 ecwidRenderCheckboxOption = function(data) {
 
-    if (!this.template) {
-        this.template = wp.template( 'checkbox-option' );
+    var that = ecwidRenderCheckboxOption;
+    if (!that.template) {
+        that.template = wp.template( 'checkbox-option' );
     }
 
     if (data.section == 'display-options') {
@@ -522,12 +523,12 @@ ecwidRenderCheckboxOption = function(data) {
     }
 
 
-    if (!this.nextTarget || this.nextTarget == 'right') {
-        this.nextTarget = 'left';
+    if (!that.nextTarget || that.nextTarget == 'right') {
+        that.nextTarget = 'left';
     } else {
-        this.nextTarget = 'right';
+        that.nextTarget = 'right';
     }
 
-    jQuery('#ecwid-product-popup-content .widget-settings.' + data.section + ' .widget-settings__' + this.nextTarget)
-        .append(this.template(data));
+    jQuery('#ecwid-product-popup-content .widget-settings.' + data.section + ' .widget-settings__' + that.nextTarget)
+        .append(that.template(data));
 }
