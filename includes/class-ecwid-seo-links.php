@@ -17,6 +17,10 @@ class Ecwid_Seo_Links {
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 
 			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
+
+			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
+			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
+			add_filter( 'wp_unique_post_slug_is_bad_attachment_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
 		}
 	}
 
@@ -25,6 +29,10 @@ class Ecwid_Seo_Links {
 
 		$page_id = $wp_query->get( 'page_id' );
 		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && strcasecmp( $req . '/', $redir ) == 0 ) {
+			return false;
+		}
+
+		if ($this->is_store_on_home_page() && get_queried_object_id() == get_option('page_on_front')) {
 			return false;
 		}
 
@@ -49,6 +57,60 @@ class Ecwid_Seo_Links {
 				wp_redirect( $redirect, 301 );
 			}
 		}
+	}
+
+	public function is_post_slug_bad( $value, $slug, $type = '', $parent = '' ) {
+
+		if ( !$this->is_store_on_home_page() ) {
+			return $value;
+		}
+
+		if ( $this->slug_matches_seo_pattern( $slug ) ) {
+			return true;
+		}
+
+		return $value;
+	}
+	public function slug_matches_seo_pattern($slug) {
+		static $pattern = '';
+
+		if ( !$pattern ) {
+			$patterns = $this->get_seo_links_patterns();
+
+			$pattern = '!(^' . implode('$|^', $patterns) . '$)!';
+		}
+
+		return preg_match($pattern, $slug);
+ 	}
+
+ 	protected function get_seo_links_patterns() {
+		return array(
+			'[^/]+-p[0-9]+',
+			'[^/]+-c[0-9]+',
+			'cart',
+			'checkout',
+			'checkout\/shipping',
+			'checkout\/payment',
+			'checkout\/place-order',
+			'checkout\/order-confirmation',
+			'account',
+			'account\/settings',
+			'account\/orders',
+			'account\/address-book',
+			'account\/favorites',
+			'search',
+			'search\?.*'
+		);
+	}
+
+	public function is_store_on_home_page() {
+		$front_page = get_option( 'page_on_front' );
+
+		if ( Ecwid_Store_Page::is_store_page( $front_page ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function add_js_config() {
@@ -76,19 +138,28 @@ JS;
 
 		$page_id = get_option( 'ecwid_store_page_id' );
 
-		if ( ecwid_page_has_productbrowser( $page_id ) ) {
-			$link = get_page_uri( $page_id );
+
+		if ( $this->is_store_on_home_page() ) {
+			$patterns = $this->get_seo_links_patterns();
+			foreach ($patterns as $pattern) {
+				$rules['^' . $pattern . '$'] = 'index.php?page_id=' . get_option( 'page_on_front' );
+			}
+		} else {
+
+			if ( ecwid_page_has_productbrowser( $page_id ) ) {
+				$link = get_page_uri( $page_id );
 
 
-			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
-		}
+				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+			}
 
-		$page_id = get_option( 'ecwid_store_page_id_auto' );
+			$page_id = get_option( 'ecwid_store_page_id_auto' );
 
-		if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
-			$link = get_page_uri( $page_id );
+			if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
+				$link = get_page_uri( $page_id );
 
-			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+			}
 		}
 
 		return array_merge( $rules, $original_rules );
