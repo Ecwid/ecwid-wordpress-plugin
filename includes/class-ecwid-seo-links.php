@@ -138,28 +138,26 @@ JS;
 
 		$page_id = get_option( 'ecwid_store_page_id' );
 
-
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
 			foreach ($patterns as $pattern) {
 				$rules['^' . $pattern . '$'] = 'index.php?page_id=' . get_option( 'page_on_front' );
 			}
-		} else {
+		}
 
-			if ( ecwid_page_has_productbrowser( $page_id ) ) {
-				$link = get_page_uri( $page_id );
+		if ( ecwid_page_has_productbrowser( $page_id ) ) {
+			$link = get_page_uri( $page_id );
 
 
-				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
-			}
+			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+		}
 
-			$page_id = get_option( 'ecwid_store_page_id_auto' );
+		$page_id = get_option( 'ecwid_store_page_id_auto' );
 
-			if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
-				$link = get_page_uri( $page_id );
+		if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
+			$link = get_page_uri( $page_id );
 
-				$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
-			}
+			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
 		}
 
 		return array_merge( $rules, $original_rules );

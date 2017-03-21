@@ -855,12 +855,25 @@ function ecwid_page_has_productbrowser($post_id = null)
 		}
 	}
 
+
 	return $results[$post_id];
 }
 
 function ecwid_ajax_crawling_fragment() {
-    if (ecwid_is_api_enabled() && !isset($_GET['_escaped_fragment_']) && ecwid_page_has_productbrowser())
-        echo '<meta name="fragment" content="!">' . PHP_EOL; 
+
+	if ( !ecwid_is_api_enabled() ) return;
+
+	if ( isset( $_GET['_escaped_fragment_'] ) ) return;
+
+	if ( ! ecwid_page_has_productbrowser() ) return;
+
+	global $wp, $ecwid_seo_links;
+
+	$slug = ltrim( strrchr( $wp->request, '/' ), '/' );
+
+	if ( Ecwid_Seo_Links::is_enabled() && $ecwid_seo_links->slug_matches_seo_pattern( $slug ) ) return;
+
+    echo '<meta name="fragment" content="!">' . PHP_EOL;
 }
 
 function ecwid_meta() {
