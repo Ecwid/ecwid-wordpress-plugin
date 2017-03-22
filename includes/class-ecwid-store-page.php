@@ -78,7 +78,7 @@ class Ecwid_Store_Page {
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			return untrailingslashit( self::get_store_url() ) . '/cart';
 		} else {
-			return self::get_store_url() . '#!/cart';
+			return self::get_store_url() . '#!/~/cart';
 		}
 	}
 
