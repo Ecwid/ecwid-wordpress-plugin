@@ -160,9 +160,10 @@ class Ecwid_Nav_Menus {
 
 		$counter = 0;
 
-		foreach ($items as $key => $item) {
+		for ( $i = 0; $i < count($items); $i++ ) {
 
-			$items[$key]->menu_order += $counter;
+			$item = $items[$i];
+			$items[$i]->menu_order = $i + 1;
 
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
@@ -174,39 +175,49 @@ class Ecwid_Nav_Menus {
 				$item->url = Ecwid_Store_Page::get_store_url();
 			}
 			if ($item->object == 'ecwid-store-with-categories') {
-				$categories = ecwid_get_categories();
-				if (!empty($categories)) {
+
+				$posts = EcwidPlatform::cache_get( 'nav_categories_posts' );
+
+				if ( !$posts ) {
+					$posts = array();
+					$categories = ecwid_get_categories();
 					foreach ($categories as $category) {
-						$counter++;
-						$post                   = new stdClass;
-						$post->ID               = -1;
-						$post->post_author      = '';
-						$post->post_date        = '';
-						$post->post_date_gmt    = '';
-						$post->post_password    = '';
-						$post->post_name        = '';
-						$post->post_type        = $item->post_type;
-						$post->post_status      = 'publish';
-						$post->to_ping          = '';
-						$post->pinged           = '';
-						$post->post_parent      = 0;
-						$post->menu_order       = $item->menu_order + $counter;
-						$post->menu_item_parent = $item->ID;
-						$post->url              = Ecwid_Store_Page::get_category_url( $category->id );
-						$post->classes          = '';
-						$post->type             = 'post';
-						$post->db_id            = 0;
-						$post->title            = $category->name;
-						$post->target           = '';
-						$post->object           = '';
-						$post->attr_title       = '';
-						$post->description      = '';
-						$post->xfn              = '';
-						$post->object_id        = 0;
-						array_splice($items, $key + $counter, 0, array( $post ));
+						$post = new stdClass;
+						$post->ID = -1;
+						$post->post_author = '';
+						$post->post_date = '';
+						$post->post_date_gmt = '';
+						$post->post_password = '';
+						$post->post_name = '';
+						$post->post_type = $item->post_type;
+						$post->post_status = 'publish';
+						$post->to_ping = '';
+						$post->pinged = '';
+						$post->post_parent = 0;
+						$post->url = Ecwid_Store_Page::get_category_url($category->id);
+						$post->classes = '';
+						$post->type = 'post';
+						$post->db_id = 0;
+						$post->title = $category->name;
+						$post->target = '';
+						$post->object = '';
+						$post->attr_title = '';
+						$post->description = '';
+						$post->xfn = '';
+						$post->object_id = 0;
+
+						$posts[] = $post;
 					}
+                }
+
+				foreach ( $posts as $post ) {
 					$counter++;
+					$post->menu_item_parent = $item->ID;
+					array_splice( $items, $i + $counter, 0, array( $post ) );
 				}
+				$counter++;
+
+				EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAYS_IN_SECONDS );
 			}
 		}
 
