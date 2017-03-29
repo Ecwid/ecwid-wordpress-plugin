@@ -44,4 +44,11 @@ class Ecwid_WL {
 			}
 		}
 	}
+	public static function enqueue_styles() {
+		if ( !self::is_wl() ) {
+			return;
+		}
+		wp_enqueue_style( 'ecwid-wl', ECWID_PLUGIN_URL . 'css/wl.css', array( 'ecwid-admin-css' ), get_option( 'ecwid_plugin_version' ) );
+	}
 }
+add_action( 'admin_enqueue_scripts', array( Ecwid_WL, 'enqueue_styles' ) );

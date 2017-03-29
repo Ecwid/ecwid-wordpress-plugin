@@ -1,0 +1,4 @@
+#adminmenu #toplevel_page_ec-store div.wp-menu-image:before {
+    content: "\f108";
+    font-family: dashicons;
+}

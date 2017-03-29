@@ -17,8 +17,8 @@ class Ecwid_Admin {
 		$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 		add_menu_page(
-			__('Ecwid shopping cart settings', 'ecwid-shopping-cart'),
-			__('Ecwid Store', 'ecwid-shopping-cart'),
+			sprintf( __( '%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+			sprintf( __( '%s Store', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
 			'manage_options',
 			self::ADMIN_SLUG,
 			'ecwid_general_settings_do_page',
