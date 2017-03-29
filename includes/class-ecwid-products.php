@@ -51,7 +51,7 @@ class Ecwid_Products {
 	}
 
 	public function replace_product_page_url_on_search( $url, $post, $leavename = false ) {
-		if ( $post->post_type == self::POST_TYPE_PRODUCT && is_search() ) {
+		if ( $post->post_type == self::POST_TYPE_PRODUCT ) {
 			$new_url = $this->_get_post_link( $post->ID );
 
 			if ($new_url) {
@@ -69,7 +69,7 @@ class Ecwid_Products {
 			$url = $this->_get_post_link($post->ID);
 
 			if ($url) {
-				wp_redirect($url);
+				wp_redirect($url, 301);
 				exit();
 			}
 		}
@@ -215,7 +215,10 @@ class Ecwid_Products {
                 'exclude_from_search' => FALSE,
                 'hierarchical'        => FALSE,
                 'show_in_nav_menus'   => TRUE,
-                'show_ui'             => false
+                'show_ui'             => false,
+				'labels' => array(
+					'name' => __( 'Products', 'ecwid-shopping-cart' )
+				)
             )
         );
 	}

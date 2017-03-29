@@ -179,7 +179,7 @@ class Ecwid_Nav_Menus {
 					foreach ($categories as $category) {
 						$counter++;
 						$post                   = new stdClass;
-						$post->ID               = 0;
+						$post->ID               = -1;
 						$post->post_author      = '';
 						$post->post_date        = '';
 						$post->post_date_gmt    = '';

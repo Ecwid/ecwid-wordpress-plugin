@@ -38,24 +38,26 @@ function ecwid_get_theme_identification()
 function ecwid_apply_theme($theme_name = null)
 {
 	$generic_themes = array(
-		'pixova-lite'		=> array( 'js', 'scroll' ),
-		'accesspress-mag'	=> array( 'css' ),
-		'attitude'			=> array( 'css-no-parent' ),
-		'customizr'			=> array( 'js', 'css' ),
-		'edin'				=> array( 'js' ),
-		'evolve'			=> array( 'css-no-parent' ),
-		'mantra'			=> array( 'css-no-parent' ),
-		'pagelines'			=> array( 'js', 'scroll' ),
-		'responsiveboat'	=> array( 'css' ),
-		'twentyfourteen'	=> array( 'css', 'scroll' ),
-		'twentytwelve'		=> array( 'js', 'scroll' ),
-		'sliding-door'		=> array( 'css-no-parent' ),
-		'zerif-lite'		=> array( 'css-no-parent' ),
-		'storefront'		=> array( 'css' ),
-		'salient'			=> array( 'css-no-parent'),
-		'flora'				=> array( 'js' ),
-        'thevoux-wp'		=> array( 'js' ),
-		'zerogravity'		=> array( 'css' )
+		'pixova-lite'			=> array( 'js', 'scroll' ),
+		'accesspress-mag'		=> array( 'css' ),
+		'attitude'				=> array( 'css-no-parent' ),
+		'customizr'				=> array( 'js', 'css' ),
+		'edin'					=> array( 'js' ),
+		'evolve'				=> array( 'css-no-parent' ),
+		'mantra'				=> array( 'css-no-parent' ),
+		'pagelines'				=> array( 'js', 'scroll' ),
+		'responsiveboat'		=> array( 'css' ),
+		'twentyfourteen'		=> array( 'css', 'scroll' ),
+		'twentytwelve'			=> array( 'js', 'scroll' ),
+		'sliding-door'			=> array( 'css-no-parent' ),
+		'zerif-lite'			=> array( 'css-no-parent' ),
+		'storefront'			=> array( 'css' ),
+		'salient'				=> array( 'css-no-parent'),
+		'flora'					=> array( 'js' ),
+        'thevoux-wp'			=> array( 'js' ),
+		'zerogravity'			=> array( 'css' ),
+		'skt-design-agency-pro' => array( 'css-no-parent' ),
+		'uncode'			    => array( 'css-no-parent' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -83,6 +85,11 @@ function ecwid_apply_theme($theme_name = null)
 
 	if (function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
 		$theme_name = 'responsiveboat';
+	}
+
+	$theme_name = '';
+	if (!$theme_name) {
+		return;
 	}
 
 	if ( in_array($theme_name, $custom_themes) ) {

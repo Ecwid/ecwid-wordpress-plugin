@@ -72,6 +72,8 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 		$result .= '</div>';
 
+		$result .= ' '; // APPS-892, otherwise there is no space between consecutive widgets
+
 		update_option('ecwid_single_product_used', time());
 
 		return $result;

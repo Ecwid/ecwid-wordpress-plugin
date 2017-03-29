@@ -1,0 +1,3 @@
+.ecwid-shopping-cart input[type=checkbox]:checked:before, .ecwid-shopping-cart input[type=radio]:checked:before {
+    position: initial;
+}

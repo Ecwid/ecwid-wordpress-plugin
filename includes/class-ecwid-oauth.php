@@ -85,7 +85,7 @@ class Ecwid_OAuth {
 				$this->update_state(array('mode' => self::MODE_CONNECT, 'error' => 'cancelled'));
 			}
 
-			wp_redirect('admin.php?page=ecwid&connection_error' . ($reconnect ? '&reconnect' : ''));
+			wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ($reconnect ? '&reconnect' : ''));
 			exit;
 		}
 
@@ -135,9 +135,9 @@ class Ecwid_OAuth {
 		} else {
 			$url = '';
 			if ($reconnect) {
-				$url = 'admin.php?page=ecwid&setting-updated=true';
+				$url = Ecwid_Admin::get_dashboard_url() . '&setting-updated=true';
 			} else {
-				$url = 'admin.php?page=ecwid';
+				$url = Ecwid_Admin::get_dashboard_url();
 			}
 			wp_redirect( $url );
 		}
@@ -151,7 +151,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
 
-		wp_redirect('admin.php?page=ecwid');
+		wp_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit;
 	}
 
@@ -215,7 +215,7 @@ class Ecwid_OAuth {
 			EcwidPlatform::report_error($last_error);
 		}
 
-		wp_redirect('admin.php?page=ecwid&connection_error' . ($mode == self::MODE_RECONNECT ? '&reconnect' : ''));
+		wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $mode == self::MODE_RECONNECT ? '&reconnect' : '' ) );
 		exit;
 	}
 

@@ -1199,7 +1199,6 @@ msgstr "Создать %s-магазин"
 msgid "Store is created"
 msgstr "Магазин создан"
 
-#: templates/landing.php:35 templates/landing.php:152
 msgid "Creating store"
 msgstr "Создание магазина"
 
@@ -1648,22 +1647,3 @@ msgstr "Не синхронизовано"
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"
-
-#. #-#-#-#-#  current.po (Ecwid Shopping Cart 4.9.4)  #-#-#-#-#
-#. Plugin URI of the plugin/theme
-#. #-#-#-#-#  current.po (Ecwid Shopping Cart 4.9.4)  #-#-#-#-#
-#. Author URI of the plugin/theme
-msgid "http://www.ecwid.com?source=wporg"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"Ecwid is a free full-featured shopping cart. It can be easily integrated "
-"with any Wordpress blog and takes less than 5 minutes to set up."
-msgstr ""
-"Эквид – бесплатный полнофункциональный интернет-магазин. Легко встраивается "
-"в любой WordPress сайт и настраивается за 5 минут."
-
-#. Author of the plugin/theme
-msgid "Ecwid Team"
-msgstr "Ecwid Team"

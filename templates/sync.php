@@ -178,7 +178,7 @@ jQuery('#sync-button-slow').click(function() {
 <div class="sync-block" id="update-progress">
 	<?php echo sprintf(__( 'Products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
-			'<span id="total_updated">' . ($estimation['total_updated'] + $estimation['total_deleted']) . '</span>'
+			'<span id="total_updated">' . ($estimation['total_updated']) . '</span>'
 		);
 	?>
 </div>
