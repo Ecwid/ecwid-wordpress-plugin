@@ -774,10 +774,8 @@ msgid "Upgrade to get this feature"
 msgstr ""
 
 #: templates/advanced-settings.php:71
-msgid "This feature is available on the %s's Venture plan and above"
-msgstr ""
-"Чтобы включить \"Единый вход\", подпишитесь на платный план в "
-"%s. Доступно на плане Venture и выше."
+msgid "Please subscribe to a paid plan to get this feature."
+msgstr "Подпишитесь на платный план, чтобы получить эту функциональность."
 
 #: templates/advanced-settings.php:77
 msgid ""
@@ -1237,7 +1235,7 @@ msgstr "Продавать онлайн – это просто"
 
 #: templates/landing.php:67
 msgid "Sell Everywhere<br>with your %s store"
-msgstr ""
+msgstr "Продавайте c %s там,<br> где ваши клиенты"
 
 #: templates/landing.php:68 templates/landing_old.php:87
 msgid ""

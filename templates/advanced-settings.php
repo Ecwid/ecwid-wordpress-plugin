@@ -68,7 +68,7 @@
 						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
 					</a>
 					<div class="note grayed-links">
-						<?php printf( __( 'This feature is available on the %s\'s Venture plan and above', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?>
+						<?php printf( __( 'Please subscribe to a paid plan to get this feature.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?>
 					</div>
 				</div>
 				<?php endif; ?>
