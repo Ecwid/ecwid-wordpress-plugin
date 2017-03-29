@@ -1606,7 +1606,8 @@ function ecwid_register_settings_styles($hook_suffix) {
 
 	if (version_compare(get_bloginfo('version'), '3.8-beta') > 0) {
 		wp_enqueue_style('ecwid-settings38-css', ECWID_PLUGIN_URL . 'css/settings.3.8.css', array('ecwid-settings-css'), '', 'all');
-	}}
+	}
+}
 
 function ecwid_plugin_actions($links) {
 	$settings_link = "<a href='" . Ecwid_Admin::get_dashboard_url() . "'>"
