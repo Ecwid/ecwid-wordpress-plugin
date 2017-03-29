@@ -878,14 +878,22 @@ function ecwid_ajax_crawling_fragment() {
 
 function ecwid_meta() {
 
+	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//app.ecwid.com/">' . PHP_EOL;
+	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
+	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
 
     if (!ecwid_page_has_productbrowser() && ecwid_is_store_page_available()) {
-        $page_url = Ecwid_Store_Page::get_store_url();
-        echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
-        echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+		$page_url = Ecwid_Store_Page::get_store_url();
+		echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
+		echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+	} else {
+        $store_id = get_ecwid_store_id();
+        $params = ecwid_get_scriptjs_params();
+		echo '<link rel="preload" href="https://app.ecwid.com/script.js?'
+			. $store_id . '&' . $params . '" as="script">' . PHP_EOL;
     }
 }
 
@@ -1141,15 +1149,8 @@ function ecwid_get_scriptjs_code($force_lang = null) {
 
     if (!$ecwid_script_rendered) {
 		$store_id = get_ecwid_store_id();
-		$force_lang_str = !empty($force_lang) ? "&lang=$force_lang" : '';
-	    $params = '&data_platform=wporg' . $force_lang_str;
-	    if ( Ecwid_Products::is_enabled() ) {
-		    $params .= '&data_sync_products=1';
-	    }
+		$params = ecwid_get_scriptjs_params( $force_lang );
 
-	    if ( Ecwid_Seo_Links::is_enabled() ) {
-	    	$params .= '&data_clean_urls=1';
-		}
 		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . $params . '"></script>';
 		$s = $s . ecwid_sso();
 		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
@@ -1159,6 +1160,22 @@ function ecwid_get_scriptjs_code($force_lang = null) {
     } else {
 		return '';
     }
+}
+
+function ecwid_get_scriptjs_params( $force_lang = null ) {
+
+	$store_id = get_ecwid_store_id();
+	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
+	$params = '&data_platform=wporg' . $force_lang_str;
+	if ( Ecwid_Products::is_enabled() ) {
+		$params .= '&data_sync_products=1';
+	}
+
+	if ( Ecwid_Seo_Links::is_enabled() ) {
+		$params .= '&data_clean_urls=1';
+	}
+
+	return $params;
 }
 
 function ecwid_script_shortcode($params) {
