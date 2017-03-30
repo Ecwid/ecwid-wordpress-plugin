@@ -151,7 +151,6 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 == Changelog ==
 = 5.0.6 =
 - **Fixed a loading speed issue.** Some sites with the Ecwid ecommerce plugin might have troubles with loading speed, when store categories menu was enabled. We optimized the way Ecwid renders and displays the store categories navigation so the issue should be fixed now.
-- **Optimized the plugin code to make sure it's compatible with PHP7.** You can use the Ecwid online store on hostings with the new PHP version installed — everything should work fine.
 
 = 5.0.5 =
 - **Fixed a a bug causing 404 errors on the store page when SEO friendly URLs are enabled.** The issue appeared on the sites where store is placed on the site home page. Now the clean SEO URLs option should work fine regardless of whether you add Ecwid store to your site home page or any other page.
