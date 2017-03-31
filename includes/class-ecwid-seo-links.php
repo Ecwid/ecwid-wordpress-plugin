@@ -125,6 +125,7 @@ class Ecwid_Seo_Links {
 		$url = esc_js( ecwid_get_store_page_base_url() );
 
 		echo <<<JS
+			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;

@@ -123,6 +123,8 @@
 			</div>
 		</div>
 
+		<?php if ( get_option( 'ecwid_use_chameleon' ) ): ?>
+
 		<hr />
 
 		<div class="pure-control-group checkbox">
@@ -147,6 +149,7 @@
 <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
 				</div>
 		</div>
+        <?php endif; ?>
 
 
 		<?php $show_categories = ecwid_migrations_is_original_plugin_version_older_than('3.3') || get_option('ecwid_use_new_horizontal_categories') != 'Y'; ?>

@@ -335,8 +335,6 @@ function ecwid_print_inline_js_config() {
 <script type="text/javascript">
 window.ec = window.ec || Object();
 window.ec.config = window.ec.config || Object();
-window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 HTML;
 
 	do_action('ecwid_print_inline_js_config');
@@ -345,12 +343,8 @@ HTML;
 
 add_action( 'ecwid_print_inline_js_config', 'ecwid_add_chameleon' );
 function ecwid_add_chameleon() {
-	if (!get_option('ecwid_use_chameleon')) {
-		return;
-	}
 
 	$colors = array();
-
 	foreach (array('foreground', 'background', 'link', 'price', 'button') as $kind) {
 		$color = get_option( 'ecwid_chameleon_colors_' . $kind );
 		if ( $color ) {
@@ -358,31 +352,36 @@ function ecwid_add_chameleon() {
 		}
 	}
 
-	if (empty($colors)) {
+	if ( !get_option( 'ecwid_use_chameleon' ) && empty( $colors ) ) {
+		return;
+	}
+
+	if ( empty( $colors ) ) {
 		$colors = 'auto';
 	}
 
 	$colors = json_encode($colors);
 	$font = '"auto"';
 
-	$chameleon = apply_filters( 'ecwid_chameleon_settings', array('colors' => $colors, 'font' => $font));
+	$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors, 'font' => $font ) );
 
-	if (!is_array($chameleon)) {
+	if ( !is_array($chameleon ) ) {
 		$chameleon = array(
 			'colors' => $colors,
 			'font'   => $font
 		);
 	}
 
-	if (!isset($chameleon['colors'])) {
+	if ( !isset( $chameleon['colors'] ) ) {
 		$chameleon['colors'] = json_encode($colors);
 	}
 
-	if (!isset($chameleon['font'])) {
+	if ( !isset( $chameleon['font'] ) ) {
 		$chameleon['font'] = $font;
 	}
 
 	echo <<<JS
+window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
 </script>
@@ -527,7 +526,7 @@ function ecwid_check_version()
 		do_action('ecwid_plugin_installed', $current_version);
 		add_option('ecwid_plugin_version', $current_version);
 
-		update_option('ecwid_use_chameleon', true);
+		add_option('ecwid_use_chameleon', false);
 
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
 
