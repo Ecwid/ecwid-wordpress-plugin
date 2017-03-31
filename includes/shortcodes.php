@@ -12,6 +12,7 @@ add_shortcode('ecwid_search', 'ecwid_render_shortcode');
 add_shortcode('ecwid_categories', 'ecwid_render_shortcode');
 add_shortcode('ecwid_product', 'ecwid_render_shortcode');
 add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
+add_shortcode('ec_product', 'ecwid_render_shortcode');
 
 function ecwid_render_shortcode($params, $content = '', $name) {
 	$names = array('productbrowser', 'minicart', 'search', 'categories', 'product');

@@ -1,4 +1,4 @@
-<h2><?php printf( __( '%s Shopping Cart — Advanced settings', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?></h2>
+<h2><?php printf( __( '%s Shopping Cart — Advanced settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h2>
 
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings advanced-settings" method="POST" action="options.php">
@@ -58,7 +58,7 @@
 				</label>
 
 				<div class="note">
-					<?php printf( __( 'Single Sign-On allows your customers to have a single login for your WordPress site and your %s store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?>
+					<?php printf( __( 'Single Sign-On allows your customers to have a single login for your WordPress site and your %s store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
 				</div>
 				<?php if (!ecwid_is_paid_account()): ?>
 				<div class="upgrade-note">
@@ -68,13 +68,13 @@
 						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
 					</a>
 					<div class="note grayed-links">
-						<?php printf( __( 'Please subscribe to a paid plan to get this feature.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?>
+						<?php printf( __( 'Please subscribe to a paid plan to get this feature.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
 					</div>
 				</div>
 				<?php endif; ?>
 				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key') && !$has_create_customers_scope): ?>
 					<div class="note">
-						<?php printf( __( 'To allow %s automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>', 'ecwid-shopping-cart'), Ecwid_WL::get_brand(), 'href="' . $reconnect_link . '"'); ?>
+						<?php printf( __( 'To allow %s automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="' . $reconnect_link . '"'); ?>
 					</div>
 				<?php endif; ?>
 
@@ -104,10 +104,10 @@
 				</label>
 
 				<div class="note">
-					<?php printf( __( 'Automatic adjustment of your store design to your WordPress theme. Whatever WordPress theme you use, %s will detect predominant colors and font and use them in your product catalog.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?>
+					<?php printf( __( 'Automatic adjustment of your store design to your WordPress theme. Whatever WordPress theme you use, %s will detect predominant colors and font and use them in your product catalog.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
 				</div>
 				<div class="note grayed-links">
-<?php echo sprintf(__( 'Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_WL::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"' ); ?>
+<?php echo sprintf(__( 'Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"' ); ?>
 				</div>
 		</div>
 
@@ -163,7 +163,7 @@
 					</label>
 
 					<div class="note">
-						<?php printf( __( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ); ?>
+						<?php printf( __( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 					</div>
 				</div>
 			</div>
@@ -171,7 +171,7 @@
             <?php ecwid_sync_do_page(); ?>
 
 			<div class="note grayed-links">
-				<?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_WL::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"'); ?>
+				<?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"'); ?>
 			</div>
 
 	</fieldset>

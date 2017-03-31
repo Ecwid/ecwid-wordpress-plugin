@@ -1,4 +1,4 @@
-<h2><?php printf( __( '%s Shopping Cart — Appearance settings', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?></h2>
+<h2><?php printf( __( '%s Shopping Cart — Appearance settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h2>
 
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings appearance-settings" method="POST" action="options.php">
@@ -168,7 +168,7 @@
 						/>
 				</div>
 			</div>
-			<p class="note pb-note"><?php printf( __( 'Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, %s will adapt the number of columns to hold all products.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ); ?></p>
+			<p class="note pb-note"><?php printf( __( 'Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, %s will adapt the number of columns to hold all products.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></p>
 		</div>
 
 		<hr />

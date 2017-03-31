@@ -8,7 +8,7 @@ class Ecwid_Shortcode_Categories extends Ecwid_Shortcode_Base {
 		$this->_should_render = (isset($params['is_ecwid_shortcode']) && $params['is_ecwid_shortcode']) ? true : get_option('ecwid_show_categories');
 	}
 
-	public function get_shortcode_name() {
+	public static function get_shortcode_name() {
 		return 'categories';
 	}
 

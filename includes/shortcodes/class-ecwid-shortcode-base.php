@@ -8,7 +8,7 @@ abstract class Ecwid_Shortcode_Base {
 
 	static protected $shortcodes = array();
 
-	abstract public function get_shortcode_name();
+	abstract static public function get_shortcode_name();
 	abstract protected function _process_params( $shortcode_params = array() );
 	abstract public function get_ecwid_widget_function_name();
 
@@ -24,6 +24,14 @@ abstract class Ecwid_Shortcode_Base {
 		}
 		$this->_index = count(self::$shortcodes[$this->get_shortcode_name()]);
 		self::$shortcodes[$this->get_shortcode_name()][] = $this;
+	}
+
+	public static function get_store_shortcode_name() {
+		if ( Ecwid_Config::is_wl() ) {
+			return 'ec_store';
+		}
+
+		return 'ecwid';
 	}
 
 	public function wrap_code($code) {

@@ -39,7 +39,7 @@ class Ecwid_OAuth {
 
 	public function get_test_post_url()
 	{
-		return 'https://my.ecwid.com/api/oauth/token';
+		return Ecwid_Config::get_oauth_url();
 	}
 
 
@@ -92,13 +92,13 @@ class Ecwid_OAuth {
 		$base_admin_url = 'admin-post.php?action=ecwid_oauth' . ($reconnect ? '_reconnect' : '');
 
 		$params['code'] = $_REQUEST['code'];
-		$params['client_id'] = Ecwid_Api_V3::CLIENT_ID;
-		$params['client_secret'] = Ecwid_Api_V3::CLIENT_SECRET;
+		$params['client_id'] = Ecwid_Config::get_oauth_appid();
+		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
 		$params['redirect_uri'] = admin_url( $base_admin_url );
 
 		$params['grant_type'] = 'authorization_code';
 
-		$request = Ecwid_HTTP::create_post( 'oauth_authorize', 'https://my.ecwid.com/api/oauth/token', array(
+		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 
@@ -242,7 +242,7 @@ class Ecwid_OAuth {
 		$token = $this->api->get_token();
 
 		$timestamp = time();
-		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Api_V3::CLIENT_SECRET);
+		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Config::get_oauth_appsecret());
 
 		$url = sprintf(
 			$url,
@@ -332,7 +332,7 @@ class Ecwid_OAuth {
 		if (isset($this->state->reason)) {
 			switch ( $this->state->reason ) {
 				case 'spw':
-					$reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() );
+					$reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 					break;
 				case '2':
 					$reconnect_message = "Message 2";

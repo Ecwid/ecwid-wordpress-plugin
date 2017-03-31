@@ -106,18 +106,18 @@ jQuery(document).ready(function() {
 
 	var admin_pages = [
 		{
-			url: ecwid_l10n.dashboard_url,
-			title: ecwid_l10n.dashboard,
+			url: ecwid_params.dashboard_url,
+			title: ecwid_params.dashboard,
 			place: 'dashboard'
 		},
 		{
-			url: ecwid_l10n.products_url,
-			title: ecwid_l10n.products,
+			url: ecwid_params.products_url,
+			title: ecwid_params.products,
 			place: 'products'
 		},
 		{
-			url: ecwid_l10n.orders_url,
-			title: ecwid_l10n.orders,
+			url: ecwid_params.orders_url,
+			title: ecwid_params.orders,
 			place: 'orders'
 		}
 	];
@@ -127,11 +127,11 @@ jQuery(document).ready(function() {
 			jQuery('#ecwid-frame').addClass('has-wp-message');
 		}
 		for (var i = 0; i < admin_pages.length; i++) {
-			jQuery('li.toplevel_page_ecwid .wp-submenu a[href="' + admin_pages[i].url + '"]')
+			jQuery('li.toplevel_page_ec_store .wp-submenu a[href="' + admin_pages[i].url + '"]')
 				.data('ecwid-menu', admin_pages[i])
 				.click(function() {
 					var ecwidMenu = jQuery(this).data('ecwid-menu');
-					jQuery('.toplevel_page_ecwid *.current').removeClass('current');
+					jQuery('.toplevel_page_ec-store *.current').removeClass('current');
 					jQuery(this).addClass('current').closest('li').addClass('current');
 
 					ecwidOpenAdminPage(ecwidMenu.place);
@@ -173,12 +173,12 @@ prepareVerticalCategoriesWidget = function(element) {
 	$target = jQuery('<p class="ecwid-cats-reset-cache">').appendTo(jQuery('.ecwid-reset-categories-cache-block', element));
 
 	jQuery('<span>')
-			.text(ecwid_l10n.cache_updated)
+			.text(ecwid_params.cache_updated)
 			.addClass('ecwid-reset-categories-cache-updated')
 			.appendTo($target);
 
 	var a = jQuery('<a>')
-			.text(ecwid_l10n.reset_cats_cache)
+			.text(ecwid_params.reset_cats_cache)
 			.attr('href', 'javascript:void(0);')
 			.addClass('ecwid-reset-categories-cache')
 			.appendTo($target);

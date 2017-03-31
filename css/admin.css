@@ -10,15 +10,15 @@
 	background-image: url(../images/icon-head-active.png);
 }
 
-#adminmenu #toplevel_page_ecwid div.wp-menu-image {
+#adminmenu #toplevel_page_ec-store div.wp-menu-image {
 	background: url(../images/icon-sidebar-default.png) no-repeat 5px 2px;
 	margin: 2px 3px 2px 2px;
 	width: 23px;
 	height: 23px;
 }
 
-#adminmenu #toplevel_page_ecwid:hover div.wp-menu-image,
-#adminmenu #toplevel_page_ecwid.wp-has-current-submenu div.wp-menu-image
+#adminmenu #toplevel_page_ec-store:hover div.wp-menu-image,
+#adminmenu #toplevel_page_ec-store.wp-has-current-submenu div.wp-menu-image
 {
 	background-image: url(../images/icon-sidebar-active.png);
 }
@@ -371,7 +371,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 	height: 600px;
 }
 
-.toplevel_page_ecwid #wpcontent {
+.toplevel_page_ec-store #wpcontent {
 	padding-left: 0px;
 }
 
@@ -569,4 +569,17 @@ body[class*="_page_ecwid"] .ecwid-message {
 .ecwid-reset-categories-cache.cache-cleared:hover {
 	color:#666;
 	border-bottom-color:#666;
+}
+
+#adminmenu #toplevel_page_ec-store div.wp-menu-image:before {
+    font-family: 'ecwid-plugin-icons' !important;
+    content: "\e603";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#adminmenu #toplevel_page_ec-store div.wp-menu-image {
+    margin: 0px;
+    width: 34px;
+    height: 30px;
 }

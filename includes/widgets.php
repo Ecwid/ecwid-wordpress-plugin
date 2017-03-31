@@ -21,7 +21,7 @@ function ecwid_sidebar_widgets_init() {
 		return;
 	}
 
-	if ( !Ecwid_WL::is_wl() ) {
+	if ( !Ecwid_Config::is_wl() ) {
 		register_widget('Ecwid_Widget_Badge');
 	}
 

@@ -163,7 +163,7 @@ jQuery(document).ready(function() {
 
         var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
-        var shortcode = '[ecwid_product';
+        var shortcode = '[' + ecwid_params.product_shortcode;
 
         for (var i = 0; i < params_order.length; i++) {
             shortcode += ' ' + params_order[i] + '="' + params[params_order[i]] + '"';

@@ -41,7 +41,7 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 		$this->_should_render = ! empty( $ecwid_enable_minicart ) && ! empty( $ecwid_show_categories );
 	}
 
-	public function get_shortcode_name() {
+	public static function get_shortcode_name() {
 		return 'minicart';
 	}
 

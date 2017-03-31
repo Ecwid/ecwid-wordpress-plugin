@@ -14,7 +14,7 @@ function ecwid_get_embed_content()
 	$root_category_id = 0;
 
 	$post_content = get_post(get_the_ID())->post_content;
-	$shortcodes = ecwid_find_shortcodes($post_content, 'ecwid');
+	$shortcodes = ecwid_find_shortcodes($post_content, Ecwid_Shortcode_Base::get_store_shortcode_name());
 
 	if (!$shortcodes || !isset($shortcodes[0]) || !isset($shortcodes[0][3])) {
 		return;

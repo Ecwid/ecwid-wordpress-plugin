@@ -60,7 +60,7 @@ TXT
 
 		$widgets = _x( 'Categories', 'upgrade widgets message', 'ecwid-shopping-cart' );
 
-		return sprintf($main_message, Ecwid_WL::get_brand(), $widgets);
+		return sprintf($main_message, Ecwid_Config::get_brand(), $widgets);
 	}
 
 	public static function show_message($name, $params = array())
@@ -200,9 +200,9 @@ TXT
 	{
 		return array(
 			'on_activate' => array(
-				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid',
 				'hideable'  => true,
 				'default'  => 'disabled'
@@ -218,7 +218,7 @@ TXT
 			),
 
 			'on_appearance_widgets' => array(
-				'message' => sprintf( __( 'To add extra functions to your store, drag and drop %s store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ),
+				'message' => sprintf( __( 'To add extra functions to your store, drag and drop %s store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'secondary_title' => __('Back to Store Settings', 'ecwid-shopping-cart'),
 				'secondary_url'   => Ecwid_Admin::get_dashboard_url() . '-appearance',
 				'hideable'  => true
@@ -227,10 +227,10 @@ TXT
 			'please_vote' => array(
 				'message' => sprintf(
 					__('Do you like your %s online store? We\'d appreciate it if you add your review and vote for the plugin on WordPress site.', 'ecwid-shopping-cart'),
-					Ecwid_WL::get_brand(),
+					Ecwid_Config::get_brand(),
 					'target="_blank" href="http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart"'
 				),
-				'primary_title' => sprintf( __( 'Rate %s at WordPress.org', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+				'primary_title' => sprintf( __( 'Rate %s at WordPress.org', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'primary_url' => 'http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart',
 				'hideable' => true
 			),
@@ -245,7 +245,7 @@ TXT
 			'upgrade_cats' => array(
 				'message' => Ecwid_Message_Manager::get_upgrade_cats_message(),
 				'hideable' => true,
-				'primary_title' => sprintf( __( 'Open %s store settings', 'ecwid-shopping-cart' ), Ecwid_WL::get_brand() ),
+				'primary_title' => sprintf( __( 'Open %s store settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid-advanced'
 			)
 		);
@@ -263,16 +263,16 @@ TXT
 			$admin_page = $screen->base;
 		}
 
-		if ($admin_page == 'toplevel_page_ecwid' && isset($_GET['reconnect'])) {
+		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
 			return false;
 		}
 
 		switch ($name) {
 			case 'on_activate':
-				return $admin_page != 'toplevel_page_ecwid' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ecwid';
+				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;

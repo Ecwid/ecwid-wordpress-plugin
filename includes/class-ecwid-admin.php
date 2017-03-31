@@ -12,13 +12,14 @@ class Ecwid_Admin {
 		}
 	}
 
-	public function build_menu() {
+	public function build_menu()
+	{
 
 		$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 		add_menu_page(
-			sprintf( __( '%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
-			sprintf( __( '%s Store', 'ecwid-shopping-cart'), Ecwid_WL::get_brand() ),
+			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
+			sprintf(__('%s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			'manage_options',
 			self::ADMIN_SLUG,
 			'ecwid_general_settings_do_page',
@@ -41,7 +42,7 @@ class Ecwid_Admin {
 		);
 
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope( 'allow_sso' )) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso')) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Sales', 'ecwid-shopping-cart'),
@@ -85,12 +86,16 @@ class Ecwid_Admin {
 
 		add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ec_debug', 'ecwid_debug_do_page');
 		add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ec-admin-mobile', 'ecwid_admin_mobile_do_page');
-		add_submenu_page(
-			self::ADMIN_SLUG,
-			__('Help', 'ecwid-shopping-cart'),
-			__('Help', 'ecwid-shopping-cart'),
-			'manage_options', self::ADMIN_SLUG . '-help', 'ecwid_help_do_page'
-		);
+
+		if (!Ecwid_Config::is_wl()) {
+			add_submenu_page(
+				self::ADMIN_SLUG,
+				__('Help', 'ecwid-shopping-cart'),
+				__('Help', 'ecwid-shopping-cart'),
+				'manage_options', self::ADMIN_SLUG . '-help', 'ecwid_help_do_page'
+			);
+		}
+
 		add_submenu_page('', 'Install ecwid theme', '', 'manage_options', 'ecwid-install-theme', 'ecwid_install_theme');
 
 		add_submenu_page('', 'Ecwid sync', '', 'manage_options', 'ec-sync', 'ecwid_sync_do_page');
@@ -107,7 +112,7 @@ class Ecwid_Admin {
 		);
 
 		foreach ($pages as $page) {
-			add_submenu_page('', 'Legacy', '', 'manage_options', $page, 'ecwid_do_ec_redirect');
+			add_submenu_page( '', 'Legacy', '', 'manage_options', $page, array( $this, 'do_ec_redirect' ) );
 		}
 	}
 

@@ -6,6 +6,7 @@ class Ecwid_Api_V3
 {
 	const CLIENT_ID = 'RD4o2KQimiGUrFZc';
 	const CLIENT_SECRET = 'jEPVdcA3KbzKVrG8FZDgNnsY3wKHDTF8';
+	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 
@@ -198,7 +199,7 @@ class Ecwid_Api_V3
 		$query = array();
 
 		$query['source']        = 'wporg';
-		$query['client_id']     = self::CLIENT_ID;
+		$query['client_id']     = Ecwid_Config::get_oauth_appid();
 		$query['redirect_uri']  = $redirect_uri;
 		$query['response_type'] = 'code';
 		$query['scope']         = $scope;
@@ -348,10 +349,10 @@ class Ecwid_Api_V3
 		foreach ($params as $key => $param) {
 			if ( $param == 'appClientId' ) {
 				unset($params[$key]);
-				$params['appClientId'] = self::CLIENT_ID;
+				$params['appClientId'] = Ecwid_Config::get_oauth_appid();
 			} elseif ( $param == 'appSecretKey' ) {
 				unset($params[$key]);
-				$params['appSecretKey'] = self::CLIENT_SECRET;
+				$params['appSecretKey'] = Ecwid_Config::get_oauth_appsecret();
 			} elseif ($param == 'token') {
 				unset($params[$key]);
 				$params['token'] = self::get_token();

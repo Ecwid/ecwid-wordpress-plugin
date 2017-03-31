@@ -244,8 +244,6 @@ class EcwidPlatform {
 
 		unset($options[$name]);
 
-		die(var_dump($options));
-
 		update_option( 'ecwid_plugin_data', $options );
 
 	}
