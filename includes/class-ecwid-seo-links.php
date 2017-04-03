@@ -11,6 +11,11 @@ class Ecwid_Seo_Links {
 		// therefore the action must me registered
 		add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
 
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	public function init() {
+
 		if ( self::is_enabled() ) {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );

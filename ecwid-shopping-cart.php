@@ -385,7 +385,6 @@ function ecwid_add_chameleon() {
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
-</script>
 JS;
 
 }
