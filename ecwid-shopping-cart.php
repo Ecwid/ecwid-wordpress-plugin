@@ -680,7 +680,7 @@ function ecwid_seo_ultimate_compatibility()
 
 function ecwid_remove_default_canonical()
 {
-	if (array_key_exists('_escaped_fragment_', $_GET) && ecwid_page_has_productbrowser()) {
+	if ( ecwid_page_has_productbrowser() || Ecwid_Store_Page::is_store_page() ) {
 		remove_action( 'wp_head','rel_canonical');
 	}
 }

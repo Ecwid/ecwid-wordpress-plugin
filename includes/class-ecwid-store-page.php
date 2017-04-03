@@ -115,7 +115,12 @@ class Ecwid_Store_Page {
 		return $page_id;
 	}
 
-	public static function is_store_page( $page_id ) {
+	public static function is_store_page( $page_id = 0 ) {
+
+		if (!$page_id) {
+			$page_id = get_the_ID();
+		}
+
 		return get_option( 'ecwid_store_page_id' ) == $page_id || get_option( 'ecwid_store_page_id_auto' ) == $page_id;
 	}
 
