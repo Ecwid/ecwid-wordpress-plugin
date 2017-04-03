@@ -2728,6 +2728,9 @@ function ecwid_get_default_pb_size() {
 }
 
 function ecwid_update_store_id( $new_store_id ) {
+
+	EcwidPlatform::cache_reset( 'nav_categories_posts' );
+
 	update_option( 'ecwid_store_id', $new_store_id );
 	update_option( 'ecwid_is_api_enabled', 'off' );
 	update_option( 'ecwid_api_check_time', 0 );
