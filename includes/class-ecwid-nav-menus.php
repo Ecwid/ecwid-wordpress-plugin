@@ -217,7 +217,7 @@ class Ecwid_Nav_Menus {
 				}
 				$counter++;
 
-				EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAYS_IN_SECONDS );
+				EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
 			}
 		}
 
