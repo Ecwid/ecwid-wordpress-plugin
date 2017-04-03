@@ -335,6 +335,7 @@ function ecwid_print_inline_js_config() {
 <script type="text/javascript">
 window.ec = window.ec || Object();
 window.ec.config = window.ec.config || Object();
+window.ec.config.enable_canonical_urls = true;
 HTML;
 
 	do_action('ecwid_print_inline_js_config');
