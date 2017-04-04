@@ -44,8 +44,6 @@
             </div>
         </div>
 
-        <hr />
-
 		<?php if (get_option('ecwid_hide_appearance_menu') != 'Y'): ?>
 		<div class="pure-control-group bottom-border">
 
