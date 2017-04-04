@@ -12,4 +12,6 @@ html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products li a:hover {
 
 html#ecwid_html body#ecwid_body.ecwid-shopping-cart .entry-content {
 	width: auto;
+    float: none;
+    clear: both;
 }
