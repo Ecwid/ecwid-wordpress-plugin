@@ -892,7 +892,7 @@ function ecwid_meta() {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
 		echo '<link rel="preload" href="https://app.ecwid.com/script.js?'
-			. $store_id . '&' . $params . '" as="script">' . PHP_EOL;
+			. $store_id . $params . '" as="script">' . PHP_EOL;
     }
 }
 
