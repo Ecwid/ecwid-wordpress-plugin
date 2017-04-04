@@ -1734,7 +1734,8 @@ function ecwid_reset_categories_cache()
 		return;
 	}
 
-	EcwidPlatform::cache_reset('all_categories');
+	EcwidPlatform::cache_reset( 'nav_categories_posts' );
+	EcwidPlatform::cache_reset( 'all_categories' );
 }
 
 function ecwid_register_admin_styles($hook_suffix) {
