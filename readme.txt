@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 5.0.6
+Stable tag: 5.0.7
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.0.7 =
+- **SEO improvement for canonical tags on the product and category pages.** The Ecwid ecommerce plugin now hides the store root page canonical and dynamically adds corresponding canonical tags to the product and category pages as you browse the store. This is to improve the pages visibility for search engines, when the new clean URLs option is enabled.
+- **Fixed layout issue in the Wordpress 2017 theme.** We found an issue with the way Ecwid online stores are displayed in the default Wordpress “Twenty Seventeen” theme — the stores pages appeared too narrow. We fixed that.
+
 = 5.0.6 =
 - **Fixed a loading speed issue.** Some sites with the Ecwid ecommerce plugin might have troubles with loading speed, when store categories menu was enabled. We optimized the way Ecwid renders and displays the store categories navigation so the issue should be fixed now.
 
