@@ -142,8 +142,6 @@ JS;
 
 		$rules = array();
 
-		$page_id = get_option( 'ecwid_store_page_id' );
-
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
 			foreach ($patterns as $pattern) {
@@ -151,19 +149,39 @@ JS;
 			}
 		}
 
+		$pages = array();
+
+		$page_id = get_option( 'ecwid_store_page_id' );
 		if ( ecwid_page_has_productbrowser( $page_id ) ) {
-			$link = get_page_uri( $page_id );
-
-
-			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+			$pages[] = $page_id;
 		}
 
 		$page_id = get_option( 'ecwid_store_page_id_auto' );
-
 		if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
-			$link = get_page_uri( $page_id );
+			$pages[] = $page_id;
+		}
 
+		foreach ( $pages as $page_id ) {
+			$link = get_page_uri( $page_id );
 			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+		}
+
+		if (
+			is_plugin_active( 'polylang/polylang.php' )
+			&& function_exists( 'pll_get_post_language' )
+			&& class_exists( 'PLL_Model' )
+			&& method_exists( 'PLL_Model', 'get_links_model' )
+		) {
+			$options = get_option( 'polylang' );
+			$model = new PLL_Model( $options );
+			$links_model = $model->get_links_model();
+			if ( $links_model instanceof PLL_Links_Directory ) {
+				foreach ( $pages as $page_id ) {
+					$link = get_page_uri( $page_id );
+					$language = pll_get_post_language( $page_id );
+					$rules['^' . $language . '/' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+				}
+			}
 		}
 
 		return array_merge( $rules, $original_rules );
