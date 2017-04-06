@@ -11,7 +11,7 @@
 				<h4><?php _e('Your store Control Panel. Right here in WordPress.', 'ecwid-shopping-cart'); ?></h4>
 				<p class="note"><?php _e('Manage products, track sales, adjust settings - <nobr>All without</nobr> leaving this page.', 'ecwid-shopping-cart'); ?></p>
 				<div class="connect-button">
-					<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Re-connect to Enable Control Panel', 'ecwid-shopping-cart' ); ?></a>
+					<a href="admin-post.php?action=ec_connect&reconnect"><?php _e( 'Re-connect to Enable Control Panel', 'ecwid-shopping-cart' ); ?></a>
 				</div>
 			</div>
 

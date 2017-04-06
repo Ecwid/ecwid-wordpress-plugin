@@ -47,7 +47,7 @@
             </div>
             <div class="create-store-have-account ecwid-button-description">
                 <span class="create-store-have-account-question"><?php printf( __( 'Already have %s account?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></span>
-                <a class="create-store-have-account-link" href="admin-post.php?action=ecwid_connect"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
+                <a class="create-store-have-account-link" href="admin-post.php?action=ec_connect"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
             </div>
             <div class="button-description-mobile">
                 <?php printf( __( 'You will be asked to log in to your %s Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
@@ -158,7 +158,7 @@
 
             <div class="ecwid-button-description">
                 <?php printf( __( 'Already have %s account?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
-                <a href="admin-post.php?action=ecwid_connect"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
+                <a href="admin-post.php?action=ec_connect"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
             </div>
         </div>
     </div>

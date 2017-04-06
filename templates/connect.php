@@ -18,7 +18,7 @@
 		</div>
 		<div class="connect-button">
 			<a href="admin-post.php?action=ec_connect" class="with-oauth"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
-			<a id="ecwid-connect-no-oauth" href="admin-post.php?action=ecwid_connect" class="no-oauth" style="white-space: nowrap; width:auto"><?php _e( 'Save and connect', 'ecwid-shopping-cart' ); ?></a>
+			<a id="ecwid-connect-no-oauth" href="admin-post.php?action=ec_connect" class="no-oauth" style="white-space: nowrap; width:auto"><?php _e( 'Save and connect', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 
 		<?php if (!$connection_error): ?>

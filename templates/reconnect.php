@@ -20,7 +20,7 @@
 		<?php endif; ?>
 
 		<div class="connect-button">
-			<a href="admin-post.php?action=ecwid_connect&reconnect"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
+			<a href="admin-post.php?action=ec_connect&reconnect"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 
 		<?php if ($connection_error && $ecwid_oauth->get_error() == 'cancelled'): ?>
