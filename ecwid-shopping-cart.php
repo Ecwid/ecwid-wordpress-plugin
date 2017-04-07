@@ -331,6 +331,10 @@ function ecwid_enqueue_frontend() {
 }
 
 function ecwid_print_inline_js_config() {
+	if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
+		add_action ('ecwid_print_inline_js_config', 'ecwid_disable_interactive' );
+	}
+
 	echo <<<HTML
 <script type="text/javascript">
 window.ec = window.ec || Object();
@@ -341,10 +345,6 @@ HTML;
 
 	do_action('ecwid_print_inline_js_config');
 	echo '</script>';
-}
-
-if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
-	add_action ('ecwid_print_inline_js_config', 'ecwid_disable_interactive' );
 }
 
 function ecwid_disable_interactive() {
