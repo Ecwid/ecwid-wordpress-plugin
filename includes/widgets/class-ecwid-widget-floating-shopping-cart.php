@@ -64,6 +64,11 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 		}
 		$position = in_array($position, self::$positions) ? $position : self::$default_position;
 
+		if ( ecwid_page_has_productbrowser() ) {
+			$cart_url = '#!/~/cart';
+		} else {
+			$cart_url = Ecwid_Store_Page::get_cart_url();
+		}
 
 		echo '<!-- noptimize -->';
 		echo ecwid_get_scriptjs_code();
@@ -71,12 +76,18 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 		<<<HTML
 		 <div class="ecwid-float-icons position-$position" ondragstart="return false">
             <div class="ecwid-cart-icon off">
-                <a href="#!/~/cart" data-count="0">
+                <a href="$cart_url" data-count="0">
                     <svg width="20" height="26" viewBox="0 0 20 26" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M.5 6.5v14.81c0 2.255 1.79 4.084 4 4.084h11c2.21 0 4-1.83 4-4.085V6.5H.5zM6 10.585c.552 0 1-.457 1-1.02C7 9 6.552 8.542 6 8.542S5 9 5 9.563c0 .565.448 1.022 1 1.022zm8 0c.552 0 1-.457 1-1.02 0-.565-.448-1.022-1-1.022S13 9 13 9.563c0 .565.448 1.022 1 1.022z" stroke="#439CA0"/><path d="M14.5 6h-1V4.582c0-1.97-1.57-3.575-3.5-3.575S6.5 2.61 6.5 4.582V6h-1V4.582C5.5 2.048 7.52-.014 10-.014c2.482 0 4.5 2.062 4.5 4.596V6z" fill="#439CA0"/></g></svg>
                     <div id="ecwid-cart"><script type="text/javascript"> xMinicart("style="); </script></div>
                 </a>
             </div>
     </div>
+	<script type="text/javascript">
+		if (window.EcwidFloatingShoppingCart) {
+		    var ecwid_floating_shopping_cart = new EcwidFloatingShoppingCart();
+		    ecwid_floating_shopping_cart.init();
+		}
+	</script>
 HTML;
 		echo '<!-- /noptimize -->';
 	}

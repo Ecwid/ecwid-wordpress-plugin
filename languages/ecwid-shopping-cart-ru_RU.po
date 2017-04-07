@@ -1609,10 +1609,6 @@ msgstr ""
 "Чтобы включить интеграцию с поиском, нужно дать плагину доступ до данных "
 "товаров в магазине."
 
-#: templates/sync.php:162
-msgid "Provide access."
-msgstr "Перейдите по этой ссылке, чтобы предоставить доступ."
-
 #: templates/sync.php:167 templates/sync.php:168
 msgid "Synchronize products"
 msgstr "Синхронизировать товары"
@@ -1645,3 +1641,18 @@ msgstr "Не синхронизовано"
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"
+
+msgid "Provide access."
+msgstr "Перейдите по этой ссылке, чтобы предоставить доступ."
+
+msgid "SEO friendly clean URLs"
+msgstr "SEO URLs"
+
+msgid "This enables new clean URLs format in your store. The new urls do not contain hash sign ('#'), so they look nicer and are better indexed by Google."
+msgstr "Включает новый \"чистый\" формат ссылок на товары и категории в магазине. Новые ссылки не содержат символа \"#\" и лучше индексируются поисковыми системами."
+
+msgid "Note: the new URLs will be automatically enabled for every store in one of upcoming updates so please make sure to check how the new URLs work in your store and <a %s>let us know</a> if you face any trouble with them"
+msgstr "Новые SEO URLs магазина будут включены по умолчанию в одной из будущих версий плагина. Поэтому мы рекомендуем вам включить эту опцию и попробовать SEO URLs на своём сайте. Если вы заметите какие-либо проблемы, пожалуйста, <a %s>дайте нам знать</a>, мы поможем."
+
+msgid "To enable clean URLs in your store, you will need to enable pretty permalinks in your WordPress site settings. Navigate to <a%s>Settings->Permalink</a> and enable the \"Post name\" permalink type."
+msgstr "Чтобы включить SEO URLs в магазине, вам потребуется для начала включить улучшенную структуру постоянных ссылок в настройках Wordpress. Для этого в меню \"<a%s>Настройки -> Постоянные ссылки</a>\" выберите тип ссылок \"Название записи\"."

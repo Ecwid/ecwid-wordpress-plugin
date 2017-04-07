@@ -12,7 +12,7 @@ class Ecwid_Widget_Store_Link extends WP_Widget {
 
 		echo '<div>';
 
-		echo '<a href="' . ecwid_get_store_page_url() . '">' . $instance['label'] . '</a>';
+		echo '<a href="' . Ecwid_Store_Page::get_store_url() . '">' . $instance['label'] . '</a>';
 		echo '</div>';
 
 		echo $after_widget;

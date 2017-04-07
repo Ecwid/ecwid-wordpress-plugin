@@ -37,8 +37,8 @@ TXT
 		),
 				'href="mailto:wordpress@ecwid.com"',
 				'target="_blank" href="http://my.ecwid.com"',
-				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
-				ecwid_get_store_page_url()
+				'href="' . Ecwid_Store_Page::get_store_url() . '" target="_blank"',
+				Ecwid_Store_Page::get_store_url()
 			);
 		} else {
 			$message = sprintf(
@@ -46,8 +46,8 @@ TXT
 				$wp_remote_post_error,
 				'href="mailto:wordpress@ecwid.com"',
 				'target="_blank" href="http://my.ecwid.com"',
-				'href="' . ecwid_get_store_page_url() . '" target="_blank"',
-				ecwid_get_store_page_url()
+				'href="' . Ecwid_Store_Page::get_store_url() . '" target="_blank"',
+				Ecwid_Store_Page::get_store_url()
 			);
 		}
 
@@ -170,8 +170,8 @@ TXT
 		}
 
 		if ($name == 'on_storeid_set') {
-			$params['primary_url'] = ecwid_get_store_page_url();
-			$params['secondary_url'] = 'post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true';
+			$params['primary_url'] = Ecwid_Store_Page::get_store_url();
+			$params['secondary_url'] = 'post.php?post=' . Ecwid_Store_Page::get_current_store_page_id() . '&action=edit&show-ecwid=true';
 		}
 
 		if ($name == 'on_appearance_widgets') {
@@ -278,7 +278,7 @@ TXT
 				$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 				$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
-				$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == ecwid_get_current_store_page_id();
+				$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
 
 				return $is_newbie && ($is_ecwid_settings || $is_store_page);
 

@@ -163,7 +163,7 @@ jQuery('#sync-button-slow').click(function() {
 </div>
 <?php else: ?>
 
-<div class="sync-block" id="sync-button">
+<div class="sync-block" id="sync-buttons">
 	<a id="sync-button"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>

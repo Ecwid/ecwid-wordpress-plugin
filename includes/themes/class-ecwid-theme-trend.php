@@ -12,6 +12,12 @@ class Ecwid_Theme_Trend extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
+		add_option('ecwid_defer_rendering', true);
+
+		if ( !get_option( 'ecwid_defer_rendering' ) ) {
+			return;
+		}
+
 		// That actually means that ajax loading is disabled. Really ambigious naming
 		if (class_exists('BW') && method_exists('BW', 'get_option') && !@BW::get_option('disable_ajax_loading')) {
 			return;

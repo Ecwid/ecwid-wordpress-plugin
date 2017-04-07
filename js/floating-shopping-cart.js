@@ -1,4 +1,4 @@
-var Cart = function() {
+var EcwidFloatingShoppingCart = function() {
 	var cartIcon = jQuery('.ecwid-cart-icon:first'),
 			cartCounter = jQuery('a', cartIcon);
 
@@ -20,7 +20,7 @@ var Cart = function() {
 	}
 };
 
-if (window.Ecwid) {
-	var x = new Cart();
-	x.init();
+if ( typeof ecwid_floating_shopping_cart == 'undefined' ) {
+    var ecwid_floating_shopping_cart = new EcwidFloatingShoppingCart();
+    ecwid_floating_shopping_cart.init();
 }

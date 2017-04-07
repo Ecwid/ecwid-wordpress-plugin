@@ -1,16 +1,12 @@
 <?php
 
-require_once dirname(__FILE__) . '/../lib/JSONStreamingParser/Listener.php';
-require_once dirname(__FILE__) . '/../lib/JSONStreamingParser/Parser.php';
 
-
-class EcwidSitemapBuilder implements JsonStreamingParser_Listener {
-	var $_stack;
-	var $_key;
+class EcwidSitemapBuilder {
 	var $callback;
-	var $base_url;
-	var $api;
 	var $type;
+
+	const PRIORITY_PRODUCT = 0.6;
+	const PRIORITY_CATEGORY = 0.5;
 
 	public function __construct($base_url, $callback, $api) {
 		$this->callback = $callback;
@@ -20,70 +16,70 @@ class EcwidSitemapBuilder implements JsonStreamingParser_Listener {
 
 	public function generate() {
 
-		foreach (array('products', 'categories') as $type) {
-			$this->type = $type;
-			$stream = $this->api->get_method_response_stream($type);
-			if (!is_null($stream)) {
-				try {
-					$parser = new JsonStreamingParser_Parser($stream, $this);
-					$parser->parse();
-				} catch (Exception $e) {
-					fclose($stream);
+		$api = new Ecwid_Api_V3();
+
+		$offset = 0;
+		$limit  = 100;
+		do {
+			$categories = $api->get_categories(
+				array(
+					'offset' => $offset,
+					'limit' => $limit
+				)
+			);
+
+
+			if ($categories->items) {
+
+				foreach ($categories->items as $item) {
+
+					$url = $item->url;
+
+					call_user_func(
+						$this->callback,
+						$url,
+						self::PRIORITY_CATEGORY,
+						'weekly',
+						$item
+					);
 				}
 			}
-		}
+
+			$offset += $limit;
+
+		} while ($categories->count > 0);
+
+		$offset = 0;
+		do {
+			$products = $api->search_products(
+				array(
+					'offset' => $offset,
+					'limit' => $limit
+				)
+			);
+
+			if ($products->items) {
+
+				foreach ($products->items as $item) {
+					if ( $item->enabled ) {
+
+						$url = $item->url;
+
+						call_user_func(
+							$this->callback,
+							$url,
+							self::PRIORITY_PRODUCT,
+							'weekly',
+							$item
+						);
+					}
+				}
+			}
+
+			$offset += $limit;
+
+		} while ($products->count > 0);
 
 		return true;
-	}
-
-	public function file_position($line, $char) {
-
-	}
-
-	public function start_document() {
-		$this->_stack = array();
-
-		$this->_key = null;
-	}
-
-	public function end_document() {
-	}
-
-	public function start_object() {
-		array_push($this->_stack, array());
-	}
-
-	public function end_object() {
-
-		$obj = array_pop($this->_stack);
-		if (is_array($obj) && array_key_exists('url', $obj)) {
-			$callback = $this->callback;
-
-			call_user_func(
-				$callback,
-				ecwid_get_entity_url($obj, $this->type == 'products' ? 'p' : 'c'),
-				$this->type == 'products' ? 0.6 : 0.5,
-				'weekly',
-				$obj
-			);
-		}
-	}
-
-	public function start_array() {
-	}
-
-	public function end_array() {
-	}
-
-	public function key($key) {
-		$this->_key = $key;
-	}
-
-	public function value($value) {
-		$params = array('url', 'originalImageUrl', 'name');
-
-		if (in_array($this->_key, $params)) {
-			$this->_stack[0][$this->_key] = $value;
-		}
 	}
 }

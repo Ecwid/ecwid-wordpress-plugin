@@ -66,7 +66,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		if (is_array($items) && count($items) > 0) foreach ($items as $item) {
 			if (array_key_exists($item, $display_items)) {
 				if ($this->params['link'] == 'yes' && in_array($item, array('title', 'picture'))) {
-					$product_link = ecwid_get_store_page_url() . '#!/~/product/id=' . $this->params['id'];
+					$product_link = Ecwid_Store_Page::get_product_url( $this->params['id'] );
 					$result .= '<a href="' . esc_url($product_link) . '">' . $display_items[$item] . '</a>';
 				} else {
 					$result .= $display_items[$item];

@@ -770,6 +770,20 @@ label.premium-feature svg path {
 	line-height: normal;
 }
 
+#sync-container.state-initial #sync-buttons,
+#sync-container.state-initial #last-sync-date,
+
+#sync-container.state-in-progress #updating,
+#sync-container.state-in-progress #update-progress,
+
+#sync-container.state-complete #complete,
+#sync-container.state-complete #last-sync-date,
+#sync-container.state-complete #sync-error
+{
+	display: block;
+}
+
+
 #sync-container #sync-button-slow {
 	display: none;
 }
@@ -784,19 +798,6 @@ label.premium-feature svg path {
 
 #sync-container .sync-block {
 	display: none;
-}
-
-#sync-container.state-initial #sync-button,
-#sync-container.state-initial #last-sync-date,
-
-#sync-container.state-in-progress #updating,
-#sync-container.state-in-progress #update-progress,
-
-#sync-container.state-complete #complete,
-#sync-container.state-complete #last-sync-date,
-#sync-container.state-complete #sync-error
-{
-	display: block;
 }
 
 #sync-container #sync-error .message {
@@ -818,7 +819,7 @@ label.premium-feature svg path {
 }
 
 #sync-container #complete,
-#sync-container #sync-button,
+#sync-container #sync-buttons,
 #sync-container #updating {
 	height: 3em;
 }

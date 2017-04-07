@@ -8,6 +8,41 @@
 	<input type="hidden" name="settings_section" value="advanced" />
 
 	<fieldset>
+        <div class="pure-control-group checkbox">
+            <div class="label">
+                <label for="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>">
+
+                    <input
+                            id="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>"
+                            name="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>"
+                            type="checkbox"
+                        <?php if ( Ecwid_Seo_Links::is_enabled() ): ?>
+                            checked="checked"
+                        <?php endif; ?>
+                            value="Y"
+                        <?php if ( !Ecwid_Seo_Links::is_feature_available() ): ?>
+                            disabled="disabled"
+                        <?php endif; ?>
+                    />
+                    <?php _e('SEO friendly clean URLs', 'ecwid-shopping-cart'); ?>
+                </label>
+
+                <?php if ( Ecwid_Seo_Links::is_feature_available() ): ?>
+                    <div class="note">
+                        <?php _e( 'This enables new clean URLs format in your store. The new urls do not contain hash sign (\'#\'), so they look nicer and are better indexed by Google.', 'ecwid-shopping-cart' ); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="note">
+                        <?php printf( __( 'To enable clean URLs in your store, you will need to enable pretty permalinks in your WordPress site settings. Navigate to <a%s>Settings->Permalink</a> and enable the "Post name" permalink type.', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'options-permalink.php' ) . '"'); ?>
+                    </div>
+                <?php endif; ?>
+
+
+                <div class="note grayed-links">
+                    <?php echo sprintf(__('Note: the new URLs will be automatically enabled for every store in one of upcoming updates so please make sure to check how the new URLs work in your store and <a %s>let us know</a> if you face any trouble with them', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
+                </div>
+            </div>
+        </div>
 
 		<?php if (get_option('ecwid_hide_appearance_menu') != 'Y'): ?>
 		<div class="pure-control-group bottom-border">
@@ -86,6 +121,8 @@
 			</div>
 		</div>
 
+		<?php if ( get_option( 'ecwid_use_chameleon' ) ): ?>
+
 		<hr />
 
 		<div class="pure-control-group checkbox">
@@ -110,6 +147,7 @@
 <?php echo sprintf(__( 'Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"' ); ?>
 				</div>
 		</div>
+        <?php endif; ?>
 
 
 		<?php $show_categories = ecwid_migrations_is_original_plugin_version_older_than('3.3') || get_option('ecwid_use_new_horizontal_categories') != 'Y'; ?>
@@ -135,44 +173,44 @@
 				<div class="note">
 					<?php echo sprintf(
 						__('The new category menu looks better and is more mobile-friendly. If you haven\'t yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the "Show categories" option)', 'ecwid-shopping-cart'),
-						'href="post.php?post=' . ecwid_get_current_store_page_id() . '&action=edit&show-ecwid=true"'
+						'href="post.php?post=' . Ecwid_Store_Page::get_current_store_page_id() . '&action=edit&show-ecwid=true"'
 					); ?>
 				</div>
 			</div>
 		</div>
 
-			<hr />
+        <hr />
 
-			<div class="pure-control-group checkbox">
-				<div class="label">
-					<label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
+        <div class="pure-control-group checkbox">
+            <div class="label">
+                <label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
 
-						<input
-							id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
-							name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
-							type="checkbox"
-							<?php if ( Ecwid_Products::is_enabled() ): ?>
-								checked="checked"
-							<?php endif; ?>
-							value="Y"
-                            <?php if ( !Ecwid_Products::is_feature_available() ): ?>
-                                disabled="disabled"
-                            <?php endif; ?>
-						/>
-						<?php _e('Integration with search on your site <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
-					</label>
+                    <input
+                        id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+                        name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+                        type="checkbox"
+                        <?php if ( Ecwid_Products::is_enabled() ): ?>
+                            checked="checked"
+                        <?php endif; ?>
+                        value="Y"
+                        <?php if ( !Ecwid_Products::is_feature_available() ): ?>
+                            disabled="disabled"
+                        <?php endif; ?>
+                    />
+                    <?php _e('Integration with search on your site <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+                </label>
 
-					<div class="note">
-						<?php printf( __( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
-					</div>
-				</div>
-			</div>
+                <div class="note">
+                    <?php _e( 'Ecwid stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ); ?>
+                </div>
+            </div>
+        </div>
 
-            <?php ecwid_sync_do_page(); ?>
+        <?php ecwid_sync_do_page(); ?>
 
-			<div class="note grayed-links">
-				<?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"'); ?>
-			</div>
+        <div class="note grayed-links">
+            <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
+        </div>
 
 	</fieldset>
 
