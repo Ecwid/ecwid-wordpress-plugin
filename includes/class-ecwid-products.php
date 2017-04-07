@@ -12,6 +12,8 @@ class Ecwid_Products {
 	const POST_TYPE_PRODUCT = 'ec-product';
 	const DB_ALIAS_OUT_OF_STOCK = 'ecwid_out_of_stock';
 	const OPTION_ENABLED = 'ecwid_local_base_enabled';
+	const OPTION_NO_SSE = 'ecwid_local_base_no_sse';
+	const OPTION_NO_IMAGES = 'ecwid_local_base_no_images';
 
 	public function __construct() {
 
@@ -34,6 +36,7 @@ class Ecwid_Products {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
+		add_action( 'ecwid_on_plugin_update', array( $this, 'on_plugin_update' ) );
 
 		if (EcwidPlatform::get('hide_out_of_stock')) {
 			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
@@ -41,6 +44,11 @@ class Ecwid_Products {
 		}
 
 		$this->_sync_progress_callback = '__return_false';
+	}
+
+	public function on_plugin_update() {
+		add_option( self::OPTION_NO_SSE, false );
+		add_option( self::OPTION_NO_IMAGES, false );
 	}
 
 	public function enqueue_frontend() {
@@ -496,10 +504,12 @@ class Ecwid_Products {
 			add_post_meta($post_id, $key, $value, true);
 		}
 
-		$image_id = get_post_meta( $post_id, '_thumbnail_id' );
+		if (! get_option(self::OPTION_NO_IMAGES ) ) {
+			$image_id = get_post_meta( $post_id, '_thumbnail_id' );
 
-		if ( ! $image_id ) {
-			$this->_upload_product_thumbnail( $product, $post_id );
+			if ( ! $image_id ) {
+				$this->_upload_product_thumbnail( $product, $post_id );
+			}
 		}
 
 		$this->_status->update_last_updated($product->updateTimestamp);
