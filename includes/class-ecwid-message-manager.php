@@ -25,7 +25,7 @@ class Ecwid_Message_Manager
 		if (!$wp_remote_post_error) {
 			$message = sprintf(
 				__( <<<TXT
-Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the Ecwid server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
+Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the %s server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
 <br /><br />
 Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to app.ecwid.com and my.ecwid.com are blocked.".
 <br /><br />

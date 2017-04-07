@@ -201,7 +201,7 @@
                 </label>
 
                 <div class="note">
-                    <?php _e( 'Ecwid stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ); ?>
+                    <?php _e( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ); ?>
                 </div>
             </div>
         </div>
