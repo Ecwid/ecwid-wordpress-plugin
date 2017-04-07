@@ -1567,28 +1567,6 @@ function ecwid_uninstall() {
 	delete_option("ecwid_use_chameleon");
 }
 
-function ecwid_is_old_cats_widget_used()
-{
-	if (get_option('ecwid_use_new_horizontal_categories')) {
-		return false;
-	}
-
-	$widgets = ecwid_get_store_shortcode_widgets();
-	if ($widgets && in_array('categories', $widgets)) {
-		return true;
-	}
-
-	$post = get_post(Ecwid_Store_Page::get_current_store_page_id());
-	if ($post && !is_wp_error($post)) {
-		$shortcodes = ecwid_find_shortcodes( $post->post_content, 'ecwid_categories');
-
-		if ($shortcodes) return true;
-	}
-
-	return false;
-}
-
-
 function ecwid_get_store_shortcode_widgets()
 {
 	if (get_option('ecwid_use_new_horizontal_categories')) return false;
