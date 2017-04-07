@@ -98,7 +98,7 @@ class Ecwid_OAuth {
 
 		$params['grant_type'] = 'authorization_code';
 
-		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_auth_url(), array(
+		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_token_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 
@@ -116,6 +116,7 @@ class Ecwid_OAuth {
 			|| ( $result->token_type != 'Bearer' )
 		) {
 			ecwid_log_error(var_export($return, true));
+
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
