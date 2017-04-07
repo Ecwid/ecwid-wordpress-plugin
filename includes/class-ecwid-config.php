@@ -9,7 +9,8 @@ class Ecwid_Config {
 	const CHANNEL_ID = 'whitelabel_channel_id';
 	const OAUTH_APPID = 'whitelabel_oauth_appid';
 	const OAUTH_APPSECRET = 'whitelabel_oauth_appsecret';
-	const OAUTH_URL = 'whitelabel_oauth_url';
+	const OAUTH_TOKEN_URL = 'whitelabel_oauth_token_url';
+	const OAUTH_AUTH_URL = 'whitelabel_oauth_auth_url';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL );
@@ -35,8 +36,12 @@ class Ecwid_Config {
 		return EcwidPlatform::get( self::CHANNEL_ID, 'wporg' );
 	}
 
-	public static function get_oauth_url() {
-		return EcwidPlatform::get( self::OAUTH_URL, Ecwid_Api_V3::OAUTH_URL );
+	public static function get_oauth_token_url() {
+		return EcwidPlatform::get( self::OAUTH_TOKEN_URL, Ecwid_Api_V3::OAUTH_URL );
+	}
+
+	public static function get_oauth_auth_url() {
+		return EcwidPlatform::get( self::OAUTH_AUTH_URL, 'https://my.ecwid.com/api/oauth/authorize' );
 	}
 
 	public static function get_oauth_appid() {
@@ -59,7 +64,8 @@ class Ecwid_Config {
 			self::CHANNEL_ID => 'channel_id',
 			self::OAUTH_APPID => 'oauth_appid',
 			self::OAUTH_APPSECRET => 'oauth_appsecret',
-			self::OAUTH_URL => 'oauth_connect_url'
+			self::OAUTH_TOKEN_URL => 'oauth_token_url',
+			self::OAUTH_AUTH_URL => 'oauth_authorize_url'
 		);
 
 		$is_enabled = @$result['wl_mode'];

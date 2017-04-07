@@ -257,7 +257,7 @@ class Ecwid_Api_V3
 			return null;
 		}
 
-		$url = 'https://my.ecwid.com/api/oauth/authorize';
+		$url = Ecwid_Config::get_oauth_auth_url();
 
 		$query = array();
 

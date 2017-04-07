@@ -14,10 +14,10 @@ class Ecwid_OAuth {
 
 	public function __construct()
 	{
-		add_action('admin_post_ecwid_oauth', array($this, 'process_authorization'));
-		add_action('admin_post_ecwid_oauth_reconnect', array($this, 'process_authorization'));
-		add_action('admin_post_ecwid_disconnect', array($this, 'disconnect_store'));
-		add_action('admin_post_ecwid_show_reconnect', array($this, 'show_reconnect'));
+		add_action('admin_post_ec_oauth', array($this, 'process_authorization'));
+		add_action('admin_post_ec_oauth_reconnect', array($this, 'process_authorization'));
+		add_action('admin_post_ec_disconnect', array($this, 'disconnect_store'));
+		add_action('admin_post_ec_show_reconnect', array($this, 'show_reconnect'));
 
 		$this->_load_state();
 
@@ -39,15 +39,15 @@ class Ecwid_OAuth {
 
 	public function get_test_post_url()
 	{
-		return Ecwid_Config::get_oauth_url();
+		return Ecwid_Config::get_oauth_auth_url();
 	}
 
 
 	public function get_auth_dialog_url( )
 	{
-		$action = 'ecwid_oauth';
+		$action = 'ec_oauth';
 		if ( $this->_is_reconnect()  ) {
-			$action = 'ecwid_oauth_reconnect';
+			$action = 'ec_oauth_reconnect';
 		}
 
 		$redirect_uri = 'admin-post.php?action=' . $action;
@@ -60,7 +60,7 @@ class Ecwid_OAuth {
 
 	public function get_sso_reconnect_dialog_url()
 	{
-		$redirect_uri = 'admin-post.php?action=ecwid_oauth_reconnect';
+		$redirect_uri = 'admin-post.php?action=ec_oauth_reconnect';
 
 		$scope = $this->_get_scope();
 
@@ -76,7 +76,7 @@ class Ecwid_OAuth {
 
 	public function process_authorization()
 	{
-		$reconnect = $_REQUEST['action'] == 'ecwid_oauth_reconnect';
+		$reconnect = $_REQUEST['action'] == 'ec_oauth_reconnect';
 
 		if ( isset( $_REQUEST['error'] ) || !isset( $_REQUEST['code'] ) ) {
 			if ($reconnect) {
@@ -89,7 +89,7 @@ class Ecwid_OAuth {
 			exit;
 		}
 
-		$base_admin_url = 'admin-post.php?action=ecwid_oauth' . ($reconnect ? '_reconnect' : '');
+		$base_admin_url = 'admin-post.php?action=ec_oauth' . ($reconnect ? '_reconnect' : '');
 
 		$params['code'] = $_REQUEST['code'];
 		$params['client_id'] = Ecwid_Config::get_oauth_appid();
@@ -98,7 +98,7 @@ class Ecwid_OAuth {
 
 		$params['grant_type'] = 'authorization_code';
 
-		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_url(), array(
+		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_auth_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 

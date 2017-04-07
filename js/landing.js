@@ -16,6 +16,12 @@ jQuery(document).ready(function(){
 
 	jQuery('.create-store-button').click(function() {
 
+	    if (ecwidParams.isWL) {
+	        location.href = ecwidParams.registerLink;
+	        return;
+        }
+
+
 		var $context = jQuery(this).closest('.ecwid-button');
 		jQuery(hide_on_loading + ', ' + invisible_on_loading, $context).fadeTo(150, .01).promise().done(function() {
 			jQuery(hide_on_loading, $context).hide();
