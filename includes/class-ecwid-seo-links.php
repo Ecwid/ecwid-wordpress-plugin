@@ -39,12 +39,6 @@ class Ecwid_Seo_Links {
 	}
 
 	public function redirect_canonical( $redir, $req ) {
-		global $wp_query;
-
-		$page_id = $wp_query->get( 'page_id' );
-		if ( $page_id && ecwid_page_has_productbrowser( $page_id )  && strcasecmp( $req . '/', $redir ) == 0 ) {
-			return false;
-		}
 
 		if ($this->is_store_on_home_page() && get_queried_object_id() == get_option('page_on_front')) {
 			return false;
