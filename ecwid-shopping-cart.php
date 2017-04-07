@@ -541,7 +541,7 @@ function ecwid_check_version()
 
 		add_option('ecwid_use_new_horizontal_categories', '');
 
-		do_action( 'ecwid_plugin_upgrade' );
+		do_action( 'ecwid_on_plugin_upgrade' );
 	}
 
 	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
@@ -575,7 +575,9 @@ function ecwid_check_version()
 		update_option('ecwid_use_new_search', 'Y');
 		update_option('ecwid_use_new_categories', 'Y');
 
-		do_action( 'ecwid_plugin_update' );
+		add_option( 'force_scriptjs_render', false );
+
+		do_action( 'ecwid_on_plugin_update' );
 	}
 }
 
@@ -1154,7 +1156,7 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 function ecwid_get_scriptjs_code($force_lang = null) {
 	global $ecwid_script_rendered;
 
-    if (!$ecwid_script_rendered) {
+    if ( !$ecwid_script_rendered || get_option( 'force_scriptjs_render' ) ) {
 		$store_id = get_ecwid_store_id();
 		$params = ecwid_get_scriptjs_params( $force_lang );
 
