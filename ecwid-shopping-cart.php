@@ -336,10 +336,19 @@ function ecwid_print_inline_js_config() {
 window.ec = window.ec || Object();
 window.ec.config = window.ec.config || Object();
 window.ec.config.enable_canonical_urls = true;
+
 HTML;
 
 	do_action('ecwid_print_inline_js_config');
 	echo '</script>';
+}
+
+if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
+	add_action ('ecwid_print_inline_js_config', 'ecwid_disable_interactive' );
+}
+
+function ecwid_disable_interactive() {
+	echo "window.ec.config.interactive = false;\n';
 }
 
 add_action( 'ecwid_print_inline_js_config', 'ecwid_add_chameleon' );
