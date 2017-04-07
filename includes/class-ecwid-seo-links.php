@@ -12,6 +12,7 @@ class Ecwid_Seo_Links {
 		add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
 
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
 	}
 
 	public function init() {
@@ -27,6 +28,14 @@ class Ecwid_Seo_Links {
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
 			add_filter( 'wp_unique_post_slug_is_bad_attachment_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
 		}
+	}
+
+	public function on_fresh_install() {
+		add_option( self::OPTION_ENABLED, 'Y' );
+	}
+
+	public function on_plugin_update() {
+		add_option( self::OPTION_ENABLED, '' );
 	}
 
 	public function redirect_canonical( $redir, $req ) {
@@ -207,6 +216,11 @@ JS;
 
 		return $permalink != '';
 	}
+
+	public static function should_display_option() {
+		return ecwid_migrations_is_original_plugin_version_older_than( '5.0.8' );
+	}
+
 }
 
 $ecwid_seo_links = new Ecwid_Seo_Links();

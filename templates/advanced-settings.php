@@ -8,7 +8,9 @@
 	<input type="hidden" name="settings_section" value="advanced" />
 
 	<fieldset>
-        <div class="pure-control-group checkbox">
+
+		<?php if ( Ecwid_Seo_Links::should_display_option() ): ?>
+            <div class="pure-control-group checkbox">
             <div class="label">
                 <label for="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>">
 
@@ -43,6 +45,8 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+
 
 		<?php if (get_option('ecwid_hide_appearance_menu') != 'Y'): ?>
 		<div class="pure-control-group bottom-border">

@@ -530,6 +530,9 @@ function ecwid_check_version()
 
 		add_option('ecwid_use_new_horizontal_categories', 'Y');
 
+		// Called in Ecwid_Seo_Links->on_fresh_install
+		do_action( 'ecwid_on_fresh_install' );
+
 	} elseif ($upgrade) {
 
 		ecwid_plugin_add_oauth();
@@ -537,6 +540,8 @@ function ecwid_check_version()
 		update_option('ecwid_plugin_version', $current_version);
 
 		add_option('ecwid_use_new_horizontal_categories', '');
+
+		do_action( 'ecwid_plugin_upgrade' );
 	}
 
 	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
@@ -568,6 +573,9 @@ function ecwid_check_version()
         add_option(Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION, '');
 
 		update_option('ecwid_use_new_search', 'Y');
+		update_option('ecwid_use_new_categories', 'Y');
+
+		do_action( 'ecwid_plugin_update' );
 	}
 }
 
