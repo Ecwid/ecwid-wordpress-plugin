@@ -286,6 +286,9 @@ TXT
 				return isset($_GET['from-ecwid']) && $_GET['from-ecwid'] != 'true' && $admin_page == 'widgets';
 
 			case 'please_vote':
+
+				if ( Ecwid_Config::is_wl() ) return false;
+
 				$install_date = get_option('ecwid_installation_date');
 
 				$result = false;
