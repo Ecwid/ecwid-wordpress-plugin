@@ -159,13 +159,11 @@ class Ecwid_Store_Page {
 
 		unset( $pages[$index] );
 
-		self::_set_store_pages( $pages );
+		$pages = self::_set_store_pages( $pages );
 
 		if ( $page_id == get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
 
-			$pages = self::get_store_pages_array();
-
-				if ( isset( $pages[0] ) ) {
+			if ( isset( $pages[0] ) ) {
 				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $pages[0] );
 			} else {
 				update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
@@ -219,6 +217,8 @@ class Ecwid_Store_Page {
 		$option_value = implode( ',', $pages );
 
 		update_option( self::OPTION_STORE_PAGES, $option_value );
+
+		return self::$_store_pages;
 	}
 
 	public static function post_content_has_productbrowser( $post_id = null ) {
@@ -252,12 +252,13 @@ class Ecwid_Store_Page {
 
 			$is_disabled = !in_array( get_post_status( $post_id ), array('publish', 'private' ) );
 
+
 			if ( $is_disabled || !$has_pb ) {
 				self::reset_store_page( $post_id );
 			}
 		}
 
-		if ( $has_pb ) {
+		if ( $has_pb && in_array( get_post_status( $post_id ), array('publish', 'private' ) ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
 			update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
