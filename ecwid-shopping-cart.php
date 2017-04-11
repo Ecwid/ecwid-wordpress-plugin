@@ -877,7 +877,7 @@ function ecwid_ajax_crawling_fragment() {
 
 	$slug = ltrim( strrchr( $wp->request, '/' ), '/' );
 
-	if ( Ecwid_Seo_Links::is_enabled() && $ecwid_seo_links->slug_matches_seo_pattern( $slug ) ) return;
+	if ( Ecwid_Seo_Links::is_enabled() ) return;
 
     echo '<meta name="fragment" content="!">' . PHP_EOL;
 }
