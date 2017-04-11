@@ -126,7 +126,7 @@ class Ecwid_Seo_Links {
 		global $wp_query;
 		$page_id = $wp_query->get( 'page_id' );
 
-		$has_store = ecwid_page_has_productbrowser( $page_id );
+		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 
 		if ( !$has_store ) return;
 
@@ -152,17 +152,7 @@ JS;
 			}
 		}
 
-		$pages = array();
-
-		$page_id = get_option( 'ecwid_store_page_id' );
-		if ( ecwid_page_has_productbrowser( $page_id ) ) {
-			$pages[] = $page_id;
-		}
-
-		$page_id = get_option( 'ecwid_store_page_id_auto' );
-		if ( $page_id && ecwid_page_has_productbrowser( $page_id ) ) {
-			$pages[] = $page_id;
-		}
+		$pages = Ecwid_Store_Page::get_store_pages_array();
 
 		foreach ( $pages as $page_id ) {
 			$link = get_page_uri( $page_id );

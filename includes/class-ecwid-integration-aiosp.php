@@ -16,7 +16,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment()
 	{
-		if (!array_key_exists('_escaped_fragment_', $_GET) || !ecwid_page_has_productbrowser()) {
+		if (!array_key_exists('_escaped_fragment_', $_GET) || !Ecwid_Store_Page::is_store_page()) {
 			return;
 		}
 

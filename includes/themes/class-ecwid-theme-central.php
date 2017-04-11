@@ -17,7 +17,7 @@ class Ecwid_Theme_Central extends Ecwid_Theme_Base
 
 	public function body_class($classes) {
 		// Yeah, we have to to turn off these ajax click handling routines that break our links
-		if (ecwid_page_has_productbrowser()) {
+		if ( Ecwid_Store_Page::is_store_page() ) {
 			$classes[] = 'woocommerce';
 		}
 
