@@ -140,7 +140,7 @@ class Ecwid_Store_Page {
 
 		$pages[] = $page_id;
 
-		if ( count( $pages ) == 1 || empty( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) ) {
+		if ( count( $pages ) == 1 || !get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
 			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $page_id );
 		}
 
