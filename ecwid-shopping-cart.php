@@ -1802,7 +1802,6 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_default_category_id', 'ecwid_abs_intval' );
 				register_setting( 'ecwid_options_page', 'ecwid_sso_secret_key' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
-				register_setting( 'ecwid_options_page', 'ecwid_use_new_horizontal_categories' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
 				register_setting( 'ecwid_options_page', Ecwid_Seo_Links::OPTION_ENABLED );
 				break;
