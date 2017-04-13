@@ -156,7 +156,9 @@ JS;
 
 		foreach ( $pages as $page_id ) {
 			$link = get_page_uri( $page_id );
-			$rules['^' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+			foreach ($patterns as $pattern) {
+				$rules['^' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+			}
 		}
 
 		if (
@@ -172,7 +174,9 @@ JS;
 				foreach ( $pages as $page_id ) {
 					$link = get_page_uri( $page_id );
 					$language = pll_get_post_language( $page_id );
-					$rules['^' . $language . '/' . $link . '/.*'] = 'index.php?page_id=' . $page_id;
+					foreach ( $patterns as $pattern ) {
+						$rules['^' . $language . '/' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+					}
 				}
 			}
 		}
