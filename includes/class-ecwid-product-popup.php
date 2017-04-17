@@ -64,24 +64,27 @@ class Ecwid_Product_Popup {
 
         $result = $api->search_products( $params );
 
-        $output = array(
-            'total' => $result->total,
-            'count' => $result->count,
-            'offset' => $result->offset,
-            'limit' => $params['limit'],
-            'items' => array()
-        );
+        if ( $result && $result->count > 0 ) {
 
-        foreach ($result->items as $product) {
-            $output['items'][] = array(
-                'id' => $product->id,
-                'name' => $product->name,
-                'thumb' => $product->smallThumbnailUrl,
-                'sku' => $product->sku
-            );
+			$output = array(
+				'total' => $result->total,
+				'count' => $result->count,
+				'offset' => $result->offset,
+				'limit' => $params['limit'],
+				'items' => array()
+			);
+
+			foreach ($result->items as $product) {
+				$output['items'][] = array(
+					'id' => $product->id,
+					'name' => $product->name,
+					'thumb' => $product->smallThumbnailUrl,
+					'sku' => $product->sku
+				);
+			}
+			echo json_encode($output);
+
         }
-
-        echo json_encode($output);
 
         wp_die();
     }
