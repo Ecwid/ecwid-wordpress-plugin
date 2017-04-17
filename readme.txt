@@ -149,6 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.1.1 =
+- **Fixed the “Strict code standards” notices** appearing on some sites with Ecwid plugin enabled. The messages didn’t affect the product catalog and checkout, but looked confusing for the site visitors. We fixed that. The notices should disappear now.
+- Minor improvement for the SEO friendly clean URLs function.
+
 = 5.1 =
 - **Improved SEO friendly clean URLs tool.** Previously, if you had your store installed on different pages of your site (e.g. different store categories on different site pages), the SEO URLs worked on the main store/catalog page only. Now it should work fine on all pages you add your store to. Please make sure you use the “Add store” editor button when adding your store to the site pages.
 - **The new categories menu widget is now enabled for every site.** We released the new categories widget in the version 3.4 — it is mobile friendly and looks great with any wordpress ecommerce theme. We made it possible to turn on/off the new widget temporarily to make sure every site would have time to try it before it’s enabled for everyone. Now it’s enabled. If you have enabled it previously, nothing will change for you — your categories widget is already updated. If you have the old categories widget displayed on your site, this update will replace it with the new one. Please let us know if you have any trouble with the new widget.
