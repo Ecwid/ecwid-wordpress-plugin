@@ -587,11 +587,8 @@ function ecwid_check_version()
 
 		do_action( 'ecwid_on_plugin_update' );
 
-		Ecwid_Store_Page::add_store_page(
-			array(
-				get_option('ecwid_store_page_id'), get_option('ecwid_store_page_id_auto')
-			)
-		);
+		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id') );
+		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id_auto') );
 
 		if (Ecwid_Store_Page::get_current_store_page_id()) {
 			delete_option('ecwid_store_page_id_auto');
