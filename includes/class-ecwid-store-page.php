@@ -171,7 +171,7 @@ class Ecwid_Store_Page {
 		}
 	}
 
-	public function get_store_pages_array() {
+	public static function get_store_pages_array() {
 
 		if ( self::$_store_pages ) {
 			return self::$_store_pages;

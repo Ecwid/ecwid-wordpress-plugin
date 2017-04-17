@@ -154,30 +154,33 @@ JS;
 
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 
-		foreach ( $pages as $page_id ) {
-			$patterns = $this->get_seo_links_patterns();
-			$link = get_page_uri( $page_id );
-			foreach ($patterns as $pattern) {
-				$rules['^' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
-			}
-		}
+		if ( is_array( $pages ) ) {
 
-		if (
-			is_plugin_active( 'polylang/polylang.php' )
-			&& function_exists( 'pll_get_post_language' )
-			&& class_exists( 'PLL_Model' )
-			&& method_exists( 'PLL_Model', 'get_links_model' )
-		) {
-			$options = get_option( 'polylang' );
-			$model = new PLL_Model( $options );
-			$links_model = $model->get_links_model();
-			if ( $links_model instanceof PLL_Links_Directory ) {
+			foreach ($pages as $page_id) {
 				$patterns = $this->get_seo_links_patterns();
-				foreach ( $pages as $page_id ) {
-					$link = get_page_uri( $page_id );
-					$language = pll_get_post_language( $page_id );
-					foreach ( $patterns as $pattern ) {
-						$rules['^' . $language . '/' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+				$link = get_page_uri($page_id);
+				foreach ($patterns as $pattern) {
+					$rules['^' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+				}
+			}
+
+			if (
+				is_plugin_active('polylang/polylang.php')
+				&& function_exists('pll_get_post_language')
+				&& class_exists('PLL_Model')
+				&& method_exists('PLL_Model', 'get_links_model')
+			) {
+				$options = get_option('polylang');
+				$model = new PLL_Model($options);
+				$links_model = $model->get_links_model();
+				if ($links_model instanceof PLL_Links_Directory) {
+					$patterns = $this->get_seo_links_patterns();
+					foreach ($pages as $page_id) {
+						$link = get_page_uri($page_id);
+						$language = pll_get_post_language($page_id);
+						foreach ($patterns as $pattern) {
+							$rules['^' . $language . '/' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+						}
 					}
 				}
 			}
