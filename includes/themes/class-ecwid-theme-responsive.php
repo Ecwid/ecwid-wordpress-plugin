@@ -43,7 +43,7 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 	public function minicart_shortcode_content( $content )
 	{
 
-		if ( ecwid_page_has_productbrowser() ) {
+		if ( Ecwid_Store_Page::is_store_page() ) {
 			$content = '<script data-cfasync="false" type="text/javascript"> xMinicart("style=","layout=Mini"); </script>';
 		}
 

@@ -54,15 +54,6 @@ TXT
 		return $message;
 	}
 
-	public static function get_upgrade_cats_message() {
-
-		$main_message = __( 'Updated %s widgets are available for your %s store. They are more mobile friendly and look better. Please enable them on the plugin settings page and check how they work in your store. The new widgets will be enabled automatically for all users in one of the upcoming plugin versions.', 'ecwid-shopping-cart' );
-
-		$widgets = _x( 'Categories', 'upgrade widgets message', 'ecwid-shopping-cart' );
-
-		return sprintf($main_message, Ecwid_Config::get_brand(), $widgets);
-	}
-
 	public static function show_message($name, $params = array())
 	{
 		$mm = self::get_instance();
@@ -241,13 +232,6 @@ TXT
 				'hideable' => false,
 				'type' => 'error'
 			),
-
-			'upgrade_cats' => array(
-				'message' => Ecwid_Message_Manager::get_upgrade_cats_message(),
-				'hideable' => true,
-				'primary_title' => sprintf( __( 'Open %s store settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
-				'primary_url' => 'admin.php?page=ecwid-advanced'
-			)
 		);
 	}
 
@@ -305,10 +289,6 @@ TXT
 				}
 
 				return $result;
-
-			case "upgrade_cats":
-				return ecwid_is_old_cats_widget_used();
-
 		}
 	}
 

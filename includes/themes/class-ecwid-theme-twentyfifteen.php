@@ -10,7 +10,7 @@ class Ecwid_Theme_2015 extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
-		if (ecwid_page_has_productbrowser()) {
+		if ( Ecwid_Store_Page::is_store_page() ) {
 			wp_enqueue_style( 'ecwid-theme', ECWID_PLUGIN_URL . 'css/themes/2015.css', array('twentyfifteen-style'), get_option('ecwid_plugin_version') );
 		}
 

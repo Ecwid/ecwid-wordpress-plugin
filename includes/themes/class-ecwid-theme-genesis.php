@@ -10,7 +10,7 @@ class Ecwid_Theme_Genesis extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
-		if (array_key_exists('_escaped_fragment_', $_GET) && ecwid_page_has_productbrowser()) {
+		if ( array_key_exists( '_escaped_fragment_', $_GET ) && Ecwid_Store_Page::is_store_page() ) {
 			remove_action( 'wp_head', 'genesis_canonical', 5 );
 		}
 	}

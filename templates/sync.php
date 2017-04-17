@@ -13,7 +13,7 @@ if (set_time_limit_available && typeof(EventSource) != 'undefined') {
 	sse_available = true;
 }
 
-if (sse_available) {
+if (sse_available && <?php echo ( get_option( Ecwid_Products::OPTION_NO_SSE ) ? '0' : '1') ?>) {
 	jQuery('#sse_on').html('YES');
 } else {
 	jQuery('#sse_on').html('NO');
@@ -105,7 +105,7 @@ function process_no_sse_sync(data) {
 	} else {
 		jQuery('#current_item').text('Deleting products...');
 	}
-	do_no_sse_sync(mode, offset, limit, updatedFrom);
+        do_no_sse_sync(mode, offset, limit, updatedFrom);
 }
 
 function update_no_sse_stuff(data) {

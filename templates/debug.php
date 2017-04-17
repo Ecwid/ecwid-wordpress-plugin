@@ -91,6 +91,16 @@
 <?php endforeach; ?>
 </div>
 
+<h2>Store pages</h2>
+    <?php foreach (Ecwid_Store_Page::get_store_pages_array() as $page_id): ?>
+    <div>
+        <a target="_blank" href="post.php?post=<?php echo $page_id; ?>&action=edit"><?php echo get_post($page_id)->post_name; ?></a>
+        <?php if ( $page_id == get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID ) ): ?>
+        <b> - main</b>
+        <?php endif ;?>
+
+    </div>
+<?php endforeach; ?>
 <h2>PhpInfo</h2>
 
 <div>

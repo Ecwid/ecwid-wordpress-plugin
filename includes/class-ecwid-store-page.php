@@ -1,6 +1,13 @@
 <?php
 
 class Ecwid_Store_Page {
+
+	const OPTION_STORE_PAGES = 'ecwid_store_pages';
+	const OPTION_MAIN_STORE_PAGE_ID = 'ecwid_store_page_id';
+	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
+
+	protected static $_store_pages = false;
+
 	public static function get_product_url( $id )
 	{
 		if ( Ecwid_Products::is_enabled() ) {
@@ -99,15 +106,13 @@ class Ecwid_Store_Page {
 
 		if ( is_null( $page_id ) ) {
 			$page_id = false;
-			foreach( array( 'ecwid_store_page_id', 'ecwid_store_page_id_auto' ) as $option ) {
-				$id = get_option( $option );
-				if ( $id ) {
-					$status = get_post_status( $id );
 
-					if ( $status == 'publish' || $status == 'private' ) {
-						$page_id = $id;
-						break;
-					}
+			$id = get_option( self::OPTION_MAIN_STORE_PAGE_ID );
+			if ( $id ) {
+				$status = get_post_status( $id );
+
+				if ( $status == 'publish' || $status == 'private' ) {
+					$page_id = $id;
 				}
 			}
 		}
@@ -121,7 +126,148 @@ class Ecwid_Store_Page {
 			$page_id = get_the_ID();
 		}
 
-		return get_option( 'ecwid_store_page_id' ) == $page_id || get_option( 'ecwid_store_page_id_auto' ) == $page_id;
+		$pages = self::get_store_pages_array();
+
+		return in_array( $page_id, $pages );
 	}
 
+	public static function add_store_page( $page_id = 0 ) {
+
+		$pages = self::get_store_pages_array();
+		if ( in_array( $page_id, $pages ) ) {
+			return;
+		}
+
+		$pages[] = $page_id;
+
+		if ( count( $pages ) == 1 || !get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
+			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $page_id );
+		}
+
+		self::_set_store_pages( $pages );
+		self::_schedule_flush_rewrite();
+	}
+
+	public static function reset_store_page( $page_id ) {
+
+		$pages = self::get_store_pages_array();
+
+		$index = array_search( $page_id, $pages );
+		if ( $index === false ) {
+			return;
+		}
+
+		unset( $pages[$index] );
+
+		$pages = self::_set_store_pages( $pages );
+
+		if ( $page_id == get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
+
+			if ( isset( $pages[0] ) ) {
+				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $pages[0] );
+			} else {
+				update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
+			}
+		}
+	}
+
+	public static function get_store_pages_array() {
+
+		if ( self::$_store_pages ) {
+			return self::$_store_pages;
+		}
+
+		$pages = get_option( self::OPTION_STORE_PAGES );
+		if ( !$pages || !is_string( $pages ) ) {
+			$pages = '';
+		}
+
+		self::$_store_pages = explode( ',',  $pages );
+		self::$_store_pages[] = get_option( self::OPTION_MAIN_STORE_PAGE_ID );
+		self::$_store_pages = array_values(
+			array_filter(
+				array_unique(
+				self::$_store_pages
+				)
+			)
+		);
+
+
+		return self::$_store_pages;
+	}
+
+	protected static function _schedule_flush_rewrite() {
+		update_option( self::OPTION_FLUSH_REWRITES, 1 );
+	}
+
+	public static function flush_rewrites() {
+		flush_rewrite_rules();
+
+		update_option( self::OPTION_FLUSH_REWRITES, 0 );
+	}
+
+	protected static function _set_store_pages( $pages ) {
+
+		self::$_store_pages = array_values(
+			array_filter(
+				$pages
+			)
+		);
+
+		$option_value = implode( ',', $pages );
+
+		update_option( self::OPTION_STORE_PAGES, $option_value );
+
+		return self::$_store_pages;
+	}
+
+	public static function post_content_has_productbrowser( $post_id = null ) {
+
+		if ( is_null( $post_id ) ) {
+			if ( is_admin() ) return false;
+			$post_id = get_the_ID();
+		}
+
+		$post = get_post($post_id);
+
+		if ( $post ) {
+			$post_content = get_post( $post_id )->post_content;
+
+			$result = ecwid_content_has_productbrowser( $post_content );
+			$result = apply_filters( 'ecwid_page_has_product_browser', $result );
+		}
+
+
+		return $result;
+	}
+
+	public static function on_save_post( $post_id ) {
+
+		if ( wp_is_post_revision( $post_id ) )
+			return;
+
+		$has_pb = self::post_content_has_productbrowser( $post_id );
+
+		if ( self::is_store_page( $post_id ) ) {
+
+			$is_disabled = !in_array( get_post_status( $post_id ), array('publish', 'private' ) );
+
+
+			if ( $is_disabled || !$has_pb ) {
+				self::reset_store_page( $post_id );
+			}
+		}
+
+		if ( $has_pb && in_array( get_post_status( $post_id ), array('publish', 'private' ) ) ) {
+			self::add_store_page( $post_id );
+		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
+			update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
+		}
+	}
+
+	public static function on_frontend_rendered() {}
 }
+
+add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
+add_action( 'shutdown', array( 'Ecwid_Store_Page', 'on_frontend_rendered' ) );
+add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );

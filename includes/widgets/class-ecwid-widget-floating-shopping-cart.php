@@ -64,7 +64,7 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 		}
 		$position = in_array($position, self::$positions) ? $position : self::$default_position;
 
-		if ( ecwid_page_has_productbrowser() ) {
+		if ( Ecwid_Store_Page::is_store_page() ) {
 			$cart_url = '#!/~/cart';
 		} else {
 			$cart_url = Ecwid_Store_Page::get_cart_url();

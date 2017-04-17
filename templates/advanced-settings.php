@@ -8,7 +8,9 @@
 	<input type="hidden" name="settings_section" value="advanced" />
 
 	<fieldset>
-        <div class="pure-control-group checkbox">
+
+		<?php if ( Ecwid_Seo_Links::should_display_option() ): ?>
+            <div class="pure-control-group checkbox">
             <div class="label">
                 <label for="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>">
 
@@ -43,6 +45,8 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+
 
 		<?php if (get_option('ecwid_hide_appearance_menu') != 'Y'): ?>
 		<div class="pure-control-group bottom-border">
@@ -148,36 +152,6 @@
 				</div>
 		</div>
         <?php endif; ?>
-
-
-		<?php $show_categories = ecwid_migrations_is_original_plugin_version_older_than('3.3') || get_option('ecwid_use_new_horizontal_categories') != 'Y'; ?>
-
-		<hr <?php echo $show_categories ? '' : ' hidden'; ?> />
-
-	    <div class="pure-control-group checkbox<?php echo $show_categories ? '' : ' hidden'; ?>">
-			<div class="label">
-				<label for="ecwid_use_new_horizontal_categories">
-
-					<input
-						id="ecwid_use_new_horizontal_categories"
-						name="ecwid_use_new_horizontal_categories"
-						type="checkbox"
-						<?php if (get_option('ecwid_use_new_horizontal_categories') == 'Y'): ?>
-							checked="checked"
-						<?php endif; ?>
-						value="Y"
-						/>
-					<?php _e('Enable the new category menu', 'ecwid-shopping-cart'); ?>
-				</label>
-
-				<div class="note">
-					<?php echo sprintf(
-						__('The new category menu looks better and is more mobile-friendly. If you haven\'t yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the "Show categories" option)', 'ecwid-shopping-cart'),
-						'href="post.php?post=' . Ecwid_Store_Page::get_current_store_page_id() . '&action=edit&show-ecwid=true"'
-					); ?>
-				</div>
-			</div>
-		</div>
 
         <hr />
 

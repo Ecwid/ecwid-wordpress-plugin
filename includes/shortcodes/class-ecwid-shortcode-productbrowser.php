@@ -21,6 +21,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	public function render() {
+		Ecwid_Store_Page::add_store_page( get_the_ID() );
+
 		return parent::render();
 	}
 
