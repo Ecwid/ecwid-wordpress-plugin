@@ -70,7 +70,7 @@
 						<div class="note">
 							<?php echo sprintf(
 									__('Additionally, you can add store controls to your website\'s toolbar using <a %s>WordPress native widgets</a>', 'ecwid-shopping-cart'),
-									' target="_blank" href="widgets.php?from-ecwid=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
+									' target="_blank" href="widgets.php?from-ec-store=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
 								);
 							?>
 						</div>

@@ -167,12 +167,12 @@ TXT
 
 		if ($name == 'on_appearance_widgets') {
 
-			if (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'appearance') {
+			if (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'appearance') {
 				$admin_page = Ecwid_Admin::get_dashboard_url() . '-appearance';
-			} elseif (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'new') {
+			} elseif (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'new') {
 				$admin_page = 'post-new.php?post_type=page';
-			} elseif (isset($_GET['from-ecwid']) && is_numeric($_GET['from-ecwid'])) {
-				$admin_page = 'post.php?post=' . $_GET['from-ecwid'] . '&action=edit';
+			} elseif (isset($_GET['from-ec-store']) && is_numeric($_GET['from-ec-store'])) {
+				$admin_page = 'post.php?post=' . $_GET['from-ec-store'] . '&action=edit';
 			}
 
 			$params['secondary_url'] = $admin_page;
@@ -267,7 +267,7 @@ TXT
 				return $is_newbie && ($is_ecwid_settings || $is_store_page);
 
 			case 'on_appearance_widgets':
-				return isset($_GET['from-ecwid']) && $_GET['from-ecwid'] != 'true' && $admin_page == 'widgets';
+				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
 			case 'please_vote':
 
