@@ -93,8 +93,8 @@ class Ecwid_Seo_Links {
 
  	protected function get_seo_links_patterns() {
 		return array(
-			'[^/]+-p[0-9]+',
-			'[^/]+-c[0-9]+',
+			'[^/]*-p[0-9]+',
+			'[^/]*-c[0-9]+',
 			'cart',
 			'checkout',
 			'checkout\/shipping',
