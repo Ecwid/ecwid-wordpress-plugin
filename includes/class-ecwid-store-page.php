@@ -227,7 +227,9 @@ class Ecwid_Store_Page {
 	}
 
 	public static function flush_rewrites() {
-		flush_rewrite_rules();
+		if ( get_option( self::OPTION_FLUSH_REWRITES ) == 1) {
+			flush_rewrite_rules();
+		}
 
 		update_option( self::OPTION_FLUSH_REWRITES, 0 );
 	}
