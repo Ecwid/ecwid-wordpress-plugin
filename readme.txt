@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 5.1
+Stable tag: 5.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.2 =
+- **Major improvement in the speed of loading storefront.** The plugin now renders ecommerce pages and loads store widgets much more quicker both for your visitors and search engines.
+- **SEO improvements for product and categories pages when SEO friendly URLs are enabled.** Now a special plain version of the product page content is generated and loaded in background along with a regular product/category page. This new version is formatted to provide product and category information in a clear and understandable format for crawl robots that cannot parse JavaScript — this makes your store indexable by other search engines besides Google (e.g. Yandex). This special version is not visible in a browser, so your customers will as usually get the full store version. Please do not forget to enable new SEO friendly clean URLs to get this working on your site.
+
 = 5.1.1 =
 - **Fixed the “Strict code standards” notices** appearing on some sites with Ecwid plugin enabled. The messages didn’t affect the product catalog and checkout, but looked confusing for the site visitors. We fixed that. The notices should disappear now.
 - Minor improvement for the SEO friendly clean URLs function.

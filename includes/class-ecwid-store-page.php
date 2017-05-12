@@ -111,7 +111,7 @@ class Ecwid_Store_Page {
 			if ( $id ) {
 				$status = get_post_status( $id );
 
-				if ( $status == 'publish' || $status == 'private' ) {
+				if (in_array($status, self::_get_allowed_post_statuses())) {
 					$page_id = $id;
 				}
 			}
@@ -250,7 +250,7 @@ class Ecwid_Store_Page {
 
 		if ( self::is_store_page( $post_id ) ) {
 
-			$is_disabled = !in_array( get_post_status( $post_id ), array('publish', 'private' ) );
+			$is_disabled = !in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() );
 
 
 			if ( $is_disabled || !$has_pb ) {
@@ -258,11 +258,16 @@ class Ecwid_Store_Page {
 			}
 		}
 
-		if ( $has_pb && in_array( get_post_status( $post_id ), array('publish', 'private' ) ) ) {
+		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
 			update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
 		}
+	}
+
+	protected static function _get_allowed_post_statuses()
+	{
+		return array('publish', 'private', 'draft');
 	}
 
 	public static function on_frontend_rendered() {}

@@ -15,6 +15,7 @@ class EcwidCatalog
 
 	public function get_product($id)
 	{
+
 		$params = array 
 		(
 			array("alias" => "p", "action" => "product", "params" => array("id" => $id)),
@@ -22,6 +23,7 @@ class EcwidCatalog
 		);
 
 		$batch_result = $this->ecwid_api->get_batch_request($params);
+
 		$product = $batch_result["p"];
 		$profile = $batch_result["pf"];
 
