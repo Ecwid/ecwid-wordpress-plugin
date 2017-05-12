@@ -109,10 +109,36 @@ class Ecwid_Store_Page {
 
 			$id = get_option( self::OPTION_MAIN_STORE_PAGE_ID );
 			if ( $id ) {
+
+				$post = get_post( $id );
+				$changed = false;
+
+				while ( is_null( $post ) ) {
+
+					$changed = true;
+
+					$pages = self::get_store_pages_array();
+					$ind = array_search( $id, $pages );
+
+					if ( $ind !== false ) {
+						unset($pages[$ind]);
+						$pages = self::_set_store_pages($pages);
+					}
+
+					if ( count( $pages ) == 0 ) {
+						return false;
+					}
+
+					$id = $pages[0];
+					$post = get_post($id);
+				}
 				$status = get_post_status( $id );
 
 				if (in_array($status, self::_get_allowed_post_statuses())) {
 					$page_id = $id;
+					if ( $changed ) {
+						update_option( self::OPTION_MAIN_STORE_PAGE_ID, $id );
+					}
 				}
 			}
 		}
