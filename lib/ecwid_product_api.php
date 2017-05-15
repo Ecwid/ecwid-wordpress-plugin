@@ -85,58 +85,65 @@ class EcwidProductApi {
 
         $category_id = intval($category_id);
         $api_url = $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/products?category=" . $category_id;
-        $products = $this->process_request($api_url);
 
-        return $products;
+		$result = EcwidPlatform::get_from_products_cache($api_url);
+		if (!$result) {
+
+			$result = $this->process_request($api_url);
+			EcwidPlatform::store_in_products_cache($api_url, $result);
+    }
+
+		return $result;
     }
 
     function get_product($product_id) {
 
-        static $cached;
-
         $product_id = intval($product_id);
 
-        if (isset($cached[$product_id])) {
-            return $cached[$product_id];
-        }
-
         $api_url = $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/product?id=" . $product_id;
-        $cached[$product_id] = $this->process_request($api_url);
 
-        return $cached[$product_id];
+        $result = EcwidPlatform::get_from_products_cache($api_url);
+        if (!$result) {
+
+        	$result = $this->process_request($api_url);
+			EcwidPlatform::store_in_products_cache($api_url, $result);
+    }
+
+        return $result;
     }
 
 		function get_product_https($product_id) {
 
-			static $cached;
-
 			$product_id = intval($product_id);
 
-			if (isset($cached[$product_id])) {
-				return $cached[$product_id];
-			}
-
 			$api_url = $this->ECWID_PRODUCT_API_ENDPOINT_HTTPS . "/" . $this->store_id . "/product?id=" . $product_id;
-			$cached[$product_id] = $this->process_request($api_url);
 
-			return $cached[$product_id];
+			$result = EcwidPlatform::get_from_products_cache($api_url);
+			if (!$result) {
+
+				$result = $this->process_request($api_url);
+				EcwidPlatform::store_in_products_cache($api_url, $result);
+		}
+
+			return $result;
 		}
 
 
     function get_category($category_id) {
 
-        static $cached = array();
-
         $category_id = intval($category_id);
 
-        if (isset($cached[$category_id])) {
-            return $cached[$category_id];
-        }
-
         $api_url = $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/category?id=" . $category_id;
-        $cached[$category_id] = $this->process_request($api_url);
+        ;
 
-        return $cached[$category_id];
+
+		$result = EcwidPlatform::get_from_categories_cache($api_url);
+		if (!$result) {
+			$result = $this->process_request($api_url);
+			EcwidPlatform::store_in_categories_cache($api_url, $result);
+		}
+
+		return $result;
     }
         
     function get_batch_request($params) {
@@ -180,7 +187,12 @@ class EcwidProductApi {
         }
         
         $api_url =  $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/batch?". $api_url;
+
+        $data = EcwidPlatform::get_from_products_cache($api_url);
+        if (!$data) {
         $data = $this->process_request($api_url);
+			EcwidPlatform::store_in_products_cache($api_url, $data);
+		}
 
         return $data;
     }

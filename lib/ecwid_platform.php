@@ -8,6 +8,9 @@ class EcwidPlatform {
 
 	static protected $crypt = null;
 
+	const CATEGORIES_CACHE_VALID_FROM = 'categories_cache_valid_from';
+	const PRODUCTS_CACHE_VALID_FROM = 'products_cache_valid_from';
+
 	static public function get_store_id()
 	{
 		return get_ecwid_store_id();
@@ -261,6 +264,66 @@ class EcwidPlatform {
 		return function_exists('set_time_limit' )
 		       && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) == false
 		       && ! ini_get( 'safe_mode' );
+	}
+
+
+	static public function store_in_products_cache( $url, $data ) {
+		self::_store_in_cache($url, 'products', $data);
+	}
+
+
+	static public  function store_in_categories_cache( $url, $data ) {
+		self::_store_in_cache($url, 'categories', $data);
+	}
+
+	static protected function _store_in_cache( $url, $type, $data ) {
+		$name = self::_build_cache_name( $url, $type );
+
+		$to_store = array(
+			'time' => time(),
+			'data' => $data
+		);
+
+		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
+	}
+
+	static public function get_from_categories_cache( $url )
+	{
+		$cache_name = self::_build_cache_name( $url, 'categories' );
+
+		$result = self::cache_get( $cache_name );
+		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
+			return $result['data'];
+		}
+
+		return false;
+	}
+
+	static public function get_from_products_cache( $url )
+	{
+		$cache_name = self::_build_cache_name( $url, 'products' );
+
+		$result = self::cache_get( $cache_name );
+
+		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
+			return $result['data'];
+		}
+
+		return false;
+	}
+
+	static protected function _build_cache_name( $url, $type ) {
+		return $type . '_' . md5($url);
+	}
+
+	static public function invalidate_products_cache_from( $time )
+	{
+		EcwidPlatform::set( self::PRODUCTS_CACHE_VALID_FROM, $time );
+	}
+
+	static public function invalidate_categories_cache_from( $time )
+	{
+		EcwidPlatform::set( self::CATEGORIES_CACHE_VALID_FROM, $time );
 	}
 }
 

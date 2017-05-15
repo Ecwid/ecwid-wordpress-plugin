@@ -21,6 +21,7 @@ class Ecwid_Seo_Links {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
+			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
 
 			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
 
@@ -67,6 +68,14 @@ class Ecwid_Seo_Links {
 		}
 	}
 
+	public function get_shortlink( $shortlink ) {
+		if ( self::is_product_browser_url() ) {
+			return '';
+		}
+
+		return $shortlink;
+ 	}
+
 	public function is_post_slug_bad( $value, $slug, $type = '', $parent = '' ) {
 
 		if ( !$this->is_store_on_home_page() ) {
@@ -93,8 +102,8 @@ class Ecwid_Seo_Links {
 
  	protected function get_seo_links_patterns() {
 		return array(
-			'[^/]+-p[0-9]+',
-			'[^/]+-c[0-9]+',
+			'[^/]*-p[0-9]+',
+			'[^/]*-c[0-9]+',
 			'cart',
 			'checkout',
 			'checkout\/shipping',
@@ -137,6 +146,34 @@ class Ecwid_Seo_Links {
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;
+	}
+
+	public static function maybe_extract_html_catalog_params() {
+
+		$current_url = add_query_arg( null, null );
+		$matches = array();
+		if ( !preg_match( self::_get_pb_preg_pattern(), $current_url, $matches ) ) {
+			return array();
+		}
+
+		$modes = array(
+			'p' => 'product',
+			'c' => 'category'
+		);
+
+		return array( 'mode' => $modes[$matches[1]], 'id' => $matches[2] );
+	}
+
+	public static function is_product_browser_url( $url = '' ) {
+		if (!$url) {
+			$url = add_query_arg( null, null );
+		}
+
+		return preg_match( self::_get_pb_preg_pattern(), $url );
+	}
+
+	protected static function _get_pb_preg_pattern() {
+		return $pattern = '!.*-(p|c)([0-9]*)!';
 	}
 
 	public function build_rewrite_rules( $original_rules ) {
