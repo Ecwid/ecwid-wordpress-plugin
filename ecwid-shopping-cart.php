@@ -1679,10 +1679,9 @@ function ecwid_register_admin_styles($hook_suffix) {
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
-					'redirectLink' => Ecwid_Config::is_gd_create() ? Ecwid_Config::get_gd_redirect_url() : ecwid_get_register_link(),
-					'redirectOnCreate' => Ecwid_Config::is_wl() && !Ecwid_Config::create_store()
-				)
-			);
+				'registerLink' => ecwid_get_register_link(),
+				'isWL' => Ecwid_Config::is_wl()
+			));
 			if (ecwid_use_old_landing()) {
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
 			} else {

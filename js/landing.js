@@ -16,8 +16,8 @@ jQuery(document).ready(function(){
 
 	jQuery('.create-store-button').click(function() {
 
-	    if (ecwidParams.redirectOnCreate) {
-	        location.href = ecwidParams.redirectLink;
+	    if (ecwidParams.isWL) {
+	        location.href = ecwidParams.registerLink;
 	        return;
         }
 
