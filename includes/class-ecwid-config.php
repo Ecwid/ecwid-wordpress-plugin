@@ -71,7 +71,7 @@ class Ecwid_Config {
 			$url .= '?return_url=';
 		}
 
-		$url .= urlencode( admin_url( 'admin-post.php?action=ec-store-gd-create&account_confirmed=1' ) );
+		$url .= urlencode( admin_url( 'admin-post.php?action=gd-create&account_confirmed=1' ) );
 
 		return $url;
 	}
@@ -137,4 +137,4 @@ class Ecwid_Config {
 	}
 }
 add_action( 'admin_enqueue_scripts', array( 'Ecwid_Config', 'enqueue_styles' ) );
-add_action( 'admin_post_ec-store-gd-create', array( 'Ecwid_Config', 'process_gd_create' ) );
+add_action( 'admin_post_gd-create', array( 'Ecwid_Config', 'process_gd_create' ) );
