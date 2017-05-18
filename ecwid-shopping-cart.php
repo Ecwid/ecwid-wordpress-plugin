@@ -1742,7 +1742,7 @@ function ecwid_get_categories($nocache = false) {
 		);
 
 		if (!$request) {
-			return false;
+			return array();
 		}
 
 		$categories = $request->do_request();
@@ -1750,6 +1750,10 @@ function ecwid_get_categories($nocache = false) {
 		if (!is_null($categories)) {
 			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
 		}
+	}
+
+	if ( !is_array($categories) || !$categories ) {
+		return array();
 	}
 
 	return $categories;
