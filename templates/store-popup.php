@@ -70,7 +70,7 @@
 						<div class="note">
 							<?php echo sprintf(
 									__('Additionally, you can add store controls to your website\'s toolbar using <a %s>WordPress native widgets</a>', 'ecwid-shopping-cart'),
-									' target="_blank" href="widgets.php?from-ecwid=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
+									' target="_blank" href="widgets.php?from-ec-store=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
 								);
 							?>
 						</div>
@@ -142,7 +142,7 @@
 									/>
 							</div>
 						</div>
-						<p class="note pb-note"><?php _e('Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, Ecwid will adapt the number of columns to hold all products.', 'ecwid-shopping-cart'); ?></p>
+						<p class="note pb-note"><?php printf( __( 'Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, %s will adapt the number of columns to hold all products.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></p>
 					</div>
 
 					<hr class="after-pb" />
@@ -233,7 +233,7 @@
 								<div class="store-id"><?php _e('Demo store', 'ecwid-shopping-cart'); ?></div>
 							<?php endif; ?>
 								<div class="setting-link">
-									<a target="_blank" href="admin.php?page=ecwid"><?php _e('Open store dashboard', 'ecwid-shopping-cart'); ?>
+									<a target="_blank" href="<?php echo Ecwid_Admin::get_dashboard_url(); ?>"><?php _e('Open store dashboard', 'ecwid-shopping-cart'); ?>
 								</div>
 						</div>
 						<div class="media-toolbar-primary add-store">

@@ -21,7 +21,10 @@ function ecwid_sidebar_widgets_init() {
 		return;
 	}
 
-	register_widget('Ecwid_Widget_Badge');
+	if ( !Ecwid_Config::is_wl() ) {
+		register_widget('Ecwid_Widget_Badge');
+	}
+
 	register_widget('Ecwid_Widget_Search');
 
 	register_widget('Ecwid_Widget_Minicart_Miniview');

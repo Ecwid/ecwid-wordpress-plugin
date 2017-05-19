@@ -12,17 +12,24 @@ add_shortcode('ecwid_search', 'ecwid_render_shortcode');
 add_shortcode('ecwid_categories', 'ecwid_render_shortcode');
 add_shortcode('ecwid_product', 'ecwid_render_shortcode');
 add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
+add_shortcode('ec_product', 'ecwid_render_shortcode');
 
 function ecwid_render_shortcode($params, $content = '', $name) {
 	$names = array('productbrowser', 'minicart', 'search', 'categories', 'product');
 
-	$prefix = substr($name, 0, 6);
 
-	if ($prefix != 'ecwid_') return '';
+	$expected_prefix = 'ecwid_';
+	if ( Ecwid_Config::is_wl() ) {
+		$expected_prefix = 'ec_';
+	}
 
-	$base = substr($name, 6);
+	$prefix = substr( $name, 0, strlen( $expected_prefix ) );
 
-	if (in_array($base, $names)) {
+	if ( $prefix != $expected_prefix ) return '';
+
+	$base = substr( $name, strlen( $expected_prefix ) );
+
+	if ( in_array( $base, $names ) ) {
 		$classname = 'Ecwid_Shortcode_' . $base;
 
 		$shortcode = new $classname($params);

@@ -1,4 +1,4 @@
-<h2><?php _e('Ecwid Shopping Cart — Appearance settings', 'ecwid-shopping-cart'); ?></h2>
+<h2><?php printf( __( '%s Shopping Cart — Appearance settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h2>
 
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings appearance-settings" method="POST" action="options.php">
@@ -52,7 +52,7 @@
 				</label>
 			</div>
 			<div class="note">
-				<?php echo sprintf(__('Or you can add vertical categories to your website\'s toolbar using <a href="%s">WordPress native widgets</a>', 'ecwid-shopping-cart'), 'widgets.php?from-ecwid-appearance'); ?>
+				<?php echo sprintf(__('Or you can add vertical categories to your website\'s toolbar using <a href="%s">WordPress native widgets</a>', 'ecwid-shopping-cart'), 'widgets.php?from-ec-store=appearance'); ?>
 			</div>
 		</div>
 
@@ -168,7 +168,7 @@
 						/>
 				</div>
 			</div>
-			<p class="note pb-note"><?php _e('Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, Ecwid will adapt the number of columns to hold all products.', 'ecwid-shopping-cart'); ?></p>
+			<p class="note pb-note"><?php printf( __( 'Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, %s will adapt the number of columns to hold all products.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></p>
 		</div>
 
 		<hr />

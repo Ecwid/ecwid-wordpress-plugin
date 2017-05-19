@@ -4,7 +4,7 @@ require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 
 class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
-	public function get_shortcode_name() {
+	public static function get_shortcode_name() {
 		return 'productbrowser';
 	}
 

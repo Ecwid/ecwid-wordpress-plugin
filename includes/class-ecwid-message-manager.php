@@ -167,12 +167,12 @@ TXT
 
 		if ($name == 'on_appearance_widgets') {
 
-			if (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'appearance') {
-				$admin_page = 'admin.php?page=ecwid-appearance';
-			} elseif (isset($_GET['from-ecwid']) && $_GET['from-ecwid'] == 'new') {
+			if (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'appearance') {
+				$admin_page = Ecwid_Admin::get_dashboard_url() . '-appearance';
+			} elseif (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'new') {
 				$admin_page = 'post-new.php?post_type=page';
-			} elseif (isset($_GET['from-ecwid']) && is_numeric($_GET['from-ecwid'])) {
-				$admin_page = 'post.php?post=' . $_GET['from-ecwid'] . '&action=edit';
+			} elseif (isset($_GET['from-ec-store']) && is_numeric($_GET['from-ec-store'])) {
+				$admin_page = 'post.php?post=' . $_GET['from-ec-store'] . '&action=edit';
 			}
 
 			$params['secondary_url'] = $admin_page;
@@ -191,9 +191,9 @@ TXT
 	{
 		return array(
 			'on_activate' => array(
-				'title' => __('Greetings! Your Ecwid plugin is now active.', 'ecwid-shopping-cart'),
+				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => __('Set up Ecwid Store', 'ecwid-shopping-cart'),
+				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid',
 				'hideable'  => true,
 				'default'  => 'disabled'
@@ -204,23 +204,24 @@ TXT
 				'title' => __('Your store is almost ready!', 'ecwid-shopping-cart' ),
 				'message' => __('Complete setup and start selling', 'ecwid-shopping-cart' ),
 				'primary_title' => __('Complete Setup', 'ecwid-shopping-cart' ),
-				'primary_url'   => 'admin.php?page=ecwid',
+				'primary_url'   => Ecwid_Admin::get_dashboard_url(),
 				'hideable'  => true
 			),
 
 			'on_appearance_widgets' => array(
-				'message' => __('To add extra functions to your store, drag and drop Ecwid store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ),
+				'message' => sprintf( __( 'To add extra functions to your store, drag and drop %s store elements on your site. When you\'re done, you can get back to modifying your settings.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'secondary_title' => __('Back to Store Settings', 'ecwid-shopping-cart'),
-				'secondary_url'   => 'admin.php?page=ecwid-appearance',
+				'secondary_url'   => Ecwid_Admin::get_dashboard_url() . '-appearance',
 				'hideable'  => true
 			),
 
 			'please_vote' => array(
 				'message' => sprintf(
-					__('Do you like your Ecwid online store? We\'d appreciate it if you add your review and vote for the plugin on Wordpress site.', 'ecwid-shopping-cart'),
+					__('Do you like your %s online store? We\'d appreciate it if you add your review and vote for the plugin on WordPress site.', 'ecwid-shopping-cart'),
+					Ecwid_Config::get_brand(),
 					'target="_blank" href="http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart"'
 				),
-				'primary_title' => __('Rate Ecwid at WordPress.org', 'ecwid-shopping-cart'),
+				'primary_title' => sprintf( __( 'Rate %s at WordPress.org', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'primary_url' => 'http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart',
 				'hideable' => true
 			),
@@ -230,14 +231,6 @@ TXT
 				'message' => Ecwid_Message_Manager::get_oauth_message(),
 				'hideable' => false,
 				'type' => 'error'
-			),
-
-			'install_ecwid_theme' => array(
-				'title' => __( 'Looking for a Wordpress theme for your store?', 'ecwid-shopping-cart' ),
-				'message' => __ ( 'We created the "Ecwid Ecommerce" theme to make Ecwid stores like yours look great in WordPress. Give it a try – the Ecwid theme is free.', 'ecwid-shopping-cart' ),
-				'primary_title' => __( 'Install the Ecwid theme', 'ecwid-shopping-cart' ),
-				'primary_url' => 'admin.php?page=ecwid-install-theme',
-				'hideable' => true
 			),
 		);
 	}
@@ -254,16 +247,16 @@ TXT
 			$admin_page = $screen->base;
 		}
 
-		if ($admin_page == 'toplevel_page_ecwid' && isset($_GET['reconnect'])) {
+		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
 			return false;
 		}
 
 		switch ($name) {
 			case 'on_activate':
-				return $admin_page != 'toplevel_page_ecwid' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ecwid';
+				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
@@ -274,9 +267,12 @@ TXT
 				return $is_newbie && ($is_ecwid_settings || $is_store_page);
 
 			case 'on_appearance_widgets':
-				return isset($_GET['from-ecwid']) && $_GET['from-ecwid'] != 'true' && $admin_page == 'widgets';
+				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
 			case 'please_vote':
+
+				if ( Ecwid_Config::is_wl() ) return false;
+
 				$install_date = get_option('ecwid_installation_date');
 
 				$result = false;
@@ -293,39 +289,6 @@ TXT
 				}
 
 				return $result;
-
-			case "install_ecwid_theme":
-				return false;
-				$install_date = ecwid_get_wp_install_date();
-				$theme = ecwid_get_theme_identification();
-
-				$default_themes = array(
-					'twentyten',
-					'twentyeleven',
-					'twentytwelve',
-					'twentythirteen',
-					'twentyfourteen',
-					'twentyfifteen',
-					'twentysixteen'
-				);
-
-				$is_default_theme = in_array($theme, $default_themes);
-				$is_newbie = (time() - $install_date) < 60*60*24*31;
-				$is_ecwid_connected = get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
-				$is_installing = get_current_screen()->base == 'admin_page_ecwid-install-theme';
-				$theme_object = wp_get_theme('ecwid-ecommerce');
-				$err = $theme_object->errors();
-				$is_theme_installed = $theme_object;
-				if ($is_theme_installed) {
-					if ($err && $err->get_error_code() == 'theme_not_found') {
-						$is_theme_installed = false;
-					}
-				}
-
-				if ( $is_default_theme && $is_newbie && $is_ecwid_connected && !$is_installing && !$is_theme_installed ) {
-					return true;
-				}
-
 		}
 	}
 

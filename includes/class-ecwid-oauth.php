@@ -14,10 +14,10 @@ class Ecwid_OAuth {
 
 	public function __construct()
 	{
-		add_action('admin_post_ecwid_oauth', array($this, 'process_authorization'));
-		add_action('admin_post_ecwid_oauth_reconnect', array($this, 'process_authorization'));
-		add_action('admin_post_ecwid_disconnect', array($this, 'disconnect_store'));
-		add_action('admin_post_ecwid_show_reconnect', array($this, 'show_reconnect'));
+		add_action('admin_post_ec_oauth', array($this, 'process_authorization'));
+		add_action('admin_post_ec_oauth_reconnect', array($this, 'process_authorization'));
+		add_action('admin_post_ec_disconnect', array($this, 'disconnect_store'));
+		add_action('admin_post_ec_show_reconnect', array($this, 'show_reconnect'));
 
 		$this->_load_state();
 
@@ -39,15 +39,15 @@ class Ecwid_OAuth {
 
 	public function get_test_post_url()
 	{
-		return 'https://my.ecwid.com/api/oauth/token';
+		return Ecwid_Config::get_oauth_auth_url();
 	}
 
 
 	public function get_auth_dialog_url( )
 	{
-		$action = 'ecwid_oauth';
+		$action = 'ec_oauth';
 		if ( $this->_is_reconnect()  ) {
-			$action = 'ecwid_oauth_reconnect';
+			$action = 'ec_oauth_reconnect';
 		}
 
 		$redirect_uri = 'admin-post.php?action=' . $action;
@@ -60,7 +60,7 @@ class Ecwid_OAuth {
 
 	public function get_sso_reconnect_dialog_url()
 	{
-		$redirect_uri = 'admin-post.php?action=ecwid_oauth_reconnect';
+		$redirect_uri = 'admin-post.php?action=ec_oauth_reconnect';
 
 		$scope = $this->_get_scope();
 
@@ -76,7 +76,7 @@ class Ecwid_OAuth {
 
 	public function process_authorization()
 	{
-		$reconnect = $_REQUEST['action'] == 'ecwid_oauth_reconnect';
+		$reconnect = $_REQUEST['action'] == 'ec_oauth_reconnect';
 
 		if ( isset( $_REQUEST['error'] ) || !isset( $_REQUEST['code'] ) ) {
 			if ($reconnect) {
@@ -85,20 +85,20 @@ class Ecwid_OAuth {
 				$this->update_state(array('mode' => self::MODE_CONNECT, 'error' => 'cancelled'));
 			}
 
-			wp_redirect('admin.php?page=ecwid&connection_error' . ($reconnect ? '&reconnect' : ''));
+			wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ($reconnect ? '&reconnect' : ''));
 			exit;
 		}
 
-		$base_admin_url = 'admin-post.php?action=ecwid_oauth' . ($reconnect ? '_reconnect' : '');
+		$base_admin_url = 'admin-post.php?action=ec_oauth' . ($reconnect ? '_reconnect' : '');
 
 		$params['code'] = $_REQUEST['code'];
-		$params['client_id'] = Ecwid_Api_V3::CLIENT_ID;
-		$params['client_secret'] = Ecwid_Api_V3::CLIENT_SECRET;
+		$params['client_id'] = Ecwid_Config::get_oauth_appid();
+		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
 		$params['redirect_uri'] = admin_url( $base_admin_url );
 
 		$params['grant_type'] = 'authorization_code';
 
-		$request = Ecwid_HTTP::create_post( 'oauth_authorize', 'https://my.ecwid.com/api/oauth/token', array(
+		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_token_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 
@@ -116,6 +116,7 @@ class Ecwid_OAuth {
 			|| ( $result->token_type != 'Bearer' )
 		) {
 			ecwid_log_error(var_export($return, true));
+
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
@@ -135,9 +136,9 @@ class Ecwid_OAuth {
 		} else {
 			$url = '';
 			if ($reconnect) {
-				$url = 'admin.php?page=ecwid&setting-updated=true';
+				$url = Ecwid_Admin::get_dashboard_url() . '&setting-updated=true';
 			} else {
-				$url = 'admin.php?page=ecwid';
+				$url = Ecwid_Admin::get_dashboard_url();
 			}
 			wp_redirect( $url );
 		}
@@ -151,7 +152,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
 
-		wp_redirect('admin.php?page=ecwid');
+		wp_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit;
 	}
 
@@ -215,7 +216,7 @@ class Ecwid_OAuth {
 			EcwidPlatform::report_error($last_error);
 		}
 
-		wp_redirect('admin.php?page=ecwid&connection_error' . ($mode == self::MODE_RECONNECT ? '&reconnect' : ''));
+		wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $mode == self::MODE_RECONNECT ? '&reconnect' : '' ) );
 		exit;
 	}
 
@@ -242,7 +243,7 @@ class Ecwid_OAuth {
 		$token = $this->api->get_token();
 
 		$timestamp = time();
-		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Api_V3::CLIENT_SECRET);
+		$signature = hash('sha256', $store_id . $token . $timestamp . Ecwid_Config::get_oauth_appsecret());
 
 		$url = sprintf(
 			$url,
@@ -332,7 +333,7 @@ class Ecwid_OAuth {
 		if (isset($this->state->reason)) {
 			switch ( $this->state->reason ) {
 				case 'spw':
-					$reconnect_message = __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your Ecwid store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' );;
+					$reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 					break;
 				case '2':
 					$reconnect_message = "Message 2";

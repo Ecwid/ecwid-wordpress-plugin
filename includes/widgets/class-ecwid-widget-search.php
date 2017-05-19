@@ -6,7 +6,7 @@ class Ecwid_Widget_Search extends WP_Widget {
 	}
 
 	function __construct() {
-		$widget_ops = array('classname' => 'widget_ecwid_search', 'description' => __("Displays a simple search box for your customers to find a product in your storex", 'ecwid-shopping-cart'));
+		$widget_ops = array('classname' => 'widget_ecwid_search', 'description' => __("Displays a simple search box for your customers to find a product in your store", 'ecwid-shopping-cart'));
 		parent::__construct('ecwidsearch', __('Product Search', 'ecwid-shopping-cart'), $widget_ops);
 	}
 

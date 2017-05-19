@@ -233,7 +233,7 @@ jQuery(document).ready(function() {
 		var shortcode = {};
 		if (!existingShortcode) {
 			shortcode.shortcode = new wp.shortcode();
-			shortcode.shortcode.tag = 'ecwid';
+			shortcode.shortcode.tag = ecwid_params.store_shortcode;
 			shortcode.shortcode.type = 'single';
 		} else {
 			shortcode = existingShortcode;

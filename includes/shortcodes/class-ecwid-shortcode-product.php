@@ -5,7 +5,11 @@ require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 	protected $_version;
-	public function get_shortcode_name() {
+	public static function get_shortcode_name() {
+		if ( Ecwid_Config::is_wl() ) {
+			return 'ec_product';
+		}
+
 		return 'product';
 	}
 

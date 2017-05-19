@@ -23,18 +23,18 @@ jQuery(document).ready(function() {
 
             var $message = jQuery('<p>')
                 .addClass('ecwid-store-with-cats-message')
-                .text(ecwid_l10n.reset_cache_message)
+                .text(ecwid_params.reset_cache_message)
                 .insertAfter(jQuery('.field-move', element));
 
             $target = jQuery('<p class="ecwid-store-with-cats-reset-cache">').insertAfter($message);
 
             jQuery('<span>')
-                .text(ecwid_l10n.cache_updated)
+                .text(ecwid_params.cache_updated)
                 .addClass('ecwid-reset-categories-cache-updated')
                 .appendTo($target);
 
             jQuery('<a>')
-                .text(ecwid_l10n.reset_cats_cache)
+                .text(ecwid_params.reset_cats_cache)
                 .attr('href', 'javascript:void(0);')
                 .addClass('ecwid-reset-categories-cache')
                 .appendTo($target)

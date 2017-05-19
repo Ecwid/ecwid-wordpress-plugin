@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 
     jQuery('#insert-ecwid-product-button').click(function() {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
-            location.href='admin.php?page=ecwid&reconnect&reason=spw';
+            location.href='admin.php?page=ec-store&reconnect&reason=spw';
             return false;
         }
 
@@ -163,7 +163,7 @@ jQuery(document).ready(function() {
 
         var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
-        var shortcode = '[ecwid_product';
+        var shortcode = '[' + ecwid_params.product_shortcode;
 
         for (var i = 0; i < params_order.length; i++) {
             shortcode += ' ' + params_order[i] + '="' + params[params_order[i]] + '"';

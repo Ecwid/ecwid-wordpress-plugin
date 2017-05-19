@@ -238,6 +238,19 @@ class EcwidPlatform {
 		update_option( 'ecwid_plugin_data', $options );
 	}
 
+	static public function reset( $name ) {
+		$options = get_option( 'ecwid_plugin_data' );
+
+		if ( !is_array( $options ) || !array_key_exists($name, $options)) {
+			return;
+		}
+
+		unset($options[$name]);
+
+		update_option( 'ecwid_plugin_data', $options );
+
+	}
+
 	static public function http_api_transports($transports)
 	{
 		if (self::$http_use_streams) {
