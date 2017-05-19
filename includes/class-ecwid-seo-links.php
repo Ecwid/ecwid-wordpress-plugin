@@ -116,7 +116,13 @@ class Ecwid_Seo_Links {
 			'account\/address-book',
 			'account\/favorites',
 			'search',
-			'search\?.*'
+			'search\?.*',
+			'signin',
+			'pages\/about',
+			'pages\/shipping-payment',
+			'pages\/returns',
+			'pages\/terms',
+			'pages\/privacy-policy'
 		);
 	}
 
