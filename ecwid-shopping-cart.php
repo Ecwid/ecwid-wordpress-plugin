@@ -1752,7 +1752,6 @@ function ecwid_settings_api_init() {
 				register_setting( 'ecwid_options_page', 'ecwid_sso_secret_key' );
 				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
-				register_setting( 'ecwid_options_page', Ecwid_Seo_Links::OPTION_ENABLED );
 				break;
 		}
 
@@ -1763,11 +1762,13 @@ function ecwid_settings_api_init() {
         }
 
 
-		if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && !Ecwid_Seo_Links::is_enabled()) {
-			Ecwid_Seo_Links::enable();
-		} else if ($_POST['settings_section'] == 'advanced' && !isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && Ecwid_Seo_Links::is_enabled()) {
-			Ecwid_Seo_Links::disable();
-		}
+        if (Ecwid_Seo_Links::should_display_option()) {
+			if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && !Ecwid_Seo_Links::is_enabled()) {
+				Ecwid_Seo_Links::enable();
+			} else if ($_POST['settings_section'] == 'advanced' && !isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && Ecwid_Seo_Links::is_enabled()) {
+				Ecwid_Seo_Links::disable();
+			}
+        }
 
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
