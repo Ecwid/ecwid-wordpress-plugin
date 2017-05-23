@@ -7,9 +7,8 @@ class Ecwid_Seo_Links {
 
 	public function __construct()
 	{
-		// Should always run, check for enabled inside: once the option is turned on, it should rebuild the rules right away,
 		// therefore the action must me registered
-		add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
+		add_action( 'init', array( $this, 'build_rewrite_rules' ) );
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
@@ -182,16 +181,14 @@ JS;
 		return $pattern = '!.*-(p|c)([0-9]*)!';
 	}
 
-	public function build_rewrite_rules( $original_rules ) {
+	public function build_rewrite_rules( ) {
 
-		if ( !self::is_enabled() ) return $original_rules;
-
-		$rules = array();
+		if ( !self::is_enabled() ) return;
 
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
-			foreach ($patterns as $pattern) {
-				$rules['^' . $pattern . '$'] = 'index.php?page_id=' . get_option( 'page_on_front' );
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
 		}
 
@@ -199,11 +196,12 @@ JS;
 
 		if ( is_array( $pages ) ) {
 
-			foreach ($pages as $page_id) {
+			foreach ( $pages as $page_id ) {
 				$patterns = $this->get_seo_links_patterns();
-				$link = get_page_uri($page_id);
-				foreach ($patterns as $pattern) {
-					$rules['^' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+				$link = urldecode( get_page_uri( $page_id ) );
+
+				foreach ( $patterns as $pattern ) {
+					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
 				}
 			}
 
@@ -218,19 +216,18 @@ JS;
 				$links_model = $model->get_links_model();
 				if ($links_model instanceof PLL_Links_Directory) {
 					$patterns = $this->get_seo_links_patterns();
-					foreach ($pages as $page_id) {
-						$link = get_page_uri($page_id);
-						$language = pll_get_post_language($page_id);
-						foreach ($patterns as $pattern) {
-							$rules['^' . $language . '/' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+					foreach ( $pages as $page_id ) {
+						$link = urldecode( get_page_uri( $page_id ) );
+						$language = pll_get_post_language( $page_id );
+						foreach ( $patterns as $pattern ) {
+							add_rewrite_rule( '^' . $language . '/' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
 						}
 					}
 				}
 			}
 		}
-
-		return array_merge( $rules, $original_rules );
 	}
+
 
 	public static function is_enabled() {
 
