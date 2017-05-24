@@ -139,7 +139,7 @@ class Ecwid_Nav_Menus {
 		}
 
 		wp_enqueue_script('ecwid-admin-menu-js', ECWID_PLUGIN_URL . 'js/nav-menu.js', array(), get_option('ecwid_plugin_version'));
-		wp_localize_script('ecwid-admin-menu-js', 'ecwid_params', array(
+		wp_localize_script('ecwid-admin-menu-js', 'ecwid_nav_menu_params', array(
 			'store_page' => __('Store Page', 'ecwid-shopping-cart'),
 			'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 			'cache_updated' => __('Done', 'ecwid-shopping-cart'),

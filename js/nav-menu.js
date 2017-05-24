@@ -1,11 +1,11 @@
 jQuery(document).ready(function() {
 
     var ecwidClasses = {};
-    for (var i in ecwid_params.items) {
-        ecwidClasses[i] = ecwid_params.items[i].name;
+    for (var i in ecwid_nav_menu_params.items) {
+        ecwidClasses[i] = ecwid_nav_menu_params.items[i].name;
     }
 
-    if (ecwid_params.first_run && jQuery('#ecwid_nav_links-hide:checked').length == 0) {
+    if (ecwid_nav_menu_params.first_run && jQuery('#ecwid_nav_links-hide:checked').length == 0) {
         jQuery('#ecwid_nav_links-hide').click();
     }
 
@@ -17,24 +17,24 @@ jQuery(document).ready(function() {
         if (jQuery(element).hasClass('ecwid-link')) return;
 
         jQuery(element).addClass('ecwid-link');
-        jQuery(element).find('.item-type').text(ecwid_params.store_page);
+        jQuery(element).find('.item-type').text(ecwid_nav_menu_params.store_page);
 
         if (isStoreWithCategories(element)) {
 
             var $message = jQuery('<p>')
                 .addClass('ecwid-store-with-cats-message')
-                .text(ecwid_params.reset_cache_message)
+                .text(ecwid_nav_menu_params.reset_cache_message)
                 .insertAfter(jQuery('.field-move', element));
 
             $target = jQuery('<p class="ecwid-store-with-cats-reset-cache">').insertAfter($message);
 
             jQuery('<span>')
-                .text(ecwid_params.cache_updated)
+                .text(ecwid_nav_menu_params.cache_updated)
                 .addClass('ecwid-reset-categories-cache-updated')
                 .appendTo($target);
 
             jQuery('<a>')
-                .text(ecwid_params.reset_cats_cache)
+                .text(ecwid_nav_menu_params.reset_cats_cache)
                 .attr('href', 'javascript:void(0);')
                 .addClass('ecwid-reset-categories-cache')
                 .appendTo($target)
