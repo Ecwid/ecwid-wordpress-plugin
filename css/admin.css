@@ -12,9 +12,6 @@
 
 #adminmenu #toplevel_page_ec-store div.wp-menu-image {
 	background: url(../images/icon-sidebar-default.png) no-repeat 5px 2px;
-	margin: 2px 3px 2px 2px;
-	width: 23px;
-	height: 23px;
 }
 
 #adminmenu #toplevel_page_ec-store:hover div.wp-menu-image,
@@ -576,10 +573,4 @@ body[class*="_page_ecwid"] .ecwid-message {
     content: "\e603";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-#adminmenu #toplevel_page_ec-store div.wp-menu-image {
-    margin: 0px;
-    width: 34px;
-    height: 30px;
 }
