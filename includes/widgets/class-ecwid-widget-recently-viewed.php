@@ -113,7 +113,7 @@ HTML;
 <script type="text/javascript">
 <!--
 jQuery(document).ready(function() {
-	jQuery('#$this->id .ecwid-recently-viewed-products').recentlyViewedProducts();
+	jQuery('.ecwid-recently-viewed-products:not([data-rvp-initialized=1])').recentlyViewedProducts().attr('data-rvp-initialized', 1);
 });
 -->
 </script>
