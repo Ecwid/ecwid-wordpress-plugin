@@ -13,7 +13,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		if (ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
 			add_filter( 'wpseo_do_sitemap_ecwid', array( $this, 'wpseo_hook_do_sitemap' ) );
-			if (array_key_exists('_escaped_fragment_', $_GET)) {
+			if (array_key_exists('_escaped_fragment_', $_GET)  || Ecwid_Seo_Links::is_product_browser_url()) {
 				add_filter( 'wpseo_title', 'ecwid_seo_title' );
 				add_filter( 'wpseo_metadesc', array( $this, 'wpseo_hook_description' ) );
 			}
