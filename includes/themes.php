@@ -58,7 +58,8 @@ function ecwid_apply_theme($theme_name = null)
 		'zerogravity'			=> array( 'css' ),
 		'skt-design-agency-pro' => array( 'css-no-parent' ),
 		'uncode'			    => array( 'css-no-parent' ),
-		'ribosome'              => array( 'css' )
+		'ribosome'              => array( 'css' ),
+		'optimizepress'         => array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
