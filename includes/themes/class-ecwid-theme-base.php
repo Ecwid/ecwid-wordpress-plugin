@@ -12,6 +12,10 @@ class Ecwid_Theme_Base {
 	protected $has_css = false;
 	protected $css_parent = false;
 
+	public $historyjs_html4mode = false;
+
+	public static $instance = null;
+
 	public function __construct()
 	{
 	}
@@ -37,6 +41,10 @@ class Ecwid_Theme_Base {
 
 		if ( in_array( 'css-no-parent', $props ) ) {
 			$theme->add_css( '' );
+		}
+
+		if (in_array( 'historyjs_html4mode', $props ) ) {
+			$theme->historyjs_html4mode = true;
 		}
 
 		return $theme;
