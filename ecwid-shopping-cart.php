@@ -308,7 +308,11 @@ function ecwid_redirect_canonical2($redir, $req) {
 function ecwid_enqueue_frontend() {
 
 
-	global $wp_query;
+	global $ecwid_current_theme;
+
+	if ( $ecwid_current_theme && $ecwid_current_theme->historyjs_html4mode || get_option('ecwid_historyjs_html4mode') ) {
+		wp_enqueue_script('ecwid-historyjs-wa', ECWID_PLUGIN_URL . 'js/historywa.js');
+	}
 
 	if (!wp_script_is('jquery-ui-widget')) {
 		wp_enqueue_script('jquery-ui-widget', includes_url() . 'js/jquery/ui/widget.min.js', array('jquery'));
@@ -598,6 +602,7 @@ function ecwid_check_version()
         add_option('ecwid_chameleon_colors_button', '');
         add_option('ecwid_chameleon_colors_price', '');
 		add_option('ecwid_disable_pb_url', false );
+		add_option('ecwid_historyjs_html4mode', false);
 
         add_option(Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION, '');
 
