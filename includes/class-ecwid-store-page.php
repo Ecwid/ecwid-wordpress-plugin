@@ -61,9 +61,9 @@ class Ecwid_Store_Page {
 
 			if ( $category ) {
 				$url = $category->url;
-			}
 
-			return $url;
+				return $url;
+			}
 		}
 
 		return self::get_store_url() . '#!/c/' . $id;
