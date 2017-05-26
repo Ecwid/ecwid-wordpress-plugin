@@ -59,7 +59,8 @@ function ecwid_apply_theme($theme_name = null)
 		'skt-design-agency-pro' => array( 'css-no-parent' ),
 		'uncode'			    => array( 'css-no-parent' ),
 		'ribosome'              => array( 'css' ),
-		'optimizepress'         => array( 'css' )
+		'optimizepress'         => array( 'css' ),
+		'edge'                  => array( 'js', 'scroll' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
