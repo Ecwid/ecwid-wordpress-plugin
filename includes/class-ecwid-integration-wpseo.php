@@ -53,7 +53,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 	public function wpseo_hook_sitemap_index( )
 	{
 		$now = date('c', time());;
-		$sitemap_url = wpseo_xml_sitemaps_base_url('ecwid-sitemap.xml');
+		$sitemap_url = $this->_get_base_url( 'ecwid-sitemap.xml' );
 		return <<<XML
 		<sitemap>
 			<loc>$sitemap_url</loc>
@@ -124,6 +124,14 @@ XML;
 			return '';
 
 		return $description;
+	}
+
+	protected function _get_base_url( $page ) {
+		if ( class_exists( 'WPSEO_Sitemaps_Router' ) && method_exists( 'WPSEO_Sitemaps_Router', 'get_base_url' ) ) {
+			return WPSEO_Sitemaps_Router::get_base_url( $page );
+		} else {
+			return wpseo_xml_sitemaps_base_url ( $page );
+		}
 	}
 }
 
