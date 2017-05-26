@@ -113,7 +113,21 @@ HTML;
         }
 
         if ( !isset( $data['display'] ) ) {
-        	$data['display'] = array('picture' => 1, 'title' => 1, 'price' => 1, 'addtobag' => 1, 'options' => 1);
+        	$data['display'] = array(
+        		'picture' => 1,
+		        'title' => 1,
+		        'price' => 1,
+		        'addtobag' => 1,
+		        'options' => 1
+	        );
+		}
+
+		if ( !isset( $data['attributes'] ) ) {
+        	$data['attributes'] = array(
+		        'show_price_on_button' => 1,
+		        'center_align' => 1,
+		        'show_border' => 1
+	        );
 		}
 
         $data['labels'] = array(

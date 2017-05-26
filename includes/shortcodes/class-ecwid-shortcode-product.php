@@ -22,7 +22,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 				'version' => '1',
 				'show_border' => '1',
 				'show_price_on_button' => '1',
-                'center_align' => '0'
+                'center_align' => '1'
 			),
 			$shortcode_params
 		);
