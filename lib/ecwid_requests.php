@@ -352,6 +352,8 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 				$result['message'] = $match[2];
 			}
 
+			if (!is_string($item)) continue;
+
 			$colon_pos = strpos($item, ':');
 
 			if (!$colon_pos) continue;
