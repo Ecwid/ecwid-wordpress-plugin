@@ -13,7 +13,7 @@ class Ecwid_Config {
 	const OAUTH_AUTH_URL = 'whitelabel_oauth_auth_url';
 
 	public static function is_wl() {
-		return EcwidPlatform::get( self::IS_WL );
+		return EcwidPlatform::get( self::IS_WL, false );
 	}
 
 	public static function get_brand() {
@@ -53,7 +53,16 @@ class Ecwid_Config {
 	}
 
 	public static function load_from_ini() {
-		$result = parse_ini_file(ECWID_PLUGIN_DIR . 'config.ini');
+
+		if (!file_exists(ECWID_PLUGIN_DIR . 'config.ini')) {
+			return;
+		}
+
+		$result = @parse_ini_file(ECWID_PLUGIN_DIR . 'config.ini');
+
+		if ($result === false) {
+			return;
+		}
 
 		$config = array(
 			self::IS_WL => 'wl_mode',
