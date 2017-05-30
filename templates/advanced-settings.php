@@ -45,6 +45,8 @@
                 </div>
             </div>
         </div>
+
+        <hr />
         <?php endif; ?>
 
 
