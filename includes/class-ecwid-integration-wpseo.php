@@ -25,7 +25,12 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment()
 	{
-		if (!array_key_exists('_escaped_fragment_', $_GET) || !Ecwid_Store_Page::is_store_page()) {
+		$is_store_page = Ecwid_Store_Page::is_store_page();
+		$is_escaped_fragment = array_key_exists('_escaped_fragment_', $_GET);
+		$is_seo_pb_url = Ecwid_Seo_Links::is_product_browser_url();
+
+		$no_canonical_or_meta = $is_store_page && ( $is_escaped_fragment || $is_seo_pb_url );
+		if ( !$no_canonical_or_meta ) {
 			return;
 		}
 
