@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 5.2
+Stable tag: 5.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,13 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.3 =
+- **Fixes and improvements for the new clean URLs functionality.** The new clean URLs for your online store are now more stable and the product pages are more SEO friendly. The changes include: fix in the processing of non-latin characters in the product URLs; adjustment for the sharing metatags on the product pages (rel shortlink meta tags); fix for the store terms&conditions and signin links to make them work properly with the new clean URLs.
+- **Fix for the Recently Viewed Product widget and the “Minimaze” theme.** The widget didn’t work well in this theme. Now you can use Recently Viewed Products with the Minimaze theme as well as with any other Wordpress theme.
+- **Layout improvements and fixes for the “Ribosome”, “Edge” and “OptimizePress” Wordpress themes.** If you use one of those themes, you might notice minor layout issues in your e-commerce catalog or in the appearance of minicart widget. The troubles should be fixed now.
+- **Fixed a “404 not found” issue, when Ecwid is used with the “Sublanguage” plugin.** If you noticed some of your pages respond with 404 errors when Sublanguage and Ecwid plugins are both activated, this update should fix that.
+- **Improvements for the product pages SEO when Yoast plugin is used on the site.** If you have the new Ecwid clean URLs enabled in your shop and are using Yoast, this improvement should make meta tags and canonical tags work better on your site with the new URLs.
+
 = 5.2 =
 - **Major improvement in the speed of loading storefront.** The plugin now renders ecommerce pages and loads store widgets much more quicker both for your visitors and search engines.
 - **SEO improvements for product and categories pages when SEO friendly URLs are enabled.** Now a special plain version of the product page content is generated and loaded in background along with a regular product/category page. This new version is formatted to provide product and category information in a clear and understandable format for crawl robots that cannot parse JavaScript — this makes your store indexable by other search engines besides Google (e.g. Yandex). This special version is not visible in a browser, so your customers will as usually get the full store version. Please do not forget to enable new SEO friendly clean URLs to get this working on your site.
