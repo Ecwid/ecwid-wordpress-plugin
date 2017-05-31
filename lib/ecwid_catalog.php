@@ -33,7 +33,7 @@ class EcwidCatalog
 		{
 		
 			$return .= $this->_l('<div itemscope itemtype="http://schema.org/Product">', 1);
-			$return .= $this->_l('<h2 class="ecwid_catalog_product_name" itemprop="name">' . EcwidPlatform::esc_html($product["name"]) . '</h2>');
+			$return .= $this->_l('<h1 class="ecwid_catalog_product_name" itemprop="name">' . EcwidPlatform::esc_html($product["name"]) . '</h1>');
 			$return .= $this->_l('<p class="ecwid_catalog_product_sku" itemprop="sku">' . EcwidPlatform::esc_html($product["sku"]) . '</p>');
 			
 			if (!empty($product["thumbnailUrl"])) 
@@ -206,7 +206,7 @@ class EcwidCatalog
 		$return = $this->_l('');
 
 		if (!is_null($category)) {
-			$return .= $this->_l('<h2>' . EcwidPlatform::esc_html($category['name']) . '</h2>');
+			$return .= $this->_l('<h1>' . EcwidPlatform::esc_html($category['name']) . '</h1>');
 			$return .= $this->_l('<div>' . $category['description'] . '</div>');
 		}
 
