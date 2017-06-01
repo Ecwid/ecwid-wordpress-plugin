@@ -10,7 +10,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			return 'ec_product';
 		}
 
-		return 'product';
+		return 'ecwid_product';
 	}
 
 	protected function _process_params( $shortcode_params = array() ) {
