@@ -346,13 +346,13 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 
 		foreach ($meta['wrapper_data'] as $item) {
 
+			if (!is_string($item)) continue;
+
 			$match = array();
 			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
 				$result['code'] = $match[1];
 				$result['message'] = $match[2];
 			}
-
-			if (!is_string($item)) continue;
 
 			$colon_pos = strpos($item, ':');
 
