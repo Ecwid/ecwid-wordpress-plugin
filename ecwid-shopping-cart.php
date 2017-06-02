@@ -963,6 +963,7 @@ function ecwid_product_browser_url_in_head() {
 
 function ecwid_canonical() {
 
+	$link = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
 
 		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
@@ -992,6 +993,10 @@ function ecwid_canonical() {
 		}
 	}
 
+	if (!$link) {
+		return;
+	}
+
 	if ($link) {
 		echo '<link rel="canonical" href="' . esc_attr($link) . '" />' . PHP_EOL;
 	}
@@ -1014,6 +1019,7 @@ function ecwid_meta_description() {
 
 	$params = array();
 
+	$description = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
 		$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
 		$api = ecwid_new_product_api();
