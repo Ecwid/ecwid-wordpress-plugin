@@ -20,6 +20,6 @@
 </script>
 
 
-		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
+		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="yes"></iframe>
 
 <?php require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>
