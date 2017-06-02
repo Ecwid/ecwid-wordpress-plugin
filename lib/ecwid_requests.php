@@ -346,7 +346,10 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 
 		foreach ($meta['wrapper_data'] as $item) {
 
-			if (!is_string($item)) continue;
+			if (!is_string($item)) {
+				ecwid_log_error(json_encode($item));
+				continue;
+			}
 
 			$match = array();
 			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
@@ -441,6 +444,11 @@ class Ecwid_HTTP_Post_Fopen extends Ecwid_Http_Post {
 		$result = array();
 
 		foreach ($meta['wrapper_data'] as $item) {
+
+			if (!is_string($item)) {
+				ecwid_log_error(json_encode($item));
+				continue;
+			}
 
 			$match = array();
 			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
