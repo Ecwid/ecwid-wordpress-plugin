@@ -64,8 +64,12 @@ if (typeof ecwid_shortcodes != 'undefined') {
 				script.type = 'text/javascript';
 				script.src = 'https://app.ecwid.com/script.js?$ecwid_store_id';
 				script.id = 'ecwid-script'
-		document.body.appendChild(script);
-} else {
+		
+				document.body.appendChild(script);
+				
+				var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
+				catalog.parentElement.removeChild(catalog);
+			} else {
 			ecwid_onBodyDone();
 		}
 

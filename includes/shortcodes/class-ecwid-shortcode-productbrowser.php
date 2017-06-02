@@ -46,7 +46,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
 		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname">
-		{$plain_content}
+		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;
 
