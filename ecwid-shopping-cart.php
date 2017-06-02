@@ -1230,6 +1230,33 @@ function _ecwid_get_seo_title()
 	return "";
 }
 
+add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
+
+function ecwid_oembed_url( $url, $permalink, $format ) {
+
+	if (! Ecwid_Seo_Links::is_product_browser_url() ) {
+		return $url;
+	}
+
+	$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+	$api = new Ecwid_Api_V3();
+	if ( $params['mode'] == 'product' ){
+		$product = $api->get_product($params['id']);
+		$permalink = $product->url;
+	} else if ( $params['mode'] == 'category' ) {
+		$category = $api->get_category($params['id']);
+		$permalink = $category->url;
+	}
+
+	$url = add_query_arg( array(
+		'url'    => urlencode( $permalink ),
+		'format' => ( 'json' !== $format ) ? $format : false,
+	), $url );
+
+	return $url;
+}
+
+
 function ecwid_add_credits($powered_by)
 {
 	if (!ecwid_is_paid_account()) {
