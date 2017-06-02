@@ -44,6 +44,10 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 
 	public function render() {
 
+		if (get_option('ecwid_defer_rendering')) {
+			return;
+		}
+
 		$position = get_option(self::OPTION_DISPLAY_POSITION);
 
 		if (!$position) {
