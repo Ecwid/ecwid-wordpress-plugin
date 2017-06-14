@@ -53,33 +53,31 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 
 		echo '<div class="ecwid-recently-viewed-products" data-ecwid-max="' . $instance['number_of_products'] . '">';
 
-
-		$api = false;
-		if (ecwid_is_api_enabled()) {
-			$api = ecwid_new_product_api();
-		}
-
 		$counter = 0;
 		$ids = array();
 		if ($recently_viewed && isset($recently_viewed->products)) {
-
+			
 			for ($i = count($recently_viewed->products) - 1; $i >= 0; $i--) {
-				$product = $recently_viewed->products[$i];
-
+				$product = Ecwid_Product::get_by_id( $recently_viewed->products[$i]->id );
+				
+				if (!$product) {
+					$product = Ecwid_Product::from_stdclass(
+						$recently_viewed->products[$i],
+						'imageUrl', 'link'
+					);
+				}
+				
 				$counter++;
-				if (isset($product->id) && isset($product->link)) {
+				if ( isset( $product->id ) && isset( $product->link ) ) {
 					$ids[] = $product->id;
 					$hide = $counter > $instance['number_of_products'] ? ' hidden' : '';
 
 					$force_image = '';
-					if ($api) {
-						$product_https = $api->get_product_https($product->id);
-						if ( isset( $product_https['imageUrl'] ) ) {
-							$force_image = $product_https['imageUrl'];
-						}
+					if ( isset( $product->imageUrl ) && strpos( $product->imageUrl, 'https://' ) == 0 ) {
+						$force_image = $product->imageUrl;
 					}
 
-					$name = isset($product_https) ? $product_https['name']: '';
+					$name = isset( $product->name ) ? $product->name : '';
 
 					echo <<<HTML
 	<a class="product$hide" href="$product->link" alt="$name" title="$name">
