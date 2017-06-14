@@ -162,10 +162,10 @@ class Ecwid_Api_V3
 
 	public function search_products($input_params) {
 		$params = array('token');
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category' );
 		foreach ($passthru as $name) {
 			if ( array_key_exists( $name, $input_params ) ) {
-				$params[$name] = $input_params[$name];
+				$params[$name] = (string)$input_params[$name];
 			}
 		}
 
