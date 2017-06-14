@@ -26,10 +26,11 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 	}
 
-	public function is_available()
+	public static function is_available()
 	{
-		$token = $this->_load_token();
-		if ( $token ) {
+		$token = self::_load_token();
+		
+		if ( $token && $token != get_option( self::TOKEN_OPTION_NAME ) ) {
 			return true;
 		}
 
