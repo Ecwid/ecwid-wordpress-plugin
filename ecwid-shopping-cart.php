@@ -2760,8 +2760,22 @@ function ecwid_update_store_id( $new_store_id ) {
 	do_action('ecwid_update_store_id', $new_store_id);
 }
 
+
 function ecwid_is_paid_account()
 {
+	if ( Ecwid_Api_V3::is_available() ) {
+		$api = new Ecwid_Api_V3();
+
+		$profile = $api->get_store_profile();
+
+		return $profile
+		       && property_exists( $profile, 'account')
+		       && property_exists( $profile->account, 'availableFeatures' )
+		       && is_array( $profile->account->availableFeatures )
+		       && in_array(
+			       'PREMIUM', $profile->account->availableFeatures
+		       );
+	}
 	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
 }
 
