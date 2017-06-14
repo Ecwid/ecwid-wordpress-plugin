@@ -1,4 +1,4 @@
-<h2><?php printf( __( '%s Shopping Cart — Advanced settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h2>
+<h2><?php printf( __( '%s — Advanced settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h2>
 
 <div class="wrap">
 <form class="pure-form pure-form-aligned ecwid-settings advanced-settings" method="POST" action="options.php">
@@ -41,7 +41,7 @@
 
 
                 <div class="note grayed-links">
-                    <?php echo sprintf(__('Note: the new URLs will be automatically enabled for every store in one of upcoming updates so please make sure to check how the new URLs work in your store and <a %s>let us know</a> if you face any trouble with them', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
+                    <?php echo sprintf(__('Note: the new URLs will be automatically enabled for every store in one of upcoming updates so please make sure to check how the new URLs work in your store and <a %s>let us know</a> if you face any trouble with them', 'ecwid-shopping-cart'), ' target="_blank" href="' . Ecwid_Config::get_contact_us_url() . '"'); ?>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
 				</label>
 
 				<div class="note">
-					<?php printf( __( 'Single Sign-On allows your customers to have a single login for your WordPress site and your %s store. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+					<?php printf( __( 'Single Sign-On allows your customers to have a single login for your WordPress site and your %s. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
 				</div>
 				<?php if (!ecwid_is_paid_account()): ?>
 				<div class="upgrade-note">
@@ -183,7 +183,7 @@
         <?php ecwid_sync_do_page(); ?>
 
         <div class="note grayed-links">
-            <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . __('https://support.ecwid.com/hc/en-us/requests/new', 'ecwid-shopping-cart') . '"'); ?>
+            <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . Ecwid_Config::get_contact_us_url() . '"'); ?>
         </div>
 
 	</fieldset>

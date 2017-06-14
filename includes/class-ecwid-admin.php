@@ -19,7 +19,7 @@ class Ecwid_Admin {
 
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
-			sprintf(__('%s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
+			sprintf(__('%s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			'manage_options',
 			self::ADMIN_SLUG,
 			'ecwid_general_settings_do_page',
