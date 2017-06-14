@@ -1872,7 +1872,11 @@ function ecwid_general_settings_do_page() {
 		$customer_returned_from_creating_store_at_ecwid =
 			EcwidPlatform::cache_get( 'user_was_redirected_to_ecwid_site_to_create_account' );
 
-		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid ) {
+		$no_reg_wl = Ecwid_Config::is_no_reg_wl();
+		
+		global $ecwid_oauth;
+		
+		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid || $no_reg_wl) {
 			EcwidPlatform::cache_reset( 'user_was_redirected_to_ecwid_site_to_create_account' );
 			require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
 		} else {

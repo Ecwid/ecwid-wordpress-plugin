@@ -29,7 +29,12 @@ class Ecwid_Config {
 	}
 
 	public static function get_registration_url() {
-		return EcwidPlatform::get( self::REGISTRATION_URL, 'https://my.ecwid.com/cp/?source=wporg' );
+		return EcwidPlatform::get( self::REGISTRATION_URL );
+	}
+	
+	// Whether it is in WL mode with no registration
+	public static function is_no_reg_wl() {
+		return self::is_wl() && !self::get_registration_url();
 	}
 
 	public static function get_channel_id() {
@@ -67,13 +72,17 @@ class Ecwid_Config {
 			self::OAUTH_TOKEN_URL => 'oauth_token_url',
 			self::OAUTH_AUTH_URL => 'oauth_authorize_url'
 		);
+		
+		$empty_is_allowed = array(
+			self::REGISTRATION_URL
+		);
 
 		$is_enabled = @$result['wl_mode'];
 
 		foreach ( $config as $name => $ini_name ) {
 
 			$value = @$result[$ini_name];
-			if ( $is_enabled && $value ) {
+			if ( $is_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
 				EcwidPlatform::set($name, @$result[$ini_name]);
 			} else {
 				EcwidPlatform::reset($name);
