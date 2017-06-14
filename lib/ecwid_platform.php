@@ -287,9 +287,9 @@ class EcwidPlatform {
 		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
 	}
 
-	static public function get_from_categories_cache( $url )
+	static public function get_from_categories_cache( $key )
 	{
-		$cache_name = self::_build_cache_name( $url, 'categories' );
+		$cache_name = self::_build_cache_name( $key, 'categories' );
 
 		$result = self::cache_get( $cache_name );
 		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
@@ -299,9 +299,9 @@ class EcwidPlatform {
 		return false;
 	}
 
-	static public function get_from_products_cache( $url )
+	static public function get_from_products_cache( $key )
 	{
-		$cache_name = self::_build_cache_name( $url, 'products' );
+		$cache_name = self::_build_cache_name( $key, 'products' );
 
 		$result = self::cache_get( $cache_name );
 
