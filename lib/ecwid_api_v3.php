@@ -9,8 +9,12 @@ class Ecwid_Api_V3
 	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
+	
+	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
 
 	public $store_id = null;
+	
+	protected static $profile = null;
 
 	public function __construct() {
 
@@ -334,6 +338,12 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 
+		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
+		
+		if ($profile) {
+			return $profile;
+		}
+		
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
@@ -343,7 +353,11 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
-		return json_decode($result['data']);
+		$profile = json_decode($result['data']);
+	
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+		
+		return self::$profile;
 	}
 
 	public function create_store()
