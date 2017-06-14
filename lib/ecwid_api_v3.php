@@ -194,6 +194,11 @@ class Ecwid_Api_V3
 		EcwidPlatform::store_in_products_cache( $url, $result );
 
 		$result = json_decode($result['data']);
+
+		foreach ( $result->items as $item ) {
+			Ecwid_Product::from_stdclass( $item );
+		}
+
 		return $result;
 	}
 
