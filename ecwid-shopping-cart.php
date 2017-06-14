@@ -502,7 +502,7 @@ function ecwid_build_sitemap($callback)
 	if (get_post_status($page_id) == 'publish') {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
-		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback, ecwid_new_product_api());
+		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback);
 
 		$sitemap->generate();
 	}
