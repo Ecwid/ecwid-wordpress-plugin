@@ -91,7 +91,7 @@ class Ecwid_Api_V3
 
 	public function get_category($categoryId)
 	{
-		if (!isset($categoryId)) {
+		if (!isset($categoryId) || $categoryId == 0 ) {
 			return false;
 		}
 
