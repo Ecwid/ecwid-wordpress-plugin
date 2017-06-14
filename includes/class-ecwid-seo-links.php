@@ -48,7 +48,7 @@ class Ecwid_Seo_Links {
 	}
 
 	public function redirect_escaped_fragment() {
-		if ( ecwid_can_display_html_catalog() ) {
+		if ( ecwid_should_display_escaped_fragment_catalog() ) {
 			$params = ecwid_parse_escaped_fragment( $_GET[ '_escaped_fragment_' ] );
 
 			if ( !isset( $params[ 'mode' ] ) ) {

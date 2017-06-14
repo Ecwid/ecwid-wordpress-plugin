@@ -2718,16 +2718,15 @@ function ecwid_hmacsha1($data, $key) {
     }
 }
 
-function ecwid_can_display_html_catalog()
+function ecwid_should_display_escaped_fragment_catalog()
 {
 	if (!isset($_GET['_escaped_fragment_'])) return;
 
-	$api = ecwid_new_product_api();
-	if (!$api) return;
-
-	$profile = $api->get_profile();
-	if (!$profile) return;
-	return $profile['closed'] != true;
+	if ( Ecwid_Api_V3::is_available() || ecwid_is_apiv1_enabled() ) {
+		return !ecwid_is_store_closed();
+	}
+	
+	return false;
 }
 
 function ecwid_get_default_pb_size() {
@@ -2746,16 +2745,18 @@ function ecwid_update_store_id( $new_store_id ) {
 	update_option( 'ecwid_store_id', $new_store_id );
 	update_option( 'ecwid_is_api_enabled', 'off' );
 	update_option( 'ecwid_api_check_time', 0 );
+	
+	ecwid_invalidate_cache( true );
 
 	do_action('ecwid_update_store_id', $new_store_id);
 }
 
 function ecwid_is_paid_account()
 {
-	return ecwid_is_api_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
+	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
 }
 
-function ecwid_is_api_enabled()
+function ecwid_is_apiv1_enabled()
 {
     $ecwid_is_api_enabled = get_option('ecwid_is_api_enabled');
     $ecwid_api_check_time = get_option('ecwid_api_check_time');
