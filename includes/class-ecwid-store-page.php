@@ -10,17 +10,10 @@ class Ecwid_Store_Page {
 
 	public static function get_product_url( $id )
 	{
-		if ( Ecwid_Products::is_enabled() ) {
-			global $ecwid_products;
-
-			$url = $ecwid_products->get_product_link( $id );
-
-			if ( $url ) {
-				return $url;
-			}
-		}
-
-		$url = self::get_product_url_from_api( $id );
+		$product = Ecwid_Product::get_by_id( $id );
+		
+		$url = $product->link;
+		
 		if ( $url ) {
 			return $url;
 		}
@@ -29,9 +22,10 @@ class Ecwid_Store_Page {
 	}
 
 	public static function get_product_url_from_api( $id ) {
-		$api = new Ecwid_Api_V3();
+		
+		if ( Ecwid_Api_V3::is_available() ) {
 
-		if ( $api->is_available() ) {
+			$api = new Ecwid_Api_V3();
 
 			$product = $api->get_product( $id );
 
@@ -54,8 +48,8 @@ class Ecwid_Store_Page {
 			return self::get_store_url();
 		}
 
-		$api = new Ecwid_Api_V3();
-		if ( $api->is_available() ) {
+		if ( Ecwid_Api_V3::is_available() ) {
+			$api = new Ecwid_Api_V3();
 
 			$category = $api->get_category( $id );
 
