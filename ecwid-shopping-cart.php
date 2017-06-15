@@ -715,7 +715,10 @@ function ecwid_seo_ultimate_compatibility()
 {
 	global $seo_ultimate;
 
-	if ($seo_ultimate && Ecwid_Store_Page::is_store_page()) {
+	if (!$seo_ultimate) return;
+	if (!Ecwid_Store_Page::is_store_page()) return;
+	
+	if ( isset( $_GET['_escaped_fragment_'] ) || ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url() ) ) {
 		remove_action('template_redirect', array($seo_ultimate->modules['titles'], 'before_header'), 0);
 		remove_action('wp_head', array($seo_ultimate->modules['titles'], 'after_header'), 1000);
 		remove_action('su_head', array($seo_ultimate->modules['meta-descriptions'], 'head_tag_output'));
