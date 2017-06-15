@@ -20,7 +20,7 @@ var EcwidFloatingShoppingCart = function() {
 	}
 };
 
-if ( typeof ecwid_floating_shopping_cart == 'undefined' ) {
+if ( typeof ecwid_floating_shopping_cart == 'undefined' && typeof Ecwid != 'undefined' ) {
     var ecwid_floating_shopping_cart = new EcwidFloatingShoppingCart();
     ecwid_floating_shopping_cart.init();
 }
