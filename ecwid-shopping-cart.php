@@ -56,6 +56,7 @@ if ( is_admin() ) {
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-ajax-defer-renderer.php';
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
