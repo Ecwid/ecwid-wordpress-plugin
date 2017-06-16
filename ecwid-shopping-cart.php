@@ -1220,7 +1220,7 @@ function _ecwid_get_seo_title()
 				if ( $product->defaultCategoryId ) {
 					$category = $api->get_category( $product->defaultCategoryId );
 					if ( $category ) {
-						$ecwid_seo_title .=  ' z' . ecwid_get_title_separator() . 'z ' . $category->name;
+						$ecwid_seo_title .=  ecwid_get_title_separator() . ' ' . $category->name;
 					}
 				}
 			} else if ( $params['mode'] == 'category' ) {
