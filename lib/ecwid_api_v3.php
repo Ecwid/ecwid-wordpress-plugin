@@ -141,14 +141,15 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if (!$result) {
+			
 			$result = EcwidPlatform::fetch_url( $url );
-		}
 
-		if ($result['code'] != '200') {
-			return false;
-		}
+			if ($result['code'] != '200') {
+				return false;
+			}
 
-		EcwidPlatform::store_in_products_cache( $url, $result );
+			EcwidPlatform::store_in_products_cache( $url, $result );
+		}
 
 		$result = json_decode($result['data']);
 
@@ -180,13 +181,13 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::get_from_products_cache( $url );
 		if (!$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
+			if ($result['code'] != '200') {
+				return false;
+			}
+
+			EcwidPlatform::store_in_products_cache( $url, $result );
 		}
 
-		if ($result['code'] != '200') {
-			return false;
-		}
-
-		EcwidPlatform::store_in_products_cache( $url, $result );
 
 		$result = json_decode($result['data']);
 		return $result;

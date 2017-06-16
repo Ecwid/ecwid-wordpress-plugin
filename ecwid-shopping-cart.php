@@ -947,7 +947,7 @@ function ecwid_meta() {
     echo '<link rel="dns-prefetch" href="//app.ecwid.com/">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
-
+	
     if (!Ecwid_Store_Page::is_store_page() && ecwid_is_store_page_available()) {
 		$page_url = Ecwid_Store_Page::get_store_url();
 		echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
@@ -1220,7 +1220,7 @@ function _ecwid_get_seo_title()
 					}
 				}
 			} else if ( $params['mode'] == 'category' ) {
-				$category = $api->get_product( $params['id'] );
+				$category = $api->get_category( $params['id'] );
 				$ecwid_seo_title = $category->name;
 			}
 		}
