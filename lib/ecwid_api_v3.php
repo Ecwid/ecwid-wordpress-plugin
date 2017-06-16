@@ -86,6 +86,12 @@ class Ecwid_Api_V3
 
 		$result = json_decode( $result['data'] );
 
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				Ecwid_Category::from_stdclass( $item );
+			}
+		}
+		
 		return $result;
 	}
 
@@ -195,8 +201,10 @@ class Ecwid_Api_V3
 
 		$result = json_decode($result['data']);
 
-		foreach ( $result->items as $item ) {
-			Ecwid_Product::from_stdclass( $item );
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				Ecwid_Product::from_stdclass( $item );
+			}
 		}
 
 		return $result;

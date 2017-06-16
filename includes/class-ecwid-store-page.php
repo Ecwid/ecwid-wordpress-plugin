@@ -44,6 +44,15 @@ class Ecwid_Store_Page {
 
 	public static function get_category_url( $id )
 	{
+		$category = Ecwid_Category::get_by_id( $id );
+
+		$url = $category->link;
+		
+		if ( $url ) {
+			return $url;
+		}
+		
+		
 		if ( $id == 0 ) {
 			return self::get_store_url();
 		}
