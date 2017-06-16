@@ -1210,8 +1210,8 @@ function _ecwid_get_seo_title()
 			$api = new Ecwid_Api_V3();
 
 			if ( $params['mode'] == 'product' ) {
-				$product = $api->get_product( $params['id'] );
-				if ( $product->seoTitle ) {
+				$product = Ecwid_Product::get_by_id( $params['id'] );
+				if ( isset( $product->seoTitle ) ) {
 					$ecwid_seo_title = $product->seoTitle;
 				} else {
 					$ecwid_seo_title = $product->name;
@@ -2266,11 +2266,16 @@ function ecwid_get_product_seo_url( $product_id ) {
 		global $ecwid_products;
 
 		return $ecwid_products->get_product_link( $product_id );
-	} else {
+	} elseif (Ecwid_Api_V3::is_available()) {
 		$api = new Ecwid_Api_V3();
 		if ( $api->is_api_available() ) {
+			$product = Ecwid_Product::get_by_id( $product_id );
+			
+			if ($product->get_seo_link()) {
+				return $product->get_seo_link();
+			}
+			
 			$product = $api->get_product( $product_id );
-
 			return $product->url;
 		}
 	}
