@@ -1494,7 +1494,7 @@ msgid "Quantity"
 msgstr "Количество"
 
 #: templates/product-popup.php:176
-msgid "«Add to bag» button"
+msgid "«Buy now» button"
 msgstr "Кнопка \"Купить\""
 
 #: templates/product-popup.php:196
