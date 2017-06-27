@@ -575,9 +575,7 @@ function ecwid_check_version()
 		add_option('ecwid_plugin_version', $current_version);
 
 		add_option('ecwid_use_chameleon', false);
-
-		add_option('ecwid_use_new_horizontal_categories', 'Y');
-
+		
 		// Called in Ecwid_Seo_Links->on_fresh_install
 		do_action( 'ecwid_on_fresh_install' );
 
@@ -585,9 +583,7 @@ function ecwid_check_version()
 
 		do_action('ecwid_plugin_upgraded', array( 'old' => $stored_version, 'new' => $current_version ) );
 		update_option('ecwid_plugin_version', $current_version);
-
-		add_option('ecwid_use_new_horizontal_categories', '');
-
+		
 		do_action( 'ecwid_on_plugin_upgrade' );
 	}
 
@@ -620,10 +616,12 @@ function ecwid_check_version()
 
         add_option(Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION, '');
 
-		update_option('ecwid_use_new_search', 'Y');
-
+		// Since 5.4
+		delete_option('ecwid_use_new_search');
+		delete_option('ecwid_use_new_categories');
+		// /Since 5.4
+		
 		Ecwid_Config::load_from_ini();
-		update_option('ecwid_use_new_categories', 'Y');
 
 		add_option( 'force_scriptjs_render', false );
 
@@ -1373,11 +1371,7 @@ function ecwid_minicart_shortcode($attributes) {
 }
 
 function ecwid_get_search_js_code() {
-	if (get_option('ecwid_use_new_search', false)) {
-		return 'xSearch("style=");';
-	} else {
-		return 'xSearchPanel("style=")';
-	}
+	return 'xSearch("style=");';
 }
 
 function _ecwid_get_single_product_widget_parts_v1($attributes) {
@@ -1699,28 +1693,6 @@ function ecwid_uninstall() {
 
 	delete_option("ecwid_plugin_version");
 	delete_option("ecwid_use_chameleon");
-}
-
-function ecwid_get_store_shortcode_widgets()
-{
-	if (get_option('ecwid_use_new_horizontal_categories')) return false;
-
-
-	$page_contents = get_post(Ecwid_Store_Page::get_current_store_page_id())->post_content;
-	$shortcodes = ecwid_find_shortcodes($page_contents, 'ecwid');
-
-	if (!$shortcodes) {
-		return null;
-	}
-
-	$shortcode = $shortcodes[0];
-	$attributes = shortcode_parse_atts($shortcode[3]);
-
-	if (!isset($attributes['widgets'])) {
-		return null;
-	}
-
-	return explode(' ', $attributes['widgets']);
 }
 
 function ecwid_abs_intval($value) {
