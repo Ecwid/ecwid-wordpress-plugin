@@ -11,7 +11,6 @@ class EcwidSitemapBuilder {
 	public function __construct($base_url, $callback, $api) {
 		$this->callback = $callback;
 		$this->base_url = $base_url;
-		$this->api = $api;
 	}
 
 	public function generate() {

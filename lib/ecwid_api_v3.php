@@ -9,8 +9,12 @@ class Ecwid_Api_V3
 	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
+	
+	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
 
 	public $store_id = null;
+	
+	protected static $profile = null;
 
 	public function __construct() {
 
@@ -22,10 +26,11 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 	}
 
-	public function is_available()
+	public static function is_available()
 	{
-		$token = $this->_load_token();
-		if ( $token ) {
+		$token = self::_load_token();
+		
+		if ( $token && $token != get_option( self::TOKEN_OPTION_NAME ) ) {
 			return true;
 		}
 
@@ -81,12 +86,18 @@ class Ecwid_Api_V3
 
 		$result = json_decode( $result['data'] );
 
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				Ecwid_Category::from_stdclass( $item );
+			}
+		}
+		
 		return $result;
 	}
 
 	public function get_category($categoryId)
 	{
-		if (!isset($categoryId)) {
+		if (!isset($categoryId) || $categoryId == 0 ) {
 			return false;
 		}
 
@@ -158,10 +169,10 @@ class Ecwid_Api_V3
 
 	public function search_products($input_params) {
 		$params = array('token');
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category' );
 		foreach ($passthru as $name) {
 			if ( array_key_exists( $name, $input_params ) ) {
-				$params[$name] = $input_params[$name];
+				$params[$name] = (string)$input_params[$name];
 			}
 		}
 
@@ -190,6 +201,13 @@ class Ecwid_Api_V3
 
 
 		$result = json_decode($result['data']);
+
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				Ecwid_Product::from_stdclass( $item );
+			}
+		}
+
 		return $result;
 	}
 
@@ -335,6 +353,12 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 
+		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
+		
+		if ($profile) {
+			return $profile;
+		}
+		
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
@@ -344,7 +368,11 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
-		return json_decode($result['data']);
+		$profile = json_decode($result['data']);
+	
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+		
+		return self::$profile;
 	}
 
 	public function create_store()

@@ -31,9 +31,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$store_id = get_ecwid_store_id();
 
 		$plain_content = '';
-
+		
 		$html_catalog_params = false;
-		if ( ecwid_can_display_html_catalog() ) {
+		if ( ecwid_should_display_escaped_fragment_catalog() ) {
 			$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 		} elseif ( Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page() ) {
 			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();

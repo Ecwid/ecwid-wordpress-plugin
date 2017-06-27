@@ -41,12 +41,11 @@ class EcwidProductApi {
 
         $fetch_result = $request->do_request();
 
-
         if ($fetch_result['code'] == 200) {
             $this->error = '';
             $this->error_code = '';
             $json = $fetch_result['data'];
-            $result = json_decode($json, true);
+            $result = json_decode($json);
         } else {
             $this->error = $fetch_result['data'];
             $this->error_code = $fetch_result['code'];
@@ -189,6 +188,7 @@ class EcwidProductApi {
         $api_url =  $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/batch?". $api_url;
 
         $data = EcwidPlatform::get_from_products_cache($api_url);
+
         if (!$data) {
         $data = $this->process_request($api_url);
 			EcwidPlatform::store_in_products_cache($api_url, $data);
@@ -221,7 +221,7 @@ class EcwidProductApi {
 
         $result = $this->process_request($api_url);
 
-        return $this->error_code === '' && $result && !isset($result['error']);
+        return $this->error_code === '' && $result && !isset($result->error);
     }
 
     function get_method_response_stream($method)

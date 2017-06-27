@@ -107,7 +107,7 @@ class Ecwid_Admin {
 			'ecwid-appearance',
 			'ecwid-advanced',
 			'ecwid-help',
-			'ecwid_debug',
+			'ecwid-debug',
 			'ecwid-sync'
 		);
 

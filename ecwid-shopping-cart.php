@@ -60,6 +60,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-ajax-defer-renderer.php';
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 
 
 // Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
@@ -431,24 +433,23 @@ function ecwid_load_textdomain() {
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
-	if (!ecwid_is_api_enabled()) {
-		return;
-	}
-
 	if (!isset($_GET['_escaped_fragment_'])) {
 		return;
 	}
 
+	if ( !Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled() ) {
+		return;
+	}
+
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-	$api = ecwid_new_product_api();
 
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
 		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
 		if ($params['mode'] == 'product') {
-			$result = $api->get_product($params['id']);
+			$result = Ecwid_Product::get_by_id( $params['id'] );
 		} elseif (!$is_root_cat && $params['mode'] == 'category') {
-			$result = $api->get_category($params['id']);
+			$result = Ecwid_Category::get_by_id( $params['id'] );
 		}
 
 		if (!$is_root_cat && empty($result)) {
@@ -461,25 +462,37 @@ function ecwid_404_on_broken_escaped_fragment() {
 }
 
 function ecwid_503_on_store_closed() {
-	if (!ecwid_is_api_enabled()) {
+
+	if ( !isset( $_GET['_escaped_fragment_'] ) ) {
 		return;
 	}
 
-	if (!isset($_GET['_escaped_fragment_'])) {
-		return;
-	}
-
-	$api = ecwid_new_product_api();
-	$profile = $api->get_profile();
-
-	if ($profile['closed']) {
-		header('HTTP/1.1 503 Service Temporarily Unavailable');
-		header('Status: 503 Service Temporarily Unavailable');
+	if ( ecwid_is_store_closed() ) {
+		header( 'HTTP/1.1 503 Service Temporarily Unavailable' );
+		header( 'Status: 503 Service Temporarily Unavailable' );
 	}
 }
 
-function ecwid_backward_compatibility() {
+function ecwid_is_store_closed()
+{
+	if ( Ecwid_Api_V3::is_available() ) {
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+		
+		return @$profile->settings->closed;
+	} else if ( ecwid_is_apiv1_enabled() ) {
+		$api = ecwid_new_product_api();
+		
+		$profile = $api->get_profile();
+		
+		return $profile->closed;
+	}
+	
+	return false;
+}
 
+
+function ecwid_backward_compatibility() {
 
     // Backward compatibility with 1.1.2 and earlier
     if (isset($_GET['ecwid_product_id']) || isset($_GET['ecwid_category_id'])) {
@@ -503,7 +516,7 @@ function ecwid_build_sitemap($callback)
 	if (get_post_status($page_id) == 'publish') {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
-		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback, ecwid_new_product_api());
+		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback);
 
 		$sitemap->generate();
 	}
@@ -794,11 +807,20 @@ function ecwid_admin_check_api_cache()
 	update_option('ecwid_last_api_cache_check', time());
 }
 
-function ecwid_invalidate_cache()
+function ecwid_invalidate_cache( $full_reset = false)
 {
-	$api = new Ecwid_Api_V3();
 
-	if ($api->is_available()) {
+	if ( $full_reset ) {
+		EcwidPlatform::invalidate_categories_cache_from(time());
+		EcwidPlatform::invalidate_products_cache_from(time());
+		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+
+		return;
+	}
+
+	if (Ecwid_Api_V3::is_available()) {
+		$api = new Ecwid_Api_V3();
+
 		$stats = $api->get_store_update_stats();
 
 		if ($stats) {
@@ -924,7 +946,7 @@ function ecwid_content_has_productbrowser( $content ) {
 
 function ecwid_ajax_crawling_fragment() {
 
-	if ( !ecwid_is_api_enabled() ) return;
+	if ( !Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled() ) return;
 
 	if ( isset( $_GET['_escaped_fragment_'] ) ) return;
 
@@ -972,26 +994,22 @@ function ecwid_canonical() {
 
 		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 
-		$api = ecwid_new_product_api();
-
 		if ($params['mode'] == 'product') {
-			$product = $api->get_product($params['id']);
+			$product = Ecwid_Product::get_by_id( $params['id'] );
 			$link = ecwid_get_product_url($product);
 		} else if ($params['mode'] == 'category') {
-			$category = $api->get_category($params['id']);
+			$category = Ecwid_Category::get_by_id( $params['id'] );
 			$link = ecwid_get_category_url($category);
 		}
 	} else if ( Ecwid_Seo_Links::is_product_browser_url() ) {
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
 		if ($params) {
-			$api = new Ecwid_Api_V3();
-
 			if ( $params['mode'] == 'product' ) {
-				$product = $api->get_product( $params['id'] );
+				$product = Ecwid_Product::get_by_id( $params['id'] );
 				$link = $product->url;
 			} elseif ( $params['mode'] == 'category' ) {
-				$category = $api->get_category( $params['id'] );
+				$category = Ecwid_Category::get_by_id( $params['id'] );
 				$link = $category->url;
 			}
 		}
@@ -1008,8 +1026,11 @@ function ecwid_canonical() {
 
 function ecwid_is_applicable_escaped_fragment() {
 
-	$allowed = ecwid_is_api_enabled() && isset($_GET['_escaped_fragment_']);
-	if (!$allowed) return false;
+	if (!Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled()) {
+		return false;
+	}
+	
+	if (!isset($_GET['_escaped_fragment_'])) return false;
 
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 	if (!$params) return false;
@@ -1026,30 +1047,39 @@ function ecwid_meta_description() {
 	$description = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
 		$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
-		$api = ecwid_new_product_api();
+		
 		if ($params['mode'] == 'product') {
-			$product = $api->get_product($params['id']);
-			$description = $product['description'];
+			$product = Ecwid_Product::get_by_id( $params['id'] );
+			$description = $product->description;
 		} elseif ($params['mode'] == 'category') {
-			$category = $api->get_category($params['id']);
-			$description = $category['description'];
+			$category = Ecwid_Category::get_by_id( $params['id'] );
+			$description = $category->description;
 		}
 	} else if ( Ecwid_Seo_Links::is_product_browser_url() ) {
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 		if ($params) {
-			$api = new Ecwid_Api_V3();
-
+			
 			if ( $params['mode'] == 'product' ) {
-				$product = $api->get_product( $params['id'] );
-				$description = $product->seoDescription;
-				if (!$description) {
+				$product = Ecwid_Product::get_by_id( $params['id'] );
+
+				if ( $product && isset( $product->seoDescription ) ) {
+					$description = $product->seoDescription;
+				}
+				
+				if (!$description && $product && isset( $product->description ) ) {
 					$description = $product->description;
 				}
 			} elseif ( $params['mode'] == 'category' ) {
-				$category = $api->get_category( $params['id'] );
-				$description = $category->seoDescription;
-				if (!$description) {
-					$description = $category->description;
+				$category = Ecwid_Category::get_by_id( $params['id'] );
+
+				if ( $category ) {
+					if ( isset( $category->seoDescription ) ) {
+						$description = $category->seoDescription;
+					}
+
+					if (!$description && isset( $category->description ) ) {
+						$description = $category->description;
+					}
 				}
 			}
 		}
@@ -1094,37 +1124,6 @@ function ecwid_ajax_hide_message($params)
 function ecwid_hide_vote_message()
 {
 	update_option('ecwid_show_vote_message', false);
-}
-
-function ecwid_get_product_and_category($category_id, $product_id) {
-    $params = array 
-    (
-        array("alias" => "c", "action" => "category", "params" => array("id" => $category_id)),
-        array("alias" => "p", "action" => "product", "params" => array("id" => $product_id)),           
-    );
-
-    $api = ecwid_new_product_api();
-    $batch_result = $api->get_batch_request($params);
-
-	if (false == $batch_result) {
-		$product = $api->get_product($product_id);
-		$category = false;
-	} else {
-		$category = $batch_result["c"];
-		$product = $batch_result["p"];
-	}
-
-    $return = "";
-
-    if (is_array($product)) {
-        $return .=$product["name"];
-    }
-
-    if(is_array($category)) {
-        $return.=" | ";
-        $return .=$category["name"];
-    }
-    return $return;
 }
 
 function ecwid_get_title_separator()
@@ -1173,32 +1172,41 @@ function _ecwid_get_seo_title()
 
 		$separator = ecwid_get_title_separator();
 
-		$api = ecwid_new_product_api();
-
 		if ( isset( $params['mode'] ) && ! empty( $params['mode'] ) ) {
 			if ( $params['mode'] == 'product' ) {
 				if ( isset( $params['category'] ) && ! empty( $params['category'] ) ) {
-					$ecwid_seo_title = ecwid_get_product_and_category( $params['category'], $params['id'] );
+					$product = Ecwid_Product::get_by_id( $params['id'] );
+					$category = Ecwid_Category::get_by_id( $params['category'] );
+
+					if ( $product ) {
+						$ecwid_seo_title = $product->name;
+						if ( $category ) {
+							$ecwid_seo_title .= ' ' . $separator . $category->name;							
+						}
+					}
 				} elseif ( empty( $params['category'] ) ) {
-					$ecwid_product   = $api->get_product( $params['id'] );
-					$ecwid_seo_title = $ecwid_product['name'];
-					if ( isset( $ecwid_product['categories'] ) && is_array( $ecwid_product['categories'] ) ) {
-						foreach ( $ecwid_product['categories'] as $ecwid_category ) {
-							if ( $ecwid_category['defaultCategory'] == true ) {
-								$ecwid_seo_title .= ' ' . $separator . ' ';
-								$ecwid_seo_title .= $ecwid_category['name'];
-							}
+					$product = Ecwid_Product::get_by_id( $params['id'] );
+				
+					if ( $product ) {
+						$ecwid_seo_title = $product->name;
+						
+						if ( $product->defaultCategoryId ) {
+							$category = Ecwid_Category::get_by_id( $product->defaultCategoryId );
+							$ecwid_seo_title .= ' ' . $separator . ' ';
+							$ecwid_seo_title .= $category->name;
 						}
 					}
 				}
 			} elseif ( $params['mode'] == 'category' ) {
-				$api             = ecwid_new_product_api();
-				$ecwid_category  = $api->get_category( $params['id'] );
-				$ecwid_seo_title = $ecwid_category['name'];
+				$ecwid_category  = Ecwid_Category::get_by_id( $params['id'] );
+				
+				if ($ecwid_category) {
+					$ecwid_seo_title = $ecwid_category->name;
+				}
 			}
 		}
 
-	} else if ( Ecwid_Seo_Links::is_product_browser_url() ) {
+	} else if ( Ecwid_Seo_Links::is_product_browser_url() && Ecwid_Api_V3::is_available() ) {
 
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
@@ -1206,8 +1214,8 @@ function _ecwid_get_seo_title()
 			$api = new Ecwid_Api_V3();
 
 			if ( $params['mode'] == 'product' ) {
-				$product = $api->get_product( $params['id'] );
-				if ( $product->seoTitle ) {
+				$product = Ecwid_Product::get_by_id( $params['id'] );
+				if ( isset( $product->seoTitle ) ) {
 					$ecwid_seo_title = $product->seoTitle;
 				} else {
 					$ecwid_seo_title = $product->name;
@@ -1243,12 +1251,12 @@ function ecwid_oembed_url( $url, $permalink, $format ) {
 	}
 
 	$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-	$api = new Ecwid_Api_V3();
+	
 	if ( $params['mode'] == 'product' ){
-		$product = $api->get_product($params['id']);
+		$product = Ecwid_Product::get_by_id( $params['id'] );
 		$permalink = $product->url;
 	} else if ( $params['mode'] == 'category' ) {
-		$category = $api->get_category($params['id']);
+		$category = Ecwid_Category::get_by_id( $params['id'] );
 		$permalink = $category->url;
 	}
 
@@ -1509,12 +1517,9 @@ function ecwid_parse_escaped_fragment($escaped_fragment) {
 function ecwid_ajax_get_product_info() {
 	$id = $_GET['id'];
 
-	if (ecwid_is_api_enabled()) {
-		$api = ecwid_new_product_api();
-		$product = $api->get_product_https($id);
-
-		echo json_encode($product);
-	}
+	$product = Ecwid_Product::get_by_id($id);
+	
+	echo json_encode($product);
 
 	exit();
 }
@@ -2265,11 +2270,16 @@ function ecwid_get_product_seo_url( $product_id ) {
 		global $ecwid_products;
 
 		return $ecwid_products->get_product_link( $product_id );
-	} else {
+	} elseif (Ecwid_Api_V3::is_available()) {
 		$api = new Ecwid_Api_V3();
 		if ( $api->is_api_available() ) {
+			$product = Ecwid_Product::get_by_id( $product_id );
+			
+			if ($product->get_seo_link()) {
+				return $product->get_seo_link();
+			}
+			
 			$product = $api->get_product( $product_id );
-
 			return $product->url;
 		}
 	}
@@ -2327,7 +2337,11 @@ function ecwid_appearance_settings_do_page() {
 }
 
 function ecwid_debug_do_page() {
-
+	
+	if ( array_key_exists( 'reset_cache', $_GET ) ) {
+		ecwid_invalidate_cache(true );
+	}
+	
 	$remote_get_results = wp_remote_get( 'http://app.ecwid.com/api/v1/' . get_ecwid_store_id() . '/profile' );
 
 	$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
@@ -2722,16 +2736,15 @@ function ecwid_hmacsha1($data, $key) {
     }
 }
 
-function ecwid_can_display_html_catalog()
+function ecwid_should_display_escaped_fragment_catalog()
 {
 	if (!isset($_GET['_escaped_fragment_'])) return;
 
-	$api = ecwid_new_product_api();
-	if (!$api) return;
-
-	$profile = $api->get_profile();
-	if (!$profile) return;
-	return $profile['closed'] != true;
+	if ( Ecwid_Api_V3::is_available() || ecwid_is_apiv1_enabled() ) {
+		return !ecwid_is_store_closed();
+	}
+	
+	return false;
 }
 
 function ecwid_get_default_pb_size() {
@@ -2750,16 +2763,32 @@ function ecwid_update_store_id( $new_store_id ) {
 	update_option( 'ecwid_store_id', $new_store_id );
 	update_option( 'ecwid_is_api_enabled', 'off' );
 	update_option( 'ecwid_api_check_time', 0 );
+	
+	ecwid_invalidate_cache( true );
 
 	do_action('ecwid_update_store_id', $new_store_id);
 }
 
+
 function ecwid_is_paid_account()
 {
-	return ecwid_is_api_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
+	if ( Ecwid_Api_V3::is_available() ) {
+		$api = new Ecwid_Api_V3();
+
+		$profile = $api->get_store_profile();
+
+		return $profile
+		       && property_exists( $profile, 'account')
+		       && property_exists( $profile->account, 'availableFeatures' )
+		       && is_array( $profile->account->availableFeatures )
+		       && in_array(
+			       'PREMIUM', $profile->account->availableFeatures
+		       );
+	}
+	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
 }
 
-function ecwid_is_api_enabled()
+function ecwid_is_apiv1_enabled()
 {
     $ecwid_is_api_enabled = get_option('ecwid_is_api_enabled');
     $ecwid_api_check_time = get_option('ecwid_api_check_time');
