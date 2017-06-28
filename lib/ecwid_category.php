@@ -1,13 +1,12 @@
 <?php
 
-require_once __DIR__ . '/ecwid_catalog_entry.php';
+require_once dirname(__FILE__) . '/ecwid_catalog_entry.php';
 
 class Ecwid_Category extends Ecwid_Catalog_Entry
 {
 	protected static $categories = array();
-	protected static $_cache_name_prefix = 'ecwid-category-';
-	protected static $_link_prefix = 'c';
-	protected static $_classname = 'Ecwid_Category';
+	protected $_cache_name_prefix = 'ecwid-category-';
+	protected $_link_prefix = 'c';
 
 	protected function _get_from_local_object_cache( $id ) {
 		if ( isset( self::$categories[$id] ) ) {

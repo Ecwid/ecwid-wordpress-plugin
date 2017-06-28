@@ -20,7 +20,7 @@ class EcwidCatalog
 		ob_start();
 		$product = $result->product;
 		$formats = $result->formats;
-		require __DIR__ . '/html-catalog-templates/product.php';
+		require dirname(__FILE__) . '/html-catalog-templates/product.php';
 
 		$return = ob_get_contents();
 		ob_end_clean();
@@ -41,7 +41,7 @@ class EcwidCatalog
 		$formats = $data->formats;
 		
 		ob_start();
-		require __DIR__ . '/html-catalog-templates/category.php';
+		require dirname(__FILE__) . '/html-catalog-templates/category.php';
 
 		$return = ob_get_contents();
 		ob_end_clean();

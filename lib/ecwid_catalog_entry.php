@@ -3,8 +3,8 @@
 abstract class Ecwid_Catalog_Entry {
 
 	protected $_data;
-	protected static $_cache_name_prefix = null;
-	protected static $_link_prefix = null;
+	protected $_cache_name_prefix = null;
+	protected $_link_prefix = null;
 	
 	abstract protected function _get_from_local_object_cache( $id );
 	abstract protected function _put_into_local_object_cache( $id );
@@ -56,7 +56,7 @@ abstract class Ecwid_Catalog_Entry {
 				}
 				$url = $baseUrl;
 
-				$url .= '#!/' . urlencode( $this->_data->name ) . '/' . self::$_link_prefix . '/' . $this->_data->id;
+				$url .= '#!/' . urlencode( $this->_data->name ) . '/' . $this->_link_prefix . '/' . $this->_data->id;
 
 				return $url;
 			}
@@ -77,7 +77,7 @@ abstract class Ecwid_Catalog_Entry {
 			}
 			$url = $baseUrl;
 
-			$url .= '/' . urlencode( $this->_data->name ) . '-' . self::$_link_prefix . $this->_data->id;
+			$url .= '/' . urlencode( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
 
 			return $url;
 		}
@@ -85,7 +85,7 @@ abstract class Ecwid_Catalog_Entry {
 		return false;
 	}
 	
-	protected static function _get_cache_key_by_id( $id ) {
-		return self::$_cache_name_prefix . $id;
+	protected function _get_cache_key_by_id( $id ) {
+		return $this->_cache_name_prefix . $id;
 	}
 }

@@ -1,13 +1,12 @@
 <?php
 
-require_once __DIR__ . '/ecwid_catalog_entry.php';
+require_once dirname(__FILE__) . '/ecwid_catalog_entry.php';
 
 class Ecwid_Product extends Ecwid_Catalog_Entry
 {
 	protected static $products = array();
-	protected static $_cache_name_prefix = 'ecwid-product-';
-	protected static $_link_prefix = 'p';
-	protected static $_classname = 'Ecwid_Product';
+	protected $_cache_name_prefix = 'ecwid-product-';
+	protected $_link_prefix = 'p';
 
 	protected function _get_from_local_object_cache( $id ) {
 		if ( isset( self::$products[$id] ) ) {
@@ -60,7 +59,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 	}
 	
 	protected function _get_from_cache( $id ) {
-		return EcwidPlatform::get_from_products_cache( self::_get_cache_key_by_id( $id ) );
+		return EcwidPlatform::get_from_products_cache( $this->_get_cache_key_by_id( $id ) );
 	}
 
 	protected function _init_from_stdclass( $data )
@@ -68,7 +67,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		$this->_data = $data;
 
 		EcwidPlatform::store_in_products_cache(
-			self::_get_cache_key_by_id( $data->id ),
+			$this->_get_cache_key_by_id( $data->id ),
 			$data
 		);
 	}
