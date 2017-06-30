@@ -17,10 +17,6 @@ var EcwidFloatingShoppingCart = function() {
 		Ecwid.OnCartChanged.add(function(cartObj) {
 			changeState(cartObj);
 		});
-		
-        jQuery(document).ready(function() {
-            jQuery('body').append(jQuery('.ecwid-float-icons'));
-        });
 	}
 };
 
