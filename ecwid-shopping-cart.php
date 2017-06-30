@@ -485,7 +485,7 @@ function ecwid_is_store_closed()
 		
 		$profile = $api->get_profile();
 		
-		return $profile->closed;
+		return $profile['closed'];
 	}
 	
 	return false;

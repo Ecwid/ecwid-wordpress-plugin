@@ -211,7 +211,7 @@ class EcwidProductApi {
         $api_url = $this->ECWID_PRODUCT_API_ENDPOINT . "/" . $this->store_id . "/profile";
         $profile = $this->process_request($api_url);
 
-        return $profile;
+        return (array)$profile;
     }
 
     function is_api_enabled() {
