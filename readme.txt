@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 5.4
+Stable tag: 5.4.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.4.1 =
+- Fixed an issue with the store page loading in the newest version 5.4. In some rare occasions, the store page might not display right after update to the version 5.4. We fixed the issue to make sure all stores are working well.
+- Added a workaround for a conflict with the third party “Product Advisor for Ecwid” plugin. The “Product Advisor” plugin has a bug that prevents it from working correctly with the newest versions of the Ecwid plugin. When the Product advisor plugin is enabled, the site pages do not respond. We added a workaround to the Ecwid plugin to make sure the WP admin pages will work well for the “Product advisor”. So, if you’re using the “Product advisor” plugin and see any issue with your site now, please disable that plugin in your WP admin backend. We’re speaking with the author of the Product advisor plugin so there will hopefully be a solution soon.
+
+
 = 5.4 =
 - **Improvements in the SEO friendly versions of product pages, which are indexed by search engines.** This includes optimized product price format, canonical tags and minor adjustments for SEO titles and descriptions. This is another improvement for search crawlers to better index store pages.
 - **Adjustments for the “All in one SEO” plugin** to make sure it works well with the Ecwid’s new clean URLs.
