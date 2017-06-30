@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
-Tested up to: 4.7
-Stable tag: 5.3
+Tested up to: 4.8
+Stable tag: 5.4
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,17 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.4 =
+- **Improvements in the SEO friendly versions of product pages, which are indexed by search engines.** This includes optimized product price format, canonical tags and minor adjustments for SEO titles and descriptions. This is another improvement for search crawlers to better index store pages.
+- **Adjustments for the “All in one SEO” plugin** to make sure it works well with the Ecwid’s new clean URLs.
+- **Fixed “preg match” PHP warning messages**, which appeared on some sites with the Ecwid ecommerce plugin enabled.
+- **Fixed an issue with site images in the Newsmag Wordpress theme** — some images were not displayed well with Ecwid. We fixed that so everything should work fine in the Newsmag theme now.  
+- **Several fixes and improvements for the floating minicart widget.**
+- **Loading speed improvements.** We optimized the plugin code to render store pages and widgets faster.
+
+= 5.3.1 =
+- **Fix for the “Add product” button in the WordPress editor.** The button was broken in the latest version (5.3) — it generated invalid shortcode for the single product widgets. The problem didn’t affect existing product widgets, but the new ones didn’t render. It’s now fixed. If you faced a trouble adding product widgets to your pages and posts, please update the plugin and try again.
+
 = 5.3 =
 - **Fixes and improvements for the new clean URLs functionality.** The new clean URLs for your online store are now more stable and the product pages are more SEO friendly. The changes include: fix in the processing of non-latin characters in the product URLs; adjustment for the sharing metatags on the product pages (rel shortlink meta tags); fix for the store terms&conditions and signin links to make them work properly with the new clean URLs.
 - **Fix for the Recently Viewed Product widget and the “Minimaze” theme.** The widget didn’t work well in this theme. Now you can use Recently Viewed Products with the Minimaze theme as well as with any other Wordpress theme.

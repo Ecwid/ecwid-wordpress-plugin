@@ -56,7 +56,7 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 	}
 
 	protected function _get_from_cache( $id ) {
-		return EcwidPlatform::get_from_categories_cache( self::_get_cache_key_by_id( $id ) );
+		return EcwidPlatform::get_from_categories_cache( $this->_get_cache_key_by_id( $id ) );
 	}
 	
 	protected function _init_from_stdclass( $data )
@@ -64,7 +64,7 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 		$this->_data = $data;
 
 		EcwidPlatform::store_in_categories_cache(
-			self::_get_cache_key_by_id( $data->id ),
+			$this->_get_cache_key_by_id( $data->id ),
 			$data
 		);
 	}
@@ -80,7 +80,7 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 				$data->seo_link = $data->url;
 			}
 		} else {
-			$api = new EcwidProductApi(get_ecwid_store_id());
+			$api = ecwid_new_product_api();
 			$data = $api->get_category($id);
 		}
 
