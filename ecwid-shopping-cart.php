@@ -620,6 +620,9 @@ function ecwid_check_version()
 		delete_option('ecwid_use_new_search');
 		delete_option('ecwid_use_new_categories');
 		// /Since 5.4
+
+		// Since 5.5?
+		delete_option('ecwid_hide_appearance_menu');
 		
 		Ecwid_Config::load_from_ini();
 
@@ -1557,8 +1560,6 @@ EOT;
 
 	add_option("ecwid_installation_date", time());
 
-	add_option('ecwid_hide_appearance_menu', get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID ? 'Y' : 'N', '', 'yes');
-
 	/* All new options should go to check_version thing */
 
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
@@ -1803,21 +1804,6 @@ function ecwid_settings_api_init() {
 
     if ( isset( $_POST['settings_section'] ) ) {
 		switch ( $_POST['settings_section'] ) {
-			case 'appearance':
-				register_setting( 'ecwid_options_page', 'ecwid_enable_minicart' );
-
-				register_setting( 'ecwid_options_page', 'ecwid_show_categories' );
-				register_setting( 'ecwid_options_page', 'ecwid_show_search_box' );
-
-				register_setting( 'ecwid_options_page', 'ecwid_pb_categoriesperrow', 'ecwid_abs_intval' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_productspercolumn_grid', 'ecwid_abs_intval' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_productsperrow_grid', 'ecwid_abs_intval' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_productsperpage_list', 'ecwid_abs_intval' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_productsperpage_table', 'ecwid_abs_intval' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_defaultview' );
-				register_setting( 'ecwid_options_page', 'ecwid_pb_searchview' );
-				break;
-
 			case 'general':
 				register_setting( 'ecwid_options_page', 'ecwid_store_id', 'ecwid_abs_intval' );
 				if ( isset( $_POST['ecwid_store_id'] ) && intval( $_POST['ecwid_store_id'] ) == 0 ) {
@@ -2285,27 +2271,6 @@ function get_reconnect_link() {
 
 function ecwid_get_admin_iframe_upgrade_page() {
 	return 'billing:feature=sso&plan=ecwid_venture';
-}
-
-function ecwid_appearance_settings_do_page() {
-
-	wp_register_script('ecwid-appearance-js', ECWID_PLUGIN_URL . 'js/appearance.js', array(), get_option('ecwid_plugin_version'), true);
-	wp_enqueue_script('ecwid-appearance-js');
-
-	$disabled = false;
-	if (!empty($ecwid_page_id) && ($ecwid_page_id > 0)) {
-		$_tmp_page = get_post($ecwid_page_id);
-		$content = $_tmp_page->post_content;
-		if ( (strpos($content, "[ecwid_productbrowser]") === false) && (strpos($content, "xProductBrowser") !== false) )
-			$disabled = true;
-	}
-	// $disabled_str is used in appearance settings template
-	if ($disabled)
-		$disabled_str = 'disabled = "disabled"';
-	else
-		$disabled_str = "";
-
-	require_once ECWID_PLUGIN_DIR . 'templates/appearance-settings.php';
 }
 
 function ecwid_debug_do_page() {

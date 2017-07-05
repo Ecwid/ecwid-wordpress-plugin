@@ -62,16 +62,6 @@ class Ecwid_Admin {
 				'ecwid_admin_products_do_page'
 			);
 		}
-		if (get_option('ecwid_hide_appearance_menu') != 'Y') {
-			add_submenu_page(
-				self::ADMIN_SLUG,
-				__('Appearance settings', 'ecwid-shopping-cart'),
-				__('Appearance', 'ecwid-shopping-cart'),
-				'manage_options',
-				self::ADMIN_SLUG . '-appearance',
-				'ecwid_appearance_settings_do_page'
-			);
-		}
 
 		if (!$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
 			add_submenu_page(

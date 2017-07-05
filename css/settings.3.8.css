@@ -58,7 +58,6 @@
 
 @media screen and (max-width: 782px) {
 	.ecwid-settings.general-settings,
-	.ecwid-settings.appearance-settings,
 	.ecwid-settings.advanced-settings 
 	{
 		max-width: inherit;
@@ -141,46 +140,6 @@
 
 	.ecwid-settings .pure-control-group {
 		position: relative;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size {
-		display: block;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size input {
-		position: relative;
-		z-index: 2;
-	}
-
-	.appearance-settings.ecwid-settings .pure-control-group.small-input input {
-		margin: 0px auto;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size {
-		margin: 0px auto 33px;
-		padding: 0px;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size .ruler {
-		z-index: 1;
-		position: absolute;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size .bottom {
-		margin-top: 5px;
-	}
-
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size.list,
-	.appearance-settings.ecwid-settings .ecwid-pb-view-size.table {
-		margin-bottom: 0px;
-	}
-
-	.appearance-settings.ecwid-settings .note.pb-note {
-		margin: 0px;
-	}
-
-	.appearance-settings.ecwid-settings select {
-		width: 100%;
 	}
 
 	.advanced-settings.ecwid-settings .pure-control-group:not(.checkbox) label {
