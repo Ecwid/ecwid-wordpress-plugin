@@ -8,7 +8,7 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 	protected $_cache_name_prefix = 'ecwid-category-';
 	protected $_link_prefix = 'c';
 
-	protected static function _get_from_local_object_cache( $id ) {
+	protected function _get_from_local_object_cache( $id ) {
 		if ( isset( self::$categories[$id] ) ) {
 			return self::$categories[$id];
 		}
@@ -16,7 +16,7 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 		return null;
 	}
 
-	protected static function _put_into_local_object_cache( $obj ) {
+	protected function _put_into_local_object_cache( $obj ) {
 		if ( !isset( $obj->id ) ) {
 			return false;
 		}
@@ -36,12 +36,12 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 
 	public static function get_by_id( $id )
 	{
-		if ( $cat = Ecwid_Category::_get_from_local_object_cache($id) ) {
+		$e = new Ecwid_Category();
+		
+		if ( $cat = $e->_get_from_local_object_cache($id) ) {
 			return $cat;
 		}
-
-		$e = new Ecwid_Category();
-
+		
 		$entry_data = $e->_get_from_cache( $id );
 
 		if ( !$entry_data ) {
