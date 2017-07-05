@@ -44,7 +44,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		if (!in_array($version, array('1', '2'))) {
 			$attributes['version'] = 1;
 		}
-
+		
 		$this->params = $attributes;
 	}
 
@@ -63,10 +63,12 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 		$items = preg_split('![^0-9^a-z^A-Z^\-^_]!', $this->params['display']);
 
+		$product = Ecwid_Product::get_without_loading( $this->params['id'], (object)array('name' => '') );
+		
 		if (is_array($items) && count($items) > 0) foreach ($items as $item) {
 			if (array_key_exists($item, $display_items)) {
 				if ($this->params['link'] == 'yes' && in_array($item, array('title', 'picture'))) {
-					$product_link = Ecwid_Store_Page::get_product_url( $this->params['id'] );
+					$product_link = $product->link;
 					$result .= '<a href="' . esc_url($product_link) . '">' . $display_items[$item] . '</a>';
 				} else {
 					$result .= $display_items[$item];

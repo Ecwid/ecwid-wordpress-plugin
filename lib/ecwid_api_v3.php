@@ -201,10 +201,10 @@ class Ecwid_Api_V3
 
 
 		$result = json_decode($result['data']);
-
+		
 		if ( !empty( $result->items ) ) {
 			foreach ( $result->items as $item ) {
-				Ecwid_Product::from_stdclass( $item );
+				Ecwid_Product::init_from_stdclass( $item );
 			}
 		}
 

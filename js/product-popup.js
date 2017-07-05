@@ -263,6 +263,14 @@ jQuery(document).ready(function() {
     }
 
     var buildProductsTable = function(data) {
+
+        if (data == null) {
+            data = {
+                total: 0,
+                limit: 1
+            }
+        }
+        
         if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
             params = getSearchParams();
             params.page = 1;
