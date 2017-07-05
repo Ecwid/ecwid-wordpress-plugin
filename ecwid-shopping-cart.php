@@ -1008,7 +1008,7 @@ function ecwid_canonical() {
 				$link = $product->url;
 			} elseif ( $params['mode'] == 'category' ) {
 				$category = Ecwid_Category::get_by_id( $params['id'] );
-				$link = $category->url;
+				$link = $category->link;
 			}
 		}
 	}
@@ -1252,10 +1252,10 @@ function ecwid_oembed_url( $url, $permalink, $format ) {
 	
 	if ( $params['mode'] == 'product' ){
 		$product = Ecwid_Product::get_by_id( $params['id'] );
-		$permalink = $product->url;
+		$permalink = $product->link;
 	} else if ( $params['mode'] == 'category' ) {
 		$category = Ecwid_Category::get_by_id( $params['id'] );
-		$permalink = $category->url;
+		$permalink = $category->link;
 	}
 
 	$url = add_query_arg( array(
@@ -2737,7 +2737,8 @@ function ecwid_update_store_id( $new_store_id ) {
 	update_option( 'ecwid_api_check_time', 0 );
 	
 	ecwid_invalidate_cache( true );
-
+	EcwidPlatform::cache_reset('all_categories');
+	
 	do_action('ecwid_update_store_id', $new_store_id);
 }
 
