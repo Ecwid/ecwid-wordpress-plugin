@@ -86,6 +86,19 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		return $p;
 	}
 	
+	public static function load_by_ids($ids) 
+	{
+		if ( !is_array( $ids ) || empty( $ids ) || !Ecwid_Api_V3::is_available() ) {
+			return;
+		}
+		
+		$ids_string = implode( ',', $ids );
+		
+		$api = new Ecwid_Api_V3();
+		
+		$api->search_products( array( 'productId' => $ids_string ) );
+	}
+	
 	protected function _get_from_cache( $id ) {
 		return EcwidPlatform::get_from_products_cache( $this->_get_cache_key_by_id( $id ) );
 	}
@@ -114,6 +127,9 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 	
 	protected function _persist() {
 		
+		if ( !property_exists($this->_data, 'id') ) {
+			return;
+		}
 		EcwidPlatform::store_in_products_cache(
 			$this->_get_cache_key_by_id( $this->_data->id ),
 			$this->_data

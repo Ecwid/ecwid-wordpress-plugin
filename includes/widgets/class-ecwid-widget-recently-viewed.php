@@ -53,19 +53,38 @@ class Ecwid_Widget_Recently_Viewed extends WP_Widget {
 
 		echo '<div class="ecwid-recently-viewed-products" data-ecwid-max="' . $instance['number_of_products'] . '">';
 
-		$counter = 0;
+		$counter = 1;
 		$ids = array();
 		if ($recently_viewed && isset($recently_viewed->products)) {
 			
-			for ($i = count($recently_viewed->products) - 1; $i >= 0; $i--) {
+			$to_load = array();
+			
+			foreach( $recently_viewed->products as $product_data ) {
+				$product = Ecwid_Product::get_without_loading( $product_data->id );
+				if ( !@$product->imageUrl ) {
+					$to_load[] = $product_data->id;
+				}
+			}
+			
+			if ( !empty( $to_load ) ) {
+				Ecwid_Product::load_by_ids($to_load);
+			}
+			
+			for ( $i = count($recently_viewed->products) - 1; $i >= 0; $i-- ) {
+				
+				if ( $counter > $instance['number_of_products'] ) {
+					break;
+				}
+				
 				$product = Ecwid_Product::get_by_id( $recently_viewed->products[$i]->id );
 				
 				if (!$product) {
 					$product = Ecwid_Product::from_stdclass(
-						$recently_viewed->products[$i],
-						'imageUrl', 'link'
+						$recently_viewed->products[$i]
 					);
 				}
+				
+				if (!$product->link)
 				
 				$counter++;
 				if ( isset( $product->id ) && isset( $product->link ) ) {
