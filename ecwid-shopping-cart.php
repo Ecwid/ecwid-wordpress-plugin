@@ -1224,13 +1224,15 @@ function _ecwid_get_seo_title()
 
 				if ( $product->defaultCategoryId ) {
 					$category = $api->get_category( $product->defaultCategoryId );
-					if ( $category ) {
+					if ( $category && isset($category->name)) {
 						$ecwid_seo_title .=  ' ' . ecwid_get_title_separator() . ' ' . $category->name;
 					}
 				}
 			} else if ( $params['mode'] == 'category' ) {
 				$category = $api->get_category( $params['id'] );
-				$ecwid_seo_title = $category->name;
+				if ( $category && isset( $category->name ) ) {
+					$ecwid_seo_title = $category->name;
+				}
 			}
 		}
 	}
