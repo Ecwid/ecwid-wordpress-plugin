@@ -263,13 +263,15 @@ jQuery(document).ready(function() {
     }
 
     var buildProductsTable = function(data) {
-
+        
         if (data == null) {
             data = {
                 total: 0,
                 limit: 1
             }
         }
+        
+        var params = {};
         
         if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
             params = getSearchParams();
@@ -339,9 +341,14 @@ jQuery(document).ready(function() {
                 addProduct(data.items[i]);
             }
         } else {
-            showEmpty(params.keyword);
+            var keyword = '';
+            if (params.keyword) {
+                keyword = params.keyword;
+            }
+            
+            showEmpty(keyword);
         }
-
+        
         renderSearchParams();
         assignHandlers();
         setCurrentProduct(null);
