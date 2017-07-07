@@ -1345,10 +1345,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$params .= '&data_sync_products=1';
 	}
 
-	if ( Ecwid_Seo_Links::is_enabled() ) {
-		$params .= '&data_clean_urls=1';
-	}
-
 	return $params;
 }
 
