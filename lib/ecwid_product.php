@@ -45,7 +45,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 			$p->_data = $product_data;
 		}
 		
-		self::_put_into_local_object_cache($p);
+		$p->_put_into_local_object_cache($p);
 		
 		$p->_persist();
 		
