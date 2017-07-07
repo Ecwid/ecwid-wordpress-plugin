@@ -76,6 +76,6 @@
 	<?php endforeach;
 	endif; ?> 
 	<?php if ( $product->galleryImages ) foreach ( $product->galleryImages as $image):
-	?><img src="<?php echo EcwidPlatform::esc_attr( $image->url ); ?>" alt="<?php echo EcwidPlatform::esc_attr( $image->alt ? $image->alt : $product->name ); ?>" />
+	?><img src="<?php echo EcwidPlatform::esc_attr( $image->url ); ?>" alt="<?php echo EcwidPlatform::esc_attr( isset( $image->alt ) ? $image->alt : $product->name ); ?>" />
 	<?php endforeach; ?> 
 </div>
