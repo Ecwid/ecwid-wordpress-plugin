@@ -639,6 +639,8 @@ function ecwid_check_version()
 
 		flush_rewrite_rules();
 	}
+	
+	add_option('ecwid_disable_dashboard', '');
 }
 
 function ecwid_get_woocommerce_status() {
@@ -1959,7 +1961,9 @@ function ecwid_general_settings_do_page() {
 	} else {
 		global $ecwid_oauth;
 
-		if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
+		if ( get_option('ecwid_disable_dashboard') ) {
+			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
+		} else if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
 			if ( ecwid_test_oauth(true) ) {
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
