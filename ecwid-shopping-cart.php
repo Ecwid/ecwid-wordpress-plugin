@@ -1218,7 +1218,7 @@ function _ecwid_get_seo_title()
 
 			if ( $params['mode'] == 'product' ) {
 				$product = Ecwid_Product::get_by_id( $params['id'] );
-				if ( isset( $product->seoTitle ) ) {
+				if ( isset( $product->seoTitle ) && !empty( $product->seoTitle ) ) {
 					$ecwid_seo_title = $product->seoTitle;
 				} else {
 					$ecwid_seo_title = $product->name;
@@ -1238,8 +1238,7 @@ function _ecwid_get_seo_title()
 			}
 		}
 	}
-
-
+	
 	if ( ! empty( $ecwid_seo_title ) ) {
 		return $ecwid_seo_title;
 	}
