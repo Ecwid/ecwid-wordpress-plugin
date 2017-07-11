@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,14 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.4.2 =
+- **Loading speed optimization for the Single Product widgets.** We continue working on improving the Ecwid ecommerce plugin loading speed. This update includes optimization of single product widgets. The optimization should have especially good effect if you added multiple single product widgets on a page (e.g. for creating a featured slider or a customized products grid).
+- **The Recently Viewed Products widget is also optimized.** It now works much faster. If you haven’t used the widget before, feel free to enable it under Appearance -> Widgets.
+- **The legacy “Appearance” settings page is removed from the plugin admin menu.** The old “Appearance” settings page was removed from the plugin settings navigation. To configure the product catalog settings (displayed widgets, products per page etc), you can open your store page for editing in the WordPress admin backend and click the “Edit appearance” button there. If you don’t have a store on the page, click the “Add store” button in the page editor and set the appearance settings there — they will be applied to your store on that page.
+- **Fixed “Strict standards” code notices.** Some users may discover this notice on their site, if the debugging messages are not disabled in the Wordpress installation. That didn’t affect the store functionality, but looked odd. We fixed that — there should not be any warning messages displayed now.
+- Minor fixes and improvements.
+
+
 = 5.4.1 =
 - Fixed an issue with the store page loading in the newest version 5.4. In some rare occasions, the store page might not display right after update to the version 5.4. We fixed the issue to make sure all stores are working well.
 - Added a workaround for a conflict with the third party “Product Advisor for Ecwid” plugin. The “Product Advisor” plugin has a bug that prevents it from working correctly with the newest versions of the Ecwid plugin. When the Product advisor plugin is enabled, the site pages do not respond. We added a workaround to the Ecwid plugin to make sure the WP admin pages will work well for the “Product advisor”. So, if you’re using the “Product advisor” plugin and see any issue with your site now, please disable that plugin in your WP admin backend. We’re speaking with the author of the Product advisor plugin so there will hopefully be a solution soon.
