@@ -56,7 +56,8 @@ class Ecwid_Product_Popup {
         }
 
         $params['limit'] = 10;
-
+        $params['offset'] = 0;
+        
         if ( array_key_exists( 'page', $_REQUEST ) ) {
             $params['offset'] = $params['limit'] * ( $_REQUEST['page'] - 1 );
         }
