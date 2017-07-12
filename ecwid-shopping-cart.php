@@ -1980,46 +1980,7 @@ function ecwid_general_settings_do_page() {
 
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect.php';
 			} else {
-				$time = time() - get_option('ecwid_time_correction', 0);
-				$page = 'dashboard';
-
-				$iframe_src = ecwid_get_iframe_src($time, $page);
-
-				$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-				if (!$request) {
-					echo Ecwid_Message_Manager::show_message('no_oauth');
-					return;
-				}
-
-				$result = $request->do_request(array(
-					'timeout' => 20
-				));
-
-				if ($result['code'] == 403 && strpos($result['data'], 'Token too old') !== false ) {
-
-					if (isset($result['headers']['date'])) {
-						$time = strtotime($result['headers']['date']);
-
-						$iframe_src = ecwid_get_iframe_src($time, $page);
-
-						$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-                        if (!$request) {
-                            echo Ecwid_Message_Manager::show_message('no_oauth');
-                            return;
-                        }
-						$result = $request->do_request();
-
-						if ($result['code'] == 200) {
-							update_option('ecwid_time_correction', time() - $time);
-						}
-					}
-				}
-
-				if ( is_array( $result ) && $result['code'] == 200 ) {
-					ecwid_admin_do_page( 'dashboard' );
-				} else {
-					require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-				}
+				ecwid_admin_do_page( 'dashboard' );
 			}
 		}
 	}
@@ -2076,6 +2037,31 @@ function ecwid_admin_do_page( $page ) {
 
 	$result = $request->do_request();
 
+	if ($result['code'] == 403 && strpos($result['data'], 'Token too old') !== false ) {
+
+		if (isset($result['headers']['date'])) {
+			$time = strtotime($result['headers']['date']);
+
+			$iframe_src = ecwid_get_iframe_src($time, $page);
+
+			$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+			if (!$request) {
+				echo Ecwid_Message_Manager::show_message('no_oauth');
+				return;
+			}
+			$result = $request->do_request();
+
+			if ($result['code'] == 200) {
+				update_option('ecwid_time_correction', time() - $time);
+			}
+		}
+
+		$iframe_src = ecwid_get_iframe_src($time, $page);
+
+		$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+		$result = $request->do_request();
+	}
+	
 	if (empty($result['code']) && empty($result['data'])) {
 		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 	} else if ($result['code'] != 200) {
