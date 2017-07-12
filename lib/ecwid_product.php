@@ -41,13 +41,13 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		
 		if ( !$product_data ) {
 			$p->_load($id);
+			$p->_persist();
 		} else {
 			$p->_data = $product_data;
 		}
 		
 		$p->_put_into_local_object_cache($p);
 		
-		$p->_persist();
 		
 		return $p;
 	}
