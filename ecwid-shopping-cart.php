@@ -1960,7 +1960,7 @@ function ecwid_general_settings_do_page() {
 	} else {
 		global $ecwid_oauth;
 
-		if ( get_option('ecwid_disable_dashboard') ) {
+		if ( get_option( 'ecwid_disable_dashboard' ) && !isset( $_GET['reconnect'] ) ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
 		} else if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
 			if ( ecwid_test_oauth(true) ) {
