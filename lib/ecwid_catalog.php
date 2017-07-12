@@ -4,15 +4,18 @@ class EcwidCatalog
 {
 	var $store_id = 0;
 	var $store_base_url = '';
-	var $ecwid_api = null;
 
 	public function __construct($store_id, $store_base_url)
 	{
 		$this->store_id = intval($store_id);
 		$this->store_base_url = $store_base_url;	
-		$this->ecwid_api = new EcwidProductApi($this->store_id);
 	}
 
+	public function warmup_store_page( $category_id )
+	{
+		$this->_get_data_for_category( $category_id, null );
+	}
+	
 	public function get_product($id)
 	{
 		$result = $this->_get_data_for_product($id);
@@ -77,7 +80,7 @@ class EcwidCatalog
 		
 	}
 	
-	protected function _get_data_for_category( $id, $offset )
+	protected function _get_data_for_category( $id, $offset = 0 )
 	{
 		if ( Ecwid_Api_V3::is_available() ) {
 			$api = new Ecwid_Api_V3();
@@ -90,7 +93,7 @@ class EcwidCatalog
 			$get_categories_params = array(
 				'parent' => $id
 			);
-			if ($offset) {
+			if ($offset && $offset > 0) {
 				$get_categories_params['offset'] = $offset;
 			}
 			$categories = $api->get_categories( $get_categories_params );
@@ -132,9 +135,10 @@ class EcwidCatalog
 	}
 	
 	protected function _get_apiv1_batch_result($params) {
-		$batch_result = $this->ecwid_api->get_batch_request($params);
+		$api = ecwid_new_product_api();
+		$batch_result = $api->get_batch_request($params);
 		if ( is_array( $batch_result ) ) {
-			$batch_result = $this->ecwid_api->get_batch_request($params);
+			$batch_result = $api->get_batch_request($params);
 		}
 	
 		return $batch_result;

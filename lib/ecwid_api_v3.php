@@ -49,6 +49,8 @@ class Ecwid_Api_V3
 
 	public function get_categories($input_params)
 	{
+		
+		error_log(var_export(debug_backtrace(false), true));
 		$params = array('token');
 		if (array_key_exists('parent', $input_params)) {
 			$params['parent'] = $input_params['parent'];
@@ -260,7 +262,7 @@ class Ecwid_Api_V3
 			)
 		);
 
-		if ($result['code'] != '200') {
+		if ($r§esult['code'] != '200') {
 			return false;
 		}
 		$result = json_decode($result['data']);

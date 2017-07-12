@@ -5,6 +5,7 @@ class Ecwid_Store_Page {
 	const OPTION_STORE_PAGES = 'ecwid_store_pages';
 	const OPTION_MAIN_STORE_PAGE_ID = 'ecwid_store_page_id';
 	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
+	const WARMUP_ACTION = 'ecwid_warmup_store';
 
 	protected static $_store_pages = false;
 
@@ -301,9 +302,44 @@ class Ecwid_Store_Page {
 		return array('publish', 'private', 'draft');
 	}
 
-	public static function on_frontend_rendered() {}
+	public static function warmup_store() 
+	{
+		$store_page = get_post( self::get_current_store_page_id() );
+		
+		if ( !$store_page ) {
+			return;
+		}
+		
+		$shortcodes = ecwid_find_shortcodes( $store_page->post_content, Ecwid_Shortcode_Base::get_store_shortcode_name() );
+		
+		if ( sizeof( $shortcodes ) == 0 ) {
+			return;
+		}
+		
+		$shortcode_data = $shortcodes[0];
+		
+		$category = 0;
+		
+		if ( isset( $shortcode_data[3] ) ) {
+			$attributes = shortcode_parse_atts($shortcode_data[3]);
+
+			if ( !$attributes ) {
+				return;
+			}
+			
+			$category = $attributes['default_category_id'];
+		}
+		
+		$page_url = get_page_link($store_page);
+
+		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
+
+		$catalog = new EcwidCatalog(get_ecwid_store_id(), $page_url);
+		
+		$catalog->warmup_store_page(intval($category));
+	}
 }
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
-add_action( 'shutdown', array( 'Ecwid_Store_Page', 'on_frontend_rendered' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
+add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
