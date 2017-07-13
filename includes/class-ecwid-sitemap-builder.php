@@ -8,7 +8,7 @@ class EcwidSitemapBuilder {
 	const PRIORITY_PRODUCT = 0.6;
 	const PRIORITY_CATEGORY = 0.5;
 
-	public function __construct($base_url, $callback, $api) {
+	public function __construct($base_url, $callback) {
 		$this->callback = $callback;
 		$this->base_url = $base_url;
 	}
