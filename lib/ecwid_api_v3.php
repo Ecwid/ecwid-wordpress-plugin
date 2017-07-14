@@ -49,8 +49,6 @@ class Ecwid_Api_V3
 
 	public function get_categories($input_params)
 	{
-		
-		error_log(var_export(debug_backtrace(false), true));
 		$params = array('token');
 		if (array_key_exists('parent', $input_params)) {
 			$params['parent'] = $input_params['parent'];
@@ -190,7 +188,7 @@ class Ecwid_Api_V3
 				$this->_products_api_url,
 				$params
 		);
-
+	
 		$result = EcwidPlatform::get_from_products_cache( $url );
 		if (!$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
