@@ -624,6 +624,9 @@ function ecwid_check_version()
 		// Since 5.4.2
 		delete_option('ecwid_hide_appearance_menu');
 		
+		// Since 5.4.3? 
+		add_option( Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY, '' );
+		
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );

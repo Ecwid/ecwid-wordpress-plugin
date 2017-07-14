@@ -17,6 +17,12 @@ var EcwidFloatingShoppingCart = function() {
 		Ecwid.OnCartChanged.add(function(cartObj) {
 			changeState(cartObj);
 		});
+		
+		if (ecwid_floating_shopping_cart_options.move_to_body == 1) {
+            jQuery(document).ready(function() {
+                 jQuery('body').append(jQuery('.ecwid-float-icons'));
+            });			
+		}
 	}
 };
 
