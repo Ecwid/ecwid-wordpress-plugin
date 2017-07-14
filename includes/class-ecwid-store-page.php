@@ -175,7 +175,7 @@ class Ecwid_Store_Page {
 		}
 
 		self::_set_store_pages( $pages );
-		self::_schedule_flush_rewrite();
+		self::schedule_flush_rewrites();
 	}
 
 	public static function reset_store_page( $page_id ) {
@@ -226,7 +226,7 @@ class Ecwid_Store_Page {
 		return self::$_store_pages;
 	}
 
-	protected static function _schedule_flush_rewrite() {
+	public static function schedule_flush_rewrites() {
 		update_option( self::OPTION_FLUSH_REWRITES, 1 );
 	}
 
@@ -343,3 +343,4 @@ class Ecwid_Store_Page {
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
 add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
+add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_flush_rewrites' ) );
