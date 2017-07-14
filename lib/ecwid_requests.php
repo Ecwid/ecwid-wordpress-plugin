@@ -344,10 +344,14 @@ class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
 
 		$result = array();
 
-		foreach ($meta['wrapper_data'] as $item) {
+		$headers = $meta['wrapper_data'];
+		if (isset($headers['headers'])) {
+			$headers = $headers['headers'];
+		}
+		foreach ($headers as $item) {
 
 			if (!is_string($item)) {
-				ecwid_log_error(json_encode($item));
+				ecwid_log_error(@json_encode($item));
 				continue;
 			}
 
@@ -443,10 +447,14 @@ class Ecwid_HTTP_Post_Fopen extends Ecwid_Http_Post {
 
 		$result = array();
 
-		foreach ($meta['wrapper_data'] as $item) {
+		$headers = $meta['wrapper_data'];
+		if (isset($headers['headers'])) {
+			$headers = $headers['headers'];
+		}
+		foreach ($headers as $item) {
 
 			if (!is_string($item)) {
-				ecwid_log_error(json_encode($item));
+				ecwid_log_error(@json_encode($item));
 				continue;
 			}
 
