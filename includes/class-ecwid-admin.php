@@ -42,7 +42,7 @@ class Ecwid_Admin {
 		);
 
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso')) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !get_option( 'ecwid_disable_dashboard' )) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Sales', 'ecwid-shopping-cart'),
