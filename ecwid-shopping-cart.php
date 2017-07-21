@@ -596,13 +596,9 @@ function ecwid_check_version()
 			add_option('ecwid_remote_get_timeout', '5');
 		}
 
-		if (ecwid_migrations_is_original_plugin_version_older_than('4.1.3')) {
-			add_option( 'ecwid_support_email', 'wordpress@ecwid.com' );
-		}
+		add_option( 'ecwid_support_email', 'wordpress@ecwid.com' );
 
-		if (ecwid_migrations_is_original_plugin_version_older_than('4.4.5')) {
-			add_option('ecwid_enable_sso');
-		}
+		add_option('ecwid_enable_sso');
 
 		add_option( Ecwid_Products::OPTION_ENABLED, Ecwid_Products::is_enabled() );
 
