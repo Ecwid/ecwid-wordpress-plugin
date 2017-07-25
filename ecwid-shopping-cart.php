@@ -592,7 +592,6 @@ function ecwid_check_version()
 		add_option( Ecwid_Seo_Links::OPTION_ENABLED, false );
 
 		if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
-			add_option('ecwid_fetch_url_use_file_get_contents', '');
 			add_option('ecwid_remote_get_timeout', '5');
 		}
 
@@ -620,8 +619,11 @@ function ecwid_check_version()
 		// Since 5.4.2
 		delete_option('ecwid_hide_appearance_menu');
 		
-		// Since 5.4.3? 
+		// Since 5.4.3 
 		add_option( Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY, '' );
+		
+		// Since 5.4.4?
+		delete_option('ecwid_fetch_url_use_file_get_contents');
 		
 		Ecwid_Config::load_from_ini();
 

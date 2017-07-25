@@ -99,7 +99,7 @@ class EcwidPlatform {
 			)
 		);
 
-		$use_file_get_contents = get_option('ecwid_fetch_url_use_file_get_contents', false);
+		$use_file_get_contents = self::cache_get('ecwid_fetch_url_use_file_get_contents', false);
 
 		if ($use_file_get_contents) {
 				$result = @file_get_contents($url, null, $ctx);
@@ -121,7 +121,7 @@ class EcwidPlatform {
 				if (!is_array($result)) {
 						$result = @file_get_contents($url, null, $ctx);
 						if (!empty($result)) {
-								update_option('ecwid_fetch_url_use_file_get_contents', true);
+								self::cache_set('ecwid_fetch_url_use_file_get_contents', true, WEEK_IN_SECONDS);
 						}
 				}
 		}
@@ -167,7 +167,7 @@ class EcwidPlatform {
 			$log_url .= '&data_target_url=' . urlencode($url);
 			if (get_option('ecwid_http_use_stream', false)) {
 				$log_url .= '&data_method=stream';
-			} elseif (get_option('ecwid_fetch_url_use_file_get_contents')) {
+			} elseif (self::cache_get('ecwid_fetch_url_use_file_get_contents')) {
 				$log_url .= '&data_method=filegetcontents';
 			}
 
