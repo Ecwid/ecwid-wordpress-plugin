@@ -18,9 +18,10 @@
 
 <?php if ( $products ): foreach ( $products as $product ): ?>
 
+<?php $product = Ecwid_Product::get_by_id($product->id); ?>
 <div class="product-<?php echo $product->id; ?>">
 	<span class="product-name">
-		<a href="<?php echo Ecwid_Store_Page::get_product_url( $product->id ); ?>">
+		<a href="<?php echo $product->link; ?>">
             <?php echo EcwidPlatform::esc_html( $product->name ); ?> 
         </a>
 	</span>

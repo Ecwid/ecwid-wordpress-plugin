@@ -203,6 +203,9 @@ class Ecwid_Api_V3
 		
 		if ( !empty( $result->items ) ) {
 			foreach ( $result->items as $item ) {
+				if (Ecwid_Seo_Links::is_enabled()) {
+					$item->seo_link = $item->url;
+				}
 				Ecwid_Product::init_from_stdclass( $item );
 			}
 		}
