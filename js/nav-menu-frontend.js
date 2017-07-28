@@ -18,10 +18,11 @@ jQuery(document).ready(function() {
 
 	Ecwid.OnPageLoaded.add(refreshEcwidMenuItemsSelection);
 
-	function refreshEcwidMenuItemsSelection() {
+	function refreshEcwidMenuItemsSelection(page) {
+		
 		$allMenus = jQuery('ul').has('li.menu-item');
 		$allMenus.each(function (idx, el) {
-			var current = findCurrentEcwidMenuItem(el);
+			var current = findCurrentEcwidMenuItem(el, page);
 			if (current) {
 				highlightCurrentMenuItem(el, current);
 			}
@@ -35,7 +36,33 @@ jQuery(document).ready(function() {
 		item.addClass('current-menu-item current_page_item');
 	}
 
-	function findCurrentEcwidMenuItem(menuElement) {
+	function findCurrentEcwidMenuItem(menuElement, page) {
+		
+		if (page) {
+			var endswith = null;
+			if (page.type == 'CATEGORY') {
+				if (page.categoryId == 0) {
+					endswith = '';
+				} else {
+					endswith = 'c' + page.categoryId;
+                }
+			}else if (page.type == 'PRODUCT') {
+				endswith = 'p' + page.productId;
+			}
+			
+			if (endswith != null) {
+				
+				if (endswith == '') {
+					endswith = ec.config.baseUrl;
+				}
+				var selector = '>li a[href*="' + ec.config.baseUrl + '"]';
+				var exactCatalogPage = jQuery('>li a[href$="' + endswith + '"][href*="' + ec.config.baseUrl + '"]', menuElement).closest('li');
+				if (exactCatalogPage) {
+					return exactCatalogPage;
+				}	
+			}
+        }
+        
 		var specificMenuItem = findSpecificMenuItem(menuElement);
 		if (specificMenuItem) {
 			return specificMenuItem;
