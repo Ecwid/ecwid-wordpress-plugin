@@ -126,7 +126,7 @@ class EcwidCatalog
 			}
 			
 			$batch_result = $this->_get_apiv1_batch_result( $params );
-			if ( !isset($batch_result->main_category) ) {
+			if ( $batch_result && !isset($batch_result->main_category) ) {
 				$batch_result->main_category = null;
 			}
 			
