@@ -57,7 +57,7 @@ jQuery(document).ready(function() {
 				}
 				var selector = '>li a[href*="' + ec.config.baseUrl + '"]';
 				var exactCatalogPage = jQuery('>li a[href$="' + endswith + '"][href*="' + ec.config.baseUrl + '"]', menuElement).closest('li');
-				if (exactCatalogPage) {
+				if (exactCatalogPage.length > 0) {
 					return exactCatalogPage;
 				}	
 			}
