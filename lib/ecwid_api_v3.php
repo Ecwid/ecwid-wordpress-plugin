@@ -76,6 +76,7 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::get_from_categories_cache($url);
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
+			
 		}
 
 		if ($result['code'] != '200') {
@@ -88,6 +89,10 @@ class Ecwid_Api_V3
 
 		if ( !empty( $result->items ) ) {
 			foreach ( $result->items as $item ) {
+				if (Ecwid_Seo_Links::is_enabled()) {
+					$item->seo_link = $item->url;
+				}
+				
 				Ecwid_Category::from_stdclass( $item );
 			}
 		}
