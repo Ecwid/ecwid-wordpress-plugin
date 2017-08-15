@@ -60,3 +60,7 @@ html#ecwid_html body#ecwid_body .ecwid table {
 	font-size: 14px;
 	font-weight: 400;
 }
+
+.ecwid-random-product:not(.loaded) {
+	min-height: 290px;	
+}
