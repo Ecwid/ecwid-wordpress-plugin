@@ -189,12 +189,19 @@ class Ecwid_Api_V3
 			$params['cleanUrls'] = 'true';
 		}
 
+		$params['enabled'] = 'true';
+		
+		if (EcwidPlatform::get('hide_out_of_stock')) {
+			$params['inStock'] = 'true';
+		}
+		
 		$url = $this->build_request_url(
 				$this->_products_api_url,
 				$params
 		);
-	
+		
 		$result = EcwidPlatform::get_from_products_cache( $url );
+		
 		if (!$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 			if ($result['code'] != '200') {
@@ -215,6 +222,8 @@ class Ecwid_Api_V3
 			}
 		}
 
+		$this->_maybe_remember_all_products($params, $result, $url);
+		
 		return $result;
 	}
 
@@ -268,7 +277,7 @@ class Ecwid_Api_V3
 			)
 		);
 
-		if ($r§esult['code'] != '200') {
+		if ($result['code'] != '200') {
 			return false;
 		}
 		$result = json_decode($result['data']);
@@ -378,6 +387,10 @@ class Ecwid_Api_V3
 		$profile = json_decode($result['data']);
 	
 		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+
+		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
+			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
+		}
 		
 		return self::$profile;
 	}
@@ -482,5 +495,31 @@ class Ecwid_Api_V3
 		}
 
 		return $url . '?' . build_query($params);
+	}
+
+	protected function _maybe_remember_all_products($params, $result, $url)
+	{
+		$limiting_params = array(
+			'updatedFrom', 'keyword', 'category', 'productId'
+		);
+
+		$all = true;
+		foreach ($limiting_params as $param) {
+			if (array_key_exists($param, $params)) {
+				$all = false;
+				break;
+			}
+		}
+
+		if ($all) {
+
+			EcwidPlatform::store_in_products_cache('ecwid_total_products', $result->total);
+
+			if ($result->total < 100 && $result->count == $result->total) {
+				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', $url);
+			} else {
+				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', '');
+			}
+		}
 	}
 }
