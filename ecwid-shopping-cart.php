@@ -1342,6 +1342,10 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( Ecwid_Products::is_enabled() ) {
 		$params .= '&data_sync_products=1';
 	}
+	
+	if (is_active_widget(false, false, 'ecwidrandomproduct')) {
+		$params .= '&data_rpw=1';
+	}
 
 	return $params;
 }
