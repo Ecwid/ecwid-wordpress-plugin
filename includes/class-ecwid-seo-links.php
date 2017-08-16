@@ -101,8 +101,8 @@ class Ecwid_Seo_Links {
 
  	protected function get_seo_links_patterns() {
 		return array(
-			'[^/]*-p[0-9]+',
-			'[^/]*-c[0-9]+',
+			'.*-p([0-9]+)(\/.*|\?.*)?',
+			'.*-c([0-9]+)(\/.*|\?.*)?',
 			'cart',
 			'checkout',
 			'checkout\/shipping',
@@ -178,7 +178,7 @@ JS;
 	}
 
 	protected static function _get_pb_preg_pattern() {
-		return $pattern = '!.*-(p|c)([0-9]*)!';
+		return $pattern = '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';
 	}
 
 	public function build_rewrite_rules( ) {

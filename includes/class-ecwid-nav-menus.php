@@ -161,7 +161,11 @@ class Ecwid_Nav_Menus {
 		$counter = 0;
 
 		for ( $i = 0; $i < count($items); $i++ ) {
-
+            
+			if (!isset($items[$i])) {
+				continue;
+			}
+			
 			$item = $items[$i];
 			$items[$i]->menu_order = $i + 1;
 

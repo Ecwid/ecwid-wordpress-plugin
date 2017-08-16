@@ -275,7 +275,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 	content: "\e605";
 }
 
-#available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before {
+#available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-randomproduct .widget-title:before
+{
 	content: "\e600";
 }
 

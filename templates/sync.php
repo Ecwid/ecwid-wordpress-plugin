@@ -7,18 +7,7 @@ $api = new Ecwid_Api_V3(get_ecwid_store_id());
 <script>
 jQuery(document).ready(function() {
 
-var sse_available = false;
-var set_time_limit_available = <?php echo EcwidPlatform::is_set_time_limit_available() ? 'true' : 'false'; ?>;
-if (set_time_limit_available && typeof(EventSource) != 'undefined') {
-	sse_available = true;
-}
-
-if (sse_available && <?php echo ( get_option( Ecwid_Products::OPTION_NO_SSE ) ? '0' : '1') ?>) {
-	jQuery('#sse_on').html('YES');
-} else {
-	jQuery('#sse_on').html('NO');
-	jQuery('#sync-container').addClass('no-sse');
-}
+jQuery('#sync-container').addClass('no-sse');
 
 jQuery('#ecwid_local_base_enabled').click(function() {
    jQuery('#sync-container').css('display', (jQuery(this).is(':checked')) ? '' : 'none');
@@ -77,7 +66,7 @@ function do_no_sse_sync(mode, offset, limit, time) {
 }
 
 function process_no_sse_sync(data) {
-	var mode = 'deleted', offset = 0, limit = 100;
+	var mode = 'deleted', offset = 0, limit = 20;
 
 	var processed_updates = data.updated + data.created + data.deleted_disabled;
 	var processed_deletes = data.deleted + data.skipped_deleted;
@@ -164,7 +153,6 @@ jQuery('#sync-button-slow').click(function() {
 <?php else: ?>
 
 <div class="sync-block" id="sync-buttons">
-	<a id="sync-button"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>
 <div class="sync-block" id="updating">

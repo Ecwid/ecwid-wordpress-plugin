@@ -179,6 +179,10 @@ tinymce.PluginManager.add( 'ecwid', function( editor ) {
 			}
 		} else if ( event.target.nodeName !== 'IMG' ) {
 			removeToolbar();
+			
+			if (event.target.nodeName == 'INPUT' && event.target.id == 'ecwid-edit-store-button') {
+				ecwid_open_store_popup();
+			}
 		}
 	});
 

@@ -1651,6 +1651,12 @@ msgstr "Последняя синхронизация"
 msgid "Not synchronized yet"
 msgstr "Не синхронизовано"
 
+msgid "Random Product"
+msgstr "Случайный товар"
+
+msgid "Displays a random product from your store to attract customer attention."
+msgstr "Показывает случайный товар из магазина, чтобы привлечь внимание покупателя."
+
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"

@@ -129,8 +129,6 @@ jQuery(document).ready(function() {
 			if (hasEcwid && button.length == 0) {
 				var button = jQuery('<input type="button" id="ecwid-edit-store-button" contenteditable="false" data-mce-bogus="true" value="' + ecwid_i18n.edit_store_appearance + '" />')
 						.appendTo(body);
-
-				button.click(ecwid_open_store_popup);
 			} else if (!hasEcwid && button.length > 0) {
 				tinymce.activeEditor.dom.remove(button);
 			}

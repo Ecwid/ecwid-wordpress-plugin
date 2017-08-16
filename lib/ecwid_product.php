@@ -52,6 +52,41 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		return $p;
 	}
 	
+	public static function get_random_product()
+	{
+		$total = EcwidPlatform::get_from_products_cache('ecwid_total_products');
+		
+		$all_products = false;
+		
+		if ($total < 100 && $total > 0 && EcwidPlatform::get_from_products_cache('ecwid_all_products_request')) {
+			$all_products = EcwidPlatform::get_from_products_cache(
+				EcwidPlatform::get_from_products_cache('ecwid_all_products_request')	
+			);
+		}
+		
+		if ( $all_products ) {
+			$index = rand( 0, $total - 1 );
+			
+			$result = json_decode($all_products['data']);
+			
+			$random_product_id = $result->items[$index]->id;
+		} else {
+			$index = rand( 0, $total );
+			$offset = floor($index / 100) * 100;
+			
+			$api = new Ecwid_Api_V3();
+			$result = $api->search_products(
+				array(
+					'offset' => $offset
+				)
+			);
+			
+			$random_product_id = $result->items[$index - $offset]->id;
+		}
+		
+		return Ecwid_Product::get_by_id( $random_product_id );
+	}
+	
 	public static function get_without_loading($id, $fallback_object = null)
 	{
 		$p = new Ecwid_Product();
