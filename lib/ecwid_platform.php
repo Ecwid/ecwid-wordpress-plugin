@@ -259,14 +259,7 @@ class EcwidPlatform {
 
 		return $transports;
 	}
-
-	static public function is_set_time_limit_available() {
-		return function_exists('set_time_limit' )
-		       && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) == false
-		       && ! ini_get( 'safe_mode' );
-	}
-
-
+	
 	static public function store_in_products_cache( $url, $data ) {
 		
 		self::_store_in_cache($url, 'products', $data);
