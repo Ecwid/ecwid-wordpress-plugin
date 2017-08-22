@@ -1864,10 +1864,15 @@ function ecwid_common_admin_scripts() {
 		'cache_updated' => __('Done', 'ecwid-shopping-cart'),
 		'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
 		'store_shortcode' => Ecwid_Shortcode_Base::get_store_shortcode_name(),
-		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name()
+		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
+		'legacy_appearance' => ecwid_is_legacy_appearance_used()
 	));
 
 	wp_enqueue_script('ecwid-sync', ECWID_PLUGIN_URL . 'js/sync.js', array(), get_option('ecwid_plugin_version'));
+}
+
+function ecwid_is_legacy_appearance_used() {
+	return ecwid_migrations_is_original_plugin_version_older_than('5.5');
 }
 
 function ecwid_get_register_link()

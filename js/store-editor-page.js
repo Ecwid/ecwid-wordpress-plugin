@@ -237,6 +237,23 @@ jQuery(document).ready(function() {
 			shortcode = existingShortcode;
 		}
 
+
+        if (!ecwid_params.legacy_appearance) {
+			
+			var legacy_appearance_properties = [
+				'categories_per_row',
+				'grid',
+				'list',
+				'table',
+				'category_view',
+				'search_view'
+			];
+			for (var i = 0; i < legacy_appearance_properties.length; i++) {
+				delete result[legacy_appearance_properties[i]];
+				delete shortcode.shortcode.attrs.named[legacy_appearance_properties[i]];
+			}
+        }
+		
 		for (var i in result) {
 			shortcode.shortcode.attrs.named[i] = result[i];
 		}
