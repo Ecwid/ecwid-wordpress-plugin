@@ -90,7 +90,9 @@
                                     <div class="value">
 
                                         <select name="default_category_id" id="ecwid_default_category_id">
-                                            <option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
+                                            <option value="0"<?php if (!get_option('ecwid_default_category_id')): ?> selected="selected"<?php endif; ?>>
+                                                <?php _e('Store root category', 'ecwid-shopping-cart'); ?>
+                                            </option>
 											<?php foreach ($categories as $category): ?>
                                                 <option
                                                         value="<?php echo esc_attr($category->id); ?>"

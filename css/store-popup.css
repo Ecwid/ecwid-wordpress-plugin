@@ -387,7 +387,8 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 	}
 
 	#ecwid-store-popup-content .media-frame-content .store-settings-wrapper .store-settings {
-		padding-left: 0px;
+		padding-left: 16px;
+		padding-right: 16px;
 	}
 
 
@@ -417,6 +418,13 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 	z-index: 1000;
 	-webkit-transition: color .1s ease-in-out,background .1s ease-in-out;
 	transition: color .1s ease-in-out,background .1s ease-in-out;
+}
+
+@media only screen and (max-width: 480px) {
+	#ecwid-store-popup-content .media-modal-close {
+		top: 5px;
+		right: 5px;
+	}
 }
 
 #ecwid-store-popup-content .media-modal-close span.media-modal-icon {
