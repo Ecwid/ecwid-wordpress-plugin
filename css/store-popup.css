@@ -140,10 +140,12 @@ body[class*=branch-3] #ecwid-store-popup-content .media-frame-title span.dashico
 	}
 }
 
+@media only screen and (max-height: 600px) {
 
-#ecwid-store-popup-content .store-settings-wrapper {
-	margin-top: 40px;
-	margin-bottom: 40px;
+	#ecwid-store-popup-content .store-settings-wrapper {
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
 }
 
 html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
