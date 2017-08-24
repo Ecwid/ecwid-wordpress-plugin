@@ -140,6 +140,12 @@ body[class*=branch-3] #ecwid-store-popup-content .media-frame-title span.dashico
 	}
 }
 
+
+#ecwid-store-popup-content .store-settings-wrapper {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
 html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 	position: absolute;
 	top: 50%;
@@ -162,7 +168,6 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 #ecwid-store-popup-content label {
 	font-size: 14px;
 	font-weight: 400;
-	display: inline-block;
 	width: 270px;
 }
 
@@ -242,7 +247,7 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 
 #ecwid-store-popup-content .store-settings h3 {
 	font-size: 20px;
-	margin-bottom: 5px;
+	margin-bottom: 7px;
 }
 
 #ecwid-store-popup-content .store-settings-preview {
@@ -260,6 +265,9 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
 
 #ecwid-store-popup-content .store-settings .note {
 	margin-right: 30px;
+	max-width: 340px;
+	line-height: 1.8em;
+	margin-bottom: 26px;
 }
 
 #ecwid-store-popup-content .note {
@@ -336,28 +344,24 @@ html:not(.ie8) #ecwid-store-popup-content .store-settings-wrapper {
   font-weight: 600;
 }
 
-#ecwid-store-popup-content .pure-control-group.default-category-id {
-	display: table;
-}
-
 #ecwid-store-popup-content .pure-control-group.default-category-id label {
-	width: 270px;
-	min-width: 270px;
-	max-width: 270px;
-	display: table-cell;
-}
-
-#ecwid-store-popup-content .pure-control-group.default-category-id .value {
-	display: table-cell;
+	margin-bottom: 5px;
+	display: block;
+	width: auto;
 }
 
 #ecwid-store-popup-content .pure-control-group.default-category-id .value select,
 #ecwid-store-popup-content .pure-control-group.default-category-id .value input {
 	width:100%;
+	margin-left: -1px;
 }
 
-
 @media only screen and (max-width: 440px) {
+
+	#ecwid-store-popup-content .media-frame-content.store-settings {
+		padding-left: 0;
+	}
+
 	#ecwid-store-popup-content .appearance .pure-control-group.params-list {
 		margin: 35px 0px;
 		position: relative;

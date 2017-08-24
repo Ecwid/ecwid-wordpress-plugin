@@ -70,43 +70,44 @@
 									<?php _e('Show categories', 'ecwid-shopping-cart'); ?>
 								</label>
 							</div>
-						</div>
-						<div class="note">
-							<?php echo sprintf(
+
+                            <div class="note">
+								<?php echo sprintf(
 									__('Additionally, you can add store controls to your website\'s toolbar using <a %s>WordPress native widgets</a>', 'ecwid-shopping-cart'),
 									' target="_blank" href="widgets.php?from-ec-store=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
 								);
-							?>
+								?>
+                            </div>
+
+                            <div class="pure-control-group params-list default-category-id">
+
+								<?php if ($categories): ?>
+                                    <label for="ecwid_default_category_id">
+										<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
+                                    </label>
+
+
+                                    <div class="value">
+
+                                        <select name="default_category_id" id="ecwid_default_category_id">
+                                            <option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
+											<?php foreach ($categories as $category): ?>
+                                                <option
+                                                        value="<?php echo esc_attr($category->id); ?>"
+													<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
+                                                        selected="selected"
+													<?php endif; ?>
+                                                >
+													<?php echo esc_html($category->path); ?>
+                                                </option>
+											<?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+								<?php endif; ?>
+                            </div>
 						</div>
-                        <div class="pure-control-group params-list default-category-id">
-
-							<?php if ($categories): ?>
-                                <label for="ecwid_default_category_id">
-									<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
-                                </label>
-
-
-                                <div class="value">
-
-                                    <select name="default_category_id" id="ecwid_default_category_id">
-                                        <option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
-										<?php foreach ($categories as $category): ?>
-                                            <option
-                                                    value="<?php echo esc_attr($category->id); ?>"
-												<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
-                                                    selected="selected"
-												<?php endif; ?>
-                                            >
-												<?php echo esc_html($category->path); ?>
-                                            </option>
-										<?php endforeach; ?>
-                                    </select>
-                                </div>
-
-							<?php endif; ?>
-                        </div>
-					</div>
-                    
+                    </div>
 				</div>
 
 				<?php if (ecwid_is_legacy_appearance_used()): ?>
