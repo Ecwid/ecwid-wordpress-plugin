@@ -144,7 +144,7 @@ jQuery(document).ready(function() {
 				}
 				button.css({
 					'position': 'absolute',
-					'top': '' + (store.offset().top + 168) + 'px',
+					'top': '' + (store.offset().top + 153) + 'px',
 					'left': '' + (store.offset().left + store.outerWidth() / 2 - width / 2 - 2) + 'px'
 				});
 			}
