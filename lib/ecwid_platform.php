@@ -298,7 +298,7 @@ class EcwidPlatform {
 		$cache_name = self::_build_cache_name( $key, 'products' );
 
 		$result = self::cache_get( $cache_name );
-		
+
 		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}

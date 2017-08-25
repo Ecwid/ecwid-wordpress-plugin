@@ -4,6 +4,8 @@ require_once __DIR__ . '/class-ecwid-widget-products-base.php';
 
 class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 	
+	protected $_widget_class = 'recentlyViewedProducts';
+	
 	public function __construct() {
 		$this->_init(
 			__('Recently Viewed Products', 'ecwid-shopping-cart'),
@@ -23,11 +25,9 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 			setcookie('ecwid-shopping-cart-recently-viewed', null, strtotime('-1 day'));
 		}
 	}
-
-
-
-	public function _enqueue() {
-		parent::_enqueue();
+	
+	public function enqueue() {
+		parent::enqueue();
 		
 		if ( is_active_widget( false, false, $this->id_base ) ) {
 			wp_enqueue_script($this->_widget_name, ECWID_PLUGIN_URL . 'js/recently-viewed.js', array('ecwid-products-list-js', 'utils'), get_option('ecwid_plugin_version'));
@@ -67,22 +67,17 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 		return array_reverse($recently_viewed->products);
 	}
 
-	protected function print_widget_content() {
+	protected function print_widget_content()
+	{
 		parent::print_widget_content();
-		echo <<<HTML
-<script type="text/javascript">
-<!--
-jQuery(document).ready(function() {
-	jQuery('.ecwid-recently-viewed-products:not([data-rvp-initialized=1])').recentlyViewedProducts().attr('data-rvp-initialized', 1);
-});
--->
-</script>
-HTML;
+		$products = $this->_get_products();
 	}
 	
 	protected function _print_no_products()
 	{
-		parent::_print_no_products();
+		$store_link_message = empty($instance['store_link_title']) ? __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart') : $instance['store_link_title'];
+		echo '<a class="show-if-empty" href="' . Ecwid_Store_Page::get_store_url() . '">' . $store_link_message . '</a>';
+
 		echo <<<HTML
 <script type="text/javascript">
 jQuery(document).ready(function() {

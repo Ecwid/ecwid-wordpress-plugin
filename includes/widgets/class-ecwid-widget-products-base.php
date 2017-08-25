@@ -11,6 +11,10 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 	protected $_class_name;
 	protected $_description;
 	
+	protected $_instance;
+	
+	protected $_widget_class = 'productsList';
+	
 	public function __construct() {
 		
 		$id_base = str_replace('_', '', $this->_widget_name);
@@ -28,20 +32,21 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 		$this->_title = $title;
 		$this->_description = $description;
 		if ( is_null ( $widget_name ) ) {
-			$widget_name = strtolower( $widget_name );
+			$widget_name = strtolower( $title );
 			$widget_name = preg_replace('![^a-z0-9_\s-]!', '', $widget_name);
 			$widget_name = preg_replace('![\s-]+!', '_', $widget_name);
+			$widget_name = 'ecwid_' . $widget_name;
 		}
 		
 		$this->_widget_name = $widget_name;
 		
 		if (is_null($class_name)) {
-			$class_name = str_replace('_', '', $this->_widget_name);
+			$class_name = str_replace('_', '-', $this->_widget_name);
 		}
 		$this->_class_name = $class_name;
 	}
 
-	public function _enqueue() {
+	public function enqueue() {
 		if ( is_active_widget( false, false, $this->id_base ) ) {
 			wp_enqueue_style('ecwid-products-list-css');
 		}
@@ -83,24 +88,36 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 		
 		if ($products) {
 			$this->_print_products($products);
-		} else {
-			$this->_print_no_products();
+			$this->_print_js_init();
 		}
 	}
 	
-	protected function _print_no_products()
-	{
-		$store_link_message = empty($instance['store_link_title']) ? __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart') : $instance['store_link_title'];
-		echo '<a class="show-if-empty" href="' . Ecwid_Store_Page::get_store_url() . '">' . $store_link_message . '</a>';
+	protected function _print_js_init() {
+		
+		$data_attr = "data-$this->_class_name-initialized";
+		echo <<<HTML
+<script type="text/javascript">
+<!--
+		jQuery(document).ready(function() {
+		    debugger;
+			jQuery('.$this->_class_name:not([$data_attr=1])').$this->_widget_class().attr('$data_attr', 1);
+		});
+-->
+</script>
+HTML;
 	}
 	
 	protected function _print_products($products) 
 	{
 		$next = 1;
-		foreach ($products as $product) {
+		foreach ($products as $obj) {
 			
-			$product = Ecwid_Product::get_by_id($product->id);
+			$product = Ecwid_Product::get_by_id($obj->id);
 			
+			if (!$product->id) {
+				continue;
+			}
+				
 			$force_image = '';
 			if ( isset( $product->imageUrl ) && strpos( $product->imageUrl, 'https://' ) == 0 ) {
 				$force_image = $product->imageUrl;
@@ -127,8 +144,8 @@ HTML;
 		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
 		$instance['store_link_title'] = strip_tags(stripslashes($new_instance['store_link_title']));
 		$num = intval($new_instance['number_of_products']);
-		if ($num > $this->max || $num < $this->min) {
-			$num = $this->default;
+		if ($num > $this->_max || $num < $this->_min) {
+			$num = $this->_default;
 		}
 		$instance['number_of_products'] = intval($new_instance['number_of_products']);
 
@@ -139,7 +156,7 @@ HTML;
 
 		$instance = wp_parse_args( (array) $instance,
 			array(
-				'title' => __('Recently Viewed Products', 'ecwid-shopping-cart'),
+				'title' => $this->_title,
 				'store_link_title' => __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart'),
 				'number_of_products' => 3
 			)
