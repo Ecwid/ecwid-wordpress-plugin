@@ -141,39 +141,75 @@ HTML;
 	
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
-		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
-		$instance['store_link_title'] = strip_tags(stripslashes($new_instance['store_link_title']));
-		$num = intval($new_instance['number_of_products']);
-		if ($num > $this->_max || $num < $this->_min) {
-			$num = $this->_default;
+		
+		foreach ($this->_get_form_fields() as $field) {
+			$name = $field['name'];
+			if ( $name == 'number_of_products' ) {
+				$num = intval($new_instance['number_of_products']);
+				if ($num > $this->_max) {
+					$num = $this->_max;
+				} else if ($num < $this->_min) {
+					$num = $this->_default;
+				}
+				$instance[$name] = intval($num);
+			} else {
+				$instance[$name] = strip_tags(stripslashes($new_instance[$name]));
+			}
 		}
-		$instance['number_of_products'] = intval($new_instance['number_of_products']);
 
 		return $instance;
 	}
 
 	function form($instance){
 
-		$instance = wp_parse_args( (array) $instance,
-			array(
-				'title' => $this->_title,
-				'store_link_title' => __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart'),
-				'number_of_products' => 3
-			)
-		);
-
-		$title = htmlspecialchars($instance['title']);
-		$store_link_title = htmlspecialchars($instance['store_link_title']);
-		$number_of_products = $instance['number_of_products'];
-		if ($number_of_products) {
-			echo '<p><label for="' . $this->get_field_name('title') . '">' . __('Title') . ': <input style="width:100%;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+		$default_args = array();
+		foreach ( $this->_get_form_fields() as $field ) {
+			$default_args[$field['name']] = $field['default'];
 		}
-
-		echo '<p><label for="' . $this->get_field_name('store_link_title') . '">' . __('Store Link Title', 'ecwid-shopping-cart') . ': <input style="width:100%;" id="' . $this->get_field_id('store_link_title') . '" name="' . $this->get_field_name('store_link_title') . '" type="text" value="' . $store_link_title . '" /></label></p>';
-		echo '<p><label for="' . $this->get_field_name('number_of_products') . '">' . __( 'Number of products to show', 'ecwid-shopping-cart' ) . ': <input style="width:100%;" id="' . $this->get_field_id('number_of_products') . '" name="' . $this->get_field_name('number_of_products') . '" type="number" min="' . $this->min . '" max="' . $this->max . '" value="' . $number_of_products . '" /></label></p>';
+		
+		$instance = wp_parse_args( (array) $instance, $default_args );
+		
+		foreach ($this->_get_form_fields() as $field) {
+			if ($field['type'] == 'int') {
+				$value = intval($instance[$field['name']]);
+			} else {
+				$value = htmlspecialchars($instance[$field['name']]);
+			}
+			
+			$template = '<p><label for="%s">%s:<input style="%s" id="%s" name="%s" type="text" value="%s" /></label></p>';
+			
+			printf(
+				$template, 
+				$this->get_field_name( $field['name'] ),
+				$field['title'],
+				'width:100%',
+				$this->get_field_id( $field['name'] ),
+				$this->get_field_name( $field['name'] ),
+				$value
+			);
+		}
 	}
 
 	function is_valid_number_of_products($num) {
 		return is_numeric($num) && $num <= $this->max && $num >= $this->min;
 	}
+	
+	protected function _get_form_fields()
+	{
+		return array(
+			array(
+				'name' => 'title',
+				'title' => __('Title'),
+				'type' => 'text',
+				'default' => $this->_title,
+			),
+			array(
+				'name' => 'number_of_products',
+				'title' => __( 'Number of products to show', 'ecwid-shopping-cart' ),
+				'type' => 'int',
+				'default' => 3
+			)
+		);
+	}
+	
 }

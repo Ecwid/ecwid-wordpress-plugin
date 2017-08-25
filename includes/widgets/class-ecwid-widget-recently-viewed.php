@@ -88,4 +88,18 @@ jQuery(document).ready(function() {
 HTML;
 		
 	}
+
+	protected function _get_form_fields()
+	{
+		$fields = parent::_get_form_fields();
+		
+		$fields[] = array(
+			'name' => 'store_link_title',
+			'title' => __('Store Link Title', 'ecwid-shopping-cart'),
+			'type' => 'text',
+			'default' => __('You have not viewed any product yet. Open store.', 'ecwid-shopping-cart')
+		);
+		
+		return $fields;
+	}
 }
