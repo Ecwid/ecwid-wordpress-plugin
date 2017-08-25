@@ -33,6 +33,7 @@ function ecwid_sidebar_widgets_init() {
 	register_widget('Ecwid_Widget_Minicart');
 	register_widget('Ecwid_Widget_Store_Link');
 	register_widget('Ecwid_Widget_Recently_Viewed');
+
 	register_widget('Ecwid_Widget_Floating_Shopping_Cart');
 	register_widget('Ecwid_Widget_Vertical_Categories_List');
 	register_widget('Ecwid_Widget_Random_Product');
