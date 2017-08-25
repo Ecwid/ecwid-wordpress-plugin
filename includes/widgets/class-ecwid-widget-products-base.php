@@ -76,13 +76,13 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 		$counter = 1;
 		$ids = array();
 		
-		$this->print_widget_content($instance);
+		$this->_print_widget_content($instance);
 		echo '</div>';
 		
 		echo $after_widget;
 	}
 	
-	protected function print_widget_content()
+	protected function _print_widget_content()
 	{
 		$products = $this->_get_products();
 		
@@ -99,7 +99,6 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 <script type="text/javascript">
 <!--
 		jQuery(document).ready(function() {
-		    debugger;
 			jQuery('.$this->_class_name:not([$data_attr=1])').$this->_widget_class().attr('$data_attr', 1);
 		});
 -->
