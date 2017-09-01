@@ -433,16 +433,19 @@ function ecwid_load_textdomain() {
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
-	if (!isset($_GET['_escaped_fragment_'])) {
-		return;
-	}
 
 	if ( !Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled() ) {
 		return;
 	}
 
-	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-
+	$params = array();
+	
+	if (isset($_GET['_escaped_fragment_'])) {
+		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+	} elseif (Ecwid_Seo_Links::is_product_browser_url()) {
+		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+	}
+	
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
 		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
@@ -451,12 +454,15 @@ function ecwid_404_on_broken_escaped_fragment() {
 		} elseif (!$is_root_cat && $params['mode'] == 'category') {
 			$result = Ecwid_Category::get_by_id( $params['id'] );
 		}
-
-		if (!$is_root_cat && empty($result)) {
-			global $wp_query;
-
-			$wp_query->set_404();
-			status_header(404);
+		
+		if (!$is_root_cat && ( empty( $result ) || is_object ( $result ) && !isset($result->id) ) ) {
+			status_header( 404 );
+			
+			if (isset($_GET['escaped_fragment'])) {
+				global $wp_query;
+				
+				$wp_query->set_404();
+			}
 		}
 	}
 }
