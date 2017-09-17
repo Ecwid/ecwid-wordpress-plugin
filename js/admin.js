@@ -126,8 +126,9 @@ jQuery(document).ready(function() {
 		if (jQuery('div.update-nag').length > 0) {
 			jQuery('#ecwid-frame').addClass('has-wp-message');
 		}
+		
 		for (var i = 0; i < admin_pages.length; i++) {
-			jQuery('li.toplevel_page_ec_store .wp-submenu a[href="' + admin_pages[i].url + '"]')
+			jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + admin_pages[i].url + '"]')
 				.data('ecwid-menu', admin_pages[i])
 				.click(function() {
 					var ecwidMenu = jQuery(this).data('ecwid-menu');

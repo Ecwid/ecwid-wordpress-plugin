@@ -120,8 +120,11 @@ class Ecwid_Admin {
 	}
 
 	static public function get_dashboard_url() {
-		return admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
+		return admin_url( self::get_relative_dashboard_url() );
 	}
-}
+	
+	static public function get_relative_dashboard_url() {
+		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG;
+	}}
 
 $ecwid_admin = new Ecwid_Admin();
