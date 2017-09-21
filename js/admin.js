@@ -214,6 +214,7 @@ function ecwidAddSubmenu(items, parent) {
 
     $parentListItem.addClass('wp-has-submenu3');
     $parentListItem.append($parentList);
+    
     if ($parentListItem.find('a').hasClass('current')) {
     	$parentListItem.addClass('wp-has-current-submenu3');
 	}
@@ -237,4 +238,8 @@ jQuery(document).ready(function() {
 
 jQuery(document).ready(function() {
     ecwidAddSubmenu([4,5,6], 'li a[href="admin.php?page=ec-store-help"]');
+});
+
+jQuery(document).ready(function() {
+    ecwidAddSubmenu([7,8,9], '.wp-submenu li a[href="admin.php?page=ec-store"]');
 });
