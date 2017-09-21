@@ -48,7 +48,8 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 
 	public function enqueue() {
 		if ( is_active_widget( false, false, $this->id_base ) ) {
-			wp_enqueue_style('ecwid-products-list-css');
+			wp_enqueue_style('ecwid-products-list-css', ECWID_PLUGIN_URL . 'css/products-list.css', array(), get_option('ecwid_plugin_version'));
+			wp_enqueue_script('ecwid-products-list-js', ECWID_PLUGIN_URL . 'js/products-list.js', array('jquery-ui-widget'), get_option('ecwid_plugin_version'));
 		}
 	}
 

@@ -7,7 +7,8 @@ class Ecwid_Widget_Latest_Products extends Ecwid_Widget_Products_List_Base {
 	public function __construct() {
 		$this->_init(
 			__('Latest Products', 'ecwid-shopping-cart'),
-			__('Displays a list of the most recent products added to the shop.', 'ecwid-shopping-cart')
+			__('Displays a list of the most recent products added to the shop.', 'ecwid-shopping-cart'),
+			'ecwidlatestproducts'
 		);
 
 		parent::__construct();
