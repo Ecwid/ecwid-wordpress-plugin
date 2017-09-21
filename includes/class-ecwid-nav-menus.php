@@ -172,7 +172,7 @@ class Ecwid_Nav_Menus {
 
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
-			if ( $ecwid_menu_type ) {
+			if ( $ecwid_menu_type && isset( $ecwid_menu_type['clean_url'] ) ) {
 				$item->url = Ecwid_Store_Page::get_menu_item_url($ecwid_menu_type);
 				$item->ecwid_page_type = $ecwid_menu_type['clean_url'];
 			}
