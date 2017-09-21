@@ -151,6 +151,7 @@ jQuery(document).ready(function() {
 	if (document.location.hash == 'mobile') {
 		ecwidOpenAdminPage('mobile');
 	}
+	
 });
 
 prepareVerticalCategoriesWidget = function(element) {
@@ -204,3 +205,36 @@ prepareVerticalCategoriesWidget = function(element) {
 
 	element.data('vcategoriesInitialized', true);
 }
+
+function ecwidAddSubmenu(items, parent) {
+    var $parent = jQuery(parent);
+    var $parentListItem = $parent.closest('li');
+    
+    var $parentList = jQuery('<ul class="wp-submenu3 wp-submenu3-wrap">');
+
+    $parentListItem.addClass('wp-has-submenu3');
+    $parentListItem.append($parentList);
+    if ($parentListItem.find('a').hasClass('current')) {
+    	$parentListItem.addClass('wp-has-current-submenu3');
+	}
+
+    for(var i = 0; i < items.length; i++) {
+        var $item = jQuery('<li><a>Text' + items[i] + '</a></li>');
+        $parentList.append($item);
+    }
+    
+    $parent.closest('li').mouseover(function(){
+    	jQuery(this).addClass('opensub');
+	}).mouseout(function() {
+        jQuery(this).removeClass('opensub');
+	});
+}
+
+jQuery(document).ready(function() {
+    ecwidAddSubmenu([1,2,3], 'li a[href="admin.php?page=ec-store-advanced"]');
+});
+
+
+jQuery(document).ready(function() {
+    ecwidAddSubmenu([4,5,6], 'li a[href="admin.php?page=ec-store-help"]');
+});
