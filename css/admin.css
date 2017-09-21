@@ -358,12 +358,6 @@ body[class*="_page_ecwid"] .ecwid-message {
 	margin-top: 25px;
 }
 
-#ecwid-frame {
-	border-top: 1px solid #e5e5e5;
-	border-bottom: 1px solid #e5e5e5;
-	max-width: 1440px;
-}
-
 /* Remove left padding for integrated admin */
 .ecwid-admin-superwrap {
 	position:relative;
