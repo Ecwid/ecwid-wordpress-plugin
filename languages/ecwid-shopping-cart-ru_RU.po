@@ -1660,8 +1660,8 @@ msgstr "Показывает случайный товар из магазина
 msgid "Latest Products"
 msgstr "Новые товары"
 
-msgid "Displays a list of the most recent products added to the shop."
-msgstr "Показывает список самых новых товаров магазина."
+msgid "Displays the latest added products from your store. Show new products to returning customers to drive repeat sales."
+msgstr "Список последних добавленных товаров из магазина."
 
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
