@@ -4,7 +4,7 @@
 	background: transparent;
 }
 
-html#ecwid_html body#ecwid_body .ecwid-recently-viewed-products li a:hover {
+html#ecwid_html body#ecwid_body .ecwid-productsList li a:hover {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
