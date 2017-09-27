@@ -184,7 +184,7 @@ JS;
 	public function build_rewrite_rules( ) {
 
 		if ( !self::is_enabled() ) return;
-
+		
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
@@ -236,12 +236,12 @@ JS;
 
 	public static function enable() {
 		update_option( self::OPTION_ENABLED, true );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
 	}
 
 	public static function disable() {
 		update_option( self::OPTION_ENABLED, false );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
 	}
 
 	public static function is_feature_available() {

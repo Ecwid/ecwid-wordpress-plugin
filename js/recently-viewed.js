@@ -8,6 +8,7 @@ jQuery.widget('ecwid.recentlyViewedProducts', jQuery.ecwid.productsList, {
 
 	_create: function() {
 		this._superApply(arguments);
+		this.options.prependNew = true;
 
 		if (typeof Ecwid == 'undefined') return;
 

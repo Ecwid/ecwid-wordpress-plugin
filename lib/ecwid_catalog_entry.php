@@ -47,19 +47,25 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function get_link( $baseUrl = false )
 	{
+		if ( !isset( $this->_data->id ) ) {
+			return false;
+		}
+		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			return $this->get_seo_link( $baseUrl );
 		} else {
-			if ( $this->_data->name && $this->_data->id ) {
-				if ( !$baseUrl ) {
-					$baseUrl = Ecwid_Store_Page::get_store_url();
-				}
-				$url = $baseUrl;
-
-				$url .= '#!/' . urlencode( $this->_data->name ) . '/' . $this->_link_prefix . '/' . $this->_data->id;
-
-				return $url;
+			if ( !$baseUrl ) {
+				$baseUrl = Ecwid_Store_Page::get_store_url();
 			}
+			$url = $baseUrl . '#!/';
+			
+			if ( isset( $this->_data->name ) ) {
+				$url .= $this->_linkify( $this->_data->name ) . '/';
+			}
+
+			$url .=  $this->_link_prefix . '/' . $this->_data->id;
+
+			return $url;
 		}
 
 		return false;
@@ -81,7 +87,7 @@ abstract class Ecwid_Catalog_Entry {
 				$url .= '/';
 			}
 			
-			$url .= urlencode( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
+			$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
 
 			return $url;
 		}
@@ -91,5 +97,15 @@ abstract class Ecwid_Catalog_Entry {
 	
 	protected function _get_cache_key_by_id( $id ) {
 		return $this->_cache_name_prefix . $id;
+	}
+
+	protected function _linkify( $str ) {
+		$match = array();
+		$result = preg_match_all('#[\p{L}0-9\-_]+#u', $str, $match);
+		
+		if ( $result && count( @$match[0] ) > 0 )
+			return implode('-', $match[0] );
+		
+		return urlencode($str);
 	}
 }

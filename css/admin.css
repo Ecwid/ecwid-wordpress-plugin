@@ -276,7 +276,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 #available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before,
-#available-widgets .widget-top.ecwid-widget-randomproduct .widget-title:before
+#available-widgets .widget-top.ecwid-widget-randomproduct .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-latestproducts .widget-title:before
+
 {
 	content: "\e600";
 }
@@ -356,12 +358,6 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 .ecwid-admin-superwrap.has-wp-message {
 	margin-top: 25px;
-}
-
-#ecwid-frame {
-	border-top: 1px solid #e5e5e5;
-	border-bottom: 1px solid #e5e5e5;
-	max-width: 1440px;
 }
 
 /* Remove left padding for integrated admin */

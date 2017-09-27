@@ -1657,6 +1657,12 @@ msgstr "Случайный товар"
 msgid "Displays a random product from your store to attract customer attention."
 msgstr "Показывает случайный товар из магазина, чтобы привлечь внимание покупателя."
 
+msgid "Latest Products"
+msgstr "Новые товары"
+
+msgid "Displays the latest added products from your store. Show new products to returning customers to drive repeat sales."
+msgstr "Список последних добавленных товаров из магазина."
+
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"

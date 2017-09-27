@@ -14,7 +14,11 @@ class Ecwid_Ajax_Defer_Renderer {
 	
 	public static function get_instance()
 	{
-		return self::$instance = new Ecwid_Ajax_Defer_Renderer();
+		if (!self::$instance) {
+			self::$instance = new Ecwid_Ajax_Defer_Renderer();
+		}
+
+		return self::$instance;
 	}
 		
 	protected function __construct()
@@ -93,7 +97,7 @@ HTML;
 
 		if (typeof Ecwid != 'undefined' && Ecwid.destroy) Ecwid.destroy();
 
-if (typeof ecwid_shortcodes != 'undefined') {
+		if (typeof ecwid_shortcodes != 'undefined') {
 			window._xnext_initialization_scripts = ecwid_shortcodes;
 
 			if (!document.getElementById('ecwid-script')) {
@@ -104,9 +108,14 @@ if (typeof ecwid_shortcodes != 'undefined') {
 				script.id = 'ecwid-script'
 		
 				document.body.appendChild(script);
-				
-				var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
-				catalog.parentElement.removeChild(catalog);
+				var el = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
+				if (el) {
+				    el.style.display = 'none';
+				}
+				Ecwid.OnPageLoad.add(function() {
+					var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
+					catalog.parentElement.removeChild(catalog);
+				});
 			} else {
 			ecwid_onBodyDone();
 		}
@@ -117,7 +126,7 @@ HTML;
 		return $before . $content . $after;
 	}
 
-	protected function _render_shortcode_script(Ecwid_Shortcode_Base $shortcode) {
+	protected function _render_shortcode_script($shortcode) {
 
 		$args = $shortcode->build_params_string();
 		$id = $shortcode->get_html_id();
@@ -139,3 +148,5 @@ HTML;
 		return $code;
 	}
 }
+
+add_action('init', array('Ecwid_Ajax_Defer_Renderer', 'get_instance'), 0);

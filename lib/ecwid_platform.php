@@ -99,7 +99,7 @@ class EcwidPlatform {
 			)
 		);
 
-		$use_file_get_contents = self::cache_get('ecwid_fetch_url_use_file_get_contents', false);
+		$use_file_get_contents = EcwidPlatform::cache_get('ecwid_fetch_url_use_file_get_contents', false);
 
 		if ($use_file_get_contents) {
 				$result = @file_get_contents($url, null, $ctx);
@@ -121,7 +121,11 @@ class EcwidPlatform {
 				if (!is_array($result)) {
 						$result = @file_get_contents($url, null, $ctx);
 						if (!empty($result)) {
+<<<<<<< HEAD
 								self::cache_set('ecwid_fetch_url_use_file_get_contents', true, WEEK_IN_SECONDS);
+=======
+							EcwidPlatform::cache_set('ecwid_fetch_url_use_file_get_contents', true, DAY_IN_SECONDS );
+>>>>>>> dev
 						}
 				}
 		}
@@ -298,7 +302,7 @@ class EcwidPlatform {
 		$cache_name = self::_build_cache_name( $key, 'products' );
 
 		$result = self::cache_get( $cache_name );
-		
+
 		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
