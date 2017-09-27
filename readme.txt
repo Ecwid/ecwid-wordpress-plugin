@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 5.4.3
+Stable tag: 5.6
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,8 +149,16 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.6 — Sep 27, 2017 =
+- **Added a new sidebar widget — "Latest Products"!** Add this widget to your sidebar to let your customers know what's new in your online store. You will find the widget under Appearance -> Widgets section in your Wordpress admin backend.
+- **Added SEO optimization for single product widgets.** Now, single product widgets will include SEO-friendly markup for product's title/price/availability data to let the search engines better index the page content. You can add single product widgets to your site pages using the "Add Product" button in the Wordpress page editor.
+- **Slightly optimized loading speed.** The Ecwid Online Store plugin now loads less CSS/JS files on your site to decrease number of resources the visitor browser should process and to increase loading speed.
+- **Fixed an issue with SEO friendly clean URLs.** On some sites in rare occasions, product URLs responded with 404 errors. If you encounter such behavior on your site, this update should fix that. All shop URLs should work fine now — they are available for visitors and are well indexed by search engines.
+- **Various minor fixes and improvements** in random product widget, SEO functionality, store dashboard and other areas.
+- Ecwid is constantly updated with new cool features and improvements. To see more updates and learn something new about selling online, see our blog: https://www.ecwid.com/blog/ecwid-updates
+
 = 5.5 =
-- **New random product widget.** A new sidebar widget allows you add a random product block to the site sidebar. Each time your customer opens or refreshes a page on your site, they will see one of your store products in the sidebar. Enable the new random product widget under Appearance→Widgets section in your Wordpress admin backend. Do not forget to add pictures to your products to bring site visitors’ attention to your store. The feature is available on a paid Ecwid plan.
+- **New random product widget.** A new sidebar widget allows you add a random product block to the site sidebar. Each time your customer opens or refreshes a page on your site, they will see one of your store products in the sidebar. Enable the new random product widget under Appearance→Widgets section in your Wordpress admin backend. Do not forget to add pictures to your products to bring site visitors’ attention to your store.
 - Minor fixes and improvements. 
 
 = 5.4.3 =
