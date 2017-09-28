@@ -1532,8 +1532,14 @@ function ecwid_store_activate() {
 	$defaults = ecwid_get_default_pb_size();
 
 	$shortcode = Ecwid_Shortcode_Base::get_store_shortcode_name();
+	
+	$minicart_widget = 'minicart ';
+	if (!Ecwid_Widget_Floating_Shopping_Cart::use_floating_by_default()) {
+		$minicart_widget = '';
+	}
+	
 	$content = <<<EOT
-[$shortcode widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[$shortcode widgets="productbrowser $minicart_widget categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
