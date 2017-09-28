@@ -679,3 +679,8 @@ body[class*="_page_ecwid"] .ecwid-message {
 	padding-left: 20px;
 }
 
+#adminmenu #toplevel_page_ec-store .wp-has-submenu3.wp-has-current-submenu3 > a {
+	background: #0084bb;
+	color: #ffffff;
+}
+

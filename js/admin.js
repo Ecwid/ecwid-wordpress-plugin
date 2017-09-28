@@ -1,13 +1,4 @@
 jQuery(document).ready(function() {
-	window.ecwidOpenAdminPage = function(place) {
-		jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
-			ecwidAppNs: "ecwid-wp-plugin",
-			method: "openPage",
-			data: place
-		}), "*")
-	}
-
-
 	jQuery('#hide-vote-message').click(function() {
 		jQuery('#hide-vote-message').addClass('hiding');
 		jQuery.getJSON(
@@ -104,44 +95,6 @@ jQuery(document).ready(function() {
 		return false;
 	});
 
-	var admin_pages = [
-		{
-			url: ecwid_params.dashboard_url,
-			title: ecwid_params.dashboard,
-			place: 'dashboard'
-		},
-		{
-			url: ecwid_params.products_url,
-			title: ecwid_params.products,
-			place: 'products'
-		},
-		{
-			url: ecwid_params.orders_url,
-			title: ecwid_params.orders,
-			place: 'orders'
-		}
-	];
-
-	if (jQuery('#ecwid-frame').length > 0) {
-		if (jQuery('div.update-nag').length > 0) {
-			jQuery('#ecwid-frame').addClass('has-wp-message');
-		}
-		
-		for (var i = 0; i < admin_pages.length; i++) {
-			jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + admin_pages[i].url + '"]')
-				.data('ecwid-menu', admin_pages[i])
-				.click(function() {
-					var ecwidMenu = jQuery(this).data('ecwid-menu');
-					jQuery('.toplevel_page_ec-store *.current').removeClass('current');
-					jQuery(this).addClass('current').closest('li').addClass('current');
-
-					ecwidOpenAdminPage(ecwidMenu.place);
-
-					return false;
-				});
-		}
-	}
-
 	jQuery('#ecwid-get-mobile-app').click(function() {
 		ecwidOpenAdminPage('mobile');
 
@@ -203,43 +156,11 @@ prepareVerticalCategoriesWidget = function(element) {
 		});
 	});
 
-	element.data('vcategoriesInitialized', true);
-}
-
-function ecwidAddSubmenu(items, parent) {
-    var $parent = jQuery(parent);
-    var $parentListItem = $parent.closest('li');
-    
-    var $parentList = jQuery('<ul class="wp-submenu3 wp-submenu3-wrap">');
-
-    $parentListItem.addClass('wp-has-submenu3');
-    $parentListItem.append($parentList);
-    
-    if ($parentListItem.find('a').hasClass('current')) {
-    	$parentListItem.addClass('wp-has-current-submenu3');
-	}
-
-    for(var i = 0; i < items.length; i++) {
-        var $item = jQuery('<li><a>Text' + items[i] + '</a></li>');
-        $parentList.append($item);
+    if (jQuery('#ecwid-frame').length > 0) {
+        if (jQuery('div.update-nag').length > 0) {
+            jQuery('#ecwid-frame').addClass('has-wp-message');
+        }
     }
     
-    $parent.closest('li').mouseover(function(){
-    	jQuery(this).addClass('opensub');
-	}).mouseout(function() {
-        jQuery(this).removeClass('opensub');
-	});
+	element.data('vcategoriesInitialized', true);
 }
-
-jQuery(document).ready(function() {
-    ecwidAddSubmenu([1,2,3], 'li a[href="admin.php?page=ec-store-advanced"]');
-});
-
-
-jQuery(document).ready(function() {
-    ecwidAddSubmenu([4,5,6], 'li a[href="admin.php?page=ec-store-help"]');
-});
-
-jQuery(document).ready(function() {
-    ecwidAddSubmenu([7,8,9], '.wp-submenu li a[href="admin.php?page=ec-store"]');
-});
