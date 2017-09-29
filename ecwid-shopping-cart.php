@@ -2525,7 +2525,7 @@ function ecwid_get_product_browser_url_script()
 	}
 
 	$str = '';
-	if (ecwid_is_store_page_available()) {
+	if (ecwid_is_store_page_available() && !Ecwid_Store_Page::is_store_page()) {
 
 		$url = Ecwid_Store_Page::get_store_url();
 
