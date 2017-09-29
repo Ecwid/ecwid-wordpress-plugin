@@ -159,7 +159,8 @@ function ecwid_init_integrations()
 		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
 		'wpseo' => 'wordpress-seo/wp-seo.php',
 		'divibuilder' => 'divi-builder/divi-builder.php',
-		'autoptimize' => 'autoptimize/autoptimize.php'
+		'autoptimize' => 'autoptimize/autoptimize.php',
+		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php'
 	);
 
 	foreach ($integrations as $key => $plugin) {
