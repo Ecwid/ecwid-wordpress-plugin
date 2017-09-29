@@ -1581,6 +1581,17 @@ EOT;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_post($id);
 	}
+	
+	if ( is_null( $_tmp_page ) && get_option( Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID ) ) {
+		$id = get_option( Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID );
+		
+		if (
+			Ecwid_Store_Page::post_content_has_productbrowser($id) 
+			&& get_post_status($id) == 'draft') {
+			$_tmp_page = get_post($id);
+		}
+	}
+	
 	if (is_null($_tmp_page)) {
 		$id = get_option('ecwid_store_page_id_auto');
 
@@ -1670,6 +1681,7 @@ function ecwid_store_deactivate() {
 			$my_post = array();
 			$my_post['ID'] = $ecwid_page_id;
 			$my_post['post_status'] = 'draft';
+			update_option(Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID, $ecwid_page_id);
 			wp_update_post( $my_post );
 		} else {
 			update_option('ecwid_store_page_id', '');	
