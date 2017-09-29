@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/class-ecwid-widget-products-base.php';
+require_once dirname(__FILE__) . '/class-ecwid-widget-products-base.php';
 
 class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 	
