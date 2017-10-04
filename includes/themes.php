@@ -53,11 +53,16 @@ function ecwid_apply_theme($theme_name = null)
 		'zerif-lite'			=> array( 'css-no-parent' ),
 		'storefront'			=> array( 'css' ),
 		'salient'				=> array( 'css-no-parent'),
-		'flora'					=> array( 'js' ),
-        'thevoux-wp'			=> array( 'js' ),
+		'flora'					=> array( 'historyjs_html4mode' ),
+        'thevoux-wp'			=> array( 'historyjs_html4mode' ),
 		'zerogravity'			=> array( 'css' ),
 		'skt-design-agency-pro' => array( 'css-no-parent' ),
-		'uncode'			    => array( 'css-no-parent' )
+		'uncode'			    => array( 'css-no-parent' ),
+		'ribosome'              => array( 'css' ),
+		'optimizepress'         => array( 'css' ),
+		'edge'                  => array( 'js', 'scroll' ),
+		'newsmag'               => array( 'css-no-parent'),
+		'optimizer'             => array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -98,7 +103,8 @@ function ecwid_apply_theme($theme_name = null)
 			require_once( $theme_file );
 		}
 	} else if ( array_key_exists( $theme_name, $generic_themes ) ) {
-		Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
+		global $ecwid_current_theme;
+		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}
 }
 

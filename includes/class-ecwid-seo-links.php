@@ -7,9 +7,8 @@ class Ecwid_Seo_Links {
 
 	public function __construct()
 	{
-		// Should always run, check for enabled inside: once the option is turned on, it should rebuild the rules right away,
 		// therefore the action must me registered
-		add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 1, 1 );
+		add_action( 'init', array( $this, 'build_rewrite_rules' ) );
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
@@ -49,7 +48,7 @@ class Ecwid_Seo_Links {
 	}
 
 	public function redirect_escaped_fragment() {
-		if ( ecwid_can_display_html_catalog() ) {
+		if ( ecwid_should_display_escaped_fragment_catalog() ) {
 			$params = ecwid_parse_escaped_fragment( $_GET[ '_escaped_fragment_' ] );
 
 			if ( !isset( $params[ 'mode' ] ) ) {
@@ -102,8 +101,8 @@ class Ecwid_Seo_Links {
 
  	protected function get_seo_links_patterns() {
 		return array(
-			'[^/]*-p[0-9]+',
-			'[^/]*-c[0-9]+',
+			'.*-p([0-9]+)(\/.*|\?.*)?',
+			'.*-c([0-9]+)(\/.*|\?.*)?',
 			'cart',
 			'checkout',
 			'checkout\/shipping',
@@ -116,7 +115,13 @@ class Ecwid_Seo_Links {
 			'account\/address-book',
 			'account\/favorites',
 			'search',
-			'search\?.*'
+			'search\?.*',
+			'signin',
+			'pages\/about',
+			'pages\/shipping-payment',
+			'pages\/returns',
+			'pages\/terms',
+			'pages\/privacy-policy'
 		);
 	}
 
@@ -173,19 +178,17 @@ JS;
 	}
 
 	protected static function _get_pb_preg_pattern() {
-		return $pattern = '!.*-(p|c)([0-9]*)!';
+		return $pattern = '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';
 	}
 
-	public function build_rewrite_rules( $original_rules ) {
+	public function build_rewrite_rules( ) {
 
-		if ( !self::is_enabled() ) return $original_rules;
-
-		$rules = array();
-
+		if ( !self::is_enabled() ) return;
+		
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
-			foreach ($patterns as $pattern) {
-				$rules['^' . $pattern . '$'] = 'index.php?page_id=' . get_option( 'page_on_front' );
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
 		}
 
@@ -193,11 +196,12 @@ JS;
 
 		if ( is_array( $pages ) ) {
 
-			foreach ($pages as $page_id) {
+			foreach ( $pages as $page_id ) {
 				$patterns = $this->get_seo_links_patterns();
-				$link = get_page_uri($page_id);
-				foreach ($patterns as $pattern) {
-					$rules['^' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+				$link = urldecode( get_page_uri( $page_id ) );
+
+				foreach ( $patterns as $pattern ) {
+					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
 				}
 			}
 
@@ -212,19 +216,18 @@ JS;
 				$links_model = $model->get_links_model();
 				if ($links_model instanceof PLL_Links_Directory) {
 					$patterns = $this->get_seo_links_patterns();
-					foreach ($pages as $page_id) {
-						$link = get_page_uri($page_id);
-						$language = pll_get_post_language($page_id);
-						foreach ($patterns as $pattern) {
-							$rules['^' . $language . '/' . $link . '/' . $pattern . '.*'] = 'index.php?page_id=' . $page_id;
+					foreach ( $pages as $page_id ) {
+						$link = urldecode( get_page_uri( $page_id ) );
+						$language = pll_get_post_language( $page_id );
+						foreach ( $patterns as $pattern ) {
+							add_rewrite_rule( '^' . $language . '/' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
 						}
 					}
 				}
 			}
 		}
-
-		return array_merge( $rules, $original_rules );
 	}
+
 
 	public static function is_enabled() {
 
@@ -233,12 +236,12 @@ JS;
 
 	public static function enable() {
 		update_option( self::OPTION_ENABLED, true );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
 	}
 
 	public static function disable() {
 		update_option( self::OPTION_ENABLED, false );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
 	}
 
 	public static function is_feature_available() {
@@ -248,7 +251,7 @@ JS;
 	}
 
 	public static function should_display_option() {
-		return ecwid_migrations_is_original_plugin_version_older_than( '5.0.8' );
+		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' );
 	}
 
 }

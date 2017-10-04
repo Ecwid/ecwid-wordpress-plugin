@@ -89,7 +89,7 @@ jQuery(document).ready(function() {
 	getDefaultParams = function() {
 		return {
 			'show_search': true,
-			'show_minicart': true,
+			'show_minicart': false,
 			'show_categories': true,
 			'categories_per_row': 3,
 			'grid_rows': ecwid_pb_defaults.grid_rows,
@@ -129,8 +129,6 @@ jQuery(document).ready(function() {
 			if (hasEcwid && button.length == 0) {
 				var button = jQuery('<input type="button" id="ecwid-edit-store-button" contenteditable="false" data-mce-bogus="true" value="' + ecwid_i18n.edit_store_appearance + '" />')
 						.appendTo(body);
-
-				button.click(ecwid_open_store_popup);
 			} else if (!hasEcwid && button.length > 0) {
 				tinymce.activeEditor.dom.remove(button);
 			}
@@ -146,7 +144,7 @@ jQuery(document).ready(function() {
 				}
 				button.css({
 					'position': 'absolute',
-					'top': '' + (store.offset().top + 168) + 'px',
+					'top': '' + (store.offset().top + 153) + 'px',
 					'left': '' + (store.offset().left + store.outerWidth() / 2 - width / 2 - 2) + 'px'
 				});
 			}
@@ -239,6 +237,23 @@ jQuery(document).ready(function() {
 			shortcode = existingShortcode;
 		}
 
+
+        if (!ecwid_params.legacy_appearance) {
+			
+			var legacy_appearance_properties = [
+				'categories_per_row',
+				'grid',
+				'list',
+				'table',
+				'category_view',
+				'search_view'
+			];
+			for (var i = 0; i < legacy_appearance_properties.length; i++) {
+				delete result[legacy_appearance_properties[i]];
+				delete shortcode.shortcode.attrs.named[legacy_appearance_properties[i]];
+			}
+        }
+		
 		for (var i in result) {
 			shortcode.shortcode.attrs.named[i] = result[i];
 		}

@@ -99,7 +99,7 @@ class EcwidPlatform {
 			)
 		);
 
-		$use_file_get_contents = get_option('ecwid_fetch_url_use_file_get_contents', false);
+		$use_file_get_contents = EcwidPlatform::cache_get('ecwid_fetch_url_use_file_get_contents', false);
 
 		if ($use_file_get_contents) {
 				$result = @file_get_contents($url, null, $ctx);
@@ -121,7 +121,7 @@ class EcwidPlatform {
 				if (!is_array($result)) {
 						$result = @file_get_contents($url, null, $ctx);
 						if (!empty($result)) {
-								update_option('ecwid_fetch_url_use_file_get_contents', true);
+							EcwidPlatform::cache_set('ecwid_fetch_url_use_file_get_contents', true, DAY_IN_SECONDS );
 						}
 				}
 		}
@@ -259,15 +259,9 @@ class EcwidPlatform {
 
 		return $transports;
 	}
-
-	static public function is_set_time_limit_available() {
-		return function_exists('set_time_limit' )
-		       && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) == false
-		       && ! ini_get( 'safe_mode' );
-	}
-
-
+	
 	static public function store_in_products_cache( $url, $data ) {
+		
 		self::_store_in_cache($url, 'products', $data);
 	}
 
@@ -287,9 +281,9 @@ class EcwidPlatform {
 		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
 	}
 
-	static public function get_from_categories_cache( $url )
+	static public function get_from_categories_cache( $key )
 	{
-		$cache_name = self::_build_cache_name( $url, 'categories' );
+		$cache_name = self::_build_cache_name( $key, 'categories' );
 
 		$result = self::cache_get( $cache_name );
 		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
@@ -299,9 +293,9 @@ class EcwidPlatform {
 		return false;
 	}
 
-	static public function get_from_products_cache( $url )
+	static public function get_from_products_cache( $key )
 	{
-		$cache_name = self::_build_cache_name( $url, 'products' );
+		$cache_name = self::_build_cache_name( $key, 'products' );
 
 		$result = self::cache_get( $cache_name );
 

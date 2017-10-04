@@ -13,10 +13,6 @@ class Ecwid_Shortcode_Search extends Ecwid_Shortcode_Base {
 	}
 
 	public function get_ecwid_widget_function_name() {
-		if (get_option('ecwid_use_new_search', false)) {
-			return 'xSearch';
-		} else {
-			return 'xSearchPanel';
-		}
+		return 'xSearch';
 	}
 }

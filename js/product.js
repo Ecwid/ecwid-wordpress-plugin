@@ -11,7 +11,9 @@ jQuery(document).ready(function() {
                         if ($canonical.length == 0) {
                             $canonical = jQuery('<link rel="canonical">').appendTo('head');
                         }
-                        $canonical.attr('href', result);
+                        if (result) {
+                            $canonical.attr('href', result);
+                        }
                     }
                 );
             }

@@ -13,11 +13,7 @@ class Ecwid_Shortcode_Categories extends Ecwid_Shortcode_Base {
 	}
 
 	public function get_ecwid_widget_function_name() {
-		if ( get_option('ecwid_use_new_horizontal_categories') ) {
-			return 'xCategoriesV2';
-		} else {
-			return 'xCategories';
-		}
+		return 'xCategoriesV2';
 	}
 
 	public function render_placeholder() {

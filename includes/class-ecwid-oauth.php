@@ -124,6 +124,7 @@ class Ecwid_OAuth {
 
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );
+		update_option( 'ecwid_public_token', $result->public_token );
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
 

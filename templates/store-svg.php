@@ -7,8 +7,8 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		 viewBox="0 0 500 220" enable-background="new 0 0 500 220" xml:space="preserve">
 
-	<text x="245" y="115" text-anchor="middle" fill="#050303" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="20"><?php _e('Your store will be shown here!', 'ecwid-shopping-cart'); ?></text>
-	<text x="245" y="137" text-anchor="middle" fill="#999999" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="14">
+	<text x="245" y="93" text-anchor="middle" fill="#050303" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="20"><?php _e('Your store will be shown here!', 'ecwid-shopping-cart'); ?></text>
+	<text x="245" y="115" text-anchor="middle" fill="#999999" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="14">
 		<?php if (get_ecwid_store_id() == ECWID_DEMO_STORE_ID): ?>
 			<?php _e('Demo Store', 'ecwid-shopping-cart'); ?>
 		<?php else: ?>
@@ -16,7 +16,7 @@
 		<?php endif; ?>
 	</text>
 
-	<g>
+	<g transform="translate(0,-30)">
 		<path fill="#77B644" d="M225.7,82.3c0-0.4,0.3-0.8,0.8-0.8h41.1c0.4,0,0.8,0.3,0.8,0.8v1.6c0,0.4-0.3,0.8-0.8,0.8h-41.1
 		c-0.4,0-0.8-0.3-0.8-0.8V82.3z"/>
 		<path fill="#77B644" d="M268.4,56.6c-1.6-3.3-2.4-6.5-3.3-11.9c0-0.3-0.7-1.3-1.6-1.3h-33c-0.9,0-1.6,1-1.6,1.3

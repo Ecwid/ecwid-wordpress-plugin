@@ -56,7 +56,8 @@ class Ecwid_Product_Popup {
         }
 
         $params['limit'] = 10;
-
+        $params['offset'] = 0;
+        
         if ( array_key_exists( 'page', $_REQUEST ) ) {
             $params['offset'] = $params['limit'] * ( $_REQUEST['page'] - 1 );
         }
@@ -113,7 +114,21 @@ HTML;
         }
 
         if ( !isset( $data['display'] ) ) {
-        	$data['display'] = array('picture' => 1, 'title' => 1, 'price' => 1, 'addtobag' => 1, 'options' => 1);
+        	$data['display'] = array(
+        		'picture' => 1,
+		        'title' => 1,
+		        'price' => 1,
+		        'addtobag' => 1,
+		        'options' => 1
+	        );
+		}
+
+		if ( !isset( $data['attributes'] ) ) {
+        	$data['attributes'] = array(
+		        'show_price_on_button' => 1,
+		        'center_align' => 1,
+		        'show_border' => 1
+	        );
 		}
 
         $data['labels'] = array(

@@ -15,6 +15,7 @@ class Ecwid_Nav_Menus {
 			add_action('admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		} else {
 			add_action('wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
+			add_filter( 'nav_menu_link_attributes', array( $this, 'nav_menu_link_attributes' ), 10, 2 );
 		}
 	}
 
@@ -139,7 +140,7 @@ class Ecwid_Nav_Menus {
 		}
 
 		wp_enqueue_script('ecwid-admin-menu-js', ECWID_PLUGIN_URL . 'js/nav-menu.js', array(), get_option('ecwid_plugin_version'));
-		wp_localize_script('ecwid-admin-menu-js', 'ecwid_params', array(
+		wp_localize_script('ecwid-admin-menu-js', 'ecwid_nav_menu_params', array(
 			'store_page' => __('Store Page', 'ecwid-shopping-cart'),
 			'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 			'cache_updated' => __('Done', 'ecwid-shopping-cart'),
@@ -161,23 +162,27 @@ class Ecwid_Nav_Menus {
 		$counter = 0;
 
 		for ( $i = 0; $i < count($items); $i++ ) {
-
+            
+			if (!isset($items[$i])) {
+				continue;
+			}
+			
 			$item = $items[$i];
 			$items[$i]->menu_order = $i + 1;
 
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
-			if ( $ecwid_menu_type ) {
+			if ( $ecwid_menu_type && isset( $ecwid_menu_type['clean_url'] ) ) {
 				$item->url = Ecwid_Store_Page::get_menu_item_url($ecwid_menu_type);
+				$item->ecwid_page_type = $ecwid_menu_type['clean_url'];
 			}
 
 			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
 				$item->url = Ecwid_Store_Page::get_store_url();
 			}
 			if ($item->object == 'ecwid-store-with-categories') {
-
 				$posts = EcwidPlatform::cache_get( 'nav_categories_posts' );
-
+                
 				if ( !$posts ) {
 					$posts = array();
 					$categories = ecwid_get_categories();
@@ -205,10 +210,14 @@ class Ecwid_Nav_Menus {
 						$post->description = '';
 						$post->xfn = '';
 						$post->object_id = 0;
+						$post->ecwid_page_type = 'category';
+						$post->ecwid_category_id = $category->id;
 
 						$posts[] = $post;
 					}
-                }
+
+					EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
+				}
 
 				foreach ( $posts as $post ) {
 					$counter++;
@@ -216,14 +225,27 @@ class Ecwid_Nav_Menus {
 					array_splice( $items, $i + $counter, 0, array( $post ) );
 				}
 				$counter++;
-
-				EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
-			}
+            }
 		}
 
 		return $items;
 	}
 
+	public function nav_menu_link_attributes( $attributes, $item )
+    {
+        if ( !isset( $item->ecwid_page_type ) ) {
+            return $attributes;
+        }
+        
+        $attributes['data-ecwid-page'] = $item->ecwid_page_type;
+        
+        if ( $item->ecwid_page_type == 'category' ) {
+            $attributes['data-ecwid-category-id'] = $item->ecwid_category_id;
+        }
+        
+        return $attributes;
+    }
+	
 	public function create_menu_items() {
 		$menu_links = $this->get_nav_menu_items();
 		?>

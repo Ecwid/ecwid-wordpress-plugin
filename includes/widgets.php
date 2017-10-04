@@ -4,10 +4,13 @@ include_once "widgets/class-ecwid-widget-badge.php";
 include_once "widgets/class-ecwid-widget-minicart.php";
 include_once "widgets/class-ecwid-widget-minicart-miniview.php";
 include_once "widgets/class-ecwid-widget-recently-viewed.php";
+include_once "widgets/class-ecwid-widget-latest-products.php";
 include_once "widgets/class-ecwid-widget-search.php";
 include_once "widgets/class-ecwid-widget-store-link.php";
 include_once "widgets/class-ecwid-widget-floating-shopping-cart.php";
 include_once "widgets/class-ecwid-widget-vertical-categories-list.php";
+include_once "widgets/class-ecwid-widget-random-product.php";
+
 
 if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 	include_once "widgets/class-ecwid-widget-vcategories.php";
@@ -31,8 +34,11 @@ function ecwid_sidebar_widgets_init() {
 	register_widget('Ecwid_Widget_Minicart');
 	register_widget('Ecwid_Widget_Store_Link');
 	register_widget('Ecwid_Widget_Recently_Viewed');
+	register_widget('Ecwid_Widget_Latest_Products');
+
 	register_widget('Ecwid_Widget_Floating_Shopping_Cart');
 	register_widget('Ecwid_Widget_Vertical_Categories_List');
+	register_widget('Ecwid_Widget_Random_Product');
 
 	if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 		register_widget('Ecwid_Widget_VCategories');

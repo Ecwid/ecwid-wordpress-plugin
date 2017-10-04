@@ -1,0 +1,5 @@
+@media only screen and (max-width: 660px) {
+    .main-content-area-container .main-content-area {
+        width: 660px !important;
+    }
+}

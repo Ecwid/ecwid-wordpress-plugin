@@ -10,8 +10,10 @@
 					<div class="media-menu">
 						<a href="#" class="media-menu-item" data-content="add-store"><?php _e('Add Store', 'ecwid-shopping-cart'); ?></a>
 						<a href="#" class="media-menu-item" data-content="store-settings"><?php _e('Store elements', 'ecwid-shopping-cart'); ?></a>
-						<a href="#" class="media-menu-item" data-content="appearance"><?php _e('Appearance', 'ecwid-shopping-cart'); ?></a>
-					</div>
+                        <?php if (ecwid_is_legacy_appearance_used()): ?>
+                        <a href="#" class="media-menu-item" data-content="appearance"><?php _e('Appearance', 'ecwid-shopping-cart'); ?></a>
+					    <?php endif; ?>
+                    </div>
 				</div>
 
 				<div class="media-frame-title add-store">
@@ -26,11 +28,13 @@
 					</h1>
 				</div>
 
+				<?php if (ecwid_is_legacy_appearance_used()): ?>
 				<div class="media-frame-title appearance">
 					<h1>
 						<?php _e('Appearance', 'ecwid-shopping-cart'); ?><span class="dashicons dashicons-arrow-down"></span>
 					</h1>
 				</div>
+                <?php endif; ?>    
 
 				<div class="media-frame-content ecwid-store-editor store-settings">
 
@@ -66,18 +70,49 @@
 									<?php _e('Show categories', 'ecwid-shopping-cart'); ?>
 								</label>
 							</div>
-						</div>
-						<div class="note">
-							<?php echo sprintf(
+
+                            <div class="note">
+								<?php echo sprintf(
 									__('Additionally, you can add store controls to your website\'s toolbar using <a %s>WordPress native widgets</a>', 'ecwid-shopping-cart'),
 									' target="_blank" href="widgets.php?from-ec-store=' . (isset($_GET['post']) ? $_GET['post'] : 'new') . '"'
 								);
-							?>
-						</div>
-					</div>
+								?>
+                            </div>
 
+                            <div class="pure-control-group params-list default-category-id">
+
+								<?php if ($categories): ?>
+                                    <label for="ecwid_default_category_id">
+										<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
+                                    </label>
+
+
+                                    <div class="value">
+
+                                        <select name="default_category_id" id="ecwid_default_category_id">
+                                            <option value="0"<?php if (!get_option('ecwid_default_category_id')): ?> selected="selected"<?php endif; ?>>
+                                                <?php _e('Store root category', 'ecwid-shopping-cart'); ?>
+                                            </option>
+											<?php foreach ($categories as $category): ?>
+                                                <option
+                                                        value="<?php echo esc_attr($category->id); ?>"
+													<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
+                                                        selected="selected"
+													<?php endif; ?>
+                                                >
+													<?php echo esc_html($category->path); ?>
+                                                </option>
+											<?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+								<?php endif; ?>
+                            </div>
+						</div>
+                    </div>
 				</div>
 
+				<?php if (ecwid_is_legacy_appearance_used()): ?>
 				<div class="media-frame-content ecwid-store-editor appearance">
 
 					<div class="pure-control-group pb-views">
@@ -146,35 +181,7 @@
 					</div>
 
 					<hr class="after-pb" />
-
-					<div class="pure-control-group params-list default-category-id">
-
-					<?php if ($categories): ?>
-					<label for="ecwid_default_category_id">
-						<?php _e('Category shown by default', 'ecwid-shopping-cart'); ?>
-					</label>
-
-
-					<div class="value">
-
-						<select name="default_category_id" id="ecwid_default_category_id">
-							<option value=""><?php _e('Store root category', 'ecwid-shopping-cart'); ?></option>
-							<?php foreach ($categories as $category): ?>
-								<option
-									value="<?php echo esc_attr($category->id); ?>"
-									<?php if ($category->id == get_option('ecwid_default_category_id')): ?>
-										selected="selected"
-									<?php endif; ?>
-									>
-									<?php echo esc_html($category->path); ?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-
-					<?php endif; ?>
-					</div>
-
+                    
 					<div class="pure-control-group params-list">
 						<label for="ecwid_pb_categoriesperrow">
 							<?php _e('Number of categories per row', 'ecwid-shopping-cart'); ?>
@@ -224,6 +231,8 @@
 					</div>
 				</div>
 
+                <?php endif; ?>
+                
 				<div class="media-frame-toolbar">
 					<div class="media-toolbar">
 						<div class="media-toolbar-secondary">

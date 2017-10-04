@@ -173,7 +173,7 @@
                                     ecwidRenderCheckboxOption({
                                         'section': 'display-options',
                                         'name': 'addtobag',
-                                        'label': '<?php _e( '«Add to bag» button', 'ecwid-shopping-cart' ); ?>'
+                                        'label': '<?php _e( '«Buy now» button', 'ecwid-shopping-cart' ); ?>'
                                     });
                                 });
                             </script>

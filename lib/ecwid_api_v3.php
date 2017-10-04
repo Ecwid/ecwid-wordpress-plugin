@@ -9,8 +9,12 @@ class Ecwid_Api_V3
 	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
+	
+	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
 
 	public $store_id = null;
+	
+	protected static $profile = null;
 
 	public function __construct() {
 
@@ -22,10 +26,11 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 	}
 
-	public function is_available()
+	public static function is_available()
 	{
-		$token = $this->_load_token();
-		if ( $token ) {
+		$token = self::_load_token();
+		
+		if ( $token && $token != get_option( self::TOKEN_OPTION_NAME ) ) {
 			return true;
 		}
 
@@ -71,6 +76,7 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::get_from_categories_cache($url);
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
+			
 		}
 
 		if ($result['code'] != '200') {
@@ -81,12 +87,22 @@ class Ecwid_Api_V3
 
 		$result = json_decode( $result['data'] );
 
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				if (Ecwid_Seo_Links::is_enabled()) {
+					$item->seo_link = $item->url;
+				}
+				
+				Ecwid_Category::from_stdclass( $item );
+			}
+		}
+		
 		return $result;
 	}
 
 	public function get_category($categoryId)
 	{
-		if (!isset($categoryId)) {
+		if (!isset($categoryId) || $categoryId == 0 ) {
 			return false;
 		}
 
@@ -141,14 +157,15 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if (!$result) {
+			
 			$result = EcwidPlatform::fetch_url( $url );
-		}
 
-		if ($result['code'] != '200') {
-			return false;
-		}
+			if ($result['code'] != '200') {
+				return false;
+			}
 
-		EcwidPlatform::store_in_products_cache( $url, $result );
+			EcwidPlatform::store_in_products_cache( $url, $result );
+		}
 
 		$result = json_decode($result['data']);
 
@@ -157,10 +174,10 @@ class Ecwid_Api_V3
 
 	public function search_products($input_params) {
 		$params = array('token');
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category', 'productId' );
 		foreach ($passthru as $name) {
 			if ( array_key_exists( $name, $input_params ) ) {
-				$params[$name] = $input_params[$name];
+				$params[$name] = (string)$input_params[$name];
 			}
 		}
 
@@ -172,23 +189,41 @@ class Ecwid_Api_V3
 			$params['cleanUrls'] = 'true';
 		}
 
+		$params['enabled'] = 'true';
+		
+		if (EcwidPlatform::get('hide_out_of_stock')) {
+			$params['inStock'] = 'true';
+		}
+		
 		$url = $this->build_request_url(
 				$this->_products_api_url,
 				$params
 		);
-
+		
 		$result = EcwidPlatform::get_from_products_cache( $url );
+		
 		if (!$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
-		}
+			if ($result['code'] != '200') {
+				return false;
+			}
 
-		if ($result['code'] != '200') {
-			return false;
+			EcwidPlatform::store_in_products_cache( $url, $result );
 		}
-
-		EcwidPlatform::store_in_products_cache( $url, $result );
 
 		$result = json_decode($result['data']);
+		
+		if ( !empty( $result->items ) ) {
+			foreach ( $result->items as $item ) {
+				if (Ecwid_Seo_Links::is_enabled()) {
+					$item->seo_link = $item->url;
+				}
+				Ecwid_Product::init_from_stdclass( $item );
+			}
+		}
+
+		$this->_maybe_remember_all_products($params, $result, $url);
+		
 		return $result;
 	}
 
@@ -334,6 +369,12 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 
+		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
+		
+		if ($profile) {
+			return $profile;
+		}
+		
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
@@ -343,7 +384,15 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
-		return json_decode($result['data']);
+		$profile = json_decode($result['data']);
+	
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+
+		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
+			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
+		}
+		
+		return self::$profile;
 	}
 
 	public function create_store()
@@ -446,5 +495,31 @@ class Ecwid_Api_V3
 		}
 
 		return $url . '?' . build_query($params);
+	}
+
+	protected function _maybe_remember_all_products($params, $result, $url)
+	{
+		$limiting_params = array(
+			'updatedFrom', 'keyword', 'category', 'productId'
+		);
+
+		$all = true;
+		foreach ($limiting_params as $param) {
+			if (array_key_exists($param, $params)) {
+				$all = false;
+				break;
+			}
+		}
+
+		if ($all) {
+
+			EcwidPlatform::store_in_products_cache('ecwid_total_products', $result->total);
+
+			if ($result->total < 100 && $result->count == $result->total) {
+				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', $url);
+			} else {
+				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', '');
+			}
+		}
 	}
 }

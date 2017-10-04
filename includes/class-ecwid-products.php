@@ -379,7 +379,7 @@ class Ecwid_Products {
 		$over = FALSE;
 
 		$offset = 0;
-		$limit  = 100;
+		$limit  = 20;
 		if ($settings && @$settings['offset']) {
 			$offset = $settings['offset'];
 		}

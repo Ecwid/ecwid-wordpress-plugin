@@ -133,16 +133,6 @@ display: none;
 	color: #444444;
 }
 
-.ecwid-settings.appearance-settings h3 {
-	font-size: 12px;
-}
-
-.ecwid-settings.appearance-settings input[type=text] {
-	font-size: 13px;
-	padding: 5px 3px 4px 3px;
-	outline-offset: 0px;
-}
-
 .ecwid-settings input[type=text].number {
 	width: 27px;
 	text-align: center;
@@ -155,21 +145,6 @@ display: none;
 .ecwid-settings .note.pb-note {
 	margin-right: 30px;
 	margin-left: 30px;
-}
-
-.ecwid-settings.appearance-settings {
-	max-width: 650px;
-}
-
-.ecwid-settings.appearance-settings .products-per-page-label {
-	padding-top: 5px;
-	padding-bottom: 15px;
-	display: block;
-}
-
-.ecwid-settings.appearance-settings input[type=checkbox] {
-	margin-right: 3px;
-	margin-left: 7px;
 }
 
 .ecwid-pb-view-size {

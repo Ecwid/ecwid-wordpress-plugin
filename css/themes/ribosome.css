@@ -1,0 +1,9 @@
+html#ecwid_html body#ecwid_body th,
+html#ecwid_html body#ecwid_body td {
+	 padding-left: 0 !important;
+}
+
+html#ecwid_html body#ecwid_body .ecwid-description-table th,
+html#ecwid_html body#ecwid_body .ecwid-description-table td {
+ 	padding-left: 10px !important;
+}
