@@ -1,7 +1,10 @@
 
-function ecwidRefreshEcwidMenuItemSelection()
+function ecwidRefreshEcwidMenuItemSelection(slug)
 {
-    var slug = ecwidGetCurrentMenuSlug();
+    if (!slug) {
+        slug = ecwidGetCurrentMenuSlug();
+    }
+    
     if (!slug) return;
     
     var parent = jQuery('li#toplevel_page_' + ecwid_admin_menu.baseSlug);
@@ -29,7 +32,7 @@ function ecwidGetCurrentMenuSlug()
             param = param.substr(1);
         }
 
-        ecwidPagePrefix = 'page=' + ecwid_admin_menu.baseSlug + '-admin-';
+        ecwidPagePrefix = 'page=';
 
         if (!param.startsWith(ecwidPagePrefix)) continue;
 
@@ -64,8 +67,8 @@ jQuery(document).ready(function() {
         var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + menu.url + '"]');
         ecwidApplyIframeAdminMenu($link, menu);
 
-        if (menu.items) {
-            ecwidAddSubmenu(menu.items, $link);
+        if (menu.children) {
+            ecwidAddSubmenu(menu.children, $link);
         }
     }
 
@@ -78,11 +81,19 @@ jQuery(document).ready(function() {
             .click(function () {
                 var ecwidMenu = jQuery(this).data('ecwid-menu');
                 
-                ecwidOpenAdminPage(ecwidMenu.place);
+                var link = jQuery(this).closest('li');
+                var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
+                var isOpen = link.hasClass('wp-has-current-submenu3');
+                
+               
+                ecwidOpenAdminPage(ecwidMenu.hash);
                 history.pushState({}, null, ecwidMenu.url);
 
                 ecwidRefreshEcwidMenuItemSelection();
                 
+                jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
+                jQuery(this).parents('.opensub').removeClass('opensub');
+               
                 return false;
             });
     }
@@ -103,13 +114,21 @@ jQuery(document).ready(function() {
         for (var i in items) {
             
             var item = items[i];
-            var $link = jQuery('<a>').text(item.name).attr('href', item.url);
+            var $link = jQuery('<a>').text(item.title).attr('href', item.url);
 
             jQuery('<li>').append($link).appendTo($parentList);
             ecwidApplyIframeAdminMenu($link, item);
         }
 
-        $parent.closest('li').mouseover(function () {
+        $parent.closest('li').on('touchstart', function(e) {
+            var link = jQuery(this);
+            
+            if (!link.hasClass('opensub') && link.hasClass('wp-has-submenu3')) {
+                link.addClass('opensub');
+                e.preventDefault();
+                return false;
+            }
+        }).mouseover(function () {
             jQuery(this).addClass('opensub');
         }).mouseout(function () {
             jQuery(this).removeClass('opensub');

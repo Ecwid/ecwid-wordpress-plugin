@@ -1623,11 +1623,13 @@ EOT;
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
-	$pages = array('toplevel_page_ec-store', 'toplevel_page_ec_store', 'admin_page_ecwid-help');
+	$pages = array('toplevel_page_' . Ecwid_Admin::ADMIN_SLUG, 'toplevel_page_ec_store', 'admin_page_ecwid-help');
 
-	if (!in_array(get_current_screen()->base, $pages)) return;
-
-
+	$is_admin_subpage = strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false
+		|| strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false;
+		
+	if (!$is_admin_subpage && !in_array(get_current_screen()->base, $pages)) return;
+	
 	global $wp_filter;
 
 	if (!$wp_filter || !isset($wp_filter['admin_notices']) || !class_exists('WP_Hook') || ! ( $wp_filter['admin_notices'] instanceof WP_Hook) ) {

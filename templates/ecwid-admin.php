@@ -1,4 +1,6 @@
 <script type='text/javascript'>//<![CDATA[
+    jQuery(document.body).addClass('ecwid-admin-iframe');
+
 	jQuery(document).ready(function() {
 		document.body.className += ' ecwid-no-padding';
 		$ = jQuery;

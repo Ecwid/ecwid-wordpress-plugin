@@ -605,9 +605,13 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 @media only screen AND (max-width: 960px) {
-	#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+	#adminmenu #toplevel_page_ec-store .wp-submenu3,
+	#adminmenu #toplevel_page_ec-store .wp-submenu {
 		min-width: 190px;
-		left: 190px;
+	}
+
+	#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+		left:  190px
 	}
 }
 
@@ -615,6 +619,11 @@ body[class*="_page_ecwid"] .ecwid-message {
 	min-width: 160px;
 	width: auto;
 }
+
+@media only screen and (max-width: 960px) {
+	#adminmenu #toplevel_page_ec-store .wp-not-current-submenu {
+        min-width: initial;
+	}  }
 
 #adminmenu #toplevel_page_ec-store .opensub:not(.wp-has-current-submenu3) .wp-submenu3 {
 	top: -1px;
@@ -684,3 +693,6 @@ body[class*="_page_ecwid"] .ecwid-message {
 	color: #ffffff;
 }
 
+.ecwid-admin-iframe .update-nag {
+	display: none;
+}
