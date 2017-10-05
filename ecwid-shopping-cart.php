@@ -181,21 +181,6 @@ function ecwid_estimate_sync() {
 
 $version = get_bloginfo('version');
 
-function ecwid_add_breadcrumbs_navxt($trail)
-{
-	$breadcrumb = new bcn_breadcrumb('Ecwid', '', '', 'http://ecwid.com');
-	$trail->add($breadcrumb);
-}
-
-function ecwid_add_breadcrumb_links_wpseo($links)
-{
-	return array_merge((array)$links, array(
-		array(
-		'text' => 'ecwid.com',
-		'url' => 'http://ecwid.com'
-		)
-	));
-}
 if (version_compare($version, '3.6') < 0) {
     /**
      * A copy of has_shortcode functionality from wordpress 3.6
