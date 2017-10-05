@@ -36,7 +36,7 @@
         <?php if ($no_oauth): ?>        
 		<h4 class="no-oauth where-to-find-store-id" style="text-align: center"><?php _e('Where to find your Store ID:', 'ecwid-shopping-cart'); ?></h4>
 		<div class="note no-oauth">
-			<?php printf( __( 'Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel: open the <a %2$s>Dashboard page</a> and find the "<b>Store ID: NNNNNNN</b>" text, where <b>NNNNNNN</b> is your Store&nbsp;ID.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="https://my.ecwid.com/cp/CP.html?source=wporg#dashboard" target="_blank"' ); ?>
+			<?php printf( __( 'Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel: open the <a %2$s>Dashboard page</a> and find the "<b>Store ID: NNNNNNN</b>" text, where <b>NNNNNNN</b> is your Store&nbsp;ID.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="https://' . Ecwid_Config::get_cpanel_domain() . '/cp/CP.html?source=wporg#dashboard" target="_blank"' ); ?>
 		</div>
         <?php endif; ?>
         

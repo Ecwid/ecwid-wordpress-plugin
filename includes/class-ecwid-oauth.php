@@ -237,7 +237,7 @@ class Ecwid_OAuth {
  	}
 
 	public function get_sso_admin_link() {
-		$url = 'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
+		$url = 'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
 
 		$store_id = get_ecwid_store_id();
 

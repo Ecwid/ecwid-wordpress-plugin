@@ -13,7 +13,6 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
 
@@ -540,7 +539,7 @@ function ecwid_minifier_compatibility()
 		global $wp_minify;
 
 		if (is_object($wp_minify) && array_key_exists('default_exclude', get_object_vars($wp_minify)) && is_array($wp_minify->default_exclude)) {
-			$wp_minify->default_exclude[] = 'ecwid.com/script.js';
+			$wp_minify->default_exclude[] = Ecwid_Config::get_scriptjs_domain() . '/script.js';
 		}
 	}
 }
@@ -956,7 +955,7 @@ function ecwid_meta() {
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//app.ecwid.com/">' . PHP_EOL;
+    echo '<link rel="dns-prefetch" href="//' . Ecwid_Config::get_scriptjs_domain() . '/">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
 	
@@ -967,7 +966,7 @@ function ecwid_meta() {
 	} else {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
-		echo '<link rel="preload" href="https://app.ecwid.com/script.js?'
+		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
 			. $store_id . $params . '" as="script">' . PHP_EOL;
     }
 }
@@ -2017,7 +2016,7 @@ function ecwid_get_iframe_src($time, $page) {
 	}
 
 	return sprintf(
-		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
+		'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 		get_ecwid_store_id(),
 		Ecwid_Api_V3::get_token(),
 		$time,
@@ -2778,7 +2777,7 @@ function ecwid_embed_svg($name) {
 
 function ecwid_get_categories_js_url($callback = null) {
 
-	$url = 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id();
+	$url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/categories.js?ownerid=' . get_ecwid_store_id();
 
 	if ($callback) {
 		$url .= '&callback=' . $callback;

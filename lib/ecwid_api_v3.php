@@ -6,7 +6,6 @@ class Ecwid_Api_V3
 {
 	const CLIENT_ID = 'RD4o2KQimiGUrFZc';
 	const CLIENT_SECRET = 'jEPVdcA3KbzKVrG8FZDgNnsY3wKHDTF8';
-	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 	
@@ -19,7 +18,7 @@ class Ecwid_Api_V3
 	public function __construct() {
 
 		$this->store_id = EcwidPlatform::get_store_id();
-		$this->_api_url = 'https://app.ecwid.com/api/v3/';
+		$this->_api_url = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
 
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';

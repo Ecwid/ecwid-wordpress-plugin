@@ -13,6 +13,9 @@ class Ecwid_Config {
 	const OAUTH_AUTH_URL = 'whitelabel_oauth_auth_url';
 	const TOKEN = 'config_token';
 	const STORE_ID = 'config_store_id';
+	const API_DOMAIN = 'config_api_domain';
+	const FRONTEND_DOMAIN = 'config_frontend_domain';
+	const ADMIN_DOMAIN = 'config_cpanel_domain';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL, false );
@@ -44,11 +47,11 @@ class Ecwid_Config {
 	}
 
 	public static function get_oauth_token_url() {
-		return EcwidPlatform::get( self::OAUTH_TOKEN_URL, Ecwid_Api_V3::OAUTH_URL );
+		return EcwidPlatform::get( self::OAUTH_TOKEN_URL, 'https://' . self::get_cpanel_domain() . '/api/oauth/token' );
 	}
 
 	public static function get_oauth_auth_url() {
-		return EcwidPlatform::get( self::OAUTH_AUTH_URL, 'https://my.ecwid.com/api/oauth/authorize' );
+		return EcwidPlatform::get( self::OAUTH_AUTH_URL, 'https://' . self::get_cpanel_domain() . '/api/oauth/authorize' );
 	}
 
 	public static function get_oauth_appid() {
@@ -66,6 +69,20 @@ class Ecwid_Config {
 	public static function get_token() {
 		return EcwidPlatform::get( self::TOKEN, null );
 	}
+	
+	public static function get_api_domain() {
+		return EcwidPlatform::get( self::API_URL, 'app.ecwid.com' );
+	}
+
+	public static function get_scriptjs_domain() {
+		return EcwidPlatform::get( self::FRONTEND_URL, 'app.ecwid.com' );
+	}
+
+	public static function get_cpanel_domain() {
+		return EcwidPlatform::get( self::CPANEL_URL, 'my.ecwid.com' );
+	}
+
+
 
 	public static function load_from_ini() {
 
@@ -95,22 +112,36 @@ class Ecwid_Config {
 		$common_config = array(
 			self::TOKEN => 'token',
 			self::STORE_ID => 'store_id',
+			self::API_DOMAIN => 'api_domain',
+			self::FRONTEND_DOMAIN => 'scriptjs_domain',
+			self::ADMIN_DOMAIN => 'cp_domain'
 		);
 		
 		$empty_is_allowed = array(
 			self::REGISTRATION_URL
 		);
 
-		$is_enabled = @$result['wl_mode'];
+		$is_wl_enabled = @$result['wl_mode'];
 
 		foreach ( $wl_config as $name => $ini_name ) {
 
 			$value = @$result[$ini_name];
-			if ( $is_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
+			if ( $is_wl_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
 				EcwidPlatform::set($name, @$result[$ini_name]);
 			} else {
 				EcwidPlatform::reset($name);
 			}
+		}
+		
+		if ( $is_wl_enabled ) {
+			if (
+				isset( $result[self::TOKEN] ) && !isset($result[self::STORE_ID])
+				||
+				!isset( $result[self::TOKEN] ) && isset($result[self::STORE_ID])
+			) {
+				unset($result[self::TOKEN]);
+				unset($result[self::STORE_ID]);
+			}	
 		}
 		
 		foreach ( $common_config as $name => $ini_name ) {
