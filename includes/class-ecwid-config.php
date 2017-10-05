@@ -82,8 +82,6 @@ class Ecwid_Config {
 		return EcwidPlatform::get( self::CPANEL_URL, 'my.ecwid.com' );
 	}
 
-
-
 	public static function load_from_ini() {
 
 		if (!file_exists(ECWID_PLUGIN_DIR . 'config.ini')) {
