@@ -72,7 +72,7 @@ class Ecwid_Api_V3
 				$this->_categories_api_url,
 				$params
 		);
-
+		
 		$result = EcwidPlatform::get_from_categories_cache($url);
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
@@ -304,6 +304,10 @@ class Ecwid_Api_V3
 
 	public static function get_token()
 	{
+		$config_value = Ecwid_Config::get_token();
+
+		if ($config_value) return $config_value;
+		
 		return self::_load_token();
 	}
 

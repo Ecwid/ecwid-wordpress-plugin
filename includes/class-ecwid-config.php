@@ -11,6 +11,8 @@ class Ecwid_Config {
 	const OAUTH_APPSECRET = 'whitelabel_oauth_appsecret';
 	const OAUTH_TOKEN_URL = 'whitelabel_oauth_token_url';
 	const OAUTH_AUTH_URL = 'whitelabel_oauth_auth_url';
+	const TOKEN = 'config_token';
+	const STORE_ID = 'config_store_id';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL, false );
@@ -56,6 +58,14 @@ class Ecwid_Config {
 	public static function get_oauth_appsecret() {
 		return EcwidPlatform::get( self::OAUTH_APPSECRET, Ecwid_Api_V3::CLIENT_SECRET );
 	}
+	
+	public static function get_store_id() {
+		return EcwidPlatform::get( self::STORE_ID, null ); 
+	}
+	
+	public static function get_token() {
+		return EcwidPlatform::get( self::TOKEN, null );
+	}
 
 	public static function load_from_ini() {
 
@@ -69,7 +79,7 @@ class Ecwid_Config {
 			return;
 		}
 
-		$config = array(
+		$wl_config = array(
 			self::IS_WL => 'wl_mode',
 			self::BRAND => 'brand',
 			self::CONTACT_US_URL => 'contact_us_url',
@@ -79,7 +89,12 @@ class Ecwid_Config {
 			self::OAUTH_APPID => 'oauth_appid',
 			self::OAUTH_APPSECRET => 'oauth_appsecret',
 			self::OAUTH_TOKEN_URL => 'oauth_token_url',
-			self::OAUTH_AUTH_URL => 'oauth_authorize_url'
+			self::OAUTH_AUTH_URL => 'oauth_authorize_url',
+		);
+		
+		$common_config = array(
+			self::TOKEN => 'token',
+			self::STORE_ID => 'store_id',
 		);
 		
 		$empty_is_allowed = array(
@@ -88,7 +103,7 @@ class Ecwid_Config {
 
 		$is_enabled = @$result['wl_mode'];
 
-		foreach ( $config as $name => $ini_name ) {
+		foreach ( $wl_config as $name => $ini_name ) {
 
 			$value = @$result[$ini_name];
 			if ( $is_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
@@ -97,6 +112,19 @@ class Ecwid_Config {
 				EcwidPlatform::reset($name);
 			}
 		}
+		
+		foreach ( $common_config as $name => $ini_name ) {
+
+			$value = @$result[$ini_name];
+
+			if ( $value ) {
+				EcwidPlatform::set( $name, $value );
+			} else {
+				EcwidPlatform::reset( $name );
+			}
+		}
+
+		ecwid_invalidate_cache( true );
 	}
 	public static function enqueue_styles() {
 		if ( !self::is_wl() ) {
@@ -106,4 +134,5 @@ class Ecwid_Config {
 		wp_enqueue_style( 'ecwid-wl', ECWID_PLUGIN_URL . 'css/wl.css', array( 'ecwid-admin-css' ), get_option( 'ecwid_plugin_version' ) );
 	}
 }
+
 add_action( 'admin_enqueue_scripts', array( 'Ecwid_Config', 'enqueue_styles' ) );

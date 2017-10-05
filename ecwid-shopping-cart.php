@@ -48,7 +48,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
-
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 
 if ( is_admin() ) {
@@ -1635,6 +1634,8 @@ EOT;
 	$p->enable_all_products();
 
 	Ecwid_Message_Manager::enable_message('on_activate');
+	
+	Ecwid_Config::load_from_ini();
 }
 
 add_action('in_admin_header', 'ecwid_disable_other_notices');
@@ -2322,6 +2323,13 @@ function ecwid_get_debug_file() {
 }
 
 function get_ecwid_store_id() {
+
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
+
+	$config_value = Ecwid_Config::get_store_id();
+	
+	if ($config_value) return $config_value;
+	
 	$store_id = get_option('ecwid_store_id');
 	if (empty($store_id)) {
 		$store_id = ECWID_DEMO_STORE_ID;
