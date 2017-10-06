@@ -70,10 +70,14 @@ class Ecwid_Config {
 		return EcwidPlatform::get( self::TOKEN, null );
 	}
 	
+	public static function overrides_token() {
+		return (bool)self::get_token();
+	}
+	
 	public static function get_api_domain() {
 		return EcwidPlatform::get( self::API_DOMAIN, 'app.ecwid.com' );
 	}
-
+	
 	public static function get_scriptjs_domain() {
 		return EcwidPlatform::get( self::FRONTEND_DOMAIN, 'app.ecwid.com' );
 	}

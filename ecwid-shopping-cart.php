@@ -1948,7 +1948,7 @@ function ecwid_general_settings_do_page() {
 
 	$connection_error = isset( $_GET['connection_error'] );
 
-	if ( $store_id == ECWID_DEMO_STORE_ID ) {
+	if ( $store_id == ECWID_DEMO_STORE_ID && !Ecwid_Config::overrides_token()  ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
 
 		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
