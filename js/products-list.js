@@ -123,7 +123,6 @@ jQuery.widget('ecwid.productsList', {
 				}
 			}
 
-			console.log(product.link);
 			jQuery('a', container)
 					.attr('href', product.link)
 					.attr('title', product.name);
