@@ -121,7 +121,18 @@ class Ecwid_Seo_Links {
 			'pages\/shipping-payment',
 			'pages\/returns',
 			'pages\/terms',
-			'pages\/privacy-policy'
+			'pages\/privacy-policy',
+			'signIn.*',
+			'resetPassword.*',
+			'checkoutAB.*',
+			'downloadError.*',
+			'checkoutResult.*',
+			'checkoutWait.*',
+			'orderFailure.*',
+			'checkoutCC.*',
+			'checkoutEC.*',
+			'checkoutAC.*',
+			'FBAutofillCheckout.*'
 		);
 	}
 
