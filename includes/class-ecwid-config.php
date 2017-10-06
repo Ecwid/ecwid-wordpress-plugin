@@ -15,7 +15,7 @@ class Ecwid_Config {
 	const STORE_ID = 'config_store_id';
 	const API_DOMAIN = 'config_api_domain';
 	const FRONTEND_DOMAIN = 'config_frontend_domain';
-	const ADMIN_DOMAIN = 'config_cpanel_domain';
+	const CPANEL_DOMAIN = 'config_cpanel_domain';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL, false );
@@ -71,15 +71,15 @@ class Ecwid_Config {
 	}
 	
 	public static function get_api_domain() {
-		return EcwidPlatform::get( self::API_URL, 'app.ecwid.com' );
+		return EcwidPlatform::get( self::API_DOMAIN, 'app.ecwid.com' );
 	}
 
 	public static function get_scriptjs_domain() {
-		return EcwidPlatform::get( self::FRONTEND_URL, 'app.ecwid.com' );
+		return EcwidPlatform::get( self::FRONTEND_DOMAIN, 'app.ecwid.com' );
 	}
 
 	public static function get_cpanel_domain() {
-		return EcwidPlatform::get( self::CPANEL_URL, 'my.ecwid.com' );
+		return EcwidPlatform::get( self::CPANEL_DOMAIN, 'my.ecwid.com' );
 	}
 
 	public static function load_from_ini() {
@@ -112,7 +112,7 @@ class Ecwid_Config {
 			self::STORE_ID => 'store_id',
 			self::API_DOMAIN => 'api_domain',
 			self::FRONTEND_DOMAIN => 'scriptjs_domain',
-			self::ADMIN_DOMAIN => 'cp_domain'
+			self::CPANEL_DOMAIN => 'cp_domain'
 		);
 		
 		$empty_is_allowed = array(
