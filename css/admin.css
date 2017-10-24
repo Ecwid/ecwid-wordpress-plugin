@@ -27,6 +27,9 @@
 	margin-bottom: 30px;
 }
 
+#ecwid-frame {
+	max-width: 1440px;
+}
 #hide-vote-message {
 	text-decoration: underline;
 	cursor: pointer;
