@@ -172,14 +172,15 @@ class Ecwid_Nav_Menus {
 
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
-			if ( $ecwid_menu_type && isset( $ecwid_menu_type['clean_url'] ) ) {
+			if ( $ecwid_menu_type && isset( $ecwid_menu_type['clean-url'] ) ) {
 				$item->url = Ecwid_Store_Page::get_menu_item_url($ecwid_menu_type);
-				$item->ecwid_page_type = $ecwid_menu_type['clean_url'];
+				$item->ecwid_page_type = $ecwid_menu_type['clean-url'];
 			}
 
 			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
 				$item->url = Ecwid_Store_Page::get_store_url();
 			}
+            
 			if ($item->object == 'ecwid-store-with-categories') {
 				$posts = EcwidPlatform::cache_get( 'nav_categories_posts' );
                 
@@ -227,7 +228,7 @@ class Ecwid_Nav_Menus {
 				$counter++;
             }
 		}
-
+		
 		return $items;
 	}
 
