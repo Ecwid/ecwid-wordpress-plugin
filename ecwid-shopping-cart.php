@@ -2593,6 +2593,13 @@ function ecwid_is_sso_enabled() {
 	return $is_sso_enabled;
 }
 
+add_action( 'send_headers', 'ecwid_add_headers' );
+function ecwid_add_headers() {
+	if ( wp_get_current_user()->ID && ecwid_is_sso_enabled() ) {
+		header("Cache-Control: private, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+	}
+}
+
 function ecwid_sso() {
 
 	if (!ecwid_is_sso_enabled()) return;
