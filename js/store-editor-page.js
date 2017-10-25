@@ -89,7 +89,7 @@ jQuery(document).ready(function() {
 	getDefaultParams = function() {
 		return {
 			'show_search': true,
-			'show_minicart': false,
+			'show_minicart': true,
 			'show_categories': true,
 			'categories_per_row': 3,
 			'grid_rows': ecwid_pb_defaults.grid_rows,

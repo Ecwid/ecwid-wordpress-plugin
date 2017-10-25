@@ -2,8 +2,6 @@
 class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 	static $was_enqueued = false;
 	
-	const VERSION_USE_FLOATING_MINICART = '5.5';
-	
 	static protected $positions = array(
 		'topright',
 		'bottomright'
@@ -141,18 +139,5 @@ HTML;
 			. '</label></p>';
 
 	}
-	
-	public static function use_floating_by_default()
-	{
-		return !ecwid_migrations_is_original_plugin_version_older_than( self::VERSION_USE_FLOATING_MINICART );
-	}
-	
-	
-	public static function on_fresh_install() {
-		if ( self::use_floating_by_default() ) {
-			update_option( self::OPTION_DISPLAY_POSITION, 'topright' );
-		}
-	}
-}
 
-add_action( 'ecwid_on_fresh_install', array( 'Ecwid_Widget_Floating_Shopping_Cart', 'on_fresh_install' ) );
+}
