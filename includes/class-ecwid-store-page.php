@@ -4,6 +4,7 @@ class Ecwid_Store_Page {
 
 	const OPTION_STORE_PAGES = 'ecwid_store_pages';
 	const OPTION_MAIN_STORE_PAGE_ID = 'ecwid_store_page_id';
+	const OPTION_LAST_STORE_PAGE_ID = 'ecwid_last_store_page_id';
 	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
 	const WARMUP_ACTION = 'ecwid_warmup_store';
 
@@ -293,13 +294,14 @@ class Ecwid_Store_Page {
 		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
+			update_option( self::OPTION_LAST_STORE_PAGE_ID, $post_id );
 			update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
 		}
 	}
 
 	protected static function _get_allowed_post_statuses()
 	{
-		return array('publish', 'private', 'draft');
+		return array('publish', 'private');
 	}
 
 	public static function warmup_store() 

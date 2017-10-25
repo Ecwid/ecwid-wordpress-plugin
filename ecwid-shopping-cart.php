@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 5.6
+Version: 5.6.2
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -13,7 +13,6 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-define("APP_ECWID_COM", 'app.ecwid.com');
 define("ECWID_DEMO_STORE_ID", 1003);
 define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
 
@@ -48,7 +47,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
-
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 
 if ( is_admin() ) {
@@ -159,7 +157,8 @@ function ecwid_init_integrations()
 		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
 		'wpseo' => 'wordpress-seo/wp-seo.php',
 		'divibuilder' => 'divi-builder/divi-builder.php',
-		'autoptimize' => 'autoptimize/autoptimize.php'
+		'autoptimize' => 'autoptimize/autoptimize.php',
+		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php'
 	);
 
 	foreach ($integrations as $key => $plugin) {
@@ -181,21 +180,6 @@ function ecwid_estimate_sync() {
 
 $version = get_bloginfo('version');
 
-function ecwid_add_breadcrumbs_navxt($trail)
-{
-	$breadcrumb = new bcn_breadcrumb('Ecwid', '', '', 'http://ecwid.com');
-	$trail->add($breadcrumb);
-}
-
-function ecwid_add_breadcrumb_links_wpseo($links)
-{
-	return array_merge((array)$links, array(
-		array(
-		'text' => 'ecwid.com',
-		'url' => 'http://ecwid.com'
-		)
-	));
-}
 if (version_compare($version, '3.6') < 0) {
     /**
      * A copy of has_shortcode functionality from wordpress 3.6
@@ -555,7 +539,7 @@ function ecwid_minifier_compatibility()
 		global $wp_minify;
 
 		if (is_object($wp_minify) && array_key_exists('default_exclude', get_object_vars($wp_minify)) && is_array($wp_minify->default_exclude)) {
-			$wp_minify->default_exclude[] = 'ecwid.com/script.js';
+			$wp_minify->default_exclude[] = Ecwid_Config::get_scriptjs_domain() . '/script.js';
 		}
 	}
 }
@@ -973,7 +957,7 @@ function ecwid_meta() {
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
     echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//app.ecwid.com/">' . PHP_EOL;
+    echo '<link rel="dns-prefetch" href="//' . Ecwid_Config::get_scriptjs_domain() . '/">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
 	
@@ -984,7 +968,7 @@ function ecwid_meta() {
 	} else {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
-		echo '<link rel="preload" href="https://app.ecwid.com/script.js?'
+		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
 			. $store_id . $params . '" as="script">' . PHP_EOL;
     }
 }
@@ -1330,7 +1314,7 @@ function ecwid_get_scriptjs_code($force_lang = null) {
 		$store_id = get_ecwid_store_id();
 		$params = ecwid_get_scriptjs_params( $force_lang );
 
-		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . APP_ECWID_COM . '/script.js?' . $store_id . $params . '"></script>';
+		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
 		$s = $s . ecwid_sso();
 		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 		$ecwid_script_rendered = true;
@@ -1576,6 +1560,17 @@ EOT;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_post($id);
 	}
+	
+	if ( is_null( $_tmp_page ) && get_option( Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID ) ) {
+		$id = get_option( Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID );
+		
+		if (
+			Ecwid_Store_Page::post_content_has_productbrowser($id) 
+			&& get_post_status($id) == 'draft') {
+			$_tmp_page = get_post($id);
+		}
+	}
+	
 	if (is_null($_tmp_page)) {
 		$id = get_option('ecwid_store_page_id_auto');
 
@@ -1619,6 +1614,8 @@ EOT;
 	$p->enable_all_products();
 
 	Ecwid_Message_Manager::enable_message('on_activate');
+	
+	Ecwid_Config::load_from_ini();
 }
 
 add_action('in_admin_header', 'ecwid_disable_other_notices');
@@ -1665,6 +1662,7 @@ function ecwid_store_deactivate() {
 			$my_post = array();
 			$my_post['ID'] = $ecwid_page_id;
 			$my_post['post_status'] = 'draft';
+			update_option(Ecwid_Store_Page::OPTION_LAST_STORE_PAGE_ID, $ecwid_page_id);
 			wp_update_post( $my_post );
 		} else {
 			update_option('ecwid_store_page_id', '');	
@@ -1946,14 +1944,18 @@ function ecwid_general_settings_do_page() {
 
 	$connection_error = isset( $_GET['connection_error'] );
 
-	if ( $store_id == ECWID_DEMO_STORE_ID ) {
+	if ( $store_id == ECWID_DEMO_STORE_ID && !Ecwid_Config::overrides_token()  ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
 
 		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
 		$customer_returned_from_creating_store_at_ecwid =
 			EcwidPlatform::cache_get( 'user_was_redirected_to_ecwid_site_to_create_account' );
 
-		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid ) {
+		$no_reg_wl = Ecwid_Config::is_no_reg_wl();
+		
+		global $ecwid_oauth;
+		
+		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid || $no_reg_wl) {
 			EcwidPlatform::cache_reset( 'user_was_redirected_to_ecwid_site_to_create_account' );
 			require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
 		} else {
@@ -2010,7 +2012,7 @@ function ecwid_get_iframe_src($time, $page) {
 	}
 
 	return sprintf(
-		'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
+		'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
 		get_ecwid_store_id(),
 		Ecwid_Api_V3::get_token(),
 		$time,
@@ -2301,6 +2303,13 @@ function ecwid_get_debug_file() {
 }
 
 function get_ecwid_store_id() {
+
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
+
+	$config_value = Ecwid_Config::get_store_id();
+	
+	if ($config_value) return $config_value;
+	
 	$store_id = get_option('ecwid_store_id');
 	if (empty($store_id)) {
 		$store_id = ECWID_DEMO_STORE_ID;
@@ -2520,7 +2529,7 @@ function ecwid_get_product_browser_url_script()
 	}
 
 	$str = '';
-	if (ecwid_is_store_page_available()) {
+	if (ecwid_is_store_page_available() && !Ecwid_Store_Page::is_store_page()) {
 
 		$url = Ecwid_Store_Page::get_store_url();
 
@@ -2578,6 +2587,13 @@ function ecwid_is_sso_enabled() {
 	$is_sso_enabled = $is_apiv3_sso || $is_apiv1_sso;
 
 	return $is_sso_enabled;
+}
+
+add_action( 'send_headers', 'ecwid_add_headers' );
+function ecwid_add_headers() {
+	if ( wp_get_current_user()->ID && ecwid_is_sso_enabled() ) {
+		header("Cache-Control: private, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+	}
 }
 
 function ecwid_sso() {
@@ -2764,7 +2780,7 @@ function ecwid_embed_svg($name) {
 
 function ecwid_get_categories_js_url($callback = null) {
 
-	$url = 'https://my.ecwid.com/categories.js?ownerid=' . get_ecwid_store_id();
+	$url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/categories.js?ownerid=' . get_ecwid_store_id();
 
 	if ($callback) {
 		$url .= '&callback=' . $callback;

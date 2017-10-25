@@ -166,7 +166,7 @@ class EcwidPlatform {
 
 		if ( ( empty($return['data']) || $return['code'] != 200 ) && !isset($options['self_call']) ) {
 
-			$log_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
+			$log_url = 'http://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
 			$log_url .= '&data_url=' . urlencode(get_bloginfo('url'));
 			$log_url .= '&data_target_url=' . urlencode($url);
 			if (get_option('ecwid_http_use_stream', false)) {

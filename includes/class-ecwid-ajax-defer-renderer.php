@@ -90,6 +90,9 @@ class Ecwid_Ajax_Defer_Renderer {
 ecwid_shortcodes = [];
 </script>
 HTML;
+		
+		$app_ecwid_com = Ecwid_Config::get_scriptjs_domain();
+		
 		$after = <<<HTML
 <script>
 		window.ecwid_script_defer = true;
@@ -104,7 +107,7 @@ HTML;
 				var script = document.createElement('script');
 				script.charset = 'utf-8';
 				script.type = 'text/javascript';
-				script.src = 'https://app.ecwid.com/script.js?$ecwid_store_id';
+				script.src = 'https://$app_ecwid_com/script.js?$ecwid_store_id';
 				script.id = 'ecwid-script'
 		
 				document.body.appendChild(script);

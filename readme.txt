@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 5.6
+Stable tag: 5.6.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,13 +149,24 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.6.2 - Oct 25, 2017 =
+- **Fixed an issue with custom store menu links.** You can add store pages to the site menu under “Appearance → Menu” in your WordPress site settings. Previously, these links might not work  if you added them in the recent weeks. We now fixed it, they should work fine. 
+- **Fixed an issue with the browser back button and the customer cart content.** In some rare cases (when the Single Sign On tool is enabled), when a logged in store visitor clicked the back button in their browser, the cart content might be refreshed. We fixed that — whether you have the customer Single Sign On enabled or not, the storefront, cart and checkout should work properly.
+- **Added compatibility with the “Above The Fold Optimization” plugin.** You can use that plugin along with the Ecwid shopping cart, everything should work fine with no issues. 
+- **Fixed a slight layout issue with the “Optimizer” theme.** Product thumbnail pictures displayed improperly in that theme. Now they look OK. 
+- **Added slight improvements and fixes for the admin backend layout.** 
+- Ecwid is constantly updated with new cool ecommerce features and improvements. To see more updates and learn something new about selling online, see [our blog](https://www.ecwid.com/blog/ecwid-updates).
+
+= 5.6.1 - Sep 29, 2017 =
+- Fixed incompatibility of the plugin v5.6 with the servers running PHP 5.2.x
+
 = 5.6 — Sep 27, 2017 =
 - **Added a new sidebar widget — "Latest Products"!** Add this widget to your sidebar to let your customers know what's new in your online store. You will find the widget under Appearance -> Widgets section in your Wordpress admin backend.
 - **Added SEO optimization for single product widgets.** Now, single product widgets will include SEO-friendly markup for product's title/price/availability data to let the search engines better index the page content. You can add single product widgets to your site pages using the "Add Product" button in the Wordpress page editor.
 - **Slightly optimized loading speed.** The Ecwid Online Store plugin now loads less CSS/JS files on your site to decrease number of resources the visitor browser should process and to increase loading speed.
 - **Fixed an issue with SEO friendly clean URLs.** On some sites in rare occasions, product URLs responded with 404 errors. If you encounter such behavior on your site, this update should fix that. All shop URLs should work fine now — they are available for visitors and are well indexed by search engines.
 - **Various minor fixes and improvements** in random product widget, SEO functionality, store dashboard and other areas.
-- Ecwid is constantly updated with new cool features and improvements. To see more updates and learn something new about selling online, see our blog: https://www.ecwid.com/blog/ecwid-updates
+- Ecwid is constantly updated with new cool features and improvements. To see more updates and learn something new about selling online, see [our blog](https://www.ecwid.com/blog/ecwid-updates).
 
 = 5.5 =
 - **New random product widget.** A new sidebar widget allows you add a random product block to the site sidebar. Each time your customer opens or refreshes a page on your site, they will see one of your store products in the sidebar. Enable the new random product widget under Appearance→Widgets section in your Wordpress admin backend. Do not forget to add pictures to your products to bring site visitors’ attention to your store.

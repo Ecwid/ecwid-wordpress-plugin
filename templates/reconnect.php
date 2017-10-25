@@ -1,10 +1,7 @@
 <div class="wrap ecwid-admin ecwid-connect ecwid-reconnect">
 	<div class="box">
-		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
-			<h3>
-				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
-			</h3>
-		</div>
+        <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
+
 		<div class="greeting-image">
 			<img src="<?php echo(esc_attr(ECWID_PLUGIN_URL)); ?>/images/store_inprogress.png" width="142" />
 		</div>

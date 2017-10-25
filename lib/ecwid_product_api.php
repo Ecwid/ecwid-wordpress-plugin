@@ -14,8 +14,8 @@ class EcwidProductApi {
 
     function __construct($store_id) {
 
-        $this->ECWID_PRODUCT_API_ENDPOINT = 'http://app.ecwid.com/api/v1';
-  			$this->ECWID_PRODUCT_API_ENDPOINT_HTTPS = 'https://app.ecwid.com/api/v1';
+        $this->ECWID_PRODUCT_API_ENDPOINT = 'http://' . Ecwid_Config::get_api_domain() . '/api/v1';
+  			$this->ECWID_PRODUCT_API_ENDPOINT_HTTPS = 'https://' . Ecwid_Config::get_api_domain() . '/api/v1';
         $this->store_id = intval($store_id);
     }
 

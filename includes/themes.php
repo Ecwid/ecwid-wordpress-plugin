@@ -61,7 +61,8 @@ function ecwid_apply_theme($theme_name = null)
 		'ribosome'              => array( 'css' ),
 		'optimizepress'         => array( 'css' ),
 		'edge'                  => array( 'js', 'scroll' ),
-		'newsmag'               => array( 'css-no-parent')
+		'newsmag'               => array( 'css-no-parent'),
+		'optimizer'             => array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 

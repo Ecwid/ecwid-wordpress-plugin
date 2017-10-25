@@ -193,7 +193,7 @@ TXT
 			'on_activate' => array(
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'primary_title' => sprintf( __( 'Set up %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'primary_url' => 'admin.php?page=ecwid',
 				'hideable'  => true,
 				'default'  => 'disabled'
@@ -250,21 +250,16 @@ TXT
 		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
 			return false;
 		}
-
+		
 		switch ($name) {
 			case 'on_activate':
-				return $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
 
 			case 'on_storeid_set':
 				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
-				$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
-
-				$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
-				$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
-
-				return $is_newbie && ($is_ecwid_settings || $is_store_page);
+				return $this->should_display_on_no_storeid_on_setup_pages();
 
 			case 'on_appearance_widgets':
 				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
@@ -292,4 +287,16 @@ TXT
 		}
 	}
 
+	protected function should_display_on_no_storeid_on_setup_pages() {
+		$screen = get_current_screen();
+		
+		$admin_page = $screen->base;
+		
+		$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+
+		$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
+		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
+
+		return $is_newbie && ($is_ecwid_settings || $is_store_page);		
+	}
 }

@@ -12,7 +12,7 @@
         <div class="ecwid-button">
 
             <button class="create-store-button btn btn-primary btn-large">
-                <?php printf( __( 'Create Free %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+                <?php printf( __( 'Create Free %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
             </button>
             <button class="create-store-loading btn btn-primary btn-large btn-loading">
                 <div class="loader">
@@ -129,7 +129,7 @@
         </h2>
         <div class="ecwid-button">
             <button class="create-store-button btn btn-primary btn-large">
-                <?php printf( __( 'Create Free %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+                <?php printf( __( 'Create Free %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
             </button>
             <button class="create-store-loading btn btn-primary btn-large btn-loading">
                 <div class="loader">

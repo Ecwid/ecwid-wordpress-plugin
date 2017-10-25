@@ -1,10 +1,7 @@
 <div class="wrap ecwid-admin ecwid-connect<?php if ($no_oauth): ?> no-oauth<?php else: ?> with-oauth<?php endif; ?>">
 	<div class="box">
-		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
-			<h3>
-				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
-			</h3>
-		</div>
+        <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
+
 		<div class="greeting-image">
 			<img src="<?php echo(esc_attr(ECWID_PLUGIN_URL)); ?>/images/store_inprogress.png" width="142" />
 		</div>
@@ -27,18 +24,29 @@
 			<?php printf( __( 'To sell using %1$s, you must allow WordPress to access the %1$s plugin. The connect button will direct you to your %1$s account where you can provide permission.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 		</div>
 
+        <?php else: ?>
+            
+        <div class="note auth-error">
+            <span>
+				<?php _e( 'Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again.', 'ecwid-shopping-cart' ); ?>
+			</span>
+        </div>
 		<?php endif; ?>
 
+        <?php if ($no_oauth): ?>        
 		<h4 class="no-oauth where-to-find-store-id" style="text-align: center"><?php _e('Where to find your Store ID:', 'ecwid-shopping-cart'); ?></h4>
 		<div class="note no-oauth">
-			<?php printf( __( 'Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel: open the <a %2$s>Dashboard page</a> and find the "<b>Store ID: NNNNNNN</b>" text, where <b>NNNNNNN</b> is your Store&nbsp;ID.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="https://my.ecwid.com/cp/CP.html?source=wporg#dashboard" target="_blank"' ); ?>
+			<?php printf( __( 'Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel: open the <a %2$s>Dashboard page</a> and find the "<b>Store ID: NNNNNNN</b>" text, where <b>NNNNNNN</b> is your Store&nbsp;ID.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="https://' . Ecwid_Config::get_cpanel_domain() . '/cp/CP.html?source=wporg#dashboard" target="_blank"' ); ?>
 		</div>
-
+        <?php endif; ?>
+        
+        <?php if ( !Ecwid_Config::is_no_reg_wl() ): ?>
 		<div class="create-account-link">
 			<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>">
 				<?php printf( __( "Don't have an %s account? Create one now.", 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 			</a>
 		</div>
+        <?php endif; ?>
 	</div>
-	<?php require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>
+	<?php require ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>
 </div>
