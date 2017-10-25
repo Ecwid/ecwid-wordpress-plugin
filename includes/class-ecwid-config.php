@@ -108,7 +108,7 @@ class Ecwid_Config {
 		);
 		
 		$common_config = array(
-			self::TOKEN => 'token',
+			self::TOKEN => 'oauth_token',
 			self::STORE_ID => 'store_id',
 			self::API_DOMAIN => 'api_domain',
 			self::FRONTEND_DOMAIN => 'scriptjs_domain',
@@ -133,19 +133,17 @@ class Ecwid_Config {
 		
 		if ( $is_wl_enabled ) {
 			if (
-				isset( $result[self::TOKEN] ) && !isset($result[self::STORE_ID])
+				isset( $result[self::TOKEN] ) && !isset( $result[self::STORE_ID] )
 				||
-				!isset( $result[self::TOKEN] ) && isset($result[self::STORE_ID])
+				!isset( $result[self::TOKEN] ) && isset( $result[self::STORE_ID] )
 			) {
-				unset($result[self::TOKEN]);
-				unset($result[self::STORE_ID]);
+				unset( $result[self::TOKEN] );
+				unset( $result[self::STORE_ID] );
 			}	
 		}
 		
 		foreach ( $common_config as $name => $ini_name ) {
-
 			$value = @$result[$ini_name];
-
 			if ( $value ) {
 				EcwidPlatform::set( $name, $value );
 			} else {
