@@ -177,9 +177,14 @@ class Ecwid_OAuth {
     }
 
 	public function has_scope( $scope ) {
-		$stored_scope = get_option( 'ecwid_oauth_scope' );
-		if (empty($stored_scope)) {
-			$stored_scope = 'read_store_profile read_catalog';
+		
+		if (Ecwid_Config::overrides_token()) {
+			$stored_scope = implode(' ', $this->_get_default_scopes_array());
+		} else {
+			$stored_scope = get_option( 'ecwid_oauth_scope' );
+			if (empty($stored_scope)) {
+				$stored_scope = 'read_store_profile read_catalog';
+			}
 		}
 
 		return in_array( $scope, explode(' ', $stored_scope) );
