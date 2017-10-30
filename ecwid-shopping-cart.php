@@ -124,7 +124,9 @@ if (get_option('ecwid_last_oauth_fail_time') > 0) {
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-add_shortcode( Ecwid_Shortcode_Base::get_store_shortcode_name(), 'ecwid_shortcode' );
+foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
+	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
+}
 
 $ecwid_script_rendered = false; // controls single script.js on page
 
@@ -915,20 +917,28 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
-	if ( !$result && has_shortcode($content, Ecwid_Shortcode_Base::get_store_shortcode_name() ) ) {
-		$shortcodes = ecwid_find_shortcodes( $content, Ecwid_Shortcode_Base::get_store_shortcode_name() );
-		if ( $shortcodes ) foreach ( $shortcodes as $shortcode ) {
+	if ($result) {
+		return $result;
+	}
+	
+	foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
+		if ( has_shortcode($content, $shortcode_name ) ) {
+			$shortcodes = ecwid_find_shortcodes( $content, $shortcode_name );
+			if ( $shortcodes ) foreach ( $shortcodes as $shortcode ) {
 
-			$attributes = shortcode_parse_atts( $shortcode[3] );
+				$attributes = shortcode_parse_atts( $shortcode[3] );
 
-			if ( isset( $attributes['widgets'] ) ) {
-				$widgets = preg_split( '![^0-9^a-z^A-Z^-^_]!', $attributes['widgets'] );
-				if ( is_array( $widgets ) && in_array('productbrowser', $widgets ) ) {
-					$result = true;
+				if ( isset( $attributes['widgets'] ) ) {
+					$widgets = preg_split( '![^0-9^a-z^A-Z^-^_]!', $attributes['widgets'] );
+					if ( is_array( $widgets ) && in_array('productbrowser', $widgets ) ) {
+						$result = true;
+					}
 				}
 			}
 		}
+		
 	}
+	
 
 	return $result;
 }
@@ -1512,10 +1522,12 @@ function ecwid_ajax_get_product_info() {
 
 function ecwid_store_activate() {
 
+	Ecwid_Config::load_from_ini();
+	
 	$my_post = array();
 	$defaults = ecwid_get_default_pb_size();
 
-	$shortcode = Ecwid_Shortcode_Base::get_store_shortcode_name();
+	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	$content = <<<EOT
 [$shortcode widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
@@ -1866,7 +1878,8 @@ function ecwid_common_admin_scripts() {
 		'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 		'cache_updated' => __('Done', 'ecwid-shopping-cart'),
 		'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
-		'store_shortcode' => Ecwid_Shortcode_Base::get_store_shortcode_name(),
+		'store_shortcodes' => Ecwid_Shortcode_Base::get_store_shortcode_names(),
+		'store_shortcode'  => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
 		'legacy_appearance' => ecwid_is_legacy_appearance_used()
 	));

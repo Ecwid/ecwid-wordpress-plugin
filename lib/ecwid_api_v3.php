@@ -386,6 +386,10 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
+		
+		if (@$result['code'] != '200' || empty($result['data'])) {
+			return false;
+		}
 
 		$profile = json_decode($result['data']);
 	

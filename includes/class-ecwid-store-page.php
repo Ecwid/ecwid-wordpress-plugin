@@ -312,7 +312,10 @@ class Ecwid_Store_Page {
 			return;
 		}
 		
-		$shortcodes = ecwid_find_shortcodes( $store_page->post_content, Ecwid_Shortcode_Base::get_store_shortcode_name() );
+		$shortcodes = array();
+		foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
+			$shortcodes[] = ecwid_find_shortcodes( $store_page->post_content, $shortcode_name );
+		}
 		
 		if ( sizeof( $shortcodes ) == 0 ) {
 			return;
