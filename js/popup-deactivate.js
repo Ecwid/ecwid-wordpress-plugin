@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
                 message: feedback.message
             },
             complete: function() {
-                location.href = deactivateButton.href;
+                location.href = deactivateButton.attr('href');
             }
         });
     });
