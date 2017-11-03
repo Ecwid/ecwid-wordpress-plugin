@@ -50,8 +50,8 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 
 		$result = wp_mail(
 			$to,
-			$_POST['subject'],
-			implode(PHP_EOL, $body_lines),
+			_e(  'WordPress plugin deactivation feedback (store ID ' . get_ecwid_store_id() . ')', 'ecwid-shopping-cart'  ),
+			implode( PHP_EOL, $body_lines ),
 			'Reply-To:' . $reply_to
 		);
 
