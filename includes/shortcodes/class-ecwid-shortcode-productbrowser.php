@@ -39,14 +39,14 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 		}
 
-		$html_catalog_params['default_category_id'] = $this->_params['defaultCategoryId'];
+		$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
 		if ( $html_catalog_params !== false ) {
 			$plain_content = $this->_build_html_catalog( $store_id, $html_catalog_params );
 		}
 
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
-		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname">
+		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
 		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;

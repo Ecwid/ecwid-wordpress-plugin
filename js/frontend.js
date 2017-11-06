@@ -13,13 +13,22 @@ jQuery(document).ready(function() {
             }
             
             var page = jQuery(this).data('ecwid-page');
-            if (page == 'category') {
+            if (page == '/') {
+                var id = jQuery('[data-ecwid-default-category-id]').data('ecwid-default-category-id');
+                if (id) {
+                    Ecwid.openPage('category', {id:id});
+                } else {
+                    Ecwid.openPage('category', 0);
+                }
+            } if (page == 'category') {
                 Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
             } else if ( page == 'product' ) {
                 Ecwid.openPage('category', {id: jQuery(this).data('ecwid-product-id')});
             } else {
                 Ecwid.openPage(page);
             }
+            
+            jQuery(this).parents('ul.sub-menu.focus').removeClass('focus').blur().parents('li.menu-item.focus').removeClass('focus').blur();
             
             return false;
         });
