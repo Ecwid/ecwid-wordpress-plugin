@@ -151,6 +151,9 @@ class Ecwid_Nav_Menus {
 		));
 	}
 
+//- дефолтная категория
+//- посмотреть несколько тем
+
 	public function process_menu_items($items)
 	{
 		if ( is_admin() || empty($items) ) {
