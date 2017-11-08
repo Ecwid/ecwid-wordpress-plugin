@@ -39,7 +39,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 		}
 
-		$html_catalog_params['default_category_id'] = $this->_params['defaultCategoryId'];
+		$html_catalog_params['default_category_id'] = @$this->_params['defaultCategoryId'];
 		if ( $html_catalog_params !== false ) {
 			$plain_content = $this->_build_html_catalog( $store_id, $html_catalog_params );
 		}
@@ -175,6 +175,10 @@ HTML;
 			$input_params['defaultCategoryId'] = $ecwid_default_category_id;
 		}
 
+		if (isset($shortcode_params['default_product_id'])) {
+			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
+		}
+		
 		$this->_params = $input_params;
 	}
 

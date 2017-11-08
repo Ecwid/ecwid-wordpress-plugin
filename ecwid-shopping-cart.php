@@ -1464,6 +1464,7 @@ function ecwid_shortcode($attributes)
 			'table' 						  => $defaults['table_rows'],
 			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
+			'default_product_id' => 0,
 			'lang' => ''
 		)
 		, $attributes
