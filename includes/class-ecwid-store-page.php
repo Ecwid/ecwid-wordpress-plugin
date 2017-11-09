@@ -78,7 +78,10 @@ class Ecwid_Store_Page {
 	{
 		$suffix = '';
 		if ( Ecwid_Seo_Links::is_enabled() ) {
-			$suffix = $menu_item['clean-url'];
+			$suffix = $menu_item['ecwid-page'];
+			if ( $suffix == '/' ) {
+				$suffix = '';
+			}
 		} else {
 			$suffix = '#!' . $menu_item['url'];
 		}

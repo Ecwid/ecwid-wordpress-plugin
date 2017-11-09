@@ -126,7 +126,7 @@ HTML;
 			$name = esc_html($product->name);
 
 			echo <<<HTML
-		<a class="product" href="$product->link" alt="$name" title="$name">
+		<a class="product" href="$product->link" data-ecwid-page="product" data-ecwid-product-id="$product->id" alt="$name" title="$name">
 			<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-$product->id" data-single-product-link="$product->link" itemscope itemtype="http://schema.org/Product" data-single-product-id="$product->id">
 				<div itemprop="image" data-force-image="$force_image"></div>
 				<div class="ecwid-title" itemprop="name"></div>

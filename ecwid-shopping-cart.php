@@ -326,7 +326,10 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
-
+	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
+		'useJsApiToOpenStorePages' => (bool)get_option( 'ecwid_use_js_api_to_open_store_pages', true )
+	));
+	
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
 		wp_enqueue_script( 'ecwid-post-product', ECWID_PLUGIN_URL . 'js/post-product.js', array(), get_option( 'ecwid_plugin_version' ), TRUE );
 
@@ -629,6 +632,8 @@ function ecwid_check_version()
 		
 		// Since 5.4.3? 
 		add_option( Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY, '' );
+		
+		add_option( 'ecwid_use_js_api_to_open_store_pages', true );
 		
 		Ecwid_Config::load_from_ini();
 
@@ -1552,6 +1557,7 @@ function ecwid_store_activate() {
 	$defaults = ecwid_get_default_pb_size();
 
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
+	
 	$content = <<<EOT
 [$shortcode widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
