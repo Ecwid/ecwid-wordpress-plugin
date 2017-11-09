@@ -214,8 +214,8 @@ class Ecwid_Nav_Menus {
 						$post->description = '';
 						$post->xfn = '';
 						$post->object_id = 0;
-						$post->ecwid_page_type = 'category';
-						$post->ecwid_category_id = $category->id;
+//						$post->ecwid_page_type = 'category';
+//						$post->ecwid_category_id = $category->id;
 
 						$posts[] = $post;
 					}
