@@ -11,7 +11,7 @@ abstract class Ecwid_Popup
 	
 	public static function add_popup( $popup ) {
 		
-		if ( current_action() != 'current_screen' ) {
+		if ( current_filter() != 'current_screen' ) {
 			if (WP_DEBUG) {
 				wp_die( 'Called add_popup not from admin_init action' );
 			}
