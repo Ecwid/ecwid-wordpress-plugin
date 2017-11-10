@@ -149,6 +149,12 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.7 =
+- **New feature in the [ecwid] shortcode — it’s now possible to specify the product that will be displayed by default when the store page is opened.** If you want to feature some product from your online store on one of the site pages or if you sell a single product, you can specify it in the new “default_product_id” parameter in the ecwid shortcode to make it opened by default. 
+- **Speedup in the store navigation for your customers.** We improved Ecwid e-commerce sidebar widgets and menus in the storefront, they now work without page reload when a visitor is already on the store page. After the customer opens your store page, all further browsing will be super fast, including switching between products, opening categories, visiting recently viewed products etc.
+- **Fixed an issue with title and description meta tags being changed by the Yoast SEO plugin on store pages.** If you have Yoast installed, you might notice this issue recently. Now your products and categories titles and descriptions will get to the page meta title/description tags with no problem. This should help Google index your catalog properly. 
+- Ecwid is constantly updated with new cool ecommerce features and improvements. To see more updates and learn something new about selling online, see [our blog](https://www.ecwid.com/blog/ecwid-updates).
+
 = 5.6.2 - Oct 25, 2017 =
 - **Fixed an issue with custom store menu links.** You can add store pages to the site menu under “Appearance → Menu” in your WordPress site settings. Previously, these links might not work  if you added them in the recent weeks. We now fixed it, they should work fine. 
 - **Fixed an issue with the browser back button and the customer cart content.** In some rare cases (when the Single Sign On tool is enabled), when a logged in store visitor clicked the back button in their browser, the cart content might be refreshed. We fixed that — whether you have the customer Single Sign On enabled or not, the storefront, cart and checkout should work properly.
