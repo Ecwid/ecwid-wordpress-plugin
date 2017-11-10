@@ -78,7 +78,10 @@ class Ecwid_Store_Page {
 	{
 		$suffix = '';
 		if ( Ecwid_Seo_Links::is_enabled() ) {
-			$suffix = $menu_item['clean-url'];
+			$suffix = $menu_item['ecwid-page'];
+			if ( $suffix == '/' ) {
+				$suffix = '';
+			}
 		} else {
 			$suffix = '#!' . $menu_item['url'];
 		}
@@ -312,7 +315,10 @@ class Ecwid_Store_Page {
 			return;
 		}
 		
-		$shortcodes = ecwid_find_shortcodes( $store_page->post_content, Ecwid_Shortcode_Base::get_store_shortcode_name() );
+		$shortcodes = array();
+		foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
+			$shortcodes[] = ecwid_find_shortcodes( $store_page->post_content, $shortcode_name );
+		}
 		
 		if ( sizeof( $shortcodes ) == 0 ) {
 			return;

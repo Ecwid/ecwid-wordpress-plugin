@@ -210,8 +210,8 @@ msgid "Take a few simple steps to complete store setup"
 msgstr "Магазин почти готов — осталось несколько простых шагов"
 
 #: includes/class-ecwid-message-manager.php:205
-msgid "Set up %s"
-msgstr "Настроить %s"
+msgid "Set up your store"
+msgstr "Настроить магазин"
 
 #: includes/class-ecwid-message-manager.php:204
 msgid "Your store is almost ready!"
@@ -1186,7 +1186,7 @@ msgstr "Добро пожаловать в %s!"
 #: templates/landing.php:9
 msgid ""
 "Thank you for choosing %s to build your online store. The first step to sell "
-"successfully online is to setup your store! Let’s get started and add a "
+"successfully online is to set up your store! Let’s get started and add a "
 "store to your website in a few simple steps."
 msgstr ""
 "Спасибо, что выбрали %s для создания вашего интернет-магазина. Первый шаг к "
@@ -1194,8 +1194,8 @@ msgstr ""
 "ваш сайт за несколько простых шагов."
 
 #: templates/landing.php:15 templates/landing.php:132
-msgid "Create Free %s"
-msgstr "Создать %s"
+msgid "Create Store"
+msgstr "Создать магазин"
 
 #: templates/landing.php:31 templates/landing.php:148
 msgid "Store is created"
@@ -1225,10 +1225,6 @@ msgstr ""
 msgid "Already have %s account?"
 msgstr "Уже есть аккаунт в %s?"
 
-#: templates/landing.php:50 templates/landing_old.php:62
-msgid "Connect your store to Wordpress site"
-msgstr "Подключить магазин к своему сайту"
-
 #: templates/landing.php:53
 msgid ""
 "You will be asked to log in to your %s Control Panel<br />and give "
@@ -1242,8 +1238,8 @@ msgid "Get ready to sell online"
 msgstr "Продавать онлайн – это просто"
 
 #: templates/landing.php:67
-msgid "Sell Everywhere<br>with your %s store"
-msgstr "Продавайте c %s там,<br> где ваши клиенты"
+msgid "Sell Everywhere"
+msgstr "Продавайте там,<br> где ваши клиенты"
 
 #: templates/landing.php:68 templates/landing_old.php:87
 msgid ""

@@ -1,0 +1,142 @@
+<?php
+
+require_once( ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup.php' );
+
+class Ecwid_Popup_Deactivate extends Ecwid_Popup {
+
+	protected $_class = 'ecwid-popup-deactivate';
+	
+	const OPTION_DISABLE_POPUP = 'ecwid_disable_deactivate_popup';
+	
+	public function __construct()
+	{
+		add_action( 'wp_ajax_ecwid_deactivate_feedback', array( $this, 'ajax_deactivate_feedback') );
+	}
+	
+	public function enqueue_scripts()
+	{
+		parent::enqueue_scripts();
+		wp_enqueue_script( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/js/popup-deactivate.js', array( 'jquery' ), get_option('ecwid_plugin_version') );
+		wp_enqueue_style( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array( ), get_option('ecwid_plugin_version') );
+	}
+	
+	public function ajax_deactivate_feedback() {
+		if ( !current_user_can('manage_options') ) {
+			header('403 Access Denied');
+
+			die();
+		}
+
+		$to = 'plugins-feedback@ecwid.com';
+
+		$body_lines = array();
+		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
+			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
+		}
+		
+		$reasons = $this->_get_reasons();
+		$reason = $reasons[$_GET['reason']];
+		
+		if ( isset( $reason['is_disable_message'] ) ) {
+			update_option( self::OPTION_DISABLE_POPUP, true );
+		}
+		
+		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
+		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
+		$body_lines[] = 'Reason: ' . $reason['text'] . "\n" . $_GET['message'];
+		
+		global $current_user;
+		$reply_to = $current_user->user_email;
+
+		$result = wp_mail(
+			$to,
+			__(  'WordPress plugin deactivation feedback (store ID ' . get_ecwid_store_id() . ')', 'ecwid-shopping-cart'  ),
+			implode( PHP_EOL, $body_lines ),
+			'Reply-To:' . $reply_to
+		);
+
+		if ($result) {
+			header('200 OK');
+			
+			die();
+		} else {
+			header('500 Send mail failed');
+			die();
+		}
+	}
+	
+	public function is_disabled() {
+		$disabled = get_option( self::OPTION_DISABLE_POPUP, false );
+		
+		if ( $disabled ) return true;
+		
+		if ( Ecwid_Config::is_wl() ) return true;
+		
+		if (strpos(get_locale(), 'en') !== 0) return true;
+		
+		return false;
+	}
+	
+	protected function _get_footer_buttons()
+	{
+		return array(
+			(object) array(
+				'class' => 'button-secondary deactivate',
+				'title' => __( 'Submit & Deactivate', 'ecwid-shopping-cart' )
+			),
+			(object) array(
+				'class' => 'button-primary btn-close',
+				'title' => __( 'Cancel', 'ecwid-shopping-cart' )
+			)
+		);
+	}
+
+	protected function _get_header()
+	{
+		return __( 'Before You Go', 'ecwid-shopping-cart' );
+	}
+
+	protected function _render_body()
+	{
+		$reasons = $this->_get_reasons();
+		require ( ECWID_POPUP_TEMPLATES_DIR . 'deactivate.php' );
+	}
+	
+	protected function _get_reasons()
+	{
+		$options = array(
+			array(
+				'text' => __( 'I have a problem using this plugin', 'ecwid-shopping-cart' ),
+				'has_message' => true,
+				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
+			),
+			array(
+				'text' => __( 'The plugin is difficult to set up and use', 'ecwid-shopping-cart' ),
+				'has_message' => true,
+				'message_hint' => __( 'What was difficult?', 'ecwid-shopping-cart' )
+			),
+			array(
+				'text' => __( 'The plugins doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
+				'has_message' => true,
+				'message_hint' => __( 'What feature do you need?', 'ecwid-shopping-cart' )
+			),
+			array(
+				'text' => __( 'I found a better plugin', 'ecwid-shopping-cart' ),
+				'has_message' => true,
+				'message_hint' => __( 'Can you share the name of the plugin you chose?', 'ecwid-shopping-cart' )
+			),
+			array(
+				'text' => __( 'It\'s a temporary deactivation. Please do not ask me again.', 'ecwid-shopping-cart' ),
+				'has_message' => false,
+				'is_disable_message' => true
+			),
+			array(
+				'text' => __( 'Other', 'ecwid-shopping-cart' ),
+				'has_message' => true,
+				'message_hint' => __( 'Can you share your feedback? What was wrong?', 'ecwid-shopping-cart' )
+			)
+		);		
+		
+		return $options;
+	}
+}

@@ -386,6 +386,10 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
+		
+		if (@$result['code'] != '200' || empty($result['data'])) {
+			return false;
+		}
 
 		$profile = json_decode($result['data']);
 	
@@ -423,7 +427,7 @@ class Ecwid_Api_V3
 				'email' => $admin_email,
 				'name' => $admin_name,
 				'password' => wp_generate_password(8),
-				'ip' => $_SERVER['REMOTE_ADDR']
+				'ip' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ? '35.197.29.131' : $_SERVER['REMOTE_ADDR']
 			),
 			'affiliatePartner' => array(
 				'source' => 'wporg'

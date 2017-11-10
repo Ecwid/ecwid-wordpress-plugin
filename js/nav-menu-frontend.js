@@ -14,6 +14,7 @@ jQuery(document).ready(function() {
 		} else {
 			window.ecwidCurrentMenuPage = 'store';
 		}
+		
 	});
 
 	Ecwid.OnPageLoaded.add(refreshEcwidMenuItemsSelection);

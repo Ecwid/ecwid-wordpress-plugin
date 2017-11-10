@@ -54,6 +54,10 @@ class Ecwid_Config {
 		return EcwidPlatform::get( self::OAUTH_AUTH_URL, 'https://' . self::get_cpanel_domain() . '/api/oauth/authorize' );
 	}
 
+	public static function should_show_reconnect_in_footer() {
+		return !self::is_wl() || EcwidPlatform::get( self::OAUTH_AUTH_URL, false );
+	}
+	
 	public static function get_oauth_appid() {
 		return EcwidPlatform::get( self::OAUTH_APPID, Ecwid_Api_V3::CLIENT_ID );
 	}

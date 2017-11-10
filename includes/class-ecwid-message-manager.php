@@ -193,7 +193,7 @@ TXT
 			'on_activate' => array(
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => sprintf( __( 'Set up %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'primary_title' => __( 'Set up your store', 'ecwid-shopping-cart'),
 				'primary_url' => 'admin.php?page=ecwid',
 				'hideable'  => true,
 				'default'  => 'disabled'

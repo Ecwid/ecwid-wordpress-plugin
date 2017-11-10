@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 5.6.2
+Version: 5.7
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -70,6 +70,7 @@ add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
 if ( is_admin() ){ 
   add_action('admin_init', 'ecwid_settings_api_init');
+
 	add_action('admin_init', 'ecwid_check_version');
 	add_action('admin_init', 'ecwid_process_oauth_params');
   add_action('admin_notices', 'ecwid_show_admin_messages');
@@ -124,7 +125,9 @@ if (get_option('ecwid_last_oauth_fail_time') > 0) {
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-add_shortcode( Ecwid_Shortcode_Base::get_store_shortcode_name(), 'ecwid_shortcode' );
+foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
+	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
+}
 
 $ecwid_script_rendered = false; // controls single script.js on page
 
@@ -292,6 +295,21 @@ function ecwid_redirect_canonical2($redir, $req) {
 	return $redir;
 }
 
+add_action( 'current_screen', 'ecwid_add_deactivation_popup' );
+
+function ecwid_add_deactivation_popup()
+{
+	if ( get_current_screen()->id == 'plugins' ) {
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
+		
+		$popup = new Ecwid_Popup_Deactivate();
+		
+		if ( !$popup->is_disabled() ) {
+			Ecwid_Popup::add_popup( $popup );
+		}
+	}
+}
+
 function ecwid_enqueue_frontend() {
 
 
@@ -308,7 +326,10 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
-
+	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
+		'useJsApiToOpenStorePages' => (bool)get_option( 'ecwid_use_js_api_to_open_store_pages', true )
+	));
+	
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
 		wp_enqueue_script( 'ecwid-post-product', ECWID_PLUGIN_URL . 'js/post-product.js', array(), get_option( 'ecwid_plugin_version' ), TRUE );
 
@@ -613,6 +634,8 @@ function ecwid_check_version()
 		
 		// Since 5.4.4?
 		delete_option('ecwid_fetch_url_use_file_get_contents');
+
+		add_option( 'ecwid_use_js_api_to_open_store_pages', true );
 		
 		Ecwid_Config::load_from_ini();
 
@@ -917,20 +940,28 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
-	if ( !$result && has_shortcode($content, Ecwid_Shortcode_Base::get_store_shortcode_name() ) ) {
-		$shortcodes = ecwid_find_shortcodes( $content, Ecwid_Shortcode_Base::get_store_shortcode_name() );
-		if ( $shortcodes ) foreach ( $shortcodes as $shortcode ) {
+	if ($result) {
+		return $result;
+	}
+	
+	foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
+		if ( has_shortcode($content, $shortcode_name ) ) {
+			$shortcodes = ecwid_find_shortcodes( $content, $shortcode_name );
+			if ( $shortcodes ) foreach ( $shortcodes as $shortcode ) {
 
-			$attributes = shortcode_parse_atts( $shortcode[3] );
+				$attributes = shortcode_parse_atts( $shortcode[3] );
 
-			if ( isset( $attributes['widgets'] ) ) {
-				$widgets = preg_split( '![^0-9^a-z^A-Z^-^_]!', $attributes['widgets'] );
-				if ( is_array( $widgets ) && in_array('productbrowser', $widgets ) ) {
-					$result = true;
+				if ( isset( $attributes['widgets'] ) ) {
+					$widgets = preg_split( '![^0-9^a-z^A-Z^-^_]!', $attributes['widgets'] );
+					if ( is_array( $widgets ) && in_array('productbrowser', $widgets ) ) {
+						$result = true;
+					}
 				}
 			}
 		}
+		
 	}
+	
 
 	return $result;
 }
@@ -1100,6 +1131,13 @@ function ecwid_trim_description($description)
 	return $description;
 }
 
+add_action( 'wp_ajax_ecwid_deactivate_feedback', 'ecwid_ajax_deactivate_feedback' );
+function ecwid_ajax_deactivate_feedback() 
+{
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
+	$popup = new Ecwid_Popup_Deactivate();
+	$popup->ajax_deactivate_feedback();
+}
 
 function ecwid_ajax_hide_message($params)
 {
@@ -1433,6 +1471,7 @@ function ecwid_shortcode($attributes)
 			'table' 						  => $defaults['table_rows'],
 			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
+			'default_product_id' => 0,
 			'lang' => ''
 		)
 		, $attributes
@@ -1514,10 +1553,13 @@ function ecwid_ajax_get_product_info() {
 
 function ecwid_store_activate() {
 
+	Ecwid_Config::load_from_ini();
+	
 	$my_post = array();
 	$defaults = ecwid_get_default_pb_size();
 
-	$shortcode = Ecwid_Shortcode_Base::get_store_shortcode_name();
+	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
+	
 	$content = <<<EOT
 [$shortcode widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
@@ -1868,7 +1910,8 @@ function ecwid_common_admin_scripts() {
 		'reset_cats_cache' => __('Refresh categories list', 'ecwid-shopping-cart'),
 		'cache_updated' => __('Done', 'ecwid-shopping-cart'),
 		'reset_cache_message' => __('The store top-level categories are automatically added to this drop-down menu', 'ecwid-shopping-cart'),
-		'store_shortcode' => Ecwid_Shortcode_Base::get_store_shortcode_name(),
+		'store_shortcodes' => Ecwid_Shortcode_Base::get_store_shortcode_names(),
+		'store_shortcode'  => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
 		'legacy_appearance' => ecwid_is_legacy_appearance_used()
 	));

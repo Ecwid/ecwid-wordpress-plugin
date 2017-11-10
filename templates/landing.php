@@ -6,13 +6,13 @@
     <div class="ecwid-thank">
         <h1>
             <?php printf( __( 'Welcome to %s!', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
-            <span><?php printf( __( 'Thank you for choosing %s to build your online store. The first step to sell successfully online is to setup your store! Let’s get started and add a store to your website in a few simple steps.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></span>
+            <span><?php printf( __( 'Thank you for choosing %s to build your online store. The first step to sell successfully online is to set up your store! Let’s get started and add a store to your website in a few simple steps.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></span>
         </h1>
 
         <div class="ecwid-button">
 
             <button class="create-store-button btn btn-primary btn-large">
-                <?php printf( __( 'Create Free %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+                <?php _e( 'Create Store', 'ecwid-shopping-cart' ); ?>
             </button>
             <button class="create-store-loading btn btn-primary btn-large btn-loading">
                 <div class="loader">
@@ -47,7 +47,7 @@
             </div>
             <div class="create-store-have-account ecwid-button-description">
                 <span class="create-store-have-account-question"><?php printf( __( 'Already have %s account?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></span>
-                <a class="create-store-have-account-link" href="admin-post.php?action=ec_connect"><?php _e('Connect your store to Wordpress site', 'ecwid-shopping-cart'); ?></a>
+                <a class="create-store-have-account-link" href="admin-post.php?action=ec_connect"><?php _e('Connect your store to this site', 'ecwid-shopping-cart'); ?></a>
             </div>
             <div class="button-description-mobile">
                 <?php printf( __( 'You will be asked to log in to your %s Control Panel<br />and give permissions to show your store on this site', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
@@ -64,7 +64,7 @@
         <div class="ecwid-description-inner">
             <div class="ecwid-description-image"><img src="<?php echo ECWID_PLUGIN_URL; ?>images/landing/ecwid-description-image.jpg"></div>
             <div class="ecwid-description-text">
-                <h2><?php printf( __( 'Sell Everywhere<br>with your %s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h2>
+                <h2><?php _e( 'Sell Everywhere', 'ecwid-shopping-cart'); ?></h2>
                 <p><?php _e('Start selling on your WordPress site. Then mirror your shop on your Facebook page, blog and marketplaces like Google Shopping, Yahoo and Shopping.com.', 'ecwid-shopping-cart'); ?></p>
                 <p><?php printf( __( 'Use %s\'s mobile-POS to swipe credit cards and sell on the go. Your orders and inventory are always synchronized with your online store.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></p>
             </div>
@@ -129,7 +129,7 @@
         </h2>
         <div class="ecwid-button">
             <button class="create-store-button btn btn-primary btn-large">
-                <?php printf( __( 'Create Free %s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+                <?php _e( 'Create Store', 'ecwid-shopping-cart'); ?>
             </button>
             <button class="create-store-loading btn btn-primary btn-large btn-loading">
                 <div class="loader">

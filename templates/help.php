@@ -224,8 +224,8 @@
 			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate">
 				<input type="hidden" name="action" value="ecwid_contact_us" />
 				<input type="hidden" name="wp-nonce" id="wp-nonce" value="<?php echo wp_create_nonce( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ); ?>" />
-				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
-				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	"></textarea>
+				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="<?php if ( @$_GET['contact_us_subject'] ) echo esc_attr__( stripslashes( $_GET['contact_us_subject'] ) ); ?>" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
+				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	"><?php if ( @$_GET['contact_us_message'] ) echo htmlentities($_GET['contact_us_message']); ?></textarea>
 				<div class="btn-container">
 					<button id="contact-ecwid-support" class="btn btn-medium btn-aqua" type="submit">
 						<span class="btn-text"><?php _e( 'Send Message', 'ecwid-shopping-cart'); ?></span>

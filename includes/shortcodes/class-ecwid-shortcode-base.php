@@ -29,7 +29,12 @@ abstract class Ecwid_Shortcode_Base {
 		self::$shortcodes[$this->get_shortcode_name()][] = $this;
 	}
 
-	public static function get_store_shortcode_name() {
+	public static function get_store_shortcode_names() {
+		return array( 'ecwid', 'ec_store' );
+
+	}
+
+	public static function get_current_store_shortcode_name() {
 		if ( Ecwid_Config::is_wl() ) {
 			return 'ec_store';
 		}
