@@ -109,13 +109,13 @@ class Ecwid_Config {
 			self::KB_URL => 'kb_url',
 			self::REGISTRATION_URL => 'registration_url',
 			self::CHANNEL_ID => 'channel_id',
-			self::OAUTH_APPID => 'oauth_appid',
-			self::OAUTH_APPSECRET => 'oauth_appsecret',
 			self::OAUTH_TOKEN_URL => 'oauth_token_url',
 			self::OAUTH_AUTH_URL => 'oauth_authorize_url',
 		);
 		
 		$common_config = array(
+			self::OAUTH_APPID => 'oauth_appid',
+			self::OAUTH_APPSECRET => 'oauth_appsecret',
 			self::TOKEN => 'oauth_token',
 			self::STORE_ID => 'store_id',
 			self::API_DOMAIN => 'api_domain',
@@ -126,7 +126,7 @@ class Ecwid_Config {
 		$empty_is_allowed = array(
 			self::REGISTRATION_URL
 		);
-
+		
 		$is_wl_enabled = @$result['wl_mode'];
 
 		foreach ( $wl_config as $name => $ini_name ) {
