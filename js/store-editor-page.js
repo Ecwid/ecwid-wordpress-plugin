@@ -224,7 +224,7 @@ jQuery(document).ready(function() {
 		result.list = getNumber('list_rows', defaults.list_rows);
 		result.table = getNumber('table_rows', defaults.table_rows);
 		result.default_category_id = getNumber('default_category_id', defaults.default_category_id);
-        result.default_product_id = getNumber('default_category_id', defaults.default_product_id);
+        result.default_product_id = getNumber('default_product_id', defaults.default_product_id);
         result.category_view = getString('category_view', ['list', 'grid', 'table'], defaults.category_view);
 		result.search_view = getString('search_view', ['list', 'grid', 'table'], defaults.search_view);
 		result.minicart_layout = defaults.minicart_layout;
