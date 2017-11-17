@@ -92,12 +92,14 @@ class Ecwid_Config {
 
 	public static function load_from_ini() {
 
-		if (!file_exists(ECWID_PLUGIN_DIR . 'config.ini')) {
+		$filename = apply_filters('ecwid_config_ini_path', ECWID_PLUGIN_DIR . 'config.ini');
+		
+		if (!file_exists($filename)) {
 			return;
 		}
 
-		$result = @parse_ini_file(ECWID_PLUGIN_DIR . 'config.ini');
-
+		$result = @parse_ini_file($filename);
+		
 		if ($result === false) {
 			return;
 		}
