@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
-Tested up to: 4.8
-Stable tag: 5.7
+Tested up to: 4.9
+Stable tag: 5.7.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.7.1 =
+- **Fix for the “The requested product is not available” error message appeared in the version 5.7**. The issue was caused by the new “Default product” feature. Some users found that error message when adding their store to a new page in the plugin and specifying the default category for that page. Everything should work fine now.
+
 = 5.7 =
 - **New feature in the [ecwid] shortcode — it’s now possible to specify the product that will be displayed by default when the store page is opened.** If you want to feature some product from your online store on one of the site pages or if you sell a single product, you can specify it in the new “default_product_id” parameter in the ecwid shortcode to make it opened by default. 
 - **Speedup in the store navigation for your customers.** We improved Ecwid e-commerce sidebar widgets and menus in the storefront, they now work without page reload when a visitor is already on the store page. After the customer opens your store page, all further browsing will be super fast, including switching between products, opening categories, visiting recently viewed products etc.
