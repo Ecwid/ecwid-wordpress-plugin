@@ -76,6 +76,7 @@ class Ecwid_Admin {
 
 		add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ec_debug', 'ecwid_debug_do_page');
 		add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ec-admin-mobile', 'ecwid_admin_mobile_do_page');
+		add_submenu_page('', 'Ecwid params', '', 'manage_options', 'ec-params', 'ecwid_params_do_page');
 
 		if (!Ecwid_Config::is_wl()) {
 			add_submenu_page(

@@ -1748,6 +1748,90 @@ function ecwid_abs_intval($value) {
 		return null;
 }
 
+function ecwid_get_update_params_options() {
+	$options = array(
+		'ecwid_store_id' => array(
+			'type' => 'string'
+		),
+		'ecwid_ajax_defer_rendering' => array(
+			'values' => array(
+				'on',
+				'off',
+				'auto'
+			)
+		),
+		'ecwid_disable_dashboard' => array(
+			'type' => 'bool'
+		),
+		'ecwid_disable_pb_url' => array(
+			'type' => 'bool'
+		),
+		Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION => array(
+			'values' => array(
+				'',
+				'topright',
+				'bottomright'
+			)
+		),
+		Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY => array(
+			'type' => 'bool',
+		),
+		'ecwid_historyjs_html4mode' => array(
+			'type' => 'bool'
+		),
+		'ecwid_plugin_migration_since_version' => array(
+			'type' => 'string'
+		),
+		'ecwid_seo_links_enabled' => array(
+			'type' => 'bool'
+		),
+		'force_scriptjs_render' => array(
+			'type' => 'bool'
+		)
+	);
+
+	return $options;
+}
+
+function ecwid_get_update_params_action() {
+	return 'ecwid-update-params';
+}
+
+function ecwid_params_do_page() {
+	
+	include ECWID_PLUGIN_DIR . 'templates/admin-params.php';
+}
+
+add_action('admin_post_' . ecwid_get_update_params_action(), 'ecwid_update_plugin_params');
+function ecwid_update_plugin_params()
+{
+	if ( !current_user_can('administrator') ) {
+		header('403 Access Denied');
+
+		die();
+	}
+	
+	if ( !wp_verify_nonce(@$_POST['nonce'], 'ecwid-update-params' ) ) {
+		header('403 Access Denied');
+
+		die();
+	}
+
+	$options = ecwid_get_update_params_options();
+	
+	$options4update = array();
+	
+	foreach ( $options as $key => $option ) {
+		$options4update[$key] = @$_POST['option'][$key];
+	}
+	
+	foreach ($options4update as $name => $value) {
+		update_option($name, $value);	
+	}
+	
+	wp_redirect('admin.php?page=ec-params');
+}
+
 function ecwid_sync_do_page() {
 
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
