@@ -42,7 +42,7 @@ class Ecwid_Admin {
 		);
 
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !get_option( 'ecwid_disable_dashboard' )) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Sales', 'ecwid-shopping-cart'),
@@ -126,6 +126,17 @@ class Ecwid_Admin {
 	
 	static public function get_relative_dashboard_url() {
 		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG;
-	}}
+	}
+
+	static public function disable_dashboard() {
+		if ( !isset( $_GET['reconnect'] ) ) {
+			if ( get_option( 'ecwid_disable_dashboard' ) == 'on' ) {
+				return true;
+			} elseif ( get_option( 'ecwid_disable_dashboard' ) != 'off' && @$_COOKIE[ 'ecwid_is_safari' ] == 'true' ) {
+				return true;
+			}
+		}
+	}
+}
 
 $ecwid_admin = new Ecwid_Admin();

@@ -1761,7 +1761,11 @@ function ecwid_get_update_params_options() {
 			)
 		),
 		'ecwid_disable_dashboard' => array(
-			'type' => 'bool'
+			'values' => array(
+				'on',
+				'off',
+				''
+			)
 		),
 		'ecwid_disable_pb_url' => array(
 			'type' => 'bool'
@@ -2064,7 +2068,6 @@ function ecwid_create_store() {
 }
 
 function ecwid_general_settings_do_page() {
-
 	$store_id = get_option( 'ecwid_store_id' );
 
 	$connection_error = isset( $_GET['connection_error'] );
@@ -2077,8 +2080,6 @@ function ecwid_general_settings_do_page() {
 			EcwidPlatform::cache_get( 'user_was_redirected_to_ecwid_site_to_create_account' );
 
 		$no_reg_wl = Ecwid_Config::is_no_reg_wl();
-		
-		global $ecwid_oauth;
 		
 		if ( $there_was_oauth_error || $customer_returned_from_creating_store_at_ecwid || $no_reg_wl) {
 			EcwidPlatform::cache_reset( 'user_was_redirected_to_ecwid_site_to_create_account' );
@@ -2099,8 +2100,8 @@ function ecwid_general_settings_do_page() {
 		}
 	} else {
 		global $ecwid_oauth;
-
-		if ( get_option( 'ecwid_disable_dashboard' ) && !isset( $_GET['reconnect'] ) ) {
+		
+		if ( Ecwid_Admin::disable_dashboard() ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
 		} else if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
 			if ( ecwid_test_oauth(true) ) {
@@ -2130,6 +2131,12 @@ function ecwid_general_settings_do_page() {
 
 function ecwid_get_iframe_src($time, $page) {
 
+	$oauth = new Ecwid_Oauth();
+	
+	if ( !Ecwid_Api_V3::get_token() || !$oauth->has_scope( 'allow_sso' ) ) {
+		return false;
+	}
+	
 	if (function_exists('get_user_locale')) {
 		$lang = get_user_locale();
 	} else {
