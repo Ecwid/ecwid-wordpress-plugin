@@ -43,14 +43,14 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		
 		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
 		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
-		$body_lines[] = 'Reason: [' . $reason['code'] . '] ' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
+		$body_lines[] = 'Reason:' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
 		
 		global $current_user;
 		$reply_to = $current_user->user_email;
 
 		$result = wp_mail(
 			$to,
-			__(  'WordPress plugin deactivation feedback (store ID ' . get_ecwid_store_id() . ')', 'ecwid-shopping-cart'  ),
+			__(  'WordPress plugin deactivation feedback (' . $reason['code'] . '; store ID ' . get_ecwid_store_id() . ')', 'ecwid-shopping-cart'  ),
 			implode( PHP_EOL, $body_lines ),
 			'Reply-To:' . $reply_to
 		);
