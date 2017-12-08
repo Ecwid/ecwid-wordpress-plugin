@@ -43,7 +43,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		
 		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
 		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
-		$body_lines[] = 'Reason: ' . $reason['text'] . "\n" . $_GET['message'];
+		$body_lines[] = 'Reason: [' . $reason['code'] . '] ' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
 		
 		global $current_user;
 		$reply_to = $current_user->user_email;
@@ -108,31 +108,37 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 			array(
 				'text' => __( 'I have a problem using this plugin', 'ecwid-shopping-cart' ),
 				'has_message' => true,
+				'code' => 'problem',
 				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
 			),
 			array(
 				'text' => __( 'The plugin is difficult to set up and use', 'ecwid-shopping-cart' ),
 				'has_message' => true,
+				'code' => 'hard to use',
 				'message_hint' => __( 'What was difficult?', 'ecwid-shopping-cart' )
 			),
 			array(
-				'text' => __( 'The plugins doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
+				'text' => __( 'The plugin doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
 				'has_message' => true,
+				'code' => 'no feature',
 				'message_hint' => __( 'What feature do you need?', 'ecwid-shopping-cart' )
 			),
 			array(
 				'text' => __( 'I found a better plugin', 'ecwid-shopping-cart' ),
 				'has_message' => true,
+				'code' => 'found better',
 				'message_hint' => __( 'Can you share the name of the plugin you chose?', 'ecwid-shopping-cart' )
 			),
 			array(
 				'text' => __( 'It\'s a temporary deactivation. Please do not ask me again.', 'ecwid-shopping-cart' ),
 				'has_message' => false,
+				'code' => 'temporary',
 				'is_disable_message' => true
 			),
 			array(
 				'text' => __( 'Other', 'ecwid-shopping-cart' ),
 				'has_message' => true,
+				'code' => 'other',
 				'message_hint' => __( 'Can you share your feedback? What was wrong?', 'ecwid-shopping-cart' )
 			)
 		);		
