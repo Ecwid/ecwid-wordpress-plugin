@@ -92,6 +92,10 @@ function ecwid_apply_theme($theme_name = null)
 		$theme_name = 'responsiveboat';
 	}
 
+	if ($theme_name == 'evolve-plus') {
+		$theme_name = 'evolve';
+	}
+	
 	if (!$theme_name) {
 		return;
 	}
