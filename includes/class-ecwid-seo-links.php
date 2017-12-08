@@ -195,13 +195,6 @@ JS;
 	public function build_rewrite_rules( ) {
 
 		if ( !self::is_enabled() ) return;
-		
-		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
-			foreach ( $patterns as $pattern ) {
-				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
-			}
-		}
 
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 
@@ -235,6 +228,13 @@ JS;
 						}
 					}
 				}
+			}
+		}
+
+		if ( $this->is_store_on_home_page() ) {
+			$patterns = $this->get_seo_links_patterns();
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
 		}
 	}
