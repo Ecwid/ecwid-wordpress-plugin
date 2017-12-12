@@ -1,3 +1,12 @@
+<h2>Online store hidden parameters</h2>
+
+<div style="max-width: 800px">
+<b style="color: red">WARNING: ADVANCED CONFIGURATION AHEAD!</b> Changing these settings may significantly affect the plugin functionality, including admin settings and storefront. You should only continue if you are sure of what you are doing.
+<br />
+<br />
+    Having a problem working with the Online store plugin? Visit our <a target="_blank" href="https://support.ecwid.com">Help center</a> if you haven't yet.
+</div>
+<br />
 <form method="POST" type="multipart/form-data" action="admin-post.php?action=<?php echo ecwid_get_update_params_action(); ?>">
 <input type="hidden" name="nonce" value="<?php echo wp_create_nonce( ecwid_get_update_params_action() ); ?>" />
 	
