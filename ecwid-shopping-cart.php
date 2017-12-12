@@ -2129,14 +2129,27 @@ function ecwid_general_settings_do_page() {
 	}
 }
 
-function ecwid_get_iframe_src($time, $page) {
+
+add_action('admin_post_ecwid-do-sso', 'ecwid_do_sso_redirect');
+function ecwid_do_sso_redirect() {
+	
+	if ( !current_user_can('manage_options') ) {
+		die();
+	}
+	
+	$url = ecwid_get_admin_sso_url( time() );
+	
+	wp_redirect( $url );	
+}
+
+function ecwid_get_admin_sso_url( $time, $page = '' ) {
 
 	$oauth = new Ecwid_Oauth();
-	
+
 	if ( !Ecwid_Api_V3::get_token() || !$oauth->has_scope( 'allow_sso' ) ) {
 		return false;
 	}
-	
+
 	if (function_exists('get_user_locale')) {
 		$lang = get_user_locale();
 	} else {
@@ -2144,7 +2157,7 @@ function ecwid_get_iframe_src($time, $page) {
 	}
 
 	return sprintf(
-		'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&inline&lang=%s&min-height=700',
+		'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&place=%s&lang=%s',
 		get_ecwid_store_id(),
 		Ecwid_Api_V3::get_token(),
 		$time,
@@ -2152,6 +2165,11 @@ function ecwid_get_iframe_src($time, $page) {
 		$page,
 		substr( $lang, 0, 2 )
 	);
+}
+
+
+function ecwid_get_iframe_src($time, $page) {
+	return ecwid_get_admin_sso_url($time, $page) . '&inline&&min-height=700';
 }
 
 function ecwid_admin_do_page( $page ) {

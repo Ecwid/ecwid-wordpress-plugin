@@ -45,8 +45,8 @@
 				</li>
 				<li>
 					<a target="_blank" 
-                       <?php if (ecwid_get_iframe_src(time(), '') ): ?>
-                       href="<?php echo ecwid_get_iframe_src(time(), ''); ?>"
+                       <?php if (ecwid_get_admin_sso_url(time(), '') ): ?>
+                       href="admin-post.php?action=ecwid-do-sso"
                        <?php else: ?>
                        href="//<?php echo Ecwid_Config::get_cpanel_domain(); ?>/cp?source=wporg"
                        <?php endif; ?>
