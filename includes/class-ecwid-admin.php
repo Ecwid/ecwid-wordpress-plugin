@@ -15,7 +15,7 @@ class Ecwid_Admin {
 	public function build_menu()
 	{
 
-		$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
 
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),

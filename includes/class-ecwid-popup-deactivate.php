@@ -30,7 +30,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		$to = 'plugins-feedback@ecwid.com';
 
 		$body_lines = array();
-		if ( get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
+		if ( get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() ) {
 			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
 		}
 		

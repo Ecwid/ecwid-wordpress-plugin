@@ -13,7 +13,6 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-define("ECWID_DEMO_STORE_ID", 1003);
 define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
@@ -1563,7 +1562,7 @@ function ecwid_store_activate() {
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
-	add_option("ecwid_store_id", ECWID_DEMO_STORE_ID, '', 'yes');
+	add_option("ecwid_store_id", Ecwid_Config::get_demo_store_id(), '', 'yes');
 	
 	add_option("ecwid_enable_minicart", 'Y', '', 'yes');
 	add_option("ecwid_show_categories", '', '', 'yes');
@@ -1893,7 +1892,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 		
-		if (get_option('ecwid_store_id') == ECWID_DEMO_STORE_ID) {
+		if (get_option('ecwid_store_id') == Ecwid_Config::get_demo_store_id()) {
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
@@ -1926,7 +1925,7 @@ function ecwid_register_settings_styles($hook_suffix) {
 
 function ecwid_plugin_actions($links) {
 	$settings_link = "<a href='" . Ecwid_Admin::get_dashboard_url() . "'>"
-		. (get_ecwid_store_id() == ECWID_DEMO_STORE_ID ? __('Setup', 'ecwid-shopping-cart') : __('Settings') )
+		. (get_ecwid_store_id() == Ecwid_Config::get_demo_store_id() ? __('Setup', 'ecwid-shopping-cart') : __('Settings') )
 		. "</a>";
 	array_unshift( $links, $settings_link );
 
@@ -2072,7 +2071,7 @@ function ecwid_general_settings_do_page() {
 
 	$connection_error = isset( $_GET['connection_error'] );
 
-	if ( $store_id == ECWID_DEMO_STORE_ID && !Ecwid_Config::overrides_token()  ) {
+	if ( $store_id == Ecwid_Config::get_demo_store_id() && !Ecwid_Config::overrides_token()  ) {
 		$no_oauth = @$_GET['oauth'] == 'no';
 
 		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
@@ -2280,7 +2279,7 @@ function ecwid_process_oauth_params() {
 	}
 
 	global $ecwid_oauth;
-	$is_connect = get_ecwid_store_id() != ECWID_DEMO_STORE_ID && !isset($_GET['connection_error']);
+	$is_connect = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() && !isset($_GET['connection_error']);
 
 	$is_reconnect = isset($_GET['reconnect']) && !isset($_GET['connection_error']);
 
@@ -2462,7 +2461,7 @@ function get_ecwid_store_id() {
 	
 	$store_id = get_option('ecwid_store_id');
 	if (empty($store_id)) {
-		$store_id = ECWID_DEMO_STORE_ID;
+		$store_id = Ecwid_Config::get_demo_store_id();
 	}
 
 	return $store_id;
@@ -2889,7 +2888,7 @@ function ecwid_is_paid_account()
 			       'PREMIUM', $profile->account->availableFeatures
 		       );
 	}
-	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != ECWID_DEMO_STORE_ID;
+	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
 }
 
 function ecwid_is_apiv1_enabled()
@@ -2898,7 +2897,7 @@ function ecwid_is_apiv1_enabled()
     $ecwid_api_check_time = get_option('ecwid_api_check_time');
     $now = time();
 
-    if ( $now > ($ecwid_api_check_time + ECWID_API_AVAILABILITY_CHECK_TIME) && get_ecwid_store_id() != ECWID_DEMO_STORE_ID ) {
+    if ( $now > ($ecwid_api_check_time + ECWID_API_AVAILABILITY_CHECK_TIME) && get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() ) {
         $ecwid = ecwid_new_product_api();
 
         $ecwid_is_api_enabled = ($ecwid->is_api_enabled() ? 'on' : 'off');
