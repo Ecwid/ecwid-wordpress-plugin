@@ -113,7 +113,8 @@ class Ecwid_Nav_Menus {
 	}
 
 	public function enqueue_frontend_assets() {
-		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() ) {
+		 
+		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() && !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
 			return;
 		}
 
