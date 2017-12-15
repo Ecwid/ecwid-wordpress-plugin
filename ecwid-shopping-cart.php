@@ -2808,6 +2808,15 @@ JS;
 
 var ecwid_sso_profile='$ecwid_sso_profile';
 $sign_in_out_urls
+
+jQuery(document).ready(function() {
+	Ecwid.OnPageLoad.add(function(page) {
+		if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
+			location.href = '$signin_url';
+		}
+	})
+}
+    );
 </script>
 HTML;
 }
