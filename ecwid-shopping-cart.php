@@ -2194,16 +2194,20 @@ function ecwid_admin_do_page( $page ) {
 	$time = time() - get_option('ecwid_time_correction', 0);
 
 	$iframe_src = ecwid_get_iframe_src($time, $page);
-
+	
 	$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
     if (!$request) {
         echo Ecwid_Message_Manager::show_message('no_oauth');
         return;
     }
-
+	
 	$result = $request->do_request();
-
-	if ($result['code'] == 403 && strpos($result['data'], 'Token too old') !== false ) {
+	
+	if ($result['code'] == 403 && ( 
+		strpos($result['data'], 'Token too old') !== false 
+		|| strpos($result['data'], 'window.top.location = \'https://my.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?') !== false 
+		)
+	) {
 
 		if (isset($result['headers']['date'])) {
 			$time = strtotime($result['headers']['date']);
