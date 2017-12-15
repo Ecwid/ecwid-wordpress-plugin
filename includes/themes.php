@@ -62,7 +62,8 @@ function ecwid_apply_theme($theme_name = null)
 		'optimizepress'         => array( 'css' ),
 		'edge'                  => array( 'js', 'scroll' ),
 		'newsmag'               => array( 'css-no-parent'),
-		'optimizer'             => array( 'css' )
+		'optimizer'             => array( 'css' ),
+		'businesso'				=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
