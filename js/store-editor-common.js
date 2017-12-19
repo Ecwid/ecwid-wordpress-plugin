@@ -2,17 +2,17 @@ function ecwid_get_store_shortcode(content) {
 
 	if (!wp.shortcode) return false;
 	var found = false;
-	var index = 0;
 
 	for (var i = 0; i < ecwid_params.store_shortcodes.length; i++) {
 		var candidate = false;
+		var index = 0;
 		while (candidate = wp.shortcode.next(ecwid_params.store_shortcodes[i], content, index)) {
 	
 			if (candidate && (!candidate.shortcode.attrs.named.widgets || candidate.shortcode.attrs.named.widgets.toLowerCase().indexOf('productbrowser') != -1)) {
 				found = candidate;
 				break;
 			}
-			index = found.index + 1;
+			index = candidate.index + 1;
 		}
 		
 		if (found) break;
