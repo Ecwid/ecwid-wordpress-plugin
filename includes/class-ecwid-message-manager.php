@@ -253,10 +253,10 @@ TXT
 		
 		switch ($name) {
 			case 'on_activate':
-				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
+				return get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				return $this->should_display_on_no_storeid_on_setup_pages();
@@ -292,7 +292,7 @@ TXT
 		
 		$admin_page = $screen->base;
 		
-		$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
 
 		$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
 		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();

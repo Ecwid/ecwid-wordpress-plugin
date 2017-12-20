@@ -31,7 +31,7 @@ class Ecwid_Ajax_Defer_Renderer {
 	
 	public function init()
 	{
-		if ( $this->is_enabled() && !$this->_already_enabled ) {
+		if ( self::is_enabled() && !$this->_already_enabled ) {
 			add_filter( 'ecwid_disable_widgets', '__return_true' );
 			add_filter( 'ecwid_shortcode_custom_renderer', array( $this, 'get_custom_renderer' ) );
 			add_filter( 'the_content', array( $this, 'add_shortcodes' ) );
@@ -55,7 +55,7 @@ class Ecwid_Ajax_Defer_Renderer {
 	}
 	
 	
-	public function is_enabled()
+	public static function is_enabled()
 	{
 		$option_value = get_option( self::OPTION_DEFER_RENDERING );
 		
