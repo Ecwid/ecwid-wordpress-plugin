@@ -2378,28 +2378,6 @@ function ecwid_get_categories_for_selector() {
 	return $result;
 }
 
-function ecwid_get_product_seo_url( $product_id ) {
-	if ( Ecwid_Products::is_enabled() ) {
-		global $ecwid_products;
-
-		return $ecwid_products->get_product_link( $product_id );
-	} elseif (Ecwid_Api_V3::is_available()) {
-		$api = new Ecwid_Api_V3();
-		if ( $api->is_api_available() ) {
-			$product = Ecwid_Product::get_by_id( $product_id );
-			
-			if ($product->get_seo_link()) {
-				return $product->get_seo_link();
-			}
-			
-			$product = $api->get_product( $product_id );
-			return $product->url;
-		}
-	}
-
-	return Ecwid_Store_Page::get_store_url() . '#!/p/' . $product_id;
-}
-
 function ecwid_advanced_settings_do_page() {
 	$categories = ecwid_get_categories_for_selector();
 
