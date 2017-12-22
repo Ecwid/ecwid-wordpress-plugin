@@ -827,7 +827,8 @@ function ecwid_invalidate_cache( $full_reset = false)
 		EcwidPlatform::invalidate_categories_cache_from(time());
 		EcwidPlatform::invalidate_products_cache_from(time());
 		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
-
+		EcwidPlatform::cache_reset('all_categories');
+		
 		return;
 	}
 

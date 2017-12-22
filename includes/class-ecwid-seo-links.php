@@ -248,11 +248,13 @@ JS;
 	public static function enable() {
 		update_option( self::OPTION_ENABLED, true );
 		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function disable() {
 		update_option( self::OPTION_ENABLED, false );
 		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function is_feature_available() {
