@@ -287,7 +287,10 @@ add_filter('redirect_canonical', 'ecwid_redirect_canonical2', 10, 3);
 function ecwid_redirect_canonical2($redir, $req) {
 	global $wp_query;
 
-	if ($wp_query->get('page_id') == Ecwid_Store_Page::get_current_store_page_id() && $req . '/' == $redir) {
+	$adds_slash = $req . '/' == $redir;
+	$adds_slash |= urldecode($req . '/') == urldecode($redir);
+	
+	if ($wp_query->get('page_id') == Ecwid_Store_Page::get_current_store_page_id() && $adds_slash) {
 		return false;
 	}
 
