@@ -83,13 +83,9 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 			if ( $data && Ecwid_Seo_Links::is_enabled() ) {
 				$data->seo_link = $data->url;
 			}
-		} else {
-			$api = ecwid_new_product_api();
-			$data = $api->get_category($id);
-		}
+		} 
 
 		if ($data) {
-			
 			$this->_init_from_stdclass($data);
 		}
 

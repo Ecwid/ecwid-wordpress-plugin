@@ -496,12 +496,6 @@ function ecwid_is_store_closed()
 		}
 		
 		return @$profile->settings->closed;
-	} else if ( ecwid_is_apiv1_enabled() ) {
-		$api = ecwid_new_product_api();
-		
-		$profile = $api->get_profile();
-		
-		return $profile['closed'];
 	}
 	
 	return false;
@@ -2901,37 +2895,7 @@ function ecwid_is_paid_account()
 			       'PREMIUM', $profile->account->availableFeatures
 		       );
 	}
-	return ecwid_is_apiv1_enabled() && get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
-}
-
-function ecwid_is_apiv1_enabled()
-{
-    $ecwid_is_api_enabled = get_option('ecwid_is_api_enabled');
-    $ecwid_api_check_time = get_option('ecwid_api_check_time');
-    $now = time();
-
-    if ( $now > ($ecwid_api_check_time + ECWID_API_AVAILABILITY_CHECK_TIME) && get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() ) {
-        $ecwid = ecwid_new_product_api();
-
-        $ecwid_is_api_enabled = ($ecwid->is_api_enabled() ? 'on' : 'off');
-
-        update_option('ecwid_is_api_enabled', $ecwid_is_api_enabled);
-        update_option('ecwid_api_check_time', $now);
-    }
-
-    if ('on' == $ecwid_is_api_enabled)
-        return true;
-    else
-        return false;
-}
-
-function ecwid_new_product_api()
-{
-    include_once ECWID_PLUGIN_DIR . 'lib/ecwid_product_api.php';
-    $ecwid_store_id = intval(get_ecwid_store_id());
-    $api = new EcwidProductApi($ecwid_store_id);
-
-    return $api;
+	return false;
 }
 
 function ecwid_embed_svg($name) {
