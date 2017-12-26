@@ -232,6 +232,15 @@ TXT
 				'hideable' => false,
 				'type' => 'error'
 			),
+			
+			'no_token' => array(
+				'title' => 'Oops',
+				'message' => sprintf( __( 'No token - no toys. Please, <a %s>connect</a>', 'ecwid-shopping-cart' ), 'href="admin.php?=page=' . Ecwid_Admin::ADMIN_SLUG . '"' ),
+				'type' => 'error',
+				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
+				'primary_url' => admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG ),
+				'hideable' => true
+			)
 		);
 	}
 
@@ -264,6 +273,9 @@ TXT
 			case 'on_appearance_widgets':
 				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
+			case 'no_token':
+				return Ecwid_Api_V3::get_token() != false;
+				
 			case 'please_vote':
 
 				if ( Ecwid_Config::is_wl() ) return false;

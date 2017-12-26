@@ -91,6 +91,7 @@ div.ecwid-message {
 	position: relative;
 	display: table;
 	width: 100%;
+	min-height: 30px;
 }
 
 .ecwid-message .ecwid-message-buttons > div {
