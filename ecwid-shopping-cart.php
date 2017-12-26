@@ -1388,6 +1388,10 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if (is_active_widget(false, false, 'ecwidrandomproduct')) {
 		$params .= '&data_rpw=1';
 	}
+	
+	if (!Ecwid_Api_V3::get_token()) {
+		$params .= '&data_no_apiv3=1';
+	}
 
 	return $params;
 }
