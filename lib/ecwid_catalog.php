@@ -19,6 +19,10 @@ class EcwidCatalog
 	public function get_product($id)
 	{
 		$result = $this->_get_data_for_product($id);
+
+		if ( !$result ) {
+			return '';
+		}
 		
 		ob_start();
 		$product = $result->product;
@@ -34,6 +38,10 @@ class EcwidCatalog
 	public function get_category($id)
 	{
 		$data = $this->_get_data_for_category( $id, @$_GET['offset'] );
+		
+		if ( !$data ) {
+			return '';
+		}
 		
 		$main_category = null;
 		if ($id > 0) {
@@ -60,6 +68,10 @@ class EcwidCatalog
 			$product = Ecwid_Product::get_by_id( $id );
 			
 			$profile = $api->get_store_profile();
+			
+			if (!$profile) {
+				return null;
+			}
 			
 			return (object) array(
 				'product' => $product,
@@ -107,6 +119,10 @@ class EcwidCatalog
 			$products = $api->search_products( $get_products_params );
 			
 			$profile = $api->get_store_profile();
+			
+			if ( is_null( $profile ) || !isset( $categories->items ) || !isset( $products->items ) ) {
+				return null;
+			}
 			
 			return (object) array(
 				'main_category' => $main_category,

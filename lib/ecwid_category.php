@@ -49,6 +49,10 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 		} else {
 			$e->_init_from_stdclass( $entry_data );
 		}
+		
+		if ( !$e->_data ) {
+			return null;
+		}
 
 		$e->_put_into_local_object_cache($e);
 

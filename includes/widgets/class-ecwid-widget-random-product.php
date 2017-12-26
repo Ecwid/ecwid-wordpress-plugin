@@ -13,6 +13,10 @@ class Ecwid_Widget_Random_Product extends WP_Widget {
 
 		$product = Ecwid_Product::get_random_product();
 		
+		if (! $product ) {
+			return;
+		}
+		
 		$name = esc_attr($product->name);
 		
 		$url = $product->link;

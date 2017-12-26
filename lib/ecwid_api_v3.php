@@ -73,6 +73,7 @@ class Ecwid_Api_V3
 		);
 		
 		$result = EcwidPlatform::get_from_categories_cache($url);
+
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 			
@@ -367,6 +368,10 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
+		if ( !isset( $result['data'] ) ) {
+			return null;
+		}
+		
 		return json_decode($result['data']);
 	}
 

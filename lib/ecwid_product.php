@@ -41,6 +41,9 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		
 		if ( !$product_data ) {
 			$p->_load($id);
+			if ( !$p->_data ) {
+				return null;
+			}
 			$p->_persist();
 		} else {
 			$p->_data = $product_data;
@@ -80,6 +83,10 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 					'offset' => $offset
 				)
 			);
+			
+			if (!@$result->items) {
+				return null;
+			}
 			
 			$random_product_id = $result->items[$index - $offset]->id;
 		}

@@ -101,7 +101,7 @@ class EcwidPlatform {
 
 		$use_file_get_contents = EcwidPlatform::cache_get('ecwid_fetch_url_use_file_get_contents', false);
 
-		if ($use_file_get_contents) {
+		if ( $use_file_get_contents ) {
 				$result = @file_get_contents($url, null, $ctx);
 		} else {
 				if (get_option('ecwid_http_use_stream', false)) {
