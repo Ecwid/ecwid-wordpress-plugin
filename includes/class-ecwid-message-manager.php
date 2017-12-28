@@ -194,7 +194,7 @@ TXT
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
 				'primary_title' => __( 'Set up your store', 'ecwid-shopping-cart'),
-				'primary_url' => 'admin.php?page=ecwid',
+				'primary_url' => 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG,
 				'hideable'  => true,
 				'default'  => 'disabled'
 			),
@@ -256,7 +256,8 @@ TXT
 			$admin_page = $screen->base;
 		}
 
-		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
+		$is_ecwid_menu = $admin_page == 'toplevel_page_' . Ecwid_Admin::ADMIN_SLUG;
+		if ($is_ecwid_menu && isset($_GET['reconnect'])) {
 			return false;
 		}
 		
@@ -274,7 +275,9 @@ TXT
 				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
 			case 'no_token':
-				return Ecwid_Api_V3::get_token() != false;
+				$no_token = Ecwid_Api_V3::get_token() == false;
+				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
+				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case 'please_vote':
 

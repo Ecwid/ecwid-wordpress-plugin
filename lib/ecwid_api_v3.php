@@ -295,10 +295,14 @@ class Ecwid_Api_V3
 			if (empty($encrypted)) return false;
 
 			$token = EcwidPlatform::decrypt($encrypted);
+		
+			if ($token == $db_value) {
+				return false;
+			}
 		} else {
 			$token = $db_value;
 		}
-
+		
 		return $token;
 	}
 

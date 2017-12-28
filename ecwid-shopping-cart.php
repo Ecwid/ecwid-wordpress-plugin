@@ -2119,6 +2119,7 @@ function ecwid_general_settings_do_page() {
 		}
 	} else {
 		global $ecwid_oauth;
+
 		
 		if ( Ecwid_Admin::disable_dashboard() ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
@@ -2129,7 +2130,6 @@ function ecwid_general_settings_do_page() {
 				require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
 			}
 		} else {
-
 			if ($connection_error || isset($_GET['reconnect'])) {
 				if (isset($_GET['reason'])) switch ($_GET['reason']) {
 					case 'spw': $reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
@@ -2187,8 +2187,14 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 }
 
 
-function ecwid_get_iframe_src($time, $page) {
-	return ecwid_get_admin_sso_url($time, $page) . '&inline&&min-height=700';
+function ecwid_get_iframe_src($time, $page)
+{
+	$url = ecwid_get_admin_sso_url($time, $page);
+	if ($url) {
+		return $url . '&inline&&min-height=700';
+	} else {
+		return false;
+	}
 }
 
 function ecwid_admin_do_page( $page ) {
@@ -2197,6 +2203,12 @@ function ecwid_admin_do_page( $page ) {
 		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 		die();
 	}
+	
+	if (Ecwid_Api_V3::get_token() == false) {
+		require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
+		die();
+	}
+	
 	global $ecwid_oauth;
 
 	if (isset($_GET['ecwid_page']) && $_GET['ecwid_page']) {
@@ -2216,6 +2228,7 @@ function ecwid_admin_do_page( $page ) {
 	$iframe_src = ecwid_get_iframe_src($time, $page);
 	
 	$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
+
     if (!$request) {
         echo Ecwid_Message_Manager::show_message('no_oauth');
         return;
