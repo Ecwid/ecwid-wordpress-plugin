@@ -440,7 +440,7 @@ function ecwid_load_textdomain() {
 
 function ecwid_404_on_broken_escaped_fragment() {
 
-	if ( !Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled() ) {
+	if ( !Ecwid_Api_V3::is_available() ) {
 		return;
 	}
 
@@ -967,7 +967,7 @@ function ecwid_content_has_productbrowser( $content ) {
 
 function ecwid_ajax_crawling_fragment() {
 
-	if ( !Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled() ) return;
+	if ( !Ecwid_Api_V3::is_available() ) return;
 
 	if ( isset( $_GET['_escaped_fragment_'] ) ) return;
 
@@ -1052,7 +1052,7 @@ function ecwid_canonical() {
 
 function ecwid_is_applicable_escaped_fragment() {
 
-	if (!Ecwid_Api_V3::is_available() && !ecwid_is_apiv1_enabled()) {
+	if (!Ecwid_Api_V3::is_available() ) {
 		return false;
 	}
 	
@@ -2866,7 +2866,7 @@ function ecwid_should_display_escaped_fragment_catalog()
 {
 	if (!isset($_GET['_escaped_fragment_'])) return;
 
-	if ( Ecwid_Api_V3::is_available() || ecwid_is_apiv1_enabled() ) {
+	if ( Ecwid_Api_V3::is_available()) {
 		return !ecwid_is_store_closed();
 	}
 	
