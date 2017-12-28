@@ -329,7 +329,7 @@ function ecwid_enqueue_frontend() {
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
-		'useJsApiToOpenStorePages' => (bool)get_option( 'ecwid_use_js_api_to_open_store_pages', true )
+		'useJsApiToOpenStoreCategoriesPages' => (bool)get_option( 'ecwid_use_js_api_to_open_store_categories_pages', false )
 	));
 	
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
@@ -634,8 +634,10 @@ function ecwid_check_version()
 		// Since 5.4.3? 
 		add_option( Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY, '' );
 		
-		add_option( 'ecwid_use_js_api_to_open_store_pages', true );
-		
+		// Since 5.7.x?
+		add_option( 'ecwid_use_js_api_to_open_store_categories_pages', false );
+		delete_option( 'ecwid_use_js_api_to_open_store_pages' );
+
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
@@ -1787,6 +1789,9 @@ function ecwid_get_update_params_options() {
 			)
 		),
 		'ecwid_disable_pb_url' => array(
+			'type' => 'bool'
+		),
+		'ecwid_use_js_api_to_open_store_categories_pages' => array(
 			'type' => 'bool'
 		),
 		Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION => array(

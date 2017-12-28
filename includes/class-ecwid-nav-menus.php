@@ -216,8 +216,8 @@ class Ecwid_Nav_Menus {
                             $post->description = '';
                             $post->xfn = '';
                             $post->object_id = 0;
-    //						$post->ecwid_page_type = 'category';
-    //						$post->ecwid_category_id = $category->id;
+    						$post->ecwid_page_type = 'category';
+    						$post->ecwid_category_id = $category->id;
     
                             $posts[] = $post;
                         }
@@ -240,7 +240,8 @@ class Ecwid_Nav_Menus {
 
 	public function nav_menu_link_attributes( $attributes, $item )
     {
-        if ( !isset( $item->ecwid_page_type ) ) {
+		
+		if ( !isset( $item->ecwid_page_type ) ) {
             return $attributes;
         }
         

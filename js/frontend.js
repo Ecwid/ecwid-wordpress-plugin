@@ -3,7 +3,6 @@ window.ec.config = window.ec.config || {};
 window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 
 jQuery(document).ready(function() {
-    jQuery('.ecwid-store-with-categories a').click(function() {jQuery(':focus').blur()});
     
     window.ecwidShoppingCartMakeStoreLinksUseApiCall = function($link) {
 
@@ -20,22 +19,22 @@ jQuery(document).ready(function() {
                 } else {
                     Ecwid.openPage('category', 0);
                 }
-            } if (page == 'category') {
-                Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
+            } if (page == 'category' ) {
+                if (ecwidParams.useJsApiToOpenStoreCategoriesPages) {
+                    Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
+                    jQuery(this).hide().blur().show();
+                } else {
+                    return;
+                }
             } else if ( page == 'product' ) {
                 Ecwid.openPage('product', {id: jQuery(this).data('ecwid-product-id')});
             } else {
                 Ecwid.openPage(page);
             }
-
-            jQuery(this).parents('ul.sub-menu.focus').removeClass('focus').blur().parents('li.menu-item.focus').removeClass('focus').blur();
-
+            
             return false;
         });
     };
     
-    
-    if (ecwidParams.useJsApiToOpenStorePages) {
-        ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
-    }
+    ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 });
