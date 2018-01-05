@@ -234,11 +234,11 @@ TXT
 			),
 			
 			'no_token' => array(
-				'title' => 'Oops',
-				'message' => sprintf( __( 'No token - no toys. Please, <a %s>connect</a>', 'ecwid-shopping-cart' ), 'href="admin.php?=page=' . Ecwid_Admin::ADMIN_SLUG . '"' ),
+				'title' => sprintf( __( 'Action required: please connect your %s account', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'Your storefront (product listing and checkout) is working fine, but the advanced store functions like SEO and sidebar widgets are disabled. To enable them and make sure your store works properly, please press the button below to connect your %s account. This will take less than a minute — you will only be asked to log in to your account and allow this site to get your store data.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'type' => 'error',
 				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
-				'primary_url' => admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG ),
+				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
 			)
 		);
