@@ -8,7 +8,8 @@ jQuery.widget('ecwid.productsList', {
 		this.sort = [];
 		this.options = {
 			max: 3,
-			debug: false
+			debug: false,
+			prependNew: false
 		};
 
 
@@ -29,8 +30,10 @@ jQuery.widget('ecwid.productsList', {
 			, 200)
 		);
 
-		this.ajax_url = wp_ecwid_products_list_vars.ajax_url;
-		this.is_api_available = wp_ecwid_products_list_vars.is_api_available;
+		if (typeof wp_ecwid_products_list_vars != 'undefined') {
+			this.ajax_url = wp_ecwid_products_list_vars.ajax_url;
+			this.is_api_available = wp_ecwid_products_list_vars.is_api_available;
+        }
 	},
 
 	_render: function() {
@@ -75,10 +78,15 @@ jQuery.widget('ecwid.productsList', {
 
 		this._fillProductElement(product);
 
-		this._getProductElement(product.id)
+		var el = this._getProductElement(product.id)
 				.addClass('show')
-				.removeClass('hide')
-				.prependTo(this.container);
+				.removeClass('hide');
+		
+		if (this.options.prependNew) {
+			el.prependTo(this.container);
+		} else {
+			el.appendTo(this.container);
+		}
 	},
 
 	_hideProduct: function(product) {
@@ -107,18 +115,16 @@ jQuery.widget('ecwid.productsList', {
 		var container = jQuery('.'+ this._getProductClass(product.id), this.el);
 
 		if (product.link != '') {
-
-			if ( window.ec && window.ec.config && window.ec.config.baseUrl ) {
-                var match = product.link.match(/([^-^\/]*)-p([0-9]*)$/);
-                if (match && match.length == 3) {
-                	product.link = '#!/' + match[1] + '/p/' + match[2];
-				}
-			}
-
-			console.log(product.link);
-			jQuery('a', container)
+			
+			var a = jQuery('a', container)
 					.attr('href', product.link)
-					.attr('title', product.name);
+					.attr('title', product.name)
+					.data('ecwid-page', 'product')
+					.data('ecwid-product-id', product.id);
+			
+			if (typeof window.ecwidShoppingCartMakeStoreLinksUseApiCall != 'undefined') {
+                ecwidShoppingCartMakeStoreLinksUseApiCall(a);
+			}
 		}
 		if (product.image) {
 			jQuery('.' + this._prefix + '-image img', container).attr('src', product.image);

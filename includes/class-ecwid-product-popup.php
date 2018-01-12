@@ -24,7 +24,11 @@ class Ecwid_Product_Popup {
         if ($current_screen->base != 'post') {
             return;
         }
-
+        
+        if ( !in_array( $current_screen->post_type, array( 'page', 'post' ) ) ) {
+        	return;
+		}
+        
         if (Ecwid_Api_V3::get_token()) {
             add_action('media_buttons_context', array($this, 'add_editor_button'));
             add_action('admin_enqueue_scripts', array($this, 'add_scripts'));

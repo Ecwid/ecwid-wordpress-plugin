@@ -193,8 +193,8 @@ TXT
 			'on_activate' => array(
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
-				'primary_title' => sprintf( __( 'Set up %s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-				'primary_url' => 'admin.php?page=ecwid',
+				'primary_title' => __( 'Set up your store', 'ecwid-shopping-cart'),
+				'primary_url' => 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG,
 				'hideable'  => true,
 				'default'  => 'disabled'
 			),
@@ -232,6 +232,15 @@ TXT
 				'hideable' => false,
 				'type' => 'error'
 			),
+			
+			'no_token' => array(
+				'title' => sprintf( __( 'Action required: please connect your %s account', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'Your storefront (product listing and checkout) is working fine, but the advanced store functions like SEO and sidebar widgets are disabled. To enable them and make sure your store works properly, please press the button below to connect your %s account. This will take less than a minute — you will only be asked to log in to your account and allow this site to get your store data.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'type' => 'error',
+				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
+				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
+				'hideable' => true
+			)
 		);
 	}
 
@@ -247,28 +256,29 @@ TXT
 			$admin_page = $screen->base;
 		}
 
-		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
+		$is_ecwid_menu = $admin_page == 'toplevel_page_' . Ecwid_Admin::ADMIN_SLUG;
+		if ($is_ecwid_menu && isset($_GET['reconnect'])) {
 			return false;
 		}
-
+		
 		switch ($name) {
 			case 'on_activate':
-				return $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
+				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != ECWID_DEMO_STORE_ID && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
+				return get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
-				$is_newbie = get_ecwid_store_id() == ECWID_DEMO_STORE_ID;
-
-				$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
-				$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
-
-				return $is_newbie && ($is_ecwid_settings || $is_store_page);
+				return $this->should_display_on_no_storeid_on_setup_pages();
 
 			case 'on_appearance_widgets':
 				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
+			case 'no_token':
+				$no_token = Ecwid_Api_V3::get_token() == false;
+				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
+				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				
 			case 'please_vote':
 
 				if ( Ecwid_Config::is_wl() ) return false;
@@ -292,4 +302,16 @@ TXT
 		}
 	}
 
+	protected function should_display_on_no_storeid_on_setup_pages() {
+		$screen = get_current_screen();
+		
+		$admin_page = $screen->base;
+		
+		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+
+		$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
+		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
+
+		return $is_newbie && ($is_ecwid_settings || $is_store_page);		
+	}
 }

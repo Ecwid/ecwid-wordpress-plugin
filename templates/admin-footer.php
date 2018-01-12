@@ -15,12 +15,14 @@
 			<?php _e('<a href="admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-help">Read FAQ or contact support</a>', 'ecwid-shopping-cart'); ?>
 		</div>
 	</div>
-<?php endif; ?>
-<?php if (@$show_reconnect): ?>
-	<div class="ecwid-admin-footer-block">
-		<h4 class="ecwid-admin-footer-title"><?php printf( __('Want to connect another %s store?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h4>
-		<div class="ecwid-admin-footer-text">
-			<?php echo sprintf(__('<a %s>Reconnect</a>', 'ecwid-shopping-cart'), 'href="' . Ecwid_Admin::get_dashboard_url() . '&reconnect"'); ?>
-		</div>
-	</div>
-<?php endif; ?>
+    <?php endif; ?>
+    <?php if (@$show_reconnect && Ecwid_Config::should_show_reconnect_in_footer()): ?>
+        <div class="ecwid-admin-footer-block">
+            <h4 class="ecwid-admin-footer-title"><?php printf( __('Want to connect another %s store?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h4>
+            <div class="ecwid-admin-footer-text">
+                <?php echo sprintf(__('<a %s>Reconnect</a>', 'ecwid-shopping-cart'), 'href="' . Ecwid_Admin::get_dashboard_url() . '&reconnect"'); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+    

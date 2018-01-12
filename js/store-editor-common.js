@@ -2,15 +2,21 @@ function ecwid_get_store_shortcode(content) {
 
 	if (!wp.shortcode) return false;
 	var found = false;
-	var index = 0;
 
-	while (found = wp.shortcode.next(ecwid_params.store_shortcode, content, index)) {
-
-		if (found && (!found.shortcode.attrs.named.widgets || found.shortcode.attrs.named.widgets.toLowerCase().indexOf('productbrowser') != -1)) {
-			break;
+	for (var i = 0; i < ecwid_params.store_shortcodes.length; i++) {
+		var candidate = false;
+		var index = 0;
+		while (candidate = wp.shortcode.next(ecwid_params.store_shortcodes[i], content, index)) {
+	
+			if (candidate && (!candidate.shortcode.attrs.named.widgets || candidate.shortcode.attrs.named.widgets.toLowerCase().indexOf('productbrowser') != -1)) {
+				found = candidate;
+				break;
+			}
+			index = candidate.index + 1;
 		}
-		index = found.index + 1;
-	}
+		
+		if (found) break;
+    }
 
 	if (typeof found == 'undefined') {
 		found = false;
@@ -18,7 +24,14 @@ function ecwid_get_store_shortcode(content) {
 
 	// Workaround for the caching bug that does allow to have properly parsed attributes
 	if (found) {
-		var tmpfound = wp.shortcode.next(ecwid_params.store_shortcode, found.content.replace('[' + ecwid_params.store_shortcode, '[' + ecwid_params.store_shortcode+ ' timestamp="' + (new Date()).getMilliseconds() + '"'));
+		var tmpfound = false;
+		for (var i = 0; i < ecwid_params.store_shortcodes.length; i++) {
+			var shortcode_name = ecwid_params.store_shortcodes[i];
+            tmpfound = wp.shortcode.next(shortcode_name, found.content.replace('[' + shortcode_name, '[' + shortcode_name + ' timestamp="' + (new Date()).getMilliseconds() + '"'));
+            if (tmpfound) {
+            	break;
+			}
+		}
 		found.shortcode.attrs = tmpfound.shortcode.attrs;
 		delete found.shortcode.attrs.named.timestamp;
 	}

@@ -285,6 +285,8 @@ class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
 		);
 
 		if (is_wp_error($this->raw_result)) {
+			$this->error = $this->raw_result;
+			
 			$this->_trigger_error();
 
 			return $this->raw_result;

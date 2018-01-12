@@ -1,10 +1,6 @@
 <div class="wrap ecwid-admin ecwid-connect ecwid-reconnect-allow-sso">
 	<div class="box">
-		<div class="head"><?php ecwid_embed_svg('ecwid_logo_symbol_RGB');?>
-			<h3>
-				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
-			</h3>
-		</div>
+        <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
 
 		<div class="main-wrap">
 			<div class="column">

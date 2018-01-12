@@ -13,15 +13,19 @@ class Ecwid_Widget_Random_Product extends WP_Widget {
 
 		$product = Ecwid_Product::get_random_product();
 		
+		if (! $product ) {
+			return;
+		}
+		
 		$name = esc_attr($product->name);
 		
 		$url = $product->link;
 		
 		$content = <<<HTML
 <div class="ecwid ecwid-random-product ecwid-SingleProduct-v2 ecwid-SingleProduct-v2-bordered ecwid-SingleProduct-v2-centered ecwid-Product ecwid-Product-$product->id" itemscope itemtype="http://schema.org/Product" data-single-product-id="$product->id">
-	<a href="$url"><div itemprop="image"></div></a>
-	<a href="$url"><div class="ecwid-title" itemprop="name" content="$name"></div></a>
-	<a href="$url"><div itemtype="http://schema.org/Offer" itemscope itemprop="offers">
+	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div itemprop="image"></div></a>
+	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div class="ecwid-title" itemprop="name" content="$name"></div></a>
+	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div itemtype="http://schema.org/Offer" itemscope itemprop="offers">
 		<div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="$product->price" data-spw-price-location="button">
 			<div itemprop="priceCurrency"></div>
 		</div>

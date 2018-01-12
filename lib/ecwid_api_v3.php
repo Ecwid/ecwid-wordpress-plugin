@@ -6,7 +6,6 @@ class Ecwid_Api_V3
 {
 	const CLIENT_ID = 'RD4o2KQimiGUrFZc';
 	const CLIENT_SECRET = 'jEPVdcA3KbzKVrG8FZDgNnsY3wKHDTF8';
-	const OAUTH_URL = 'https://my.ecwid.com/api/oauth/token';
 
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 	
@@ -19,7 +18,7 @@ class Ecwid_Api_V3
 	public function __construct() {
 
 		$this->store_id = EcwidPlatform::get_store_id();
-		$this->_api_url = 'https://app.ecwid.com/api/v3/';
+		$this->_api_url = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
 
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
@@ -72,8 +71,9 @@ class Ecwid_Api_V3
 				$this->_categories_api_url,
 				$params
 		);
-
+		
 		$result = EcwidPlatform::get_from_categories_cache($url);
+
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 			
@@ -295,15 +295,23 @@ class Ecwid_Api_V3
 			if (empty($encrypted)) return false;
 
 			$token = EcwidPlatform::decrypt($encrypted);
+		
+			if ($token == $db_value) {
+				return false;
+			}
 		} else {
 			$token = $db_value;
 		}
-
+		
 		return $token;
 	}
 
 	public static function get_token()
 	{
+		$config_value = Ecwid_Config::get_token();
+
+		if ($config_value) return $config_value;
+		
 		return self::_load_token();
 	}
 
@@ -364,6 +372,10 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
+		if ( !isset( $result['data'] ) ) {
+			return null;
+		}
+		
 		return json_decode($result['data']);
 	}
 
@@ -383,6 +395,10 @@ class Ecwid_Api_V3
 
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
+		
+		if (@$result['code'] != '200' || empty($result['data'])) {
+			return false;
+		}
 
 		$profile = json_decode($result['data']);
 	
@@ -420,7 +436,7 @@ class Ecwid_Api_V3
 				'email' => $admin_email,
 				'name' => $admin_name,
 				'password' => wp_generate_password(8),
-				'ip' => $_SERVER['REMOTE_ADDR']
+				'ip' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ? '35.197.29.131' : $_SERVER['REMOTE_ADDR']
 			),
 			'affiliatePartner' => array(
 				'source' => 'wporg'

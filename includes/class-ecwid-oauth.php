@@ -148,7 +148,7 @@ class Ecwid_OAuth {
 
 	public function disconnect_store()
 	{
-		update_option( 'ecwid_store_id', ECWID_DEMO_STORE_ID );
+		update_option( 'ecwid_store_id', Ecwid_Config::get_demo_store_id() );
 		$this->api->save_token( '' );
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
@@ -177,9 +177,14 @@ class Ecwid_OAuth {
     }
 
 	public function has_scope( $scope ) {
-		$stored_scope = get_option( 'ecwid_oauth_scope' );
-		if (empty($stored_scope)) {
-			$stored_scope = 'read_store_profile read_catalog';
+		
+		if (Ecwid_Config::overrides_token()) {
+			$stored_scope = implode(' ', $this->_get_default_scopes_array());
+		} else {
+			$stored_scope = get_option( 'ecwid_oauth_scope' );
+			if (empty($stored_scope)) {
+				$stored_scope = 'read_store_profile read_catalog';
+			}
 		}
 
 		return in_array( $scope, explode(' ', $stored_scope) );
@@ -237,7 +242,7 @@ class Ecwid_OAuth {
  	}
 
 	public function get_sso_admin_link() {
-		$url = 'https://my.ecwid.com/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
+		$url = 'https://' . Ecwid_Config::get_cpanel_domain() . '/api/v3/%s/sso?token=%s&timestamp=%s&signature=%s&inline=true';
 
 		$store_id = get_ecwid_store_id();
 

@@ -27,6 +27,9 @@
 	margin-bottom: 30px;
 }
 
+#ecwid-frame {
+	max-width: 1440px;
+}
 #hide-vote-message {
 	text-decoration: underline;
 	cursor: pointer;
@@ -88,6 +91,7 @@ div.ecwid-message {
 	position: relative;
 	display: table;
 	width: 100%;
+	min-height: 30px;
 }
 
 .ecwid-message .ecwid-message-buttons > div {
@@ -276,7 +280,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 }
 
 #available-widgets .widget-top.ecwid-widget-recentlyviewed .widget-title:before,
-#available-widgets .widget-top.ecwid-widget-randomproduct .widget-title:before
+#available-widgets .widget-top.ecwid-widget-randomproduct .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-latestproducts .widget-title:before
+
 {
 	content: "\e600";
 }

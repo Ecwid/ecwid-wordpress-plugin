@@ -1,0 +1,21 @@
+.reasons-list-item .message {
+    display: none;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.reasons-list-item .message textarea {
+    width: 100%;
+}
+
+.reasons-list-item.selected .message {
+    display: block;
+}
+
+.reasons-list {
+    margin-top: 20px;
+}
+
+.bottom-support-link {
+    text-align: right;
+}

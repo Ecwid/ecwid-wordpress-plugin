@@ -19,6 +19,10 @@ class EcwidCatalog
 	public function get_product($id)
 	{
 		$result = $this->_get_data_for_product($id);
+
+		if ( !$result ) {
+			return '';
+		}
 		
 		ob_start();
 		$product = $result->product;
@@ -34,6 +38,10 @@ class EcwidCatalog
 	public function get_category($id)
 	{
 		$data = $this->_get_data_for_category( $id, @$_GET['offset'] );
+		
+		if ( !$data ) {
+			return '';
+		}
 		
 		$main_category = null;
 		if ($id > 0) {
@@ -61,23 +69,17 @@ class EcwidCatalog
 			
 			$profile = $api->get_store_profile();
 			
+			if (!$profile) {
+				return null;
+			}
+			
 			return (object) array(
 				'product' => $product,
 				'formats' => $profile->formatsAndUnits
 			);
-		} else {
-
-			$params = array
-			(
-				array("alias" => "product", "action" => "product", "params" => array("id" => $id)),
-				array("alias" => "formats", "action" => "profile")
-			);
-			
-			$batch_result = $this->_get_apiv1_batch_result( $params );
-			
-			return $batch_result;
-		}
+		} 
 		
+		return null;
 	}
 	
 	protected function _get_data_for_category( $id, $offset = 0 )
@@ -108,40 +110,19 @@ class EcwidCatalog
 			
 			$profile = $api->get_store_profile();
 			
+			if ( is_null( $profile ) || !isset( $categories->items ) || !isset( $products->items ) ) {
+				return null;
+			}
+			
 			return (object) array(
 				'main_category' => $main_category,
 				'categories' => $categories->items,
 				'products' => $products->items,
 				'formats' => $profile->formatsAndUnits
 			);
-		} else {
-			$params = array
-			(
-				array("alias" => "categories", "action" => "categories", "params" => array("parent" => $id)),
-				array("alias" => "products", "action" => "products", "params" => array("category" => $id)),
-				array("alias" => "formats", "action" => "profile")
-			);
-			if ($id > 0) {
-				$params[] = array('alias' => 'main_category', "action" => "category", "params" => array("id" => $id));
-			}
-			
-			$batch_result = $this->_get_apiv1_batch_result( $params );
-			if ( $batch_result && !isset($batch_result->main_category) ) {
-				$batch_result->main_category = null;
-			}
-			
-			return $batch_result;
-		}
-	}
-	
-	protected function _get_apiv1_batch_result($params) {
-		$api = ecwid_new_product_api();
-		$batch_result = $api->get_batch_request($params);
-		if ( is_array( $batch_result ) ) {
-			$batch_result = $api->get_batch_request($params);
-		}
-	
-		return $batch_result;
+		} 
+		
+		return null;
 	}
 	
 	public function parse_escaped_fragment($escaped_fragment)

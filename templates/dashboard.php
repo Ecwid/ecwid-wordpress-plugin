@@ -44,7 +44,14 @@
 					<a target="_blank" href="<?php echo Ecwid_Store_Page::get_store_url(); ?>"><?php _e('Visit storefront', 'ecwid-shopping-cart'); ?></a>
 				</li>
 				<li>
-					<a target="_blank" href="//my.ecwid.com/cp?source=wporg"><?php _e('Open control panel', 'ecwid-shopping-cart'); ?></a>
+					<a target="_blank" 
+                       <?php if (ecwid_get_admin_sso_url(time(), '') ): ?>
+                       href="admin-post.php?action=ecwid-do-sso"
+                       <?php else: ?>
+                       href="//<?php echo Ecwid_Config::get_cpanel_domain(); ?>/cp?source=wporg"
+                       <?php endif; ?>
+                    
+                    ><?php _e('Open control panel', 'ecwid-shopping-cart'); ?></a>
 				</li>
 			</ul>
 

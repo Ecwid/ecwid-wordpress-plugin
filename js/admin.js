@@ -1,4 +1,17 @@
 jQuery(document).ready(function() {
+	
+	var is_safari = navigator.userAgent.indexOf('Chrome') == -1 && navigator.userAgent.indexOf("Safari") > -1;
+	
+	wpCookies.set('ecwid_is_safari', is_safari);
+
+	window.ecwidOpenAdminPage = function(place) {
+		jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
+			ecwidAppNs: "ecwid-wp-plugin",
+			method: "openPage",
+			data: place
+		}), "*")
+	}
+
 	jQuery('#hide-vote-message').click(function() {
 		jQuery('#hide-vote-message').addClass('hiding');
 		jQuery.getJSON(

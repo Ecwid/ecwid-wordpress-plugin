@@ -121,7 +121,18 @@ class Ecwid_Seo_Links {
 			'pages\/shipping-payment',
 			'pages\/returns',
 			'pages\/terms',
-			'pages\/privacy-policy'
+			'pages\/privacy-policy',
+			'signIn.*',
+			'resetPassword.*',
+			'checkoutAB.*',
+			'downloadError.*',
+			'checkoutResult.*',
+			'checkoutWait.*',
+			'orderFailure.*',
+			'checkoutCC.*',
+			'checkoutEC.*',
+			'checkoutAC.*',
+			'FBAutofillCheckout.*'
 		);
 	}
 
@@ -185,13 +196,6 @@ JS;
 
 		if ( !self::is_enabled() ) return;
 
-		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
-			foreach ( $patterns as $pattern ) {
-				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
-			}
-		}
-
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 
 		if ( is_array( $pages ) ) {
@@ -226,6 +230,13 @@ JS;
 				}
 			}
 		}
+
+		if ( $this->is_store_on_home_page() ) {
+			$patterns = $this->get_seo_links_patterns();
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
+			}
+		}
 	}
 
 
@@ -236,12 +247,14 @@ JS;
 
 	public static function enable() {
 		update_option( self::OPTION_ENABLED, true );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function disable() {
 		update_option( self::OPTION_ENABLED, false );
-		flush_rewrite_rules();
+		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function is_feature_available() {

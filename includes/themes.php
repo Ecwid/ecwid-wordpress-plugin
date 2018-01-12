@@ -61,7 +61,9 @@ function ecwid_apply_theme($theme_name = null)
 		'ribosome'              => array( 'css' ),
 		'optimizepress'         => array( 'css' ),
 		'edge'                  => array( 'js', 'scroll' ),
-		'newsmag'               => array( 'css-no-parent')
+		'newsmag'               => array( 'css-no-parent'),
+		'optimizer'             => array( 'css' ),
+		'businesso'				=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -91,6 +93,10 @@ function ecwid_apply_theme($theme_name = null)
 		$theme_name = 'responsiveboat';
 	}
 
+	if ($theme_name == 'evolve-plus') {
+		$theme_name = 'evolve';
+	}
+	
 	if (!$theme_name) {
 		return;
 	}

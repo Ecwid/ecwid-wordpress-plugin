@@ -113,7 +113,8 @@ class Ecwid_Nav_Menus {
 	}
 
 	public function enqueue_frontend_assets() {
-		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() ) {
+		 
+		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() && !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
 			return;
 		}
 
@@ -151,6 +152,9 @@ class Ecwid_Nav_Menus {
 		));
 	}
 
+//- дефолтная категория
+//- посмотреть несколько тем
+
 	public function process_menu_items($items)
 	{
 		if ( is_admin() || empty($items) ) {
@@ -172,52 +176,55 @@ class Ecwid_Nav_Menus {
 
 			$ecwid_menu_type = isset($types[$item->object]) ? $types[$item->object] : null;
 
-			if ( $ecwid_menu_type && isset( $ecwid_menu_type['clean_url'] ) ) {
+			if ( $ecwid_menu_type && isset( $ecwid_menu_type['ecwid-page'] ) ) {
 				$item->url = Ecwid_Store_Page::get_menu_item_url($ecwid_menu_type);
-				$item->ecwid_page_type = $ecwid_menu_type['clean_url'];
+				$item->ecwid_page_type = $ecwid_menu_type['ecwid-page'];
 			}
 
 			if ($item->object == 'ecwid-store-with-categories' || $item->object == 'ecwid-store') {
 				$item->url = Ecwid_Store_Page::get_store_url();
 			}
+            
 			if ($item->object == 'ecwid-store-with-categories') {
 				$posts = EcwidPlatform::cache_get( 'nav_categories_posts' );
                 
 				if ( !$posts ) {
 					$posts = array();
 					$categories = ecwid_get_categories();
-					foreach ($categories as $category) {
-						$post = new stdClass;
-						$post->ID = -1;
-						$post->post_author = '';
-						$post->post_date = '';
-						$post->post_date_gmt = '';
-						$post->post_password = '';
-						$post->post_name = '';
-						$post->post_type = $item->post_type;
-						$post->post_status = 'publish';
-						$post->to_ping = '';
-						$post->pinged = '';
-						$post->post_parent = 0;
-						$post->url = Ecwid_Store_Page::get_category_url($category->id);
-						$post->classes = '';
-						$post->type = 'post';
-						$post->db_id = 0;
-						$post->title = $category->name;
-						$post->target = '';
-						$post->object = '';
-						$post->attr_title = '';
-						$post->description = '';
-						$post->xfn = '';
-						$post->object_id = 0;
-						$post->ecwid_page_type = 'category';
-						$post->ecwid_category_id = $category->id;
-
-						$posts[] = $post;
+					if ($categories) {
+                        foreach ($categories as $category) {
+                            $post = new stdClass;
+                            $post->ID = -1;
+                            $post->post_author = '';
+                            $post->post_date = '';
+                            $post->post_date_gmt = '';
+                            $post->post_password = '';
+                            $post->post_name = '';
+                            $post->post_type = $item->post_type;
+                            $post->post_status = 'publish';
+                            $post->to_ping = '';
+                            $post->pinged = '';
+                            $post->post_parent = 0;
+                            $post->url = Ecwid_Store_Page::get_category_url($category->id);
+                            $post->classes = '';
+                            $post->type = 'post';
+                            $post->db_id = 0;
+                            $post->title = $category->name;
+                            $post->target = '';
+                            $post->object = '';
+                            $post->attr_title = '';
+                            $post->description = '';
+                            $post->xfn = '';
+                            $post->object_id = 0;
+    						$post->ecwid_page_type = 'category';
+    						$post->ecwid_category_id = $category->id;
+    
+                            $posts[] = $post;
+                        }
+    
+                        EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
 					}
-
-					EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
-				}
+                }
 
 				foreach ( $posts as $post ) {
 					$counter++;
@@ -227,13 +234,14 @@ class Ecwid_Nav_Menus {
 				$counter++;
             }
 		}
-
+		
 		return $items;
 	}
 
 	public function nav_menu_link_attributes( $attributes, $item )
     {
-        if ( !isset( $item->ecwid_page_type ) ) {
+		
+		if ( !isset( $item->ecwid_page_type ) ) {
             return $attributes;
         }
         
@@ -292,44 +300,44 @@ class Ecwid_Nav_Menus {
 
 		$this->item_types = array(
 			'ecwid-cart' => array(
-				'list-name' => __('Cart', 'ecwid-shopping-cart'),
-				'classes'   => 'ecwid-cart',
-				'url'       => 'cart',
-				'label'     => __('Shopping Cart', 'ecwid-shopping-cart'),
-				'name'		=> 'cart',
-                'clean-url' => 'cart'
+				'list-name'  => __('Cart', 'ecwid-shopping-cart'),
+				'classes'    => 'ecwid-cart',
+				'url'        => 'cart',
+				'label'      => __('Shopping Cart', 'ecwid-shopping-cart'),
+				'name'		 => 'cart',
+				'ecwid-page' => 'cart'
 			),
 			'ecwid-product-search' => array(
-				'list-name' => __('Product Search', 'ecwid-shopping-cart'),
-				'classes'   => 'ecwid-product-search',
-				'url'       => 'search',
-				'label'     => __('Product Search', 'ecwid-shopping-cart'),
-				'name' 		=> 'search',
-                'clean-url' => 'search'
+				'list-name'  => __('Product Search', 'ecwid-shopping-cart'),
+				'classes'    => 'ecwid-product-search',
+				'url'        => 'search',
+				'label'      => __('Product Search', 'ecwid-shopping-cart'),
+				'name' 		 => 'search',
+                'ecwid-page' => 'search'
 			),
 			'ecwid-my-account' => array(
-				'list-name' => __('My Account', 'ecwid-shopping-cart'),
-				'classes'   => 'ecwid-my-account',
-				'url'       => 'accountSettings',
-				'label'     => __('My Account', 'ecwid-shopping-cart'),
-				'name'		=> 'account',
-                'clean-url' => 'account/orders'
+				'list-name'  => __('My Account', 'ecwid-shopping-cart'),
+				'classes'    => 'ecwid-my-account',
+				'url'        => 'accountSettings',
+				'label'      => __('My Account', 'ecwid-shopping-cart'),
+				'name'		 => 'account',
+				'ecwid-page' => 'account/orders'
 			),
 			'ecwid-store' => array(
-				'list-name' => __('Store', 'ecwid-shopping-cart'),
-				'classes'   => 'ecwid-store',
-				'url'       => '',
-				'label'     => __('Store', 'ecwid-shopping-cart'),
-				'name'		=> 'store',
-                'clean-url' => ''
+				'list-name'  => __('Store', 'ecwid-shopping-cart'),
+				'classes'    => 'ecwid-store',
+				'url'        => '',
+				'label'      => __('Store', 'ecwid-shopping-cart'),
+				'name'		 => 'store',
+				'ecwid-page' => '/'
 			),
 			'ecwid-store-with-categories' => array(
-				'list-name' => __('Store with Categories Menu', 'ecwid-shopping-cart'),
-				'classes'   => 'ecwid-store-with-categories',
-				'url'       => '',
-				'label'     => __('Store', 'ecwid-shopping-cart'),
-				'name'		=> 'store-with-categories',
-                'clean-url' => ''
+				'list-name'  => __('Store with Categories Menu', 'ecwid-shopping-cart'),
+				'classes'    => 'ecwid-store-with-categories',
+				'url'        => '',
+				'label'      => __('Store', 'ecwid-shopping-cart'),
+				'name'		 => 'store-with-categories',
+                'ecwid-page' => '/'
 			)
 		);
 

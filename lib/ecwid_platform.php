@@ -99,9 +99,9 @@ class EcwidPlatform {
 			)
 		);
 
-		$use_file_get_contents = get_option('ecwid_fetch_url_use_file_get_contents', false);
+		$use_file_get_contents = EcwidPlatform::cache_get('ecwid_fetch_url_use_file_get_contents', false);
 
-		if ($use_file_get_contents) {
+		if ( $use_file_get_contents ) {
 				$result = @file_get_contents($url, null, $ctx);
 		} else {
 				if (get_option('ecwid_http_use_stream', false)) {
@@ -121,7 +121,7 @@ class EcwidPlatform {
 				if (!is_array($result)) {
 						$result = @file_get_contents($url, null, $ctx);
 						if (!empty($result)) {
-								update_option('ecwid_fetch_url_use_file_get_contents', true);
+							EcwidPlatform::cache_set('ecwid_fetch_url_use_file_get_contents', true, DAY_IN_SECONDS );
 						}
 				}
 		}
@@ -159,24 +159,6 @@ class EcwidPlatform {
 				);
 			}
 		}
-
-		if ( ( empty($return['data']) || $return['code'] != 200 ) && !isset($options['self_call']) ) {
-
-			$log_url = 'http://' . APP_ECWID_COM . '/script.js?805056&data_platform=wporg&data_wporg_error=remote_get_fails';
-			$log_url .= '&data_url=' . urlencode(get_bloginfo('url'));
-			$log_url .= '&data_target_url=' . urlencode($url);
-			if (get_option('ecwid_http_use_stream', false)) {
-				$log_url .= '&data_method=stream';
-			} elseif (get_option('ecwid_fetch_url_use_file_get_contents')) {
-				$log_url .= '&data_method=filegetcontents';
-			}
-
-			$log_url .= '&data_code=' . $return['code'];
-			$log_url .= '&data_message=' . urlencode(@$return['message']);
-
-			self::fetch_url($log_url, array('self_call' => 1));
-			update_option('ecwid_remote_get_fails', 1);
-		} 
 
 		return $return;
 	}
@@ -298,7 +280,7 @@ class EcwidPlatform {
 		$cache_name = self::_build_cache_name( $key, 'products' );
 
 		$result = self::cache_get( $cache_name );
-		
+
 		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}

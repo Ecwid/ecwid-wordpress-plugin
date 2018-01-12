@@ -31,7 +31,7 @@ class Ecwid_Ajax_Defer_Renderer {
 	
 	public function init()
 	{
-		if ( $this->is_enabled() && !$this->_already_enabled ) {
+		if ( self::is_enabled() && !$this->_already_enabled ) {
 			add_filter( 'ecwid_disable_widgets', '__return_true' );
 			add_filter( 'ecwid_shortcode_custom_renderer', array( $this, 'get_custom_renderer' ) );
 			add_filter( 'the_content', array( $this, 'add_shortcodes' ) );
@@ -55,7 +55,7 @@ class Ecwid_Ajax_Defer_Renderer {
 	}
 	
 	
-	public function is_enabled()
+	public static function is_enabled()
 	{
 		$option_value = get_option( self::OPTION_DEFER_RENDERING );
 		
@@ -90,6 +90,9 @@ class Ecwid_Ajax_Defer_Renderer {
 ecwid_shortcodes = [];
 </script>
 HTML;
+		
+		$app_ecwid_com = Ecwid_Config::get_scriptjs_domain();
+		
 		$after = <<<HTML
 <script>
 		window.ecwid_script_defer = true;
@@ -104,7 +107,7 @@ HTML;
 				var script = document.createElement('script');
 				script.charset = 'utf-8';
 				script.type = 'text/javascript';
-				script.src = 'https://app.ecwid.com/script.js?$ecwid_store_id';
+				script.src = 'https://$app_ecwid_com/script.js?$ecwid_store_id';
 				script.id = 'ecwid-script'
 		
 				document.body.appendChild(script);

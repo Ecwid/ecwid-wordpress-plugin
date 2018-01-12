@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
 		attributes.grid_rows = grid[1];
 		attributes.grid_columns = grid[2];
 
-		for (var i in {'categories_per_row': defaults.categories_per_row, 'list': defaults.list_rows, 'table': defaults.table_rows, 'grid_rows': defaults.grid_rows, 'grid_columns': defaults.grid_columns, 'default_category_id': 0}) {
+		for (var i in {'categories_per_row': defaults.categories_per_row, 'list': defaults.list_rows, 'table': defaults.table_rows, 'grid_rows': defaults.grid_rows, 'grid_columns': defaults.grid_columns, 'default_category_id': 0, 'default_product_id': 0}) {
 			parsed = parseInt(attributes[i]);
 			if (isNaN(parsed) || parsed < 0) {
 				attributes[i] = undefined;
@@ -77,6 +77,7 @@ jQuery(document).ready(function() {
 			'grid_rows': grid[1],
 			'grid_columns': grid[2],
 			'default_category_id': attributes.default_category_id,
+			'default_product_id': attributes.default_product_id,
 			'minicart_layout': 'attachToCategories'
 		};
 
@@ -97,6 +98,7 @@ jQuery(document).ready(function() {
 			'table_rows': ecwid_pb_defaults.table_rows,
 			'list_rows': ecwid_pb_defaults.list_rows,
 			'default_category_id': 0,
+			'default_product_id': 0,
 			'category_view': 'grid',
 			'search_view': 'list',
 			'minicart_layout': 'MiniAttachToProductBrowser'
@@ -222,7 +224,8 @@ jQuery(document).ready(function() {
 		result.list = getNumber('list_rows', defaults.list_rows);
 		result.table = getNumber('table_rows', defaults.table_rows);
 		result.default_category_id = getNumber('default_category_id', defaults.default_category_id);
-		result.category_view = getString('category_view', ['list', 'grid', 'table'], defaults.category_view);
+        result.default_product_id = getNumber('default_product_id', defaults.default_product_id);
+        result.category_view = getString('category_view', ['list', 'grid', 'table'], defaults.category_view);
 		result.search_view = getString('search_view', ['list', 'grid', 'table'], defaults.search_view);
 		result.minicart_layout = defaults.minicart_layout;
 

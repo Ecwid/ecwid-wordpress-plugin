@@ -1,0 +1,58 @@
+body.ecwid-popup-open {
+    overflow: hidden;
+}
+
+.ecwid-popup {
+    background: rgba(0,0,0,.7);
+    position: fixed;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 100000;
+    display: none;
+}
+
+.ecwid-popup.open {
+    display: block;
+}
+
+.ecwid-popup .ecwid-popup-window {
+    background: white;
+    position: absolute;
+    left: 50%;
+    margin-left: -298px;
+    top: 10%;
+    z-index: 100001;
+    width: 596px;
+}
+
+.ecwid-popup-header, .ecwid-popup-footer, .ecwid-popup-body {
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.ecwid-popup-header {
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+
+.ecwid-popup-header h3 {
+    text-transform: uppercase;
+    margin: 0px;
+    font-size: 18px;
+}
+
+.ecwid-popup-footer {
+    border-top: 1px solid lightgray;
+    width: 100%;
+    text-align: right;
+}
+
+.ecwid-popup-body {
+    padding: 20px;
+}
+
+.ecwid-popup-body h3 {
+    margin: 0px;
+}
