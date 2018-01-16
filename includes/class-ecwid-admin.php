@@ -3,13 +3,15 @@
 class Ecwid_Admin {
 
 	const ADMIN_SLUG = 'ec-store';
-
+	const AJAX_ACTION_UPDATE_MENU = 'ecwid_update_menu';
+	
 	public function __construct()
 	{
 		if ( is_admin() ) {
 			add_action( 'current_screen', array( $this, 'do_ec_redirect' ) );
-			add_action('admin_menu', array( $this, 'build_menu' ) );
+			add_action( 'admin_menu', array( $this, 'build_menu' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'wp_ajax_' . self::AJAX_ACTION_UPDATE_MENU, array( $this, 'ajax_update_menu' ) );
 		}
 	}
 	
@@ -138,9 +140,45 @@ class Ecwid_Admin {
 		ecwid_admin_do_page($menus[$slug]);	
 	}
 	
+	public function ajax_update_menu()
+	{
+		if (! current_user_can( self::get_capability() ) ) {
+			die();
+		}
+		
+		
+		if (!isset( $_POST['menu'] ) ) {
+			die();
+		}
+		
+		$new_menu = array();
+		foreach ( $_POST['menu'] as $item ) {
+			if ($item['type'] == 'separator') {
+				continue;
+			}
+
+			$menu_item = array();
+			$menu_item['title'] = $item['title'];
+
+			if ( @$item['items'] ) {
+				$menu_item['children'] = array();
+				foreach ($item['items'] as $child_item ) {
+					$menu_item['children'][$child_item['path']] = $child_item['title'];
+				}
+			}
+
+			$new_menu[$item['path']] = $menu_item;
+		}
+		
+		EcwidPlatform::set( 'admin_menu', $new_menu );
+		
+		echo json_encode( $this->_get_menus() );
+		die();
+	}
+	
 	protected function _get_menus()
 	{
-		$menu = EcwidPlatform::get('admin_menu');
+		$menu = EcwidPlatform::get( 'admin_menu' );
 
 		if ( is_null( $menu ) ) {
 			$menu = $this->_get_default_menu();

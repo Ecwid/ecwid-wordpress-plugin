@@ -264,7 +264,7 @@ JS;
 	}
 
 	public static function should_display_option() {
-		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' );
+		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' ) || !self::is_enabled();
 	}
 
 }
