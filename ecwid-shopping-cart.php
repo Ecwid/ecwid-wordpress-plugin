@@ -2204,7 +2204,11 @@ function ecwid_get_iframe_src($time, $page)
 {
 	$url = ecwid_get_admin_sso_url($time, $page);
 	if ($url) {
-		return $url . '&inline&&min-height=700';
+		$url .= '&inline&min-height=700';
+		if ( Ecwid_Admin::enable_auto_menus() ) {
+			$url .= '&hide_vertical_navigation_menu=true';
+		}
+		return $url;
 	} else {
 		return false;
 	}
