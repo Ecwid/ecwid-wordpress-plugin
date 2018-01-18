@@ -407,8 +407,8 @@ class Ecwid_Api_V3
 		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
-		
-		return self::$profile;
+
+		return $profile;
 	}
 
 	public function create_store()

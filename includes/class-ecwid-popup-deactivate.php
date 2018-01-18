@@ -45,9 +45,16 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
 		$body_lines[] = 'Reason:' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
 		
-		global $current_user;
-		$reply_to = $current_user->user_email;
-
+		$api = new Ecwid_Api_V3();
+		
+		$profile = $api->get_store_profile();
+		if ( $profile && @$profile->account && @$profile->account->accountEmail ) {
+			$reply_to = $profile->account->accountEmail;
+		} else {
+			global $current_user;
+			$reply_to = $current_user->user_email;
+		}
+		
 		$subject_template = __( '[%s] WordPress plugin deactivation feedback (store ID: %s)', 'ecwid-shopping-cart' );
 		
 		$prefix = $reason['code'];
