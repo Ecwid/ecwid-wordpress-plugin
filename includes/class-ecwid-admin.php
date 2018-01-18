@@ -4,6 +4,7 @@ class Ecwid_Admin {
 
 	const ADMIN_SLUG = 'ec-store';
 	const AJAX_ACTION_UPDATE_MENU = 'ecwid_update_menu';
+	const OPTION_ENABLE_AUTO_MENUS = 'ecwid_enable_auto_menus';
 	
 	public function __construct()
 	{
@@ -23,8 +24,9 @@ class Ecwid_Admin {
 		wp_localize_script('ecwid-admin-menu', 'ecwid_admin_menu', array(
 			'dashboard' => __('Dashboard', 'ecwid-shopping-cart'),
 			'dashboard_url' => Ecwid_Admin::get_relative_dashboard_url(),
-			'menu' => $menu,
-			'baseSlug' => self::ADMIN_SLUG
+			'menu' => self::enable_auto_menus() ? $menu : array(),
+			'baseSlug' => self::ADMIN_SLUG,
+			'enableAutoMenus' => self::enable_auto_menus()
 		));		
 	}
 
@@ -32,7 +34,7 @@ class Ecwid_Admin {
 	{
 
 		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
-
+		
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			sprintf(__('%s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
@@ -48,39 +50,71 @@ class Ecwid_Admin {
 		} else {
 			$title = __('Dashboard', 'ecwid-shopping-cart');
 		}
-		add_submenu_page(
-			self::ADMIN_SLUG,
-			$title,
-			$title,
-			'manage_options',
-			self::ADMIN_SLUG,
-			'ecwid_general_settings_do_page'
-		);
+		if ( !self::enable_auto_menus() || !in_array( self::ADMIN_SLUG, $this->_get_menus() ) ) {
+			add_submenu_page(
+				self::ADMIN_SLUG,
+				$title,
+				$title,
+				'manage_options',
+				self::ADMIN_SLUG,
+				'ecwid_general_settings_do_page'
+			);
+		}
 		
 		global $ecwid_oauth;
 		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
 			
-			$menu = $this->_get_menus();
-			
-			foreach ($menu as $item) {
+			if ( !self::enable_auto_menus() ){
 				add_submenu_page(
 					self::ADMIN_SLUG,
-					$item['title'],
-					$item['title'],
-					self::get_capability(),
-					$item['slug'],
-					array( $this, 'do_admin_page' )
+					__('Sales', 'ecwid-shopping-cart'),
+					__('Sales', 'ecwid-shopping-cart'),
+					'manage_options',
+					self::ADMIN_SLUG . '-admin-orders',
+					'ecwid_admin_orders_do_page'
 				);
-
-				if (@$item['children']) foreach ($item['children'] as $subitem) {
-					add_submenu_page(
-						null,
-						$subitem['title'],
-						$subitem['title'],
-						self::get_capability(),
-						$subitem['slug'],
-						array( $this, 'do_admin_page' )
-					);
+				add_submenu_page(
+					self::ADMIN_SLUG,
+					__('Products', 'ecwid-shopping-cart'),
+					__('Products', 'ecwid-shopping-cart'),
+					'manage_options',
+					self::ADMIN_SLUG . '-admin-products',
+					'ecwid_admin_products_do_page'
+				);
+			} else {
+				$menu = $this->_get_menus();
+				
+				foreach ( $menu as $item ) {
+					if ( @$item['slug'] ) {
+						add_submenu_page(
+							self::ADMIN_SLUG,
+							$item['title'],
+							$item['title'],
+							self::get_capability(),
+							$item['slug'],
+							array( $this, 'do_admin_page' )
+						);
+		
+						if (@$item['children']) foreach ($item['children'] as $subitem) {
+							add_submenu_page(
+								null,
+								$subitem['title'],
+								$subitem['title'],
+								self::get_capability(),
+								$subitem['slug'],
+								array( $this, 'do_admin_page' )
+							);
+						}
+					} else {
+						add_submenu_page(
+							self::ADMIN_SLUG,
+							$item['title'],
+							$item['title'],
+							self::get_capability(),
+							'',
+							array( $this, 'do_admin_page' )
+						);
+					}
 				}
 			}
 		}
@@ -135,9 +169,9 @@ class Ecwid_Admin {
 		
 		$admin_prefix = self::ADMIN_SLUG . '-admin-';
 		$slug = get_current_screen()->base;
-		$slug = substr(get_current_screen()->base, strpos($slug, $admin_prefix) + strlen($admin_prefix)); 
-
-		ecwid_admin_do_page($menus[$slug]);	
+		$slug = substr( get_current_screen()->base, strpos( $slug, $admin_prefix ) + strlen( $admin_prefix ) );
+		
+		ecwid_admin_do_page( $menus[$slug]['hash'] );	
 	}
 	
 	public function ajax_update_menu()
@@ -146,31 +180,11 @@ class Ecwid_Admin {
 			die();
 		}
 		
-		
 		if (!isset( $_POST['menu'] ) ) {
 			die();
 		}
 		
-		$new_menu = array();
-		foreach ( $_POST['menu'] as $item ) {
-			if ($item['type'] == 'separator') {
-				continue;
-			}
-
-			$menu_item = array();
-			$menu_item['title'] = $item['title'];
-
-			if ( @$item['items'] ) {
-				$menu_item['children'] = array();
-				foreach ($item['items'] as $child_item ) {
-					$menu_item['children'][$child_item['path']] = $child_item['title'];
-				}
-			}
-
-			$new_menu[$item['path']] = $menu_item;
-		}
-		
-		EcwidPlatform::set( 'admin_menu', $new_menu );
+		EcwidPlatform::set( 'admin_menu', $_POST['menu'] );
 		
 		echo json_encode( $this->_get_menus() );
 		die();
@@ -179,48 +193,57 @@ class Ecwid_Admin {
 	protected function _get_menus()
 	{
 		$menu = EcwidPlatform::get( 'admin_menu' );
-
+		
 		if ( is_null( $menu ) ) {
 			$menu = $this->_get_default_menu();
 		}
 		
-		foreach ( $menu as $hash => $item ) {
+		$slugs = array();
+		
+		$result = array();
+		
+		foreach ( $menu as $item ) {
+
+			$menu_item = array();
 			
-			$title = '';
-			if ( is_string( $item ) ) {
-				$menu[$hash] = $item = array(
-					'title' => $item
-				);
+			if ( isset( $item['path'] ) && $item['path'] == 'dashboard' ) {
+				unset( $menu[$item['path']] );
+				continue;
 			}
 			
-			$slug = $this->_slugify_ecwid_cp_hash( $hash, $item['title'] );
-			$menu[$hash]['url'] = 'admin.php?page=' . $slug;
-			$menu[$hash]['slug'] = $slug;
-			$menu[$hash]['hash'] = $hash;
-
-			if ( is_array( $item ) && @$item['children'] ) foreach ( $item['children'] as $hash2 => $item2 ) {
+			
+			$menu_item['title'] = $item['title'];
+			
+			if ( $item['type'] != 'separator' ) {
+				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $item['title'], $slugs );
+				$menu_item['url'] = 'admin.php?page=' . $slug;
+				$menu_item['slug'] = $slug;
+				$menu_item['hash'] = $item['path'];
+				$slugs[] = $slug;
+			} else {
+				$menu_item['type'] = 'separator';
+			}
+			
+			if ( @$item['items'] ) foreach ( $item['items'] as $item2 ) {
 				
-				if ( is_string( $item2 ) ) {
-					$item2 = array(
-						'title' => $item2
-					);
-				}
-				
-				$slug2 = $this->_slugify_ecwid_cp_hash( $hash2, $item2['title'] );
+				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $item2['title'], $slugs );
+				$slugs[] = $slug2;
 				$item2['url'] = 'admin.php?page=' . $slug2;
 				$item2['slug'] = $slug2;
-				$item2['hash'] = $hash2;
+				$item2['hash'] = $item2['path'];
 
-				$menu[$hash]['children'][$hash2] = $item2;
+				$menu_item['children'][] = $item2;
 			}
+			
+			$result[] = $menu_item;
 		}
 		
-		return $menu;
+		return $result;
 	}
 	
-	protected function _slugify_ecwid_cp_hash( $hash, $title ) {
+	protected function _slugify_ecwid_cp_hash( $hash, $title, $slugs ) {
 		
-		if ( strpos( $hash, ':' ) === false ) {
+		if ( strpos( $hash, ':' ) === false && !in_array( self::ADMIN_SLUG . '-admin-' . $hash, $slugs ) ) {
 			$slug = $hash;
 		} else {
 			$match = array();
@@ -230,6 +253,16 @@ class Ecwid_Admin {
 	
 			if ( $result && count( @$match[0] ) > 0 ) {
 				$slug = implode('-', $match[0] );
+			}
+			
+			$prefix = '';
+			while( in_array( $slug . $prefix, $slugs ) ) {
+				$prefix = intval( $prefix ) + 1;
+			}
+			
+			//уникальность слагов. Даже для нескольких одинаковых path/hash будь добёр сделать разные слаги
+			if ( $prefix ) {
+				$slug .= $prefix;
 			}
 		}
 		
@@ -244,67 +277,16 @@ class Ecwid_Admin {
 		if ( !empty( $default_menu ) ) return $default_menu;
 
 		$default_menu = array(
-			'orders' => array(
-				'title' => __( 'My Sales', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'orders' 			=> __( 'Orders', 'ecwid-shopping-cart' ),
-					'incomplete-orders' => __( 'Abandoned Carts', 'ecwid-shopping-cart' ),
-					'customers'			=> __( 'Customers', 'ecwid-shopping-cart' ),
-					'memberships'		=> __( 'Customer Groups', 'ecwid-shopping-cart' ),
-					'app:name=ecwid-edit-orders' => __( 'Edit Orders', 'ecwid-shopping-cart' ),
+			array(
+				'orders' => array(
+					'title' => __( 'Sales', 'ecwid-shopping-cart' ),
+					'path' => 'orders'
 				)
 			),
-			'products' => array(
-				'title' => __( 'Catalog', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'products' 					=> __( 'Products', 'ecwid-shopping-cart' ),
-					'category:id=0&mode=edit' 	=> __( 'Categories', 'ecwid-shopping-cart' ),
-					'product-classes'			=> __( 'Product Types', 'ecwid-shopping-cart' )
-				)
-			),
-			'reports' => __( 'Reports', 'ecwid-shopping-cart' ),
-			'discount-coupons' => array(
-				'title' => __( 'Promotions', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'discount-coupons' 	=> __( 'Discount Coupons', 'ecwid-shopping-cart' ),
-					'discounts' 		=> __( 'Discounts', 'ecwid-shopping-cart' ),
-					'facebook-app'		=> __( 'Sell on Facebook', 'ecwid-shopping-cart' ),
-					'marketplaces'		=> __( 'Marketplaces', 'ecwid-shopping-cart' ),
-					'paypal-credit'		=> __( 'Paypal Credit', 'ecwid-shopping-cart' ),
-					'ebay-inventory'	=> __( 'eBay', 'ecwid-shopping-cart' ),
-					'mobile'			=> __( 'Mobile', 'ecwid-shopping-cart' )
-				)
-			),
-			'sales-channel' => __( 'Sales Channels', 'ecwid-shopping-cart' ),
-			'store-profile' => array(
-				'title' => __( 'Settings', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'store-profile' => __( 'General', 'ecwid-shopping-cart' ),
-					'zones' 		=> __( 'Zones', 'ecwid-shopping-cart' ),
-					'shipping' 		=> __( 'Shipping & Pickup', 'ecwid-shopping-cart' ),
-					'taxes' 		=> __( 'Taxes', 'ecwid-shopping-cart' ),
-					'payments' 		=> __( 'Payment', 'ecwid-shopping-cart' ),
-					'design' 		=> __( 'Design', 'ecwid-shopping-cart' ),
-					'mail' 			=> __( 'Mail', 'ecwid-shopping-cart' ),
-					'invoice'		=> __( 'Invoice', 'ecwid-shopping-cart' ),
-					'social-tools'	=> __( 'Social Tools', 'ecwid-shopping-cart' ),
-					'pos' 			=> __( 'POS', 'ecwid-shopping-cart' ),
-					'app:name=storefront-label-editor' => __( 'Edit Store Labels', 'ecwid-shopping-cart' )
-				)
-			),
-			'appmarket' => array(
-				'title' => __( 'Apps', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'appmarket'	=> __( 'App Market', 'ecwid-shopping-cart' ),
-					'my_apps' 	=> __( 'My Apps', 'ecwid-shopping-cart' )
-				)
-			),
-			'profile' => array(
-				'title' => __( 'My Profile', 'ecwid-shopping-cart' ),
-				'children' => array(
-					'profile' 		=> __( 'Profile', 'ecwid-shopping-cart' ),
-					'store-team' 	=> __( 'Store Team', 'ecwid-shopping-cart' ),
-					'billing' 		=> __( 'Billing & Plans', 'ecwid-shopping-cart' )
+			array(
+				'products' => array(
+					'title' => __( 'Products', 'ecwid-shopping-cart' ),
+					'path' => 'products'
 				)
 			)
 		);
@@ -336,6 +318,11 @@ class Ecwid_Admin {
 	
 	static public function get_relative_dashboard_url() {
 		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG;
+	}
+	
+	static public function enable_auto_menus()
+	{
+		return get_option( self::OPTION_ENABLE_AUTO_MENUS );
 	}
 
 	static public function disable_dashboard() {

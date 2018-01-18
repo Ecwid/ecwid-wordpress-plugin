@@ -44,7 +44,6 @@ function ecwidGetCurrentMenuSlug()
 
 
 function ecwidApplyIframeAdminMenu($link, menu) {
-    debugger;
     $link
         .data('ecwid-menu', menu)
         .attr('data-ecwid-menu-slug', menu.slug)
@@ -119,6 +118,9 @@ function ecwidAddMenuItems(items) {
         ecwidApplyIframeAdminMenu(a, menuItem);
         listItem.attr('data-ecwid-dynamic-menu', 1);
 
+        if (menuItem.type == 'separator') {
+            listItem.addClass('ec-separator');
+        }
         if (menuItem.children) {
             ecwidAddSubmenu(menuItem.children, a);
         }
@@ -142,18 +144,20 @@ jQuery(document).ready(function() {
     }
 
 
-    for (var i in ecwid_admin_menu.menu) {
-
-        var menu = ecwid_admin_menu.menu[i];
-        
-        var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + menu.url + '"]');
-        $link.closest('li').attr('data-ecwid-dynamic-menu', 1);
-        ecwidApplyIframeAdminMenu($link, menu);
-
-        if (menu.children) {
-            ecwidAddSubmenu(menu.children, $link);
+    if ( ecwid_admin_menu.enableAutoMenus ) {
+    
+        for (var i in ecwid_admin_menu.menu) {
+    
+            var menu = ecwid_admin_menu.menu[i];
+            
+            var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + menu.url + '"]');
+            $link.closest('li').attr('data-ecwid-dynamic-menu', 1);
+            ecwidApplyIframeAdminMenu($link, menu);
+    
+            if (menu.children) {
+                ecwidAddSubmenu(menu.children, $link);
+            }
         }
     }
-
     ecwidRefreshEcwidMenuItemSelection();
 });

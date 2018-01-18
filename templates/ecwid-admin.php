@@ -13,13 +13,13 @@
 		eventer(messageEvent,function(e) {
 		    if (typeof e.data.height != 'undefined') {
                 $('#ecwid-frame').css('height', e.data.height + 'px');
-            } else if ( 
+            } else if (
                 e.data.action 
                 && e.data.action == 'navigationMenuUpdated' 
                 && e.data.data && e.data.data.navigationMenuItems 
                 && e.data.data.navigationMenuItems.length > 0
+                && ecwid_admin_menu.enableAutoMenus
             ) {
-		        debugger;
 		        jQuery.ajax({
                     'url': ajaxurl + '?action=<?php echo Ecwid_Admin::AJAX_ACTION_UPDATE_MENU; ?>',
                     'method': 'POST',
@@ -27,7 +27,8 @@
                         menu: e.data.data.navigationMenuItems
                     },
                     'success': function(result) {
-                        ecwidAddMenuItems(jQuery.parseJSON(result))
+                        jQuery('li[data-ecwid-dynamic-menu]').remove();
+                        ecwidAddMenuItems(jQuery.parseJSON(result));
                     }
                 });
 		        

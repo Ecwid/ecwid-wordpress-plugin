@@ -575,6 +575,13 @@ body[class*="_page_ecwid"] .ecwid-message {
  3d level menu
  */
 
+#adminmenu .wp-submenu li.ec-separator a {
+	margin-top: 10px;
+	opacity: .5;
+	font-size: 0.9em;
+	text-transform: uppercase;
+}
+
 #adminmenu #toplevel_page_ec-store div.wp-menu-image:before {
     font-family: 'ecwid-plugin-icons' !important;
     content: "\e603";
