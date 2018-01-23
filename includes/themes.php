@@ -41,13 +41,13 @@ function ecwid_apply_theme($theme_name = null)
 		'pixova-lite'			=> array( 'js', 'scroll' ),
 		'accesspress-mag'		=> array( 'css' ),
 		'attitude'				=> array( 'css-no-parent' ),
-		'customizr'				=> array( 'js', 'css-no-parent' ),
+		'customizr'				=> array( 'js', 'css-no-parent', Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'edin'					=> array( 'js' ),
 		'evolve'				=> array( 'css-no-parent' ),
 		'mantra'				=> array( 'css-no-parent' ),
 		'pagelines'				=> array( 'js', 'scroll' ),
 		'responsiveboat'		=> array( 'css' ),
-		'twentyfourteen'		=> array( 'css', 'scroll' ),
+		'twentyfourteen'		=> array( 'css', 'scroll', Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'twentytwelve'			=> array( 'js', 'scroll' ),
 		'sliding-door'			=> array( 'css-no-parent' ),
 		'zerif-lite'			=> array( 'css-no-parent' ),
@@ -63,7 +63,9 @@ function ecwid_apply_theme($theme_name = null)
 		'edge'                  => array( 'js', 'scroll' ),
 		'newsmag'               => array( 'css-no-parent'),
 		'optimizer'             => array( 'css' ),
-		'businesso'				=> array( 'css' )
+		'businesso'				=> array( 'css' ),
+		'Avada' 				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
+		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 

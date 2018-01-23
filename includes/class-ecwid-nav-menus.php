@@ -2,6 +2,12 @@
 
 class Ecwid_Nav_Menus {
 
+    const OPTION_USE_JS_API_FOR_CATS_MENU = 'ecwid_use_js_api_to_open_store_categories_pages';
+    const OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE = 'on';
+	const OPTVAL_USE_JS_API_FOR_CATS_MENU_FALSE = 'off';
+	const OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO = 'auto';
+	const FILTER_USE_JS_API_FOR_CATS_MENU = 'ecwid_use_js_api_for_categories_menu';
+
 	protected $item_types;
 
 	public function __construct() {
@@ -39,6 +45,22 @@ class Ecwid_Nav_Menus {
 		);
 	}
 
+	public static function should_use_js_api_for_categories_menu()
+    {
+		$value = get_option( self::OPTION_USE_JS_API_FOR_CATS_MENU );
+		
+		if ( $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE ) {
+		    return true;
+        }
+        if ( $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_FALSE ) {
+		    return false;
+        }
+        
+        $value = apply_filters( self::FILTER_USE_JS_API_FOR_CATS_MENU, $value );
+		
+		return $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE;
+    }
+	
 	static public function add_menu_on_activate( ) {
 
 		$locations = get_nav_menu_locations();
@@ -151,10 +173,7 @@ class Ecwid_Nav_Menus {
 			'items' => $this->get_nav_menu_items()
 		));
 	}
-
-//- дефолтная категория
-//- посмотреть несколько тем
-
+    
 	public function process_menu_items($items)
 	{
 		if ( is_admin() || empty($items) ) {

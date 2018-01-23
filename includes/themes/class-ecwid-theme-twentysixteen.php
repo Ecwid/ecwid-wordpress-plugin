@@ -15,7 +15,8 @@ class Ecwid_Theme_2016 extends Ecwid_Theme_Base
 		if ( Ecwid_Store_Page::is_store_page() ) {
 			wp_enqueue_style( 'ecwid-theme', ECWID_PLUGIN_URL . 'css/themes/2016.css', array('twentysixteen-style'), get_option('ecwid_plugin_version') );
 		}
-		add_action('ecwid_plugin_installed', array($this, 'on_ecwid_plugin_installed'));
+		add_action( 'ecwid_plugin_installed', array( $this, 'on_ecwid_plugin_installed' ) );
+		add_filter( Ecwid_Nav_Menus::FILTER_USE_JS_API_FOR_CATS_MENU, array( $this, 'filter_use_js_api_for_cats_menu' ) );
 	}
 
 	public function on_ecwid_plugin_installed()
