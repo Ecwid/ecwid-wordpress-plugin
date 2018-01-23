@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 5.7.1
+Stable tag: 5.7.3
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,11 +149,17 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
-= 5.7.2 - Dec 20, 1017 =
+= 5.7.3 - Jan 18, 2018 =
+- **Improved compatibility with Customizr theme.** We are inspecting how the plugin works with a popular “Customizr” theme and making the store appearance and behavior fit the theme better. This is the first part of improvements for Customizr, we will continue making it better in the future versions. 
+- **Improvements in the way the plugin communicates with the Ecwid APIs.** We cleaned up the plugin code and improved its internal functions to make sure storefront and product widgets are using the newest Ecwid API and work more stable. 
+- **Minor improvements in the SEO.** We made a few fixes and adjustments in canonical tags and SEO-friendly URLs functionality. 
+- **Ecwid e-commerce service is constantly updated with new cool features and improvements.** To see more updates and learn something new about selling online, see [our blog](https://www.ecwid.com/blog/ecwid-updates).
+
+= 5.7.2 - Dec 20, 2017 =
 - **Fixed a couple of bugs on the Ecwid dashboard page.** The store control panel might not appear in the Wordpress backend for some users (especially it was likely to happen in Safari browser). We fixed it. So if you experienced that issue in your Wordpress admin backend, this update should fix it for you.
 - **Added fixes and layout improvements to make Ecwid e-commerce plugin compatible with “Abubize Business” and “Evolve Plus” Wordpress themes.** If you use one of those themes, you might notice layout issues on your store page caused by the theme styles overriding Ecwid styles. We fixed that. If you find any trouble in how Ecwid works with your theme, please let us know.
 - **Fixed an issue in the way Ecwid shortcode is rendered in the Wordpress page editor.** You might notice the Wordpress editor froze when you changed the "widgets" part of the Ecwid shortcode in the editor. For example, if you put a shortcode with categories widget only (without product browser). We fixed it — now you can adjust the shortcode as you wish. Note this problem only affected the Wordpress editor — neither your store nor your control panel were affected. So, if you don't customize the shortcode content, you can just ignore this, everything is working fine for you.
-- **Several minor fixes and improvements.** Ecwid is constantly updated with new cool ecommerce features. To see more updates and learn something new about selling online, see our blog.
+- **Several minor fixes and improvements.** Ecwid is constantly updated with new cool ecommerce features. To see more updates and learn something new about selling online, see our see [our blog](https://www.ecwid.com/blog/ecwid-updates).
 
 = 5.7.1 =
 - **Fix for the “The requested product is not available” error message appeared in the version 5.7**. The issue was caused by the new “Default product” feature. Some users found that error message when adding their store to a new page in the plugin and specifying the default category for that page. Everything should work fine now.
