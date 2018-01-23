@@ -23,17 +23,12 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		
 		self::$products[$obj->id] = $obj;
 	}
-	
-	protected static function _new_this() {
-		return new Ecwid_Category();
-	}
 
 	public static function get_by_id( $id )
 	{
-
 		$p = new Ecwid_Product();
 
-		if ( $product = $p->_get_from_local_object_cache($id) ) {
+		if ( $product = $p->_get_from_local_object_cache( $id ) ) {
 			return $product;
 		}
 
@@ -49,7 +44,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 			$p->_data = $product_data;
 		}
 		
-		$p->_put_into_local_object_cache($p);
+		$p->_put_into_local_object_cache( $p );
 		
 		
 		return $p;
@@ -57,20 +52,20 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 	
 	public static function get_random_product()
 	{
-		$total = EcwidPlatform::get_from_products_cache('ecwid_total_products');
+		$total = EcwidPlatform::get_from_products_cache( 'ecwid_total_products' );
 		
 		$all_products = false;
 		
-		if ($total < 100 && $total > 0 && EcwidPlatform::get_from_products_cache('ecwid_all_products_request')) {
+		if ( $total < 100 && $total > 0 && EcwidPlatform::get_from_products_cache( 'ecwid_all_products_request' ) ) {
 			$all_products = EcwidPlatform::get_from_products_cache(
-				EcwidPlatform::get_from_products_cache('ecwid_all_products_request')	
+				EcwidPlatform::get_from_products_cache( 'ecwid_all_products_request' )	
 			);
 		}
 		
 		if ( $all_products ) {
 			$index = rand( 0, $total - 1 );
 			
-			$result = json_decode($all_products['data']);
+			$result = json_decode( $all_products['data'] );
 			
 			$random_product_id = $result->items[$index]->id;
 		} else {
@@ -84,7 +79,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 				)
 			);
 			
-			if (!@$result->items) {
+			if ( !@$result->items ) {
 				return null;
 			}
 			
@@ -98,13 +93,13 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 	{
 		$p = new Ecwid_Product();
 		
-		if ( $product = $p->_get_from_local_object_cache($id) ) {
+		if ( $product = $p->_get_from_local_object_cache( $id ) ) {
 			return $product;
 		}
 		
 		$product_data = $p->_get_from_cache( $id );
-		if (!$product_data) {
-			if ($fallback_object) {
+		if ( !$product_data ) {
+			if ( $fallback_object ) {
 				$product_data = $fallback_object;
 			} else {
 				$product_data = new stdClass();
@@ -145,7 +140,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 		return EcwidPlatform::get_from_products_cache( $this->_get_cache_key_by_id( $id ) );
 	}
 	
-	protected function _load($id) {
+	protected function _load( $id ) {
 		
 		$data = null;
 		if ( Ecwid_Api_V3::is_available() ) {
@@ -166,7 +161,7 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 	
 	protected function _persist() {
 		
-		if ( !property_exists($this->_data, 'id') ) {
+		if ( !property_exists( $this->_data, 'id' ) ) {
 			return;
 		}
 		EcwidPlatform::store_in_products_cache(
