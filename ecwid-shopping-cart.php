@@ -35,32 +35,6 @@ if ( ! defined('ECWID_SHORTCODES_DIR' ) ) {
 	define( 'ECWID_SHORTCODES_DIR', ECWID_PLUGIN_DIR . 'includes/shortcodes' );
 }
 
-require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
-require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
-require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
-require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
-
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
-
-if ( is_admin() ) {
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
-}
-
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-ajax-defer-renderer.php';
-
-require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
-require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
-require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
-require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
-
-
 // Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
 add_action('sm_buildmap', 'ecwid_build_google_xml_sitemap');
 
@@ -122,12 +96,6 @@ add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
 if (get_option('ecwid_last_oauth_fail_time') > 0) {
 	add_action('plugins_loaded', 'ecwid_test_oauth');
 }
-
-// Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
-	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
-}
-
 $ecwid_script_rendered = false; // controls single script.js on page
 
 require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
@@ -140,16 +108,36 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-oauth.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 
-if (is_admin()) {
+if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-ajax-defer-renderer.php';
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-page.php';
 
+
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
+require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
+
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
+
 $ecwid_script_rendered = false; // controls single script.js on page
+
+
+// Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
+foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
+	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
+}
+
 
 function ecwid_init_integrations()
 {
@@ -1132,15 +1120,7 @@ HTML;
 
 function ecwid_trim_description($description)
 {
-	$description = strip_tags($description);
-	$description = html_entity_decode($description, ENT_NOQUOTES, 'UTF-8');
-
-	$description = preg_replace('![\p{Z}\s]{1,}!u', ' ', $description);
-	$description = trim($description, " \t\xA0\n\r"); // Space, tab, non-breaking space, newline, carriage return
-	$description = mb_substr($description, 0, ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8');
-	$description = htmlspecialchars($description, ENT_COMPAT, 'UTF-8');
-
-	return $description;
+	return Ecwid_HTML_Meta::process_raw_description( $description, ECWID_TRIMMED_DESCRIPTION_LENGTH );
 }
 
 add_action( 'wp_ajax_ecwid_deactivate_feedback', 'ecwid_ajax_deactivate_feedback' );
