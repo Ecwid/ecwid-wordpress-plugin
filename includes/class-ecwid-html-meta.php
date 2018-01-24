@@ -51,9 +51,9 @@ abstract class Ecwid_HTML_Meta
 			'site_name' => $this->_get_site_name(),
 			'image' => $this->_get_image_url()
 		);
-
-		$og_tags = apply_filters('ecwid_og_tags', $og_tags);
-
+		
+		$og_tags = apply_filters( 'ecwid_og_tags', $og_tags );
+		
 		if (!empty($og_tags)) {
 			foreach ($og_tags as $tag => $value) {
 				if (!$value) continue;
@@ -75,7 +75,7 @@ abstract class Ecwid_HTML_Meta
 			'title' => $this->_get_title() . ' - ' . $this->_get_site_name(),
 			'image' => $this->_get_image_url()
 		);
-
+		
 		$twitter_tags = apply_filters( 'ecwid_twitter_tags', $twitter_tags );
 		
 		if ( !empty( $twitter_tags ) ) {
