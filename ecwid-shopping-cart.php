@@ -75,7 +75,7 @@ if ( is_admin() ){
   add_action('wp', 'ecwid_seo_ultimate_compatibility', 0);
   add_action('wp', 'ecwid_remove_default_canonical');
   add_filter('wp', 'ecwid_seo_compatibility_init', 0);
-  add_filter('wp_title', 'ecwid_seo_title', 10000);
+  add_filter('wp_title', 'ecwid_seo_title', 10000, 3);
   add_filter('document_title_parts', 'ecwid_seo_title_parts');
   add_action('plugins_loaded', 'ecwid_minifier_compatibility', 0);
   add_action('wp_head', 'ecwid_meta_description', 0);
@@ -1158,13 +1158,20 @@ function ecwid_get_title_separator()
 	return apply_filters('ecwid_title_separator', '|');
 }
 
-function ecwid_seo_title($content) {
+function ecwid_seo_title( $content, $sep = '', $seplocation = 'right' ) {
 
 	$title = _ecwid_get_seo_title();
+	
 	if (!empty($title)) {
-		$sep = ecwid_get_title_separator();
-
-		return "$title $sep $content";
+		
+		if ( empty( $sep ) ) {
+			$sep = ecwid_get_title_separator();
+		}
+		
+		if ( $seplocation == 'right' )
+			return "$title $sep $content";
+		else 
+			return "$content $sep $title";
 	}
 
 	return $content;
