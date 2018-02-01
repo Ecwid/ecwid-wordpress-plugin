@@ -626,7 +626,10 @@ function ecwid_check_version()
 
 		// Since 5.7.3+ 
 		update_option( 'ecwid_use_js_api_to_open_store_categories_pages', Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO );
-
+		
+		// Since 5.7.4+
+		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, false );
+		
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
@@ -1670,11 +1673,13 @@ EOT;
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
-	$pages = array('toplevel_page_ec-store', 'toplevel_page_ec_store', 'admin_page_ecwid-help');
+	$pages = array('toplevel_page_' . Ecwid_Admin::ADMIN_SLUG, 'toplevel_page_ec_store', 'admin_page_ecwid-help');
 
-	if (!in_array(get_current_screen()->base, $pages)) return;
-
-
+	$is_admin_subpage = strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false
+		|| strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false;
+		
+	if (!$is_admin_subpage && !in_array(get_current_screen()->base, $pages)) return;
+	
 	global $wp_filter;
 
 	if (!$wp_filter || !isset($wp_filter['admin_notices']) || !class_exists('WP_Hook') || ! ( $wp_filter['admin_notices'] instanceof WP_Hook) ) {
@@ -1806,6 +1811,9 @@ function ecwid_get_update_params_options() {
 			'type' => 'bool'
 		),
 		'force_scriptjs_render' => array(
+			'type' => 'bool'
+		),
+		Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS => array(
 			'type' => 'bool'
 		)
 	);
@@ -2188,7 +2196,11 @@ function ecwid_get_iframe_src($time, $page)
 {
 	$url = ecwid_get_admin_sso_url($time, $page);
 	if ($url) {
-		return $url . '&inline&&min-height=700';
+		$url .= '&inline&min-height=700';
+		if ( Ecwid_Admin::enable_auto_menus() ) {
+			$url .= '&hide_vertical_navigation_menu=true';
+		}
+		return $url;
 	} else {
 		return false;
 	}
