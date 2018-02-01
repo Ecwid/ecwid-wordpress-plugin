@@ -186,4 +186,5 @@ class Ecwid_HTML_Meta_Category extends Ecwid_HTML_Meta {
 	}
 }
 
-Ecwid_HTML_Meta::maybe_create();
+
+add_action( 'init', array( 'Ecwid_HTML_Meta', 'maybe_create' ) );
