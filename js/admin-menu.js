@@ -158,6 +158,14 @@ jQuery(document).ready(function() {
                 ecwidAddSubmenu(menu.children, $link);
             }
         }
+
+        var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href="admin.php?page"]');
+        $link.closest('li').attr('data-ecwid-dynamic-menu', 1);
+        $link.click(function() { return false; });
+
+        var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href="admin.php?page=ec-store"]');
+        ecwidApplyIframeAdminMenu($link, {slug:'ec-store', url: 'admin.php?page=ec-store', hash:'dashboard'});
+
     }
     ecwidRefreshEcwidMenuItemSelection();
 });

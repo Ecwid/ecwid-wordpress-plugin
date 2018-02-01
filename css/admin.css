@@ -575,7 +575,9 @@ body[class*="_page_ecwid"] .ecwid-message {
  3d level menu
  */
 
-#adminmenu .wp-submenu li.ec-separator a {
+#adminmenu .wp-submenu li.ec-separator a,
+#adminmenu #toplevel_page_ec-store .wp-submenu li a[href="admin.php?page"]
+{
 	margin-top: 10px;
 	opacity: .5;
 	font-size: 0.9em;

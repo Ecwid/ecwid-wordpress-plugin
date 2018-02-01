@@ -638,7 +638,7 @@ function ecwid_check_version()
 		add_option( 'ecwid_use_js_api_to_open_store_categories_pages', false );
 		delete_option( 'ecwid_use_js_api_to_open_store_pages' );
 
-		// Since 5.7.2+
+		// Since 5.7.3+
 		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, false );
 		
 		Ecwid_Config::load_from_ini();

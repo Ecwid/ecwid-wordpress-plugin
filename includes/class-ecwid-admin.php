@@ -171,7 +171,8 @@ class Ecwid_Admin {
 		$slug = get_current_screen()->base;
 		$slug = substr( get_current_screen()->base, strpos( $slug, $admin_prefix ) + strlen( $admin_prefix ) );
 		
-		ecwid_admin_do_page( $menus[$slug]['hash'] );	
+		// Yeah, in some case there might be a collision between the wp slug and ecwid hash if some hashes collide into the same slug
+		ecwid_admin_do_page( $slug );	
 	}
 	
 	public function ajax_update_menu()
@@ -260,7 +261,6 @@ class Ecwid_Admin {
 				$prefix = intval( $prefix ) + 1;
 			}
 			
-			//уникальность слагов. Даже для нескольких одинаковых path/hash будь добёр сделать разные слаги
 			if ( $prefix ) {
 				$slug .= $prefix;
 			}
