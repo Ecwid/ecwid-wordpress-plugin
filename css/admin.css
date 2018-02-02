@@ -582,6 +582,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 	opacity: .5;
 	font-size: 0.9em;
 	text-transform: uppercase;
+	cursor: default;
 }
 
 #adminmenu #toplevel_page_ec-store div.wp-menu-image:before {
