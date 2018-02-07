@@ -65,7 +65,8 @@ function ecwid_apply_theme($theme_name = null)
 		'optimizer'             => array( 'css' ),
 		'businesso'				=> array( 'css' ),
 		'Avada' 				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
-		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU )
+		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
+		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
