@@ -213,7 +213,7 @@ class Ecwid_Admin {
 			}
 			
 			
-			$menu_item['title'] = $item['title'];
+			$menu_item['title'] = stripslashes($item['title']);
 			
 			if ( $item['type'] != 'separator' ) {
 				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $item['title'], $slugs );
@@ -232,6 +232,7 @@ class Ecwid_Admin {
 				$item2['url'] = 'admin.php?page=' . $slug2;
 				$item2['slug'] = $slug2;
 				$item2['hash'] = $item2['path'];
+				$item2['title'] = stripslashes( $item2['title'] );
 
 				$menu_item['children'][] = $item2;
 			}

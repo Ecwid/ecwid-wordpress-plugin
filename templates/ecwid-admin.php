@@ -29,6 +29,7 @@
                     'success': function(result) {
                         jQuery('li[data-ecwid-dynamic-menu]').remove();
                         ecwidAddMenuItems(jQuery.parseJSON(result));
+                        ecwidRefreshEcwidMenuItemSelection();
                     }
                 });
 		        
