@@ -629,6 +629,9 @@ function ecwid_check_version()
 		
 		// Since 5.7.4+
 		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, false );
+
+		// Since 5.7.5+
+		add_option( 'ecwid_print_html_catalog', 'Y' );
 		
 		Ecwid_Config::load_from_ini();
 
@@ -1814,6 +1817,9 @@ function ecwid_get_update_params_options() {
 			'type' => 'bool'
 		),
 		Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS => array(
+			'type' => 'bool'
+		),
+		'ecwid_print_html_catalog' => array(
 			'type' => 'bool'
 		)
 	);

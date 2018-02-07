@@ -41,7 +41,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		
 		$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
 
-		if ( $html_catalog_params !== false ) {
+		if ( $html_catalog_params !== false && get_option( 'ecwid_print_html_catalog', 'Y' ) ) {
 			$plain_content = $this->_build_html_catalog( $store_id, $html_catalog_params );
 		}
 
