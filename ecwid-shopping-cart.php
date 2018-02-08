@@ -618,19 +618,19 @@ function ecwid_check_version()
 		// Since 5.4.2
 		delete_option('ecwid_hide_appearance_menu');
 		
-		// Since 5.4.3? 
+		// Since 5.4.3 
 		add_option( Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY, '' );
 		
-		// Since 5.7.2+
+		// Since 5.7.3
 		delete_option( 'ecwid_use_js_api_to_open_store_pages' );
 
-		// Since 5.7.3+ 
+		// Since 5.7.4 
 		update_option( 'ecwid_use_js_api_to_open_store_categories_pages', Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO );
 		
-		// Since 5.7.4+
-		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, false );
+		// Since 5.8
+		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, 'auto' );
 
-		// Since 5.7.5+
+		// Since 5.8
 		add_option( 'ecwid_print_html_catalog', 'Y' );
 		
 		Ecwid_Config::load_from_ini();
@@ -1817,7 +1817,9 @@ function ecwid_get_update_params_options() {
 			'type' => 'bool'
 		),
 		Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS => array(
-			'type' => 'bool'
+			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_ON,
+			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_OFF,
+			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_AUTO
 		),
 		'ecwid_print_html_catalog' => array(
 			'type' => 'bool'

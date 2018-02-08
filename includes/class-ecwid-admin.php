@@ -5,7 +5,10 @@ class Ecwid_Admin {
 	const ADMIN_SLUG = 'ec-store';
 	const AJAX_ACTION_UPDATE_MENU = 'ecwid_update_menu';
 	const OPTION_ENABLE_AUTO_MENUS = 'ecwid_enable_auto_menus';
-	
+	const OPTION_ENABLE_AUTO_MENUS_ON = 'Y';
+	const OPTION_ENABLE_AUTO_MENUS_OFF = '';
+	const OPTION_ENABLE_AUTO_MENUS_AUTO = 'auto';
+
 	public function __construct()
 	{
 		if ( is_admin() ) {
@@ -323,7 +326,15 @@ class Ecwid_Admin {
 	
 	static public function enable_auto_menus()
 	{
-		return get_option( self::OPTION_ENABLE_AUTO_MENUS );
+		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS )  == self::OPTION_ENABLE_AUTO_MENUS_OFF ) {
+			return false;
+		}
+
+		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS )  == self::OPTION_ENABLE_AUTO_MENUS_ON ) {
+			return true;
+		}
+		
+		return ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
 	}
 
 	static public function disable_dashboard() {
