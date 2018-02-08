@@ -1817,9 +1817,11 @@ function ecwid_get_update_params_options() {
 			'type' => 'bool'
 		),
 		Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS => array(
-			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_ON,
-			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_OFF,
-			Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_AUTO
+			'values' => array(
+				Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_ON,
+				Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_OFF,
+				Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_AUTO
+			)
 		),
 		'ecwid_print_html_catalog' => array(
 			'type' => 'bool'
@@ -2205,7 +2207,7 @@ function ecwid_get_iframe_src($time, $page)
 	$url = ecwid_get_admin_sso_url($time, $page);
 	if ($url) {
 		$url .= '&inline&min-height=700';
-		if ( Ecwid_Admin::enable_auto_menus() ) {
+		if ( Ecwid_Admin::are_auto_menus_enabled() ) {
 			$url .= '&hide_vertical_navigation_menu=true';
 		}
 		return $url;
