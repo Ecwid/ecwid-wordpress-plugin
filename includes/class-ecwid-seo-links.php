@@ -248,11 +248,13 @@ JS;
 	public static function enable() {
 		update_option( self::OPTION_ENABLED, true );
 		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function disable() {
 		update_option( self::OPTION_ENABLED, false );
 		Ecwid_Store_Page::schedule_flush_rewrites();
+		ecwid_invalidate_cache( true );
 	}
 
 	public static function is_feature_available() {
@@ -262,7 +264,7 @@ JS;
 	}
 
 	public static function should_display_option() {
-		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' );
+		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' ) || !self::is_enabled();
 	}
 
 }

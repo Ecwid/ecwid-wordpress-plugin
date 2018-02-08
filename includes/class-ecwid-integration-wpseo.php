@@ -4,7 +4,9 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 {
 	// Store intermediate sitemap generation results here
 	protected $sitemap = array();
-
+	protected $_og_drop = array( 'title', 'description', 'image', 'type', 'url' );
+	protected $_twitter_drop = array( 'title', 'description', 'image', 'card_type' );
+	
 	public function __construct()
 	{
 		add_action( 'wp', array( $this, 'disable_seo_on_escaped_fragment' ) );
@@ -16,12 +18,28 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 			if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
 				add_filter( 'wpseo_title', 'ecwid_seo_title' );
 				add_filter( 'wpseo_metadesc', '__return_false' );
+
+				add_filter( 'ecwid_og_tags', array( $this, 'filter_og_tags' ) );
+				foreach ( $this->_og_drop as $name ) {
+					add_filter( 'wpseo_og_' . "og_$name", '__return_empty_string' );
+				}
+
+				add_filter( 'wpseo_output_twitter_card', '__return_false' );
 			}
 		}
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 	}
 
+	public function filter_og_tags( $tags )
+	{
+		unset( $tags['locale'] );
+		unset( $tags['site_name'] );
+		
+		return $tags;
+	}
+	
+	
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment()
 	{

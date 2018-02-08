@@ -73,6 +73,7 @@ class Ecwid_Api_V3
 		);
 		
 		$result = EcwidPlatform::get_from_categories_cache($url);
+
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 			
@@ -294,10 +295,14 @@ class Ecwid_Api_V3
 			if (empty($encrypted)) return false;
 
 			$token = EcwidPlatform::decrypt($encrypted);
+		
+			if ($token == $db_value) {
+				return false;
+			}
 		} else {
 			$token = $db_value;
 		}
-
+		
 		return $token;
 	}
 
@@ -367,6 +372,10 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 
+		if ( !isset( $result['data'] ) ) {
+			return null;
+		}
+		
 		return json_decode($result['data']);
 	}
 
@@ -398,8 +407,8 @@ class Ecwid_Api_V3
 		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
-		
-		return self::$profile;
+
+		return $profile;
 	}
 
 	public function create_store()

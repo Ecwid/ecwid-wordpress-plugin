@@ -12,7 +12,6 @@ jQuery(document).ready(function() {
 		}), "*")
 	}
 
-
 	jQuery('#hide-vote-message').click(function() {
 		jQuery('#hide-vote-message').addClass('hiding');
 		jQuery.getJSON(
@@ -109,44 +108,6 @@ jQuery(document).ready(function() {
 		return false;
 	});
 
-	var admin_pages = [
-		{
-			url: ecwid_params.dashboard_url,
-			title: ecwid_params.dashboard,
-			place: 'dashboard'
-		},
-		{
-			url: ecwid_params.products_url,
-			title: ecwid_params.products,
-			place: 'products'
-		},
-		{
-			url: ecwid_params.orders_url,
-			title: ecwid_params.orders,
-			place: 'orders'
-		}
-	];
-
-	if (jQuery('#ecwid-frame').length > 0) {
-		if (jQuery('div.update-nag').length > 0) {
-			jQuery('#ecwid-frame').addClass('has-wp-message');
-		}
-		
-		for (var i = 0; i < admin_pages.length; i++) {
-			jQuery('li.toplevel_page_ec-store .wp-submenu a[href$="' + admin_pages[i].url + '"]')
-				.data('ecwid-menu', admin_pages[i])
-				.click(function() {
-					var ecwidMenu = jQuery(this).data('ecwid-menu');
-					jQuery('.toplevel_page_ec-store *.current').removeClass('current');
-					jQuery(this).addClass('current').closest('li').addClass('current');
-
-					ecwidOpenAdminPage(ecwidMenu.place);
-
-					return false;
-				});
-		}
-	}
-
 	jQuery('#ecwid-get-mobile-app').click(function() {
 		ecwidOpenAdminPage('mobile');
 
@@ -156,6 +117,7 @@ jQuery(document).ready(function() {
 	if (document.location.hash == 'mobile') {
 		ecwidOpenAdminPage('mobile');
 	}
+	
 });
 
 prepareVerticalCategoriesWidget = function(element) {
@@ -207,5 +169,11 @@ prepareVerticalCategoriesWidget = function(element) {
 		});
 	});
 
+    if (jQuery('#ecwid-frame').length > 0) {
+        if (jQuery('div.update-nag').length > 0) {
+            jQuery('#ecwid-frame').addClass('has-wp-message');
+        }
+    }
+    
 	element.data('vcategoriesInitialized', true);
 }

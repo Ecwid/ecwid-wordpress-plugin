@@ -2,6 +2,12 @@
 
 class Ecwid_Nav_Menus {
 
+    const OPTION_USE_JS_API_FOR_CATS_MENU = 'ecwid_use_js_api_to_open_store_categories_pages';
+    const OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE = 'on';
+	const OPTVAL_USE_JS_API_FOR_CATS_MENU_FALSE = 'off';
+	const OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO = 'auto';
+	const FILTER_USE_JS_API_FOR_CATS_MENU = 'ecwid_use_js_api_for_categories_menu';
+
 	protected $item_types;
 
 	public function __construct() {
@@ -39,6 +45,22 @@ class Ecwid_Nav_Menus {
 		);
 	}
 
+	public static function should_use_js_api_for_categories_menu()
+    {
+		$value = get_option( self::OPTION_USE_JS_API_FOR_CATS_MENU );
+		
+		if ( $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE ) {
+		    return true;
+        }
+        if ( $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_FALSE ) {
+		    return false;
+        }
+        
+        $value = apply_filters( self::FILTER_USE_JS_API_FOR_CATS_MENU, $value );
+		
+		return $value == self::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE;
+    }
+	
 	static public function add_menu_on_activate( ) {
 
 		$locations = get_nav_menu_locations();
@@ -151,10 +173,7 @@ class Ecwid_Nav_Menus {
 			'items' => $this->get_nav_menu_items()
 		));
 	}
-
-//- дефолтная категория
-//- посмотреть несколько тем
-
+    
 	public function process_menu_items($items)
 	{
 		if ( is_admin() || empty($items) ) {
@@ -191,38 +210,40 @@ class Ecwid_Nav_Menus {
 				if ( !$posts ) {
 					$posts = array();
 					$categories = ecwid_get_categories();
-					foreach ($categories as $category) {
-						$post = new stdClass;
-						$post->ID = -1;
-						$post->post_author = '';
-						$post->post_date = '';
-						$post->post_date_gmt = '';
-						$post->post_password = '';
-						$post->post_name = '';
-						$post->post_type = $item->post_type;
-						$post->post_status = 'publish';
-						$post->to_ping = '';
-						$post->pinged = '';
-						$post->post_parent = 0;
-						$post->url = Ecwid_Store_Page::get_category_url($category->id);
-						$post->classes = '';
-						$post->type = 'post';
-						$post->db_id = 0;
-						$post->title = $category->name;
-						$post->target = '';
-						$post->object = '';
-						$post->attr_title = '';
-						$post->description = '';
-						$post->xfn = '';
-						$post->object_id = 0;
-//						$post->ecwid_page_type = 'category';
-//						$post->ecwid_category_id = $category->id;
-
-						$posts[] = $post;
+					if ($categories) {
+                        foreach ($categories as $category) {
+                            $post = new stdClass;
+                            $post->ID = -1;
+                            $post->post_author = '';
+                            $post->post_date = '';
+                            $post->post_date_gmt = '';
+                            $post->post_password = '';
+                            $post->post_name = '';
+                            $post->post_type = $item->post_type;
+                            $post->post_status = 'publish';
+                            $post->to_ping = '';
+                            $post->pinged = '';
+                            $post->post_parent = 0;
+                            $post->url = Ecwid_Store_Page::get_category_url($category->id);
+                            $post->classes = '';
+                            $post->type = 'post';
+                            $post->db_id = 0;
+                            $post->title = $category->name;
+                            $post->target = '';
+                            $post->object = '';
+                            $post->attr_title = '';
+                            $post->description = '';
+                            $post->xfn = '';
+                            $post->object_id = 0;
+    						$post->ecwid_page_type = 'category';
+    						$post->ecwid_category_id = $category->id;
+    
+                            $posts[] = $post;
+                        }
+    
+                        EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
 					}
-
-					EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
-				}
+                }
 
 				foreach ( $posts as $post ) {
 					$counter++;
@@ -238,7 +259,8 @@ class Ecwid_Nav_Menus {
 
 	public function nav_menu_link_attributes( $attributes, $item )
     {
-        if ( !isset( $item->ecwid_page_type ) ) {
+		
+		if ( !isset( $item->ecwid_page_type ) ) {
             return $attributes;
         }
         

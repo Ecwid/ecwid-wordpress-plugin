@@ -14,6 +14,7 @@ abstract class Ecwid_Http {
 	protected $code;
 	protected $message;
 	protected $headers;
+	protected $error;
 
 	const TRANSPORT_CHECK_EXPIRATION = 86400;
 
@@ -75,112 +76,19 @@ abstract class Ecwid_Http {
 
 	public static function create_get($name, $url, $params) {
 
-		$transport_class = self::_get_transport($name, $url, $params);
-
-		if (!$transport_class) {
-			$transport_class = self::_detect_get_transport($name, $url, $params);
-		}
-
-		if (empty($transport_class)) {
-			return null;
-		}
-
+		$transport_class = self::_get_transport();
+		
 		$transport = new $transport_class($name, $url, $params);
 
 		return $transport;
 	}
 
 	public static function create_post($name, $url, $params) {
-		$transport_class = self::_post_transport($name, $url, $params);
-
-		if (!$transport_class) {
-			$transport_class = self::_detect_post_transport($name, $url, $params);
-		}
-
-		if (empty($transport_class)) {
-			return null;
-		}
-
+		$transport_class = self::_post_transport();
+		
 		$transport = new $transport_class($name, $url, $params);
 
 		return $transport;
-	}
-
-	protected static function _get_transport($name) {
-		$data = EcwidPlatform::get('get_transport_' . $name);
-
-		if (!empty($data) && @$data['use_default']) {
-			return self::_get_default_transport();
-		}
-
-		$preferred = @$data['preferred'];
-		if (!empty($preferred) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
-			return $preferred;
-		}
-
-		return null;
-	}
-
-
-	protected static function _post_transport($name) {
-		$data = EcwidPlatform::get('get_post_transport_' . $name);
-
-		if (!empty($data) && @$data['use_default']) {
-			return self::_post_default_transport();
-		}
-		$preferred = @$data['preferred'];
-		if (!empty($preferred) && ( time() - @$data['last_check'] ) < self::TRANSPORT_CHECK_EXPIRATION ) {
-			return $preferred;
-		}
-
-		return null;
-	}
-
-	protected static function _detect_get_transport($name, $url, $params) {
-
-		foreach (self::_get_transports() as $transport_class) {
-			$transport = new $transport_class($name, $url, $params);
-
-			$result = $transport->do_request();
-
-			if (!$transport->is_error) {
-				self::_set_transport_for_request(
-					$name,
-					array(
-						'preferred' => $transport_class,
-						'last_check' => time()
-					)
-				);
-
-				return $transport_class;
-			}
-		}
-
-		return null;
-	}
-
-
-	protected static function _detect_post_transport($name, $url, $params) {
-
-		foreach (self::_post_transports() as $transport_class) {
-			$transport = new $transport_class($name, $url, $params);
-
-			$result = $transport->do_request();
-
-			if (!$transport->is_error) {
-				self::_set_transport_for_request(
-					$name,
-					array(
-						'preferred' => $transport_class,
-						'last_check' => time()
-					)
-				);
-
-				return $transport_class;
-			}
-		}
-
-		return null;
 	}
 
 	protected static function _set_transport_for_request($name, $transport) {
@@ -191,22 +99,14 @@ abstract class Ecwid_Http {
 		return EcwidPlatform::get('get_transport_' . $name);
 	}
 
-	protected static function _get_default_transport() {
+	protected static function _get_transport() {
 		return 'Ecwid_HTTP_Get_WpRemoteGet';
 	}
 
-	protected static function _post_default_transport() {
+	protected static function _post_transport() {
 		return 'Ecwid_HTTP_Post_WpRemotePost';
 	}
-
-	protected static function _get_transports() {
-		return array('Ecwid_HTTP_Get_WpRemoteGet', 'Ecwid_HTTP_Get_Fopen');
-	}
-
-	protected static function _post_transports() {
-		return array('Ecwid_HTTP_Post_WpRemotePost', 'Ecwid_HTTP_Post_Fopen');
-	}
-
+	
 	protected function _trigger_error() {
 		$this->is_error = true;
 		$this->error = $this->raw_result;
@@ -285,6 +185,8 @@ class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
 		);
 
 		if (is_wp_error($this->raw_result)) {
+			$this->error = $this->raw_result;
+			
 			$this->_trigger_error();
 
 			return $this->raw_result;
@@ -306,70 +208,6 @@ class Ecwid_HTTP_Get_WpRemoteGet extends Ecwid_HTTP_Get {
 		}
 
 		return parent::_trigger_error();
-	}
-}
-
-class Ecwid_HTTP_Get_Fopen extends Ecwid_HTTP_Get {
-
-	protected function _do_request($url, $args) {
-
-		$stream_context_args = array('http'=> array());
-		if (@$args['timeout']) {
-			$stream_context_args['http']['timeout'] = $args['timeout'];
-		}
-
-		$ctx = stream_context_create($stream_context_args);
-		$handle = @fopen($url, 'r', null, $ctx);
-
-		if (!$handle) {
-			$this->_trigger_error();
-
-			$last = error_get_last();
-			$this->message = $last['message'];
-
-			return null;
-		}
-
-		$this->raw_result = stream_get_contents($handle);
-
-		$this->headers = $this->_get_meta($handle);
-		$this->code = $this->headers['code'];
-		$this->message = $this->headers['message'];
-
-		return $this->raw_result;
-	}
-
-	protected function _get_meta($handle) {
-		$meta = stream_get_meta_data($handle);
-
-		$result = array();
-
-		$headers = $meta['wrapper_data'];
-		if (isset($headers['headers'])) {
-			$headers = $headers['headers'];
-		}
-		foreach ($headers as $item) {
-
-			if (!is_string($item)) {
-				ecwid_log_error(@json_encode($item));
-				continue;
-			}
-
-			$match = array();
-			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
-				$result['code'] = $match[1];
-				$result['message'] = $match[2];
-			}
-
-			$colon_pos = strpos($item, ':');
-
-			if (!$colon_pos) continue;
-
-			$name = substr($item, 0, $colon_pos);
-			$result[strtolower($name)] = trim(substr($item, $colon_pos + 1));
-		}
-
-		return $result;
 	}
 }
 
@@ -399,81 +237,4 @@ class Ecwid_HTTP_Post_WpRemotePost extends Ecwid_Http_Post {
 		return $this->raw_result['body'];
 
 	}
-}
-
-class Ecwid_HTTP_Post_Fopen extends Ecwid_Http_Post {
-	protected function _do_request($url, $args) {
-
-		$stream_context_args = array(
-			'http'=> array(
-				'method' => 'POST',
-				'headers' => 'Content-Type: application/x-www-form-urlencoded\r\n'
-			)
-		);
-		if (@$args['timeout']) {
-			$stream_context_args['http']['timeout'] = $args['timeout'];
-		}
-
-		if (@$args['headers']) {
-			$stream_context_args['http']['headers'] = $args['headers'];
-		}
-
-		if (@$args['body']) {
-			$stream_context_args['http']['content'] = http_build_query($args['body']);
-		}
-
-
-		$ctx = stream_context_create($stream_context_args);
-		$handle = @fopen($url, 'r', null, $ctx);
-
-		if (!$handle) {
-			$this->_trigger_error();
-			$this->message = error_get_last();
-
-			return null;
-		}
-
-		$this->raw_result = stream_get_contents($handle);
-
-		$this->headers = $this->_get_meta($handle);
-		$this->code = $this->headers['code'];
-		$this->message = $this->headers['message'];
-
-		return $this->raw_result;
-	}
-
-	protected function _get_meta($handle) {
-		$meta = stream_get_meta_data($handle);
-
-		$result = array();
-
-		$headers = $meta['wrapper_data'];
-		if (isset($headers['headers'])) {
-			$headers = $headers['headers'];
-		}
-		foreach ($headers as $item) {
-
-			if (!is_string($item)) {
-				ecwid_log_error(@json_encode($item));
-				continue;
-			}
-
-			$match = array();
-			if (preg_match('|HTTP/\d\.\d\s+(\d+)\s+(.*)|',$item, $match)) {
-				$result['code'] = $match[1];
-				$result['message'] = $match[2];
-			}
-
-			$colon_pos = strpos($item, ':');
-
-			if (!$colon_pos) continue;
-
-			$name = substr($item, 0, $colon_pos);
-			$result[strtolower($name)] = trim(substr($item, $colon_pos + 1));
-		}
-
-		return $result;
-	}
-
-
 }

@@ -57,3 +57,16 @@
 .ecwid-productBrowser table {
 	line-height: normal;
 }
+
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid input[type="radio"] {
+	position: relative;
+	padding: 0.5em;
+	border-width: 1px;
+	border-radius: .5em;
+}
+
+html#ecwid_html body#ecwid_body.ecwid-shopping-cart .ecwid input[type="checkbox"] {
+	position: relative;
+	padding: 0.5em;
+	border-width: 1px;
+}

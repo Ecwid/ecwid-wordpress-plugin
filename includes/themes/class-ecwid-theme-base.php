@@ -2,6 +2,8 @@
 
 class Ecwid_Theme_Base {
 
+	const PROP_USE_JS_API_FOR_CATS_NAV_MENU = 'js-api-for-cats-nav-menu';
+	
 	public $has_advanced_layout = false;
 
 	protected $adjust_pb_scroll = false;
@@ -13,6 +15,7 @@ class Ecwid_Theme_Base {
 	protected $css_parent = false;
 
 	public $historyjs_html4mode = false;
+	protected $use_js_api_for_cats_nav_menu = false;
 
 	public static $instance = null;
 
@@ -47,9 +50,17 @@ class Ecwid_Theme_Base {
 			$theme->historyjs_html4mode = true;
 		}
 
+		if (in_array( self::PROP_USE_JS_API_FOR_CATS_NAV_MENU, $props ) ) {
+			add_filter( Ecwid_Nav_Menus::FILTER_USE_JS_API_FOR_CATS_MENU, array( $theme, 'filter_use_js_api_for_cats_menu' ) );
+		}
+
 		return $theme;
 	}
 
+	public function filter_use_js_api_for_cats_menu( $value ) {
+		return Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE;
+	}
+	
 	protected function add_js() {
 		wp_enqueue_script(
 			'ecwid-theme-js',

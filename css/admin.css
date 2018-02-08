@@ -91,6 +91,7 @@ div.ecwid-message {
 	position: relative;
 	display: table;
 	width: 100%;
+	min-height: 30px;
 }
 
 .ecwid-message .ecwid-message-buttons > div {
@@ -569,9 +570,145 @@ body[class*="_page_ecwid"] .ecwid-message {
 	border-bottom-color:#666;
 }
 
+
+/****
+ 3d level menu
+ */
+
+#adminmenu .wp-submenu li.ec-separator a,
+#adminmenu #toplevel_page_ec-store .wp-submenu li a[href="admin.php?page"]
+{
+	margin-top: 10px;
+	opacity: .5;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	cursor: default;
+}
+
 #adminmenu #toplevel_page_ec-store div.wp-menu-image:before {
     font-family: 'ecwid-plugin-icons' !important;
     content: "\e603";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+	list-style: none;
+	position: absolute;
+	top: -1000em;
+	left: 160px;
+	
+	overflow: visible;
+	word-wrap: break-word;
+	
+	padding: 7px 0 8px;
+	z-index: 9999;
+	background-color: #41464b;
+	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,.2);
+	box-shadow: 0 3px 5px rgba(0,0,0,.2);
+}
+
+#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+	min-width: 160px;
+	width: auto;
+}
+
+@media only screen AND (max-width: 960px) {
+	#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+		min-width: 150px;
+		left: 150px;
+	}
+}
+
+@media only screen AND (max-width: 960px) {
+	#adminmenu #toplevel_page_ec-store .wp-submenu3,
+	#adminmenu #toplevel_page_ec-store .wp-submenu {
+		min-width: 190px;
+	}
+
+	#adminmenu #toplevel_page_ec-store .wp-submenu3 {
+		left:  190px
+	}
+}
+
+#adminmenu #toplevel_page_ec-store .wp-not-current-submenu {
+	min-width: 160px;
+	width: auto;
+}
+
+@media only screen and (max-width: 960px) {
+	#adminmenu #toplevel_page_ec-store .wp-not-current-submenu {
+        min-width: initial;
+	}  }
+
+#adminmenu #toplevel_page_ec-store .opensub:not(.wp-has-current-submenu3) .wp-submenu3 {
+	top: -1px;
+}
+
+#adminmenu #toplevel_page_ec-store li {
+	position: relative;
+	overflow: visible;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-submenu3 a {
+	color: #A5A8AD;
+	font-weight: 400;
+}
+
+
+#adminmenu #toplevel_page_ec-store .wp-submenu3 a.current {
+	color: #ffffff;
+	font-weight: 600;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-submenu3 a:hover {
+	color: #00d2fc;
+}
+
+
+#adminmenu #toplevel_page_ec-store li.wp-has-submenu3:not(.wp-has-current-submenu3):hover:after,
+#adminmenu #toplevel_page_ec-store li.wp-has-submenu3.opensub:not(.wp-has-current-submenu3):after
+{
+	right: 0;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-width: 8px;
+	top: 10px;
+	z-index: 10000;
+	border-right-color: #41464b;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-has-current-submenu3 .wp-submenu3 {
+	position: relative;
+	z-index: 3;
+	top: auto;
+	left: auto;
+	right: auto;
+	bottom: auto;
+	border: 0;
+	margin-top: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	background-color: #41464b;
+}
+#adminmenu #toplevel_page_ec-store .wp-has-current-submenu3:last-child .wp-submenu3 {
+	margin-top: 4px;
+	margin-bottom: -8px;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-has-current-submenu3 .wp-submenu3 > li > a {
+	padding-left: 20px;
+}
+
+#adminmenu #toplevel_page_ec-store .wp-has-submenu3.wp-has-current-submenu3 > a {
+	background: #0084bb;
+	color: #ffffff;
+}
+
+.ecwid-admin-iframe .update-nag {
+	display: none;
 }

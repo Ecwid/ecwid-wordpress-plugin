@@ -194,7 +194,7 @@ TXT
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
 				'primary_title' => __( 'Set up your store', 'ecwid-shopping-cart'),
-				'primary_url' => 'admin.php?page=ecwid',
+				'primary_url' => 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG,
 				'hideable'  => true,
 				'default'  => 'disabled'
 			),
@@ -232,6 +232,15 @@ TXT
 				'hideable' => false,
 				'type' => 'error'
 			),
+			
+			'no_token' => array(
+				'title' => sprintf( __( 'Action required: please connect your %s account', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'Your storefront (product listing and checkout) is working fine, but the advanced store functions like SEO and sidebar widgets are disabled. To enable them and make sure your store works properly, please press the button below to connect your %s account. This will take less than a minute — you will only be asked to log in to your account and allow this site to get your store data.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'type' => 'error',
+				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
+				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
+				'hideable' => true
+			)
 		);
 	}
 
@@ -247,7 +256,8 @@ TXT
 			$admin_page = $screen->base;
 		}
 
-		if ($admin_page == 'toplevel_page_ec-store' && isset($_GET['reconnect'])) {
+		$is_ecwid_menu = $admin_page == 'toplevel_page_' . Ecwid_Admin::ADMIN_SLUG;
+		if ($is_ecwid_menu && isset($_GET['reconnect'])) {
 			return false;
 		}
 		
@@ -264,6 +274,11 @@ TXT
 			case 'on_appearance_widgets':
 				return isset($_GET['from-ec-store']) && $_GET['from-ec-store'] != 'true' && $admin_page == 'widgets';
 
+			case 'no_token':
+				$no_token = Ecwid_Api_V3::get_token() == false;
+				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
+				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				
 			case 'please_vote':
 
 				if ( Ecwid_Config::is_wl() ) return false;

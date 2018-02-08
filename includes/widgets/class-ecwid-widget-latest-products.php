@@ -22,6 +22,6 @@ class Ecwid_Widget_Latest_Products extends Ecwid_Widget_Products_List_Base {
 			'limit' => $this->_instance['number_of_products']
 		));
 		
-		return $result->items;
+		return @$result->items;
 	}
 }
