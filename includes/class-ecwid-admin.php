@@ -5,8 +5,8 @@ class Ecwid_Admin {
 	const ADMIN_SLUG = 'ec-store';
 	const AJAX_ACTION_UPDATE_MENU = 'ecwid_update_menu';
 	const OPTION_ENABLE_AUTO_MENUS = 'ecwid_enable_auto_menus';
-	const OPTION_ENABLE_AUTO_MENUS_ON = 'Y';
-	const OPTION_ENABLE_AUTO_MENUS_OFF = '';
+	const OPTION_ENABLE_AUTO_MENUS_ON = 'on';
+	const OPTION_ENABLE_AUTO_MENUS_OFF = 'off';
 	const OPTION_ENABLE_AUTO_MENUS_AUTO = 'auto';
 
 	public function __construct()
@@ -22,14 +22,14 @@ class Ecwid_Admin {
 	public function enqueue_scripts() {
 		$menu = self::_get_menus();
 		
-		wp_enqueue_script('ecwid-admin-menu', ECWID_PLUGIN_URL . 'js/admin-menu.js', array(), get_option('ecwid_plugin_version'));
+		wp_enqueue_script( 'ecwid-admin-menu', ECWID_PLUGIN_URL . 'js/admin-menu.js', array(), get_option( 'ecwid_plugin_version' ) );
 
-		wp_localize_script('ecwid-admin-menu', 'ecwid_admin_menu', array(
+		wp_localize_script( 'ecwid-admin-menu', 'ecwid_admin_menu', array(
 			'dashboard' => __('Dashboard', 'ecwid-shopping-cart'),
 			'dashboard_url' => Ecwid_Admin::get_relative_dashboard_url(),
-			'menu' => self::enable_auto_menus() ? $menu : array(),
+			'menu' => self::are_auto_menus_enabled() ? $menu : array(),
 			'baseSlug' => self::ADMIN_SLUG,
-			'enableAutoMenus' => self::enable_auto_menus()
+			'enableAutoMenus' => self::are_auto_menus_enabled()
 		));		
 	}
 
@@ -53,7 +53,7 @@ class Ecwid_Admin {
 		} else {
 			$title = __('Dashboard', 'ecwid-shopping-cart');
 		}
-		if ( !self::enable_auto_menus() || !in_array( self::ADMIN_SLUG, $this->_get_menus() ) ) {
+		if ( !self::are_auto_menus_enabled() || !in_array( self::ADMIN_SLUG, $this->_get_menus() ) ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				$title,
@@ -67,7 +67,7 @@ class Ecwid_Admin {
 		global $ecwid_oauth;
 		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
 			
-			if ( !self::enable_auto_menus() ){
+			if ( !self::are_auto_menus_enabled() ){
 				add_submenu_page(
 					self::ADMIN_SLUG,
 					__('Sales', 'ecwid-shopping-cart'),
@@ -324,7 +324,7 @@ class Ecwid_Admin {
 		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG;
 	}
 	
-	static public function enable_auto_menus()
+	static public function are_auto_menus_enabled()
 	{
 		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS )  == self::OPTION_ENABLE_AUTO_MENUS_OFF ) {
 			return false;
