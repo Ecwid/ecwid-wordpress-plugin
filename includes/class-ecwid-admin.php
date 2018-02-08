@@ -282,16 +282,12 @@ class Ecwid_Admin {
 
 		$default_menu = array(
 			array(
-				'orders' => array(
-					'title' => __( 'Sales', 'ecwid-shopping-cart' ),
-					'path' => 'orders'
-				)
+				'title' => __( 'Sales', 'ecwid-shopping-cart' ),
+				'path' => 'orders',
 			),
 			array(
-				'products' => array(
-					'title' => __( 'Products', 'ecwid-shopping-cart' ),
-					'path' => 'products'
-				)
+				'title' => __( 'Products', 'ecwid-shopping-cart' ),
+				'path' => 'products'
 			)
 		);
 
