@@ -218,7 +218,7 @@ class Ecwid_Admin {
 			
 			$menu_item['title'] = stripslashes($item['title']);
 			
-			if ( $item['type'] != 'separator' ) {
+			if ( @$item['type'] != 'separator' ) {
 				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $item['title'], $slugs );
 				$menu_item['url'] = 'admin.php?page=' . $slug;
 				$menu_item['slug'] = $slug;
@@ -330,7 +330,7 @@ class Ecwid_Admin {
 			return true;
 		}
 		
-		return ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
+		return !ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
 	}
 
 	static public function disable_dashboard() {
