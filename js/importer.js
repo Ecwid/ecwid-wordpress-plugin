@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
    jQuery('#ecwid-importer-woo').click(function() {
        
        jQuery.getJSON(ajaxurl, { action: ecwid_importer.check_token_action }, function(data) {
-           if (data.result == false) {
+           if (data.has_good_token == false) {
                $wrapper.removeClass('state-landing').addClass('state-no-token');
            } else {
                $wrapper.removeClass('state-landing').addClass('state-woo');
@@ -88,16 +88,19 @@ jQuery(document).ready(function() {
        result = "success:\n";
        for (var i in status.success) {
             if (status.success.hasOwnProperty(i)) {
-                result += i + ': ' + status.success[i] + "\n";
+                result += '  ' + i + ': ' + status.success[i] + "\n";
             }
        }
+       
+       result += "==================\n";
 
        result += "error:\n";
        for (var i in status.error) {
            if (status.error.hasOwnProperty(i)) {
-               result += i + ': ' + status.error[i] + "\n";
+               result += '  ' + i + ': ' + status.error[i] + "\n";
            }
        }
+       result += "==================\n";
 
        jQuery('#report').text(result);
    }
