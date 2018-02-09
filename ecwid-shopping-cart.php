@@ -23,6 +23,10 @@ if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
 
+if ( !defined( 'ECWID_TEMPLATES_DIR' ) ) {
+	define ( 'ECWID_TEMPLATES_DIR', ECWID_PLUGIN_DIR . 'templates' );
+}
+
 if ( ! defined( 'ECWID_PLUGIN_BASENAME' ) ) {
 	define( 'ECWID_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
@@ -128,6 +132,7 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
+require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 
 $ecwid_script_rendered = false; // controls single script.js on page
 

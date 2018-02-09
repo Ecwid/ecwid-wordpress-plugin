@@ -513,6 +513,92 @@ class Ecwid_Api_V3
 		return $url . '?' . build_query($params);
 	}
 
+	public function create_product( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url, $request_params );
+
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function create_category( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
+
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function delete_products( $ids )
+	{
+		$request_params = array( 'token' );
+		$requests = array();
+		foreach ( $ids as $id ) {
+			$requests[] = array(
+				'type' => Requests::DELETE,
+				'url' => $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params )
+			);
+		}
+
+		$result = Requests::request_multiple( $requests );
+	}
+
+	public function upload_category_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_categories_api_url . '/' . $params['categoryId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+	public function upload_product_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
+	protected function _do_post( $url, $data, $raw = false ) {
+		$result = wp_remote_post( $url,
+			array(
+				'body' => $raw ? $data : json_encode( $data ),
+				'timeout' => 20,
+				'headers' => array(
+					'Content-Type' => 'application/json;charset="utf-8"'
+				)
+			)
+		);
+
+		$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+
+		return $result;
+	}
+
+	protected function _get_response_message_from_wp_remote_results( $result ) {
+		$raw = $result['http_response']->get_response_object()->raw;
+		$pattern = '!HTTP/1.1 [0-9][0-9][0-9] (.*)!';
+		if ( preg_match( $pattern, $raw, $matches ) ) {
+			return substr( $matches[1], 0, strlen($matches[1] ) - 1 );
+		}
+
+		return null;
+	}
+	
 	protected function _maybe_remember_all_products($params, $result, $url)
 	{
 		$limiting_params = array(
