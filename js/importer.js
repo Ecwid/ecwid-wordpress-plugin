@@ -8,6 +8,8 @@ jQuery(document).ready(function() {
     
    jQuery('#ecwid-importer-woo').click(function() {
        
+       window.location.hash="woo";
+       
        jQuery.getJSON(ajaxurl, { action: ecwid_importer.check_token_action }, function(data) {
            if (data.has_good_token == false) {
                $wrapper.removeClass('state-landing').addClass('state-no-token');

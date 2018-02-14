@@ -240,6 +240,16 @@ TXT
 				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
 				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
+			),
+			
+			'connected_woo' => array(
+				'title' => 'Got Woo',
+				'message' => 'Import from Woo?',
+				'hideable' => true,
+				'primary_title' => 'YEP',
+				'primary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG,
+				'secondary_title' => 'Not now',
+				'secondary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG . '&how_does_it_work?'
 			)
 		);
 	}
@@ -278,6 +288,9 @@ TXT
 				$no_token = Ecwid_Api_V3::get_token() == false;
 				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				
+			case 'connected_woo':
+				return Ecwid_OAuth::just_connected() && is_plugin_active( 'woocommerce/woocommerce.php' );
 				
 			case 'please_vote':
 

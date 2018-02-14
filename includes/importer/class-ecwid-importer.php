@@ -182,6 +182,42 @@ class Ecwid_Importer
 		return get_option( self::OPTION_CURRENT_TASK, null );
 	}
 	
+	public function count_woo_categories()
+	{
+		$args = array(
+			'taxonomy' => 'product_cat',
+			'count' => true,
+			'hierarchical' => true,
+			'get' => 'all'
+		);
+		$all_categories = get_categories( $args );
+		
+		return count($all_categories);
+	}
+	
+	public function count_woo_products()
+	{
+		$count = wp_count_posts( 'product' );
+
+		return $count->publish;
+	}
+	
+	public function count_ecwid_products()
+	{
+		$api = new Ecwid_Api_V3();
+
+		$ecwid_products = $api->get_products( array( 'limit' => 1 ) );
+		return $ecwid_products->total;
+	}
+	
+	public function count_ecwid_categories()
+	{
+		$api = new Ecwid_Api_V3();
+
+		$ecwid_categories = $api->get_categories( array( 'limit' => 1 ) );
+		return $ecwid_categories->total;
+	}
+	
 	public function gather_categories($parent = 0 )
 	{
 		$product_categories = get_categories( apply_filters( 'woocommerce_product_subcategories_args', array(
@@ -222,8 +258,7 @@ class Ecwid_Importer
 
 		return $result;
 	}
-
-
+	
 	public function gather_products()
 	{
 		$products = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 2500 ) );

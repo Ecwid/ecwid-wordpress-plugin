@@ -7,6 +7,8 @@ class Ecwid_OAuth {
 
 	const MODE_CONNECT = 'connect';
 	const MODE_RECONNECT = 'reconnect';
+	
+	const OPTION_JUST_CONNECTED = 'ecwid_just_connected';
 
 	protected $state;
 
@@ -19,6 +21,10 @@ class Ecwid_OAuth {
 		add_action('admin_post_ec_disconnect', array($this, 'disconnect_store'));
 		add_action('admin_post_ec_show_reconnect', array($this, 'show_reconnect'));
 
+		if ( get_option( self::OPTION_JUST_CONNECTED ) ) {
+			add_action( 'shutdown', array( $this, 'reset_just_connected' ) );
+		}
+		
 		$this->_load_state();
 
 		$this->api = new Ecwid_Api_V3();
@@ -125,9 +131,11 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );
 		update_option( 'ecwid_public_token', $result->public_token );
+		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
-
+		
+		
 		// Reset "Create store cookie" set previously to display the landing page
 		//in "Connect" mode rather than "Create" mode
 		setcookie('ecwid_create_store_clicked', null, strtotime('-1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
@@ -350,6 +358,16 @@ class Ecwid_OAuth {
 		return $reconnect_message;
 	}
 
+	public static function just_connected()
+	{
+		return get_option( self::OPTION_JUST_CONNECTED );
+	}
+	
+	public function reset_just_connected()
+	{
+		update_option( self::OPTION_JUST_CONNECTED, false );
+	}
+	
 	protected function _is_reconnect() {
 		return @$this->state->mode == self::MODE_RECONNECT;
 	}
