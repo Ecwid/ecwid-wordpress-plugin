@@ -1881,35 +1881,6 @@ function ecwid_sync_do_page() {
 	require_once ECWID_PLUGIN_DIR . 'templates/sync.php';
 }
 
-function ecwid_get_categories($nocache = false) {
-	$categories = EcwidPlatform::cache_get('all_categories');
-	
-	if ( false == $categories || $nocache ) {
-
-		$request = Ecwid_Http::create_get(
-			'get_categories_through_endpoint',
-			ecwid_get_categories_js_url(),
-			array( Ecwid_Http::POLICY_EXPECT_JSONP )
-		);
-
-		if (!$request) {
-			return array();
-		}
-
-		$categories = $request->do_request();
-
-		if (!is_null($categories)) {
-			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
-		}
-	}
-	
-	if ( !is_array($categories) || !$categories ) {
-		return array();
-	}
-
-	return $categories;
-}
-
 function ecwid_reset_categories_cache()
 {
 	if (!current_user_can('manage_options')) {
@@ -2787,7 +2758,6 @@ function ecwid_check_for_remote_connection_errors()
 	global $ecwid_oauth;
 
 	$results = array();
-	$results['https_get_error'] = wp_remote_get(ecwid_get_categories_js_url('abc'));
 	$results['https_post_error'] = wp_remote_post($ecwid_oauth->get_test_post_url());
 
 	foreach ($results as $type => $value) {
@@ -2981,18 +2951,6 @@ function ecwid_embed_svg($name) {
 
 	echo $code;
 }
-
-function ecwid_get_categories_js_url($callback = null) {
-
-	$url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/categories.js?ownerid=' . get_ecwid_store_id();
-
-	if ($callback) {
-		$url .= '&callback=' . $callback;
-	}
-
-	return $url;
-}
-
 
 function ecwid_use_old_landing() {
 	return version_compare(get_bloginfo('version'), '3.7') < 0;
