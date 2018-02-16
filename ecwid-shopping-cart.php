@@ -2409,24 +2409,68 @@ function ecwid_test_oauth($force = false)
 
 function ecwid_get_categories_for_selector() {
 
-	function walk_through_categories($categories, $parent_prefix) {
-		if (empty($categories)) {
-			return array();
-		}
-		$result = array();
+	$cached = EcwidPlatform::get_from_categories_cache( 'ecwid_categories_for_selector' );
 
-		foreach ($categories as $category) {
-			$result[$category->id] = $category;
-			$result[$category->id]->path = $parent_prefix . $category->name;
-			$result = array_merge($result, walk_through_categories($category->sub, $category->name . ' > '));
-			unset($result[$category->id]->sub);
-		}
-
-		return $result;
+	if ( $cached ) {
+		return $cached;
 	}
+	
+	$api = new Ecwid_Api_V3();
+	
+	$categories = $api->get_categories( array( 'hidden_categories' => true ) );
 
-	$result = walk_through_categories(ecwid_get_categories(true), "");
+	$all_categories = array();
+	
+	foreach ( $categories->items as $category ) {
+		$all_categories[$category->id] = $category;
+	}
+	
+	if ( $categories->total > $categories->count ) {
+		$offset = 100;
+		
+		$page = 0;
+		while ( $categories->count + $offset * $page > $categories->total ) {
+			$page++;
+			$categories = $api->get_categories( array( 'offset' => $offset * $page, 'hidden_categories' => true ) );
 
+			foreach ( $categories->items as $category ) {
+				$all_categories[$category->id] = $category;
+			}
+		}
+	}
+	
+	$parents = array();
+
+	$result = array();
+	foreach ( $all_categories as $category ) {
+		$result[$category->id] = $category;
+		
+		if ( !@$category->parentId ) {
+			$result[$category->id]->path = $category->name;
+		} else {
+			$current_parent_id = $category->parentId;
+			
+			$path = $category->name;
+			while ( $current_parent_id != 0 ) {
+				$parent = $all_categories[$current_parent_id];
+				
+				$path = $parent->name . ' > ' . $path;
+				
+				$current_parent_id = isset( $parent->parentId ) ? $parent->parentId : 0;
+			}
+			
+			$result[$category->id]->path = $path;
+		}
+	}
+	
+	function compare_categories($cat1, $cat2) {
+		return strcasecmp( $cat1->path, $cat2->path );
+	}
+	
+	usort( $result, 'compare_categories' );
+	
+	EcwidPlatform::store_in_categories_cache( 'ecwid_categories_for_selector', $result );
+	
 	return $result;
 }
 

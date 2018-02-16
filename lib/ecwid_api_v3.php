@@ -52,7 +52,7 @@ class Ecwid_Api_V3
 		if (array_key_exists('parent', $input_params)) {
 			$params['parent'] = $input_params['parent'];
 		}
-		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls' );
+		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories' );
 		foreach ($passthru as $name) {
 			if ( array_key_exists( $name, $input_params ) ) {
 				$params[$name] = $input_params[$name];
@@ -76,7 +76,6 @@ class Ecwid_Api_V3
 		
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
-			
 		}
 
 		if ($result['code'] != '200') {
