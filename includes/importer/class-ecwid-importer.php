@@ -230,7 +230,7 @@ class Ecwid_Importer
 			'get' 		   => 'all'
 		) ) );
 		
-		if ( count( $product_categories) == 0) {
+		if ( count( $product_categories ) == 0 ) {
 			return array();
 		}
 		
