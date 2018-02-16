@@ -1883,7 +1883,7 @@ function ecwid_sync_do_page() {
 
 function ecwid_get_categories($nocache = false) {
 	$categories = EcwidPlatform::cache_get('all_categories');
-
+	
 	if ( false == $categories || $nocache ) {
 
 		$request = Ecwid_Http::create_get(
@@ -1902,7 +1902,7 @@ function ecwid_get_categories($nocache = false) {
 			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
 		}
 	}
-
+	
 	if ( !is_array($categories) || !$categories ) {
 		return array();
 	}
@@ -2431,8 +2431,6 @@ function ecwid_get_categories_for_selector() {
 }
 
 function ecwid_advanced_settings_do_page() {
-	$categories = ecwid_get_categories_for_selector();
-
 	$is_sso_enabled = ecwid_is_sso_enabled();
 
 	global $ecwid_oauth;

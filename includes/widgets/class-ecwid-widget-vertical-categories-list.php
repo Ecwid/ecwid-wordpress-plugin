@@ -14,9 +14,11 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 
 	public function widget( $args, $instance ) {
 
-		$categories = ecwid_get_categories();
+	    $api = new Ecwid_Api_V3();
+	    
+		$categories = $api->get_categories(array( 'parent' => 0 ) );
 
-		if (empty($categories)) return;
+		if ( !$categories || empty( $categories->items ) ) return;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Browse by Category', 'ecwid-shopping-cart' ) : $instance['title'], $instance, $this->id_base );
@@ -27,10 +29,11 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 		}
 
 		echo '<ul>';
-
-		foreach ($categories as $category) {
+		
+		foreach ($categories->items as $category) {
+		    $category = Ecwid_Category::get_by_id( $category->id );
 			echo '<li>';
-			echo '<a href="' . Ecwid_Store_Page::get_category_url( $category->id ) 
+			echo '<a href="' . $category->link 
                 . '" data-ecwid-page="category" data-ecwid-category-id="' . $category->id . '">' 
                 . $category->name 
                 . '</a>';

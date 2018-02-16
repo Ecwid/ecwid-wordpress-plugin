@@ -9,7 +9,6 @@ function ecwid_oembed_content($data)
 
 function ecwid_get_embed_content()
 {
-
 	$html = '';
 	$root_category_id = 0;
 
@@ -18,8 +17,11 @@ function ecwid_get_embed_content()
 	
 	foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 		$shortcodes = ecwid_find_shortcodes($post_content, $shortcode_name);
+		if ($shortcodes) {
+			break;
+		}
 	}
-	
+		
 	if (!$shortcodes || !isset($shortcodes[0]) || !isset($shortcodes[0][3])) {
 		return;
 	}
@@ -28,7 +30,7 @@ function ecwid_get_embed_content()
 	if (!preg_match('/default_category_id=.([\\d]*)./', $attributes, $matches)) {
 		return;
 	}
-
+	
 	$root_category_id  = 0;
 	if (!is_numeric($matches[1])) {
 		return;
@@ -36,22 +38,20 @@ function ecwid_get_embed_content()
 		$root_category_id  = $matches[1];
 	}
 
-	$categories = ecwid_get_categories();
-
-	if ($root_category_id != 0) {
-		$categories = _ecwid_find_category_in_horizontal_categories_tree($categories, $root_category_id);
-	}
-
+	$api = new Ecwid_Api_V3();
+	
+	$categories = $api->get_categories(array('parent' => $root_category_id));
+	
 	$max_items = 5;
 
 	$items = array();
 
 	$see_more = false;
 	$result = '';
-	if (!empty($categories)) {
-		foreach ($categories as $category) {
-			$url = ecwid_get_category_url(array('id' => $category->id, 'url' => $category->link));
-			$items[$url] = $category->name;
+	if (!empty($categories->items)) {
+		foreach ($categories->items as $category) {
+			$category = Ecwid_Category::get_by_id( $category->id );
+			$items[$category->link] = $category->name;
 			if (count($items) >= $max_items) {
 				$see_more = true;
 				break;
@@ -75,12 +75,12 @@ function ecwid_get_embed_content()
 		}
 
 		if (!$see_more) {
-			$products = $api->get_products(array( 'category' => $root_category_id ));
-
-			if ($products) {
-				foreach ($products as $product) {
-					$url         = ecwid_get_product_url(array( 'id' => $product->id, 'url' => $product->url ));
-					$items[$url] = $product->name;
+			$products = $api->search_products(array( 'category' => $root_category_id ));
+			
+			if ($products->items) {
+				foreach ($products->items as $product) {
+					$product = Ecwid_Product::get_by_id( $product->id );
+					$items[$product->link] = $product->name;
 					if (count($items) >= $max_items) {
 						$see_more = TRUE;
 						break;

@@ -58,7 +58,7 @@ class Ecwid_Api_V3
 				$params[$name] = $input_params[$name];
 			}
 		}
-
+		
 		if ( !isset( $params['baseUrl'] ) ) {
 			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
 		}
@@ -73,7 +73,7 @@ class Ecwid_Api_V3
 		);
 		
 		$result = EcwidPlatform::get_from_categories_cache($url);
-
+		
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 			
@@ -493,19 +493,20 @@ class Ecwid_Api_V3
 		return strftime('%F %T', $time);
 	}
 
-	protected function build_request_url($url, $params)
+	protected function build_request_url($url, $input_params)
 	{
-		foreach ($params as $key => $param) {
-			if ( $param == 'appClientId' ) {
-				unset($params[$key]);
-				$params['appClientId'] = Ecwid_Config::get_oauth_appid();
-			} elseif ( $param == 'appSecretKey' ) {
-				unset($params[$key]);
-				$params['appSecretKey'] = Ecwid_Config::get_oauth_appsecret();
-			} elseif ($param == 'token') {
-				unset($params[$key]);
-				$params['token'] = self::get_token();
-			} else {
+		$params = array();
+		foreach ($input_params as $key => $param) {
+			
+			if ( !is_string( $key ) ) {
+				if ($param == 'appClientId') {
+					$params['appClientId'] = Ecwid_Config::get_oauth_appid();
+				} elseif (!$key && $param == 'appSecretKey') {
+					$params['appSecretKey'] = Ecwid_Config::get_oauth_appsecret();
+				} elseif (!$key && $param == 'token') {
+					$params['token'] = self::get_token();
+				}
+			}else {
 				$params[$key] = urlencode($param);
 			}
 		}
