@@ -33,20 +33,19 @@ class Ecwid_Import_Page
 			'Import',
 			Ecwid_Admin::get_capability(),
 			self::PAGE_SLUG,
-			array( $this, 'do_page' ),
-			'',
-			'2.562347345'
+			array( $this, 'do_page' )
 		);
-		add_submenu_page(
-			self::PAGE_SLUG,
-			'Import your products from WooCommerce to Ecwid',
-			'Import your products from WooCommerce to Ecwid',
-			Ecwid_Admin::get_capability(),
-			self::PAGE_SLUG_WOO,
-			array( $this, 'do_woo_page' ),
-			'',
-			'2.562347345'
-		);
+		
+		if ( $this->_need_to_show_woo() ) { 
+			add_submenu_page(
+				self::PAGE_SLUG,
+				'Import your products from WooCommerce to Ecwid',
+				'Import your products from WooCommerce to Ecwid',
+				Ecwid_Admin::get_capability(),
+				self::PAGE_SLUG_WOO,
+				array( $this, 'do_woo_page' )
+			);
+		}
 	}
 	
 	public function enqueue_scripts()
@@ -106,7 +105,11 @@ class Ecwid_Import_Page
 	{
 		return 'admin.php?page=' . self::PAGE_SLUG_WOO;
 	}
-	
+
+	protected function _need_to_show_woo()
+	{
+		return is_plugin_active( 'woocommerce/woocommerce.php' );
+	}
 	
 	public function do_page()
 	{
@@ -118,4 +121,5 @@ class Ecwid_Import_Page
 		$import_data = Ecwid_Import::gather_import_data();
 
 		require_once ECWID_IMPORTER_TEMPLATES_DIR . '/woo-main.tpl.php';
-	}}
+	}
+}

@@ -34,8 +34,7 @@ jQuery(document).ready(function() {
    });
    
    jQuery('#ecwid-importer-woo-go').click(function() {
-       $wrapper.removeClass('state-woo').addClass('state-woo-in-progress');
-
+       $wrapper.removeClass('state-woo-initial').addClass('state-woo-in-progress');
 
        debugger;
        do_import = function () {
@@ -45,7 +44,6 @@ jQuery(document).ready(function() {
                'success': function (json) {
                    debugger;
                    data = jQuery.parseJSON(json);
-
 
                    for (var i = 0; i < data.success.length; i++) {
                        if (typeof status.success[data.success[i]] == 'undefined' ) {
@@ -64,9 +62,12 @@ jQuery(document).ready(function() {
                        }
                    }
 
+                   jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
+
                    if (data.status == 'complete') {
-                       jQuery('.progress-bar').css('width', '100%');
-                       showImportResults();
+                       jQuery('#import-results-products').text(status.success.create_product);
+                       jQuery('#import-results-categories').text(status.success.create_category);
+                       $wrapper.removeClass('state-woo-in-progress').addClass('state-complete');
                    } else {
                        
                        jQuery('.progress-bar').css('width', parseInt(data.current / data.total * 100) + '%');
@@ -79,31 +80,4 @@ jQuery(document).ready(function() {
        
        do_import();
    });
-   
-   showImportResults = function() {
-       $wrapper.removeClass('state-woo-in-progress').addClass('state-complete');
-       
-       jQuery('#report').text(' ');
-       
-       result = '';
-       
-       result = "success:\n";
-       for (var i in status.success) {
-            if (status.success.hasOwnProperty(i)) {
-                result += '  ' + i + ': ' + status.success[i] + "\n";
-            }
-       }
-       
-       result += "==================\n";
-
-       result += "error:\n";
-       for (var i in status.error) {
-           if (status.error.hasOwnProperty(i)) {
-               result += '  ' + i + ': ' + status.error[i] + "\n";
-           }
-       }
-       result += "==================\n";
-
-       jQuery('#report').text(result);
-   }
 });

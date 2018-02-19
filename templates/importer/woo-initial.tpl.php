@@ -33,4 +33,6 @@
     </li>
 </ul>
 
-<button class="button button-primary" id="ecwid-importer-woo-go">Import from Woo to Ecwid</button>
+<div class="importer-state importer-state-woo-initial">
+    <button class="button button-primary" id="ecwid-importer-woo-go">Import from Woo to Ecwid</button>
+</div>

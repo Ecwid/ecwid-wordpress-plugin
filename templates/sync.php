@@ -155,7 +155,7 @@ jQuery('#sync-button-slow').click(function() {
 <div class="sync-block" id="sync-buttons">
 	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
 </div>
-<div class="sync-block" id="updating">
+<div class="sync-block progress-indicator" id="updating">
 	<div class="sync-icon">
 		<?php ecwid_embed_svg('update'); ?>
 	</div>

@@ -4,6 +4,7 @@
 Here, we will help you uploading your product catalog to Ecwid from another shopping cart or other sources.
 </p>
 
+<?php if ( $this->_need_to_show_woo() ): ?>
 <div class="card">
     <h2>Import product catalog from WooCommerce</h2>
     
@@ -14,6 +15,7 @@ Here, we will help you uploading your product catalog to Ecwid from another shop
     
     <p>(You will be able to confirm the changes before the actual import)</p>
 </div>
+<?php endif; ?>    
 
 <div class="card">
     <h2>Import product catalog from other sources</h2>

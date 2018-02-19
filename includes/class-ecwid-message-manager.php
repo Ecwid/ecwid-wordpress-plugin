@@ -81,8 +81,9 @@ TXT
 		$secondary_button = isset($params['secondary_title']);
 		if ($secondary_button) {
 			$secondary_title = $params['secondary_title'];
-			$secondary_url   = $params['secondary_url'];
+			$secondary_url   = @$params['secondary_url'];
 			$secondary_blank = @$params['secondary_blank'];
+			$secondary_hide = @$params['secondary_hide'];
 		}
 
 		$do_not_show_again = true == $params['hideable'];
@@ -246,10 +247,10 @@ TXT
 				'title' => 'Got Woo',
 				'message' => 'Import from Woo?',
 				'hideable' => true,
-				'primary_title' => 'YEP',
+				'primary_title' => 'Import my products from WooCommerce',
 				'primary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG,
-				'secondary_title' => 'Not now',
-				'secondary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG . '&how_does_it_work?'
+				'secondary_title' => 'No Thanks',
+				'secondary_hide' => true
 			)
 		);
 	}

@@ -2,26 +2,10 @@
     display: none;
 }
 
-.ecwid-importer.state-landing .importer-state-landing,
 .ecwid-importer.state-no-token .importer-state-no-token,
-.ecwid-importer.state-woo .importer-state-woo,
+.ecwid-importer.state-woo-initial .importer-state-woo-initial,
 .ecwid-importer.state-woo-in-progress .importer-state-woo-in-progress,
 .ecwid-importer.state-complete .importer-state-complete
 {
     display: block;
-}
-
-.ecwid-importer .progress-container {
-    width: 300px;
-    height: 10px;
-    border: 1px solid black;
-    position: relative;
-}
-
-.ecwid-importer .progress-bar {
-    background: lightgreen;
-    width: 0;
-    height:100%;
-    transition-property: width;
-    transition-duration: 1s;
 }

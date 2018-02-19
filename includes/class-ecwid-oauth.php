@@ -9,6 +9,8 @@ class Ecwid_OAuth {
 	const MODE_RECONNECT = 'reconnect';
 	
 	const OPTION_JUST_CONNECTED = 'ecwid_just_connected';
+	
+	const SCOPE_READ_CATALOG = 'read_catalog';
 
 	protected $state;
 
@@ -191,7 +193,7 @@ class Ecwid_OAuth {
 		} else {
 			$stored_scope = get_option( 'ecwid_oauth_scope' );
 			if (empty($stored_scope)) {
-				$stored_scope = 'read_store_profile read_catalog';
+				$stored_scope = 'read_store_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG;
 			}
 		}
 
@@ -199,7 +201,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers', 'public_storefront' );
+		return array( 'read_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
 	}
 
 	protected function trigger_auth_error($mode = 'default')

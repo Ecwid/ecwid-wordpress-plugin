@@ -116,18 +116,18 @@ div.ecwid-message {
 	text-decoration: none;
 }
 
-.ecwid-message .ecwid-message-hide:not(:hover) {
+.ecwid-message .ecwid-message-hide:not(:hover):not(.button) {
 	color: #bbb;
 }
 
-.ecwid-message .ecwid-message-hide {
+.ecwid-message .ecwid-message-hide:not(.button) {
 	font-size: 12px;
 	font-weight: 100;
 	cursor: pointer;
 	text-decoration: none;
 }
 
-.ecwid-message .ecwid-message-hide:before {
+.ecwid-message .ecwid-message-hide:before:not(.button) {
 	content: "\e606";
 	font-family: ecwid-plugin-icons;
 	font-size: 16px;
@@ -160,7 +160,7 @@ div.ecwid-message {
 		width: 100%;
 	}
 
-	.ecwid-message .ecwid-message-hide:before {
+	.ecwid-message .ecwid-message-hide:before:not(.button) {
 		font-size: 21px;
 		top: 5px;
 	}
@@ -711,4 +711,46 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 .ecwid-admin-iframe .update-nag {
 	display: none;
+}
+
+/* progress recycling icon */
+
+.progress-indicator svg {
+	animation-name: progress-rotation;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.progress-indicator svg path {
+	fill: #298CBA;
+
+}
+.progress-indicator .icon {
+	width: 30px;
+}
+.progress-message {
+	padding-left: 30px;
+}
+
+.progress-indicator .icon,
+.progress-indicator .inline-note {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.progress-indicator .inline-note {
+	line-height: 26px;
+	color: #298CBA;
+	font-weight: 600;
+}
+.progress-message {
+	font-weight: 600;
+}
+
+@keyframes progress-rotation {
+	0% {transform:rotate(0deg);}
+	100% {transform:rotate(360deg);}
 }
