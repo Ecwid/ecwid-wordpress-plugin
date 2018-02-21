@@ -12,13 +12,17 @@ class Ecwid_Store_Editor {
 
 		add_action( 'current_screen', array($this, 'init') );
 	}
-
+	
 	public function init()
 	{
 		$current_screen = get_current_screen();
 
-		if ( $current_screen->base != 'post' || !in_array($current_screen->post_type, array('post', 'page')) ) {
+		if ( $current_screen->base != 'post' || !in_array( $current_screen->post_type, array( 'post', 'page' ) ) ) {
 			return;
+		}
+		
+		if ( is_plugin_active( 'elementor/elementor.php' ) && @$_GET['action'] == 'elementor' ) {
+			return;	
 		}
 
 		add_filter( 'mce_external_plugins',  array( $this, 'add_mce_plugin' ) );

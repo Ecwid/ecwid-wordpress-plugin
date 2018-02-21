@@ -28,8 +28,13 @@ class Ecwid_Product_Popup {
         if ( !in_array( $current_screen->post_type, array( 'page', 'post' ) ) ) {
         	return;
 		}
-        
-        if (Ecwid_Api_V3::get_token()) {
+
+
+		if ( is_plugin_active( 'elementor/elementor.php' ) && @$_GET['action'] == 'elementor' ) {
+			return;
+		}
+
+		if (Ecwid_Api_V3::get_token()) {
             add_action('media_buttons_context', array($this, 'add_editor_button'));
             add_action('admin_enqueue_scripts', array($this, 'add_scripts'));
             add_action('in_admin_header', array($this, 'add_popup'));
