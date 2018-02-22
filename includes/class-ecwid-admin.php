@@ -322,15 +322,15 @@ class Ecwid_Admin {
 	
 	static public function are_auto_menus_enabled()
 	{
-		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS )  == self::OPTION_ENABLE_AUTO_MENUS_OFF ) {
+		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS ) == self::OPTION_ENABLE_AUTO_MENUS_OFF ) {
 			return false;
 		}
 
-		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS )  == self::OPTION_ENABLE_AUTO_MENUS_ON ) {
+		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS ) == self::OPTION_ENABLE_AUTO_MENUS_ON ) {
 			return true;
 		}
 		
-		return !ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
+		return true;
 	}
 
 	static public function disable_dashboard() {
