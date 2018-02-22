@@ -5,7 +5,7 @@
 .ecwid-importer.state-no-token .importer-state-no-token,
 .ecwid-importer.state-woo-initial .importer-state-woo-initial,
 .ecwid-importer.state-woo-in-progress .importer-state-woo-in-progress,
-.ecwid-importer.state-complete .importer-state-complete
+.ecwid-importer.state-woo-complete .importer-state-woo-complete
 {
     display: block;
 }

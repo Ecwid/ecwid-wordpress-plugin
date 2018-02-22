@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
                    if (data.status == 'complete') {
                        jQuery('#import-results-products').text(status.success.create_product);
                        jQuery('#import-results-categories').text(status.success.create_category);
-                       $wrapper.removeClass('state-woo-in-progress').addClass('state-complete');
+                       $wrapper.removeClass('state-woo-in-progress').addClass('state-woo-complete');
                    } else {
                        
                        jQuery('.progress-bar').css('width', parseInt(data.current / data.total * 100) + '%');
