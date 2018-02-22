@@ -1775,6 +1775,9 @@ function ecwid_get_update_params_options() {
 		'ecwid_store_id' => array(
 			'type' => 'string'
 		),
+		'ecwid_store_page_id' => array(
+			'type' => 'string'
+		),
 		'ecwid_ajax_defer_rendering' => array(
 			'values' => array(
 				'on',
