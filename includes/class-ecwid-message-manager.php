@@ -246,9 +246,9 @@ TXT
 			'connected_woo' => array(
 				'title' => 'Got Woo',
 				'message' => 'Import from Woo?',
-				'hideable' => true,
+				'hideable' => false,
 				'primary_title' => 'Import my products from WooCommerce',
-				'primary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG,
+				'primary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG_WOO,
 				'secondary_title' => 'No Thanks',
 				'secondary_hide' => true
 			)
@@ -291,7 +291,7 @@ TXT
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case 'connected_woo':
-				return Ecwid_OAuth::just_connected() && is_plugin_active( 'woocommerce/woocommerce.php' );
+				return is_plugin_active( 'woocommerce/woocommerce.php' ) && strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false;
 				
 			case 'please_vote':
 
