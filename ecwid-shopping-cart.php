@@ -633,6 +633,9 @@ function ecwid_check_version()
 		// Since 5.8
 		add_option( 'ecwid_print_html_catalog', 'Y' );
 		
+		// Since 5.8.x
+		add_option( 'ecwid_print_category_in_title', 'Y' );
+		
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
@@ -1213,7 +1216,7 @@ function _ecwid_get_seo_title()
 
 					if ( $product ) {
 						$ecwid_seo_title = $product->name;
-						if ( $category ) {
+						if ( $category && get_option( 'ecwid_print_category_in_title', true ) ) {
 							$ecwid_seo_title .= ' ' . $separator . $category->name;							
 						}
 					}
@@ -1261,7 +1264,7 @@ function _ecwid_get_seo_title()
 
 				if ( $product->defaultCategoryId ) {
 					$category = $api->get_category( $product->defaultCategoryId );
-					if ( $category && isset( $category->name ) ) {
+					if ( $category && isset( $category->name ) && get_option( 'ecwid_print_category_in_title', true ) ) {
 						$ecwid_seo_title .=  ' ' . ecwid_get_title_separator() . ' ' . $category->name;
 					}
 				}
