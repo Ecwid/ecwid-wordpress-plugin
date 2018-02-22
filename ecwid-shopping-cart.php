@@ -2357,6 +2357,10 @@ function ecwid_process_oauth_params() {
 			'return_url' => isset($_GET['return-url']) ? $_GET['return-url'] : '',
 			'reason' => isset($_GET['reason']) ? $_GET['reason'] : ''
 		));
+		
+		if ( $_GET['do_reconnect'] ) {
+			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
+		}
 	}
 }
 

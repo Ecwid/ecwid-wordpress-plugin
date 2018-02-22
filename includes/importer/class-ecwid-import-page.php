@@ -101,6 +101,12 @@ class Ecwid_Import_Page
 		die();
 	}
 	
+	protected function _get_reconnect_url()
+	{
+		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog';
+	}
+	
+	
 	protected function _get_woo_url()
 	{
 		return 'admin.php?page=' . self::PAGE_SLUG_WOO;
