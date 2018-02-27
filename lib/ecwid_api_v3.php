@@ -518,8 +518,16 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url, $request_params );
-
+		
 		$result = $this->_do_post( $url, $params );
+		
+		error_log( var_export( array(
+			'create_product',
+			$url,
+			$params,
+			$result
+		), true 
+		));
 
 		return $result;
 	}

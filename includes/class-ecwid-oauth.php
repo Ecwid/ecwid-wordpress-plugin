@@ -201,7 +201,14 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
+		$defaults = array( 'read_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
+	
+		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			$defaults[] = 'create_catalog';
+			$defaults[] = 'update_catalog';
+		}
+		
+		return $defaults;
 	}
 
 	protected function trigger_auth_error($mode = 'default')

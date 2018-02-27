@@ -6,9 +6,11 @@ class Ecwid_Import_Page
 {
 	const PAGE_SLUG = 'ec-store-import';
 	const PAGE_SLUG_WOO = 'ec-store-import-woocommerce';
+	
 	const AJAX_ACTION_CHECK_IMPORT = 'ec-store-check-import';
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
 	
+	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
 	protected $importer;
 	
 	public function __construct()
@@ -20,13 +22,25 @@ class Ecwid_Import_Page
 	{
 		add_action( 'admin_menu', array( $this, 'build_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'current_screen', array( $this, 'process_woo_onboarding_redirect' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import') );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import') );
 	}
 	
+	public function process_woo_onboarding_redirect() 
+	{
+		if ( strrpos( strrev( get_current_screen()->base), strrev( self::PAGE_SLUG_WOO) ) !== 0 ) {
+			return;
+		}
+
+		if ( @$_GET[self::PARAM_FROM_IMPORT_ONBOARDING] ) {
+			Ecwid_Message_Manager::disable_message( Ecwid_Message_Manager::MSG_WOO_IMPORT_ONBOARDING );
+		}
+	}
 	
 	public function build_menu()
 	{
+		Ecwid_Message_Manager::reset_hidden_messages();
 		add_submenu_page(
 			Ecwid_Admin::ADMIN_SLUG,
 			'Import',
@@ -78,6 +92,10 @@ class Ecwid_Import_Page
 		die();
 	}
 	
+	// Returns url for the page that should be displayed on clicking the "Import from woo" button in woo import onboarding message
+	public static function get_woo_page_url_from_message() {
+		return 'admin.php?page=' . self::PAGE_SLUG_WOO . '&' . self::PARAM_FROM_IMPORT_ONBOARDING . '=1';
+	}
 	protected function _is_token_ok()
 	{
 		$oauth = new Ecwid_OAuth();
@@ -103,7 +121,7 @@ class Ecwid_Import_Page
 	
 	protected function _get_reconnect_url()
 	{
-		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog';
+		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
 	}
 	
 	

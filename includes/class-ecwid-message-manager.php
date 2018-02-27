@@ -3,6 +3,8 @@
 class Ecwid_Message_Manager
 {
 	protected $messages = array();
+	
+	const MSG_WOO_IMPORT_ONBOARDING = 'connected_woo';
 
 	protected function __construct()
 	{
@@ -243,12 +245,12 @@ TXT
 				'hideable' => true
 			),
 			
-			'connected_woo' => array(
+			self::MSG_WOO_IMPORT_ONBOARDING => array(
 				'title' => 'Got Woo',
 				'message' => 'Import from Woo?',
 				'hideable' => false,
 				'primary_title' => 'Import my products from WooCommerce',
-				'primary_url' => 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG_WOO,
+				'primary_url' => Ecwid_Import_Page::get_woo_page_url_from_message(),
 				'secondary_title' => 'No Thanks',
 				'secondary_hide' => true
 			)
@@ -290,8 +292,8 @@ TXT
 				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
-			case 'connected_woo':
-				return is_plugin_active( 'woocommerce/woocommerce.php' ) && strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false;
+			case self::MSG_WOO_IMPORT_ONBOARDING:
+				return is_plugin_active( 'woocommerce/woocommerce.php' ) && strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false && !$this->need_to_show_message( 'on_activate' );
 				
 			case 'please_vote':
 

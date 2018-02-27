@@ -1,1 +1,1 @@
-<a class="button button-primary" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>&reconnect&return-url=<?php echo urlencode( $this->_get_woo_url()); ?>&scope=create_catalog+update_catalog&do_reconnect=1"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
+<a class="button button-primary" href="<?php echo $this->_get_reconnect_url(); ?>"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>

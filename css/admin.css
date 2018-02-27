@@ -127,7 +127,7 @@ div.ecwid-message {
 	text-decoration: none;
 }
 
-.ecwid-message .ecwid-message-hide:before:not(.button) {
+.ecwid-message .ecwid-message-hide:not(.button):before {
 	content: "\e606";
 	font-family: ecwid-plugin-icons;
 	font-size: 16px;
