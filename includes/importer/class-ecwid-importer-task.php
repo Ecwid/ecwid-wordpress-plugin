@@ -47,11 +47,11 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		
 		$data = array(
 			'name' => $product->post_title,
-			'price' => floatval(get_post_meta( $woo_id, '_regular_price', true )),
+			'price' => floatval( get_post_meta( $woo_id, '_regular_price', true ) ),
 			'description' => $product->post_content,
 			'isShippingRequired' => get_post_meta( $woo_id, '_virtual', true ) != 'yes',
 			'categoryIds' => array(),
-			'showOnFrontpage' => get_post_meta( $woo_id, '_featured', true ) == 'yes'
+			'showOnFrontpage' => (int) ( get_post_meta( $woo_id, '_featured', true ) == 'yes' )
 		);
 		
 		if ( !empty( get_post_meta( $woo_id, '_sku', true ) ) ) {
