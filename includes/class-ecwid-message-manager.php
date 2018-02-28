@@ -293,7 +293,10 @@ TXT
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case self::MSG_WOO_IMPORT_ONBOARDING:
-				return is_plugin_active( 'woocommerce/woocommerce.php' ) && strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false && !$this->need_to_show_message( 'on_activate' );
+				return is_plugin_active( 'woocommerce/woocommerce.php' ) 
+					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
+					&& !$this->need_to_show_message( 'on_activate' ) 
+					&& Ecwid_Api_V3::is_available();
 				
 			case 'please_vote':
 
