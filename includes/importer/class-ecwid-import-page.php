@@ -40,7 +40,6 @@ class Ecwid_Import_Page
 	
 	public function build_menu()
 	{
-		Ecwid_Message_Manager::reset_hidden_messages();
 		add_submenu_page(
 			Ecwid_Admin::ADMIN_SLUG,
 			'Import',
