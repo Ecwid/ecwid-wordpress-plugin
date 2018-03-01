@@ -635,7 +635,11 @@ function ecwid_check_version()
 		
 		// Since 5.8.x
 		add_option( 'ecwid_print_category_in_title', 'Y' );
-		
+
+
+		// Since 5.8.1+
+		add_option( Ecwid_Products::OPTION_SYNC_LIMIT, 20 );
+
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
@@ -1878,7 +1882,7 @@ function ecwid_sync_do_page() {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 
 	$prods = new Ecwid_Products();
-
+	
 	$estimation = $prods->estimate_sync();
 
 	require_once ECWID_PLUGIN_DIR . 'templates/sync.php';
@@ -2009,8 +2013,6 @@ function ecwid_common_admin_scripts() {
 		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
 		'legacy_appearance' => ecwid_is_legacy_appearance_used()
 	));
-
-	wp_enqueue_script('ecwid-sync', ECWID_PLUGIN_URL . 'js/sync.js', array(), get_option('ecwid_plugin_version'));
 }
 
 function ecwid_is_legacy_appearance_used() {

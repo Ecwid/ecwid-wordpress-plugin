@@ -14,6 +14,9 @@ class Ecwid_Products {
 	const OPTION_ENABLED = 'ecwid_local_base_enabled';
 	const OPTION_NO_SSE = 'ecwid_local_base_no_sse';
 	const OPTION_NO_IMAGES = 'ecwid_local_base_no_images';
+	const OPTION_SYNC_LIMIT = 'ecwid_sync_limit';
+	
+	public $sync_limit = 20;
 
 	public function __construct() {
 
@@ -34,6 +37,7 @@ class Ecwid_Products {
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_ajax_nopriv_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin' ) );
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
 		add_action( 'ecwid_on_plugin_update', array( $this, 'on_plugin_update' ) );
@@ -43,6 +47,8 @@ class Ecwid_Products {
 			add_filter( 'posts_join_paged', array( $this, 'join_out_of_stock' ) );
 		}
 
+		$this->sync_limit = get_option( self::OPTION_SYNC_LIMIT, $this->sync_limit );
+		
 		$this->_sync_progress_callback = '__return_false';
 	}
 
@@ -55,6 +61,13 @@ class Ecwid_Products {
 		wp_enqueue_script('ecwid-product-page', ECWID_PLUGIN_URL . 'js/product.js', array('jquery'), get_option('ecwid_plugin_version'));
 		wp_localize_script('ecwid-product-page', 'ecwidProduct', array(
 			'ajaxurl' => admin_url('admin-ajax.php')
+		));
+	}
+	
+	public function enqueue_admin() {
+		wp_enqueue_script('ecwid-sync', ECWID_PLUGIN_URL . 'js/sync.js', array(), get_option('ecwid_plugin_version'));
+		wp_localize_script( 'ecwid-sync', 'ecwidSync', array(
+			'syncLimit' => $this->sync_limit
 		));
 	}
 
@@ -246,18 +259,31 @@ class Ecwid_Products {
 	}
 
 
+	protected function _find_post_by_product_id($product_id) {
+		global $wpdb;
+
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = '%s' LIMIT 1", 'ecwid_id', $product_id ) );
+
+		$id = null;
+		if (!empty($row)) {
+			$id = $row->post_id;
+		}
+
+		return $id;
+	}
+
 	public function is_in_sync() {
 		$stats = $this->_api->get_store_update_stats();
 
 		$update_time = strtotime($stats->productsUpdated);
 
-		$last_update = EcwidPlatform::get(self::OPTION_UPDATE_TIME);
+		$last_update = EcwidPlatform::get(Ecwid_Products_Sync_Status::OPTION_UPDATE_TIME);
 
 		return $last_update > $update_time;
 	}
 
 	public function set_last_update_time($time) {
-		EcwidPlatform::set(self::OPTION_UPDATE_TIME, $time);
+		EcwidPlatform::set(Ecwid_Products_Sync_Status::OPTION_UPDATE_TIME, $time);
 	}
 
 	public function get_last_sync_time() {
@@ -269,7 +295,7 @@ class Ecwid_Products {
 		if ( !Ecwid_Api_V3::get_token() ) return array('last_update' => 0);
 
 		$updated = $this->_api->search_products( array(
-			'updatedFrom' => $this->_status->get_updated_from(),
+			'updatedFrom' => $this->_status->get_last_sync_time(),
 			'limit'       => 1,
 			'offset'      => 0,
 			'sortBy'      => 'UPDATED_TIME_ASC'
@@ -379,7 +405,7 @@ class Ecwid_Products {
 		$over = FALSE;
 
 		$offset = 0;
-		$limit  = 20;
+		$limit = $this->sync_limit;
 		if ($settings && @$settings['offset']) {
 			$offset = $settings['offset'];
 		}
@@ -435,19 +461,6 @@ class Ecwid_Products {
 		}
 
 		return true;
-	}
-
-	protected function _find_post_by_product_id($product_id) {
-		global $wpdb;
-
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = '%s' LIMIT 1", 'ecwid_id', $product_id ) );
-
-		$id = null;
-		if (!empty($row)) {
-			$id = $row->post_id;
-		}
-
-		return $id;
 	}
 
 	protected function _process_product( $product ) {
