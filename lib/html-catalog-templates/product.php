@@ -4,7 +4,8 @@
 	<h1 itemprop="name"><?php echo EcwidPlatform::esc_html( $product->name ); ?></h1>
 	<p itemprop="sku"><?php echo EcwidPlatform::esc_html( $product->sku ); ?></p>
 	<img itemprop="image" src="<?php echo EcwidPlatform::esc_attr( $product->originalImageUrl ); ?>" alt="<?php echo EcwidPlatform::esc_attr( $product->name  . ' ' . $product->sku); ?>" />
-	<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+	<div itemprop="description"><?php echo isset( $product->seoDescription )&& !empty( $product->seoDescription ) ? $product->seoDescription : $product->description; ?></div>
+    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 		<span itemprop="price" content="<?php echo EcwidPlatform::esc_html( $product->price ); ?>"><?php 
 			echo EcwidPlatform::esc_html( 
             	$formats->currencyPrefix . $product->price . $formats->currencySuffix
