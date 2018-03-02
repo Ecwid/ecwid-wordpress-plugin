@@ -192,7 +192,8 @@ class Ecwid_Store_Page {
 		}
 
 		unset( $pages[$index] );
-
+		ecwid_reset_categories_cache();
+		
 		$pages = self::_set_store_pages( $pages );
 
 		if ( $page_id == get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
@@ -292,6 +293,10 @@ class Ecwid_Store_Page {
 			if ( $is_disabled || !$has_pb ) {
 				self::reset_store_page( $post_id );
 			}
+		}
+		
+		if ($has_pb) {
+			ecwid_reset_categories_cache();
 		}
 
 		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
