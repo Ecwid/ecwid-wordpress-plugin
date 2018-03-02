@@ -70,7 +70,7 @@ if ( is_admin() ){
   add_action('init', 'ecwid_backward_compatibility');
   add_action('send_headers', 'ecwid_503_on_store_closed');
   add_action('template_redirect', 'ecwid_404_on_broken_escaped_fragment');
-  add_action('template_redirect', 'ecwid_apply_theme');
+  add_action('template_redirect', 'ecwid_apply_theme'); // Why not init?
   add_action('wp_enqueue_scripts', 'ecwid_enqueue_frontend');
   add_action('wp', 'ecwid_seo_ultimate_compatibility', 0);
   add_action('wp', 'ecwid_remove_default_canonical');
@@ -147,7 +147,7 @@ function ecwid_init_integrations()
 		'wpseo' => 'wordpress-seo/wp-seo.php',
 		'divibuilder' => 'divi-builder/divi-builder.php',
 		'autoptimize' => 'autoptimize/autoptimize.php',
-		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php'
+		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php',
 	);
 
 	foreach ($integrations as $key => $plugin) {
