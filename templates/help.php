@@ -24,38 +24,9 @@
 				</form>
 			</div>
 		</div>
-		<ul class="shortcuts">
-			<li>
-				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201706719-Ecwid-Basics', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
-					<span class="iconhelp-101"></span>
-					<span class="shortcut-item-text"><?php _e( 'Ecwid Basics', 'ecwid-shopping-cart' ); ?>	</span>
-				</a>
-			</li>
-			<li>
-				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201758475-Manage-Your-Ecwid-Store', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
-					<span class="iconhelp-manage"></span>
-					<span class="shortcut-item-text"><?php _e( 'Manage Your Ecwid Store', 'ecwid-shopping-cart' ); ?>	</span>
-				</a>
-			</li>
-			<li>
-				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201758445-Customize-Your-Store', 'ecwid-shopping-cart'); ?>" target="_blank" class="shortcut-item">
-					<span class="iconhelp-custom"></span>
-					<span class="shortcut-item-text"><?php _e( 'Customize Your Store', 'ecwid-shopping-cart' ); ?>	</span>
-				</a>
-			</li>
-			<li>
-				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201706799-Billing-Questions', 'ecwid-shopping-cart' ); ?>" target="_blank" class="shortcut-item">
-					<span class="iconhelp-billing"></span>
-					<span class="shortcut-item-text"><?php _e( 'Billing Questions', 'ecwid-shopping-cart' ); ?>	</span>
-				</a>
-			</li>
-			<li>
-				<a href="<?php _e( 'https://support.ecwid.com/hc/en-us/sections/201702859-Technical-Reference', 'ecwid-shopping-cart'); ?>" target="_blank" class="shortcut-item">
-					<span class="iconhelp-api"></span>
-					<span class="shortcut-item-text"><?php _e( 'Technical Reference', 'ecwid-shopping-cart' ); ?>	</span>
-				</a>
-			</li>
-		</ul>
+        <div class="block-search block-search-kb-link">
+            <?php echo sprintf( __( 'Or <a %s>Browse the Help Center', 'ecwid-shopping-cart'), 'href="https://support.ecwid.com/"' ); ?>
+        </div>
 	</div>
 
 	<div class="block-faq">

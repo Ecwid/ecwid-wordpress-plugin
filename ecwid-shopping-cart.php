@@ -2210,6 +2210,10 @@ function ecwid_admin_do_page( $page ) {
 		$page = $_GET['ecwid_page'];
 	}
 
+	if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
+		$page = $_GET['ec-store-page'];
+	}
+
 	if ($page == ecwid_get_admin_iframe_upgrade_page()) {
 		update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
 	}
