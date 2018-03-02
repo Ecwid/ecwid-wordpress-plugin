@@ -296,7 +296,8 @@ TXT
 				return is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
 					&& !$this->need_to_show_message( 'on_activate' ) 
-					&& Ecwid_Api_V3::is_available();
+					&& Ecwid_Api_V3::is_available()
+					&& get_ecwid_store_id() % 2 == 0;
 				
 			case 'please_vote':
 

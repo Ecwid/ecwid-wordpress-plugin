@@ -69,10 +69,21 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 
 		if ( $categories )
 		foreach ( $categories as $category ) {
-			$data['categoryIds'][] = $exporter->get_ecwid_category_id( $category->term_id );
+			$category_id = $exporter->get_ecwid_category_id( $category->term_id );
+			
+			if ( !$category_id ) {
+				return array(
+					'status' => 'error',
+					'data'   => 'skipped',
+					'message' => 'parent category was not imported'
+				);
+			}
+			$data['categoryIds'][] = $category_id;
 		}
 
 		$result = $api->create_product( $data );
+		
+		error_log(var_export(array( 'request result', $result ), true));
 		
 		$return = array(
 			'type' => self::$type
@@ -115,8 +126,17 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 		$thumbnail_id = get_term_meta( $woo_id, 'thumbnail_id', true );
 		$file = get_attached_file ( $thumbnail_id );
 
+		$category_id = $exporter->get_ecwid_category_id( $woo_id );
+		if ( !$category_id ) {
+			return array(
+				'status' => 'error',
+				'data'   => 'skipped',
+				'message' => 'parent category was not imported'
+			);
+		}
+		
 		$data = array(
-			'categoryId' => $exporter->get_ecwid_category_id( $woo_id ),
+			'categoryId' => $category_id,
 			'data' => file_get_contents( $file )
 		);
 
@@ -154,9 +174,18 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 		$api = new Ecwid_Api_V3();
 		
 		$file = get_attached_file ( get_post_thumbnail_id( $product_data['woo_id'] ) );
+
+		$product_id = $exporter->get_ecwid_product_id( $product_data['woo_id'] );
+		if ( !$product_id ) {
+			return array(
+				'status' => 'error',
+				'data'   => 'skipped',
+				'message' => 'parent category was not imported'
+			);
+		}
 		
 		$data = array(
-			'productId' => $exporter->get_ecwid_product_id( $product_data['woo_id'] ),
+			'productId' => $product_id,
 			'data' => file_get_contents( $file )
 		);
 
@@ -203,6 +232,8 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 		$result = $api->create_category(
 			$data	
 		);
+		
+		error_log(var_export(array( 'request result', $result ), true));
 		
 		$return = array(
 			'type' => self::$type

@@ -61,6 +61,10 @@ jQuery(document).ready(function() {
                            status.error[data.error[i]]++;
                        }
                    }
+                   
+                   if ( data.plan_limit_hit.length > 0 ) {
+                       jQuery('.')
+                   }
 
                    jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
 

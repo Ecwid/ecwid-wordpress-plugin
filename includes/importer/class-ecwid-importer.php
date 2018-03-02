@@ -7,7 +7,9 @@ class Ecwid_Importer
 	const OPTION_TASKS = 'ecwid_importer_tasks';
 	const OPTION_CURRENT_TASK = 'ecwid_importer_current_task';
 	const OPTION_CATEGORIES = 'ecwid_importer_categories';
-	const OPTION_PRODUCTS = 'ecwid_importer_products';
+	const OPTION_PRODUCTS = 'ecwid_importer_products'; 
+	const OPTION_STATUS = 'ecwid_importer_status';
+	const OPTION_WOO_CATALOG_IMPORTED = 'ecwid_imported_from_woo';
 	CONST TICK_LENGTH = 5;
 	
 	protected $_tasks;
@@ -18,6 +20,8 @@ class Ecwid_Importer
 		update_option( self::OPTION_CATEGORIES, array() );
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
+		update_option( self::OPTION_STATUS, array() );
+		
 		$this->_start();
 		
 		$api = new Ecwid_Api_V3();
@@ -31,28 +35,42 @@ class Ecwid_Importer
 		set_time_limit(0);
 		$results = array();
 		
+		$status = get_option( self::OPTION_STATUS );
 		error_log(var_export(array( $this->_tasks, $this->_load_current_task() ), true));
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
 		do {
 			$current_task = $this->_load_current_task();
-			
+
 			$task_data = $this->_tasks[$current_task];
-			
-			error_log(var_export(array($current_task, $task_data), true));
-			
-			$task = Ecwid_Importer_Task::load_task( $task_data['type'] );
-			
-			$result = $task->execute( $this, $task_data );
-			$current_task++;
-			
-			
-			if ($result['status'] == 'error') {
-				$progress['error'][] = $task::$type;
-				error_log(var_export(array($task_data, $result['data']['api_message'], @$result['sent_data']), true));
+
+			if ( !is_array( $status['plan_limit'] ) || !in_array( $task_data['type'], $status['plan_limit'] ) ) {
+				
+				error_log(var_export(array($current_task, $task_data), true));
+	
+				$task = Ecwid_Importer_Task::load_task($task_data['type']);
+	
+				$result = $task->execute($this, $task_data);
+	
+	
+				if ($result['status'] == 'error') {
+					$progress['error'][] = $task::$type;
+					error_log(var_export(array($task_data, $result['data']['api_message'], @$result['sent_data']), true));
+	
+					if (@$result['data']['response']['code'] == 402) {
+						$status['plan_limit'][$task::$type] = true;
+					}
+				} else {
+					$progress['success'][] = $task::$type;
+				}
+
+				update_option( self::OPTION_STATUS, $status );
 			} else {
-				$progress['success'][] = $task::$type;
+				$progress['error'][] = $task_data['type'];
+				$progress['plan_limit_hit'][] = $task_data['type'];
 			}
+			
+			$current_task++;
 			
 			if ( $current_task >= count( $this->_tasks ) ) {
 				break;
@@ -66,7 +84,6 @@ class Ecwid_Importer
 			if ( $count > self::TICK_LENGTH ) {
 				$progress['status'] = 'in_progress';
 				
-				
 				return $progress;
 			}
 			
@@ -75,6 +92,8 @@ class Ecwid_Importer
 		$this->_set_tasks( null );
 		
 		$progress['status'] = 'complete';
+		
+		update_option( self::OPTION_WOO_CATALOG_IMPORTED, 'true' );
 		
 		return $progress;
 	}

@@ -1394,6 +1394,11 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$params .= '&data_no_apiv3=1';
 	}
 
+	require_once ECWID_PLUGIN_DIR . '/includes/importer/class-ecwid-importer.php';
+	if ( get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+		$params .= '&data_imported=1';
+	}
+
 	return $params;
 }
 
@@ -2238,8 +2243,8 @@ function ecwid_admin_do_page( $page ) {
 	
 	global $ecwid_oauth;
 
-	if (isset($_GET['ecwid_page']) && $_GET['ecwid_page']) {
-		$page = $_GET['ecwid_page'];
+	if (isset($_GET['ec-page']) && $_GET['ec-page']) {
+		$page = $_GET['ec-page'];
 	}
 
 	if ($page == ecwid_get_admin_iframe_upgrade_page()) {

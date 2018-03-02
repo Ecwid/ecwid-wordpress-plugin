@@ -41,9 +41,9 @@ class Ecwid_Import_Page
 	public function build_menu()
 	{
 		add_submenu_page(
-			Ecwid_Admin::ADMIN_SLUG,
-			'Import',
-			'Import',
+			'',
+			__( 'Import', 'ecwid-shopping-cart' ),
+			__( 'Import', 'ecwid-shopping-cart' ),
 			Ecwid_Admin::get_capability(),
 			self::PAGE_SLUG,
 			array( $this, 'do_page' )
@@ -52,8 +52,8 @@ class Ecwid_Import_Page
 		if ( $this->_need_to_show_woo() ) { 
 			add_submenu_page(
 				self::PAGE_SLUG,
-				'Import your products from WooCommerce to Ecwid',
-				'Import your products from WooCommerce to Ecwid',
+				sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				Ecwid_Admin::get_capability(),
 				self::PAGE_SLUG_WOO,
 				array( $this, 'do_woo_page' )
@@ -118,9 +118,14 @@ class Ecwid_Import_Page
 		die();
 	}
 	
+	protected function _get_billing_page_url() {
+		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-page=billing';
+	}
+	
 	protected function _get_reconnect_url()
 	{
-		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
+		return '
+}admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
 	}
 	
 	
