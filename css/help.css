@@ -10,8 +10,7 @@ Author URI: http: //www.ecwid.com
 /*------framework---------------------------------------------------------------------------------*/
 html,
 body {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 16px;
+	font-size: 13px;
 	line-height: 20px;
 	font-weight: 400;
 	text-rendering: optimizeLegibility;
