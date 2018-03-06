@@ -1,0 +1,20 @@
+#ecwid_blog_feed .template-container {
+    display: none;
+}
+
+#ecwid_blog_feed img {
+    position: absolute;
+    width: 120px;
+}
+
+
+#ecwid_blog_feed .post-title,
+#ecwid_blog_feed .post-excerpt
+{
+    margin-left: 140px;
+    display: inline-block;
+}
+
+#ecwid_blog_feed .post-excerpt p {
+    margin: 0;
+}
