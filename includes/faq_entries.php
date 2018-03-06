@@ -4,7 +4,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How secure is this plugin? Is my store PCI DSS compliant?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#security">More details.</a>'			, 'ecwid-shopping-cart'
+'Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won\'t have any banking compliance issues when selling online with Ecwid. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#security">More details.</a>', 'ecwid-shopping-cart'
 		),
 		'priority' => 'newbie_with_woo'
 	),
