@@ -21,7 +21,7 @@
 		<?php if (!$connection_error): ?>
 
 		<div class="note initial with-oauth">
-			<?php printf( __( 'To sell using %1$s, you must allow WordPress to access the %1$s plugin. The connect button will direct you to your %1$s account where you can provide permission.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+			<?php printf( __( 'To display your store on this site, you need to allow WordPress to access your %1$s products. Please press connect to provide permission.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 		</div>
 
         <?php else: ?>
