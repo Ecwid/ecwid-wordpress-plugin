@@ -142,17 +142,18 @@ function ecwid_init_integrations()
 {
 	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
 
-	$integrations = array(
-		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
-		'wpseo' => 'wordpress-seo/wp-seo.php',
-		'divibuilder' => 'divi-builder/divi-builder.php',
-		'autoptimize' => 'autoptimize/autoptimize.php',
-		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php',
+	$integrations = array(	
+		'all-in-one-seo-pack/all_in_one_seo_pack.php' => 'aiosp',
+		'wordpress-seo/wp-seo.php' => 'wpseo',
+		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
+		'divi-builder/divi-builder.php' => 'divibuilder',
+		'autoptimize/autoptimize.php' => 'autoptimize',
+		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 	);
 
-	foreach ($integrations as $key => $plugin) {
-		if ( is_plugin_active($plugin) ) {
-			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $key . '.php';
+	foreach ( $integrations as $plugin => $class ) {
+		if ( is_plugin_active( $plugin ) ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $class . '.php';
 		}
 	}
 }
