@@ -330,7 +330,7 @@ class Ecwid_Admin {
 			return true;
 		}
 		
-		return true;
+		return !ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
 	}
 
 	static public function disable_dashboard() {
