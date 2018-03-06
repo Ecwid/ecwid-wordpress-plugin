@@ -995,10 +995,24 @@ function ecwid_meta() {
 	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
 	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
 	
-    if (!Ecwid_Store_Page::is_store_page() && ecwid_is_store_page_available()) {
-		$page_url = Ecwid_Store_Page::get_store_url();
-		echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
-		echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+    if (!Ecwid_Store_Page::is_store_page()) {
+		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin>' . PHP_EOL;
+		
+		if (ecwid_is_store_page_available()) {
+
+			$store_id = get_ecwid_store_id();
+			$params = ecwid_get_scriptjs_params();
+			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
+			echo '<link rel="prefetch" href="' . $scriptjs_url . '" />' . PHP_EOL;
+
+			$page_url = Ecwid_Store_Page::get_store_url();
+			echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+		}
 	} else {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
