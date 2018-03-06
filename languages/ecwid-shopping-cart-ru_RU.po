@@ -743,7 +743,7 @@ msgstr ""
 
 #: templates/advanced-settings.php:44 templates/advanced-settings.php:188
 msgid "https://support.ecwid.com/hc/en-us/requests/new"
-msgstr ""
+msgstr "https://support.ecwid.com/hc/ru/requests/new"
 
 #: templates/advanced-settings.php:57 templates/store-popup.php:154
 msgid "Category shown by default"
