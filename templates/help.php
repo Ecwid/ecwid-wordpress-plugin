@@ -25,7 +25,7 @@
 			</div>
 		</div>
         <div class="block-search block-search-kb-link">
-            <?php echo sprintf( __( 'Or <a %s>Browse the Help Center', 'ecwid-shopping-cart'), 'href="https://support.ecwid.com/"' ); ?>
+            <?php echo sprintf( __( 'or <a %s>Browse the Help Center', 'ecwid-shopping-cart'), 'href="https://support.ecwid.com/"' ); ?>
         </div>
 	</div>
 
