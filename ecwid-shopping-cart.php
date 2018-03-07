@@ -990,19 +990,14 @@ function ecwid_ajax_crawling_fragment() {
 function ecwid_meta() {
 
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//' . Ecwid_Config::get_scriptjs_domain() . '/">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
-	
+    
     if (!Ecwid_Store_Page::is_store_page()) {
-		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
-		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
-		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
-		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin>' . PHP_EOL;
-		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin>' . PHP_EOL;
-		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin>' . PHP_EOL;
+		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
 		
 		if (ecwid_is_store_page_available()) {
 
@@ -2074,8 +2069,9 @@ function ecwid_get_register_link()
 
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
-	$result = $api->create_store();
 
+	$result = $api->create_store();
+	
 	if ( is_array( $result ) && $result['response']['code'] == 200 ) {
 		$data = json_decode( $result['body'] );
 
