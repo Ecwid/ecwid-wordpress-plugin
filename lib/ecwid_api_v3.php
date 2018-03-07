@@ -500,9 +500,9 @@ class Ecwid_Api_V3
 			if ( !is_string( $key ) ) {
 				if ($param == 'appClientId') {
 					$params['appClientId'] = Ecwid_Config::get_oauth_appid();
-				} elseif (!$key && $param == 'appSecretKey') {
+				} elseif ($param == 'appSecretKey') {
 					$params['appSecretKey'] = Ecwid_Config::get_oauth_appsecret();
-				} elseif (!$key && $param == 'token') {
+				} elseif ($param == 'token') {
 					$params['token'] = self::get_token();
 				}
 			}else {
