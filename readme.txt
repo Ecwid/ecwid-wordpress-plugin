@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 5.8
+Stable tag: 5.8.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,13 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 5.8.1 - Mar 7, 2018 =
+- **Compatibility with the Yoast premium SEO plugin.** Yoast recently updated their SEO plugins. We adjusted Ecwid plugin to work well with them. So, as usually, Ecwid should work well with Yoast products, feel free to use them to get your site and online store optimized for search engines. 
+- **Fixed an issue with Ecwid buttons in the Elementor page builder toolbar.** Ecwid’s “Add store” and “Add product” buttons didn’t work well in the Elementor editor toolbar. We hid the Ecwid buttons from the toolbar as a workaround. To add a store or a single product to a page in the Elementor editor, please use [ec_store] and [ec_product] shortcodes or temporarily switch to the default WP editor. 
+- **Fixed compatibility issues with Themify AJAX themes.** If you use one of Themify themes with AJAX navigation enabled, you might notice that your store page didn’t load sometimes. We fixed that. Ecwid should work well with any Wordpress theme. 
+- **Fixed an issue with SEO-friendly description on store product pages.** Ecwid ecommerce plugin renders your store pages in a special search engines friendly way so that they can index your products and display them better in search results. In some cases, product description wasn’t displayed in that SEO version of store page. We fixed that, everything should work fine and your products should be displayed well in Google search. 
+- Minor fixes and improvements. 
+
 = 5.8 - Feb 8, 2018 =
 - **Improved OG tags support.** OpenGraph (or OG) tags are special marks in site pages code, that are used to make better snippets when you share a page on Facebook, Twitter and other sites and social networks. We added OG tags to the products pages — this will make your product title, description and image appear in a snippet/post when you share a link to that product. 
 - **Revamped Ecwid menu in WordPress admin backend.** Historically, the Ecwid store management dashboard displayed navigation within the central page content when you open it in your Wordpress admin backend. So, you open the “Ecwid” menu in your WP admin and then navigate through your store admin pages within that general “Ecwid” page. We’re improving this process: now the store admin navigation menu will be a part of the Wordpress native admin menu, so you will find products/sales/settings/promotions/apps and other sections right in the Wordpress left-hand navigation sidebar. This will align the Ecwid plugin navigation with the general Wordpress navigation and provide more natural way to find the right page of your store dashboard. Also, this will free some space in the page central area to make it more convenient to manage your store, especially on mobile devices. IMPORTANT: The change is now enabled for the new plugin users only. We will gradually roll it out to all of the plugin users in the upcoming updates. 
