@@ -4,17 +4,44 @@
 
 #ecwid_blog_feed img {
     position: absolute;
-    width: 120px;
+    width: 100px;
 }
 
+#ecwid_blog_feed .inside {
+    margin: 0;
+    padding: 0;
+}
+
+#ecwid_blog_feed .posts {
+    margin: 10px;
+}
+
+#ecwid_blog_feed .blog-post {
+    height: 130px;
+    vertical-align: middle;
+}
+
+#ecwid_blog_feed .blog-post:last-child {
+    margin-bottom: 0;
+}
 
 #ecwid_blog_feed .post-title,
 #ecwid_blog_feed .post-excerpt
 {
-    margin-left: 140px;
+    margin-left: 110px;
     display: inline-block;
 }
 
 #ecwid_blog_feed .post-excerpt p {
     margin: 0;
+}
+
+#ecwid_blog_feed .footer {
+    border-top: 1px solid #eee;
+    padding: 10px;
+}
+
+#ecwid_blog_feed .footer a {
+    text-decoration: underline;
+    margin-right: 10px;
 }

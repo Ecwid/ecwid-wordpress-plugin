@@ -19,8 +19,8 @@ jQuery(document).ready(function() {
             renderBlogPosts(posts);
             
             for (var i = 0; i < data.length; i++) {
-                jQuery.getJSON( 'https://www.ecwid.com/wp-json/wp/v2/media/' + data[i].featured_media, function(data) {
-                   jQuery( '.ecwid-post-id-' + data.post + ' img' ).attr('src', data.source_url);
+                jQuery.getJSON( ecwidDashboardBlog.media_url + data[i].featured_media, function(data) {
+                   jQuery( '.ecwid-post-id-' + data.post + ' img' ).attr('src', data.media_details.sizes.thumbnail.source_url);
                 });
             }
         } );
