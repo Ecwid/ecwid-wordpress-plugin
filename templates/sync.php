@@ -14,50 +14,10 @@ jQuery('#ecwid_local_base_enabled').click(function() {
 });
 
 jQuery('#sync-button').click(function() {
-	if (sse_available) {
-		sync_sse();
-	} else {
-		sync_by_chunks();
-	}
+    sync_by_chunks();
+
 	return false;
 });
-
-function sync_sse() {
-	jQuery('#sync-container').removeClass('state-initial').addClass('state-in-progress');
-
-	var source = new EventSource('admin-post.php?action=ecwid_sync_sse');
-	source.addEventListener('completed', function(e) {
-
-	    var data = jQuery.parseJSON(e.data);
-		jQuery('#sync-container').removeClass('state-in-progress').addClass('state-complete');
-		jQuery('#sync-date').text(data.last_update);
-		source.close();
-	});
-
-    source.addEventListener('created_product', function(e) {
-        increment_progress_counter(1);
-    });
-
-    source.addEventListener('updated_product', function(e) {
-        increment_progress_counter(1);
-    });
-
-    source.addEventListener('fetching_products', function(e) {
-		var data = jQuery.parseJSON(e.data);
-
-		jQuery('#current_item').text(
-			'Fetching products... '
-			+ data.offset + ' - '
-			+ Math.min(data.offset + data.limit, <?php echo intval($estimation['total_updated']); ?>)
-			+ ' of <?php echo intval($estimation['total_updated']); ?>');
-	});
-
-	source.addEventListener('fetching_deleted_product_ids', function(e) {
-		var data = jQuery.parseJSON(e.data);
-
-		jQuery('#current_item').text('Fetching deleted products... ' + data.offset + ' - ' + Math.min(data.offset + data.limit, <?php echo intval($estimation['total_deleted']); ?>) + ' of <?php echo intval($estimation['total_deleted']); ?>');
-	});
-}
 
 var updatedFrom = '<?php echo $estimation['last_update']; ?>';
 

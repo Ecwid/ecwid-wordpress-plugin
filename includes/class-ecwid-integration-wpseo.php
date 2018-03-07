@@ -17,6 +17,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 			add_filter( 'wpseo_do_sitemap_ecwid', array( $this, 'wpseo_hook_do_sitemap' ) );
 			if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
 				add_filter( 'wpseo_title', 'ecwid_seo_title' );
+				remove_filter( 'wp_title', 'ecwid_seo_title' , 10000, 3 );
 				add_filter( 'wpseo_metadesc', '__return_false' );
 
 				add_filter( 'ecwid_og_tags', array( $this, 'filter_og_tags' ) );
@@ -38,7 +39,6 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		
 		return $tags;
 	}
-	
 	
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment()

@@ -3,6 +3,7 @@
 class Ecwid_Theme_Base {
 
 	const PROP_USE_JS_API_FOR_CATS_NAV_MENU = 'js-api-for-cats-nav-menu';
+	const PROP_AJAX_DEFER_RENDERING = 'ajax-defer-rendering';
 	
 	public $has_advanced_layout = false;
 
@@ -52,6 +53,10 @@ class Ecwid_Theme_Base {
 
 		if (in_array( self::PROP_USE_JS_API_FOR_CATS_NAV_MENU, $props ) ) {
 			add_filter( Ecwid_Nav_Menus::FILTER_USE_JS_API_FOR_CATS_MENU, array( $theme, 'filter_use_js_api_for_cats_menu' ) );
+		}
+		
+		if ( in_array( self::PROP_AJAX_DEFER_RENDERING, $props ) ) {
+			add_filter( Ecwid_Ajax_Defer_Renderer::FILTER_ENABLED, '__return_true' );
 		}
 
 		return $theme;

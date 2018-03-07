@@ -66,7 +66,8 @@ function ecwid_apply_theme($theme_name = null)
 		'businesso'				=> array( 'css' ),
 		'Avada' 				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
-		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU )
+		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
+		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -112,6 +113,7 @@ function ecwid_apply_theme($theme_name = null)
 		}
 	} else if ( array_key_exists( $theme_name, $generic_themes ) ) {
 		global $ecwid_current_theme;
+		
 		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}
 }

@@ -38,11 +38,7 @@
                         <?php printf( __( 'To enable clean URLs in your store, you will need to enable pretty permalinks in your WordPress site settings. Navigate to <a%s>Settings->Permalink</a> and enable the "Post name" permalink type.', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'options-permalink.php' ) . '"'); ?>
                     </div>
                 <?php endif; ?>
-
-
-                <div class="note grayed-links">
-                    <?php echo sprintf(__('Note: the new URLs will be automatically enabled for every store in one of upcoming updates so please make sure to check how the new URLs work in your store and <a %s>let us know</a> if you face any trouble with them', 'ecwid-shopping-cart'), ' target="_blank" href="' . Ecwid_Config::get_contact_us_url() . '"'); ?>
-                </div>
+                
             </div>
         </div>
 

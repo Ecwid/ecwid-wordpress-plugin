@@ -24,8 +24,9 @@ class Ecwid_Ajax_Defer_Renderer {
 	protected function __construct()
 	{
 		add_option( self::OPTION_DEFER_RENDERING, self::AUTO );
-		$this->init();
 		
+		add_action( 'template_redirect', array( $this, 'init' ) );// to make sure it is called after ecwid_apply_theme
+		add_action( 'admin_init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_plugin_upgrade', array( $this, 'plugin_upgrade' ) ); 
 	}
 	

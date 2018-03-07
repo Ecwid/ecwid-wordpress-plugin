@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 5.8
+Version: 5.8.1
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -70,7 +70,7 @@ if ( is_admin() ){
   add_action('init', 'ecwid_backward_compatibility');
   add_action('send_headers', 'ecwid_503_on_store_closed');
   add_action('template_redirect', 'ecwid_404_on_broken_escaped_fragment');
-  add_action('template_redirect', 'ecwid_apply_theme');
+  add_action('template_redirect', 'ecwid_apply_theme'); // Why not init?
   add_action('wp_enqueue_scripts', 'ecwid_enqueue_frontend');
   add_action('wp', 'ecwid_seo_ultimate_compatibility', 0);
   add_action('wp', 'ecwid_remove_default_canonical');
@@ -142,17 +142,18 @@ function ecwid_init_integrations()
 {
 	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
 
-	$integrations = array(
-		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
-		'wpseo' => 'wordpress-seo/wp-seo.php',
-		'divibuilder' => 'divi-builder/divi-builder.php',
-		'autoptimize' => 'autoptimize/autoptimize.php',
-		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php'
+	$integrations = array(	
+		'all-in-one-seo-pack/all_in_one_seo_pack.php' => 'aiosp',
+		'wordpress-seo/wp-seo.php' => 'wpseo',
+		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
+		'divi-builder/divi-builder.php' => 'divibuilder',
+		'autoptimize/autoptimize.php' => 'autoptimize',
+		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 	);
 
-	foreach ($integrations as $key => $plugin) {
-		if ( is_plugin_active($plugin) ) {
-			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $key . '.php';
+	foreach ( $integrations as $plugin => $class ) {
+		if ( is_plugin_active( $plugin ) ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $class . '.php';
 		}
 	}
 }
@@ -633,6 +634,13 @@ function ecwid_check_version()
 		// Since 5.8
 		add_option( 'ecwid_print_html_catalog', 'Y' );
 		
+		// Since 5.8.x
+		add_option( 'ecwid_print_category_in_title', 'Y' );
+
+
+		// Since 5.8.1+
+		add_option( Ecwid_Products::OPTION_SYNC_LIMIT, 20 );
+
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
@@ -982,16 +990,25 @@ function ecwid_ajax_crawling_fragment() {
 function ecwid_meta() {
 
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//' . Ecwid_Config::get_scriptjs_domain() . '/">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
-	
-    if (!Ecwid_Store_Page::is_store_page() && ecwid_is_store_page_available()) {
-		$page_url = Ecwid_Store_Page::get_store_url();
-		echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
-		echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+    
+    if (!Ecwid_Store_Page::is_store_page()) {
+		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+		
+		if (ecwid_is_store_page_available()) {
+
+			$store_id = get_ecwid_store_id();
+			$params = ecwid_get_scriptjs_params();
+			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
+			echo '<link rel="prefetch" href="' . $scriptjs_url . '" />' . PHP_EOL;
+
+			$page_url = Ecwid_Store_Page::get_store_url();
+			echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+		}
 	} else {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
@@ -1213,7 +1230,7 @@ function _ecwid_get_seo_title()
 
 					if ( $product ) {
 						$ecwid_seo_title = $product->name;
-						if ( $category ) {
+						if ( $category && get_option( 'ecwid_print_category_in_title', true ) ) {
 							$ecwid_seo_title .= ' ' . $separator . $category->name;							
 						}
 					}
@@ -1261,7 +1278,7 @@ function _ecwid_get_seo_title()
 
 				if ( $product->defaultCategoryId ) {
 					$category = $api->get_category( $product->defaultCategoryId );
-					if ( $category && isset( $category->name ) ) {
+					if ( $category && isset( $category->name ) && get_option( 'ecwid_print_category_in_title', true ) ) {
 						$ecwid_seo_title .=  ' ' . ecwid_get_title_separator() . ' ' . $category->name;
 					}
 				}
@@ -1875,39 +1892,10 @@ function ecwid_sync_do_page() {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 
 	$prods = new Ecwid_Products();
-
+	
 	$estimation = $prods->estimate_sync();
 
 	require_once ECWID_PLUGIN_DIR . 'templates/sync.php';
-}
-
-function ecwid_get_categories($nocache = false) {
-	$categories = EcwidPlatform::cache_get('all_categories');
-
-	if ( false == $categories || $nocache ) {
-
-		$request = Ecwid_Http::create_get(
-			'get_categories_through_endpoint',
-			ecwid_get_categories_js_url(),
-			array( Ecwid_Http::POLICY_EXPECT_JSONP )
-		);
-
-		if (!$request) {
-			return array();
-		}
-
-		$categories = $request->do_request();
-
-		if (!is_null($categories)) {
-			EcwidPlatform::cache_set( 'all_categories', $categories, 60 * 60 * 2 );
-		}
-	}
-
-	if ( !is_array($categories) || !$categories ) {
-		return array();
-	}
-
-	return $categories;
 }
 
 function ecwid_reset_categories_cache()
@@ -2035,8 +2023,6 @@ function ecwid_common_admin_scripts() {
 		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
 		'legacy_appearance' => ecwid_is_legacy_appearance_used()
 	));
-
-	wp_enqueue_script('ecwid-sync', ECWID_PLUGIN_URL . 'js/sync.js', array(), get_option('ecwid_plugin_version'));
 }
 
 function ecwid_is_legacy_appearance_used() {
@@ -2083,8 +2069,9 @@ function ecwid_get_register_link()
 
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
-	$result = $api->create_store();
 
+	$result = $api->create_store();
+	
 	if ( is_array( $result ) && $result['response']['code'] == 200 ) {
 		$data = json_decode( $result['body'] );
 
@@ -2232,6 +2219,10 @@ function ecwid_admin_do_page( $page ) {
 
 	if (isset($_GET['ecwid_page']) && $_GET['ecwid_page']) {
 		$page = $_GET['ecwid_page'];
+	}
+
+	if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
+		$page = $_GET['ec-store-page'];
 	}
 
 	if ($page == ecwid_get_admin_iframe_upgrade_page()) {
@@ -2409,30 +2400,72 @@ function ecwid_test_oauth($force = false)
 
 function ecwid_get_categories_for_selector() {
 
-	function walk_through_categories($categories, $parent_prefix) {
-		if (empty($categories)) {
-			return array();
-		}
-		$result = array();
+	$cached = EcwidPlatform::get_from_categories_cache( 'ecwid_categories_for_selector' );
 
-		foreach ($categories as $category) {
-			$result[$category->id] = $category;
-			$result[$category->id]->path = $parent_prefix . $category->name;
-			$result = array_merge($result, walk_through_categories($category->sub, $category->name . ' > '));
-			unset($result[$category->id]->sub);
-		}
-
-		return $result;
+	if ( $cached ) {
+		return $cached;
 	}
+	
+	$api = new Ecwid_Api_V3();
+	
+	$categories = $api->get_categories( array( 'hidden_categories' => true ) );
 
-	$result = walk_through_categories(ecwid_get_categories(true), "");
+	$all_categories = array();
+	
+	foreach ( $categories->items as $category ) {
+		$all_categories[$category->id] = $category;
+	}
+	
+	if ( $categories->total > $categories->count ) {
+		$offset = 100;
+		
+		$page = 0;
+		while ( $categories->count + $offset * $page > $categories->total ) {
+			$page++;
+			$categories = $api->get_categories( array( 'offset' => $offset * $page, 'hidden_categories' => true ) );
 
+			foreach ( $categories->items as $category ) {
+				$all_categories[$category->id] = $category;
+			}
+		}
+	}
+	
+	$parents = array();
+
+	$result = array();
+	foreach ( $all_categories as $category ) {
+		$result[$category->id] = $category;
+		
+		if ( !@$category->parentId ) {
+			$result[$category->id]->path = $category->name;
+		} else {
+			$current_parent_id = $category->parentId;
+			
+			$path = $category->name;
+			while ( $current_parent_id != 0 ) {
+				$parent = $all_categories[$current_parent_id];
+				
+				$path = $parent->name . ' > ' . $path;
+				
+				$current_parent_id = isset( $parent->parentId ) ? $parent->parentId : 0;
+			}
+			
+			$result[$category->id]->path = $path;
+		}
+	}
+	
+	function compare_categories($cat1, $cat2) {
+		return strcasecmp( $cat1->path, $cat2->path );
+	}
+	
+	usort( $result, 'compare_categories' );
+	
+	EcwidPlatform::store_in_categories_cache( 'ecwid_categories_for_selector', $result );
+	
 	return $result;
 }
 
 function ecwid_advanced_settings_do_page() {
-	$categories = ecwid_get_categories_for_selector();
-
 	$is_sso_enabled = ecwid_is_sso_enabled();
 
 	global $ecwid_oauth;
@@ -2745,7 +2778,6 @@ function ecwid_check_for_remote_connection_errors()
 	global $ecwid_oauth;
 
 	$results = array();
-	$results['https_get_error'] = wp_remote_get(ecwid_get_categories_js_url('abc'));
 	$results['https_post_error'] = wp_remote_post($ecwid_oauth->get_test_post_url());
 
 	foreach ($results as $type => $value) {
@@ -2939,18 +2971,6 @@ function ecwid_embed_svg($name) {
 
 	echo $code;
 }
-
-function ecwid_get_categories_js_url($callback = null) {
-
-	$url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/categories.js?ownerid=' . get_ecwid_store_id();
-
-	if ($callback) {
-		$url .= '&callback=' . $callback;
-	}
-
-	return $url;
-}
-
 
 function ecwid_use_old_landing() {
 	return version_compare(get_bloginfo('version'), '3.7') < 0;
