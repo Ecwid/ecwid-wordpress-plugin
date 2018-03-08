@@ -26,7 +26,7 @@ class Ecwid_Widget_Random_Product extends WP_Widget {
 	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div itemprop="image"></div></a>
 	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div class="ecwid-title" itemprop="name" content="$name"></div></a>
 	<a href="$url" data-ecwid-page="product" data-ecwid-product-id="$product->id"><div itemtype="http://schema.org/Offer" itemscope itemprop="offers">
-		<div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="$product->price" data-spw-price-location="button">
+		<div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="$product->defaultDisplayedPrice" data-spw-price-location="button">
 			<div itemprop="priceCurrency"></div>
 		</div>
 	</div>

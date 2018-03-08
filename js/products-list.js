@@ -131,6 +131,8 @@ jQuery.widget('ecwid.productsList', {
 		}
 
 		jQuery('.' + this._prefix + '-name', container).text(product.name);
+		
+		price = product.defaultDisplayedPrice ? product.defaultDisplayedPrice : product.price;
 		jQuery('.' + this._prefix + '-price.ecwid-productBrowser-price', container).text(product.price);
 
 	},

@@ -6,9 +6,9 @@
 	<img itemprop="image" src="<?php echo EcwidPlatform::esc_attr( $product->originalImageUrl ); ?>" alt="<?php echo EcwidPlatform::esc_attr( $product->name  . ' ' . $product->sku); ?>" />
 	<div itemprop="description"><?php echo isset( $product->seoDescription )&& !empty( $product->seoDescription ) ? $product->seoDescription : $product->description; ?></div>
     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-		<span itemprop="price" content="<?php echo EcwidPlatform::esc_html( $product->price ); ?>"><?php 
+		<span itemprop="price" content="<?php echo EcwidPlatform::esc_html( $product->defaultDisplayedPrice ); ?>"><?php
 			echo EcwidPlatform::esc_html( 
-            	$formats->currencyPrefix . $product->price . $formats->currencySuffix
+            	$formats->currencyPrefix . $product->defaultDisplayedPrice . $formats->currencySuffix
 			); 
 		?></span>
 		<span itemprop="priceCurrency" content="<?php echo EcwidPlatform::esc_attr( $formats->currency ); ?>"></span>

@@ -26,7 +26,7 @@
         </a>
 	</span>
 	<span class="product-price">
-        <?php echo $product->price . ' ' . $formats->currency; ?> 
+        <?php echo $product->defaultDisplayedPrice . ' ' . $formats->currency; ?> 
     </span>
 </div>
 
