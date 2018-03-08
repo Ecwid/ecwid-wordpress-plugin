@@ -1,8 +1,13 @@
 <?php
 
 class Ecwid_WP_Dashboard_Feed {
+	const CACHE_POSTS = 'wp-dashboard-blog-posts';
+	const ACTION_AJAX_SAVE = 'ecwid-save-posts';
+	
 	public function __construct() {
 		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_setup' ) );
+		
+		add_action( 'wp_ajax_' . self::ACTION_AJAX_SAVE, array( $this, 'ajax_save_posts' ) );
 	}
 	
 	public function dashboard_setup() {
@@ -19,12 +24,21 @@ class Ecwid_WP_Dashboard_Feed {
 		
 		wp_enqueue_script( 'ecwid-dashboard-blog', ECWID_PLUGIN_URL . '/js/dashboard-blog.js', array( 'jquery' ), get_option('ecwid_plugin_version') );
 		wp_localize_script( 'ecwid-dashboard-blog', 'ecwidDashboardBlog', array(
-			'posts' => EcwidPlatform::cache_get( 'ecwid-dashboard-blog' ),
+			'posts' => EcwidPlatform::cache_get( self::CACHE_POSTS ),
 			'url' => $url,
-			'media_url' => $media_url
+			'mediaUrl' => $media_url,
+			'saveAction' => self::ACTION_AJAX_SAVE
 		) );
 		
-		wp_add_dashboard_widget( 'ecwid_blog_feed', 'Ecwid Blog', array( $this, 'display' ) );
+		wp_add_dashboard_widget( 'ecwid_blog_feed', __( 'Ecwid Blog', 'ecwid-shopping-cart' ), array( $this, 'display' ) );
+	}
+	
+	public function ajax_save_posts()
+	{
+		EcwidPlatform::cache_set( self::CACHE_POSTS, $_POST['posts'], 12 * HOUR_IN_SECONDS );
+		
+		header(200);
+		die();
 	}
 	
 	public function display() {
