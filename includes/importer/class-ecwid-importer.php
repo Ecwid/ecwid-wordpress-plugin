@@ -35,33 +35,33 @@ class Ecwid_Importer
 		set_time_limit(0);
 		$results = array();
 		
-		$status = get_option( self::OPTION_STATUS );
+		$status = get_option( self::OPTION_STATUS, array() );
 		error_log(var_export(array( $this->_tasks, $this->_load_current_task() ), true));
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
+		
 		do {
 			$current_task = $this->_load_current_task();
 
 			$task_data = $this->_tasks[$current_task];
-
-			if ( !is_array( $status['plan_limit'] ) || !in_array( $task_data['type'], $status['plan_limit'] ) ) {
+			
+			if ( !is_array( $status['plan_limit'] ) || !array_key_exists( $task_data['type'], $status['plan_limit'] ) ) {
 				
 				error_log(var_export(array($current_task, $task_data), true));
 	
 				$task = Ecwid_Importer_Task::load_task($task_data['type']);
 	
 				$result = $task->execute($this, $task_data);
-	
-	
-				if ($result['status'] == 'error') {
-					$progress['error'][] = $task::$type;
+				
+				if ( $result['status'] == 'error' ) {
+					$progress['error'][] = $task_data['type'];
 					error_log(var_export(array($task_data, $result['data']['api_message'], @$result['sent_data']), true));
 	
-					if (@$result['data']['response']['code'] == 402) {
-						$status['plan_limit'][$task::$type] = true;
+					if ( @$result['data']['response']['code'] == 402 ) {
+						$status['plan_limit'][$task_data['type']] = true;
 					}
 				} else {
-					$progress['success'][] = $task::$type;
+					$progress['success'][] = $task_data['type'];
 				}
 
 				update_option( self::OPTION_STATUS, $status );

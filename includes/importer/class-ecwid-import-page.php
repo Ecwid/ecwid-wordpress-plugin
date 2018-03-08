@@ -95,6 +95,7 @@ class Ecwid_Import_Page
 	public static function get_woo_page_url_from_message() {
 		return 'admin.php?page=' . self::PAGE_SLUG_WOO . '&' . self::PARAM_FROM_IMPORT_ONBOARDING . '=1';
 	}
+	
 	protected function _is_token_ok()
 	{
 		$oauth = new Ecwid_OAuth();
@@ -124,8 +125,7 @@ class Ecwid_Import_Page
 	
 	protected function _get_reconnect_url()
 	{
-		return '
-}admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
+		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
 	}
 	
 	

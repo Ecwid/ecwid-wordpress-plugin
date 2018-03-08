@@ -62,10 +62,6 @@ jQuery(document).ready(function() {
                        }
                    }
                    
-                   if ( data.plan_limit_hit.length > 0 ) {
-                       jQuery('.')
-                   }
-
                    jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
 
                    if (data.status == 'complete') {
@@ -73,9 +69,6 @@ jQuery(document).ready(function() {
                        jQuery('#import-results-categories').text(status.success.create_category || 0);
                        $wrapper.removeClass('state-woo-in-progress').addClass('state-woo-complete');
                    } else {
-                       
-                       jQuery('.progress-bar').css('width', parseInt(data.current / data.total * 100) + '%');
-                       
                        do_import();
                    }
                }

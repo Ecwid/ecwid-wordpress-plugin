@@ -67,23 +67,20 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		
 		$categories = get_the_terms( $woo_id, 'product_cat' );
 
-		if ( $categories )
-		foreach ( $categories as $category ) {
+		if ( $categories ) foreach ( $categories as $category ) {
 			$category_id = $exporter->get_ecwid_category_id( $category->term_id );
 			
 			if ( !$category_id ) {
-				return array(
-					'status' => 'error',
-					'data'   => 'skipped',
-					'message' => 'parent category was not imported'
-				);
+				$data['categoryIds'][] = $category_id;
 			}
-			$data['categoryIds'][] = $category_id;
+		}
+		if ( empty( $data['cateogryIds'] ) ) {
+			unset($data['categoryIds']);
 		}
 
 		$result = $api->create_product( $data );
 		
-		error_log(var_export(array( 'request result', $result ), true));
+		error_log(var_export(array( 'request result product', $result ), true));
 		
 		$return = array(
 			'type' => self::$type
