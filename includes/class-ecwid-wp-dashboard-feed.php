@@ -24,22 +24,39 @@ class Ecwid_WP_Dashboard_Feed {
 		
 		wp_enqueue_script( 'ecwid-dashboard-blog', ECWID_PLUGIN_URL . '/js/dashboard-blog.js', array( 'jquery' ), get_option('ecwid_plugin_version') );
 		wp_localize_script( 'ecwid-dashboard-blog', 'ecwidDashboardBlog', array(
-			'posts' => EcwidPlatform::cache_get( self::CACHE_POSTS ),
+			'posts' => EcwidPlatform::cache_get( $this->_get_cache_name() ),
 			'url' => $url,
 			'mediaUrl' => $media_url,
 			'saveAction' => self::ACTION_AJAX_SAVE
 		) );
 		
-		wp_add_dashboard_widget( 'ecwid_blog_feed', __( 'Ecwid Blog', 'ecwid-shopping-cart' ), array( $this, 'display' ) );
+		wp_add_dashboard_widget( 
+			'ecwid_blog_feed', 
+			sprintf( __( '%s Blog', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ), 
+			array( $this, 'display' ) 
+		);
 	}
 	
 	public function ajax_save_posts()
 	{
-		EcwidPlatform::cache_set( self::CACHE_POSTS, $_POST['posts'], 12 * HOUR_IN_SECONDS );
+		if ( !current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+		
+		EcwidPlatform::cache_set( $this->_get_cache_name(), $_POST['posts'], 12 * HOUR_IN_SECONDS );
 		
 		header(200);
 		die();
 	}
+	
+	protected function _get_cache_name()
+	{
+		$name = self::CACHE_POSTS;
+		$name .= '-' . get_user_locale();
+		
+		return $name;
+	}
+	
 	
 	public function display() {
 		require_once ECWID_PLUGIN_DIR . '/templates/dashboard-blog-posts.tpl.php';
