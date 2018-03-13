@@ -4,6 +4,8 @@ jQuery(document).ready(function() {
    var status = {
        'success' : [],
        'error': [],
+       'errorMessages': {},
+       'planLimitHit': false
    };
     
    jQuery('#ecwid-importer-woo').click(function() {
@@ -35,8 +37,7 @@ jQuery(document).ready(function() {
    
    jQuery('#ecwid-importer-woo-go').click(function() {
        $wrapper.removeClass('state-woo-initial').addClass('state-woo-in-progress');
-
-       debugger;
+       
        do_import = function () {
            jQuery.ajax({
                'url': ajaxurl,
@@ -46,7 +47,7 @@ jQuery(document).ready(function() {
                    data = jQuery.parseJSON(json);
 
                    for (var i = 0; i < data.success.length; i++) {
-                       if (typeof status.success[data.success[i]] == 'undefined' ) {
+                       if (typeof status.success[data.success[i]] == 'undefined') {
                            status.success[data.success[i]] = 1;
                        } else {
                            status.success[data.success[i]]++;
@@ -55,19 +56,38 @@ jQuery(document).ready(function() {
 
 
                    for (var i = 0; i < data.error.length; i++) {
-                       if (typeof status.error[data.error[i]] == 'undefined' ) {
+                       if (typeof status.error[data.error[i]] == 'undefined') {
                            status.error[data.error[i]] = 1;
                        } else {
                            status.error[data.error[i]]++;
                        }
                    }
                    
+                   status.planLimitHit |= typeof data.plan_limit_hit != 'undefined';
+                   
+                   if (data.error_messages) {
+                       for (var import_type in data.error_messages) {
+                           
+                           var messages = data.error_messages[import_type];
+                           
+                           if ( !status.errorMessages[import_type] ) {
+                               status.errorMessages[import_type] = {};
+                           }
+
+                           for ( var message in messages ) {
+                               if ( !status.errorMessages[import_type].hasOwnProperty(message) ) {
+                                   status.errorMessages[import_type][message] = 0;
+                               }
+                               status.errorMessages[import_type][message] += messages[message];   
+                           }
+                       }
+                   }
+                   
                    jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
 
                    if (data.status == 'complete') {
-                       jQuery('#import-results-products').text(status.success.create_product || 0);
-                       jQuery('#import-results-categories').text(status.success.create_category || 0);
-                       $wrapper.removeClass('state-woo-in-progress').addClass('state-woo-complete');
+                       
+                       doImportComplete(status);
                    } else {
                        do_import();
                    }
@@ -76,5 +96,33 @@ jQuery(document).ready(function() {
        };
        
        do_import();
+       
+       doImportComplete = function( status ) {
+           jQuery('#import-results-products').text(status.success.create_product || 0);
+           jQuery('#import-results-categories').text(status.success.create_category || 0);
+           $wrapper.removeClass('state-woo-in-progress').addClass('state-woo-complete');
+           
+           if (status.planLimitHit) {
+               jQuery('plan-limit-message').show();
+           }
+           
+           var errorContent = '';
+           for (var importType in status.errorMessages) {
+               errorContent += importType + "\n";
+               for (var message in status.errorMessages[importType]) {
+                   errorContent += '  ' + message + ':' + status.errorMessages[importType][message] + "\n";
+               }
+           }
+           
+           if (errorContent.length > 0) {
+               jQuery('.ecwid-importer .errors').show().find('pre').text(errorContent);
+           }
+           
+           
+       }
+   });
+   
+   jQuery('.ecwid-importer .errors .btn-details').click(function() {
+       jQuery('.ecwid-importer .errors .details').toggle();
    });
 });

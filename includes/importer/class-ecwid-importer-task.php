@@ -70,17 +70,17 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		if ( $categories ) foreach ( $categories as $category ) {
 			$category_id = $exporter->get_ecwid_category_id( $category->term_id );
 			
-			if ( !$category_id ) {
+			if ( $category_id ) {
 				$data['categoryIds'][] = $category_id;
 			}
 		}
 		if ( empty( $data['cateogryIds'] ) ) {
 			unset($data['categoryIds']);
 		}
-
-		$result = $api->create_product( $data );
 		
-		error_log(var_export(array( 'request result product', $result ), true));
+		$data['categoryIds'] = array();
+		
+		$result = $api->create_product( $data );
 		
 		$return = array(
 			'type' => self::$type
@@ -177,7 +177,7 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 			return array(
 				'status' => 'error',
 				'data'   => 'skipped',
-				'message' => 'parent category was not imported'
+				'message' => 'Parent product was not imported'
 			);
 		}
 		

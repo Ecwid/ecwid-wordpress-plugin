@@ -6,10 +6,10 @@
 
 <ul>
     <li>
-        Imported products: <span id="import-results-products"></span>
+        <?php echo sprintf( __( 'Imported products: %s', 'ecwid-shopping-cart' ), '<span id="import-results-products"></span>' ); ?>
     </li>
     <li>
-        Imported categories: <span id="import-results-categories"></span>
+		<?php echo sprintf( __( 'Imported categories: %s', 'ecwid-shopping-cart' ), '<span id="import-results-categories"></span>' ); ?>
     </li>
 </ul>
 
@@ -18,3 +18,8 @@
         <?php echo sprintf( __('Go to your %s Products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
     </a>
 </p>
+
+<div class="errors">
+    Some of the products could not be imported. <a class="btn-details">Details...</a>
+    <pre class="details"></pre>
+</div>

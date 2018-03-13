@@ -246,12 +246,12 @@ TXT
 			),
 			
 			self::MSG_WOO_IMPORT_ONBOARDING => array(
-				'title' => 'Got Woo',
-				'message' => 'Import from Woo?',
+				'title' => sprintf( __( 'Need help importing your products from WooCommerce to %s?', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'We noticed you have WooCommerce installed. If you want to easily copy your WooCommerce products to %s, this tool will help you.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'hideable' => false,
-				'primary_title' => 'Import my products from WooCommerce',
+				'primary_title' => __( 'Import my products from WooCommerce', 'ecwid-shopping-cart' ),
 				'primary_url' => Ecwid_Import_Page::get_woo_page_url_from_message(),
-				'secondary_title' => 'No Thanks',
+				'secondary_title' => __( 'No Thanks', 'ecwid-shopping-cart' ),
 				'secondary_hide' => true
 			)
 		);

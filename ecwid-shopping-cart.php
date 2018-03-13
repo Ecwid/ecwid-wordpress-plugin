@@ -2366,7 +2366,7 @@ function ecwid_process_oauth_params() {
 			'reason' => isset($_GET['reason']) ? $_GET['reason'] : ''
 		));
 		
-		if ( $_GET['do_reconnect'] ) {
+		if ( @$_GET['do_reconnect'] ) {
 			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
 		}
 	}

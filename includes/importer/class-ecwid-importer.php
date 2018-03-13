@@ -55,11 +55,25 @@ class Ecwid_Importer
 				
 				if ( $result['status'] == 'error' ) {
 					$progress['error'][] = $task_data['type'];
-					error_log(var_export(array($task_data, $result['data']['api_message'], @$result['sent_data']), true));
-	
-					if ( @$result['data']['response']['code'] == 402 ) {
+					
+					$error_data = $result['data'];
+					
+					if ( @$error_data['response']['code'] == 402 ) {
 						$status['plan_limit'][$task_data['type']] = true;
 					}
+					
+					$message = '';
+					if ( is_wp_error( $error_data ) ) {
+						$message = $result['data']->get_error_message();
+					} elseif ( isset( $error_data['api_message'] ) ) {
+						$message = $error_data['api_message'];
+					} elseif ( @$error_data == 'skipped' ) {
+						$message = $result['message'];
+					}
+					
+					$this->_tasks[$current_task]['error'] = $message;
+					
+					$progress['error_messages'][$task_data['type']][$message]++;
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}

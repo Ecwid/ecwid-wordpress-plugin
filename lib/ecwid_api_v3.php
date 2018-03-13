@@ -520,14 +520,6 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url( $this->_products_api_url, $request_params );
 		
 		$result = $this->_do_post( $url, $params );
-		
-		error_log( var_export( array(
-			'create_product',
-			$url,
-			$params,
-			$result
-		), true 
-		));
 
 		return $result;
 	}
@@ -591,9 +583,11 @@ class Ecwid_Api_V3
 				)
 			)
 		);
-
-		$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
-
+		
+		if ( is_array( $result ) ) {
+			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+		} 
+		
 		return $result;
 	}
 

@@ -9,3 +9,20 @@
 {
     display: block;
 }
+
+.ecwid-importer .errors {
+    display: none;
+}
+.ecwid-importer .errors .btn-details {
+    cursor: pointer;
+}
+.ecwid-importer .errors .details {
+    display: none;
+    border: 1px solid gray;
+    background: rgba(255,255,255,.5);
+    padding: 5px;
+}
+
+.plan-limit-message {
+    display: none;
+}
