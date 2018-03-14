@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
                     jQuery('.ecwid-post-id-' + data.post + ' .ecwid-blog-post-image').css('background-image', 'url(' + imageUrl + ')');
                     
                     for (var i = 0; i < window.ecwidBlogPosts.length; i++) if (window.ecwidBlogPosts[i].id == data.post ) {
-                        window.ecwidBlogPosts[i].imageFile = data.media_details.sizes.thumbnail.file;
+                        window.ecwidBlogPosts[i].imageFile = data.media_details.sizes.medium.file;
                     }
                 });
             }
