@@ -10,6 +10,7 @@
     width: 120px;
     height: 80px;
     background-position: 50% 50%;
+    margin-top: 4px;
 }
 
 #ecwid_blog_feed .inside {
@@ -18,7 +19,7 @@
 }
 
 #ecwid_blog_feed .ecwid-blog-posts {
-    margin: 10px;
+    margin: 10px 12px;
 }
 
 #ecwid_blog_feed .ecwid-blog-post {
@@ -62,6 +63,6 @@
 
 .ecwid-blog-footer {
     border-top: 1px solid #eee;
-    padding: 10px;
+    padding: 10px 12px;
     color: #ddd;
 }
