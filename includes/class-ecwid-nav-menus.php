@@ -213,7 +213,7 @@ class Ecwid_Nav_Menus {
 					$categories = $api->get_categories( array( 'parent' => 0 ) );
 					
 					if ($categories) {
-                        foreach ($categories as $category) {
+                        foreach ($categories->items as $category) {
                             $category = Ecwid_Category::get_by_id( $category->id );
                             $post = new stdClass;
                             $post->ID = -1;

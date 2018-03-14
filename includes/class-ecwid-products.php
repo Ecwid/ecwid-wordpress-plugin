@@ -488,8 +488,8 @@ class Ecwid_Products {
 	protected function _sync_product( $product, $existing_post_id = null ) {
 
 		$meta = array(
-			'_price'         	=> $product->price,
-			'_regular_price' 	=> $product->price,
+			'_price'         	=> $product->defaultDisplayedPrice,
+			'_regular_price' 	=> $product->defaultDisplayedPrice,
 			'image'          	=> $product->imageUrl,
 			'ecwid_id'       	=> $product->id,
 			'_sku'           	=> $product->sku,

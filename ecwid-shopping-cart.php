@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 5.8
+Version: 5.8.1
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -143,17 +143,18 @@ function ecwid_init_integrations()
 {
 	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
 
-	$integrations = array(
-		'aiosp' => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
-		'wpseo' => 'wordpress-seo/wp-seo.php',
-		'divibuilder' => 'divi-builder/divi-builder.php',
-		'autoptimize' => 'autoptimize/autoptimize.php',
-		'above-the-fold' => 'above-the-fold-optimization/abovethefold.php',
+	$integrations = array(	
+		'all-in-one-seo-pack/all_in_one_seo_pack.php' => 'aiosp',
+		'wordpress-seo/wp-seo.php' => 'wpseo',
+		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
+		'divi-builder/divi-builder.php' => 'divibuilder',
+		'autoptimize/autoptimize.php' => 'autoptimize',
+		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 	);
 
-	foreach ($integrations as $key => $plugin) {
-		if ( is_plugin_active($plugin) ) {
-			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $key . '.php';
+	foreach ( $integrations as $plugin => $class ) {
+		if ( is_plugin_active( $plugin ) ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $class . '.php';
 		}
 	}
 }
@@ -990,16 +991,25 @@ function ecwid_ajax_crawling_fragment() {
 function ecwid_meta() {
 
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images-cdn.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//images.ecwid.com/">' . PHP_EOL;
-    echo '<link rel="dns-prefetch" href="//' . Ecwid_Config::get_scriptjs_domain() . '/">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-static-ru.r.worldssl.net">' . PHP_EOL;
-	echo '<link rel="dns-prefetch" href="//ecwid-images-ru.r.worldssl.net">' . PHP_EOL;
-	
-    if (!Ecwid_Store_Page::is_store_page() && ecwid_is_store_page_available()) {
-		$page_url = Ecwid_Store_Page::get_store_url();
-		echo '<link rel="prefetch" href="' . $page_url . '" />' . PHP_EOL;
-		echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+    
+    if (!Ecwid_Store_Page::is_store_page()) {
+		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+		
+		if (ecwid_is_store_page_available()) {
+
+			$store_id = get_ecwid_store_id();
+			$params = ecwid_get_scriptjs_params();
+			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
+			echo '<link rel="prefetch" href="' . $scriptjs_url . '" />' . PHP_EOL;
+
+			$page_url = Ecwid_Store_Page::get_store_url();
+			echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
+		}
 	} else {
         $store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
@@ -2060,8 +2070,9 @@ function ecwid_get_register_link()
 
 function ecwid_create_store() {
 	$api = new Ecwid_Api_V3();
-	$result = $api->create_store();
 
+	$result = $api->create_store();
+	
 	if ( is_array( $result ) && $result['response']['code'] == 200 ) {
 		$data = json_decode( $result['body'] );
 
@@ -2487,8 +2498,6 @@ function ecwid_debug_do_page() {
 		ecwid_invalidate_cache(true );
 	}
 	
-	$remote_get_results = wp_remote_get( 'http://app.ecwid.com/api/v1/' . get_ecwid_store_id() . '/profile' );
-
 	$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
 
 	global $ecwid_oauth;
