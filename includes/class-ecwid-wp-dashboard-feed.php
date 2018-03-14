@@ -13,11 +13,13 @@ class Ecwid_WP_Dashboard_Feed {
 	public function dashboard_setup() {
 		$url = 'https://www.ecwid.com/wp-json/wp/v2/posts?per_page=3&categories=1';
 		$media_url = 'https://www.ecwid.com/wp-json/wp/v2/media/';
+		$images_cdn = 'https://web-cdn.ecwid.com/wp-content/uploads/';
 		
 		$lang = get_user_locale();
 		if ( $lang == 'ru_RU' ) {
 			$url = 'https://www.ecwid.ru/wp-json/wp/v2/posts?per_page=3&categories=1';
 			$media_url = 'https://www.ecwid.ru/wp-json/wp/v2/media/';
+			$images_cdn = 'https://web-cdn.ecwid.com/wp-content/uploads/ru/';
 		}
 		
 		wp_enqueue_style( 'ecwid-dashboard-blog', ECWID_PLUGIN_URL . '/css/dashboard-blog.css', array( ), get_option('ecwid_plugin_version') );
@@ -27,6 +29,7 @@ class Ecwid_WP_Dashboard_Feed {
 			'posts' => EcwidPlatform::cache_get( $this->_get_cache_name() ),
 			'url' => $url,
 			'mediaUrl' => $media_url,
+			'imagesCDN' => $images_cdn,
 			'saveAction' => self::ACTION_AJAX_SAVE
 		) );
 		
@@ -44,8 +47,8 @@ class Ecwid_WP_Dashboard_Feed {
 		}
 		
 		EcwidPlatform::cache_set( $this->_get_cache_name(), $_POST['posts'], 12 * HOUR_IN_SECONDS );
-		
-		header(200);
+
+		header( 'HTTP/1.0 200 OK' );
 		die();
 	}
 	

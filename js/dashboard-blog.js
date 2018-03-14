@@ -1,8 +1,7 @@
 jQuery(document).ready(function() {
     window.ecwidBlogPosts = [];
-    debugger;
     
-    if ( ecwidDashboardBlog.posts.length > 0 ) {
+    if (ecwidDashboardBlog.posts.length > 0) {
         renderBlogPosts(ecwidDashboardBlog.posts);
     } else {
         jQuery.getJSON( ecwidDashboardBlog.url, {}, function(data) {
@@ -24,11 +23,12 @@ jQuery(document).ready(function() {
             var deferreds = [];
             for (var i = 0; i < data.length; i++) {
                 deferreds[deferreds.length] = jQuery.getJSON( ecwidDashboardBlog.mediaUrl + data[i].featured_media, function(data) {
-                   jQuery( '.ecwid-post-id-' + data.post + ' img' ).attr('src', data.media_details.sizes.thumbnail.source_url);
-                   
-                   for (var i = 0; i < window.ecwidBlogPosts.length; i++) if (window.ecwidBlogPosts[i].id == data.post ) {
-                       window.ecwidBlogPosts[i].imageUrl = data.media_details.sizes.thumbnail.source_url;
-                   }
+                    var imageUrl = ecwidDashboardBlog.imagesCDN + data.media_details.sizes.medium.file;
+                    jQuery('.ecwid-post-id-' + data.post + ' .ecwid-blog-post-image').css('background-image', 'url(' + imageUrl + ')');
+                    
+                    for (var i = 0; i < window.ecwidBlogPosts.length; i++) if (window.ecwidBlogPosts[i].id == data.post ) {
+                        window.ecwidBlogPosts[i].imageFile = data.media_details.sizes.thumbnail.file;
+                    }
                 });
             }
             
@@ -55,17 +55,17 @@ jQuery(document).ready(function() {
             posts = window.ecwidBlogPosts;
         }
         for (var i = 0; i < posts.length; i++) {
-            var post = jQuery('#ecwid_blog_feed .template-container .blog-post').clone();
+            var post = jQuery('#ecwid_blog_feed .template-container .ecwid-blog-post').clone();
             post.addClass('ecwid-post-id-' + posts[i].id);
-            jQuery('.post-title', post).attr('href', posts[i].link);
-            jQuery('.post-title', post).html(posts[i].title);
-            jQuery('.post-excerpt', post).html(posts[i].excerpt);
+            jQuery('.ecwid-blog-post-title', post).attr('href', posts[i].link);
+            jQuery('.ecwid-blog-post-title', post).html(posts[i].title);
+            jQuery('.ecwid-blog-post-excerpt', post).html(posts[i].excerpt);
             
-            if (posts[i].imageUrl) {
-                jQuery('img', post).attr('src', posts[i].imageUrl);
+            if (posts[i].imageFile) {
+                jQuery('.ecwid-blog-post-image', post).css('background-image', 'url(' + ecwidDashboardBlog.imagesCDN + posts[i].imageFile + ')');
             }
             
-            post.appendTo('#ecwid_blog_feed ul.posts');
+            post.appendTo('#ecwid_blog_feed .ecwid-blog-posts');
         }
     }
 });
