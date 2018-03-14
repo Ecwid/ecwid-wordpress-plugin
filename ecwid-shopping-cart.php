@@ -2026,7 +2026,9 @@ function ecwid_common_admin_scripts() {
 }
 
 function ecwid_is_legacy_appearance_used() {
-	return ecwid_migrations_is_original_plugin_version_older_than('5.5');
+	$api = new Ecwid_Api_V3();
+	
+	return !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 }
 
 function ecwid_get_register_link()

@@ -10,6 +10,8 @@ class Ecwid_Api_V3
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 	
 	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
+	
+	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 
 	public $store_id = null;
 	
@@ -400,16 +402,37 @@ class Ecwid_Api_V3
 		}
 
 		$profile = json_decode($result['data']);
-	
-		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
 
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+		
 		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
 
 		return $profile;
 	}
-
+	
+	public function is_store_feature_enabled( $feature_name ) {
+		
+		static $features = array();
+	
+		if ( array_key_exists( $feature_name, $features ) ) {
+			return $features[$feature_name]['enabled'];
+		}
+		
+		$profile = $this->get_store_profile();
+	
+		foreach ( $profile->featureToggles as $feature ) {
+			if ( $feature->name == $feature_name ) {
+				$features[$feature_name]['enabled'] = $feature->enabled;
+				
+				return $feature->enabled;
+			}
+		}
+	
+		return false;
+	}
+	
 	public function create_store()
 	{
 		global $current_user;
