@@ -48,6 +48,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
 		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
+		<script>
+			function createClass(name,rules){
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				document.getElementsByTagName('head')[0].appendChild(style);
+				if(!(style.sheet||{}).insertRule) 
+					(style.styleSheet || style.sheet).addRule(name, rules);
+				else
+					style.sheet.insertRule(name+'{'+rules+'}',0);
+			}
+			createClass('#ecwid-html-catalog-$store_id','display:none;');
+		</script>
 		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;
