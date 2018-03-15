@@ -1,10 +1,10 @@
 <div class="template-container">
 	<div class="ecwid-blog-post">
         <div class="ecwid-blog-post-image-container">
-            <div class="ecwid-blog-post-image"></div>
+            <a class="ecwid-blog-post-link" target="_blank"><div class="ecwid-blog-post-image"></div></a>
         </div>
         <div class="ecwid-blog-post-text-container">
-            <a class="ecwid-blog-post-title"></a>
+            <a class="ecwid-blog-post-title ecwid-blog-post-link" target="_blank"></a>
             <p class="ecwid-blog-post-excerpt"></p>
         </div>
 	</div>
