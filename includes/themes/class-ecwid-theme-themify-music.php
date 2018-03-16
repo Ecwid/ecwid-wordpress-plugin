@@ -14,7 +14,9 @@ class Ecwid_Theme_Themify_Music extends Ecwid_Theme_Base
 	}
 	
 	public function filter_enabled_defer_rendering() {
-		return themify_get_data('disable_ajax')['setting-disable_ajax'] != 'on';
+		$data = themify_get_data('disable_ajax');
+		
+		return @$data['setting-disable_ajax'] != 'on';
 	}
 }
 
