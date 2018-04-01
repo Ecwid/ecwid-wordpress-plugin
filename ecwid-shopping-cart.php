@@ -149,6 +149,7 @@ function ecwid_init_integrations()
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
 		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
+		'gutenberg/gutenberg.php' => 'gutenberg'
 	);
 
 	foreach ( $integrations as $plugin => $class ) {
@@ -1514,7 +1515,7 @@ function ecwid_shortcode($attributes)
 			unset($widgets[$key]);
 		}
 	}
-
+	
 	if (empty($widgets)) {
 		$widgets = array('productbrowser');
 	}

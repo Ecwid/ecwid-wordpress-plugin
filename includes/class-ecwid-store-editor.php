@@ -25,6 +25,10 @@ class Ecwid_Store_Editor {
 			return;	
 		}
 
+		if ( is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+			return;
+		}		
+		
 		add_filter( 'mce_external_plugins',  array( $this, 'add_mce_plugin' ) );
 		add_action( 'media_buttons_context', array( $this, 'add_editor_button' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
