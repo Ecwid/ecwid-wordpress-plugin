@@ -3,6 +3,7 @@
 class Ecwid_WP_Dashboard_Feed {
 	const CACHE_POSTS = 'wp-dashboard-blog-posts';
 	const ACTION_AJAX_SAVE = 'ecwid-save-posts';
+	const PARAM_LAST_ECWID_ADMIN_PREFETCH_TIME = 'last-admin-prefetch-time';
 	
 	public function __construct() {
 		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_setup' ) );
@@ -63,6 +64,21 @@ class Ecwid_WP_Dashboard_Feed {
 	
 	public function display() {
 		require_once ECWID_PLUGIN_DIR . '/templates/dashboard-blog-posts.tpl.php';
+		
+		if ( EcwidPlatform::get( self::PARAM_LAST_ECWID_ADMIN_PREFETCH_TIME ) > time() + HOUR_IN_SECONDS * 12 ) {
+			$dashboard_url = ecwid_get_iframe_src( time(), 'dashboard' );
+			echo <<<HTML
+<div style="display:none">
+	<iframe id="ecwid-prefetch" src=""></iframe>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+		   jQuery('#ecwid-prefetch').attr('src', '$dashboard_url'); 
+		});	
+	</script>
+</div>
+HTML;
+			EcwidPlatform::set( self::PARAM_LAST_ECWID_ADMIN_PREFETCH_TIME, time() );
+		}
 	}
 }
 
