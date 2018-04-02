@@ -201,7 +201,6 @@ ecwid_open_store_popup = function( props ) {
     $popup.data('block-props', props);
     var attributes = buildParams(props.attributes);
     
-    debugger;
     params = {};
     jQuery.extend(params, 
         getDefaultParams(), 

@@ -9,7 +9,13 @@ class Ecwid_Integration_Gutenberg {
 			EcwidPlatform::enqueue_script( 'store-editor-gutenberg' );
 			EcwidPlatform::enqueue_style( 'store-popup' );
 
-			wp_localize_script( 'ecwid-store-editor-gutenberg', 'ecwid_pb_defaults', ecwid_get_default_pb_size() );
+			wp_localize_script( 'ecwid-store-editor-gutenberg', 'EcwidGutenbergParams', 
+				array(
+					'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
+					'storeImageUrl' => '?file=ecwid_store_svg.svg',
+					'title' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() )
+				)
+			);
 
 		} );
 
@@ -27,7 +33,9 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function render_callback( $params ) {
-		
+		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
+			return '';
+		}
 		return ecwid_shortcode( $params );
 	}
 

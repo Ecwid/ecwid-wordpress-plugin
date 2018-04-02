@@ -102,7 +102,13 @@ class Ecwid_Store_Page {
 		static $link = null;
 
 		if ( is_null( $link ) ) {
-			$link = get_page_link( self::get_current_store_page_id() );
+			$id = self::get_current_store_page_id();
+			
+			if ( !$id ) {
+				return get_bloginfo( 'url' );
+			}
+			
+			$link = get_page_link( $id );
 		}
 
 		return $link;

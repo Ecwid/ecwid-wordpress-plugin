@@ -2,8 +2,8 @@
     var el = element.createElement;
 
     blocks.registerBlockType( 'ecwid/store-block', {
-        title: i18n.__( 'Ecwid Store Block' ),
-        icon: 'index-card',
+        title: EcwidGutenbergParams.title,
+        icon: el('div', {class:"ecwid-store-block-icon"}),
         category: 'layout',
         attributes: {
             widgets: { type: 'string' },
@@ -22,15 +22,12 @@
             var val = props.attributes.meta1;
             //props.setAttributes({meta1: 'abc'});
 
-            return el( 'div', {}, 
-                el( 'div', {}, 'val:' + val),
-                el( 'button', { onClick: function() { ecwid_open_store_popup( props ); } }, 'abc')
+            return el( 'div', {className: 'ecwid-store-block'},
+                el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance', 'ecwid-shopping-cart' ) )
             );
         },
         save: function( props ) {
-
-            return null;
-            return el( 'script', { }, 'alert(123)');
+            return '[ecwid]';
         }
     } );
 
@@ -41,3 +38,4 @@
     window.wp.element,
     window._
 );
+ecwid_pb_defaults = EcwidGutenbergParams.ecwid_pb_defaults;

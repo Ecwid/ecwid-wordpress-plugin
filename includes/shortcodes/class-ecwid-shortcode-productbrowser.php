@@ -75,9 +75,18 @@ HTML;
 	public function _build_html_catalog($store_id, $params)
 	{
 		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
-
-		$page_url = get_page_link();
-
+		
+		$id = get_the_ID();
+		if (!$id) {
+			$id = Ecwid_Store_Page::get_current_store_page_id();
+		}
+		
+		if ($id) {
+			$page_url = get_page_link( $id );
+		} else {
+			$page_url = '';
+		}
+		
 		$catalog = new EcwidCatalog($store_id, $page_url);
 
 		$url = false;
