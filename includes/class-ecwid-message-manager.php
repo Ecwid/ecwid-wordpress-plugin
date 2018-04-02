@@ -263,10 +263,10 @@ TXT
 		
 		switch ($name) {
 			case 'on_activate':
-				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && ecwid_is_demo_store();
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
+				return !ecwid_is_demo_store() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				return $this->should_display_on_no_storeid_on_setup_pages();
@@ -276,7 +276,7 @@ TXT
 
 			case 'no_token':
 				$no_token = Ecwid_Api_V3::get_token() == false;
-				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
+				$is_not_demo = !ecwid_is_demo_store();
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case 'please_vote':
@@ -307,7 +307,7 @@ TXT
 		
 		$admin_page = $screen->base;
 		
-		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+		$is_newbie = ecwid_is_demo_store();
 
 		$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
 		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();

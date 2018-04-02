@@ -9,7 +9,7 @@
 
 	<text x="245" y="93" text-anchor="middle" fill="#050303" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="20"><?php _e('Your store will be shown here!', 'ecwid-shopping-cart'); ?></text>
 	<text x="245" y="115" text-anchor="middle" fill="#999999" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="14">
-		<?php if (get_ecwid_store_id() == Ecwid_Config::get_demo_store_id()): ?>
+		<?php if ( !ecwid_is_demo_store() ): ?>
 			<?php _e('Demo Store', 'ecwid-shopping-cart'); ?>
 		<?php else: ?>
 			<?php _e('Store ID', 'ecwid-shopping-cart'); ?>: <?php echo esc_attr(get_ecwid_store_id()); ?>

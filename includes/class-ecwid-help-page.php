@@ -22,7 +22,7 @@ class Ecwid_Help_Page {
 		$to = get_option( 'ecwid_support_email' );
 
 		$body_lines = array();
-		if ( get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() ) {
+		if ( !ecwid_is_demo_store() ) {
 			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
 		}
 		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
