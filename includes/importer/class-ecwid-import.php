@@ -10,6 +10,7 @@ require_once __DIR__ . '/class-ecwid-importer.php';
 class Ecwid_Import
 {
 	const PAGE_SLUG = 'ec-store-import';
+	const IMPORTER_IDENTIFIER = 'ec-store-import';
 	
 	protected $_view = null; 
 	
@@ -21,20 +22,41 @@ class Ecwid_Import
 		
 		$this->_view = new Ecwid_Import_Page();
 		$this->_view->init_actions();
+		
+		if ( !Ecwid_Config::is_wl() ) {
+			if ( !function_exists( 'register_importer' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/import.php';
+			}
+			
+			register_importer( 
+				self::IMPORTER_IDENTIFIER, 
+				sprintf( __( '%s products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ), 
+				'some description', 
+				array( $this->_view, 'do_page' ) 
+			);
+		}
 	}
 	
 	public static function gather_import_data()
 	{
 		$result = array();
-		
+
 		$api = new Ecwid_Api_V3();
-		
-		$ecwid_products = $api->get_products(array('limit' => 1));
+
+		$ecwid_products = $api->get_products(array());
 		$result['ecwid_total_products'] = $ecwid_products->total;
 
 		$ecwid_categories = $api->get_categories(array('limit' => 1));
 		$result['ecwid_total_categories'] = $ecwid_categories->total;
 
+		$has_demo = false;
+		if (count($ecwid_products->items) > 0) {
+			foreach ($ecwid_products->items as $item) {
+				if ( self::_is_demo_product( $item ) ) {
+					$has_demo = true;
+				}
+			}
+		}
 		$count = wp_count_posts( 'product' );
 
 		$result['woo_total_products'] = $count->publish;
@@ -46,8 +68,12 @@ class Ecwid_Import
 			'get' => 'all'
 		);
 		$all_categories = get_categories( $args );
-		$result['woo_total_categories'] = count($all_categories);
+		$result['woo_total_categories'] = count( $all_categories );
 		
 		return $result;
+	}
+	
+	protected static function _is_demo_product( $product_data ) {
+		return strpos( $product_data->originalImage->url,  '/default-store/' ) > 0;
 	}
 }
