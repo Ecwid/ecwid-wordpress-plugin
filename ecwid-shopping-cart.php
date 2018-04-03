@@ -1908,6 +1908,13 @@ function ecwid_reset_categories_cache()
 	EcwidPlatform::cache_reset( 'all_categories' );
 }
 
+add_action( 'tool_box', 'ecwid_add_toolbox' );
+
+function ecwid_add_toolbox() {
+	
+	require ECWID_PLUGIN_DIR . 'templates/wp-toolbox.tpl.php';
+}
+
 function ecwid_register_admin_styles($hook_suffix) {
 
 	wp_enqueue_style('ecwid-admin-css', ECWID_PLUGIN_URL . 'css/admin.css', array(), get_option('ecwid_plugin_version'));

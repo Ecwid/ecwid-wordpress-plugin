@@ -164,6 +164,29 @@ class Ecwid_Admin {
 		foreach ($pages as $page) {
 			add_submenu_page( '', 'Legacy', '', 'manage_options', $page, array( $this, 'do_ec_redirect' ) );
 		}
+		
+		if ( self::are_auto_menus_enabled() ) {
+			add_options_page(
+				__( 'Store', 'ecwid-shopping-cart' ),
+				__( 'Store', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-general-settings'
+			);
+
+			add_users_page(
+				__( 'Customers', 'ecwid-shopping-cart' ),
+				__( 'Customers', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-customers'
+			);
+
+			add_theme_page(
+				__( 'Store', 'ecwid-shopping-cart' ),
+				__( 'Store', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-design'
+			);
+		}
 	}
 
 	public function do_admin_page()

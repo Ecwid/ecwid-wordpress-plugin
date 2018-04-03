@@ -30,8 +30,9 @@
                         jQuery('li[data-ecwid-dynamic-menu]').remove();
                         ecwidAddMenuItems(jQuery.parseJSON(result));
                         ecwidRefreshEcwidMenuItemSelection();
-                        if (typeof wpResponsive == 'object' && wpResponsive.activate)
-                            wpResponsive.activate(); // prevent 'sticky-menu' from being applied incorrectly
+                        if (typeof wpResponsive == 'object' && wpResponsive.activate) {
+                            wpResponsive.trigger(); // prevent 'sticky-menu' from being applied incorrectly
+                        }
                     }
                 });
 		        
