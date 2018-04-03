@@ -171,11 +171,26 @@ class Ecwid_Admin {
 		$menus = $this->_get_menus();
 		
 		$admin_prefix = self::ADMIN_SLUG . '-admin-';
-		$slug = get_current_screen()->base;
-		$slug = substr( get_current_screen()->base, strpos( $slug, $admin_prefix ) + strlen( $admin_prefix ) );
+		$wp_slug = get_current_screen()->base;
+		$slug = substr( get_current_screen()->base, strpos( $wp_slug, $admin_prefix ) );
+		
+		$menu = $this->_get_menus();
+		
+		foreach ($menu as $item) {
+			if ( @$item['slug'] == $slug ) {
+				$hash = $item['hash'];
+				break;
+			}
+			if ( @$item['children'] ) foreach ( $item['children'] as $child ) {
+				if ($child['slug'] == $slug) {
+					$hash = $child['hash'];
+					break;
+				}	
+			}
+		}
 		
 		// Yeah, in some case there might be a collision between the wp slug and ecwid hash if some hashes collide into the same slug
-		ecwid_admin_do_page( $slug );	
+		ecwid_admin_do_page( $hash );	
 	}
 	
 	public function ajax_update_menu()
