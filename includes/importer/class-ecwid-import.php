@@ -4,15 +4,15 @@ if ( !defined( 'ECWID_IMPORTER_TEMPLATES_DIR' ) ) {
 	define ( 'ECWID_IMPORTER_TEMPLATES_DIR', ECWID_TEMPLATES_DIR . '/importer' );
 }
 
-require_once __DIR__ . '/class-ecwid-import-page.php';
 require_once __DIR__ . '/class-ecwid-importer.php';
+require_once __DIR__ . '/class-ecwid-import-page.php';
 
 class Ecwid_Import
 {
 	const PAGE_SLUG = 'ec-store-import';
 	const IMPORTER_IDENTIFIER = 'ec-store-import';
 	
-	protected $_view = null; 
+	protected $_view = null;
 	
 	public function __construct()
 	{
@@ -43,20 +43,15 @@ class Ecwid_Import
 
 		$api = new Ecwid_Api_V3();
 
-		$ecwid_products = $api->get_products(array());
+		$ecwid_products = $api->get_products( array( 'limit' => '1' ) );
 		$result['ecwid_total_products'] = $ecwid_products->total;
-
+		
 		$ecwid_categories = $api->get_categories(array('limit' => 1));
 		$result['ecwid_total_categories'] = $ecwid_categories->total;
 
-		$has_demo = false;
-		if (count($ecwid_products->items) > 0) {
-			foreach ($ecwid_products->items as $item) {
-				if ( self::_is_demo_product( $item ) ) {
-					$has_demo = true;
-				}
-			}
-		}
+		$demo_products = $api->get_products( array( 'createdFrom' => Ecwid_Importer::DEMO_CREATE_FROM, 'createdTo' => Ecwid_Importer::DEMO_CREATE_TO + 1 ) ); 
+		$result['ecwid_total_demo_products'] = $demo_products->total;
+		
 		$count = wp_count_posts( 'product' );
 
 		$result['woo_total_products'] = $count->publish;

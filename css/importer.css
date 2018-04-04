@@ -10,6 +10,14 @@
     display: block;
 }
 
+.ecwid-importer .readonly {
+    color: lightgray;
+}
+
+.ecwid-importer .readonly input {
+    background-color: lightgray;
+}
+
 .ecwid-importer .errors {
     display: none;
 }

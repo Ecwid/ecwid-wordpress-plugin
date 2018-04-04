@@ -3,15 +3,15 @@
 
     <p><?php echo sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></p>
 
-    <p><?php echo sprintf( __( '<b>Important note:</b> import creates new products. Existing %s products in your store will remain unchanged, even if they have same SKUs.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></p>
+    <p><?php echo sprintf( __( '<b>Important note:</b> import creates new products.  please mind the maximum number of products and categories you can add to your store. This import tool will automatically stop when you reach the limit. To learn the current store limit or increase it, please see the "<a %s>Billing & Plans</a>" page in your store control panel. ', 'ecwid-shopping-cart' ), 'href="admin.php?page=ec-store-admin-billing"' ); ?></p>
 
     <h2><?php _e( 'Import summary.', 'ecwid-shopping-cart' ); ?></h2>
     <p>
 		<?php
 		echo sprintf(
 			__( 'Your WooCommerce store has %s products and %s categories', 'ecwid-shopping-cart' ),
-			$this->importer->count_woo_products(),
-			$this->importer->count_woo_categories()
+			Ecwid_Importer::count_woo_products(),
+			Ecwid_Importer::count_woo_categories()
 		);
 		?>
     </p>
@@ -20,8 +20,8 @@
 		echo sprintf(
 			__( 'Your %s store has %s products and %s categories', 'ecwid-shopping-cart' ),
 			Ecwid_Config::get_brand(),
-			$this->importer->count_ecwid_products(),
-			$this->importer->count_ecwid_categories()
+			Ecwid_Importer::count_ecwid_products(),
+			Ecwid_Importer::count_ecwid_categories()
 		);
 		?>
     </p>
@@ -30,10 +30,20 @@
 		echo sprintf(
 			__( 'After import, your %s store will have %s products and %s categories', 'ecwid-shopping-cart' ),
 			Ecwid_Config::get_brand(),
-			$this->importer->count_ecwid_products() + $this->importer->count_woo_products(),
-			$this->importer->count_ecwid_categories() + $this->importer->count_woo_categories()
+			Ecwid_Importer::count_ecwid_products() + Ecwid_Importer::count_woo_products(),
+			Ecwid_Importer::count_ecwid_categories() + Ecwid_Importer::count_woo_categories()
 		);
 		?>
+    </p>
+
+    <h2><?php _e( 'Import settings.', 'ecwid-shopping-cart' ); ?></h2>
+    <?php if ( Ecwid_Importer::count_ecwid_demo_products() > 0 && Ecwid_Importer::count_ecwid_demo_products() < Ecwid_Importer::count_ecwid_products() ): ?>
+    <p>
+		<label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_DELETE_DEMO; ?>">Remove demo products</label>
+    </p>
+    <?php endif; ?>
+    <p>
+        <label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_UPDATE_BY_SKU; ?>">Overwrite existing products with matching SKU</label>
     </p>
     
     <div class="importer-state importer-state-woo-initial">

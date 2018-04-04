@@ -11,13 +11,7 @@ class Ecwid_Import_Page
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
 	
 	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
-	protected $importer;
 	
-	public function __construct()
-	{
-		$this->importer = new Ecwid_Importer();
-	}
-
 	public function init_actions()
 	{
 		add_action( 'admin_menu', array( $this, 'build_menu' ) );
@@ -105,11 +99,10 @@ class Ecwid_Import_Page
 	
 	public function do_woo_import()
 	{
-		require_once __DIR__ . '/class-ecwid-importer.php';
 		$importer = new Ecwid_Importer();
-
+		
 		if ( !$importer->has_begun() ) {
-			$importer->initiate();
+			$importer->initiate( @$_REQUEST['settings'] );
 		}
 		
 		$result = $importer->proceed();

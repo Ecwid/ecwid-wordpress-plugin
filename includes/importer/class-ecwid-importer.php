@@ -10,12 +10,19 @@ class Ecwid_Importer
 	const OPTION_PRODUCTS = 'ecwid_importer_products'; 
 	const OPTION_STATUS = 'ecwid_importer_status';
 	const OPTION_WOO_CATALOG_IMPORTED = 'ecwid_imported_from_woo';
-	CONST TICK_LENGTH = 5;
+	const OPTION_SETTINGS = 'ecwid_importer_settings';
+	const TICK_LENGTH = 5;
+	
+	const SETTING_UPDATE_BY_SKU = 'update-by-sku';
+	const SETTING_DELETE_DEMO = 'delete-demo';
+
+	const DEMO_CREATE_FROM = 1469707991;
+	const DEMO_CREATE_TO = 1469710442;
 	
 	protected $_tasks;
 	protected $_start_time;
 	
-	public function initiate()
+	public function initiate( $settings = array() )
 	{
 		update_option( self::OPTION_CATEGORIES, array() );
 		update_option( self::OPTION_PRODUCTS, array() );
@@ -25,9 +32,12 @@ class Ecwid_Importer
 		$this->_start();
 		
 		$api = new Ecwid_Api_V3();
-		
+
+		$this->_set_settings( $settings );
+		$this->_maybe_set_forced_settings();
 		$this->_build_tasks();
 		$this->_set_current_task( 0 );
+		
 	}
 	
 	public function tick()
@@ -167,6 +177,18 @@ class Ecwid_Importer
 	protected function _build_tasks()
 	{
 		$tasks = array();
+
+		if ( $this->get_setting( self::SETTING_DELETE_DEMO ) ) {
+			$products = self::get_ecwid_demo_products();
+			
+			$ids = array();
+			foreach ( $products->items as $item ) {
+				$ids[] = $item->id;			
+			}
+
+			$tasks[] = Ecwid_Importer_Task_Delete_Products::build( $ids );
+		}
+		
 		
 		$categories = $this->gather_categories();
 		
@@ -215,7 +237,41 @@ class Ecwid_Importer
 		return get_option( self::OPTION_CURRENT_TASK, null );
 	}
 	
-	public function count_woo_categories()
+	public function get_setting( $name ) {
+		$settings = get_option( self::OPTION_SETTINGS, array() );
+
+		return @$settings[$name];
+	}
+	
+	protected function _set_setting( $name, $value ) {
+		$settings = get_option( self::OPTION_SETTINGS, array() );
+		
+		$settings[$name] = $value;
+		
+		update_option( self::OPTION_SETTINGS, $settings );
+	}
+	
+	protected function _set_settings( $settings ) {
+		$saved_settings = array();
+		
+		if ( $settings[self::SETTING_UPDATE_BY_SKU] ) {
+			$saved_settings[self::SETTING_UPDATE_BY_SKU] = true;
+		}
+		
+		if ( @$settings[self::SETTING_DELETE_DEMO] ) {
+			$saved_settings[self::SETTING_DELETE_DEMO] = true;
+		}
+		
+		update_option( self::OPTION_SETTINGS, $saved_settings );
+	}
+	
+	protected function _maybe_set_forced_settings() {
+		if ( self::count_ecwid_demo_products() > 0 && self::count_ecwid_demo_products() == self::count_ecwid_demo_products() ) {
+			$this->_set_setting( self::SETTING_DELETE_DEMO, true );
+		}
+	}
+	
+	public static function count_woo_categories()
 	{
 		$args = array(
 			'taxonomy' => 'product_cat',
@@ -228,14 +284,14 @@ class Ecwid_Importer
 		return count($all_categories);
 	}
 	
-	public function count_woo_products()
+	public static function count_woo_products()
 	{
 		$count = wp_count_posts( 'product' );
 
 		return $count->publish;
 	}
 	
-	public function count_ecwid_products()
+	public static function count_ecwid_products()
 	{
 		$api = new Ecwid_Api_V3();
 
@@ -243,13 +299,29 @@ class Ecwid_Importer
 		return $ecwid_products->total;
 	}
 	
-	public function count_ecwid_categories()
+	public static function count_ecwid_categories()
 	{
 		$api = new Ecwid_Api_V3();
 
 		$ecwid_categories = $api->get_categories( array( 'limit' => 1 ) );
 		return $ecwid_categories->total;
 	}
+	
+	public static function count_ecwid_demo_products()
+	{
+		$ecwid_products = self::get_ecwid_demo_products();
+		
+		return $ecwid_products->total;
+	}
+	
+	public static function get_ecwid_demo_products() {
+		$api = new Ecwid_Api_V3();
+
+		$ecwid_products = $api->get_products( array( 'createdFrom' => self::DEMO_CREATE_FROM, 'createdTo' => self::DEMO_CREATE_TO ) );
+
+		return $ecwid_products;
+	}
+	
 	
 	public function gather_categories($parent = 0 )
 	{

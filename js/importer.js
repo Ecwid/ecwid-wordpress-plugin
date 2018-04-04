@@ -37,11 +37,20 @@ jQuery(document).ready(function() {
    
    jQuery('#ecwid-importer-woo-go').click(function() {
        $wrapper.removeClass('state-woo-initial').addClass('state-woo-in-progress');
+       jQuery('input[type=checkbox].import-settings').attr('onclick', 'return false').closest('label').addClass('readonly');
+       
+       var settings = {};
+       jQuery('input[type=checkbox].import-settings').each(function(idx, el) {
+           if (el.checked) {
+               settings[el.name] = true;
+           }
+           jQuery(el).attr('onclick', 'return false').closest('label').addClass('readonly');
+       });
        
        do_import = function () {
            jQuery.ajax({
                'url': ajaxurl,
-               'data': {'action': ecwid_importer.do_woo_import_action},
+               'data': {'action': ecwid_importer.do_woo_import_action, settings: settings},
                'success': function (json) {
                    debugger;
                    data = jQuery.parseJSON(json);

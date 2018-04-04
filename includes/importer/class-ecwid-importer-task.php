@@ -22,7 +22,7 @@ abstract class Ecwid_Importer_Task
 			return $tasks;
 		}
 		
-		$names = array( 'Create_Category', 'Create_Product', 'Upload_Product_Image', 'Upload_Category_Image' );
+		$names = array( 'Create_Category', 'Create_Product', 'Upload_Product_Image', 'Upload_Category_Image', 'Delete_Products' );
 		
 		foreach ( $names as $name ) {
 			$class_name = 'Ecwid_Importer_Task_' . $name;
@@ -80,7 +80,19 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		
 		$data['categoryIds'] = array();
 		
-		$result = $api->create_product( $data );
+		$result = null;
+		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
+			$products = $api->get_products( array( 'sku' => $data['sku'] ) );
+			
+			if ( $products->total > 0 ) {
+				$data['id'] = $products->items[0]->id;
+				$result = $api->update_product( $data );
+			}
+		}
+		
+		if ( !$result ) {
+			$result = $api->create_product( $data );
+		}
 		
 		$return = array(
 			'type' => self::$type
@@ -106,6 +118,35 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id']
+		);
+	}
+}
+
+class Ecwid_Importer_Task_Delete_Products extends Ecwid_Importer_Task
+{
+	public static $type = 'delete_products';
+
+	public function execute( Ecwid_Importer $exporter, $data ) {
+		$api = new Ecwid_Api_V3();
+
+		$ids = $data['ids'];
+		
+		$result = $api->delete_products( $ids );
+
+		$return = array(
+			'type' => self::$type
+		);
+		
+		$return['status'] = 'success';
+		$return['data'] = $result;
+
+		return $return;
+	}
+
+	public static function build( $ids ) {
+		return array(
+			'type' => self::$type,
+			'ids' => $ids
 		);
 	}
 }

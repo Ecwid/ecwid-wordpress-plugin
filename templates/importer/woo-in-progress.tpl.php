@@ -9,6 +9,6 @@
     <?php echo sprintf( 
             __( 'Importing %s of %s items', 'ecwid-shopping-cart' ), 
             '<span id="import-progress-current">0</span>', 
-            '<span id="import-progress-total">' . ($this->importer->count_woo_products() + $this->importer->count_woo_categories()) . '</span>' ); 
+            '<span id="import-progress-total">' . (Ecwid_Importer::count_woo_products() + Ecwid_Importer::count_woo_categories()) . '</span>' ); 
     ?>
 </div>
