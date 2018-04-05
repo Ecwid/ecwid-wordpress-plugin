@@ -178,7 +178,7 @@ class Ecwid_Importer
 	{
 		$tasks = array();
 
-		if ( $this->get_setting( self::SETTING_DELETE_DEMO ) ) {
+		if ( $this->get_setting( self::SETTING_DELETE_DEMO ) && Ecwid_Import::allow_delete_demo_products() ) {
 			$products = self::get_ecwid_demo_products();
 			
 			$ids = array();
@@ -266,7 +266,7 @@ class Ecwid_Importer
 	}
 	
 	protected function _maybe_set_forced_settings() {
-		if ( self::count_ecwid_demo_products() > 0 && self::count_ecwid_demo_products() == self::count_ecwid_demo_products() ) {
+		if ( self::count_ecwid_demo_products() > 0 && self::count_ecwid_demo_products() == self::count_ecwid_products() ) {
 			$this->_set_setting( self::SETTING_DELETE_DEMO, true );
 		}
 	}
