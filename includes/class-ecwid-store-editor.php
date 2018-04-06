@@ -25,7 +25,7 @@ class Ecwid_Store_Editor {
 			return;	
 		}
 
-		if ( is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+		if ( is_plugin_active( 'gutenberg/gutenberg.php' ) && !isset( $_GET['classic-editor'] ) ) {
 			return;
 		}		
 		
@@ -89,7 +89,7 @@ HTML;
 
 	public function add_popup() {
 		$categories = ecwid_get_categories_for_selector();
-
+		
 		require_once( ECWID_PLUGIN_DIR . 'templates/store-popup.php' );
 	}
 }

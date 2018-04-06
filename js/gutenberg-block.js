@@ -3,7 +3,7 @@
 
     blocks.registerBlockType( 'ecwid/store-block', {
         title: EcwidGutenbergParams.title,
-        icon: el('div', {class:"ecwid-store-block-icon"}),
+        icon: el('div', {className:"ecwid-store-block-icon"}),
         category: 'layout',
         attributes: {
             widgets: { type: 'string' },
@@ -27,8 +27,32 @@
             );
         },
         save: function( props ) {
-            return '[ecwid]';
-        }
+            var shortcode = new wp.shortcode({
+                'tag': EcwidGutenbergParams.storeShortcodeName,
+                'attrs': props.attributes,
+                'type': 'single'
+            });
+            
+            return el( element.RawHTML, null, shortcode.string() );
+            
+            //return shortcode.string();
+        },
+
+        transforms: {
+            from: [
+                {
+                    type: 'shortcode',
+                    // Shortcode tag can also be an array of shortcode aliases
+                    tag: ['ecwid', 'ec_store']
+                },
+            ],
+            to: [
+                {
+                    type: 'block',
+                    'blocks': ['ecwid/store-block']
+                }
+            ]
+        },
     } );
 
 } )(

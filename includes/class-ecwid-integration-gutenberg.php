@@ -3,6 +3,7 @@
 class Ecwid_Integration_Gutenberg {
 	public function __construct() {
 		
+		if ( isset($_GET['classic-editor'] ) ) return;
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', function() {
@@ -13,7 +14,8 @@ class Ecwid_Integration_Gutenberg {
 				array(
 					'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 					'storeImageUrl' => '?file=ecwid_store_svg.svg',
-					'title' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() )
+					'title' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+					'storeShortcodeName' => Ecwid_Shortcode_Base::get_shortcode_name()
 				)
 			);
 
