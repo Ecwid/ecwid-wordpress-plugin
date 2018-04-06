@@ -1,7 +1,7 @@
 .editor-block-list__block[data-type="ecwid/store-block"] .editor-block-list__block-edit {
     text-align: center;
     min-height: 200px;
-    background: url('localhost/wordpress/49/?file=ecwid_store_svg.svg') no-repeat 50% 30px #F1F1F1;
+    background: url('http://localhost/wordpress/49/?file=ecwid_store_svg.svg') no-repeat 50% 30px #F1F1F1;
     outline: 1px solid #E7E7E7;
     background-size: 400px;
 }

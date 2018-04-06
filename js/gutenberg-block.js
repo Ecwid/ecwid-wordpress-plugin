@@ -1,7 +1,7 @@
 ( function( blocks, components, i18n, element, _ ) {
     var el = element.createElement;
 
-    blocks.registerBlockType( 'ecwid/store-block', {
+    var ecwidStoreParams = {
         title: EcwidGutenbergParams.title,
         icon: el('div', {className:"ecwid-store-block-icon"}),
         category: 'layout',
@@ -13,17 +13,18 @@
             table: { type: 'integer' },
             default_category_id: { type: 'integer' },
             default_product_id: { type: 'integer' },
+            category_view: { type: 'string' },
             search_view: { type: 'string' },
-            category_view: { type: 'string' }
+            minicart_layout: {type: 'string' }
         },
+        useOnce: true,
         
         edit: function( props ) {
             
             var val = props.attributes.meta1;
-            //props.setAttributes({meta1: 'abc'});
 
             return el( 'div', {className: 'ecwid-store-block'},
-                el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance', 'ecwid-shopping-cart' ) )
+                el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance' ) )
             );
         },
         save: function( props ) {
@@ -34,27 +35,27 @@
             });
             
             return el( element.RawHTML, null, shortcode.string() );
-            
-            //return shortcode.string();
         },
 
         transforms: {
-            from: [
-                {
-                    type: 'shortcode',
-                    // Shortcode tag can also be an array of shortcode aliases
-                    tag: ['ecwid', 'ec_store']
+            from: [{
+                type: 'shortcode',
+                tag: ['ecwid', 'ec_store'],
+                attributes: {
+                    widgets: {
+                        type: 'string',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.widgets
+                        }
+                    }
                 },
-            ],
-            to: [
-                {
-                    type: 'block',
-                    'blocks': ['ecwid/store-block']
-                }
-            ]
+                priority: 10
+            }]
         },
-    } );
-
+    };
+    blocks.registerBlockType( 'ecwid/store-block', ecwidStoreParams);
+    
 } )(
     window.wp.blocks,
     window.wp.components,

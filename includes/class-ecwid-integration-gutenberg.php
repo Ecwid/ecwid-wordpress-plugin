@@ -13,9 +13,9 @@ class Ecwid_Integration_Gutenberg {
 			wp_localize_script( 'ecwid-store-editor-gutenberg', 'EcwidGutenbergParams', 
 				array(
 					'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
-					'storeImageUrl' => '?file=ecwid_store_svg.svg',
+					'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
 					'title' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-					'storeShortcodeName' => Ecwid_Shortcode_Base::get_shortcode_name()
+					'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name()
 				)
 			);
 
