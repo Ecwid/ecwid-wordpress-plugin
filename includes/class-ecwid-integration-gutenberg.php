@@ -32,6 +32,15 @@ class Ecwid_Integration_Gutenberg {
 	public function enqueue_block_editor_assets() {
 		EcwidPlatform::enqueue_script( 'gutenberg-block', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		EcwidPlatform::enqueue_style( 'gutenberg-block', array( 'wp-edit-blocks' ) );
+		
+		$storeImageUrl = site_url('?file=ecwid_store_svg.svg');
+		
+		wp_add_inline_style('ecwid-gutenberg-block', <<<CSS
+.editor-block-list__block[data-type="ecwid/store-block"] .editor-block-list__block-edit {
+	background-image: url("$storeImageUrl")
+}
+CSS
+);
 	}
 	
 	public function render_callback( $params ) {

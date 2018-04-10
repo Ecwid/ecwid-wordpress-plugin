@@ -4,7 +4,7 @@
     var ecwidStoreParams = {
         title: EcwidGutenbergParams.title,
         icon: el('div', {className:"ecwid-store-block-icon"}),
-        category: 'layout',
+        category: 'common',
         attributes: {
             widgets: { type: 'string' },
             categories_per_row: { type: 'integer' },
@@ -20,10 +20,9 @@
         useOnce: true,
         
         edit: function( props ) {
+            debugger;
             
-            var val = props.attributes.meta1;
-
-            return el( 'div', {className: 'ecwid-store-block'},
+            return el( 'div', {className: 'ecwid-store-block' }, 
                 el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance' ) )
             );
         },
@@ -45,70 +44,60 @@
                     widgets: {
                         type: 'string',
                         shortcode: function(named) {
-                            debugger;
                             return named.widgets
                         }
                     },
                     categories_per_row: { 
                         type: 'integer',
                         shortcode: function(named) {
-                            debugger;
                             return named.categories_per_row
                         }
                     },
                     grid: { 
                         type: 'string',
                         shortcode: function(named) {
-                            debugger;
                             return named.grid
                         }
                     },
                     list: { 
                         type: 'integer',
                         shortcode: function(named) {
-                            debugger;
                             return named.list
                         }
                     },
                     table: { 
                         type: 'integer',
                         shortcode: function(named) {
-                            debugger;
                             return named.table
                         }
                     },
                     default_category_id: { 
                         type: 'integer',
                         shortcode: function(named) {
-                            debugger;
                             return named.default_category_id
                         }
                     },
                     default_product_id: { 
                         type: 'integer',
                         shortcode: function(named) {
-                            debugger;
                             return named.default_product_id
                         }
                     },
                     category_view: { 
                         type: 'string',
                         shortcode: function(named) {
-                            debugger;
                             return named.category_view
                         }
                     },
                     search_view: { 
                         type: 'string',
                         shortcode: function(named) {
-                            debugger;
                             return named.search_view
                         }
                     },
                     minicart_layout: {
                         type: 'string',
                         shortcode: function(named) {
-                            debugger;
                             return named.minicart_layout
                         }
                     }
