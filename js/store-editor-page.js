@@ -267,7 +267,11 @@ jQuery(document).ready(function() {
 		
 		if (existingShortcode) {
 			
-			
+            stringToReplace = existingShortcode.content;
+            var match = jQuery('#content').val().match(/<!-- wp:ecwid\/store-block([^!]+)!-- \/wp:ecwid\/store-block -->/);
+            if (match && match[1].indexOf(existingShortcode.content) > 0) {
+                existingShortcode.content = match[0];
+			}
 			
 			jQuery('#content').val(
 				jQuery('#content').val().replace(existingShortcode.content, stringToInsert)

@@ -48,6 +48,69 @@
                             debugger;
                             return named.widgets
                         }
+                    },
+                    categories_per_row: { 
+                        type: 'integer',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.categories_per_row
+                        }
+                    },
+                    grid: { 
+                        type: 'string',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.grid
+                        }
+                    },
+                    list: { 
+                        type: 'integer',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.list
+                        }
+                    },
+                    table: { 
+                        type: 'integer',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.table
+                        }
+                    },
+                    default_category_id: { 
+                        type: 'integer',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.default_category_id
+                        }
+                    },
+                    default_product_id: { 
+                        type: 'integer',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.default_product_id
+                        }
+                    },
+                    category_view: { 
+                        type: 'string',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.category_view
+                        }
+                    },
+                    search_view: { 
+                        type: 'string',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.search_view
+                        }
+                    },
+                    minicart_layout: {
+                        type: 'string',
+                        shortcode: function(named) {
+                            debugger;
+                            return named.minicart_layout
+                        }
                     }
                 },
                 priority: 10
