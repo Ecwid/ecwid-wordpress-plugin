@@ -270,14 +270,14 @@ jQuery(document).ready(function() {
             stringToReplace = existingShortcode.content;
             var match = jQuery('#content').val().match(/<!-- wp:ecwid\/store-block([^!]+)!-- \/wp:ecwid\/store-block -->/);
             if (match && match[1].indexOf(existingShortcode.content) > 0) {
-                existingShortcode.content = match[0];
+                stringToReplace = match[0];
 			}
 			
 			jQuery('#content').val(
-				jQuery('#content').val().replace(existingShortcode.content, stringToInsert)
+				jQuery('#content').val().replace(stringToReplace, stringToInsert)
 			);
 			if (tinyMCE.activeEditor) {
-				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', stringToInsert);
+				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', existingShortcode.content);
 			}
 		} else {
 
