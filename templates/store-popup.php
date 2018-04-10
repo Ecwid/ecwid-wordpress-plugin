@@ -230,14 +230,14 @@
                             </select>
                         </div>
                     </div>
-
-				<?php endif; ?>
-
-                <div class="media-frame-toolbar">
-                    <div class="media-toolbar">
-                        <div class="media-toolbar-secondary">
-							<?php if (get_ecwid_store_id() != Ecwid_Config::get_demo_store_id()): ?>
-                                <div class="store-id"><?php _e('Store ID', 'ecwid-shopping-cart'); ?>: <?php echo esc_attr(get_ecwid_store_id()); ?></div>
+                    
+                <?php endif; ?>
+                
+				<div class="media-frame-toolbar">
+					<div class="media-toolbar">
+						<div class="media-toolbar-secondary">
+							<?php if ( !ecwid_is_demo_store() ): ?>
+								<div class="store-id"><?php _e('Store ID', 'ecwid-shopping-cart'); ?>: <?php echo esc_attr(get_ecwid_store_id()); ?></div>
 							<?php else: ?>
                                 <div class="store-id"><?php _e('Demo store', 'ecwid-shopping-cart'); ?></div>
 							<?php endif; ?>

@@ -148,7 +148,7 @@ class Ecwid_OAuth {
 
 	public function disconnect_store()
 	{
-		update_option( 'ecwid_store_id', Ecwid_Config::get_demo_store_id() );
+		update_option( 'ecwid_store_id', ecwid_get_demo_store_id() );
 		$this->api->save_token( '' );
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );

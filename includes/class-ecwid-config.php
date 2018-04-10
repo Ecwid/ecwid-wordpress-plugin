@@ -91,8 +91,9 @@ class Ecwid_Config {
 		return EcwidPlatform::get( self::CPANEL_DOMAIN, 'my.ecwid.com' );
 	}
 
+	// ALWAYS use ecwid_get_demo_store_id or ecwid_is_demo_store instead of this function
 	public static function get_demo_store_id() {
-		return EcwidPlatform::get( self::DEMO_STORE_ID, 1003 );
+		return EcwidPlatform::get( self::DEMO_STORE_ID, null );
 	}
 	
 	public static function load_from_ini() {
