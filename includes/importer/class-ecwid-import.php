@@ -16,7 +16,7 @@ class Ecwid_Import
 	
 	public function __construct()
 	{
-		if ( !Ecwid_Api_V3::is_available() ) {
+		if ( !Ecwid_Api_V3::is_available() || ecwid_is_demo_store() ) {
 			return;
 		}
 		
