@@ -277,7 +277,7 @@ jQuery(document).ready(function() {
 				jQuery('#content').val().replace(stringToReplace, stringToInsert)
 			);
 			if (tinyMCE.activeEditor) {
-				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', existingShortcode.content);
+				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', shortcode.shortcode.string());
 			}
 		} else {
 

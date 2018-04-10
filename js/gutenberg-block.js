@@ -20,7 +20,6 @@
         useOnce: true,
         
         edit: function( props ) {
-            debugger;
             
             return el( 'div', {className: 'ecwid-store-block' }, 
                 el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance' ) )
