@@ -1659,6 +1659,18 @@ msgstr "Новые товары"
 msgid "Displays the latest added products from your store. Show new products to returning customers to drive repeat sales."
 msgstr "Список последних добавленных товаров из магазина."
 
+msgid "%s Blog"
+msgstr "Блог %s"
+
+msgid "Knowledge Base"
+msgstr "База знаний"
+
+msgid "https://www.ecwid.com/blog"
+msgstr "https://www.ecwid.ru/blog"
+
+msgid "https://support.ecwid.com/hc/en-us"
+msgstr "https://support.ecwid.com/hc/ru"
+
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"
