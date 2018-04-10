@@ -1675,6 +1675,12 @@ msgstr "https://support.ecwid.com/hc/ru"
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"
 
+msgid "%s products and categories"
+msgstr "Товары и категории магазина %s"
+
+msgid "Bulk import products and categories to your %s store"
+msgstr "Загрузка товаров и категорий в магазин из внешних источников или других e-commerce решений"
+
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#

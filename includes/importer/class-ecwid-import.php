@@ -23,19 +23,25 @@ class Ecwid_Import
 		$this->_view = new Ecwid_Import_Page();
 		$this->_view->init_actions();
 		
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+	}
+	
+	public function admin_init() 
+	{
 		if ( !Ecwid_Config::is_wl() ) {
 			if ( !function_exists( 'register_importer' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/import.php';
 			}
-			
-			register_importer( 
-				self::IMPORTER_IDENTIFIER, 
-				sprintf( __( '%s products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ), 
-				'some description', 
-				array( $this->_view, 'do_page' ) 
+	
+			register_importer(
+				self::IMPORTER_IDENTIFIER,
+				sprintf( __( '%s products and categories', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				sprintf( __( 'Bulk import products and categories to your %s store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				array( $this->_view, 'do_page' )
 			);
 		}
 	}
+	
 	
 	public static function gather_import_data()
 	{
