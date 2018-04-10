@@ -23,6 +23,10 @@ if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
 
+if ( !defined( 'ECWID_TEMPLATES_DIR' ) ) {
+	define ( 'ECWID_TEMPLATES_DIR', ECWID_PLUGIN_DIR . 'templates' );
+}
+
 if ( ! defined( 'ECWID_PLUGIN_BASENAME' ) ) {
 	define( 'ECWID_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
@@ -129,6 +133,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
+require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 
 $ecwid_script_rendered = false; // controls single script.js on page
 
@@ -1408,6 +1413,11 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$params .= '&data_no_apiv3=1';
 	}
 
+	require_once ECWID_PLUGIN_DIR . '/includes/importer/class-ecwid-importer.php';
+	if ( get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+		$params .= '&data_imported=1';
+	}
+
 	return $params;
 }
 
@@ -1789,6 +1799,9 @@ function ecwid_get_update_params_options() {
 		'ecwid_store_id' => array(
 			'type' => 'string'
 		),
+		'ecwid_store_page_id' => array(
+			'type' => 'string'
+		),
 		'ecwid_ajax_defer_rendering' => array(
 			'values' => array(
 				'on',
@@ -2126,7 +2139,7 @@ function ecwid_create_store() {
 		ecwid_update_store_id($data->id);
 
 		$api->save_token( $data->token );
-		update_option( 'ecwid_oauth_scope', 'read_profile read_catalog allow_sso create_customers public_storefront' );
+		update_option( 'ecwid_oauth_scope', 'read_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG . ' allow_sso create_customers public_storefront' );
 
 		header( 'HTTP/1.1 200 OK' );
 
@@ -2265,8 +2278,8 @@ function ecwid_admin_do_page( $page ) {
 	
 	global $ecwid_oauth;
 
-	if (isset($_GET['ecwid_page']) && $_GET['ecwid_page']) {
-		$page = $_GET['ecwid_page'];
+	if (isset($_GET['ec-page']) && $_GET['ec-page']) {
+		$page = $_GET['ec-page'];
 	}
 
 	if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
@@ -2391,6 +2404,10 @@ function ecwid_process_oauth_params() {
 			'return_url' => isset($_GET['return-url']) ? $_GET['return-url'] : '',
 			'reason' => isset($_GET['reason']) ? $_GET['reason'] : ''
 		));
+		
+		if ( @$_GET['do_reconnect'] ) {
+			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
+		}
 	}
 }
 

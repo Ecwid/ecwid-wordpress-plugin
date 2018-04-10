@@ -38,6 +38,8 @@ jQuery(document).ready(function() {
 				jQuery(a).closest('.ecwid-message').fadeOut();
 			}
 		);
+		
+		return false;
 	});
 
 	if (location.href.match(/wp-admin\/widgets.php/) || location.href.match(/wp-admin\/customize.php/)) {

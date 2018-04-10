@@ -3,6 +3,8 @@
 class Ecwid_Message_Manager
 {
 	protected $messages = array();
+	
+	const MSG_WOO_IMPORT_ONBOARDING = 'connected_woo';
 
 	protected function __construct()
 	{
@@ -81,8 +83,9 @@ TXT
 		$secondary_button = isset($params['secondary_title']);
 		if ($secondary_button) {
 			$secondary_title = $params['secondary_title'];
-			$secondary_url   = $params['secondary_url'];
+			$secondary_url   = @$params['secondary_url'];
 			$secondary_blank = @$params['secondary_blank'];
+			$secondary_hide = @$params['secondary_hide'];
 		}
 
 		$do_not_show_again = true == $params['hideable'];
@@ -240,6 +243,16 @@ TXT
 				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
 				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
+			),
+			
+			self::MSG_WOO_IMPORT_ONBOARDING => array(
+				'title' => sprintf( __( 'Need help importing your products from WooCommerce to %s?', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'We noticed you have WooCommerce installed. If you want to easily copy your WooCommerce products to %s, this tool will help you.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'hideable' => false,
+				'primary_title' => __( 'Import my products from WooCommerce', 'ecwid-shopping-cart' ),
+				'primary_url' => Ecwid_Import_Page::get_woo_page_url_from_message(),
+				'secondary_title' => __( 'No Thanks', 'ecwid-shopping-cart' ),
+				'secondary_hide' => true
 			)
 		);
 	}
@@ -278,6 +291,15 @@ TXT
 				$no_token = Ecwid_Api_V3::get_token() == false;
 				$is_not_demo = !ecwid_is_demo_store();
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				
+			case self::MSG_WOO_IMPORT_ONBOARDING:
+				return 0
+					&& is_plugin_active( 'woocommerce/woocommerce.php' ) 
+					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
+					&& !$this->need_to_show_message( 'on_activate' ) 
+					&& Ecwid_Api_V3::is_available()
+					&& get_ecwid_store_id() % 2 == 0
+					&& !Ecwid_Config::is_wl();
 				
 			case 'please_vote':
 

@@ -805,19 +805,6 @@ label.premium-feature svg path {
 	font-weight: 600;
 }
 
-#updating svg {
-	animation-name: rotation;
-	animation-duration: 1s;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
-	display: inline-block;
-	vertical-align: middle;
-}
-
-#updating svg path {
-	fill: #298CBA;
-}
-
 .sync-block#updating > div {
 	display: table-cell;
 	vertical-align: middle;
@@ -829,9 +816,4 @@ label.premium-feature svg path {
 
 .sync-block#updating .sync-icon {
 	width: 30px;
-}
-
-@keyframes rotation {
-0% {transform:rotate(0deg);}
-100% {transform:rotate(360deg);}
 }
