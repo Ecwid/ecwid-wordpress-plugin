@@ -164,7 +164,7 @@ class Ecwid_Admin {
 			add_submenu_page( '', 'Legacy', '', 'manage_options', $page, array( $this, 'do_ec_redirect' ) );
 		}
 		
-		if ( self::are_auto_menus_enabled() ) {
+		if ( self::are_auto_menus_enabled() && Ecwid_Api_V3::is_available() ) {
 			add_options_page(
 				__( 'Store', 'ecwid-shopping-cart' ),
 				__( 'Store', 'ecwid-shopping-cart' ),
