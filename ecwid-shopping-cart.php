@@ -149,6 +149,7 @@ function ecwid_init_integrations()
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
 		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
+		'gutenberg/gutenberg.php' => 'gutenberg'
 	);
 
 	foreach ( $integrations as $plugin => $class ) {
@@ -1514,7 +1515,7 @@ function ecwid_shortcode($attributes)
 			unset($widgets[$key]);
 		}
 	}
-
+	
 	if (empty($widgets)) {
 		$widgets = array('productbrowser');
 	}
@@ -2463,11 +2464,13 @@ function ecwid_get_categories_for_selector() {
 		}
 	}
 	
-	function compare_categories($cat1, $cat2) {
-		return strcasecmp( $cat1->path, $cat2->path );
+	if (!function_exists('_ecwid_compare_categories')) {
+		function _ecwid_compare_categories($cat1, $cat2) {
+			return strcasecmp( $cat1->path, $cat2->path );
+		}
 	}
 	
-	usort( $result, 'compare_categories' );
+	usort( $result, '_ecwid_compare_categories' );
 	
 	EcwidPlatform::store_in_categories_cache( 'ecwid_categories_for_selector', $result );
 	
