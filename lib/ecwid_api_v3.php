@@ -427,6 +427,10 @@ class Ecwid_Api_V3
 		
 		$profile = $this->get_store_profile();
 	
+		if (!$profile) {
+			return false;
+		}
+		
 		foreach ( $profile->featureToggles as $feature ) {
 			if ( $feature->name == $feature_name ) {
 				$features[$feature_name]['enabled'] = $feature->enabled;
