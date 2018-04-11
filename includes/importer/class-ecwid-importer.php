@@ -46,7 +46,6 @@ class Ecwid_Importer
 		$results = array();
 		
 		$status = get_option( self::OPTION_STATUS, array() );
-		error_log(var_export(array( $this->_tasks, $this->_load_current_task() ), true));
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
 		
@@ -57,8 +56,6 @@ class Ecwid_Importer
 			
 			if ( !is_array( $status['plan_limit'] ) || !array_key_exists( $task_data['type'], $status['plan_limit'] ) ) {
 				
-				error_log(var_export(array($current_task, $task_data), true));
-	
 				$task = Ecwid_Importer_Task::load_task($task_data['type']);
 	
 				$result = $task->execute($this, $task_data);

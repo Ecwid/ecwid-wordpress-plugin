@@ -271,8 +271,6 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 			$data	
 		);
 		
-		error_log(var_export(array( 'request result', $result ), true));
-		
 		$return = array(
 			'type' => self::$type
 		);
