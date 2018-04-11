@@ -2477,6 +2477,10 @@ function ecwid_get_categories_for_selector() {
 
 	$all_categories = array();
 	
+	if ( !$categories || @$categories->count == 0 ) {
+		return array();
+	}
+	
 	foreach ( $categories->items as $category ) {
 		$all_categories[$category->id] = $category;
 	}
@@ -2755,12 +2759,6 @@ function ecwid_add_dashboard_widgets() {
   if (current_user_can('manage_options')) {
     wp_add_dashboard_widget('ecwid_dashboard_widget', __('Recommendations for Your Online Store', 'ecwid-shopping-cart'), 'ecwid_dashboard_widget_function');
   }
-}
-
-function ecwid_get_store_page_base_url( $page = 0 ) {
-
-	$url = parse_url( get_permalink( $page ) );
-	return $url['path'];
 }
 
 function ecwid_get_store_page_url()

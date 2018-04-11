@@ -114,6 +114,10 @@ class Ecwid_Store_Page {
 		return $link;
 	}
 
+	public static function get_page_base_url( $page = 0 ) {
+		return urldecode( get_page_uri( $page ) );
+	} 
+	
 	public static function get_current_store_page_id()
 	{
 		static $page_id = null;
@@ -292,9 +296,7 @@ class Ecwid_Store_Page {
 		$has_pb = self::post_content_has_productbrowser( $post_id );
 
 		if ( self::is_store_page( $post_id ) ) {
-
 			$is_disabled = !in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() );
-
 
 			if ( $is_disabled || !$has_pb ) {
 				self::reset_store_page( $post_id );

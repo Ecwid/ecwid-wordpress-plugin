@@ -4,6 +4,7 @@
 class Ecwid_Seo_Links {
 
 	const OPTION_ENABLED = 'ecwid_seo_links_enabled';
+	const OPTION_ALL_BASE_URLS = 'ecwid_all_base_urls';
 
 	public function __construct()
 	{
@@ -12,6 +13,7 @@ class Ecwid_Seo_Links {
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
+		add_action( 'save_post', array( $this, 'on_save_post' ) );
 	}
 
 	public function init() {
@@ -27,9 +29,46 @@ class Ecwid_Seo_Links {
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
 			add_filter( 'wp_unique_post_slug_is_bad_attachment_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
+			
+			if ( is_admin() ) {
+				add_action( 'current_screen', array( $this, 'check_base_urls_on_store_page' ) ); 
+			}
 		}
 	}
 
+	public function on_save_post( $post_id ) {
+		if ( wp_is_post_revision( $post_id ) )
+			return;
+		
+		if ( Ecwid_Store_Page::is_store_page( $post_id ) ) {
+			if ( !$this->are_base_urls_ok() ) {
+				flush_rewrite_rules();
+			}
+		}		
+	}
+	
+	public function check_base_urls_on_store_page() {
+
+		$current_screen = get_current_screen();
+		
+		if ( $current_screen->base != 'post' || !in_array( $current_screen->post_type, array( 'post', 'page' ) ) ) {
+			return;
+		}
+		
+		$id = @$_GET['post'];
+		
+		if ( !$id ) {
+			return;
+		}
+		
+		if ( Ecwid_Store_Page::is_store_page( $id ) ) {
+			if ( !$this->are_base_urls_ok() ) {
+				die('123123');
+				flush_rewrite_rules();
+			}	
+		}
+	}
+	
 	public function on_fresh_install() {
 		add_option( self::OPTION_ENABLED, 'Y' );
 	}
@@ -155,7 +194,7 @@ class Ecwid_Seo_Links {
 
 		if ( !$has_store ) return;
 
-		$url = esc_js( ecwid_get_store_page_base_url() );
+		$url = esc_js( get_page_link( $page_id ) );
 
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
@@ -196,17 +235,74 @@ JS;
 
 		if ( !self::is_enabled() ) return;
 
+		$all_base_urls = $this->_build_all_base_urls();
+		
+		if ( $this->is_store_on_home_page() ) {
+			$patterns = $this->get_seo_links_patterns();
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
+			}
+		}
+		
+		foreach ( $all_base_urls as $page_id => $links ) {
+			$patterns = $this->get_seo_links_patterns();
+
+			foreach ( $links as $link ) {
+				foreach ( $patterns as $pattern ) {
+					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
+				}
+			}
+		}
+		
+		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => $this->is_store_on_home_page() ) ) );
+	}
+	
+	public function are_base_urls_ok() {
+		$all_base_urls = $this->_build_all_base_urls();
+		
+		$flattened = array();
+		foreach ( $all_base_urls as $page_id => $links ) {
+			foreach ( $links as $link ) {
+				$flattened[$link] = $link;
+			}
+		}
+		
+		$saved = get_option( self::OPTION_ALL_BASE_URLS );
+
+		if ( empty( $saved ) || !is_array( $saved ) ) {
+			return false;
+		}
+		
+		$saved_home = false;
+		if ( isset( $saved['home'] ) ) {
+			$saved_home = $saved['home'];
+			unset( $saved['home'] );
+		}
+		
+		$flattened_saved = array();
+		foreach ( $saved as $page_id => $links ) {
+			foreach ( $links as $link ) {
+				$flattened_saved[$link] = $link;
+			}
+		}
+		
+		return empty( array_diff($flattened, $flattened_saved) ) && $saved_home == $this->is_store_on_home_page();
+	}
+	
+	protected function _build_all_base_urls()
+	{
+		$base_urls = array();
+
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 
 		if ( is_array( $pages ) ) {
 
 			foreach ( $pages as $page_id ) {
-				$patterns = $this->get_seo_links_patterns();
-				$link = urldecode( get_page_uri( $page_id ) );
-
-				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
+				
+				if ( !isset( $base_urls[$page_id] ) ) {
+					$base_urls[$page_id] = array();
 				}
+				$base_urls[$page_id][] = urldecode( get_page_uri( $page_id ) );
 			}
 
 			if (
@@ -223,22 +319,21 @@ JS;
 					foreach ( $pages as $page_id ) {
 						$link = urldecode( get_page_uri( $page_id ) );
 						$language = pll_get_post_language( $page_id );
-						foreach ( $patterns as $pattern ) {
-							add_rewrite_rule( '^' . $language . '/' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
+
+						if ( !isset( $base_urls[$page_id] ) ) {
+							$base_urls[$page_id] = array();
 						}
+						
+						$base_urls[$page_id][] = $language . '/' . $link;
 					}
 				}
 			}
 		}
-
-		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
-			foreach ( $patterns as $pattern ) {
-				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
-			}
-		}
+		
+		return $base_urls;
 	}
-
+	
+	
 
 	public static function is_enabled() {
 
