@@ -2,7 +2,8 @@
     <div class="icon">
 	<?php ecwid_embed_svg('update'); ?>
     </div>
-    <div class="inline-note">Some text about progress
+    <div class="inline-note">
+        <?php _e( 'copying products and categories', 'ecwid-shopping-cart' ); ?>
     </div>
 </div>
 <div class="progress-message">
