@@ -63,7 +63,6 @@ class Ecwid_Seo_Links {
 		
 		if ( Ecwid_Store_Page::is_store_page( $id ) ) {
 			if ( !$this->are_base_urls_ok() ) {
-				die('123123');
 				flush_rewrite_rules();
 			}	
 		}
