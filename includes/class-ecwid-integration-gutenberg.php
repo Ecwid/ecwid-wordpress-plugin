@@ -37,7 +37,7 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function on_save_post( $post, $request, $creating ) {
-		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) != false ) {
+		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
 			Ecwid_Store_Page::add_store_page( $post->ID );
 		}
 	}
