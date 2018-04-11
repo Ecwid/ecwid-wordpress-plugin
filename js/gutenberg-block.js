@@ -105,7 +105,7 @@
             }]
         },
     };
-    blocks.registerBlockType( 'ecwid/store-block', ecwidStoreParams);
+    blocks.registerBlockType( EcwidGutenbergParams.storeBlock, ecwidStoreParams);
     
 } )(
     window.wp.blocks,

@@ -31,7 +31,7 @@ class Ecwid_Seo_Links {
 			add_filter( 'wp_unique_post_slug_is_bad_attachment_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
 			
 			if ( is_admin() ) {
-				add_action( 'current_screen', array( $this, 'check_base_urls_on_store_page' ) ); 
+				add_action( 'current_screen', array( $this, 'check_base_urls_on_edit_store_page' ) ); 
 			}
 		}
 	}
@@ -47,7 +47,7 @@ class Ecwid_Seo_Links {
 		}		
 	}
 	
-	public function check_base_urls_on_store_page() {
+	public function check_base_urls_on_edit_store_page() {
 
 		$current_screen = get_current_screen();
 		
@@ -65,6 +65,16 @@ class Ecwid_Seo_Links {
 			if ( !$this->are_base_urls_ok() ) {
 				flush_rewrite_rules();
 			}	
+		}
+	}
+	
+	public function check_base_urls_on_view_store_page_as_admin() {
+		$id = get_the_ID();
+		
+		if ( Ecwid_Store_Page::is_store_page( $id ) ) {
+			if ( !$this->are_base_urls_ok() ) {
+				flush_rewrite_rules();
+			}
 		}
 	}
 	
@@ -176,7 +186,11 @@ class Ecwid_Seo_Links {
 
 	public function is_store_on_home_page() {
 		$front_page = get_option( 'page_on_front' );
-
+		
+		if ( !$front_page ) {
+			return false;
+		}
+		
 		if ( Ecwid_Store_Page::is_store_page( $front_page ) ) {
 			return true;
 		}
