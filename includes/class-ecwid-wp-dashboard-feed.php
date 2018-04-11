@@ -6,6 +6,10 @@ class Ecwid_WP_Dashboard_Feed {
 	const PARAM_LAST_ECWID_ADMIN_PREFETCH_TIME = 'last-admin-prefetch-time';
 	
 	public function __construct() {
+		if ( Ecwid_Config::is_wl() ) {
+			return;
+		}
+		
 		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_setup' ) );
 		
 		add_action( 'wp_ajax_' . self::ACTION_AJAX_SAVE, array( $this, 'ajax_save_posts' ) );

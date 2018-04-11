@@ -386,10 +386,10 @@ class Ecwid_Api_V3
 	}
 
 	public function get_store_profile() {
-
+		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
-		if ($profile) {
+		if (0 &&$profile) {
 			return $profile;
 		}
 		
@@ -398,7 +398,7 @@ class Ecwid_Api_V3
 		$params = array(
 			'token' => $this->get_token()
 		);
-
+		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		

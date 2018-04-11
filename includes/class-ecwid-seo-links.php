@@ -299,7 +299,9 @@ JS;
 			}
 		}
 		
-		return empty( array_diff($flattened, $flattened_saved) ) && $saved_home == $this->is_store_on_home_page();
+		$are_the_same = array_diff( $flattened, $flattened_saved );
+		
+		return empty( $are_the_same ) && $saved_home == $this->is_store_on_home_page();
 	}
 	
 	protected function _build_all_base_urls()

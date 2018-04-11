@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 5.8.1
+Stable tag: 6.0.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -149,6 +149,17 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.0 - Apr 11, 2018 =
+- **Compatibility with Gutenberg.** Gutenberg editor is getting more and more popular and will soon be the default WordPress editor. To make sure Ecwid users are ready for that, we added Gutenberg support to our plugin. Now when you edit a page in Gutenberg, you will see a new "Ecwid online store" block in the editor toolbar — this can be used to add a store to a page. In future updates, we will add ability to add a product widget (or a buy now button) to a post or page in Gutenberg.
+- **New product import tools.** Some sellers copy their products to Ecwid e-commerce plugin from WooCommerce, other shopping carts or local database or spreadsheet. We made it easier to do that in Ecwid. You can now see a separate Ecwid block under Tools -> Import in the WordPress admin backend. That block allows you to import products and categories to your store from WooCommerce or external CSV file.
+- **New WordPress admin dashboard widget: help/educational materials for sellers.** We added a new Ecwid block to the WordPress admin dashboard — it features useful posts from the Ecwid ecommerce blog. The block refreshes itself automatically when we publish a new blog post. Check it to find fresh product updates and tips and recommendations from the Ecwid team on how to better set up your store and sell more.
+- **Revamped Ecwid menu in WordPress admin backend.** This is step #2 of the menu changes implemented in the version 5.8. Historically, the Ecwid store management dashboard displayed navigation within the central page content when you open it in your WordPress admin backend. So, you open the “Ecwid” menu in your WP admin and then navigate through your store admin pages inside that general “Ecwid” page. We’re improving this process: now the store admin navigation menu will be a part of the WordPress admin menu. So now you will find management/settings/apps and other sections right in the WordPress left-hand navigation sidebar. This will align the Ecwid plugin navigation with the general WordPress navigation and provide more natural way to find the right page of your store dashboard. Also, this will free some space in the page central area to make it more convenient to manage your store, especially on mobile devices.
+- Minor fixes and improvements.
+
+
+= 5.8.2 - Mar 9, 2018 =
+- **Fixed an issue with the categories menu appeared in the version 5.8.1.** 
+
 = 5.8.1 - Mar 7, 2018 =
 - **Compatibility with the Yoast premium SEO plugin.** Yoast recently updated their SEO plugins. We adjusted Ecwid plugin to work well with them. So, as usually, Ecwid should work well with Yoast products, feel free to use them to get your site and online store optimized for search engines. 
 - **Fixed an issue with Ecwid buttons in the Elementor page builder toolbar.** Ecwid’s “Add store” and “Add product” buttons didn’t work well in the Elementor editor toolbar. We hid the Ecwid buttons from the toolbar as a workaround. To add a store or a single product to a page in the Elementor editor, please use [ec_store] and [ec_product] shortcodes or temporarily switch to the default WP editor. 

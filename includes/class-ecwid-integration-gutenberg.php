@@ -6,7 +6,7 @@ class Ecwid_Integration_Gutenberg {
 	
 	public function __construct() {
 		
-		if ( isset($_GET['classic-editor'] ) ) return;
+		if ( isset( $_GET['classic-editor'] ) ) return;
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', function() {

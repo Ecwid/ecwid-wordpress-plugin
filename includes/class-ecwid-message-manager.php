@@ -192,7 +192,7 @@ TXT
 
 	protected static function get_default_messages()
 	{
-		return array(
+		$messages = array(
 			'on_activate' => array(
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
@@ -244,8 +244,10 @@ TXT
 				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
 			),
-			
-			self::MSG_WOO_IMPORT_ONBOARDING => array(
+		);
+		
+		if ( class_exists( 'Ecwid_Import_Page' ) ) {
+			$messages[self::MSG_WOO_IMPORT_ONBOARDING] = array(
 				'title' => sprintf( __( 'Need help importing your products from WooCommerce to %s?', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'message' => sprintf( __( 'We noticed you have WooCommerce installed. If you want to easily copy your WooCommerce products to %s, this tool will help you.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'hideable' => false,
@@ -253,8 +255,10 @@ TXT
 				'primary_url' => Ecwid_Import_Page::get_woo_page_url_from_message(),
 				'secondary_title' => __( 'No Thanks', 'ecwid-shopping-cart' ),
 				'secondary_hide' => true
-			)
-		);
+			);
+		}
+		
+		return $messages;
 	}
 
 	protected function need_to_show_message($name)

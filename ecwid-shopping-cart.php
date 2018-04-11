@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 5.8.1
+Version: 6.0.1
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -143,7 +143,6 @@ foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
 
-
 function ecwid_init_integrations()
 {
 	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
@@ -154,9 +153,13 @@ function ecwid_init_integrations()
 		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
-		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
-		'gutenberg/gutenberg.php' => 'gutenberg'
+		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold'
 	);
+
+
+	if (version_compare( phpversion(), '5.3', '>' ) ) {
+		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
+	}
 
 	foreach ( $integrations as $plugin => $class ) {
 		if ( is_plugin_active( $plugin ) ) {
@@ -1412,9 +1415,9 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if (!Ecwid_Api_V3::get_token()) {
 		$params .= '&data_no_apiv3=1';
 	}
-
-	require_once ECWID_PLUGIN_DIR . '/includes/importer/class-ecwid-importer.php';
-	if ( get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+	
+	require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
+	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
 		$params .= '&data_imported=1';
 	}
 

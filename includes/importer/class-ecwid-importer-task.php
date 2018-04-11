@@ -54,7 +54,8 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			'showOnFrontpage' => (int) ( get_post_meta( $woo_id, '_featured', true ) == 'yes' )
 		);
 		
-		if ( !empty( get_post_meta( $woo_id, '_sku', true ) ) ) {
+		$meta = get_post_meta( $woo_id, '_sku', true );
+		if ( !empty( $meta ) ) {
 			$data['sku'] = get_post_meta( $woo_id, '_sku', true );
 		}
 
@@ -74,11 +75,9 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 				$data['categoryIds'][] = $category_id;
 			}
 		}
-		if ( empty( $data['cateogryIds'] ) ) {
+		if ( empty( $data['categoryIds'] ) ) {
 			unset($data['categoryIds']);
 		}
-		
-		$data['categoryIds'] = array();
 		
 		$result = null;
 		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
