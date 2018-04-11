@@ -39,6 +39,10 @@
 		        
 		        //ecwidUpdateAdminMenus(e.data.data.navigationMenuItems);
             }
+
+                        if (typeof wpResponsive == 'object' && wpResponsive.trigger) {
+                            wpResponsive.trigger(); // prevent 'sticky-menu' from being applied incorrectly
+                        }
 		},false);
 
 		$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
