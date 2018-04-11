@@ -1,6 +1,7 @@
 <?php
 
 require_once ECWID_THEMES_DIR . '/class-ecwid-theme-base.php';
+require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-ajax-defer-renderer.php';
 
 class Ecwid_Theme_Trend extends Ecwid_Theme_Base
 {
@@ -12,9 +13,12 @@ class Ecwid_Theme_Trend extends Ecwid_Theme_Base
 	{
 		parent::__construct();
 
-		add_option('ecwid_defer_rendering', true);
-
-		if ( !get_option( 'ecwid_defer_rendering' ) ) {
+		if ( get_option('ecwid_defer_rendering') ) {
+			update_option( Ecwid_Ajax_Defer_Renderer::OPTION_DEFER_RENDERING, true );
+			delete_option( 'ecwid_defer_rendering' );
+		}
+		
+		if ( !get_option( Ecwid_Ajax_Defer_Renderer::is_enabled() ) ) {
 			return;
 		}
 

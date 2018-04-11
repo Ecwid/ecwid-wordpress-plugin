@@ -1,3 +1,5 @@
+var createGutenbergedShortcodeString;
+
 jQuery(document).ready(function() {
 	$popup = jQuery('#ecwid-store-popup-content');
 
@@ -261,9 +263,18 @@ jQuery(document).ready(function() {
 			shortcode.shortcode.attrs.named[i] = result[i];
 		}
 
+		var stringToInsert = createGutenbergedShortcodeString(shortcode.shortcode);
+		
 		if (existingShortcode) {
+			
+            stringToReplace = existingShortcode.content;
+            var match = jQuery('#content').val().match(/<!-- wp:ecwid\/store-block([^!]+)!-- \/wp:ecwid\/store-block -->/);
+            if (match && match[1].indexOf(existingShortcode.content) > 0) {
+                stringToReplace = match[0];
+			}
+			
 			jQuery('#content').val(
-				jQuery('#content').val().replace(existingShortcode.content, shortcode.shortcode.string())
+				jQuery('#content').val().replace(stringToReplace, stringToInsert)
 			);
 			if (tinyMCE.activeEditor) {
 				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', shortcode.shortcode.string());
@@ -271,7 +282,7 @@ jQuery(document).ready(function() {
 		} else {
 
 			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
-				tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode.shortcode.string());
+				tinymce.activeEditor.execCommand('mceInsertContent', false, stringToInsert);
 				tinymce.activeEditor.execCommand('mceSetContent', false, tinymce.activeEditor.getBody().innerHTML);
 			} else {
 
@@ -292,7 +303,7 @@ jQuery(document).ready(function() {
 				var el = jQuery('#content');
 				var cursorPosition = getCursorPosition(el.get(0));
 
-				el.val(el.val().substr(0, cursorPosition) + shortcode.shortcode.string() + el.val().substr(cursorPosition));
+				el.val(el.val().substr(0, cursorPosition) + stringToInsert + el.val().substr(cursorPosition));
 
 			}
 		}
@@ -301,6 +312,20 @@ jQuery(document).ready(function() {
 		jQuery('#ecwid-store-popup-content').removeClass('open');
 	});
 
+	createGutenbergedShortcodeString = function( shortcode ) {
+		var result = '<!-- wp:ecwid/store-block ';
+		
+		result += JSON.stringify(shortcode.attrs.named);
+		
+		result += ' -->';
+		
+		result += shortcode.string();
+		
+		result += '<!-- /wp:ecwid/store-block -->';
+		
+		return result;
+	}
+	
 	updatePreview = function() {
 		jQuery('.store-settings input[type=checkbox]', $popup).each(function(idx, el) {
 			var widget = jQuery(el).parent().attr('data-ecwid-widget');

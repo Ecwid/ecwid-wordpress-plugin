@@ -1659,9 +1659,27 @@ msgstr "Новые товары"
 msgid "Displays the latest added products from your store. Show new products to returning customers to drive repeat sales."
 msgstr "Список последних добавленных товаров из магазина."
 
+msgid "%s Blog"
+msgstr "Блог %s"
+
+msgid "Knowledge Base"
+msgstr "База знаний"
+
+msgid "https://www.ecwid.com/blog"
+msgstr "https://www.ecwid.ru/blog"
+
+msgid "https://support.ecwid.com/hc/en-us"
+msgstr "https://support.ecwid.com/hc/ru"
+
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
 msgstr "Интернет-магазин Эквид"
+
+msgid "%s products and categories"
+msgstr "Товары и категории магазина %s"
+
+msgid "Bulk import products and categories to your %s store"
+msgstr "Загрузка товаров и категорий в магазин из внешних источников или других e-commerce решений"
 
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme

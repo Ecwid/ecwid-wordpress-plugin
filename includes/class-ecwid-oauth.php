@@ -7,6 +7,10 @@ class Ecwid_OAuth {
 
 	const MODE_CONNECT = 'connect';
 	const MODE_RECONNECT = 'reconnect';
+	
+	const OPTION_JUST_CONNECTED = 'ecwid_just_connected';
+	
+	const SCOPE_READ_CATALOG = 'read_catalog';
 
 	protected $state;
 
@@ -19,6 +23,10 @@ class Ecwid_OAuth {
 		add_action('admin_post_ec_disconnect', array($this, 'disconnect_store'));
 		add_action('admin_post_ec_show_reconnect', array($this, 'show_reconnect'));
 
+		if ( get_option( self::OPTION_JUST_CONNECTED ) ) {
+			add_action( 'shutdown', array( $this, 'reset_just_connected' ) );
+		}
+		
 		$this->_load_state();
 
 		$this->api = new Ecwid_Api_V3();
@@ -125,9 +133,11 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_oauth_scope', $result->scope );
 		update_option( 'ecwid_api_check_time', 0 );
 		update_option( 'ecwid_public_token', $result->public_token );
+		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
-
+		
+		
 		// Reset "Create store cookie" set previously to display the landing page
 		//in "Connect" mode rather than "Create" mode
 		setcookie('ecwid_create_store_clicked', null, strtotime('-1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
@@ -148,7 +158,7 @@ class Ecwid_OAuth {
 
 	public function disconnect_store()
 	{
-		update_option( 'ecwid_store_id', Ecwid_Config::get_demo_store_id() );
+		update_option( 'ecwid_store_id', ecwid_get_demo_store_id() );
 		$this->api->save_token( '' );
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
@@ -183,7 +193,7 @@ class Ecwid_OAuth {
 		} else {
 			$stored_scope = get_option( 'ecwid_oauth_scope' );
 			if (empty($stored_scope)) {
-				$stored_scope = 'read_store_profile read_catalog';
+				$stored_scope = 'read_store_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG;
 			}
 		}
 
@@ -191,7 +201,14 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		return array( 'read_store_profile', 'read_catalog', 'allow_sso', 'create_customers', 'public_storefront' );
+		$defaults = array( 'read_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
+	
+		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			$defaults[] = 'create_catalog';
+			$defaults[] = 'update_catalog';
+		}
+		
+		return $defaults;
 	}
 
 	protected function trigger_auth_error($mode = 'default')
@@ -350,6 +367,16 @@ class Ecwid_OAuth {
 		return $reconnect_message;
 	}
 
+	public static function just_connected()
+	{
+		return get_option( self::OPTION_JUST_CONNECTED );
+	}
+	
+	public function reset_just_connected()
+	{
+		update_option( self::OPTION_JUST_CONNECTED, false );
+	}
+	
 	protected function _is_reconnect() {
 		return @$this->state->mode == self::MODE_RECONNECT;
 	}

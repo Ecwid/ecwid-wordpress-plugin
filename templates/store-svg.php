@@ -1,15 +1,14 @@
 <?php
 	echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
   echo '<?xml-stylesheet type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&subset=latin%2Clatin-ext&ver=3.9.2" ?>';
-  echo '<?xml-stylesheet type="text/css" href="http://localhost/2.css" ?>';
 ?><!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		 viewBox="0 0 500 220" enable-background="new 0 0 500 220" xml:space="preserve">
 
-	<text x="245" y="93" text-anchor="middle" fill="#050303" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="20"><?php _e('Your store will be shown here!', 'ecwid-shopping-cart'); ?></text>
-	<text x="245" y="115" text-anchor="middle" fill="#999999" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="14">
-		<?php if (get_ecwid_store_id() == Ecwid_Config::get_demo_store_id()): ?>
+	<text x="250" y="93" text-anchor="middle" fill="#050303" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="20"><?php _e('Your store will be shown here!', 'ecwid-shopping-cart'); ?></text>
+	<text x="250" y="115" text-anchor="middle" fill="#999999" font-family="Open Sans,Helvetica Neue,sans-serif" font-size="14">
+		<?php if ( ecwid_is_demo_store() ): ?>
 			<?php _e('Demo Store', 'ecwid-shopping-cart'); ?>
 		<?php else: ?>
 			<?php _e('Store ID', 'ecwid-shopping-cart'); ?>: <?php echo esc_attr(get_ecwid_store_id()); ?>

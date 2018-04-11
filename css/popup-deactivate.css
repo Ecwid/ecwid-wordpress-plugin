@@ -19,3 +19,10 @@
 .bottom-support-link {
     text-align: right;
 }
+
+.ecwid-popup .ecwid-popup-window {
+    left: 50%;
+    margin-left: -298px;
+    top: 10%;
+    width: 596px;
+}

@@ -35,8 +35,7 @@ class Ecwid_Admin {
 
 	public function build_menu()
 	{
-
-		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+		$is_newbie = ecwid_is_demo_store();
 		
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
@@ -164,6 +163,29 @@ class Ecwid_Admin {
 		foreach ($pages as $page) {
 			add_submenu_page( '', 'Legacy', '', 'manage_options', $page, array( $this, 'do_ec_redirect' ) );
 		}
+		
+		if ( self::are_auto_menus_enabled() && Ecwid_Api_V3::is_available() && !ecwid_is_demo_store() ) {
+			add_options_page(
+				__( 'Store', 'ecwid-shopping-cart' ),
+				__( 'Store', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-general-settings'
+			);
+
+			add_users_page(
+				__( 'Customers', 'ecwid-shopping-cart' ),
+				__( 'Customers', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-customers'
+			);
+
+			add_theme_page(
+				__( 'Store', 'ecwid-shopping-cart' ),
+				__( 'Store', 'ecwid-shopping-cart' ),
+				self::get_capability(),
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-design'
+			);
+		}
 	}
 
 	public function do_admin_page()
@@ -171,11 +193,26 @@ class Ecwid_Admin {
 		$menus = $this->_get_menus();
 		
 		$admin_prefix = self::ADMIN_SLUG . '-admin-';
-		$slug = get_current_screen()->base;
-		$slug = substr( get_current_screen()->base, strpos( $slug, $admin_prefix ) + strlen( $admin_prefix ) );
+		$wp_slug = get_current_screen()->base;
+		$slug = substr( get_current_screen()->base, strpos( $wp_slug, $admin_prefix ) );
+		
+		$menu = $this->_get_menus();
+		
+		foreach ($menu as $item) {
+			if ( @$item['slug'] == $slug ) {
+				$hash = $item['hash'];
+				break;
+			}
+			if ( @$item['children'] ) foreach ( $item['children'] as $child ) {
+				if ($child['slug'] == $slug) {
+					$hash = $child['hash'];
+					break;
+				}	
+			}
+		}
 		
 		// Yeah, in some case there might be a collision between the wp slug and ecwid hash if some hashes collide into the same slug
-		ecwid_admin_do_page( $slug );	
+		ecwid_admin_do_page( $hash );	
 	}
 	
 	public function ajax_update_menu()
@@ -330,7 +367,7 @@ class Ecwid_Admin {
 			return true;
 		}
 		
-		return !ecwid_migrations_is_original_plugin_version_older_than( '5.8' );
+		return true;
 	}
 
 	static public function disable_dashboard() {

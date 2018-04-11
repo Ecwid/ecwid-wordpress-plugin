@@ -30,7 +30,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		$to = 'plugins-feedback@ecwid.com';
 
 		$body_lines = array();
-		if ( get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() ) {
+		if ( !ecwid_is_demo_store() ) {
 			$body_lines[] = 'Store ID: ' . get_ecwid_store_id();
 		}
 		
@@ -87,8 +87,8 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		if ( $disabled ) return true;
 		
 		if ( Ecwid_Config::is_wl() ) return true;
-		
-		if (strpos(get_locale(), 'en') !== 0) return true;
+	
+		if (strpos(get_user_locale(), 'en') !== 0) return true;
 		
 		return false;
 	}

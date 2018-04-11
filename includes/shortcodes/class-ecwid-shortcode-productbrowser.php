@@ -22,6 +22,11 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 	public function render() {
 		Ecwid_Store_Page::add_store_page( get_the_ID() );
+		if( current_user_can( Ecwid_Admin::get_capability() ) ) {
+			
+			$seo_links = new Ecwid_Seo_Links();
+			$seo_links->check_base_urls_on_view_store_page_as_admin();
+		}
 
 		return parent::render();
 	}
@@ -48,6 +53,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
 		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
+		<script>
+			function createClass(name,rules){
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				document.getElementsByTagName('head')[0].appendChild(style);
+				if(!(style.sheet||{}).insertRule) 
+					(style.styleSheet || style.sheet).addRule(name, rules);
+				else
+					style.sheet.insertRule(name+'{'+rules+'}',0);
+			}
+			createClass('#ecwid-html-catalog-$store_id','display:none;');
+		</script>
 		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;
@@ -63,9 +80,18 @@ HTML;
 	public function _build_html_catalog($store_id, $params)
 	{
 		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
-
-		$page_url = get_page_link();
-
+		
+		$id = get_the_ID();
+		if (!$id) {
+			$id = Ecwid_Store_Page::get_current_store_page_id();
+		}
+		
+		if ($id) {
+			$page_url = get_page_link( $id );
+		} else {
+			$page_url = '';
+		}
+		
 		$catalog = new EcwidCatalog($store_id, $page_url);
 
 		$url = false;

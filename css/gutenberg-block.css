@@ -1,0 +1,26 @@
+.editor-block-list__block[data-type="ecwid/store-block"] .editor-block-list__block-edit {
+    text-align: center;
+    min-height: 200px;
+    background: no-repeat 50% 30px #F1F1F1;
+    outline: 1px solid #E7E7E7;
+    background-size: 400px;
+}
+
+.ecwid-store-block-icon {
+    background: url('../images/wordpress_20x20.svg');
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.ecwid-store-block {
+    position: relative;
+}
+
+.ecwid-store-block-button {
+    font-family: Open Sans, Trebuchet MS, Helvetica, Verdana, sans-serif; 
+    position: relative;
+    top:135px;
+    font-size: 14px;
+}

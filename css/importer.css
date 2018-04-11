@@ -1,0 +1,36 @@
+.ecwid-importer .importer-state {
+    display: none;
+}
+
+.ecwid-importer.state-no-token .importer-state-no-token,
+.ecwid-importer.state-woo-initial .importer-state-woo-initial,
+.ecwid-importer.state-woo-in-progress .importer-state-woo-in-progress,
+.ecwid-importer.state-woo-complete .importer-state-woo-complete
+{
+    display: block;
+}
+
+.ecwid-importer .readonly {
+    color: lightgray;
+}
+
+.ecwid-importer .readonly input {
+    background-color: lightgray;
+}
+
+.ecwid-importer .errors {
+    display: none;
+}
+.ecwid-importer .errors .btn-details {
+    cursor: pointer;
+}
+.ecwid-importer .errors .details {
+    display: none;
+    border: 1px solid gray;
+    background: rgba(255,255,255,.5);
+    padding: 5px;
+}
+
+.plan-limit-message {
+    display: none;
+}

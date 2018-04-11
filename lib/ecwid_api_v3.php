@@ -10,6 +10,8 @@ class Ecwid_Api_V3
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 	
 	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
+	
+	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 
 	public $store_id = null;
 	
@@ -261,13 +263,18 @@ class Ecwid_Api_V3
 	{
 		$params = array('token');
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku' );
 
 		foreach ($passthru as $name) {
 		    if ( array_key_exists( $name, $input_params ) ) {
 		        $params[$name] = $input_params[$name];
             }
         }
+        
+        if ( isset( $params['createdTo'] ) ) {
+			// For some reason createdTo does not include the exact timestamp while createdFrom does
+			$params['createdTo']++;
+		}
 
 		$result = EcwidPlatform::fetch_url(
 			$this->build_request_url(
@@ -379,10 +386,10 @@ class Ecwid_Api_V3
 	}
 
 	public function get_store_profile() {
-
+		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
-		if ($profile) {
+		if (0 &&$profile) {
 			return $profile;
 		}
 		
@@ -391,7 +398,7 @@ class Ecwid_Api_V3
 		$params = array(
 			'token' => $this->get_token()
 		);
-
+		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		
@@ -400,16 +407,41 @@ class Ecwid_Api_V3
 		}
 
 		$profile = json_decode($result['data']);
-	
-		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
 
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+		
 		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
 
 		return $profile;
 	}
-
+	
+	public function is_store_feature_enabled( $feature_name ) {
+		
+		static $features = array();
+	
+		if ( array_key_exists( $feature_name, $features ) ) {
+			return $features[$feature_name]['enabled'];
+		}
+		
+		$profile = $this->get_store_profile();
+	
+		if (!$profile) {
+			return false;
+		}
+		
+		foreach ( $profile->featureToggles as $feature ) {
+			if ( $feature->name == $feature_name ) {
+				$features[$feature_name]['enabled'] = $feature->enabled;
+				
+				return $feature->enabled;
+			}
+		}
+	
+		return false;
+	}
+	
 	public function create_store()
 	{
 		global $current_user;
@@ -513,6 +545,132 @@ class Ecwid_Api_V3
 		return $url . '?' . build_query($params);
 	}
 
+	public function create_product( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url, $request_params );
+		
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function update_product( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		
+		$id = $params['id'];
+		unset( $params['id'] );
+		
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params );
+
+		$result = $this->_do_put( $url, $params );
+
+		return $result;
+	}
+	
+	public function create_category( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
+
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function delete_products( $ids )
+	{
+		$request_params = array( 'token' );
+		$requests = array();
+		foreach ( $ids as $id ) {
+			$requests[] = array(
+				'type' => Requests::DELETE,
+				'url' => $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params )
+			);
+		}
+
+		$result = Requests::request_multiple( $requests );
+	
+		die(var_dump($result));
+		
+		return $result;
+	}
+
+	public function upload_category_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_categories_api_url . '/' . $params['categoryId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+	public function upload_product_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
+	protected function _do_post( $url, $data, $raw = false ) {
+		$result = wp_remote_post( $url,
+			array(
+				'body' => $raw ? $data : json_encode( $data ),
+				'timeout' => 20,
+				'headers' => array(
+					'Content-Type' => 'application/json;charset="utf-8"'
+				)
+			)
+		);
+		
+		if ( is_array( $result ) ) {
+			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+		}
+		
+		return $result;
+	}
+
+	protected function _do_put( $url, $data, $raw = false ) {
+		$result = wp_remote_post( $url,
+			array(
+				'body' => $raw ? $data : json_encode( $data ),
+				'timeout' => 20,
+				'headers' => array(
+					'Content-Type' => 'application/json;charset="utf-8"'
+				),
+				'method' => 'PUT'
+			)
+		);
+
+		if ( is_array( $result ) ) {
+			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+		}
+
+		return $result;
+	}
+
+	protected function _get_response_message_from_wp_remote_results( $result ) {
+		$raw = $result['http_response']->get_response_object()->raw;
+		$pattern = '!HTTP/1.1 [0-9][0-9][0-9] (.*)!';
+		if ( preg_match( $pattern, $raw, $matches ) ) {
+			return substr( $matches[1], 0, strlen($matches[1] ) - 1 );
+		}
+
+		return null;
+	}
+	
 	protected function _maybe_remember_all_products($params, $result, $url)
 	{
 		$limiting_params = array(

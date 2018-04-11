@@ -20,11 +20,6 @@ body.ecwid-popup-open {
 .ecwid-popup .ecwid-popup-window {
     background: white;
     position: absolute;
-    left: 50%;
-    margin-left: -298px;
-    top: 10%;
-    z-index: 100001;
-    width: 596px;
 }
 
 .ecwid-popup-header, .ecwid-popup-footer, .ecwid-popup-body {

@@ -3,6 +3,8 @@
 class Ecwid_Message_Manager
 {
 	protected $messages = array();
+	
+	const MSG_WOO_IMPORT_ONBOARDING = 'connected_woo';
 
 	protected function __construct()
 	{
@@ -81,8 +83,9 @@ TXT
 		$secondary_button = isset($params['secondary_title']);
 		if ($secondary_button) {
 			$secondary_title = $params['secondary_title'];
-			$secondary_url   = $params['secondary_url'];
+			$secondary_url   = @$params['secondary_url'];
 			$secondary_blank = @$params['secondary_blank'];
+			$secondary_hide = @$params['secondary_hide'];
 		}
 
 		$do_not_show_again = true == $params['hideable'];
@@ -189,7 +192,7 @@ TXT
 
 	protected static function get_default_messages()
 	{
-		return array(
+		$messages = array(
 			'on_activate' => array(
 				'title' => sprintf( __( 'Greetings! Your %s plugin is now active.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 				'message' => __('Take a few simple steps to complete store setup', 'ecwid-shopping-cart'),
@@ -240,8 +243,22 @@ TXT
 				'primary_title' => __( 'Connect', 'ecwid-shopping-cart' ),
 				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
-			)
+			),
 		);
+		
+		if ( class_exists( 'Ecwid_Import_Page' ) ) {
+			$messages[self::MSG_WOO_IMPORT_ONBOARDING] = array(
+				'title' => sprintf( __( 'Need help importing your products from WooCommerce to %s?', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'message' => sprintf( __( 'We noticed you have WooCommerce installed. If you want to easily copy your WooCommerce products to %s, this tool will help you.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'hideable' => false,
+				'primary_title' => __( 'Import my products from WooCommerce', 'ecwid-shopping-cart' ),
+				'primary_url' => Ecwid_Import_Page::get_woo_page_url_from_message(),
+				'secondary_title' => __( 'No Thanks', 'ecwid-shopping-cart' ),
+				'secondary_hide' => true
+			);
+		}
+		
+		return $messages;
 	}
 
 	protected function need_to_show_message($name)
@@ -263,10 +280,10 @@ TXT
 		
 		switch ($name) {
 			case 'on_activate':
-				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && ecwid_is_demo_store();
 
 			case 'on_storeid_set':
-				return get_ecwid_store_id() != Ecwid_Config::get_demo_store_id() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
+				return !ecwid_is_demo_store() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				return $this->should_display_on_no_storeid_on_setup_pages();
@@ -276,8 +293,17 @@ TXT
 
 			case 'no_token':
 				$no_token = Ecwid_Api_V3::get_token() == false;
-				$is_not_demo = get_ecwid_store_id() != Ecwid_Config::get_demo_store_id();
+				$is_not_demo = !ecwid_is_demo_store();
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				
+			case self::MSG_WOO_IMPORT_ONBOARDING:
+				return 0
+					&& is_plugin_active( 'woocommerce/woocommerce.php' ) 
+					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
+					&& !$this->need_to_show_message( 'on_activate' ) 
+					&& Ecwid_Api_V3::is_available()
+					&& get_ecwid_store_id() % 2 == 0
+					&& !Ecwid_Config::is_wl();
 				
 			case 'please_vote':
 
@@ -307,7 +333,7 @@ TXT
 		
 		$admin_page = $screen->base;
 		
-		$is_newbie = get_ecwid_store_id() == Ecwid_Config::get_demo_store_id();
+		$is_newbie = ecwid_is_demo_store();
 
 		$is_ecwid_settings = in_array($admin_page, array('ecwid-store_page_ecwid-advanced', 'ecwid-store_page_ecwid-appearance'));
 		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();

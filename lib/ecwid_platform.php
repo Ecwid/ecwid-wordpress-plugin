@@ -24,6 +24,79 @@ class EcwidPlatform {
 		}
 	}
 
+	/*
+	 * @throws InvalidArgumentException if $file can't be slugified at all
+	 */
+	static public function enqueue_script( $file, $deps = array(), $in_footer = false, $handle = false ) {
+		
+		$filename = $file;
+		
+		if ( strpos( $file, '.js' ) == strlen( $file ) - 3 ) {
+			$filename = substr( $filename, 0, strlen( $file ) - 3 );
+		}
+		
+		if ( !$handle ) {
+			$handle = self::slugify( $filename );
+		}
+		
+		$handle = 'ecwid-' . $handle;
+		
+		$file .= '.js';
+		
+		if ( defined( 'WP_DEBUG' ) ) {
+			$path = ECWID_PLUGIN_DIR . 'js/' . $file;
+			
+			$ver = filemtime( $path );
+		} else {
+			$ver = get_option( 'ecwid_plugin_version' );
+		}
+		
+		wp_enqueue_script( $handle, ECWID_PLUGIN_URL . 'js/' . $file, $deps, $ver, $in_footer );
+	}
+
+	/*
+ * @throws InvalidArgumentException if $file can't be slugified at all
+ */
+	static public function enqueue_style( $file, $deps = array(), $handle = false ) {
+
+		$filename = $file;
+
+		if ( strpos( $file, '.css' ) == strlen( $file ) - 4 ) {
+			$filename = substr( $filename, 0, strlen( $file ) - 4 );
+		}
+
+		if ( !$handle ) {
+			$handle = self::slugify( $filename );
+		}
+		
+		$handle = 'ecwid-' . $handle;
+		
+		$file = $filename . '.css';
+
+		if ( defined( 'WP_DEBUG' ) ) {
+			$path = ECWID_PLUGIN_DIR . 'css/' . $file;
+
+			$ver = filemtime( $path );
+		} else {
+			$ver = get_option( 'ecwid_plugin_version' );
+		}
+
+		wp_enqueue_style( $handle, ECWID_PLUGIN_URL . 'css/' . $file, $deps, $ver );
+	}
+
+	
+	static public function slugify( $string ) {
+		$match = array();
+		$result = preg_match_all( '#[\p{L}0-9\-_]+#u', strtolower( $string ), $match );
+
+		if ( $result && count( @$match[0] ) > 0 ) {
+			$handle = implode('-', $match[0] );
+		} else {
+			throw new InvalidArgumentException( 'Can\'t make slug from ' . $file );
+		}		
+		return $handle;
+	}
+	
 	static protected function _init_crypt()
 	{
 		self::$crypt->setIV( substr( md5( SECURE_AUTH_SALT . get_option('ecwid_store_id') ), 0, 16 ) );

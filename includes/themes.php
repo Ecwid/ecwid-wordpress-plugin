@@ -82,7 +82,8 @@ function ecwid_apply_theme($theme_name = null)
 		'mfupdate',
 		'trend',
 		'Boundless',
-		'twentyseventeen'
+		'twentyseventeen',
+		'themify-music'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
