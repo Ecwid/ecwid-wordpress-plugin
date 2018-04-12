@@ -28,7 +28,7 @@
 		<?php if ( $secondary_button ): ?>
 		<div>
 			<a
-				class="button<?php if ( $secondary_hide ): ?> ecwid-message-hide<? endif; ?>"
+				class="button<?php if ( $secondary_hide ): ?> ecwid-message-hide<?php endif; ?>"
 				href="<?php echo esc_attr( $secondary_url ); ?>"
 				<?php if ( $secondary_blank ): ?>
 				target="_blank"
