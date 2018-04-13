@@ -8,6 +8,14 @@ class Ecwid_Category extends Ecwid_Catalog_Entry
 	protected $_cache_name_prefix = 'ecwid-category-';
 	protected $_link_prefix = 'c';
 
+	public static function usort_callback() {
+		return array( 'Ecwid_Category', 'usort_categories_orderby' );
+	}
+	
+	public static function usort_categories_orderby( $a, $b ) {
+		return @$a->orderBy > @$b->orderBy;
+	}
+ 	
 	protected function _get_from_local_object_cache( $id ) {
 		if ( isset( self::$categories[$id] ) ) {
 			return self::$categories[$id];

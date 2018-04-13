@@ -1924,6 +1924,7 @@ function ecwid_reset_categories_cache()
 
 	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 	EcwidPlatform::cache_reset( 'all_categories' );
+	EcwidPlatform::invalidate_categories_cache_from();
 }
 
 add_action( 'tool_box', 'ecwid_add_toolbox' );
