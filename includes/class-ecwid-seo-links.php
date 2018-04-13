@@ -205,7 +205,7 @@ class Ecwid_Seo_Links {
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 
-		if ( !$has_store ) return;
+		if ( !$has_store || !Ecwid_Ajax_Defer_Renderer::is_enabled() ) return;
 
 		$url = esc_js( get_page_link( $page_id ) );
 
