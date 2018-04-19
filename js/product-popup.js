@@ -6,6 +6,10 @@ jQuery(document).ready(function() {
     popup().data( 'defaultSortBy', 'ADDED_TIME_DESC' );
 
     jQuery('#insert-ecwid-product-button').click(function() {
+        openPopup();
+    });
+    
+    openPopup = function() {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
             location.href='admin.php?page=ec-store&reconnect&reason=spw';
             return false;
@@ -22,9 +26,27 @@ jQuery(document).ready(function() {
             updateSearchParams();
         }
 
-        popup().addClass('open');
+        debugger;
 
-    });
+        if (popup().data('params') != null) {
+
+            var props = popup().data('params').props.attributes;
+            if (props.id) {
+                var productTemplate = wp.template('selected-product');
+
+                var product = productTemplate(
+                    {'name': props.productName, 'imageUrl': props.productImageURL, 'sku': props.productSKU, 'id': props.id}
+                );
+    
+                jQuery('.media-frame-content.ecwid-add-product.add-product').append(product);
+            }
+        }
+
+        popup().addClass('open');
+    }
+
+    popup().data('openPopup', openPopup);
+    
 
     jQuery(document).keydown(function(e) {
         if (e.keyCode == 27 && popup().hasClass('open')) {
@@ -44,14 +66,49 @@ jQuery(document).ready(function() {
 
     var populateWidgetParams = function() {
 
-        if (ecwidSpwParams && ecwidSpwParams.display) {
+        var params;
+        if (popup().data('params')!== null) {
+            
+            var selectedParams = popup().data('params').props.attributes;
+            params = {
+                'display': []
+            };
+            var displayMap = [
+                'picture',
+                'title',
+                'price',
+                'options',
+                'addtobag',
+                'qty'
+            ];
+            for (var i = 0; i < displayMap.length; i++) {
+                var param = displayMap[i];
+                params.display[params.display.length] = selectedParams['show_' + params];
+            }
+
+
+            var shortcodeMap = [
+                'show_price_on_button',
+                'show_border',
+                'center_align'
+            ];
+            for (var i = 0; i < shortcodeMap.length; i++) {
+                var param = shortcodeMap[i];
+                params.attributes = param.attributes || {};
+                params.attributes[param] = selectedParams[param];
+            }
+        } else {
+            params = ecwidSpwParams;
+        }
+        
+        if (params && params.display) {
             jQuery('input[type=checkbox]', popup()).prop('checked', false);
 
-            for (var i in ecwidSpwParams.display) {
+            for (var i in params.display) {
                 jQuery('input[type=checkbox][data-display-option=' + i + ']')
                     .prop('checked', true);
             }
-            for (var i in ecwidSpwParams.attributes) {
+            for (var i in params.attributes) {
                 jQuery('input[type=checkbox][data-shortcode-attribute=' + i + ']')
                     .prop('checked', true);
             }
@@ -88,36 +145,41 @@ jQuery(document).ready(function() {
 
 
     jQuery('.media-button-select', popup()).click(function() {
-
-        var shortcode = buildShortcode();
-
-        if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
-            tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+        
+        if (popup().data('params').saveCallback) {
+            popup().data('params').saveCallback({
+                originalProps: popup().data('params').props,
+                newProps: buildOutputParams()
+            });
         } else {
-
-            getCursorPosition = function(el) {
-                var pos = 0;
-                if('selectionStart' in el) {
-                    pos = el.selectionStart;
-                } else if('selection' in document) {
-                    el.focus();
-                    var Sel = document.selection.createRange();
-                    var SelLength = document.selection.createRange().text.length;
-                    Sel.moveStart('character', -el.value.length);
-                    pos = Sel.text.length - SelLength;
-                }
-                return pos;
-            };
-
-            var el = jQuery('#content');
-            var cursorPosition = getCursorPosition(el.get(0));
-
-            el.val(el.val().substr(0, cursorPosition) + shortcode + el.val().substr(cursorPosition));
-
+            var shortcode = buildShortcode();
+    
+            if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+                tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+            } else {
+    
+                getCursorPosition = function(el) {
+                    var pos = 0;
+                    if('selectionStart' in el) {
+                        pos = el.selectionStart;
+                    } else if('selection' in document) {
+                        el.focus();
+                        var Sel = document.selection.createRange();
+                        var SelLength = document.selection.createRange().text.length;
+                        Sel.moveStart('character', -el.value.length);
+                        pos = Sel.text.length - SelLength;
+                    }
+                    return pos;
+                };
+    
+                var el = jQuery('#content');
+                var cursorPosition = getCursorPosition(el.get(0));
+    
+                el.val(el.val().substr(0, cursorPosition) + shortcode + el.val().substr(cursorPosition));
+    
+            }
+            saveParams();
         }
-
-        saveParams();
-
         popup().removeClass('open');
     });
 
@@ -139,29 +201,16 @@ jQuery(document).ready(function() {
     };
 
     var buildShortcode = function() {
-        var params = {};
+        var params = buildOutputParams();
 
-        product = getCurrentProduct();
+        var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
-        params.id = product.id;
-        params.version = '2';
-        params.display = [];
-
-        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
-           params.display[params.display.length] = jQuery(el).data('display-option');
-        });
 
         if (params.display.length == 0) {
             params.display = 'picture title price options addtobag';
         } else {
             params.display = params.display.join(' ');
         }
-
-        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
-            params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
-        });
-
-        var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
         var shortcode = '[' + ecwid_params.product_shortcode;
 
@@ -173,6 +222,27 @@ jQuery(document).ready(function() {
 
         return shortcode;
     };
+    
+    var buildOutputParams = function() {
+
+        var params = {};
+        product = getCurrentProduct();
+
+        params.id = product.id;
+        params.version = '2';
+        params.display = [];
+        params.product = product;
+
+        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
+            params.display[params.display.length] = jQuery(el).data('display-option');
+        });
+
+        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
+            params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
+        });
+        
+        return params;
+    }
 
     var setCurrentProduct = function( product ) {
         popup().data('currentProduct', product);
@@ -546,4 +616,10 @@ ecwidRenderCheckboxOption = function(data) {
 
     jQuery('#ecwid-product-popup-content .widget-settings.' + data.section + ' .widget-settings__' + that.nextTarget)
         .append(that.template(data));
+}
+
+function ecwid_open_product_popup(params) {
+    jQuery('#ecwid-product-popup-content').data('params', params);
+    var open = jQuery('#ecwid-product-popup-content').data('openPopup');
+    open();//jQuery('#ecwid-product-popup-content').addClass('open');
 }

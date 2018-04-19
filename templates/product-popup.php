@@ -112,6 +112,21 @@
     </label>
 </script>
 
+<script type="text/template" id="tmpl-selected-product">
+<div class="ecwid-selected-product">
+    <div class="ecwid-selected-product-image">
+        <img src="{{ data.imageUrl }}">
+    </div>
+    <div class="ecwid-selected-product-description">
+        <div class="ecwid-selected-product-name">{{ data.name }}</div>
+        <div class="ecwid-selected-product-sku">{{ data.sku }}</div>
+        <div class="ecwid-selected-product-button">
+            <button>Change</button>
+        </div>
+    </div>
+</div>
+</script>
+
 <div id="ecwid-product-popup-content">
     <div class="media-modal wp-core-ui">
         <div class="media-modal-content" data-mode="add-product" data-active-dialog="add-product">

@@ -3,6 +3,7 @@
 class Ecwid_Integration_Gutenberg {
 	
 	const STORE_BLOCK = 'ecwid/store-block';
+	const PRODUCT_BLOCK = 'ecwid/product-block';
 	
 	public function __construct() {
 		
@@ -12,14 +13,16 @@ class Ecwid_Integration_Gutenberg {
 		add_action( 'admin_enqueue_scripts', function() {
 			EcwidPlatform::enqueue_script( 'store-editor-gutenberg' );
 			EcwidPlatform::enqueue_style( 'store-popup' );
-
+			
 			wp_localize_script( 'ecwid-store-editor-gutenberg', 'EcwidGutenbergParams', 
 				array(
 					'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 					'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
-					'title' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+					'storeBlockTitle' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
 					'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
-					'storeBlock' => self::STORE_BLOCK
+					'storeBlock' => self::STORE_BLOCK,
+					'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+					'productBlock' => self::PRODUCT_BLOCK
 				)
 			);
 
@@ -45,6 +48,9 @@ class Ecwid_Integration_Gutenberg {
 	public function enqueue_block_editor_assets() {
 		EcwidPlatform::enqueue_script( 'gutenberg-block', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		EcwidPlatform::enqueue_style( 'gutenberg-block', array( 'wp-edit-blocks' ) );
+
+		EcwidPlatform::enqueue_script( 'gutenberg-block-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
+		EcwidPlatform::enqueue_style( 'gutenberg-block-product', array( 'wp-edit-blocks' ) );
 		
 		$storeImageUrl = site_url('?file=ecwid_store_svg.svg');
 		
