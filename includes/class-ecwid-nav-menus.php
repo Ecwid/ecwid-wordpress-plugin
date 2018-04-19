@@ -210,10 +210,16 @@ class Ecwid_Nav_Menus {
 				if ( !$posts ) {
 					$posts = array();
 					$api = new Ecwid_Api_V3();
-					$categories = $api->get_categories( array( 'parent' => 0 ) );
+					$result = $api->get_categories( array( 'parent' => 0 ) );
 					
-					if ($categories) {
-                        foreach ($categories->items as $category) {
+					
+					
+					if ( $result && $result->count > 0 ) {
+					    
+					    $categories = $result->items;
+					    usort( $categories, Ecwid_Category::usort_callback() );
+					    
+                        foreach ($categories as $category) {
                             $category = Ecwid_Category::get_by_id( $category->id );
                             $post = new stdClass;
                             $post->ID = -1;

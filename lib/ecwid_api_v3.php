@@ -389,7 +389,7 @@ class Ecwid_Api_V3
 		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
-		if (0 &&$profile) {
+		if ( $profile ) {
 			return $profile;
 		}
 		

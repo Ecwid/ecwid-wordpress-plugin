@@ -337,13 +337,15 @@ class EcwidPlatform {
 		return $type . '_' . md5($url);
 	}
 
-	static public function invalidate_products_cache_from( $time )
+	static public function invalidate_products_cache_from( $time = null )
 	{
+		$time = is_null( $time ) ? time() : $time; 
 		EcwidPlatform::set( self::PRODUCTS_CACHE_VALID_FROM, $time );
 	}
 
-	static public function invalidate_categories_cache_from( $time )
+	static public function invalidate_categories_cache_from( $time = null )
 	{
+		$time = is_null( $time ) ? time() : $time;
 		EcwidPlatform::set( self::CATEGORIES_CACHE_VALID_FROM, $time );
 	}
 }

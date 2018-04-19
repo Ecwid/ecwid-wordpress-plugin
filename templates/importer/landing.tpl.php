@@ -29,7 +29,7 @@
 
     <p><?php _e( 'Ecwid allows you to upload your products in a form of CSV file. Learn more about this tool in the Ecwid Help Center', 'ecwid-shopping-cart'); ?></p>
     <p>
-        <a href="<? _e( 'https://support.ecwid.com/hc/en-us/articles/208079105-Importing-products', 'ecwid-shopping-cart' ); ?>"><?php _e( 'Learn more', 'ecwid-shopping-cart' ); ?></a>
+        <a href="<?php _e( 'https://support.ecwid.com/hc/en-us/articles/208079105-Importing-products', 'ecwid-shopping-cart' ); ?>"><?php _e( 'Learn more', 'ecwid-shopping-cart' ); ?></a>
     </p>
 </div>
 

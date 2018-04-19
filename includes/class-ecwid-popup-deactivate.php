@@ -87,8 +87,8 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		if ( $disabled ) return true;
 		
 		if ( Ecwid_Config::is_wl() ) return true;
-	
-		if (strpos(get_user_locale(), 'en') !== 0) return true;
+		
+		if (strpos(ecwid_get_current_user_locale(), 'en') !== 0) return true;
 		
 		return false;
 	}
