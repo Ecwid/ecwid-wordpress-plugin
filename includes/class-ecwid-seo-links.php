@@ -205,7 +205,11 @@ class Ecwid_Seo_Links {
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 		
-		if ( !$has_store && !Ecwid_Ajax_Defer_Renderer::is_enabled() ) return;
+		if ( !$has_store ) {
+			if ( !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
+				return;
+			}
+		}
 		
 		$link = get_page_link( $page_id );
 		$is_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
