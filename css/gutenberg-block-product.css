@@ -1,0 +1,68 @@
+.ecwid-product-block-icon {
+    background: url('../images/gutenberg-block-product.svg');
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.ecwid-product-block {
+    text-align: center;
+    font-size: 13px;
+    font-family: 'Open Sans';
+    padding: 1em;
+    background-color: #f8f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ecwid-product-block > div {
+    display: flex;
+    justify-content: center;
+}
+
+.ecwid-product-block .ecwid-product-block-header {
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.ecwid-product-block-header-icon {
+    max-height: 20px;
+    margin-right: 1ch;
+}
+
+.ecwid-product-block .ecwid-product-block-image {
+    height: 90px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 50%;
+}
+
+.ecwid-product-block .ecwid-product-block-image img {
+    width: auto;
+    max-height: 100%;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+}
+
+.ecwid-product-block .ecwid-product-block-title {
+    margin-top: 11px;
+    margin-bottom: 1em;
+}
+
+.ecwid-product-block .ecwid-product-block-button {
+    font-weight: 400;
+}
+
+.ecwid-selected-product .ecwid-selected-product-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.ecwid-selected-product .ecwid-selected-product-sku {
+    font-size: 18px;
+}
+
