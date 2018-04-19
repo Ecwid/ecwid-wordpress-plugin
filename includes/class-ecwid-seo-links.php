@@ -207,7 +207,15 @@ class Ecwid_Seo_Links {
 		
 		if ( !$has_store && !Ecwid_Ajax_Defer_Renderer::is_enabled() ) return;
 		
-		$url = esc_js( preg_replace( '|^(https?:)?//[^/]+(/?.*)|i', '$2', ( get_page_link( $page_id ) ) ) );
+		$link = get_page_link( $page_id );
+		$is_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+		if ( $is_https && strpos( $link, 'http:' ) === 0 ) {
+			$link = 'https://' . substr( $link, 4 );
+		} else if ( !$is_https && strpos( $link, 'https:' ) === 0 ) {
+			$link = 'http://' . substr( $link, 4 );
+		}
+		
+		$url = esc_js( $link );
 		
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
