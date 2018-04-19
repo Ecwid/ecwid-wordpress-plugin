@@ -23,7 +23,7 @@ class Ecwid_Seo_Links {
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
-
+			
 			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
 
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
@@ -199,16 +199,16 @@ class Ecwid_Seo_Links {
 	}
 
 	public function add_js_config() {
-
+		
 		global $wp_query;
 		$page_id = $wp_query->get( 'page_id' );
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
-
-		if ( !$has_store || !Ecwid_Ajax_Defer_Renderer::is_enabled() ) return;
-
-		$url = esc_js( get_page_link( $page_id ) );
-
+		
+		if ( !$has_store && !Ecwid_Ajax_Defer_Renderer::is_enabled() ) return;
+		
+		$url = esc_js( preg_replace( '|^(https?:)?//[^/]+(/?.*)|i', '$2', ( get_page_link( $page_id ) ) ) );
+		
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
