@@ -210,16 +210,8 @@ class Ecwid_Seo_Links {
 				return;
 			}
 		}
-		
-		$link = get_page_link( $page_id );
-		$is_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
-		if ( $is_https && strpos( $link, 'http:' ) === 0 ) {
-			$link = 'https://' . substr( $link, 4 );
-		} else if ( !$is_https && strpos( $link, 'https:' ) === 0 ) {
-			$link = 'http://' . substr( $link, 4 );
-		}
-		
-		$url = esc_js( $link );
+
+		$url = esc_js( get_page_link( $page_id ) );
 		
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
