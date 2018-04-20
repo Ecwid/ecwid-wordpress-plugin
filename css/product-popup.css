@@ -5494,7 +5494,8 @@ body, html {
 }
 
 #ecwid-product-popup-content .media-modal-content[data-mode=add-product] .media-menu a[data-content=add-product],
-#ecwid-product-popup-content .media-modal-content .media-menu a[data-content=customize] {
+#ecwid-product-popup-content .media-modal-content .media-menu a[data-content=customize],
+#ecwid-product-popup-content .media-modal-content[data-mode=selected-product] .media-menu a[data-content=selected-product] {
     display: inherit;
 }
 
@@ -5509,9 +5510,12 @@ body, html {
 
 #ecwid-product-popup-content .media-modal-content[data-active-dialog=add-product] .media-frame-title.add-product,
 #ecwid-product-popup-content .media-modal-content[data-active-dialog=customize] .media-frame-title.customize,
+#ecwid-product-popup-content .media-modal-content[data-active-dialog=selected-product] .media-frame-title.selected-product,
 #ecwid-product-popup-content .media-modal-content[data-active-dialog=add-product] .media-frame-content.add-product,
 #ecwid-product-popup-content .media-modal-content[data-active-dialog=customize] .media-frame-content.customize,
+#ecwid-product-popup-content .media-modal-content[data-active-dialog=selected-product] .media-frame-content.selected-product,
 #ecwid-product-popup-content .media-modal-content[data-mode=add-product] .media-frame-toolbar .media-toolbar-primary.add-product,
+#ecwid-product-popup-content .media-modal-content[data-mode=selected-product] .media-frame-toolbar .media-toolbar-primary.selected-product,
 #ecwid-product-popup-content .media-modal-content[data-mode=customize] .media-frame-toolbar .media-toolbar-primary.customize {
     display: inherit;
 }

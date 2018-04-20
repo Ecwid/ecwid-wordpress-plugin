@@ -117,11 +117,11 @@
     <div class="ecwid-selected-product-image">
         <img src="{{ data.imageUrl }}">
     </div>
-    <div class="ecwid-selected-product-description">
+    <div class="ecwid-selected-product-details">
         <div class="ecwid-selected-product-name">{{ data.name }}</div>
         <div class="ecwid-selected-product-sku">{{ data.sku }}</div>
         <div class="ecwid-selected-product-button">
-            <button>Change</button>
+            <button class="button button-secondary" id="choose-another-product"><?php _e(' Choose another product', 'ecwid-shopping-cart' ); ?></button>
         </div>
     </div>
 </div>
@@ -135,9 +135,14 @@
                 <div class="media-frame-menu">
                     <div class="media-menu">
                         <a href="#" class="media-menu-item active" data-content="add-product"><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?></a>
+                        <a href="#" class="media-menu-item" data-content="selected-product"><?php _e( 'Selected Product', 'ecwid-shopping-cart' ); ?></a>
                         <a href="#" class="media-menu-item" data-content="customize"><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?></a>
                     </div>
                 </div>
+                <div class="media-frame-title selected-product">
+                    <h1><?php _e( 'Selected Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+                </div>
+                
                 <div class="media-frame-title add-product active">
                     <h1><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
@@ -146,6 +151,9 @@
                     <h1><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
 
+                <div class="media-frame-content ecwid-selected-product selected-product">
+                </div>
+                
                 <div class="media-frame-content ecwid-add-product add-product">
                 </div>
 

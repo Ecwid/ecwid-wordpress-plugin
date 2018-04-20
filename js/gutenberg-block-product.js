@@ -64,6 +64,7 @@
             );
         },
         save: function( props ) {
+            return null;
             var shortcode = new wp.shortcode({
                 'tag': EcwidGutenbergParams.storeShortcodeName,
                 'attrs': props.attributes,
