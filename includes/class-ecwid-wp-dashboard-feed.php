@@ -20,7 +20,7 @@ class Ecwid_WP_Dashboard_Feed {
 		$media_url = 'https://www.ecwid.com/wp-json/wp/v2/media/';
 		$images_cdn = 'https://web-cdn.ecwid.com/wp-content/uploads/';
 		
-		$lang = get_user_locale();
+		$lang = ecwid_get_current_user_locale();
 		if ( $lang == 'ru_RU' ) {
 			$url = 'https://www.ecwid.ru/wp-json/wp/v2/posts?per_page=3&categories=1';
 			$media_url = 'https://www.ecwid.ru/wp-json/wp/v2/media/';
@@ -60,7 +60,7 @@ class Ecwid_WP_Dashboard_Feed {
 	protected function _get_cache_name()
 	{
 		$name = self::CACHE_POSTS;
-		$name .= '-' . get_user_locale();
+		$name .= '-' . ecwid_get_current_user_locale();
 		
 		return $name;
 	}
