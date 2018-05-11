@@ -115,7 +115,7 @@
 <script type="text/template" id="tmpl-selected-product">
 <div class="ecwid-selected-product">
     <div class="ecwid-selected-product-image">
-        <img src="{{ data.imageUrl }}">
+        <img src="{{ data.thumb }}">
     </div>
     <div class="ecwid-selected-product-details">
         <div class="ecwid-selected-product-name">{{ data.name }}</div>
@@ -241,6 +241,11 @@
                             <a target="_blank" class="toolbar-link customize-appearance" data-content="customize" href="#"><?php _e( 'customize appearance', 'ecwid-shopping-cart' ); ?></a>
                             <a target="_blank" class="toolbar-link add-product" data-content="add-product" style="display: none" href="#"><?php _e( 'select product', 'ecwid-shopping-cart' ); ?></a>
                             <a href="#" class="button media-button button-primary button-large media-button-select"><?php _e( 'Insert', 'ecwid-shopping-cart' ); ?></a>
+                        </div>
+                        <div class="media-toolbar-primary selected-product">
+                            <a target="_blank" class="toolbar-link customize-appearance" data-content="customize" href="#"><?php _e( 'customize appearance', 'ecwid-shopping-cart' ); ?></a>
+                            <a target="_blank" class="toolbar-link add-product" data-content="selected-product" style="display: none" href="#"><?php _e( 'selected product', 'ecwid-shopping-cart' ); ?></a>
+                            <a href="#" class="button media-button button-primary button-large media-button-update"><?php _e( 'Update', 'ecwid-shopping-cart' ); ?></a>
                         </div>
                     </div>
                 </div>

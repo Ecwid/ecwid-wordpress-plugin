@@ -19,12 +19,14 @@ jQuery(document).ready(function() {
 
         populateWidgetParams();
         setSearchParams({});
-
+        
         if (getInitialSearchData()) {
             buildProductsTable(getInitialSearchData());
         } else {
             updateSearchParams();
         }
+
+        setSelectedProduct(null);
 
         if (popup().data('params') != null) {
 
@@ -32,21 +34,28 @@ jQuery(document).ready(function() {
             if (props.id) {
                 var productTemplate = wp.template('selected-product');
 
-                var product = productTemplate(
-                    {'name': props.productName, 'imageUrl': props.productImageURL, 'sku': props.productSKU, 'id': props.id}
+                setSelectedProduct(
+                    {'name': props.productName, 'thumb': props.productImageURL, 'sku': props.productSKU, 'id': props.id}
+                );
+                
+                var productHtml = productTemplate(
+                    getSelectedProduct()
                 );
     
-                jQuery('.media-frame-content.selected-product').append(product);
+                jQuery('.media-frame-content.selected-product').empty().append(productHtml);
                 changeMode('selected-product');
+                changeTab('selected-product');
 
                 jQuery('#choose-another-product').click(function() {
-                    changeMode('add-product');
-                    changeTab('add-product');
+                    jQuery('.media-modal-content', popup()).attr('data-active-dialog', 'add-product');
+                    jQuery('.media-button-update').addClass('disabled');
                 });
+                jQuery('media-modal-content', popup()).attr('data-mode', 'selected-product');
+                changeTab('customize');
             }
-            jQuery('media-modal-content', popup()).attr('data-mode', 'selected-product');
-            changeTab('customize');
-        } else {
+        } 
+        
+        if ( !getSelectedProduct() ) {
             changeMode('add-product');
         }
 
@@ -75,7 +84,10 @@ jQuery(document).ready(function() {
     var populateWidgetParams = function() {
 
         var params;
-        if (popup().data('params')!== null) {
+        debugger;
+        if (popup().data('params') !== null && popup().data('params').props.attributes.id) {
+            
+            debugger;
             
             var selectedParams = popup().data('params').props.attributes;
             params = {
@@ -91,7 +103,9 @@ jQuery(document).ready(function() {
             ];
             for (var i = 0; i < displayMap.length; i++) {
                 var param = displayMap[i];
-                params.display[params.display.length] = selectedParams['show_' + params];
+                if ( selectedParams['show_' + param] ) {
+                    params.display[param] = true;
+                }
             }
 
 
@@ -101,9 +115,10 @@ jQuery(document).ready(function() {
                 'center_align'
             ];
             for (var i = 0; i < shortcodeMap.length; i++) {
-                var param = shortcodeMap[i];
-                params.attributes = param.attributes || {};
-                params.attributes[param] = selectedParams[param];
+                var name = shortcodeMap[i];
+                params.attributes = params.attributes || {};
+                if (selectedParams[name])
+                    params.attributes[name] = selectedParams[name];
             }
         } else {
             params = ecwidSpwParams;
@@ -156,7 +171,7 @@ jQuery(document).ready(function() {
     });
 
 
-    jQuery('.media-button-select', popup()).click(function() {
+    jQuery('.media-button-select, .media-button-update', popup()).click(function() {
         
         if (popup().data('params').saveCallback) {
             popup().data('params').saveCallback({
@@ -238,7 +253,7 @@ jQuery(document).ready(function() {
     var buildOutputParams = function() {
 
         var params = {};
-        product = getCurrentProduct();
+        product = getSelectedProduct();
 
         params.id = product.id;
         params.version = '2';
@@ -256,12 +271,12 @@ jQuery(document).ready(function() {
         return params;
     }
 
-    var setCurrentProduct = function( product ) {
+    var setSelectedProduct = function( product ) {
         popup().data('currentProduct', product);
         updateFormOnCurrentProduct();
     };
 
-    var getCurrentProduct = function() {
+    var getSelectedProduct = function() {
         return popup().data('currentProduct');
     };
 
@@ -291,12 +306,12 @@ jQuery(document).ready(function() {
     };
 
     var updateFormOnCurrentProduct = function() {
-        var product = getCurrentProduct();
+        var product = getSelectedProduct();
 
         if (product) {
-            jQuery( '.media-button-select', popup() ).removeClass( 'disabled' );
+            jQuery( '.media-button-select, .media-button-update', popup() ).removeClass( 'disabled' );
         } else {
-            jQuery( '.media-button-select', popup() ).addClass( 'disabled' );
+            jQuery( '.media-button-select, .media-button-update', popup() ).addClass( 'disabled' );
         }
 
     }
@@ -309,11 +324,11 @@ jQuery(document).ready(function() {
 
         if (jQuery(this).hasClass('selected-product')) {
             jQuery(this).closest('tbody').find('tr').removeClass('selected-product');
-            setCurrentProduct(null);
+            setSelectedProduct(null);
         } else {
             jQuery(this).closest('tbody').find('tr').removeClass('selected-product');
             jQuery(this).addClass('selected-product');
-            setCurrentProduct(jQuery(this).data('productData'));
+            setSelectedProduct(jQuery(this).data('productData'));
         }
     };
 
@@ -433,7 +448,6 @@ jQuery(document).ready(function() {
         
         renderSearchParams();
         assignHandlers();
-        setCurrentProduct(null);
         jQuery('#search-submit').removeClass('searching');
 
         if (totalPages <= 1) {
@@ -595,6 +609,7 @@ jQuery(document).ready(function() {
         jQuery('#ecwid-reset-search').click(function() {
             setSearchParams({});
             buildProductsTable(getInitialSearchData());
+            setSelectedProduct(null);
         });
     };
 

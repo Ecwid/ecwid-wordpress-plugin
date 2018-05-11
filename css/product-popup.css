@@ -5639,7 +5639,7 @@ body, html {
     vertical-align: top;
 }
 
-.media-toolbar-primary.add-product .toolbar-link {
+.media-toolbar-primary .toolbar-link {
     margin-top: 21px;
     float: left;
 }

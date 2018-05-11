@@ -22,7 +22,13 @@ class Ecwid_Integration_Gutenberg {
 					'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 					'storeBlock' => self::STORE_BLOCK,
 					'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-					'productBlock' => self::PRODUCT_BLOCK
+					'productShortcodeName' => Ecwid_Shortcode_Product::get_shortcode_name(),
+					'productBlock' => self::PRODUCT_BLOCK,
+					'storeId' => get_ecwid_store_id(),
+					'chooseProduct' => __( 'Choose product', 'ecwid-shopping-cart' ),
+					'editAppearance' => __( 'Edit Appearance', 'ecwid-shopping-cart' ),
+					'yourStoreWill' => __( 'Your store will be shown here', 'ecwid-shopping-cart' ),
+					'storeIdLabel' => __( 'Store ID', 'ecwid-shopping-cart' )
 				)
 			);
 
@@ -50,7 +56,6 @@ class Ecwid_Integration_Gutenberg {
 		EcwidPlatform::enqueue_style( 'gutenberg-block', array( 'wp-edit-blocks' ) );
 
 		EcwidPlatform::enqueue_script( 'gutenberg-block-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
-		EcwidPlatform::enqueue_style( 'gutenberg-block-product', array( 'wp-edit-blocks' ) );
 		
 		$storeImageUrl = site_url('?file=ecwid_store_svg.svg');
 		

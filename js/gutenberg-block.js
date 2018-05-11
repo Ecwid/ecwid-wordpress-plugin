@@ -1,5 +1,6 @@
 ( function( blocks, components, i18n, element, _ ) {
     var el = element.createElement;
+    var ser = blocks.serialize;
 
     var ecwidStoreParams = {
         title: EcwidGutenbergParams.storeBlockTitle,
@@ -20,19 +21,36 @@
         useOnce: true,
         
         edit: function( props ) {
+
+            return el( 'div', {className: 'ecwid-block' },
+                el( 'div', { className: 'ecwid-block-header' },
+                    el('div', {className: 'ecwid-store-block-icon'} ),
+                    EcwidGutenbergParams.yourStoreWill
+                ),
+                el( 'div', { className: 'ecwid-block-title' } , EcwidGutenbergParams.storeIdLabel + ': ' + EcwidGutenbergParams.storeId ),
+                el( 'div', {},
+                    el( 'button', { className: 'button ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, EcwidGutenbergParams.editAppearance )
+                )
+            );
             
             return el( 'div', { className: 'ecwid-store-block' }, 
-                el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance' ) )
+                el( 'button', { className: 'button button-primary ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } },  i18n.__( 'Edit Appearance' ) )
             );
         },
         save: function( props ) {
+            
+            return false;
+            
             var shortcode = new wp.shortcode({
                 'tag': EcwidGutenbergParams.storeShortcodeName,
                 'attrs': props.attributes,
                 'type': 'single'
             });
             
-            return el( element.RawHTML, null, shortcode.string() );
+            return wp.blocks.serialize(
+                wp.blocks.createBlock(EcwidGutenbergParams.storeBlock, props),
+                el( element.RawHTML, null, shortcode.string() )
+            );
         },
 
         transforms: {
@@ -105,6 +123,7 @@
             }]
         },
     };
+    
     blocks.registerBlockType( EcwidGutenbergParams.storeBlock, ecwidStoreParams);
     
 } )(

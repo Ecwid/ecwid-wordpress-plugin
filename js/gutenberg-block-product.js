@@ -47,102 +47,40 @@
             var imageUrl = props.attributes.productImageURL;
             var productName = props.attributes.productName;
             
-            if (!imageUrl)
-            imageUrl = 'https://ecwid-images.scdn4.secure.raxcdn.com/images.ecwid.com/default-store/00006.jpg';
-            if (!productName)productName = 'Horse Radish';
+            if ( !props.attributes.id ) {
+                return el( 'div', { className: 'ecwid-block' },
+                    el( 'div', { className: 'ecwid-block-header' },
+                        el( 'img', { className: 'ecwid-block-header-icon', 'src': 'http://localhost/wordpress/49/wp-content/plugins/ecwid-shopping-cart/images/gutenberg-block-product.svg'} ),
+                        'Your Product'
+                    ),
+                    el( 'div', {},
+                        el( 'button', { className: 'button ecwid-block-button', onClick: function() { var params = {'saveCallback':saveCallback, 'props': props}; ecwid_open_product_popup( params ); } }, EcwidGutenbergParams.chooseProduct )
+                    )
+                );
+            }
             
-            return el( 'div', {className: 'ecwid-product-block' },
-                el( 'div', { className: 'ecwid-product-block-header' }, 
-                    el( 'img', { className: 'ecwid-product-block-header-icon', 'src': 'http://localhost/wordpress/49/wp-content/plugins/ecwid-shopping-cart/images/gutenberg-block-product.svg'} ), 
+            return el( 'div', {className: 'ecwid-block' },
+                el( 'div', { className: 'ecwid-block-header' },
+                    el('div', {className: 'ecwid-product-block-icon'} ),
                     'Your Product' 
-                ), el( 'div', { className: 'ecwid-product-block-image' }, el( 'img', {src: imageUrl } )
+                ), el( 'div', { className: 'ecwid-block-image' }, el( 'img', {src: imageUrl } )
                 ),
-                el( 'div', { className: 'ecwid-product-block-title' } , productName ),
+                el( 'div', { className: 'ecwid-block-title' } , productName ),
                 el( 'div', {}, 
-                    el( 'button', { className: 'button ecwid-product-block-button', onClick: function() { var params = {'saveCallback':saveCallback, 'props': props}; ecwid_open_product_popup( params ); } }, i18n.__( 'Edit Appearance' ) ) 
+                    el( 'button', { className: 'button ecwid-block-button', onClick: function() { var params = {'saveCallback':saveCallback, 'props': props}; ecwid_open_product_popup( params ); } }, EcwidGutenbergParams.editAppearance ) 
                 )
             );
         },
         save: function( props ) {
-            return null;
+            return false;
             var shortcode = new wp.shortcode({
-                'tag': EcwidGutenbergParams.storeShortcodeName,
+                'tag': EcwidGutenbergParams.productShortcodeName,
                 'attrs': props.attributes,
                 'type': 'single'
             });
 
             return el( element.RawHTML, null, shortcode.string() );
-        },
-
-        transforms: {
-            from: [{
-                type: 'shortcode',
-                tag: ['ecwid', 'ec_store'],
-                attributes: {
-                    widgets: {
-                        type: 'string',
-                        shortcode: function(named) {
-                            return named.widgets
-                        }
-                    },
-                    categories_per_row: {
-                        type: 'integer',
-                        shortcode: function(named) {
-                            return named.categories_per_row
-                        }
-                    },
-                    grid: {
-                        type: 'string',
-                        shortcode: function(named) {
-                            return named.grid
-                        }
-                    },
-                    list: {
-                        type: 'integer',
-                        shortcode: function(named) {
-                            return named.list
-                        }
-                    },
-                    table: {
-                        type: 'integer',
-                        shortcode: function(named) {
-                            return named.table
-                        }
-                    },
-                    default_category_id: {
-                        type: 'integer',
-                        shortcode: function(named) {
-                            return named.default_category_id
-                        }
-                    },
-                    default_product_id: {
-                        type: 'integer',
-                        shortcode: function(named) {
-                            return named.default_product_id
-                        }
-                    },
-                    category_view: {
-                        type: 'string',
-                        shortcode: function(named) {
-                            return named.category_view
-                        }
-                    },
-                    search_view: {
-                        type: 'string',
-                        shortcode: function(named) {
-                            return named.search_view
-                        }
-                    },
-                    minicart_layout: {
-                        type: 'string',
-                        shortcode: function(named) {
-                            return named.minicart_layout
-                        }
-                    }
-                },
-                priority: 10
-            }]
-        },
+        }
     };
     blocks.registerBlockType( EcwidGutenbergParams.productBlock, ecwidBlockParams);
 
