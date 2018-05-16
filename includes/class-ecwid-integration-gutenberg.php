@@ -78,6 +78,8 @@ CSS
 	
 	public function product_render_callback($params) {
 		
+		if (!@$params['id']) return '';
+		
 		$display = array(
 			'picture', 'title', 'price', 'options', 'qty', 'addtobag' 
 		);
