@@ -21,10 +21,25 @@
         
         params.originalProps.setAttributes(attributes);
     }
+
+    var getIcon = function() {
+        return el("svg", {
+            "aria-hidden": !0,
+            role: "img",
+            focusable: "false",
+            xmlns: "http://www.w3.org/2000/svg",
+            className: "dashicon",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 20 20"
+        }, el("path", {
+            d: EcwidGutenbergParams.productIcon
+        }));
+    }
     
     var ecwidBlockParams = {
         title: EcwidGutenbergParams.productBlockTitle,
-        icon: el('div', {className:"ecwid-product-block-icon"}),
+        icon: getIcon(),
         category: 'common',
         attributes: {
             id: { type: 'integer' },
@@ -50,8 +65,8 @@
             if ( !props.attributes.id ) {
                 return el( 'div', { className: 'ecwid-block' },
                     el( 'div', { className: 'ecwid-block-header' },
-                        el( 'img', { className: 'ecwid-block-header-icon', 'src': 'http://localhost/wordpress/49/wp-content/plugins/ecwid-shopping-cart/images/gutenberg-block-product.svg'} ),
-                        'Your Product'
+                        getIcon(),
+                        EcwidGutenbergParams.yourProductLabel
                     ),
                     el( 'div', {},
                         el( 'button', { className: 'button ecwid-block-button', onClick: function() { var params = {'saveCallback':saveCallback, 'props': props}; ecwid_open_product_popup( params ); } }, EcwidGutenbergParams.chooseProduct )
@@ -62,7 +77,7 @@
             return el( 'div', {className: 'ecwid-block' },
                 el( 'div', { className: 'ecwid-block-header' },
                     el('div', {className: 'ecwid-product-block-icon'} ),
-                    'Your Product' 
+                    EcwidGutenbergParams.yourProductLabel 
                 ), el( 'div', { className: 'ecwid-block-image' }, el( 'img', {src: imageUrl } )
                 ),
                 el( 'div', { className: 'ecwid-block-title' } , productName ),

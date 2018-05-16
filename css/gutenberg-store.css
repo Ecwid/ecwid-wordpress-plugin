@@ -47,7 +47,7 @@
     margin-bottom: 1em;
 }
 
-.ecwid-block-header-icon {
+.ecwid-block .ecwid-block-header svg {
     max-height: 20px;
     margin-right: 1ch;
 }

@@ -50,7 +50,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 	public function render_placeholder() {
 		$widget_parts = array();
-
+		
 		if ($this->params['version'] == 1) {
 			$widget_parts = $this->_get_widget_parts_v1();
 		} else if ($this->params['version'] == 2) {

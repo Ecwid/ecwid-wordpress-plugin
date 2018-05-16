@@ -1,10 +1,24 @@
 ( function( blocks, components, i18n, element, _ ) {
     var el = element.createElement;
-    var ser = blocks.serialize;
-
+    
+    var getIcon = function() {
+        return el("svg", {
+            "aria-hidden": !0,
+            role: "img",
+            focusable: "false",
+            xmlns: "http://www.w3.org/2000/svg",
+            className: "dashicon",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 20 20"
+        }, el("path", {
+            d: EcwidGutenbergParams.storeIcon
+        }));
+    }
+    
     var ecwidStoreParams = {
         title: EcwidGutenbergParams.storeBlockTitle,
-        icon: el('div', {className:"ecwid-store-block-icon"}),
+        icon: getIcon(),
         category: 'common',
         attributes: {
             widgets: { type: 'string' },
@@ -24,7 +38,7 @@
 
             return el( 'div', {className: 'ecwid-block' },
                 el( 'div', { className: 'ecwid-block-header' },
-                    el('div', {className: 'ecwid-store-block-icon'} ),
+                    getIcon(),
                     EcwidGutenbergParams.yourStoreWill
                 ),
                 el( 'div', { className: 'ecwid-block-title' } , EcwidGutenbergParams.storeIdLabel + ': ' + EcwidGutenbergParams.storeId ),
