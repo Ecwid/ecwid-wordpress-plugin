@@ -53,20 +53,18 @@ class vcInfoBox extends WPBakeryShortCode {
 		vc_map(
 
 			array(
-				'name' => sprintf( __('%s Store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'name' => sprintf( _x('Online store', 'vc-tab', 'ecwid-shopping-cart' ) ),
 				'base' => 'vc_ecwid_store',
-				'description' => 'I AM DESCRIPTION',
-				'category' => __('!!!!!!!!!!!ECWID WIDGETS!!!!!!!!!!!!'),
+				'description' => __( 'Displays storefront: product listing and checkout', 'ecwid-shopping-cart' ),
+				'category' => _x( 'Online store', 'vc-tab', 'ecwid-shopping-cart' ),
 				'icon' => ECWID_PLUGIN_URL . 'images/wordpress_20x20.svg',
 				'params' => array(
 					
 					array(
 						'type' => 'checkbox',
-						'heading' => '>>>ПОИСК. НЕОБЯЗАТЕЛЬНЫЙ ЗАГОЛОВОК<<<',
 						'param_name' => 'show_search',
-						'group' => '>>>>>ГРУППА<<<<<',
-						'value' => array( __( '>>>>>ТЕКСТ У ЧЕКБОКСА<<<<<', 'ecwid-shopping-cart' ) => 'yes' ),
-						'description' => '>>>>>НЕОБЯЗАТЕЛЬНОЕ ОПИСАНИЕ<<<<<',
+						'group' => __( 'Settings', 'ecwid-shopping-cart' ),
+						'value' => array( __( 'Show search', 'ecwid-shopping-cart' ) => 'yes' ),
 						'std' => 'yes',
 					),
 
@@ -75,7 +73,7 @@ class vcInfoBox extends WPBakeryShortCode {
 						'type' => 'checkbox',
 						'param_name' => 'show_categories',
 						'value' => array( __( 'Show categories', 'ecwid-shopping-cart' ) => 'yes' ),
-						'group' => '>>>>>ГРУППА<<<<<',
+						'group' => __( 'Settings', 'ecwid-shopping-cart' ),
 						'std' => 'yes'
 					),
 
@@ -83,7 +81,7 @@ class vcInfoBox extends WPBakeryShortCode {
 						'type' => 'checkbox',
 						'param_name' => 'show_minicart',
 						'value' => array( __( 'Show minicart', 'ecwid-shopping-cart' ) => 'yes' ),
-						'group' => '>>>>>ГРУППА<<<<<',
+						'group' => __( 'Settings', 'ecwid-shopping-cart' ),
 						'std' => 'yes'
 					),
 					array(
@@ -91,7 +89,7 @@ class vcInfoBox extends WPBakeryShortCode {
 						'param_name' => 'default_category_id',
 						'heading' => __( 'Category shown by default', 'ecwid-shopping-cart' ),
 						'value' => $cats,
-						'group' => '>>>>>ГРУППА<<<<<'
+						'group' => __( 'Settings', 'ecwid-shopping-cart' )
 					),
 				)
 			)
