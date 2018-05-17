@@ -57,7 +57,7 @@ jQuery(document).ready(function() {
         for (var i = 0; i < posts.length; i++) {
             var post = jQuery('#ecwid_blog_feed .template-container .ecwid-blog-post').clone();
             post.addClass('ecwid-post-id-' + posts[i].id);
-            jQuery('.ecwid-blog-post-link', post).attr('href', posts[i].link);
+            jQuery('.ecwid-blog-post-link', post).attr('href', posts[i].link + '?utm_source=wpdashboard');
             jQuery('.ecwid-blog-post-title', post).html(posts[i].title);
             jQuery('.ecwid-blog-post-excerpt', post).html(posts[i].excerpt);
             

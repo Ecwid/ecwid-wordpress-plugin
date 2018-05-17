@@ -3,8 +3,10 @@
 
     <p><?php echo sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></p>
 
+    <?php if ( !Ecwid_Config::is_wl() ): ?>
     <p><?php echo sprintf( __( '<b>Important note:</b> import creates new products.  please mind the maximum number of products and categories you can add to your store. This import tool will automatically stop when you reach the limit. To learn the current store limit or increase it, please see the "<a %s>Billing & Plans</a>" page in your store control panel. ', 'ecwid-shopping-cart' ), 'href="admin.php?page=ec-store-admin-billing"' ); ?></p>
-
+    <?php endif; ?>
+    
     <h2><?php _e( 'Import summary.', 'ecwid-shopping-cart' ); ?></h2>
     <p>
 		<?php
