@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 6.0.3
+Stable tag: 6.0.4
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -35,7 +35,7 @@ So you don't need to worry about software updates, security patches and server m
 
 = PCI DSS validated Level 1 Service Provider =
 
-Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that when selling online with the Ecwid plugin, you won’t have any problems with the bank you do business with. With 40+ payment options and secure HTTPS checkout, your Ecwid shopping cart is PCI DSS compliant from the beginning.
+Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that Ecwid helps your online store meet the security requirements of the bank you do business with.
 
 = Free Support =
 
@@ -107,7 +107,7 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 = How secure is this plugin? Is my store PCI DSS compliant? =
 
-Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard for e-commerce solutions worldwide. This means you won’t have any banking compliance issues when selling online with Ecwid. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin).
+Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard for e-commerce solutions worldwide. This helps your online store meet the security requirements of the bank you do business with. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin)
 
  = How much does Ecwid cost? =
 
