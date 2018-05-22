@@ -56,7 +56,12 @@
             productSKU: {type: 'string' },
             productImageURL: {type: 'string' }
         },
-
+        supports: {
+            customClassName: false,
+            className: false,
+            html: false
+        },
+        
         edit: function( props ) {
 
             var imageUrl = props.attributes.productImageURL;

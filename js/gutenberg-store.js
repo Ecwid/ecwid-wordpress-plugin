@@ -32,6 +32,11 @@
             search_view: { type: 'string' },
             minicart_layout: {type: 'string' }
         },
+        supports: {
+            customClassName: false,
+            className: false,
+            html: false
+        },
         useOnce: true,
         
         edit: function( props ) {
