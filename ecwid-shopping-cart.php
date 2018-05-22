@@ -650,6 +650,9 @@ function ecwid_check_version()
 
 		// Since 5.8.1+
 		add_option( Ecwid_Products::OPTION_SYNC_LIMIT, 20 );
+		
+		// Since 6.0.x
+		add_option( 'ecwid_hide_prefetch', 'off' );
 
 		Ecwid_Config::load_from_ini();
 
@@ -1010,6 +1013,12 @@ function ecwid_ajax_crawling_fragment() {
 
 function ecwid_meta() {
 
+	global $is_IE;
+	
+	if ( $is_IE  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
+		return;	
+	}
+	
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     
     if (!Ecwid_Store_Page::is_store_page()) {
@@ -1871,6 +1880,14 @@ function ecwid_get_update_params_options() {
 		),
 		'ecwid_print_html_catalog' => array(
 			'type' => 'bool'
+		),
+		
+		'ecwid_hide_prefetch' => array(
+			'values' => array(
+				'on',
+				'off',
+				'auto'
+			)
 		)
 	);
 
