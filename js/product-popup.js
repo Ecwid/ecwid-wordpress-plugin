@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
 
         setSelectedProduct(null);
 
-        if (popup().data('params') != null) {
+        if (popup().data('params')) {
 
             var props = popup().data('params').props.attributes;
             if (props.id) {
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
 
         var params;
         debugger;
-        if (popup().data('params') !== null && popup().data('params').props.attributes.id) {
+        if (popup().data('params') && popup().data('params').props.attributes.id) {
             
             debugger;
             
@@ -173,7 +173,7 @@ jQuery(document).ready(function() {
 
     jQuery('.media-button-select, .media-button-update', popup()).click(function() {
         
-        if (popup().data('params').saveCallback) {
+        if (popup().data('params') && popup().data('params').saveCallback) {
             popup().data('params').saveCallback({
                 originalProps: popup().data('params').props,
                 newProps: buildOutputParams()
