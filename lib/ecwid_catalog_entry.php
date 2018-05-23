@@ -74,15 +74,8 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function get_seo_link( $baseUrl = '' )
 	{
-		if ( !$baseUrl && Ecwid_Store_Page::is_store_page() ) {
-			$baseUrl = Ecwid_Store_Page::get_page_base_url();
-		}
 		if ( isset( $this->_data->seo_link ) ) {
-			
-			$parts = Ecwid_Seo_Links::get_seo_url_parts( $this->_data->seo_link );
-			
-			die( var_dump( $baseUrl . $parts[0] . '-' . $this->_link_prefix . $this->_data->id ) );
-			return $baseUrl . $parts[0] . '-' . $this->_link_prefix . $this->_data->id;
+			return $this->_data->seo_link;
 		} else if ( $this->_data->id && isset($this->_data->name) ) {
 
 			if ( !$baseUrl ) {

@@ -244,18 +244,6 @@ JS;
 		return array( 'mode' => $modes[$matches[1]], 'id' => $matches[2] );
 	}
 
-	public static function get_seo_url_part_suffix( $url )
-	{
-		$pattern = self::_get_pb_preg_pattern();
-		
-		$matches = array();
-		if ( preg_match( $pattern, $url, $matches ) ) {
-			return $matches;
-		}
-		
-		return false;
-	}
-	
 	public static function is_product_browser_url( $url = '' ) {
 		if (!$url) {
 			$url = add_query_arg( null, null );
@@ -265,7 +253,7 @@ JS;
 	}
 
 	protected static function _get_pb_preg_pattern() {
-		return $pattern = '![^/]*/?([^/]*)-(p|c)([0-9]+)(\/.*|\?.*)?$!';
+		return $pattern = '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';
 	}
 
 	public function build_rewrite_rules( ) {
