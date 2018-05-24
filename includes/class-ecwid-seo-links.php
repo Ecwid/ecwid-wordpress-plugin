@@ -326,14 +326,11 @@ JS;
 
 			if (
 				is_plugin_active('polylang/polylang.php')
+				&& function_exists( 'PLL' )
 				&& function_exists('pll_get_post_language')
-				&& class_exists('PLL_Model')
-				&& method_exists('PLL_Model', 'get_links_model')
 			) {
-				$options = get_option('polylang');
-				$model = new PLL_Model($options);
-				$links_model = $model->get_links_model();
-				if ($links_model instanceof PLL_Links_Directory) {
+				
+				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
 						$link = urldecode( get_page_uri( $page_id ) );
