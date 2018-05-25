@@ -339,10 +339,6 @@ class Ecwid_Importer
 		$result = array();
 		foreach ( $product_categories as $category ) {
 			
-			if ( $category->slug == 'uncategorized' ) {
-				continue;
-			}
-			
 			$result[] = array(
 				'woo_id' => $category->term_id,
 				'parent_id' => $parent,
