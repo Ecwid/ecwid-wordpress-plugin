@@ -2794,7 +2794,7 @@ function ecwid_get_store_page_url()
 	static $link = null;
 
 	if (is_null($link)) {
-		$link = get_page_link( Ecwid_Store_Page::get_current_store_page_id() );
+		$link = get_permalink( Ecwid_Store_Page::get_current_store_page_id() );
 	}
 
 	return $link;

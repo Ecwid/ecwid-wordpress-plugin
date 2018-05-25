@@ -87,7 +87,7 @@ HTML;
 		}
 		
 		if ($id) {
-			$page_url = get_page_link( $id );
+			$page_url = get_permalink( $id );
 		} else {
 			$page_url = '';
 		}

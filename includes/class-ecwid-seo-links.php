@@ -211,7 +211,7 @@ class Ecwid_Seo_Links {
 			}
 		}
 
-		$url = esc_js( get_page_link( $page_id ) );
+		$url = esc_js( get_permalink( $page_id ) );
 		
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
