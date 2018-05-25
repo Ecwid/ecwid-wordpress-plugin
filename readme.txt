@@ -102,6 +102,8 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 3.
 4.
 5.
+6.
+7.
 
 == Frequently Asked Questions ==
 
