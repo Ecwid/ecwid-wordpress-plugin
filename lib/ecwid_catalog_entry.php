@@ -74,12 +74,14 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function get_seo_link( $baseUrl = '' )
 	{
-		if ( isset( $this->_data->seo_link ) ) {
-			return $this->_data->seo_link;
-		} else if ( $this->_data->id && isset($this->_data->name) ) {
+		if ( $this->_data->id && isset($this->_data->name) ) {
 
 			if ( !$baseUrl ) {
-				$baseUrl = Ecwid_Store_Page::get_store_url();
+				if ( Ecwid_Store_Page::is_store_page() ) {
+					$baseUrl = get_permalink();
+				} else {
+					$baseUrl = Ecwid_Store_Page::get_store_url();
+				}
 			}
 			$url = $baseUrl;
 			
@@ -90,6 +92,8 @@ abstract class Ecwid_Catalog_Entry {
 			$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
 
 			return $url;
+		} else if ( isset( $this->_data->seo_link ) ) {
+			return $this->_data->seo_link;
 		}
 
 		return false;
