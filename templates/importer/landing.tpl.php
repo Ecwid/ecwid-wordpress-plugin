@@ -10,14 +10,14 @@
     
     <p>    
         <?php printf(__( 
-                'We found you have a WooCommerce installed. Your WooCommerce store has %1$s&nbsp;products and %2$s&nbsp;categories. Would you like to import them to %3$s?', 
+                'We found you have a WooCommerce installed. Your WooCommerce store has %1$s&nbsp;products and %2$s&nbsp;categories. Would you like to import it to %3$s?', 
                 'ecwid-shopping-cart'
             ),
             Ecwid_Importer::count_woo_products(), Ecwid_Importer::count_woo_categories(), Ecwid_Config::get_brand()
         ); ?>
     </p>
     <a href="admin.php?page=<?php echo self::PAGE_SLUG_WOO; ?>">
-        <?php printf( __( 'Import your WooCommerce products to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+        <?php printf( __( 'Import your WooCommerce catalog to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
     </a>
     
     <p><?php _e('(You will be able to confirm the changes before the actual import)', 'ecwid-shopping-cart' ); ?></p>

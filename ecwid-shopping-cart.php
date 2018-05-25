@@ -1523,6 +1523,9 @@ function _ecwid_get_single_product_widget_parts_v2($attributes) {
 
 function ecwid_shortcode($attributes)
 {
+	if ( isset( $_GET['fl_builder'] ) ) {
+		return '<div>Here goes the store </div>';
+	}
 	$defaults = ecwid_get_default_pb_size();
 
 	$attributes = shortcode_atts(
