@@ -17,5 +17,11 @@ echo ecwid_get_product_browser_url_script();
 
 <script>
     Ecwid.init();
+    
+    <?php if ( $instance[self::FIELD_FIXED] == 'TRUE' ): ?>
+    jQuery(document).ready(function() {
+        jQuery('.ec-cart-widget').appendTo('body');
+    });
+    <?php endif; ?>
 </script>
 <!-- /noptimize -->
