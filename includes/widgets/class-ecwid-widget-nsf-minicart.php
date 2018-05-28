@@ -5,9 +5,6 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	protected $__idbase;
 
 	const FIELD_TITLE = 'title';
-	const FIELD_FIXED = 'fixed';
-	const FIELD_SHOW_EMPTY_CART = 'show-empty-cart';
-	const FIELD_FIXED_POSITION = 'fixed-position';
 	const FIELD_LAYOUT = 'layout';
 	const FIELD_ICON = 'icon';
 	const FIELD_FIXED_SHAPE = 'fixed-shape';
@@ -44,9 +41,6 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 		
 		$new_instance = wp_parse_args( (array) $new_instance, array(
 			self::FIELD_TITLE => '',
-			self::FIELD_FIXED => 'FALSE',
-			self::FIELD_SHOW_EMPTY_CART => 'TRUE', // Must be the opposite of default checkbox checked value
-			self::FIELD_FIXED_POSITION => 'BOTTOM_RIGHT',
 			self::FIELD_LAYOUT => 'BIG_ICON_DETAILS_SUBTOTAL',
 			self::FIELD_ICON => 'BAG',
 			self::FIELD_FIXED_SHAPE => '',
@@ -62,12 +56,9 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 
 			self::FIELD_TITLE => '',
-			self::FIELD_FIXED => 'FALSE',
-			self::FIELD_SHOW_EMPTY_CART => 'FALSE',
-			self::FIELD_FIXED_POSITION => 'BOTTOM_RIGHT',
 			self::FIELD_LAYOUT => 'BIG_ICON_DETAILS_SUBTOTAL',
 			self::FIELD_ICON => 'BAG',
-			self::FIELD_FIXED_SHAPE => '',
+			self::FIELD_FIXED_SHAPE => 'RECT',
 			self::FIELD_SHOW_BUY_ANIMATION => 'TRUE'
 			
 		) );
@@ -85,15 +76,6 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 			'MEDIUM_ICON_TITLE_COUNTER' => __( 'Medium icon title counter', 'ecwid-shopping-cart' ),
 			'BIG_ICON_TITLE_SUBTOTAL' => __( 'Big icon title subtotal', 'ecwid-shopping-cart' ),
 			'BIG_ICON_DETAILS_SUBTOTAL' => __( 'Big icon details subtotal', 'ecwid-shopping-cart' )	
-		);
-	}
-	
-	protected function _get_positions() {
-		return array(
-			'BOTTOM_RIGHT' => __( 'Bottom right', 'ecwid-shopping-cart' ),
-			'TOP_RIGHT' => __( 'Top right', 'ecwid-shopping-cart' ),
-			'TOP_LEFT' => __( 'Top left', 'ecwid-shopping-cart' ),
-			'BOTTOM_LEFT' => __( 'Bottom left', 'ecwid-shopping-cart' )
 		);
 	}
 	
