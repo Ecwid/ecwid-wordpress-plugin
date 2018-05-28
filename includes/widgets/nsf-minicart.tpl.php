@@ -7,8 +7,8 @@ echo ecwid_get_product_browser_url_script();
 
 <div class='ec-cart-widget'
 	 data-fixed='false'
+	 data-fixed-shape='<?php echo $instance[self::FIELD_FIXED_SHAPE]; ?>'
 	 data-layout='<?php echo $instance[self::FIELD_LAYOUT]; ?>'
-	 data-show-empty-cart='<?php echo $instance[self::FIELD_SHOW_EMPTY_CART]; ?>'
 	 data-icon='<?php echo $instance[self::FIELD_ICON]; ?>'
 ></div>
 

@@ -11,10 +11,10 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
  	
 	function __construct() {
 		
-		$this->__idbase = 'ecwid_minicart2';
+		$this->__idbase = 'ecwidnsfminicart';
 		
 		$widget_ops = array('classname' => 'widget_' . $this->__idbase, 'description' => __("Adds a cart widget for customer to see the products they added to the cart.", 'ecwid-shopping-cart') );
-		parent::__construct($this->__idbase, __('NEW Shopping Cart', 'ecwid-shopping-cart'), $widget_ops);
+		parent::__construct($this->__idbase, __('Shopping Cart', 'ecwid-shopping-cart'), $widget_ops);
 
 	}
 
@@ -64,13 +64,13 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	protected function _get_layouts() {
 		return array(
 			'SMALL_ICON' => __( 'Small icon', 'ecwid-shopping-cart' ),
-			'SMALL_ICON_COUNTER' => __( 'Small icon counter', 'ecwid-shopping-cart' ),
-			'COUNTER_ONLY' => __( 'Counter only', 'ecwid-shopping-cart' ),
-			'TITLE_COUNTER' => __( 'Title counter', 'ecwid-shopping-cart' ),
-			'MEDIUM_ICON_COUNTER' => __( 'Medium icon counter', 'ecwid-shopping-cart' ),
-			'MEDIUM_ICON_TITLE_COUNTER' => __( 'Medium icon title counter', 'ecwid-shopping-cart' ),
-			'BIG_ICON_TITLE_SUBTOTAL' => __( 'Big icon title subtotal', 'ecwid-shopping-cart' ),
-			'BIG_ICON_DETAILS_SUBTOTAL' => __( 'Big icon details subtotal', 'ecwid-shopping-cart' )	
+			'SMALL_ICON_COUNTER' => __( 'Small icon and item count', 'ecwid-shopping-cart' ),
+			'COUNTER_ONLY' => __( 'Item count only', 'ecwid-shopping-cart' ),
+			'TITLE_COUNTER' => __( 'Label and item count', 'ecwid-shopping-cart' ),
+			'MEDIUM_ICON_COUNTER' => __( 'Icon and item count', 'ecwid-shopping-cart' ),
+			'MEDIUM_ICON_TITLE_COUNTER' => __( 'Icon, label and item count', 'ecwid-shopping-cart' ),
+			'BIG_ICON_TITLE_SUBTOTAL' => __( 'Icon, label, item count and subtotal', 'ecwid-shopping-cart' ),
+			'BIG_ICON_DETAILS_SUBTOTAL' => __( 'Icon, label, item count, subtotal and link', 'ecwid-shopping-cart' )	
 		);
 	}
 	

@@ -3,7 +3,7 @@ class Ecwid_Widget_Minicart_Miniview extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_minicart_miniview', 'description' => __("Adds a compact cart widget for customer to see the products they added to the cart.", 'ecwid-shopping-cart') );
-		parent::__construct('ecwidminicart_miniview', __('Shopping Cart (Mini)', 'ecwid-shopping-cart'), $widget_ops);
+		parent::__construct('ecwidminicart_miniview', __('Shopping Cart (Mini) (deprecated)', 'ecwid-shopping-cart'), $widget_ops);
 	}
 
 	function widget($args, $instance) {

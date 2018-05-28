@@ -1,7 +1,7 @@
 <p>
     <label>
-        <?php _e( 'Layout', 'ecwid-shopping-cart' ); ?>
-        <select 
+        <?php _e( 'Layout:', 'ecwid-shopping-cart' ); ?>
+        <select class="widefat" 
                 name="<?php echo $this->get_field_name( self::FIELD_LAYOUT ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_LAYOUT ); ?>"
         >
@@ -16,8 +16,8 @@
 
 <p>
     <label>
-        <?php _e( 'Cart icon', 'ecwid-shopping-cart' ); ?>
-        <select 
+        <?php _e( 'Cart icon:', 'ecwid-shopping-cart' ); ?>
+        <select class="widefat" 
                 name="<?php echo $this->get_field_name( self::FIELD_ICON ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_ICON ); ?>"
         >
@@ -32,8 +32,8 @@
 
 <p>
     <label>
-        <?php _e( 'Border', 'ecwid-shopping-cart' ); ?>
-        <select 
+        <?php _e( 'Border:', 'ecwid-shopping-cart' ); ?>
+        <select class="widefat"
                 name="<?php echo $this->get_field_name( self::FIELD_FIXED_SHAPE ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_FIXED_SHAPE ); ?>"
         >
