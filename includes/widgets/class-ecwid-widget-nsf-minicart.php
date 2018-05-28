@@ -8,7 +8,6 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	const FIELD_LAYOUT = 'layout';
 	const FIELD_ICON = 'icon';
 	const FIELD_FIXED_SHAPE = 'fixed-shape';
-	const FIELD_SHOW_BUY_ANIMATION = 'show-buy-animation';
  	
 	function __construct() {
 		
@@ -44,8 +43,6 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 			self::FIELD_LAYOUT => 'BIG_ICON_DETAILS_SUBTOTAL',
 			self::FIELD_ICON => 'BAG',
 			self::FIELD_FIXED_SHAPE => '',
-			self::FIELD_SHOW_BUY_ANIMATION => 'FALSE' // Must be the opposite of default checkbox checked value
-
 		) );
 		
 		$new_instance['title'] = strip_tags( stripslashes( $new_instance['title'] ) );
@@ -58,9 +55,7 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 			self::FIELD_TITLE => '',
 			self::FIELD_LAYOUT => 'BIG_ICON_DETAILS_SUBTOTAL',
 			self::FIELD_ICON => 'BAG',
-			self::FIELD_FIXED_SHAPE => 'RECT',
-			self::FIELD_SHOW_BUY_ANIMATION => 'TRUE'
-			
+			self::FIELD_FIXED_SHAPE => 'RECT'
 		) );
 		
 		require 'nsf-minicart-editor.tpl.php';

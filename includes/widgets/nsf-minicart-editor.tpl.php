@@ -47,17 +47,6 @@
 </p>
 
 <p>
-    <label>
-        <?php _e( 'Show add to cart animation', 'ecwid-shopping-cart' ); ?>
-        <input type="checkbox" value="TRUE"
-               id="<?php echo $this->get_field_id( self::FIELD_SHOW_BUY_ANIMATION ); ?>" 
-               name="<?php echo $this->get_field_name( self::FIELD_SHOW_BUY_ANIMATION ); ?>"
-               <?php if ( $instance[self::FIELD_SHOW_BUY_ANIMATION] === 'TRUE' ): ?>checked="checked"<?php endif; ?>
-        >
-    </label>
-</p>
-
-<p>
     <label for="<?php echo $this->get_field_name( self::FIELD_TITLE ); ?>"><?php _e ( 'Title:' ); ?>
         <input class="widefat" 
                id="<?php echo $this->get_field_id( self::FIELD_TITLE ); ?>" 
