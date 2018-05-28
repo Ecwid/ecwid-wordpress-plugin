@@ -14,7 +14,7 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_floating_shopping_cart', 'description' => __("Adds a shopping cart widget to the top right corner of your site.", 'ecwid-shopping-cart') );
-		parent::__construct('ecwidfloatingshoppingcart', __('Shopping Cart (Floating) (deprecated)', 'ecwid-shopping-cart'), $widget_ops);
+		parent::__construct('ecwidfloatingshoppingcart', __('Shopping Cart Floating (deprecated)', 'ecwid-shopping-cart'), $widget_ops);
 
 		add_action('init', array($this, 'init'));
 	}
