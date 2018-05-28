@@ -53,7 +53,7 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 
 			self::FIELD_TITLE => '',
-			self::FIELD_LAYOUT => 'BIG_ICON_DETAILS_SUBTOTAL',
+			self::FIELD_LAYOUT => 'BIG_ICON_TITLE_SUBTOTAL',
 			self::FIELD_ICON => 'BAG',
 			self::FIELD_FIXED_SHAPE => 'RECT'
 		) );
