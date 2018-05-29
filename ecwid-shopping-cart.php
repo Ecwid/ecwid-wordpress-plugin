@@ -1013,9 +1013,10 @@ function ecwid_ajax_crawling_fragment() {
 
 function ecwid_meta() {
 
-	global $is_IE;
+	$is_ie = strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false 
+		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) !== false;
 	
-	if ( $is_IE  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
+	if ( $is_ie  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
 		return;	
 	}
 	
