@@ -302,8 +302,8 @@ TXT
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
-					&& get_ecwid_store_id() % 2 == 0
-					&& !Ecwid_Config::is_wl();
+					&& wp_count_posts( 'product' )->publish > 0
+					&& ecwid_migrations_is_original_plugin_version_older_than( get_option('ecwid_plugin_version' ) );
 				
 			case 'please_vote':
 
