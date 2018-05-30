@@ -302,6 +302,7 @@ TXT
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
+					&& !ecwid_is_demo_store()
 					&& wp_count_posts( 'product' )->publish > 0
 					&& get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
 				
