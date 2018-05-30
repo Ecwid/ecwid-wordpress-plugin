@@ -2095,6 +2095,10 @@ function ecwid_get_register_link()
 {
 	$link = Ecwid_Config::get_registration_url();
 
+	if ( empty( $link ) ) {
+		$link = 'https://' . Ecwid_Config::get_cpanel_domain() . '/api/oauth/authorize';
+	}
+	
 	if ( strpos($link, '?') ) {
 		$link .= '&';
 	} else {
