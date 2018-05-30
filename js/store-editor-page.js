@@ -313,6 +313,8 @@ jQuery(document).ready(function() {
 	});
 
 	createGutenbergedShortcodeString = function( shortcode ) {
+		return shortcode.string();
+		
 		var result = '<!-- wp:ecwid/store-block ';
 		
 		result += JSON.stringify(shortcode.attrs.named);
