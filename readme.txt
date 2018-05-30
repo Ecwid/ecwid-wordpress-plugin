@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 6.0.4
+Stable tag: 6.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,16 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.1 - May 30, 2018 =
+- **Compatibility with Gutenberg: buy now buttons in the page editor.** Gutenberg editor is getting more and more popular and will soon be the default WordPress editor. To make sure Ecwid users are ready for it, we are adding Gutenberg support to our plugin. In the previous update, we added a “Store” block to the Gutenberg editor toolbar. This update brings another button to the editor toolbar — “Ecwid product”. Use this one to add product widgets and buy now buttons to the pages and posts of your site.
+- **Revamped cart widget for sidebar.** We added a new sidebar widget that allows to display a cart icon along with items count and subtotal in the sidebar. The new shopping cart icon widget looks better and provides a lot of layout customization options — don’t forget to play with its settings when adding it to your sidebar. You can find the new widget under Appearance → Widgets in your Wordpress admin backend. 
+- **New design/appearance settings: new customization options for your storefront.** We added a lot of new design settings to your store dashboard. Read this detailed post to learn how to tweak your store appearance: [https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html](https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html)
+- **Compatibility with WP Bakery page builder.** We fixed a few issues and made Ecwid widgets work fine in the “WP Bakery” page builder. Now you can use that sitebuilder with the Ecwid plugin — everything should work fine. 
+- **Fixed a pre-renderering issue in IE browser.** The Ecwid e-commerce plugin adds prerender/preload tags to your site code — those are special html codes aimed to make the store page loads faster for your customers. This pre-rendering technology didn’t work well in old IE browsers (IE 11 and older) so we disabled it for IE visitors on your site. It works automatically, so no actions required from your side. 
+- **Compatibility with Polylang plugin.** We got a report from one of our customers stating that Ecwid didn’t work well with Polylang plugin. We fixed an issue, now everything should work fine. 
+- Improvements and fixes for the plugin navigation in the WP admin menu.
+- Improvements and fixes for store pages SEO friendly urls. 
+
 = 6.0.3 - Apr 19, 2018 =
 - Fixed incorrect sorting in the store categories menu widgets. If you use display store categories inn your site menu or in a sidebar using the Ecwid categories sidebar widget, you might notice that the categories list order differs from that in your store control panel. We fixed that — now the sorting matches. 
 - Fixed unclickable products/categories in storefront. This issue appeared in very rare occasions, when a site is running on https (like https://example.com) but someone opens it using an http link (http://example.com). If there was no redirect (it happens sometimes), you might notice that your store product listing doesn’t react on clicks in the http version of your site. We fixed that — now it works well in all cases. We recommend redirecting http to https version though anyway.

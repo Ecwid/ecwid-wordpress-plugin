@@ -303,7 +303,7 @@ TXT
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
 					&& wp_count_posts( 'product' )->publish > 0
-					&& ecwid_migrations_is_original_plugin_version_older_than( get_option('ecwid_plugin_version' ) );
+					&& get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
 				
 			case 'please_vote':
 
