@@ -108,7 +108,7 @@ class Ecwid_Store_Page {
 				return get_bloginfo( 'url' );
 			}
 			
-			$link = get_page_link( $id );
+			$link = get_permalink( $id );
 		}
 
 		return $link;
@@ -351,7 +351,7 @@ class Ecwid_Store_Page {
 			$category = $attributes['default_category_id'];
 		}
 		
-		$page_url = get_page_link($store_page);
+		$page_url = get_permalink( $store_page );
 
 		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
 

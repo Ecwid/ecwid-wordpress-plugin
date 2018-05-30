@@ -93,7 +93,7 @@ jQuery(document).ready(function() {
 		return {
 			'show_search': true,
 			'show_minicart': true,
-			'show_categories': true,
+			'show_categories': false,
 			'categories_per_row': 3,
 			'grid_rows': ecwid_pb_defaults.grid_rows,
 			'grid_columns': ecwid_pb_defaults.grid_columns,

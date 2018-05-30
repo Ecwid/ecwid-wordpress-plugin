@@ -1,9 +1,24 @@
 ( function( blocks, components, i18n, element, _ ) {
     var el = element.createElement;
-
+    
+    var getIcon = function() {
+        return el("svg", {
+            "aria-hidden": !0,
+            role: "img",
+            focusable: "false",
+            xmlns: "http://www.w3.org/2000/svg",
+            className: "dashicon",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 20 20"
+        }, el("path", {
+            d: EcwidGutenbergParams.storeIcon
+        }));
+    }
+    
     var ecwidStoreParams = {
-        title: EcwidGutenbergParams.title,
-        icon: el('div', {className:"ecwid-store-block-icon"}),
+        title: EcwidGutenbergParams.storeBlockTitle,
+        icon: getIcon(),
         category: 'common',
         attributes: {
             widgets: { type: 'string' },
@@ -17,22 +32,44 @@
             search_view: { type: 'string' },
             minicart_layout: {type: 'string' }
         },
+        supports: {
+            customClassName: false,
+            className: false,
+            html: false
+        },
         useOnce: true,
         
         edit: function( props ) {
+
+            return el( 'div', {className: 'ecwid-block' },
+                el( 'div', { className: 'ecwid-block-header' },
+                    getIcon(),
+                    EcwidGutenbergParams.yourStoreWill
+                ),
+                el( 'div', { className: 'ecwid-block-title' } , EcwidGutenbergParams.storeIdLabel + ': ' + EcwidGutenbergParams.storeId ),
+                el( 'div', {},
+                    el( 'button', { className: 'button ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, EcwidGutenbergParams.editAppearance )
+                )
+            );
             
-            return el( 'div', {className: 'ecwid-store-block' }, 
-                el( 'button', { className: 'button button-primary ecwid-store-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, i18n.__( 'Edit Appearance' ) )
+            return el( 'div', { className: 'ecwid-store-block' }, 
+                el( 'button', { className: 'button button-primary ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } },  i18n.__( 'Edit Appearance' ) )
             );
         },
         save: function( props ) {
+            
+            return false;
+            
             var shortcode = new wp.shortcode({
                 'tag': EcwidGutenbergParams.storeShortcodeName,
                 'attrs': props.attributes,
                 'type': 'single'
             });
             
-            return el( element.RawHTML, null, shortcode.string() );
+            return wp.blocks.serialize(
+                wp.blocks.createBlock(EcwidGutenbergParams.storeBlock, props),
+                el( element.RawHTML, null, shortcode.string() )
+            );
         },
 
         transforms: {
@@ -105,6 +142,7 @@
             }]
         },
     };
+    
     blocks.registerBlockType( EcwidGutenbergParams.storeBlock, ecwidStoreParams);
     
 } )(

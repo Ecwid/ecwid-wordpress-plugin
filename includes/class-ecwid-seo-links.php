@@ -210,16 +210,8 @@ class Ecwid_Seo_Links {
 				return;
 			}
 		}
-		
-		$link = get_page_link( $page_id );
-		$is_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
-		if ( $is_https && strpos( $link, 'http:' ) === 0 ) {
-			$link = 'https://' . substr( $link, 4 );
-		} else if ( !$is_https && strpos( $link, 'https:' ) === 0 ) {
-			$link = 'http://' . substr( $link, 4 );
-		}
-		
-		$url = esc_js( $link );
+
+		$url = esc_js( get_permalink( $page_id ) );
 		
 		echo <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
@@ -334,14 +326,11 @@ JS;
 
 			if (
 				is_plugin_active('polylang/polylang.php')
+				&& function_exists( 'PLL' )
 				&& function_exists('pll_get_post_language')
-				&& class_exists('PLL_Model')
-				&& method_exists('PLL_Model', 'get_links_model')
 			) {
-				$options = get_option('polylang');
-				$model = new PLL_Model($options);
-				$links_model = $model->get_links_model();
-				if ($links_model instanceof PLL_Links_Directory) {
+				
+				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
 						$link = urldecode( get_page_uri( $page_id ) );

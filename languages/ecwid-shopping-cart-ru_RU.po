@@ -1681,6 +1681,19 @@ msgstr "Товары и категории магазина %s"
 msgid "Bulk import products and categories to your %s store"
 msgstr "Загрузка товаров и категорий в магазин из внешних источников или других e-commerce решений"
 
+msgctxt "vc-tab"
+msgid "Online store"
+msgstr "Магазин"
+
+msgctxt "vc-block"
+msgid "Online store"
+msgstr "Витрина магазина"
+
+msgid "Displays storefront: product listing and checkout"
+msgstr "Показывает витрину магазина, корзину и оформление заказа"
+
+
+
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#

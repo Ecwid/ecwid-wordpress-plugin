@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 6.0.3
+Version: 6.1
 Author URI: http://www.ecwid.com?source=wporg
 */
 
@@ -153,7 +153,8 @@ function ecwid_init_integrations()
 		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
-		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold'
+		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
+		'js_composer/js_composer.php' => 'wpbakery-composer'
 	);
 
 
@@ -650,6 +651,9 @@ function ecwid_check_version()
 
 		// Since 5.8.1+
 		add_option( Ecwid_Products::OPTION_SYNC_LIMIT, 20 );
+		
+		// Since 6.0.x
+		add_option( 'ecwid_hide_prefetch', 'off' );
 
 		Ecwid_Config::load_from_ini();
 
@@ -1010,6 +1014,13 @@ function ecwid_ajax_crawling_fragment() {
 
 function ecwid_meta() {
 
+	$is_ie = strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false 
+		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) !== false;
+	
+	if ( $is_ie  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
+		return;	
+	}
+	
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     
     if (!Ecwid_Store_Page::is_store_page()) {
@@ -1514,6 +1525,9 @@ function _ecwid_get_single_product_widget_parts_v2($attributes) {
 
 function ecwid_shortcode($attributes)
 {
+	if ( isset( $_GET['fl_builder'] ) ) {
+		return '<div>Here goes the store </div>';
+	}
 	$defaults = ecwid_get_default_pb_size();
 
 	$attributes = shortcode_atts(
@@ -1617,7 +1631,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-[$shortcode widgets="productbrowser minicart categories search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[$shortcode widgets="productbrowser minicart search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
@@ -1871,6 +1885,14 @@ function ecwid_get_update_params_options() {
 		),
 		'ecwid_print_html_catalog' => array(
 			'type' => 'bool'
+		),
+		
+		'ecwid_hide_prefetch' => array(
+			'values' => array(
+				'on',
+				'off',
+				'auto'
+			)
 		)
 	);
 
@@ -2777,7 +2799,7 @@ function ecwid_get_store_page_url()
 	static $link = null;
 
 	if (is_null($link)) {
-		$link = get_page_link( Ecwid_Store_Page::get_current_store_page_id() );
+		$link = get_permalink( Ecwid_Store_Page::get_current_store_page_id() );
 	}
 
 	return $link;

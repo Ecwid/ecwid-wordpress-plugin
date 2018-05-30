@@ -69,7 +69,7 @@ function ecwid_get_embed_content()
 			$result .= '<div>' . ecwid_trim_description($category->description);
 
 			if (mb_strlen($trimmed) < mb_strlen($category->description) && mb_strlen($trimmed) == ECWID_TRIMMED_DESCRIPTION_LENGTH) {
-				$result .= '... <a class="wp-embed-more" href="' . get_page_link(get_post(get_the_ID())) . '">' . __('See more', 'ecwid-shopping-cart') . '</a>';
+				$result .= '... <a class="wp-embed-more" href="' . get_permalink() . '">' . __('See more', 'ecwid-shopping-cart') . '</a>';
 			}
 			$result .= '</div>';
 		}
@@ -98,7 +98,7 @@ function ecwid_get_embed_content()
 	}
 
 	if ($see_more) {
-		$result .= '<li><a class="wp-embed-more" href="' . get_page_link(get_post(get_the_ID())) . '">' . __('See more', 'ecwid-shopping-cart') . '</a></li>';
+		$result .= '<li><a class="wp-embed-more" href="' . get_permalink() . '">' . __('See more', 'ecwid-shopping-cart') . '</a></li>';
 	}
 
 	$result .= '</ul>';

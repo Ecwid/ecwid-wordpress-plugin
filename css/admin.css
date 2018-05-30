@@ -259,7 +259,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 #available-widgets .widget-top.ecwid-widget-minicart .widget-title:before,
 #available-widgets .widget-top.ecwid-widget-minicart_miniview .widget-title:before,
-#available-widgets .widget-top.ecwid-widget-floatingshoppingcart .widget-title:before
+#available-widgets .widget-top.ecwid-widget-floatingshoppingcart .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-nsfminicart .widget-title:before
+
 {
 	content: "\e601";
 }

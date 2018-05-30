@@ -297,13 +297,13 @@ TXT
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case self::MSG_WOO_IMPORT_ONBOARDING:
-				return 0
-					&& is_plugin_active( 'woocommerce/woocommerce.php' ) 
+				return 
+					is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
-					&& get_ecwid_store_id() % 2 == 0
-					&& !Ecwid_Config::is_wl();
+					&& wp_count_posts( 'product' )->publish > 0
+					&& get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
 				
 			case 'please_vote':
 

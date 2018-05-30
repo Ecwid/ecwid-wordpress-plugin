@@ -297,11 +297,12 @@ class Ecwid_Api_V3
 		if (empty($db_value)) return false;
 
 		if (strlen($db_value) == 64) {
+			
 			$encrypted = base64_decode($db_value);
 			if (empty($encrypted)) return false;
 
 			$token = EcwidPlatform::decrypt($encrypted);
-		
+			
 			if ($token == $db_value) {
 				return false;
 			}

@@ -28,7 +28,7 @@ class Ecwid_Import
 	
 	public function admin_init() 
 	{
-		if ( !Ecwid_Config::is_wl() ) {
+		if ( 1 || !Ecwid_Config::is_wl() ) {
 			if ( !function_exists( 'register_importer' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/import.php';
 			}

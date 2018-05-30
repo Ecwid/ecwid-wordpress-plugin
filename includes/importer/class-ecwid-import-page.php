@@ -129,7 +129,7 @@ class Ecwid_Import_Page
 
 	protected function _need_to_show_woo()
 	{
-		return is_plugin_active( 'woocommerce/woocommerce.php' );
+		return is_plugin_active( 'woocommerce/woocommerce.php' ) && wp_count_posts( 'product' )->publish > 0;
 	}
 	
 	public function do_page()

@@ -338,18 +338,13 @@ class Ecwid_Importer
 		
 		$result = array();
 		foreach ( $product_categories as $category ) {
+			
 			$result[] = array(
 				'woo_id' => $category->term_id,
 				'parent_id' => $parent,
 				'has_image' => get_term_meta( $category->term_id, 'thumbnail_id', true )
 			);
-
-
-			if ($parent != 0) {
-			//	die(var_dump($product_categories, $parent));
-			}
-
-
+			
 			//if ( $category->category_count > 0 ) {
 				$result = array_merge(
 					$result, 

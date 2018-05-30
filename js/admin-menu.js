@@ -5,12 +5,17 @@ function ecwidRefreshEcwidMenuItemSelection(slug)
         slug = ecwidGetCurrentMenuSlug();
     }
     
-    if (!slug) return;
+    if (!slug || slug.indexOf(ecwid_admin_menu.baseSlug) == -1) return;
     
     var parent = jQuery('li#toplevel_page_' + ecwid_admin_menu.baseSlug);
+    
     parent.addClass('wp-has-current-submenu').addClass('wp-menu-open');
     
     var selector = 'a[data-ecwid-menu-slug="' + slug + '"]';
+    if (jQuery(selector).length == 0) {
+        selector = 'a[data-ecwid-menu-slug="' + decodeURI(slug) + '"]';
+    }
+    
     
     jQuery('.current', parent).removeClass('current');
     jQuery('.wp-has-current-submenu3', parent).removeClass('wp-has-current-submenu3');
