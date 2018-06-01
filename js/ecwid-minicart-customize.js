@@ -5,7 +5,10 @@
         'ec_store_cart_widget_icon',
         'ec_store_cart_widget_fixed_shape',
         'ec_store_cart_widget_fixed_position',
-        'ec_store_cart_widget_show_empty_cart'
+        'ec_store_cart_widget_show_empty_cart',
+        'ec_store_cart_widget_horizontal_indent',
+        'ec_store_cart_widget_vertical_indent'
+
     ];
     
     for (var i = 0; i < props.length; i++) {

@@ -96,7 +96,29 @@ class Ecwid_Customizer
 			'label'		=> __( 'Show empty cart', 'ecwid-shopping-cart' ),
 			'section'	=> $section,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART,
-			'choices'	=> Ecwid_Floating_Minicart::get_fixed_positions()
+		) ) );
+
+
+		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_HORIZONTAL_INDENT, array(
+			'type'		=> 'option',
+			'transport'	=> 'postMessage'
+		) );
+		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_HORIZONTAL_INDENT, array(
+			'type'		=> 'number',
+			'label'		=> __( 'Horizontal indent', 'ecwid-shopping-cart' ),
+			'section'	=> $section,
+			'settings'	=> Ecwid_Floating_Minicart::OPTION_HORIZONTAL_INDENT,
+		) ) );
+
+		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT, array(
+			'type'		=> 'option',
+			'transport'	=> 'postMessage'
+		) );
+		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT, array(
+			'type'		=> 'number',
+			'label'		=> __( 'Vertical indent', 'ecwid-shopping-cart' ),
+			'section'	=> $section,
+			'settings'	=> Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT,
 		) ) );
 	}
 	
