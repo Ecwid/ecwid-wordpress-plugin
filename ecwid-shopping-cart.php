@@ -134,6 +134,9 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
+
 
 $ecwid_script_rendered = false; // controls single script.js on page
 
@@ -655,6 +658,9 @@ function ecwid_check_version()
 		// Since 6.0.x
 		add_option( 'ecwid_hide_prefetch', 'off' );
 
+		// Since 6.1.x 
+		Ecwid_Floating_Minicart::create_default_options();
+		
 		Ecwid_Config::load_from_ini();
 
 		add_option( 'force_scriptjs_render', false );
