@@ -254,13 +254,6 @@ JS;
 
 		$all_base_urls = $this->_build_all_base_urls();
 		
-		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
-			foreach ( $patterns as $pattern ) {
-				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
-			}
-		}
-		
 		foreach ( $all_base_urls as $page_id => $links ) {
 			$patterns = $this->get_seo_links_patterns();
 
@@ -270,7 +263,14 @@ JS;
 				}
 			}
 		}
-		
+
+		if ( $this->is_store_on_home_page() ) {
+			$patterns = $this->get_seo_links_patterns();
+			foreach ( $patterns as $pattern ) {
+				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
+			}
+		}
+
 		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => $this->is_store_on_home_page() ) ) );
 	}
 	

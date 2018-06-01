@@ -110,7 +110,7 @@ class Ecwid_Store_Page {
 			
 			$link = get_permalink( $id );
 		}
-
+		
 		return $link;
 	}
 
@@ -130,7 +130,7 @@ class Ecwid_Store_Page {
 
 				$post = get_post( $id );
 				$changed = false;
-
+				
 				while ( is_null( $post ) ) {
 
 					$changed = true;
