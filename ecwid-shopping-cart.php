@@ -660,6 +660,7 @@ function ecwid_check_version()
 
 		// Since 6.1.x 
 		Ecwid_Floating_Minicart::create_default_options();
+		add_option( 'ecwid_hide_old_minicart', ecwid_is_recent_installation() );
 		
 		Ecwid_Config::load_from_ini();
 
@@ -699,6 +700,11 @@ function ecwid_get_woocommerce_status() {
 	}
 
 	return $woo;
+}
+
+function ecwid_is_recent_installation()
+{
+	return get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' ); 
 }
 
 function ecwid_migrations_is_original_plugin_version_older_than($version)
@@ -1637,7 +1643,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-[$shortcode widgets="productbrowser minicart search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[$shortcode widgets="productbrowser search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 

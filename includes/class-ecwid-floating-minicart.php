@@ -3,13 +3,13 @@
 class Ecwid_Floating_Minicart
 {
 	const OPTION_WIDGET_DISPLAY = 'ec_show_floating_cart_widget';
-	const OPTION_FIXED_POSITION = 'ecwid_cart_widget_fixed_position';
-	const OPTION_ICON = 'ecwid_cart_widget_icon';
-	const OPTION_FIXED_SHAPE = 'ecwid_cart_widget_fixed_shape';
-	const OPTION_LAYOUT = 'ecwid_cart_widget_layout';
-	const OPTION_SHOW_EMPTY_CART = 'ecwid_cart_widget_show_empty_cart';
-	const OPTION_HORIZONTAL_INDENT = 'ecwid_cart_widget_horizontal_indent';
-	const OPTION_VERTICAL_INDENT = 'ecwid_cart_widget_vertical_indent';
+	const OPTION_FIXED_POSITION = 'ec_store_cart_widget_fixed_position';
+	const OPTION_ICON = 'ec_store_cart_widget_icon';
+	const OPTION_FIXED_SHAPE = 'ec_store_cart_widget_fixed_shape';
+	const OPTION_LAYOUT = 'ec_store_cart_widget_layout';
+	const OPTION_SHOW_EMPTY_CART = 'ec_store_cart_widget_show_empty_cart';
+	const OPTION_HORIZONTAL_INDENT = 'ec_store_cart_widget_horizontal_indent';
+	const OPTION_VERTICAL_INDENT = 'ec_store_cart_widget_vertical_indent';
 	
 	const DISPLAY_NONE = 'do_not_show';
 	const DISPLAY_STORE	= 'show_on_store_pages';
@@ -81,9 +81,8 @@ HTML;
 	
 	public static function create_default_options() {
 		
-		$just_installed = get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
 		$options = self::_get_default_options();
-		if ( !$just_installed ) {
+		if ( !ecwid_is_recent_installation() ) {
 			$options[self::OPTION_WIDGET_DISPLAY] = self::DISPLAY_NONE;
 		}
 		
@@ -95,10 +94,10 @@ HTML;
 	protected static function _get_default_options() {
 		return array(
 			self::OPTION_WIDGET_DISPLAY => self::DISPLAY_NONE,
-			self::OPTION_SHOW_EMPTY_CART => false,
+			self::OPTION_SHOW_EMPTY_CART => true,
 			self::OPTION_LAYOUT => 'MEDIUM_ICON_COUNTER',
 			self::OPTION_FIXED_SHAPE => 'RECT',
-			self::OPTION_FIXED_POSITION => 'BOTTOM_LEFT',
+			self::OPTION_FIXED_POSITION => 'BOTTOM_RIGHT',
 			self::OPTION_ICON => 'BAG',
 			self::OPTION_HORIZONTAL_INDENT => '15',
 			self::OPTION_VERTICAL_INDENT => '15',

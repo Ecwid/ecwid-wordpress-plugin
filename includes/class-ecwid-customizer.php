@@ -22,7 +22,7 @@ class Ecwid_Customizer
 			'capability' => Ecwid_Admin::get_capability()
 		) );
 		
-		$wp_customize->add_setting( 'ec_show_floating_cart_widget', array(
+		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, array(
 			'type' 		=> 'option',
 			'transport'	=> 'postMessage'
 		) );
