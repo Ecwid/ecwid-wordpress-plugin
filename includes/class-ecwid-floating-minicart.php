@@ -28,7 +28,7 @@ class Ecwid_Floating_Minicart
 			$display = self::DISPLAY_NONE;
 		}
 		
-		if ( $display == self::DISPLAY_NONE ) {
+		if ( $display == self::DISPLAY_NONE && !is_customize_preview() ) {
 			return;
 		}
 		

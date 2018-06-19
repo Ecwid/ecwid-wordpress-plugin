@@ -14,12 +14,19 @@ class Ecwid_Customizer
 	
 	public function customize_register( $wp_customize )
 	{
-		$section = 'ec-store';
+		$panel = 'ec-store';
+		$section = 'ec-store-minicart';
 		
-		$wp_customize->add_section( $section, array(
-			'title' 	 => Ecwid_Config::get_brand(),
-			'priority' 	 => 50,
+		$wp_customize->add_panel( $panel, array(
+			'title' => Ecwid_Config::get_brand(),
 			'capability' => Ecwid_Admin::get_capability()
+		) );
+
+		$wp_customize->add_section( $section, array(
+			'title' 	 => __( 'Shopping Cart Widget', 'ecwid-shopping-cart' ),
+			'priority' 	 => 50,
+			'capability' => Ecwid_Admin::get_capability(),
+			'panel' 	 => $panel
 		) );
 		
 		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, array(
