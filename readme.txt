@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 6.1
+Stable tag: 6.1.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -47,22 +47,22 @@ With Ecwid, you can include your online shop on multiple websites, blogs, social
 
 = Mobile Responsive Design =
 
-Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
+Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
 
 
 = Your Favorite Free Plugin =
 
-Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
+Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
 
 
 = See Ecwid In Action =
 
-* [Demo Store](http://www.ecwid.com/demo?source=wporg-plugin-site "Ecwid demo")
-* [Ecwid Ecommerce Control panel](https://my.ecwid.com/?source=wporg-plugin-site "Ecwid Control Panel") (you will be able to create a free Ecwid account)
+* [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
+* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create a free Ecwid account)
 
 = Ecwid Site =
 
-* [www.ecwid.com](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid site")
+* [www.ecwid.com](https://ecwid.to/ecwid-site "Ecwid site")
 
 
 
@@ -118,7 +118,7 @@ Ecwid shopping cart plans vary by number of products, types of ecommerce functio
 * Venture - $15/month
 * Business - $35/month
 * Unlimited - $99/month
-Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://www.ecwid.com/pricing).
+Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://ecwid.to/ecwid-pricing).
 
 
  = How can I manage my online shop from a mobile device? =
@@ -160,6 +160,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 - **Compatibility with Polylang plugin.** We got a report from one of our customers stating that Ecwid didn’t work well with Polylang plugin. We fixed an issue, now everything should work fine. 
 - Improvements and fixes for the plugin navigation in the WP admin menu.
 - Improvements and fixes for store pages SEO friendly urls. 
+- Fixed a minor issue in the “Tools -> Import -> Ecwid products” section in the WP admin backend.
 
 = 6.0.3 - Apr 19, 2018 =
 - Fixed incorrect sorting in the store categories menu widgets. If you use display store categories inn your site menu or in a sidebar using the Ecwid categories sidebar widget, you might notice that the categories list order differs from that in your store control panel. We fixed that — now the sorting matches. 
