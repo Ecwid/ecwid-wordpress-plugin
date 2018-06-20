@@ -35,7 +35,7 @@ class Ecwid_Customizer
 		) );
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, array(
 			'type'		=> 'select',
-			'label'		=> __( 'Show minicart', 'ecwid-shopping-cart' ),
+			'label'		=> __( 'Display shopping cart', 'ecwid-shopping-cart' ),
 			'section'	=> $section,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY,
 			'choices'	=> Ecwid_Floating_Minicart::get_display_options()
