@@ -309,7 +309,7 @@ TXT
 					&& !ecwid_is_demo_store()
 					&& !get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED, false )
 					&& wp_count_posts( 'product' )->publish > 0
-					&& get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
+					&& ecwid_is_recent_installation();
 				
 			case 'please_vote':
 
