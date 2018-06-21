@@ -50,8 +50,10 @@ class Ecwid_Floating_Minicart
 		$vindent = esc_attr( get_option( self::OPTION_VERTICAL_INDENT ) );
 		
 		$customize_id = is_customize_preview() ? 'id="' . self::CUSTOMIZE_ID . '"' : '';
+		$customize_hide = is_customize_preview() && $display == self::DISPLAY_NONE ? 'style="display:none"' : '';
+		
 		echo <<<HTML
-<div $customize_id class='ec-cart-widget' 
+<div $customize_id $customize_hide class='ec-cart-widget' 
     data-fixed='true' 
     data-fixed-position='$position' 
     data-fixed-shape='$shape'

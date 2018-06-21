@@ -33,7 +33,7 @@
 
     wp.customize( 'ec_show_floating_cart_widget', function( value ) {
         value.bind( function( newval ) {
-            jQuery('.ec-minicart').css('display', newval != 'do_not_show' ? 'block' : 'none');
+            jQuery('#ec-customize-cart').css('display', newval != 'do_not_show' ? 'block' : 'none');
         } );
     } );
 
