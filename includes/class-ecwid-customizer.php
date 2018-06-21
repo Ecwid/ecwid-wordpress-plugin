@@ -9,7 +9,12 @@ class Ecwid_Customizer
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
 
 		add_action( 'customize_preview_init', array( $this, 'preview_init' ) );
-
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customize_scripts' ) );
+	}
+	
+	public function enqueue_customize_scripts()
+	{
+		EcwidPlatform::enqueue_script( 'ecwid-minicart-customize-admin', array(), true );
 	}
 	
 	public function customize_register( $wp_customize )
