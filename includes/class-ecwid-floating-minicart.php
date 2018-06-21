@@ -34,7 +34,7 @@ class Ecwid_Floating_Minicart
 			return;
 		}
 		
-		if ( $display == self::DISPLAY_STORE && !Ecwid_Store_Page::is_store_page() ) {
+		if ( $display == self::DISPLAY_STORE && !Ecwid_Store_Page::is_store_page() && !is_customize_preview() ) {
 			return;
 		}
 		
