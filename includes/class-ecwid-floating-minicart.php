@@ -14,6 +14,8 @@ class Ecwid_Floating_Minicart
 	const DISPLAY_NONE = 'do_not_show';
 	const DISPLAY_STORE	= 'show_on_store_pages';
 	const DISPLAY_ALL = 'show_on_all_pages';	
+	
+	const CUSTOMIZE_ID = 'ec-customize-cart';
 		
 	public function __construct()
 	{
@@ -47,8 +49,9 @@ class Ecwid_Floating_Minicart
 		$hindent = esc_attr( get_option( self::OPTION_HORIZONTAL_INDENT ) );
 		$vindent = esc_attr( get_option( self::OPTION_VERTICAL_INDENT ) );
 		
+		$customize_id = is_customize_preview() ? 'id="' . self::CUSTOMIZE_ID . '"' : '';
 		echo <<<HTML
-<div class='ec-cart-widget' 
+<div $customize_id class='ec-cart-widget' 
     data-fixed='true' 
     data-fixed-position='$position' 
     data-fixed-shape='$shape'
@@ -99,8 +102,8 @@ HTML;
 			self::OPTION_FIXED_SHAPE => 'RECT',
 			self::OPTION_FIXED_POSITION => 'BOTTOM_RIGHT',
 			self::OPTION_ICON => 'BAG',
-			self::OPTION_HORIZONTAL_INDENT => '15',
-			self::OPTION_VERTICAL_INDENT => '15',
+			self::OPTION_HORIZONTAL_INDENT => '30',
+			self::OPTION_VERTICAL_INDENT => '30',
 		);
 	}
 	
