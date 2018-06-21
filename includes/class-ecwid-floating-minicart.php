@@ -85,7 +85,7 @@ HTML;
 	
 	protected static function _get_default_options() {
 		return array(
-			self::OPTION_WIDGET_DISPLAY => self::DISPLAY_ALL,
+			self::OPTION_WIDGET_DISPLAY => self::DISPLAY_STORE,
 			self::OPTION_SHOW_EMPTY_CART => true,
 			self::OPTION_LAYOUT => 'MEDIUM_ICON_COUNTER',
 			self::OPTION_FIXED_SHAPE => 'PILL',
