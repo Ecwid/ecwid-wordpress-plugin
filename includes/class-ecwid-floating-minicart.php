@@ -66,19 +66,6 @@ class Ecwid_Floating_Minicart
 <script>
 			Ecwid.init();
 </script>
-<!--			
-			var interval = setInterval(function(){
-			    
-			    if (jQuery('.ec-minicart').length > 0) {
-					jQuery('.ec-minicart').append('<span class="customize-partial-edit-shortcut customize-partial-edit-shortcut-custom_header"><button aria-label="Click to edit this element." title="Click to edit this element." class="customize-partial-edit-shortcut-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13.89 3.39l2.71 2.72c.46.46.42 1.24.03 1.64l-8.01 8.02-5.56 1.16 1.16-5.58s7.6-7.63 7.99-8.03c.39-.39 1.22-.39 1.68.07zm-2.73 2.79l-5.59 5.61 1.11 1.11 5.54-5.65zm-2.97 8.23l5.58-5.6-1.07-1.08-5.59 5.6z"></path></svg></button></span>');
-					clearInterval(interval);
-					jQuery('.ec-minicart .customize-partial-edit-shortcut').click(function() {
-						wp.customize.preview.send('focus-control-for-setting', 'ec_show_floating_cart_widget');
-						return false; 
-					});
-			    }
-			}, 500);
--->
 HTML;
 	}
 	
