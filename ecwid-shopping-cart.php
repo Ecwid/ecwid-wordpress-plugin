@@ -2859,9 +2859,16 @@ function ecwid_get_product_browser_url_script()
 	$str = '';
 	if (ecwid_is_store_page_available() && !Ecwid_Store_Page::is_store_page()) {
 
-		$url = Ecwid_Store_Page::get_store_url();
+		$url = esc_js( Ecwid_Store_Page::get_store_url() );
 
-		$str = '<script data-cfasync="false" type="text/javascript">var ecwid_ProductBrowserURL = "' . esc_js($url) . '";</script>';
+		
+		$str = <<<HTML
+<script data-cfasync="false" type="text/javascript">
+window.ec = window.ec || Object();
+window.ec.config = window.ec.config || Object();
+window.ec.config.store_main_page_url = '$url';		
+</script>
+HTML;
 	}
 
 	return $str;
