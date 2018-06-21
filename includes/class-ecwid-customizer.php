@@ -14,7 +14,8 @@ class Ecwid_Customizer
 	
 	public function enqueue_customize_scripts()
 	{
-		EcwidPlatform::enqueue_script( 'ecwid-minicart-customize-admin', array(), true );
+		EcwidPlatform::enqueue_script( 'minicart-customize-admin', array(), true );
+		EcwidPlatform::enqueue_style( 'minicart-customize-admin', array(), true );
 	}
 	
 	public function customize_register( $wp_customize )
@@ -42,10 +43,22 @@ class Ecwid_Customizer
 			'type'		=> 'select',
 			'label'		=> __( 'Display shopping cart', 'ecwid-shopping-cart' ),
 			'section'	=> $section,
+			'description' => __( 'Note: when enabled, the cart widget is always displayed in preview to make it easier to customize it. The "Show on store pages" and "Show when empty" options will apply to the cart widget on site when published', 'ecwid-shopping-cart' ),
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY,
 			'choices'	=> Ecwid_Floating_Minicart::get_display_options()
 		) ) );
 		
+		
+		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, array(
+			'type'		=> 'option',
+			'transport'	=> 'postMessage'
+		) );
+		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, array(
+			'type'		=> 'checkbox',
+			'label'		=> __( 'Show when empty', 'ecwid-shopping-cart' ),
+			'section'	=> $section,
+			'settings'	=> Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART,
+		) ) );
 		
 		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_LAYOUT, array(
 			'type'		=> 'option',
@@ -120,22 +133,10 @@ class Ecwid_Customizer
 			'section'	=> $section,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT,
 		) ) );
-
-		
-		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, array(
-			'type'		=> 'option',
-			'transport'	=> 'postMessage'
-		) );
-		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, array(
-			'type'		=> 'checkbox',
-			'label'		=> __( 'Show when empty', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
-			'settings'	=> Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART,
-		) ) );
 	}
 	
 	public function preview_init() {
-		EcwidPlatform::enqueue_script( 'ecwid-minicart-customize', array(), true );
+		EcwidPlatform::enqueue_script( 'minicart-customize', array(), true );
 	}
 }
 
