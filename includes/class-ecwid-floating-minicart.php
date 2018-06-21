@@ -43,7 +43,7 @@ class Ecwid_Floating_Minicart
 		$position = esc_attr( get_option( self::OPTION_FIXED_POSITION ) );
 		$shape = esc_attr( get_option( self::OPTION_FIXED_SHAPE ) );
 		$layout = esc_attr( get_option( self::OPTION_LAYOUT ) );
-		$show_empty = esc_attr( get_option( self::OPTION_SHOW_EMPTY_CART ) );
+		$show_empty = esc_attr( get_option( self::OPTION_SHOW_EMPTY_CART ) ? 'TRUE' : 'FALSE' );
 		$icon = esc_attr( get_option( self::OPTION_ICON ) );
 		
 		$hindent = esc_attr( get_option( self::OPTION_HORIZONTAL_INDENT ) );
@@ -85,7 +85,7 @@ HTML;
 	
 	protected static function _get_default_options() {
 		return array(
-			self::OPTION_WIDGET_DISPLAY => self::DISPLAY_NONE,
+			self::OPTION_WIDGET_DISPLAY => self::DISPLAY_ALL,
 			self::OPTION_SHOW_EMPTY_CART => true,
 			self::OPTION_LAYOUT => 'MEDIUM_ICON_COUNTER',
 			self::OPTION_FIXED_SHAPE => 'PILL',
