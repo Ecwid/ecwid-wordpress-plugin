@@ -257,6 +257,8 @@ JS;
 		foreach ( $all_base_urls as $page_id => $links ) {
 			$patterns = $this->get_seo_links_patterns();
 
+			if ( !in_array( get_post( $page_id )->post_type, array( 'page', 'post' ) ) ) continue;
+
 			foreach ( $links as $link ) {
 				foreach ( $patterns as $pattern ) {
 					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
