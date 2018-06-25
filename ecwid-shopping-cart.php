@@ -292,8 +292,8 @@ function ecwid_redirect_canonical2($redir, $req) {
 	$adds_slash = $req . '/' == $redir;
 	$adds_slash |= urldecode($req . '/') == urldecode($redir);
 	
-	if ($wp_query->get('page_id') == Ecwid_Store_Page::get_current_store_page_id() && $adds_slash) {
-		return false;
+	if (Ecwid_Store_Page::is_store_page() && $adds_slash) {
+		return $req;
 	}
 
 	return $redir;

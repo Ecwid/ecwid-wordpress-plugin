@@ -118,7 +118,12 @@ abstract class Ecwid_HTML_Meta
 
 		$description = preg_replace( '![\p{Z}\s]{1,}!u', ' ', $description );
 		$description = trim( $description, " \t\xA0\n\r" ); // Space, tab, non-breaking space, newline, carriage return
-		$description = mb_substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8' );
+		
+		if ( function_exists( 'mb_substr' ) ) {
+			$description = mb_substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8' );
+		} else {
+			$description = substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH );
+		}
 		$description = htmlspecialchars( $description, ENT_COMPAT, 'UTF-8' );
 		
 		return $description;

@@ -290,7 +290,11 @@ class Ecwid_Admin {
 		} else {
 			$match = array();
 			
-			$slug = mb_strtolower( $title );
+			if ( function_exists( 'mb_strtolower' ) ) {
+				$slug = mb_strtolower( $title );
+			} else {
+				$slug = strtolower( $title );
+			}
 			$result = preg_match_all( '#[\p{L}0-9\-_]+#u', $slug, $match );
 	
 			if ( $result && count( @$match[0] ) > 0 ) {
