@@ -32,7 +32,9 @@ function ecwid_sidebar_widgets_init() {
 
 	register_widget('Ecwid_Widget_Search');
 
-	register_widget('Ecwid_Widget_NSF_Minicart');
+	if ( version_compare( get_bloginfo('version'), '4.0' ) >= 0 ) {
+		register_widget('Ecwid_Widget_NSF_Minicart');
+	}
 
 	$old_minicarts = array(
 		'ecwidminicart_miniview' => 'Ecwid_Widget_Minicart_Miniview', 
@@ -40,7 +42,7 @@ function ecwid_sidebar_widgets_init() {
 		'ecwidfloatingshoppingcart' => 'Ecwid_Widget_Floating_Shopping_Cart' );
 	
 	foreach ( $old_minicarts as $idbase => $widget_class ) {
-		if ( is_active_widget( false, false, $idbase ) ) {
+		if ( is_active_widget( false, false, $idbase ) || version_compare( get_bloginfo('version'), '4.0' ) < 0 ) {
 			register_widget( $widget_class );
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+
 // nsf stands for new storefront I guess
 class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	
