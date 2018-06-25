@@ -134,9 +134,12 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
 
+$version = get_bloginfo('version');
+if (version_compare($version, '4.0') >= 0) {
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
+}
 
 $ecwid_script_rendered = false; // controls single script.js on page
 

@@ -1,6 +1,4 @@
 <?php
-
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
 // nsf stands for new storefront I guess
 class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 	
