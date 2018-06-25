@@ -595,8 +595,6 @@ class Ecwid_Api_V3
 		}
 
 		$result = Requests::request_multiple( $requests );
-	
-		die(var_dump($result));
 		
 		return $result;
 	}

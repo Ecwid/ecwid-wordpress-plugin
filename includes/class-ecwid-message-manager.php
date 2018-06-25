@@ -297,13 +297,19 @@ TXT
 				return $no_token && $is_not_demo && !$is_ecwid_menu;
 				
 			case self::MSG_WOO_IMPORT_ONBOARDING:
+				if ( !class_exists( 'Ecwid_Importer' ) ) {
+					require_once ECWID_PLUGIN_DIR . 'includes/importer/class-ecwid-importer.php';
+				}
+				
 				return 
 					is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
+					&& !ecwid_is_demo_store()
+					&& !get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED, false )
 					&& wp_count_posts( 'product' )->publish > 0
-					&& get_option( 'ecwid_plugin_migration_since_version' ) == get_option('ecwid_plugin_version' );
+					&& ecwid_is_recent_installation();
 				
 			case 'please_vote':
 

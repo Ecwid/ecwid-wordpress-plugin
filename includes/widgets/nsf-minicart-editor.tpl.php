@@ -5,7 +5,7 @@
                 name="<?php echo $this->get_field_name( self::FIELD_LAYOUT ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_LAYOUT ); ?>"
         >
-            <?php foreach( $this->_get_layouts() as $value => $label ) : ?>
+            <?php foreach( Ecwid_Floating_Minicart::get_layouts() as $value => $label ) : ?>
                 <option value="<?php echo $value; ?>"<?php if ( $instance[self::FIELD_LAYOUT] == $value ): ?> selected="selected"<?php endif; ?>>
                     <?php echo $label; ?>
                 </option>
@@ -21,7 +21,7 @@
                 name="<?php echo $this->get_field_name( self::FIELD_ICON ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_ICON ); ?>"
         >
-            <?php foreach( $this->_get_icons() as $value => $label ) : ?>
+            <?php foreach( Ecwid_Floating_Minicart::get_icons() as $value => $label ) : ?>
                 <option value="<?php echo $value; ?>"<?php if ( $instance[self::FIELD_ICON] == $value ): ?> selected="selected"<?php endif; ?>>
                     <?php echo $label; ?>
                 </option>
@@ -37,7 +37,7 @@
                 name="<?php echo $this->get_field_name( self::FIELD_FIXED_SHAPE ); ?>" 
                 id="<?php echo $this->get_field_id( self::FIELD_FIXED_SHAPE ); ?>"
         >
-            <?php foreach( $this->_get_fixed_shapes() as $value => $label ) : ?>
+            <?php foreach( Ecwid_Floating_Minicart::get_fixed_shapes() as $value => $label ) : ?>
                 <option value="<?php echo $value; ?>" <?php if ( $instance[self::FIELD_FIXED_SHAPE] == $value ): ?> selected="selected"<?php endif; ?>>
                     <?php echo $label; ?>
                 </option>

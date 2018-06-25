@@ -212,8 +212,6 @@ class Ecwid_Nav_Menus {
 					$api = new Ecwid_Api_V3();
 					$result = $api->get_categories( array( 'parent' => 0 ) );
 					
-					
-					
 					if ( $result && $result->count > 0 ) {
 					    
 					    $categories = $result->items;
@@ -233,7 +231,7 @@ class Ecwid_Nav_Menus {
                             $post->to_ping = '';
                             $post->pinged = '';
                             $post->post_parent = 0;
-                            $post->url = $category->link;
+                            $post->url = $category->get_link( Ecwid_Store_Page::get_store_url() );
                             $post->classes = '';
                             $post->type = 'post';
                             $post->db_id = 0;
@@ -273,7 +271,11 @@ class Ecwid_Nav_Menus {
             return $attributes;
         }
         
-        $attributes['data-ecwid-page'] = $item->ecwid_page_type;
+		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() ) {
+		    return $attributes;
+        }
+        
+		$attributes['data-ecwid-page'] = $item->ecwid_page_type;
         
         if ( $item->ecwid_page_type == 'category' ) {
             $attributes['data-ecwid-category-id'] = $item->ecwid_category_id;
