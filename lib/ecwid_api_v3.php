@@ -49,7 +49,7 @@ class Ecwid_Api_V3
 
 	public static function is_available()
 	{
-		$status = get_option( self::OPTION_API_STATUS );
+		$status = self::get_api_status();;
 		
 		if ( $status == self::API_STATUS_UNDEFINED ) {
 			return self::check_api_status();
@@ -60,7 +60,7 @@ class Ecwid_Api_V3
 	
 	public static function connection_fails()
 	{
-		$status = get_option( self::OPTION_API_STATUS );
+		$status = self::get_api_status();
 		
 		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
 	}
@@ -73,6 +73,12 @@ class Ecwid_Api_V3
 		
 		return $new_status == self::API_STATUS_OK;
 	}
+	
+	public static function get_api_status()
+	{
+		return get_option( self::OPTION_API_STATUS );
+	}
+	
 	
 	public static function check_api_status()
 	{

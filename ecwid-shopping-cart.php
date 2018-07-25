@@ -1449,8 +1449,13 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$params .= '&data_rpw=1';
 	}
 	
-	if (!Ecwid_Api_V3::get_token()) {
-		$params .= '&data_no_apiv3=1';
+	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_TLS ) {
+		$params .= '&data_api_disabled_tls=1';
+	}
+
+
+	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
+		$params .= '&data_api_disabled=1';
 	}
 	
 	require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';

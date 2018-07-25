@@ -18,7 +18,7 @@
 		</div>
 		<div class="body">
 			<div class="greeting-image">
-				<img src="<?php echo( esc_attr( ECWID_PLUGIN_URL ) ); ?>/images/store_ready.png" width="142" />
+				<img src="<?php echo( esc_attr( ECWID_PLUGIN_URL )); ?>/images/store_ready.png" width="142" />
 			</div>
 
 			<div class="greeting">
@@ -45,8 +45,12 @@
 				</li>
 				<li>
 					<a target="_blank" 
-
+                       <?php if ( Ecwid_Api_V3::is_available() && ecwid_get_admin_sso_url(time(), '') ): ?>
+                       href="admin-post.php?action=ecwid-do-sso"
+                       <?php else: ?>
                        href="//<?php echo Ecwid_Config::get_cpanel_domain(); ?>/cp?source=wporg"
+                       <?php endif; ?>
+                    
                     ><?php _e('Open control panel', 'ecwid-shopping-cart'); ?></a>
 				</li>
 			</ul>
