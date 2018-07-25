@@ -18,29 +18,28 @@ class Ecwid_Admin_Main_Page
 		}
 		
 		$is_demo = ecwid_is_demo_store();
-		$is_api_available = Ecwid_Api_V3::is_available();
+		$is_api_connection_ok = !Ecwid_Api_V3::connection_fails();
 		
-		if ( $is_demo && $is_api_available ) {
-			
-			if ( 
+		if ( $is_demo && $is_api_connection_ok ) {
+
+			if (
 				$this->_is_whitelabel_mode_with_no_registration()
 				|| $this->_is_oauth_error()
 				|| $this->_is_current_user_email_registered_at_ecwid()
 			) {
-				
+
 				$this->_do_simple_connect_page();
 				return;
-				
+
 			} else {
-				
+
 				$this->_do_fancy_connect_page();
 				return;
 			}
-			
 		}
 		
 		
-		if ( $is_demo && !$is_api_available ) {
+		if ( $is_demo && !$is_api_connection_ok ) {
 		
 			$this->_do_legacy_connect_page();
 			return;
@@ -54,10 +53,9 @@ class Ecwid_Admin_Main_Page
 				return;
 
 			} else if ( 
-				!$is_api_available 
+				!$is_api_connection_ok 
 				|| Ecwid_Admin::disable_dashboard() 
 			) {
-			
 				$this->_do_simple_dashboard_page();
 				return;
 				

@@ -1,6 +1,5 @@
 <?php
 
-include ECWID_PLUGIN_DIR . "lib/phpseclib/AES.php";
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 class Ecwid_OAuth {

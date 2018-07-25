@@ -16,14 +16,14 @@ class Ecwid_Api_V3
 	const API_STATUS_UNDEFINED = null;
 	const API_STATUS_ERROR_TLS = 'fail_disabled_tls';
 	const API_STATUS_ERROR_OTHER = 'fail_other';
-	const API_STATUS_ERROR_NO_TOKEN = 'fail_no_token';
+	const API_STATUS_ERROR_TOKEN = 'fail_token';
 	
 	public static function get_api_status_list()
 	{
 		return array( 
 			self::API_STATUS_UNDEFINED,
 			self::API_STATUS_OK,
-			self::API_STATUS_ERROR_NO_TOKEN,
+			self::API_STATUS_ERROR_TOKEN,
 			self::API_STATUS_ERROR_TLS,
 			self::API_STATUS_ERROR_OTHER
 		);
@@ -49,8 +49,6 @@ class Ecwid_Api_V3
 
 	public static function is_available()
 	{
-		return false;
-		
 		$status = get_option( self::OPTION_API_STATUS );
 		
 		if ( $status == self::API_STATUS_UNDEFINED ) {
@@ -58,6 +56,13 @@ class Ecwid_Api_V3
 		}
 		
 		return $status == self::API_STATUS_OK;
+	}
+	
+	public static function connection_fails()
+	{
+		$status = get_option( self::OPTION_API_STATUS );
+		
+		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
 	}
 	
 	public static function set_api_status( $new_status )
@@ -75,7 +80,7 @@ class Ecwid_Api_V3
 
 		$token = self::_load_token();
 		if ( !$token ) {
-			return self::set_api_status( self::API_STATUS_ERROR_NO_TOKEN );
+			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 		}
 		
 		$profile = $api->get_store_profile();
@@ -473,7 +478,13 @@ class Ecwid_Api_V3
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		
-		if (@$result['code'] != '200' || empty($result['data'])) {
+		if ( @$result['code'] == '403' ) {
+			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			return false;
+		}
+		
+		if ( @$result['code'] != '200' || empty($result['data'] ) ) {
+			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
 

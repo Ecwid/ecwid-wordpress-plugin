@@ -66,7 +66,7 @@ class Ecwid_Admin {
 		}
 		
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && Ecwid_Api_V3::is_available() ) {
 			
 			if ( !self::are_auto_menus_enabled() ) {
 				add_submenu_page(
@@ -377,10 +377,6 @@ class Ecwid_Admin {
 	}
 
 	static public function disable_dashboard() {
-		
-		if ( !Ecwid_Api_V3::is_available() ) {
-			return true;
-		}
 		
 		if ( !isset( $_GET['reconnect'] ) ) {
 			if ( get_option( 'ecwid_disable_dashboard' ) == 'on' ) {
