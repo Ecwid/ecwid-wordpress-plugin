@@ -257,6 +257,8 @@ JS;
 		foreach ( $all_base_urls as $page_id => $links ) {
 			$patterns = $this->get_seo_links_patterns();
 
+			
+			if ( ! get_post( $page_id ) ) continue;
 			if ( !in_array( get_post( $page_id )->post_type, array( 'page', 'post' ) ) ) continue;
 
 			foreach ( $links as $link ) {

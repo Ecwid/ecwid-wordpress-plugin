@@ -9,6 +9,8 @@
 	$theme =  wp_get_theme();
 
 	$all_options = wp_load_alloptions();
+	
+	die(var_dump(stream_get_transports()));
 ?>
 
 <a class="button button-primary" href="admin-post.php?action=ecwid_get_debug" style="margin-top:10px"><?php _e('Download log file', 'ecwid-shopping-cart'); ?></a>

@@ -48,12 +48,15 @@ function ecwid_sidebar_widgets_init() {
 	}
 
 	register_widget('Ecwid_Widget_Store_Link');
-	register_widget('Ecwid_Widget_Recently_Viewed');
-	register_widget('Ecwid_Widget_Latest_Products');
-
-	register_widget('Ecwid_Widget_Vertical_Categories_List');
-	register_widget('Ecwid_Widget_Random_Product');
-
+	
+	if ( Ecwid_Api_V3::is_available() ) {
+		register_widget('Ecwid_Widget_Recently_Viewed');
+		register_widget('Ecwid_Widget_Latest_Products');
+	
+		register_widget('Ecwid_Widget_Vertical_Categories_List');
+		register_widget('Ecwid_Widget_Random_Product');
+	}
+	
 	if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 		register_widget('Ecwid_Widget_VCategories');
 	}

@@ -1,3 +1,9 @@
+<?php
+
+$connection_error = isset( $_GET['connection_error'] );
+global $ecwid_oauth;
+
+?>
 <div class="wrap ecwid-admin ecwid-connect ecwid-reconnect">
 	<div class="box">
         <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>

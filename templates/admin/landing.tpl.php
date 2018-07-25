@@ -1,3 +1,10 @@
+<?php
+
+$connection_error = isset( $_GET['connection_error'] );
+$register = !$connection_error && ! isset( $_GET['connect'] );
+
+?>
+
 <script type='text/javascript'>//<![CDATA[
     document.body.className += ' ecwid-no-padding';
     //]]>

@@ -64,6 +64,7 @@ class Ecwid_Config {
 	}
 
 	public static function get_oauth_appsecret() {
+
 		return EcwidPlatform::get( self::OAUTH_APPSECRET, Ecwid_Api_V3::CLIENT_SECRET );
 	}
 	
