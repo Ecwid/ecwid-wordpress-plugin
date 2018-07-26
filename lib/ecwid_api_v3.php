@@ -14,7 +14,7 @@ class Ecwid_Api_V3
 	const OPTION_API_STATUS = 'ecwid_api_status';
 	const API_STATUS_OK = 'ok';
 	const API_STATUS_UNDEFINED = null;
-	const API_STATUS_ERROR_TLS = 'fail_disabled_tls';
+	const API_STATUS_ERROR_TLS = 'fail_old_tls';
 	const API_STATUS_ERROR_OTHER = 'fail_other';
 	const API_STATUS_ERROR_TOKEN = 'fail_token';
 	
