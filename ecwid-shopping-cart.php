@@ -1991,19 +1991,23 @@ function ecwid_register_admin_styles($hook_suffix) {
 
 	wp_enqueue_style('ecwid-admin-css', ECWID_PLUGIN_URL . 'css/admin.css', array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
-
+	
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 		
-		if ( ecwid_is_demo_store( get_option('ecwid_store_id') ) ) {
+		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) ) {
+			
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
 				'registerLink' => ecwid_get_register_link(),
 				'isWL' => Ecwid_Config::is_wl()
-			));
+				)
+			);
 			if (ecwid_use_old_landing()) {
+		
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
-			} else {
+			} elseif ( Ecwid_Api_V3::is_available() ) {
+
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
 			}
 			wp_enqueue_style('ecwid-landing-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
