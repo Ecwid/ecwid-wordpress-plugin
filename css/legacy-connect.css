@@ -45,7 +45,7 @@
 
 .general-settings ol li * {
     color: #333333;
-    font-size:13px;
+    font-size:14px;
     font-weight: normal;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .general-settings .ecwid-account-buttons {
-    padding: 20px 0px;
+    padding: 20px 0px 10px;
     margin-bottom: -5px;
 }
 

@@ -35,10 +35,10 @@
                             <?php printf( __('Create a new %s account which you will use to manage your store and inventory. The registration is free.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
                         </div>
                         <div class="ecwid-account-buttons">
-                            <a class="pure-button pure-button-secondary" target="_blank" href="https://my.ecwid.com/cp/?source=wporg#register">
+                            <a class="pure-button pure-button-secondary" target="_blank" href="https://my.ecwid.com/cp/?partner=wporg#register">
                                 <?php _e('Create new account', 'ecwid-shopping-cart'); ?>
                             </a>
-                            <a class="pure-button pure-button-secondary" target="_blank" href="https://my.ecwid.com/cp/?source=wporg#t1=&t2=Dashboard">
+                            <a class="pure-button pure-button-secondary" target="_blank" href="https://my.ecwid.com/cp/?partner=wporg">
                                 <?php _e('I already have an account, sign in', 'ecwid-shopping-cart'); ?>
                             </a>
                         </div>

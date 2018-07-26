@@ -67,6 +67,17 @@ class Ecwid_Admin_Main_Page
 		}
 	}
 	
+	public static function uses_integrated_admin()
+	{
+		$page = new Ecwid_Admin_Main_Page();
+		
+		return 
+			!ecwid_is_demo_store()
+			&& !$page->_is_connect_error()
+			&& !Ecwid_Api_V3::connection_fails()
+			&& !Ecwid_Admin::disable_dashboard();
+	}
+	
 	public static function do_integrated_admin_page( $page = self::PAGE_DASHBOARD )
 	{
 		$this_obj = new Ecwid_Admin_Main_Page();

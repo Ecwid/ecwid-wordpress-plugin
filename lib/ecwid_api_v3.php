@@ -91,6 +91,7 @@ class Ecwid_Api_V3
 		
 		$profile = $api->get_store_profile();
 
+		
 		if ( $profile ) {
 			return self::set_api_status( self::API_STATUS_OK );
 		} else {
@@ -110,7 +111,7 @@ class Ecwid_Api_V3
 					}
 				}
 			}
-			
+		
 			if ( $tls_fails ) {
 				return self::set_api_status( self::API_STATUS_ERROR_TLS );
 			} else {
@@ -489,7 +490,7 @@ class Ecwid_Api_V3
 			return false;
 		}
 		
-		if ( @$result['code'] != '200' || empty($result['data'] ) ) {
+		if ( self::get_api_status() == self::API_STATUS_OK && ( @$result['code'] != '200' || empty($result['data'] ) ) ) {
 			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
