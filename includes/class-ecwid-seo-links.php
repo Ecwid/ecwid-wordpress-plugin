@@ -200,8 +200,7 @@ class Ecwid_Seo_Links {
 
 	public function add_js_config() {
 		
-		global $wp_query;
-		$page_id = $wp_query->get( 'page_id' );
+		$page_id = get_queried_object_id();
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 		
@@ -256,12 +255,16 @@ JS;
 		
 		foreach ( $all_base_urls as $page_id => $links ) {
 			$patterns = $this->get_seo_links_patterns();
+			
+			$post = get_post( $page_id );
+			if ( ! $post ) continue;
+			if ( !in_array( $post->post_type, array( 'page', 'post' ) ) ) continue;
 
-			if ( !in_array( get_post( $page_id )->post_type, array( 'page', 'post' ) ) ) continue;
-
+			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
+			
 			foreach ( $links as $link ) {
 				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
+					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
