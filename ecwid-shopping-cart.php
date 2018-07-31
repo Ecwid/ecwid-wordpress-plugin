@@ -973,6 +973,11 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
+	
+	if ( class_exists( 'Ecwid_Integration_Gutenberg' ) && strpos( $content, Ecwid_Integration_Gutenberg::STORE_BLOCK ) !== false ) {
+		return true;
+	} 
+	
 	if ($result) {
 		return $result;
 	}
@@ -994,7 +999,6 @@ function ecwid_content_has_productbrowser( $content ) {
 		}
 		
 	}
-	
 
 	return $result;
 }
@@ -2065,6 +2069,10 @@ function ecwid_settings_api_init() {
 
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
+		}
+		
+		if ($_POST['settings_section'] == 'advanced' && $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
+			Ecwid_Store_Page::update_main_store_page_id( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] );
 		}
 	}
 

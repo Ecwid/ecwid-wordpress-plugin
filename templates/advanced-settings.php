@@ -120,8 +120,35 @@
 				</div>
 		</div>
         <?php endif; ?>
-
         <hr />
+
+        <?php if ( count ( Ecwid_Store_Page::get_store_pages_array() ) > 1 ): ?>
+            <div class="pure-control-group">
+                <div class="label">
+                    <label for="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
+                        <?php _e('Default store page', 'ecwid-shopping-cart'); ?>
+                    </label>
+                    <select id="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>" name="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
+                        <?php foreach ( Ecwid_Store_Page::get_store_pages_array() as $id ): ?>
+                            <option
+                                    value="<?php echo $id; ?>"
+                                <?php if ( $id == Ecwid_Store_Page::get_current_store_page_id() ): ?>
+                                    selected="selected"
+                                <?php endif; ?>
+                            ><?php esc_html_e( get_post( $id )->post_name ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                
+
+                    <div class="note">
+                        <?php echo sprintf( __( 'Какой-то текст про %s и его дефолтную страницу. Наверно.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+        <?php endif; ?>
+
 
         <div class="pure-control-group checkbox">
             <div class="label">
@@ -147,7 +174,7 @@
                 </div>
             </div>
         </div>
-
+            
         <?php ecwid_sync_do_page(); ?>
 
         <div class="note grayed-links">
