@@ -7,6 +7,10 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 
 	public function __construct()
 	{
+		if ( !Ecwid_Api_V3::is_available() ) {
+			return;
+		}
+
 		add_action( 'wp', array( $this, 'disable_seo_if_needed' ) );
 
 		add_filter( 'aiosp_sitemap_extra', array( $this, 'aiosp_hook_sitemap_extra' ) );

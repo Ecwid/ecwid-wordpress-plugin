@@ -5,10 +5,12 @@ class Ecwid_Message_Manager
 	protected $messages = array();
 	
 	const MSG_WOO_IMPORT_ONBOARDING = 'connected_woo';
-
+	
 	protected function __construct()
 	{
 		$this->init_messages();
+		
+		add_action( 'ecwid_connected_via_legacy_page', array( $this, 'on_connected_via_legacy_page' ) );
 	}
 
 	public static function show_messages()
@@ -244,6 +246,26 @@ TXT
 				'primary_url' => admin_url( 'admin-post.php?action=ec_connect&reconnect' ),
 				'hideable' => true
 			),
+			
+			'api_failed_tls' => array(
+				'title' => __( 'Warning: some of your online store features are disabled.', 'ecwid-shopping-cart' ),
+				'message' => sprintf( __( 'This Wordpress site doesn\'t seem to be able to connect to the Ecwid servers. Your store is working and your products can be purchased from your site. But some features are disabled including SEO, product sidebar widgets, advanced site menu and store navigation. This is caused by your server misconfiguration — it is using deprecated tools (TLS 1.0) to communicate with the %1$s APIs. This can be fixed by your hosting provider by updating server software to the latest version.' 
+					, 'ecwid-shopping-cart' ),
+					Ecwid_Config::get_brand()
+				),
+				'type' => 'warning',
+				'hideable' => false
+			),
+			
+			'api_failed_other' => array(
+				'title' => __( 'Warning: some of your online store features are disabled.', 'ecwid-shopping-cart' ),
+				'message' => sprintf( __( 'This Wordpress site doesn\'t seem to be able to connect to the %1$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. This is likely caused by your server misconfiguration and can be fixed by your hosting provider. Here is a more techy description of the problem, which you can send to your hosting provider: "The Wordpress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP POST requests are disabled on this server".'
+					, 'ecwid-shopping-cart' ),
+					Ecwid_Config::get_brand()
+				),
+				'type' => 'warning',
+				'hideable' => false
+			)
 		);
 		
 		if ( class_exists( 'Ecwid_Import_Page' ) ) {
@@ -331,6 +353,20 @@ TXT
 				}
 
 				return $result;
+				
+			case 'api_failed_tls':
+				return 
+					!ecwid_is_demo_store()
+					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
+					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_TLS
+					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
+				
+			case 'api_failed_other':
+				return
+					!ecwid_is_demo_store()
+					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
+					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER
+					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
 		}
 	}
 

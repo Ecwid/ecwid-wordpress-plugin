@@ -1,6 +1,5 @@
 <?php
 
-include ECWID_PLUGIN_DIR . "lib/phpseclib/AES.php";
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 class Ecwid_OAuth {
@@ -72,7 +71,7 @@ class Ecwid_OAuth {
 
 		$scope = $this->_get_scope();
 
-		if (!in_array('create_customers', $scope)) {
+		if (!in_array( 'create_customers', $scope ) ) {
 			$scope[] = 'create_customers';
 		}
 
@@ -137,11 +136,6 @@ class Ecwid_OAuth {
 		EcwidPlatform::cache_reset( 'all_categories' );
 		$this->api->save_token($result->access_token);
 		
-		
-		// Reset "Create store cookie" set previously to display the landing page
-		//in "Connect" mode rather than "Create" mode
-		setcookie('ecwid_create_store_clicked', null, strtotime('-1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
-
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
 			wp_redirect( admin_url( $this->state->return_url ) );
 		} else {
@@ -293,18 +287,10 @@ class Ecwid_OAuth {
 			$this->state->reason = '';
 			$this->state->mode = self::MODE_CONNECT;
 		}
-
-		if (isset($_COOKIE['ecwid_create_store_clicked'])) {
-			$this->state->create_store_clicked = $_COOKIE['ecwid_create_store_clicked'];
-		}
 	}
 
 	public function get_state() {
 		return $this->state;
-	}
-
-	public function was_create_store_clicked() {
-		return $this->state->create_store_clicked;
 	}
 
 	protected function _save_state() {

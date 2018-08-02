@@ -37,12 +37,14 @@ class Ecwid_Admin {
 	{
 		$is_newbie = ecwid_is_demo_store();
 		
+		$page = new Ecwid_Admin_Main_Page();
+		
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			sprintf(__('%s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			'manage_options',
 			self::ADMIN_SLUG,
-			'ecwid_general_settings_do_page',
+			array( $page, 'do_page' ),
 			'',
 			'2.562347345'
 		);
@@ -64,9 +66,9 @@ class Ecwid_Admin {
 		}
 		
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && Ecwid_Api_V3::is_available() ) {
 			
-			if ( !self::are_auto_menus_enabled() ){
+			if ( !self::are_auto_menus_enabled() ) {
 				add_submenu_page(
 					self::ADMIN_SLUG,
 					__('Sales', 'ecwid-shopping-cart'),
@@ -121,7 +123,7 @@ class Ecwid_Admin {
 			}
 		}
 		
-		if (!$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
+		if ( Ecwid_Api_V3::is_available() && !$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Advanced settings', 'ecwid-shopping-cart'),
@@ -375,6 +377,7 @@ class Ecwid_Admin {
 	}
 
 	static public function disable_dashboard() {
+		
 		if ( !isset( $_GET['reconnect'] ) ) {
 			if ( get_option( 'ecwid_disable_dashboard' ) == 'on' ) {
 				return true;
@@ -382,6 +385,8 @@ class Ecwid_Admin {
 				return true;
 			}
 		}
+		
+		return false;
 	}
 }
 
