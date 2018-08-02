@@ -135,13 +135,13 @@
                                 <?php if ( $id == Ecwid_Store_Page::get_current_store_page_id() ): ?>
                                     selected="selected"
                                 <?php endif; ?>
-                            ><?php esc_html_e( get_post( $id )->post_name ); ?></option>
+                            ><?php esc_html_e( get_post( $id )->post_title ); ?></option>
                         <?php endforeach; ?>
                     </select>
                 
 
                     <div class="note">
-                        <?php echo sprintf( __( 'Какой-то текст про %s и его дефолтную страницу. Наверно.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+                        <?php _e( 'You have your storefront added to several pages on your site. You can choose the main storefront page here — the store navigation menus and sidebar widgets will open it. ', 'ecwid-shopping-cart' ); ?>
                     </div>
                 </div>
             </div>

@@ -326,7 +326,7 @@ JS;
 				if ( !isset( $base_urls[$page_id] ) ) {
 					$base_urls[$page_id] = array();
 				}
-				$base_urls[$page_id][] = urldecode( get_page_uri( $page_id ) );
+				$base_urls[$page_id][] = urldecode( get_permalink( $page_id ) );
 			}
 
 			if (
@@ -338,7 +338,7 @@ JS;
 				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
-						$link = urldecode( get_page_uri( $page_id ) );
+						$link = urldecode( get_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );
 
 						if ( !isset( $base_urls[$page_id] ) ) {
