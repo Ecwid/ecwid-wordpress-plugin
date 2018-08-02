@@ -122,8 +122,6 @@ class Ecwid_OAuth {
 			|| !isset( $result->access_token )
 			|| ( $result->token_type != 'Bearer' )
 		) {
-			ecwid_log_error(var_export($return, true));
-
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
@@ -134,6 +132,8 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_public_token', $result->public_token );
 		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
+		Ecwid_Api_V3::reset_api_status();
+		
 		$this->api->save_token($result->access_token);
 		
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {

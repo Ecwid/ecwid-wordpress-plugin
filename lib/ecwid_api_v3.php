@@ -49,7 +49,7 @@ class Ecwid_Api_V3
 
 	public static function is_available()
 	{
-		$status = self::get_api_status();;
+		$status = self::get_api_status();
 		
 		if ( $status == self::API_STATUS_UNDEFINED ) {
 			return self::check_api_status();
@@ -64,7 +64,12 @@ class Ecwid_Api_V3
 		
 		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
 	}
-	
+
+	public static function reset_api_status()
+	{
+		update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
+	}
+
 	public static function set_api_status( $new_status )
 	{
 		if ( in_array( $new_status, self::get_api_status_list() ) ) {
@@ -122,11 +127,12 @@ class Ecwid_Api_V3
 
 	public static function save_token($token)
 	{
-		EcwidPlatform::init_crypt(true);
+		EcwidPlatform::init_crypt( true );
 
-		$value = base64_encode(EcwidPlatform::encrypt($token));
+		$value = base64_encode( EcwidPlatform::encrypt( $token ) );
 
-		update_option(self::TOKEN_OPTION_NAME, $value);
+		update_option( self::TOKEN_OPTION_NAME, $value );
+		self::reset_api_status();
 	}
 
 

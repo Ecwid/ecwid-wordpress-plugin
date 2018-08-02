@@ -678,6 +678,7 @@ function ecwid_check_version()
 			delete_option('ecwid_store_page_id_auto');
 		}
 
+		Ecwid_Api_V3::reset_api_status();
 		flush_rewrite_rules();
 	}
 	
@@ -2011,7 +2012,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 		
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
 			} elseif ( Ecwid_Api_V3::is_available() ) {
-
+				
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
 			}
 			wp_enqueue_style('ecwid-landing-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
