@@ -258,7 +258,7 @@ class Ecwid_Admin {
 			$menu_item['title'] = stripslashes($item['title']);
 			
 			if ( @$item['type'] != 'separator' ) {
-				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $item['title'], $slugs );
+				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $slugs );
 				$menu_item['url'] = 'admin.php?page=' . $slug;
 				$menu_item['slug'] = $slug;
 				$menu_item['hash'] = $item['path'];
@@ -269,7 +269,7 @@ class Ecwid_Admin {
 			
 			if ( @$item['items'] ) foreach ( $item['items'] as $item2 ) {
 				
-				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $item2['title'], $slugs );
+				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $slugs );
 				$slugs[] = $slug2;
 				$item2['url'] = 'admin.php?page=' . $slug2;
 				$item2['slug'] = $slug2;
@@ -285,18 +285,15 @@ class Ecwid_Admin {
 		return $result;
 	}
 	
-	protected function _slugify_ecwid_cp_hash( $hash, $title, $slugs ) {
+	protected function _slugify_ecwid_cp_hash( $hash, $slugs ) {
 		
 		if ( strpos( $hash, ':' ) === false && !in_array( self::ADMIN_SLUG . '-admin-' . $hash, $slugs ) ) {
 			$slug = $hash;
 		} else {
 			$match = array();
 			
-			if ( function_exists( 'mb_strtolower' ) ) {
-				$slug = mb_strtolower( $title );
-			} else {
-				$slug = strtolower( $title );
-			}
+			$slug = $hash;
+			
 			$result = preg_match_all( '#[\p{L}0-9\-_]+#u', $slug, $match );
 	
 			if ( $result && count( @$match[0] ) > 0 ) {
