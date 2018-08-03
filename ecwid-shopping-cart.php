@@ -2122,7 +2122,7 @@ function ecwid_common_admin_scripts() {
 function ecwid_is_legacy_appearance_used() {
 	$api = new Ecwid_Api_V3();
 	
-	return !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
+	return Ecwid_Api_V3::get_token() && !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 }
 
 function ecwid_get_register_link()
