@@ -229,4 +229,4 @@ class Ecwid_Admin_Main_Page
 	}
 }
 
-$page = new Ecwid_Admin_Main_Page();
+$_ecwid_admin_main_page = new Ecwid_Admin_Main_Page();
