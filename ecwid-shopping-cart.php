@@ -952,7 +952,7 @@ TEXT;
 			"id" => "ecwid-faq",
 			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
 			"parent" => "ecwid-main",
-			'href' =>  __('https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-', 'ecwid-shopping-cart'),
+			'href' =>  __('https://support.ecwid.com/hc/en-us/articles/360000635709-Customizing-design-of-your-Ecwid-store-on-a-Wordpress-site', 'ecwid-shopping-cart'),
 			'meta' => array(
 				'target' => '_blank'
 			)

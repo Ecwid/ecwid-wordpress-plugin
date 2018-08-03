@@ -36,7 +36,7 @@ msgstr "Посмотреть FAQ"
 
 #: ecwid-shopping-cart.php:881
 msgid ""
-"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-"
+"https://support.ecwid.com/hc/en-us/articles/360000635709-Customizing-design-of-your-Ecwid-store-on-a-Wordpress-site"
 msgstr "https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG"
 
 #: ecwid-shopping-cart.php:890
