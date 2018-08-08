@@ -9,10 +9,14 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 	
 	public function __construct()
 	{
+		if ( !Ecwid_Api_V3::is_available() ) {
+			return;
+		}
+		
 		add_action( 'wp', array( $this, 'disable_seo_on_escaped_fragment' ) );
 		add_action( 'template_redirect', array( $this, 'disable_rewrite_titles' ) );
 
-		if (ecwid_is_paid_account() && ecwid_is_store_page_available()) {
+		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
 			add_filter( 'wpseo_do_sitemap_ecwid', array( $this, 'wpseo_hook_do_sitemap' ) );
 			if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {

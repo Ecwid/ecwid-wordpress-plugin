@@ -1,3 +1,8 @@
+<?php
+    $no_oauth = @$_GET['oauth'] == 'no';
+    $connection_error = isset( $_GET['connection_error'] );
+?>
+
 <div class="wrap ecwid-admin ecwid-connect<?php if ($no_oauth): ?> no-oauth<?php else: ?> with-oauth<?php endif; ?>">
 	<div class="box">
         <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>

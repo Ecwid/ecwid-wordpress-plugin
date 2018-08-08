@@ -74,7 +74,8 @@ jQuery(document).ready(function() {
 					'ecwid-widget-vcategories': 'storeCategories',
 					'ecwid-widget-storelink': 'storePageLink',
 					'ecwid-widget-floatingshoppingcart': 'floatingShoppingCart',
-					'ecwid-widget-vcategorieslist': 'storeRootCategories'
+					'ecwid-widget-vcategorieslist': 'storeRootCategories',
+					'ecwid-widget-nsfminicart': 'shoppingCart',
 				};
 			}
 

@@ -43,7 +43,9 @@
 							<?php ecwid_embed_svg('add-store'); ?>
                             <label for="show_search"     class="ecwid-search"     data-ecwid-widget="search"></label>
                             <label for="show_categories" class="ecwid-categories" data-ecwid-widget="categories"></label>
+                            <?php if ( !get_option( 'ecwid_hide_old_minicart' ) ): ?> 
                             <label for="show_minicart"   class="ecwid-minicart"   data-ecwid-widget="minicart"></label>
+                            <?php endif; ?>
                         </div>
 
                         <div class="store-settings">
@@ -56,13 +58,15 @@
 									<?php _e('Show search', 'ecwid-shopping-cart'); ?>
                                 </label>
                             </div>
-
+                            
+                            <?php if ( !get_option( 'ecwid_hide_old_minicart' ) ): ?>
                             <div class="pure-control-group">
                                 <label data-ecwid-widget="minicart">
                                     <input type="checkbox" name="show_minicart" id="show_minicart" />
 									<?php _e('Show minicart', 'ecwid-shopping-cart'); ?>
                                 </label>
                             </div>
+                            <?php endif; ?>
 
                             <div class="pure-control-group">
                                 <label data-ecwid-widget="categories">
@@ -257,3 +261,8 @@
 	</div>
 	<div class="media-modal-backdrop"></div>
 </div>
+<?php if ( get_option( 'ecwid_hide_old_minicart' ) ): ?>
+<script>    
+    jQuery('.ecwid-store-editor path.minicart').hide();
+</script>
+<?php endif; ?>	

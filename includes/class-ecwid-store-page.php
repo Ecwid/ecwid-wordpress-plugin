@@ -110,7 +110,7 @@ class Ecwid_Store_Page {
 			
 			$link = get_permalink( $id );
 		}
-
+		
 		return $link;
 	}
 
@@ -130,7 +130,7 @@ class Ecwid_Store_Page {
 
 				$post = get_post( $id );
 				$changed = false;
-
+				
 				while ( is_null( $post ) ) {
 
 					$changed = true;
@@ -191,7 +191,7 @@ class Ecwid_Store_Page {
 		self::_set_store_pages( $pages );
 		self::schedule_flush_rewrites();
 	}
-
+	
 	public static function reset_store_page( $page_id ) {
 
 		$pages = self::get_store_pages_array();
@@ -288,6 +288,13 @@ class Ecwid_Store_Page {
 		return $result;
 	}
 
+	public static function update_main_store_page_id( $new_id ) {
+		
+		if ( self::post_content_has_productbrowser( $new_id ) ) {
+			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $new_id );
+		}
+	} 
+	
 	public static function on_save_post( $post_id ) {
 
 		if ( wp_is_post_revision( $post_id ) )

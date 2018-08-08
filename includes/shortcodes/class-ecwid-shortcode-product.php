@@ -45,15 +45,15 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			$attributes['version'] = 1;
 		}
 		
-		$this->params = $attributes;
+		$this->_params = $attributes;
 	}
 
 	public function render_placeholder() {
 		$widget_parts = array();
-
-		if ($this->params['version'] == 1) {
+		
+		if ($this->_params['version'] == 1) {
 			$widget_parts = $this->_get_widget_parts_v1();
-		} else if ($this->params['version'] == 2) {
+		} else if ($this->_params['version'] == 2) {
 			$widget_parts = $this->_get_widget_parts_v2();
 		}
 
@@ -61,13 +61,13 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 		$result = $widget_parts['opening_div'];
 
-		$items = preg_split('![^0-9^a-z^A-Z^\-^_]!', $this->params['display']);
+		$items = preg_split('![^0-9^a-z^A-Z^\-^_]!', $this->_params['display']);
 
-		$product = Ecwid_Product::get_without_loading( $this->params['id'], (object)array('name' => '') );
+		$product = Ecwid_Product::get_without_loading( $this->_params['id'], (object)array('name' => '') );
 		
 		if (is_array($items) && count($items) > 0) foreach ($items as $item) {
 			if (array_key_exists($item, $display_items)) {
-				if ($this->params['link'] == 'yes' && in_array($item, array('title', 'picture'))) {
+				if ($this->_params['link'] == 'yes' && in_array($item, array('title', 'picture'))) {
 					$product_link = $product->link;
 					$result .= '<a href="' . esc_url($product_link) . '">' . $display_items[$item] . '</a>';
 				} else {
@@ -86,7 +86,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 	}
 
 	public function get_ecwid_widget_function_name() {
-		return $this->params['version'] == 1 ? 'xSingleProduct' : 'xProduct';
+		return $this->_params['version'] == 1 ? 'xSingleProduct' : 'xProduct';
 	}
 
 	protected function _get_widget_parts_v1() {
@@ -103,7 +103,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			),
 			'opening_div' => sprintf('<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-%d" '
 			                         . 'itemscope itemtype="http://schema.org/Product" '
-			                         . 'data-single-product-id="%d" id="%s">', $this->params['id'], $this->params['id'], $this->get_html_id())
+			                         . 'data-single-product-id="%d" id="%s">', $this->_params['id'], $this->_params['id'], $this->get_html_id())
 		);
 	}
 
@@ -114,21 +114,21 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		    'ecwid',
             'ecwid-SingleProduct-v2',
             'ecwid-Product',
-            'ecwid-Product-' . $this->params['id']
+            'ecwid-Product-' . $this->_params['id']
         );
 
-		if ($this->params['show_border'] != 0) { // defaults to 1
+		if ($this->_params['show_border'] != 0) { // defaults to 1
 			$bordered_class = '';
 			$main_div_classes[] = 'ecwid-SingleProduct-v2-bordered';
 		}
 
-		if ($this->params['center_align'] == 1) { // defaults to 0
+		if ($this->_params['center_align'] == 1) { // defaults to 0
 		    $main_div_classes[] = 'ecwid-SingleProduct-v2-centered';
         }
 
         $main_div_class = implode( ' ', $main_div_classes );
 
-		if ($this->params['show_price_on_button'] == 0) { // defaults to 1
+		if ($this->_params['show_price_on_button'] == 0) { // defaults to 1
 			$price_location_attributes = '';
 		}
 
@@ -147,7 +147,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			),
 			'opening_div' => sprintf('<div class="' . $main_div_class . '" '
 			                         . 'itemscope itemtype="http://schema.org/Product" data-single-product-id="%d" id="%s">',
-									$this->params['id'],
+									$this->_params['id'],
 									$this->get_html_id()
 			)
 		);

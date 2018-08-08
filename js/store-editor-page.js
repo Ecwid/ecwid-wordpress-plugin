@@ -62,7 +62,7 @@ jQuery(document).ready(function() {
 
 		var widgets = attributes.widgets;
 		if (typeof widgets == 'undefined') {
-			widgets = "productbrowser search categories minicart";
+			widgets = "productbrowser search";
 		}
 
 		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
@@ -92,8 +92,8 @@ jQuery(document).ready(function() {
 	getDefaultParams = function() {
 		return {
 			'show_search': true,
-			'show_minicart': true,
-			'show_categories': true,
+			'show_minicart': false,
+			'show_categories': false,
 			'categories_per_row': 3,
 			'grid_rows': ecwid_pb_defaults.grid_rows,
 			'grid_columns': ecwid_pb_defaults.grid_columns,
@@ -282,6 +282,9 @@ jQuery(document).ready(function() {
 		} else {
 
 			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+				if ($popup.data('range')) {
+                    tinymce.activeEditor.selection.setRng($popup.data('range'));
+				}
 				tinymce.activeEditor.execCommand('mceInsertContent', false, stringToInsert);
 				tinymce.activeEditor.execCommand('mceSetContent', false, tinymce.activeEditor.getBody().innerHTML);
 			} else {
@@ -313,6 +316,8 @@ jQuery(document).ready(function() {
 	});
 
 	createGutenbergedShortcodeString = function( shortcode ) {
+		return shortcode.string();
+		
 		var result = '<!-- wp:ecwid/store-block ';
 		
 		result += JSON.stringify(shortcode.attrs.named);
@@ -357,6 +362,8 @@ ecwid_open_store_popup = function() {
 	if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
 		tinyMCE.activeEditor.save();
 
+		$popup.data('range', tinyMCE.activeEditor.selection.getRng());
+		
 		var content = jQuery(tinyMCE.activeEditor.getBody())
 				.find('.ecwid-store-editor')
 				.attr('data-ecwid-shortcode');

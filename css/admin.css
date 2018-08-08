@@ -20,6 +20,11 @@
 	background-image: url(../images/icon-sidebar-active.png);
 }
 
+
+.toplevel_page_ec-store #wpcontent .ecwid-message {
+	margin-left: 20px;
+}
+
 .ecwid-settings h2 {
 	background:url(../images/icon-title.png) no-repeat 0% 50%;
 	padding-left: 43px;
@@ -259,7 +264,9 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 #available-widgets .widget-top.ecwid-widget-minicart .widget-title:before,
 #available-widgets .widget-top.ecwid-widget-minicart_miniview .widget-title:before,
-#available-widgets .widget-top.ecwid-widget-floatingshoppingcart .widget-title:before
+#available-widgets .widget-top.ecwid-widget-floatingshoppingcart .widget-title:before,
+#available-widgets .widget-top.ecwid-widget-nsfminicart .widget-title:before
+
 {
 	content: "\e601";
 }

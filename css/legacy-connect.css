@@ -1,0 +1,105 @@
+.general-settings {
+    font-size: 14px;
+    max-width: 750px;
+    padding-bottom: 15px;
+}
+
+.general-settings .greeting-box {
+    height: 141px;
+    padding-bottom: 12px;
+}
+
+.general-settings .greeting-box .image-container {
+    padding-right: 20px;
+}
+
+.general-settings .greeting-box > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.general-settings .greeting-box .main-message {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 22px;
+}
+
+.general-settings .greeting-box .secondary-message {
+    font-size: 17px;
+    padding-top: 13px;
+    line-height: 23px;
+}
+
+.general-settings ol {
+    margin-top: 30px;
+    padding-left: 10px;
+    list-style-position: inside;
+}
+
+.general-settings ol li {
+    font-size: 20px;
+    margin-bottom: 34px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.general-settings ol li * {
+    color: #333333;
+    font-size:14px;
+    font-weight: normal;
+}
+
+.general-settings ol li h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px 0px 12px;
+    display: inline-block;
+}
+
+.general-settings .ecwid-account-buttons .pure-button {
+    margin: 5px 17px 5px 0px;
+}
+
+.general-settings .ecwid-account-buttons {
+    padding: 20px 0px 10px;
+    margin-bottom: -5px;
+}
+
+.general-settings p.note {
+    font-weight: bold;
+}
+
+.ecwid-settings .note {
+    font-size: 11px;
+    color: #A0A0A0;
+    display: inline-block;
+    line-height: 16px;
+}
+
+
+.general-settings input[type=text] {
+    height: 34px;
+    font-size: 14px;
+}
+
+.general-settings .find-store-id-in-cp {
+    line-height: 18px;
+    margin-bottom: 15px;
+}
+
+.general-settings .find-store-id-in-cp em {
+    color: #246fba;
+    font-style: normal;
+}
+
+.general-settings #ecwid_store_id {
+    position: relative;
+    top: 2px;
+    width: 153px;
+}
+
+.pure-button {
+    display: inline-block;
+    line-height: 32px;
+    text-decoration: none;
+}

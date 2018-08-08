@@ -6,6 +6,10 @@ jQuery(document).ready(function() {
     popup().data( 'defaultSortBy', 'ADDED_TIME_DESC' );
 
     jQuery('#insert-ecwid-product-button').click(function() {
+        openPopup();
+    });
+    
+    openPopup = function() {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
             location.href='admin.php?page=ec-store&reconnect&reason=spw';
             return false;
@@ -15,16 +19,51 @@ jQuery(document).ready(function() {
 
         populateWidgetParams();
         setSearchParams({});
-
+        
         if (getInitialSearchData()) {
             buildProductsTable(getInitialSearchData());
         } else {
             updateSearchParams();
         }
 
-        popup().addClass('open');
+        setSelectedProduct(null);
 
-    });
+        if (popup().data('params')) {
+
+            var props = popup().data('params').props.attributes;
+            if (props.id) {
+                var productTemplate = wp.template('selected-product');
+
+                setSelectedProduct(
+                    {'name': props.productName, 'thumb': props.productImageURL, 'sku': props.productSKU, 'id': props.id}
+                );
+                
+                var productHtml = productTemplate(
+                    getSelectedProduct()
+                );
+    
+                jQuery('.media-frame-content.selected-product').empty().append(productHtml);
+                changeMode('selected-product');
+                changeTab('selected-product');
+
+                jQuery('#choose-another-product').click(function() {
+                    jQuery('.media-modal-content', popup()).attr('data-active-dialog', 'add-product');
+                    jQuery('.media-button-update').addClass('disabled');
+                });
+                jQuery('media-modal-content', popup()).attr('data-mode', 'selected-product');
+                changeTab('customize');
+            }
+        } 
+        
+        if ( !getSelectedProduct() ) {
+            changeMode('add-product');
+        }
+
+        popup().addClass('open');
+    }
+
+    popup().data('openPopup', openPopup);
+    
 
     jQuery(document).keydown(function(e) {
         if (e.keyCode == 27 && popup().hasClass('open')) {
@@ -44,14 +83,55 @@ jQuery(document).ready(function() {
 
     var populateWidgetParams = function() {
 
-        if (ecwidSpwParams && ecwidSpwParams.display) {
+        var params;
+        debugger;
+        if (popup().data('params') && popup().data('params').props.attributes.id) {
+            
+            debugger;
+            
+            var selectedParams = popup().data('params').props.attributes;
+            params = {
+                'display': []
+            };
+            var displayMap = [
+                'picture',
+                'title',
+                'price',
+                'options',
+                'addtobag',
+                'qty'
+            ];
+            for (var i = 0; i < displayMap.length; i++) {
+                var param = displayMap[i];
+                if ( selectedParams['show_' + param] ) {
+                    params.display[param] = true;
+                }
+            }
+
+
+            var shortcodeMap = [
+                'show_price_on_button',
+                'show_border',
+                'center_align'
+            ];
+            for (var i = 0; i < shortcodeMap.length; i++) {
+                var name = shortcodeMap[i];
+                params.attributes = params.attributes || {};
+                if (selectedParams[name])
+                    params.attributes[name] = selectedParams[name];
+            }
+        } else {
+            params = ecwidSpwParams;
+        }
+        
+        if (params && params.display) {
             jQuery('input[type=checkbox]', popup()).prop('checked', false);
 
-            for (var i in ecwidSpwParams.display) {
+            for (var i in params.display) {
                 jQuery('input[type=checkbox][data-display-option=' + i + ']')
                     .prop('checked', true);
             }
-            for (var i in ecwidSpwParams.attributes) {
+            for (var i in params.attributes) {
                 jQuery('input[type=checkbox][data-shortcode-attribute=' + i + ']')
                     .prop('checked', true);
             }
@@ -67,6 +147,10 @@ jQuery(document).ready(function() {
 
         jQuery('.toolbar-link').show();
         jQuery('.toolbar-link[data-content=' + tab + ']', popup()).hide();
+    }
+    
+    var changeMode = function(mode) {
+        jQuery('.media-modal-content', popup()).attr('data-mode', mode);    
     }
 
     jQuery('.media-menu-item', popup()).click(function() {
@@ -87,37 +171,42 @@ jQuery(document).ready(function() {
     });
 
 
-    jQuery('.media-button-select', popup()).click(function() {
-
-        var shortcode = buildShortcode();
-
-        if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
-            tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+    jQuery('.media-button-select, .media-button-update', popup()).click(function() {
+        
+        if (popup().data('params') && popup().data('params').saveCallback) {
+            popup().data('params').saveCallback({
+                originalProps: popup().data('params').props,
+                newProps: buildOutputParams()
+            });
         } else {
-
-            getCursorPosition = function(el) {
-                var pos = 0;
-                if('selectionStart' in el) {
-                    pos = el.selectionStart;
-                } else if('selection' in document) {
-                    el.focus();
-                    var Sel = document.selection.createRange();
-                    var SelLength = document.selection.createRange().text.length;
-                    Sel.moveStart('character', -el.value.length);
-                    pos = Sel.text.length - SelLength;
-                }
-                return pos;
-            };
-
-            var el = jQuery('#content');
-            var cursorPosition = getCursorPosition(el.get(0));
-
-            el.val(el.val().substr(0, cursorPosition) + shortcode + el.val().substr(cursorPosition));
-
+            var shortcode = buildShortcode();
+    
+            if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+                tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+            } else {
+    
+                getCursorPosition = function(el) {
+                    var pos = 0;
+                    if('selectionStart' in el) {
+                        pos = el.selectionStart;
+                    } else if('selection' in document) {
+                        el.focus();
+                        var Sel = document.selection.createRange();
+                        var SelLength = document.selection.createRange().text.length;
+                        Sel.moveStart('character', -el.value.length);
+                        pos = Sel.text.length - SelLength;
+                    }
+                    return pos;
+                };
+    
+                var el = jQuery('#content');
+                var cursorPosition = getCursorPosition(el.get(0));
+    
+                el.val(el.val().substr(0, cursorPosition) + shortcode + el.val().substr(cursorPosition));
+    
+            }
+            saveParams();
         }
-
-        saveParams();
-
         popup().removeClass('open');
     });
 
@@ -139,29 +228,16 @@ jQuery(document).ready(function() {
     };
 
     var buildShortcode = function() {
-        var params = {};
+        var params = buildOutputParams();
 
-        product = getCurrentProduct();
+        var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
-        params.id = product.id;
-        params.version = '2';
-        params.display = [];
-
-        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
-           params.display[params.display.length] = jQuery(el).data('display-option');
-        });
 
         if (params.display.length == 0) {
             params.display = 'picture title price options addtobag';
         } else {
             params.display = params.display.join(' ');
         }
-
-        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
-            params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
-        });
-
-        var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
 
         var shortcode = '[' + ecwid_params.product_shortcode;
 
@@ -173,13 +249,34 @@ jQuery(document).ready(function() {
 
         return shortcode;
     };
+    
+    var buildOutputParams = function() {
 
-    var setCurrentProduct = function( product ) {
+        var params = {};
+        product = getSelectedProduct();
+
+        params.id = product.id;
+        params.version = '2';
+        params.display = [];
+        params.product = product;
+
+        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
+            params.display[params.display.length] = jQuery(el).data('display-option');
+        });
+
+        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
+            params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
+        });
+        
+        return params;
+    }
+
+    var setSelectedProduct = function( product ) {
         popup().data('currentProduct', product);
         updateFormOnCurrentProduct();
     };
 
-    var getCurrentProduct = function() {
+    var getSelectedProduct = function() {
         return popup().data('currentProduct');
     };
 
@@ -209,12 +306,12 @@ jQuery(document).ready(function() {
     };
 
     var updateFormOnCurrentProduct = function() {
-        var product = getCurrentProduct();
+        var product = getSelectedProduct();
 
         if (product) {
-            jQuery( '.media-button-select', popup() ).removeClass( 'disabled' );
+            jQuery( '.media-button-select, .media-button-update', popup() ).removeClass( 'disabled' );
         } else {
-            jQuery( '.media-button-select', popup() ).addClass( 'disabled' );
+            jQuery( '.media-button-select, .media-button-update', popup() ).addClass( 'disabled' );
         }
 
     }
@@ -227,11 +324,11 @@ jQuery(document).ready(function() {
 
         if (jQuery(this).hasClass('selected-product')) {
             jQuery(this).closest('tbody').find('tr').removeClass('selected-product');
-            setCurrentProduct(null);
+            setSelectedProduct(null);
         } else {
             jQuery(this).closest('tbody').find('tr').removeClass('selected-product');
             jQuery(this).addClass('selected-product');
-            setCurrentProduct(jQuery(this).data('productData'));
+            setSelectedProduct(jQuery(this).data('productData'));
         }
     };
 
@@ -351,7 +448,6 @@ jQuery(document).ready(function() {
         
         renderSearchParams();
         assignHandlers();
-        setCurrentProduct(null);
         jQuery('#search-submit').removeClass('searching');
 
         if (totalPages <= 1) {
@@ -513,6 +609,7 @@ jQuery(document).ready(function() {
         jQuery('#ecwid-reset-search').click(function() {
             setSearchParams({});
             buildProductsTable(getInitialSearchData());
+            setSelectedProduct(null);
         });
     };
 
@@ -546,4 +643,10 @@ ecwidRenderCheckboxOption = function(data) {
 
     jQuery('#ecwid-product-popup-content .widget-settings.' + data.section + ' .widget-settings__' + that.nextTarget)
         .append(that.template(data));
+}
+
+function ecwid_open_product_popup(params) {
+    jQuery('#ecwid-product-popup-content').data('params', params);
+    var open = jQuery('#ecwid-product-popup-content').data('openPopup');
+    open();//jQuery('#ecwid-product-popup-content').addClass('open');
 }

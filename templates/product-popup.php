@@ -112,6 +112,21 @@
     </label>
 </script>
 
+<script type="text/template" id="tmpl-selected-product">
+<div class="ecwid-selected-product">
+    <div class="ecwid-selected-product-image">
+        <img src="{{ data.thumb }}">
+    </div>
+    <div class="ecwid-selected-product-details">
+        <div class="ecwid-selected-product-name">{{ data.name }}</div>
+        <div class="ecwid-selected-product-sku">{{ data.sku }}</div>
+        <div class="ecwid-selected-product-button">
+            <button class="button button-secondary" id="choose-another-product"><?php _e(' Choose another product', 'ecwid-shopping-cart' ); ?></button>
+        </div>
+    </div>
+</div>
+</script>
+
 <div id="ecwid-product-popup-content">
     <div class="media-modal wp-core-ui">
         <div class="media-modal-content" data-mode="add-product" data-active-dialog="add-product">
@@ -120,9 +135,14 @@
                 <div class="media-frame-menu">
                     <div class="media-menu">
                         <a href="#" class="media-menu-item active" data-content="add-product"><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?></a>
+                        <a href="#" class="media-menu-item" data-content="selected-product"><?php _e( 'Selected Product', 'ecwid-shopping-cart' ); ?></a>
                         <a href="#" class="media-menu-item" data-content="customize"><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?></a>
                     </div>
                 </div>
+                <div class="media-frame-title selected-product">
+                    <h1><?php _e( 'Selected Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+                </div>
+                
                 <div class="media-frame-title add-product active">
                     <h1><?php _e( 'Choose Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
@@ -131,6 +151,9 @@
                     <h1><?php _e( 'Customize widget', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
                 </div>
 
+                <div class="media-frame-content ecwid-selected-product selected-product">
+                </div>
+                
                 <div class="media-frame-content ecwid-add-product add-product">
                 </div>
 
@@ -218,6 +241,11 @@
                             <a target="_blank" class="toolbar-link customize-appearance" data-content="customize" href="#"><?php _e( 'customize appearance', 'ecwid-shopping-cart' ); ?></a>
                             <a target="_blank" class="toolbar-link add-product" data-content="add-product" style="display: none" href="#"><?php _e( 'select product', 'ecwid-shopping-cart' ); ?></a>
                             <a href="#" class="button media-button button-primary button-large media-button-select"><?php _e( 'Insert', 'ecwid-shopping-cart' ); ?></a>
+                        </div>
+                        <div class="media-toolbar-primary selected-product">
+                            <a target="_blank" class="toolbar-link customize-appearance" data-content="customize" href="#"><?php _e( 'customize appearance', 'ecwid-shopping-cart' ); ?></a>
+                            <a target="_blank" class="toolbar-link add-product" data-content="selected-product" style="display: none" href="#"><?php _e( 'selected product', 'ecwid-shopping-cart' ); ?></a>
+                            <a href="#" class="button media-button button-primary button-large media-button-update"><?php _e( 'Update', 'ecwid-shopping-cart' ); ?></a>
                         </div>
                     </div>
                 </div>
