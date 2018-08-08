@@ -20,6 +20,11 @@
 	background-image: url(../images/icon-sidebar-active.png);
 }
 
+
+.toplevel_page_ec-store #wpcontent .ecwid-message {
+	margin-left: 20px;
+}
+
 .ecwid-settings h2 {
 	background:url(../images/icon-title.png) no-repeat 0% 50%;
 	padding-left: 43px;

@@ -200,8 +200,7 @@ class Ecwid_Seo_Links {
 
 	public function add_js_config() {
 		
-		global $wp_query;
-		$page_id = $wp_query->get( 'page_id' );
+		$page_id = get_queried_object_id();
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 		
@@ -256,12 +255,17 @@ JS;
 		
 		foreach ( $all_base_urls as $page_id => $links ) {
 			$patterns = $this->get_seo_links_patterns();
+			
+			$post = get_post( $page_id );
+			if ( ! $post ) continue;
+			if ( !in_array( $post->post_type, array( 'page', 'post' ) ) ) continue;
 
-			if ( !in_array( get_post( $page_id )->post_type, array( 'page', 'post' ) ) ) continue;
-
+			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
+			
 			foreach ( $links as $link ) {
 				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
+					$link = trim( $link, '/' );
+					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
@@ -305,6 +309,20 @@ JS;
 			}
 		}
 		
+		$rules = get_option( 'rewrite_rules' );
+		foreach ( $flattened as $link ) {
+			$link = trim( $link, '/' );
+			
+			$patterns = $this->get_seo_links_patterns();
+			$pattern = $patterns[0];
+			
+			$rules_pattern = '^' . $link . '/' . $pattern . '.*';
+			
+			if ( !array_key_exists( $rules_pattern, $rules ) ) {
+				return false;
+			}
+		}
+		
 		$are_the_same = array_diff( $flattened, $flattened_saved );
 		
 		return empty( $are_the_same ) && $saved_home == $this->is_store_on_home_page();
@@ -323,7 +341,7 @@ JS;
 				if ( !isset( $base_urls[$page_id] ) ) {
 					$base_urls[$page_id] = array();
 				}
-				$base_urls[$page_id][] = urldecode( get_page_uri( $page_id ) );
+				$base_urls[$page_id][] = urldecode( $this->_get_relative_permalink( $page_id ) );
 			}
 
 			if (
@@ -335,7 +353,7 @@ JS;
 				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
-						$link = urldecode( get_page_uri( $page_id ) );
+						$link = urldecode( $this->_get_relative_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );
 
 						if ( !isset( $base_urls[$page_id] ) ) {
@@ -349,6 +367,14 @@ JS;
 		}
 		
 		return $base_urls;
+	}
+	
+	protected function _get_relative_permalink( $item_id ) {
+		$permalink = get_permalink( $item_id );
+		
+		$home_url = home_url();
+		
+		return substr( $permalink, strlen( $home_url ) );
 	}
 	
 	

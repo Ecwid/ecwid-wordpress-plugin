@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ecwid_requests.php';
+require_once ECWID_PLUGIN_DIR . 'lib/phpseclib/AES.php';
 
 class EcwidPlatform {
 

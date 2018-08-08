@@ -85,7 +85,7 @@
 </script>
 
 
-		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="yes"></iframe>
+		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
 
 <script type="text/javascript">
     jQuery(document).ready(function() {

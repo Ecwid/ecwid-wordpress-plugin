@@ -7,6 +7,9 @@ class Ecwid_Product_Popup {
         if ( version_compare( $version, '3.9' ) < 0 ) {
             return;
         }
+        if ( !Ecwid_Api_V3::is_available() ) {
+        	return;
+		}
 
         add_action( 'init', array( $this, 'init' ) );
         add_action( 'current_screen', array( $this, 'init_current_screen' ) );

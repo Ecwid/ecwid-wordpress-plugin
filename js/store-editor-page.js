@@ -282,6 +282,9 @@ jQuery(document).ready(function() {
 		} else {
 
 			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+				if ($popup.data('range')) {
+                    tinymce.activeEditor.selection.setRng($popup.data('range'));
+				}
 				tinymce.activeEditor.execCommand('mceInsertContent', false, stringToInsert);
 				tinymce.activeEditor.execCommand('mceSetContent', false, tinymce.activeEditor.getBody().innerHTML);
 			} else {
@@ -359,6 +362,8 @@ ecwid_open_store_popup = function() {
 	if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
 		tinyMCE.activeEditor.save();
 
+		$popup.data('range', tinyMCE.activeEditor.selection.getRng());
+		
 		var content = jQuery(tinyMCE.activeEditor.getBody())
 				.find('.ecwid-store-editor')
 				.attr('data-ecwid-shortcode');

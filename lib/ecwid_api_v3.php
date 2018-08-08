@@ -11,12 +11,30 @@ class Ecwid_Api_V3
 	
 	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
 	
+	const OPTION_API_STATUS = 'ecwid_api_status';
+	const API_STATUS_OK = 'ok';
+	const API_STATUS_UNDEFINED = null;
+	const API_STATUS_ERROR_TLS = 'fail_old_tls';
+	const API_STATUS_ERROR_OTHER = 'fail_other';
+	const API_STATUS_ERROR_TOKEN = 'fail_token';
+	
+	public static function get_api_status_list()
+	{
+		return array( 
+			self::API_STATUS_UNDEFINED,
+			self::API_STATUS_OK,
+			self::API_STATUS_ERROR_TOKEN,
+			self::API_STATUS_ERROR_TLS,
+			self::API_STATUS_ERROR_OTHER
+		);
+	}
+
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 
 	public $store_id = null;
 	
 	protected static $profile = null;
-
+	
 	public function __construct() {
 
 		$this->store_id = EcwidPlatform::get_store_id();
@@ -25,26 +43,96 @@ class Ecwid_Api_V3
 
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
+
+		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
 
 	public static function is_available()
 	{
-		$token = self::_load_token();
+		$status = self::get_api_status();
 		
-		if ( $token && $token != get_option( self::TOKEN_OPTION_NAME ) ) {
-			return true;
+		if ( $status == self::API_STATUS_UNDEFINED ) {
+			return self::check_api_status();
 		}
+		
+		return $status == self::API_STATUS_OK;
+	}
+	
+	public static function connection_fails()
+	{
+		$status = self::get_api_status();
+		
+		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
+	}
 
-		return false;
+	public static function reset_api_status()
+	{
+		update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
+	}
+
+	public static function set_api_status( $new_status )
+	{
+		if ( in_array( $new_status, self::get_api_status_list() ) ) {
+			update_option( self::OPTION_API_STATUS, $new_status );
+		}
+		
+		return $new_status == self::API_STATUS_OK;
+	}
+	
+	public static function get_api_status()
+	{
+		return get_option( self::OPTION_API_STATUS );
+	}
+	
+	
+	public static function check_api_status()
+	{
+		$api = new Ecwid_Api_V3();
+
+		$token = self::_load_token();
+		if ( !$token ) {
+			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+		}
+		
+		$profile = $api->get_store_profile();
+
+		
+		if ( $profile ) {
+			return self::set_api_status( self::API_STATUS_OK );
+		} else {
+			$transports = stream_get_transports();
+			
+			$tls_fails = true;
+			
+			foreach ( $transports as $transport ) {
+				$matches = array();
+				
+				$is_tls = preg_match( '!tlsv(.*)!', $transport, $matches );
+				
+				if ( $is_tls ) {
+					if ( version_compare( $matches[1], '1.1', '>=' ) ) {
+						$tls_fails = false;
+						break;
+					}
+				}
+			}
+		
+			if ( $tls_fails ) {
+				return self::set_api_status( self::API_STATUS_ERROR_TLS );
+			} else {
+				return self::set_api_status( self::API_STATUS_ERROR_OTHER );
+			}
+		}
 	}
 
 	public static function save_token($token)
 	{
-		EcwidPlatform::init_crypt(true);
+		EcwidPlatform::init_crypt( true );
 
-		$value = base64_encode(EcwidPlatform::encrypt($token));
+		$value = base64_encode( EcwidPlatform::encrypt( $token ) );
 
-		update_option(self::TOKEN_OPTION_NAME, $value);
+		update_option( self::TOKEN_OPTION_NAME, $value );
+		self::reset_api_status();
 	}
 
 
@@ -373,7 +461,7 @@ class Ecwid_Api_V3
 		$url = $this->_api_url . $this->store_id . '/latest-stats';
 
 		$params = array(
-			'token' => $this->get_token()
+			'token' => self::get_token()
 		);
 
 		$url = $this->build_request_url($url, $params);
@@ -397,13 +485,19 @@ class Ecwid_Api_V3
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
-			'token' => $this->get_token()
+			'token' => self::get_token()
 		);
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		
-		if (@$result['code'] != '200' || empty($result['data'])) {
+		if ( @$result['code'] == '403' ) {
+			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			return false;
+		}
+		
+		if ( self::get_api_status() == self::API_STATUS_OK && ( @$result['code'] != '200' || empty($result['data'] ) ) ) {
+			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
 

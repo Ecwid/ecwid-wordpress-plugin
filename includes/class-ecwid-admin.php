@@ -37,12 +37,14 @@ class Ecwid_Admin {
 	{
 		$is_newbie = ecwid_is_demo_store();
 		
+		$page = new Ecwid_Admin_Main_Page();
+		
 		add_menu_page(
 			sprintf(__('%s shopping cart settings', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			sprintf(__('%s', 'ecwid-shopping-cart'), Ecwid_Config::get_brand()),
 			'manage_options',
 			self::ADMIN_SLUG,
-			'ecwid_general_settings_do_page',
+			array( $page, 'do_page' ),
 			'',
 			'2.562347345'
 		);
@@ -64,9 +66,9 @@ class Ecwid_Admin {
 		}
 		
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && !self::disable_dashboard() ) {
+		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && Ecwid_Api_V3::is_available() ) {
 			
-			if ( !self::are_auto_menus_enabled() ){
+			if ( !self::are_auto_menus_enabled() ) {
 				add_submenu_page(
 					self::ADMIN_SLUG,
 					__('Sales', 'ecwid-shopping-cart'),
@@ -121,7 +123,7 @@ class Ecwid_Admin {
 			}
 		}
 		
-		if (!$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
+		if ( Ecwid_Api_V3::is_available() && !$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Advanced settings', 'ecwid-shopping-cart'),
@@ -256,7 +258,7 @@ class Ecwid_Admin {
 			$menu_item['title'] = stripslashes($item['title']);
 			
 			if ( @$item['type'] != 'separator' ) {
-				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $item['title'], $slugs );
+				$slug = $this->_slugify_ecwid_cp_hash( $item['path'], $slugs );
 				$menu_item['url'] = 'admin.php?page=' . $slug;
 				$menu_item['slug'] = $slug;
 				$menu_item['hash'] = $item['path'];
@@ -267,7 +269,7 @@ class Ecwid_Admin {
 			
 			if ( @$item['items'] ) foreach ( $item['items'] as $item2 ) {
 				
-				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $item2['title'], $slugs );
+				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $slugs );
 				$slugs[] = $slug2;
 				$item2['url'] = 'admin.php?page=' . $slug2;
 				$item2['slug'] = $slug2;
@@ -283,18 +285,15 @@ class Ecwid_Admin {
 		return $result;
 	}
 	
-	protected function _slugify_ecwid_cp_hash( $hash, $title, $slugs ) {
+	protected function _slugify_ecwid_cp_hash( $hash, $slugs ) {
 		
 		if ( strpos( $hash, ':' ) === false && !in_array( self::ADMIN_SLUG . '-admin-' . $hash, $slugs ) ) {
 			$slug = $hash;
 		} else {
 			$match = array();
 			
-			if ( function_exists( 'mb_strtolower' ) ) {
-				$slug = mb_strtolower( $title );
-			} else {
-				$slug = strtolower( $title );
-			}
+			$slug = $hash;
+			
 			$result = preg_match_all( '#[\p{L}0-9\-_]+#u', $slug, $match );
 	
 			if ( $result && count( @$match[0] ) > 0 ) {
@@ -375,6 +374,7 @@ class Ecwid_Admin {
 	}
 
 	static public function disable_dashboard() {
+		
 		if ( !isset( $_GET['reconnect'] ) ) {
 			if ( get_option( 'ecwid_disable_dashboard' ) == 'on' ) {
 				return true;
@@ -382,6 +382,8 @@ class Ecwid_Admin {
 				return true;
 			}
 		}
+		
+		return false;
 	}
 }
 
