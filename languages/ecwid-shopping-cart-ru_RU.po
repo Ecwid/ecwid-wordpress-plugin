@@ -1692,6 +1692,9 @@ msgstr "Витрина магазина"
 msgid "Displays storefront: product listing and checkout"
 msgstr "Показывает витрину магазина, корзину и оформление заказа"
 
+msgid "Main storefront page"
+msgstr "Главная страница магазина"
+
 msgid "You have your storefront added to several pages on your site. You can choose the main storefront page here — the store navigation menus and sidebar widgets will open it."
 msgstr "Вы добавили витрину магазина на несколько страниц сайта. С помощью этой настройки вы можете выбрать, какую из страниц считать главной витриной — на неё будут ссылаться пункты меню и сайдбар-виджеты."
 

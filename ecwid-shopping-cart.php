@@ -2011,7 +2011,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 			if (ecwid_use_old_landing()) {
 		
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
-			} elseif ( Ecwid_Api_V3::is_available() ) {
+			} else {
 				
 				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
 			}

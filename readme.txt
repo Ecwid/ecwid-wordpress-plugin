@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 6.2
+Stable tag: 6.2.1
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,15 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.2.1 - Aug 8, 2018 =
+
+- **New “Main storefront page” selector in the plugin advanced settings.** If you have your storefront added to several pages on your site, you can now choose the main storefront page in the plugin settings (Ecwid → Advanced). This will define where the store navigation menus and sidebar widgets should be linked to. If you have a single online store page (which is totally OK), this new option won’t be displayed. 
+- **New warning messages for the sites with outdated TLS.** Ecwid is a PCI DSS level 1 certified ecommerce provider, which is a gold security standard for e-commerce solutions. Put it simply, when you use Ecwid, you have a bank level of online payments security in your online store. One of the requirements to make sure Ecwid merchants can securely process payments on their site is to use up-to-date TLS software on the server where your site is hosted. If your store dashboard doesn’t load in your Wordpress admin backend or you see a warning message saying that the Ecwid plugin cannot connect to the Ecwid API, that’s most likely caused by outdated TLS on your hosting. We recommend contacting your hosting in such case. If everything works fine and no warning message appears, that means no action is required from your side.
+- **Minor improvements in the store dashboard in the WordPress admin backend.** We improved the scroll behavior on the store admin dashboard pages and fixed a couple minor issues in the Ecwid menu items in the WordPress admin backend.
+- **Fixed an issue with store popup appearing on protected pages before the password is entered.** Some online sellers add their store catalog on protected pages on their ecommerce site to restrict access to it for some particular group of customers (e.g. wholesale membership). There was an issue with store catalog appearing in a popup on such pages — we fixed that. 
+- **Fixed an issue in the “Add store” button in the WordPress page editor.** There was a bug that made the store widgets appear at the top of the page when you use the “Add store” button in the classic Wordpress editor. We fixed it, it should work fine now. 
+- Minor fixes and improvements. 
+
 = 6.2 - Jun 25, 2018 =
 - **New! Revamped floating cart icon.** We added a new floating cart widget that allows to display a cart icon along with items count and subtotal in the corner of the screen. This way, it's always visible and your customers can click it to check their cart contents and proceed with checkout. The new floating shopping cart icon looks better and provides a lot of layout customization options. You can enable it in the Customizer menu under "Ecwid" section in your WordPress admin backend: (Appearance → Customize → Ecwid).
 - **Fixed a "Call to undefined function mb_strtolower" error message that appeared on some hosts.** If you saw such an error message, this should be fixed now. 
