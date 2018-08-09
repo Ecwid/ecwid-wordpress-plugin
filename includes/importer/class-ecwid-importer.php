@@ -269,17 +269,40 @@ class Ecwid_Importer
 		}
 	}
 	
+	protected static function _get_woo_categories( $args ) {
+		
+		$args = wp_parse_args( $args,
+			array(
+				'menu_order'   => 'ASC',
+				'hide_empty'   => 0,
+				'hierarchical' => 1,
+				'taxonomy'     => 'product_cat',
+				'pad_counts'   => 1,
+				'get' 		   => 'all'
+			)
+		);
+		
+		if ( isset( $args['parent'] ) && $args['parent'] ) {
+			$args = apply_filters( 'woocommerce_product_subcategories_args',  $args );
+		}
+		
+		return get_categories( $args ); 
+	}
+	
 	public static function count_woo_categories()
 	{
-		$args = array(
-			'taxonomy' => 'product_cat',
-			'count' => true,
-			'hierarchical' => true,
-			'get' => 'all'
-		);
-		$all_categories = get_categories( $args );
+		$all_categories = self::_get_woo_categories( array( 'count' => true ) );
 		
-		return count($all_categories);
+		$count = count($all_categories);
+		
+		$default = self::_get_woo_categories( array( 'objectIds' => array( get_option ( 'default_product_cat' ) ) ) );
+		$children_of_default = self::_get_woo_categories( array( 'parent' => get_option ( 'default_product_cat' ) ) );
+		
+		if ( count( $default ) > 0 && count( $children_of_default ) == 0 ) {
+			$count--;
+		}
+		
+		return $count;
 	}
 	
 	public static function count_woo_products()
@@ -323,15 +346,7 @@ class Ecwid_Importer
 	
 	public function gather_categories($parent = 0 )
 	{
-		$product_categories = get_categories( apply_filters( 'woocommerce_product_subcategories_args', array(
-			'menu_order'   => 'ASC',
-			'parent' 	   => $parent,
-			'hide_empty'   => 0,
-			'hierarchical' => 1,
-			'taxonomy'     => 'product_cat',
-			'pad_counts'   => 1,
-			'get' 		   => 'all'
-		) ) );
+		$product_categories = self::_get_woo_categories( array( 'parent' => $parent) );
 		
 		if ( count( $product_categories ) == 0 ) {
 			return array();
@@ -340,18 +355,20 @@ class Ecwid_Importer
 		$result = array();
 		foreach ( $product_categories as $category ) {
 			
-			$result[] = array(
-				'woo_id' => $category->term_id,
-				'parent_id' => $parent,
-				'has_image' => get_term_meta( $category->term_id, 'thumbnail_id', true )
-			);
+			$children = $this->gather_categories( $category->term_id );
 			
-			//if ( $category->category_count > 0 ) {
+			if ( $category->term_id != get_option('default_product_cat') || count($children) > 0 ) {
+				$result[] = array(
+					'woo_id' => $category->term_id,
+					'parent_id' => $parent,
+					'has_image' => get_term_meta( $category->term_id, 'thumbnail_id', true )
+				);
+				
 				$result = array_merge(
 					$result, 
-					$this->gather_categories( $category->term_id )
+					$children
 				);
-			//}
+			}
 		}
 
 		return $result;

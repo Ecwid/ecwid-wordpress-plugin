@@ -39,15 +39,18 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 {
 	public static $type = 'create_product';
 
+	const WC_PRODUCT_TYPE_VARIABLE = 'variable';
+	
 	public function execute( Ecwid_Importer $exporter, $product_data ) {
 		$api = new Ecwid_Api_V3( );
-
+		
 		$woo_id = $product_data['woo_id'];
+		
 		$product = get_post( $woo_id );
 		
 		$data = array(
 			'name' => $product->post_title,
-			'price' => floatval( get_post_meta( $woo_id, '_regular_price', true ) ),
+			'price' => get_post_meta( $woo_id, '_regular_price', true ),
 			'description' => $product->post_content,
 			'isShippingRequired' => get_post_meta( $woo_id, '_virtual', true ) != 'yes',
 			'categoryIds' => array(),
@@ -65,6 +68,13 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		} else {
 			$data['unlimited'] = true;
 		}
+		
+		$product = wc_get_product( $woo_id );
+		if ($product->get_type() == self::WC_PRODUCT_TYPE_VARIABLE ) {
+			$data = array_merge( $data, $this->_get_variable_product_data( $woo_id ) );
+		}
+		
+		$data['price'] = floatval( $data['price'] );
 		
 		$categories = get_the_terms( $woo_id, 'product_cat' );
 
@@ -113,10 +123,43 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			$return['data'] = $result;
 			$return['sent_data'] = $data;
 		}
-
+		
 		return $return;
 	}
 
+	public function _get_variable_product_data( $id )
+	{
+		$result = array();
+		
+		$product = new WC_Product_Variable( $id );
+		$result['price'] = $product->get_variation_price();
+	
+		$attributes = $product->get_variation_attributes();
+		if ( $attributes && is_array( $attributes ) && count( $attributes ) > 0 ) {
+			
+			$default_attributes = $product->get_default_attributes();
+			$result['options'] = array();
+			foreach ( $attributes as $name => $attribute ) {
+				$option = array( 'type' => 'SELECT', 'name' => $name, 'required' => true, 'choices' => array() );
+				foreach ( $attribute as $option_name ) {
+					$choice = array( 'text' => $option_name, 'priceModifier' => 0, 'priceModifierType' => 'ABSOLUTE' );
+					$option['choices'][] = $choice;
+				}
+				if ( @$default_attributes[$name] ) {
+					$ind = array_search( $default_attributes[$name], $attribute );
+					
+					if ( $ind !== false ) {
+						$option['defaultChoice'] = $ind;
+					}
+				}
+
+				$result['options'][] = $option;
+			}
+		}
+		
+		return $result;
+	}
+	
 	public static function build( $data ) {
 		return array(
 			'type' => self::$type,

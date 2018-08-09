@@ -2098,7 +2098,6 @@ function ecwid_settings_api_init() {
 
 function ecwid_common_admin_scripts() {
 	
-	ecwid_get_demo_store_id();
 	wp_enqueue_script('ecwid-admin-js', ECWID_PLUGIN_URL . 'js/admin.js', array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_script('ecwid-modernizr-js', ECWID_PLUGIN_URL . 'js/modernizr.js', array(), get_option('ecwid_plugin_version'));
 
