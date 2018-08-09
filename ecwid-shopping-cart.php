@@ -667,7 +667,8 @@ function ecwid_check_version()
 		
 		Ecwid_Config::load_from_ini();
 
-		add_option( 'force_scriptjs_render', false );
+		// Since 6.2.x
+		delete_option( 'force_scriptjs_render' );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -1423,22 +1424,17 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 	return apply_filters('ecwid_shortcode_content', $shortcode_content);
 }
 
-function ecwid_get_scriptjs_code($force_lang = null) {
-	global $ecwid_script_rendered;
+function ecwid_get_scriptjs_code( $force_lang = null ) {
+	static $code = '';
+	
+	$store_id = get_ecwid_store_id();
+	$params = ecwid_get_scriptjs_params( $force_lang );
 
-    if ( !$ecwid_script_rendered || get_option( 'force_scriptjs_render' ) ) {
-		$store_id = get_ecwid_store_id();
-		$params = ecwid_get_scriptjs_params( $force_lang );
+	$code =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
+	$code .= ecwid_sso();
+	$code .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 
-		$s =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
-		$s = $s . ecwid_sso();
-		$s .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
-		$ecwid_script_rendered = true;
-
-		return $s;
-    } else {
-		return '';
-    }
+	return $code;
 }
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {
@@ -1896,9 +1892,6 @@ function ecwid_get_update_params_options() {
 			'type' => 'string'
 		),
 		'ecwid_seo_links_enabled' => array(
-			'type' => 'bool'
-		),
-		'force_scriptjs_render' => array(
 			'type' => 'bool'
 		),
 		Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS => array(
