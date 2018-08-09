@@ -45,7 +45,7 @@ class Ecwid_Importer
 		set_time_limit(0);
 		$results = array();
 		
-		$status = get_option( self::OPTION_STATUS, array() );
+		$status = get_option( self::OPTION_STATUS, array( 'plan_limit' => array() ) );
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
 		
@@ -81,6 +81,7 @@ class Ecwid_Importer
 					$this->_tasks[$current_task]['error'] = $message;
 					
 					$progress['error_messages'][$task_data['type']][$message]++;
+					error_log( var_export( $result['sent_data'], true ) );
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}

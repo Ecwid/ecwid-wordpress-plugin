@@ -76,21 +76,24 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			}
 		}
 		if ( empty( $data['categoryIds'] ) ) {
-			unset($data['categoryIds']);
+			unset( $data['categoryIds'] );
 		}
 		
+		$ecwid_product_id = null;
 		$result = null;
 		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
 			$products = $api->get_products( array( 'sku' => $data['sku'] ) );
 			
 			if ( $products->total > 0 ) {
-				$data['id'] = $products->items[0]->id;
-				$result = $api->update_product( $data );
+				$ecwid_product_id = $products->items[0]->id;
+				$result = $api->update_product( $data, $ecwid_product_id );
 			}
 		}
 		
 		if ( !$result ) {
 			$result = $api->create_product( $data );
+			$result_object = json_decode( $result['body'] );
+			$ecwid_product_id = $result_object->id;
 		}
 		
 		$return = array(
@@ -100,7 +103,8 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		if ( $result['response']['code'] == '200' ) {
 			$result_object = json_decode( $result['body'] );
 
-			$exporter->save_ecwid_product_id( $woo_id, $result_object->id );
+			update_post_meta( $woo_id, 'ecwid_product_id', $ecwid_product_id );
+			$exporter->save_ecwid_product_id( $woo_id, $ecwid_product_id );
 			
 			$return['status'] = 'success';
 			$return['data'] = $result_object;
@@ -217,7 +221,7 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 			return array(
 				'status' => 'error',
 				'data'   => 'skipped',
-				'message' => 'Parent product was not imported'
+				'message' => 'Parent product was not imported for product #' . $product_data['woo_id']
 			);
 		}
 		
@@ -266,20 +270,28 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 			'description' => $category->description
 		);
 
-		$result = $api->create_category(
-			$data	
-		);
+		$ecwid_category_id = get_term_meta( $category_data['woo_id'], 'ecwid_category_id', true );
+		if ( $ecwid_category_id ) {
+			$result = $api->update_category( $data, $ecwid_category_id );
+		} else {
+			$result = $api->create_category(
+				$data
+			);
+			
+			if ( $result['response']['code'] == 200 ) {
+				$result_object = json_decode( $result['body'] );
+				$ecwid_category_id = $result_object->id;
+			}
+		}
 		
 		$return = array(
 			'type' => self::$type
 		);
 		if ( $result['response']['code'] == '200' ) {
-			$result_object = json_decode( $result['body'] );
-			
-			$exporter->save_ecwid_category( $category_data['woo_id'], $result_object->id );
-			
+			$exporter->save_ecwid_category( $category_data['woo_id'], $ecwid_category_id );
+			update_term_meta( $category_data['woo_id'], 'ecwid_category_id', $ecwid_category_id );
 			$return['status'] = 'success';
-			$return['data'] = $result_object;
+			$return['data'] = json_decode( $result['body'] );
 		} else {
 			$return['status'] = 'error';
 			$return['data'] = $result;

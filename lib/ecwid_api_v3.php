@@ -645,38 +645,97 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url, $request_params );
+
+		$params = $this->_sanitize_product_data( $params );
 		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
-	public function update_product( $params ) {
+	public function update_product( $params, $product_id ) {
 		$request_params =  array(
 			'token'
 		);
 		
-		$id = $params['id'];
-		unset( $params['id'] );
-		
-		$url = $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params );
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $product_id, $request_params );
 
+		$params = $this->_sanitize_product_data( $params );
+		
 		$result = $this->_do_put( $url, $params );
 
 		return $result;
 	}
 	
+	protected function _sanitize_product_data( $data ) {
+
+		$int_fields = array( 'quantity', 'defaultCategoryId', 'showOnFrontPage' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+
+		$float_fields = array( 'price' );
+		foreach ( $float_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = floatval( $data[$field] );
+			}
+		}
+
+		if ( array_key_exists( 'categoryIds', $data ) ) {
+			foreach ( $data['categoryIds'] as $key => $id ) {
+				$data['categoryIds'][$key] = intval( $id );
+			}
+		}
+
+		return $data;
+		
+	}
+	
 	public function create_category( $params ) {
+		
 		$request_params =  array(
 			'token'
 		);
+		
 		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
-
+		
+		$params = $this->_sanitize_category_data( $params );
+		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
+	public function update_category( $params, $category_id ) {
+		
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_categories_api_url . '/' . $category_id, $request_params );
+		
+		$params = $this->_sanitize_category_data( $params );
+		
+		$result = $this->_do_put( $url, $params );
+
+		return $result;
+	}
+	
+	protected function _sanitize_category_data( $data ) {
+		$result = array();
+		
+		$int_fields = array( 'parentId', 'orderBy' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+		
+		return $data;
+	}
+	
 	public function delete_products( $ids )
 	{
 		$request_params = array( 'token' );
