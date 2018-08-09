@@ -321,7 +321,7 @@ function ecwid_add_deactivation_popup()
 
 function ecwid_enqueue_frontend() {
 	global $ecwid_current_theme;
-
+	
 	if ( $ecwid_current_theme && $ecwid_current_theme->historyjs_html4mode || get_option('ecwid_historyjs_html4mode') ) {
 		wp_enqueue_script('ecwid-historyjs-wa', ECWID_PLUGIN_URL . 'js/historywa.js');
 	}
