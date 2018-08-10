@@ -53,7 +53,7 @@
 	</div>
 
     <div class="importer-state importer-state-no-token">
-		<?php require __DIR__ . '/import-no-token.php'; ?>
+		<?php require __DIR__ . '/import-no-token.tpl.php'; ?>
     </div>
 
     <div class="importer-state importer-state-woo-in-progress">

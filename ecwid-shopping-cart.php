@@ -2438,13 +2438,13 @@ function ecwid_help_do_page() {
 function ecwid_process_oauth_params() {
 
 	if (strtoupper($_SERVER['REQUEST_METHOD']) != 'GET' || !isset($_GET['page'])) {
-		return;
+		return false;
 	}
 
-	$is_dashboard = $_GET['page'] == 'ec-store';
+	$is_dashboard = $_GET['page'] == Ecwid_Admin::ADMIN_SLUG;
 
 	if (!$is_dashboard) {
-		return;
+		return false;
 	}
 
 	global $ecwid_oauth;
@@ -2470,6 +2470,8 @@ function ecwid_process_oauth_params() {
 			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
 		}
 	}
+	
+	return true;
 }
 
 function ecwid_admin_post_connect()

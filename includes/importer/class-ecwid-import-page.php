@@ -9,6 +9,7 @@ class Ecwid_Import_Page
 	
 	const AJAX_ACTION_CHECK_IMPORT = 'ec-store-check-import';
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
+	const ACTION_DO_RECONNECT = 'ec-store-do-reconnect';
 	
 	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
 	
@@ -18,7 +19,7 @@ class Ecwid_Import_Page
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'current_screen', array( $this, 'process_woo_onboarding_redirect' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import') );
-		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import') );
+		add_action( 'current_screen', array( $this, 'do_reconnect') );
 	}
 	
 	public function process_woo_onboarding_redirect() 
@@ -116,11 +117,35 @@ class Ecwid_Import_Page
 		return 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-page=billing';
 	}
 	
-	protected function _get_reconnect_url()
+	public function do_reconnect()
 	{
-		return 'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG . '&reconnect&return-url=' . urlencode( $this->_get_woo_url() ) . '&scope=create_catalog+update_catalog&do_reconnect=1';
+		if ( strrpos( strrev( get_current_screen()->base), strrev( self::PAGE_SLUG_WOO) ) !== 0 ) {
+			return;
+		}
+		
+		if ( !isset( $_GET['action'] ) || $_GET['action'] != 'reconnect' ) {
+			return;
+		}
+		
+		$url = $this->_get_woo_url() . '#start';
+		
+		$params = array(
+			'delete-demo',
+			'update-by-sku'
+		);
+		
+		foreach ( $params as $param ) {
+			if ( isset( $_GET[$param] ) ) {
+				$url .= '&' . $param . '=true';
+			}
+		}
+		
+		wp_redirect(
+			'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG 
+			. '&reconnect&return-url=' . urlencode( $url ) 
+			. '&scope=create_catalog+update_catalog&do_reconnect=1'
+		);
 	}
-	
 	
 	protected function _get_woo_url()
 	{

@@ -20,6 +20,6 @@
 </p>
 
 <div class="errors">
-    <?php _e( 'Some of the products could not be imported.', 'ecwid-shopping-cart' ); ?> <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
+    <?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?> <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
     <pre class="details"></pre>
 </div>

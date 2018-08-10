@@ -13,8 +13,9 @@ class Ecwid_Admin_Main_Page
 	{
 		if ( $this->_is_forced_reconnect() ) {
 			ecwid_update_store_id(0);
-			
-			wp_redirect( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
+			if (! ecwid_process_oauth_params() ) {
+				wp_redirect( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
+			}
 		}
 		
 		$is_demo = ecwid_is_demo_store();

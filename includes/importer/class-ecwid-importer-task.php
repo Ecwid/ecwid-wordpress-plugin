@@ -97,6 +97,7 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			if ( $products->total > 0 ) {
 				$ecwid_product_id = $products->items[0]->id;
 				$result = $api->update_product( $data, $ecwid_product_id );
+				$exporter->save_ecwid_product_id( $woo_id, $ecwid_product_id );
 			}
 		}
 		

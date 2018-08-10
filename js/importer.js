@@ -8,6 +8,25 @@ jQuery(document).ready(function() {
        'planLimitHit': false
    };
     
+   jQuery('#reconnect-button').click(function() {
+       var url = this.href;
+       var settings = {};
+       jQuery('input[type=checkbox].import-settings').each(function(idx, el) {
+           if (el.checked) {
+               settings[el.name] = true;
+           }
+       });
+       
+       for ( var i in settings ) {
+            url += '&' + i + '=true';    
+       }
+       
+       location.href = url;
+       
+       return false;
+   });
+   
+   
    jQuery('#ecwid-importer-woo').click(function() {
        
        window.location.hash="woo";
@@ -34,11 +53,11 @@ jQuery(document).ready(function() {
            console.log( "complete" );
        });
    });
-   
-   jQuery('#ecwid-importer-woo-go').click(function() {
+
+   startWooImport = function() {
        $wrapper.removeClass('state-woo-initial').addClass('state-woo-in-progress');
        jQuery('input[type=checkbox].import-settings').attr('onclick', 'return false').closest('label').addClass('readonly');
-       
+
        var settings = {};
        jQuery('input[type=checkbox].import-settings').each(function(idx, el) {
            if (el.checked) {
@@ -46,7 +65,7 @@ jQuery(document).ready(function() {
            }
            jQuery(el).attr('onclick', 'return false').closest('label').addClass('readonly');
        });
-       
+
        do_import = function () {
            jQuery.ajax({
                'url': ajaxurl,
@@ -71,14 +90,14 @@ jQuery(document).ready(function() {
                            status.error[data.error[i]]++;
                        }
                    }
-                   
+
                    status.planLimitHit |= typeof data.plan_limit_hit != 'undefined';
-                   
+
                    if (data.error_messages) {
                        for (var import_type in data.error_messages) {
-                           
+
                            var messages = data.error_messages[import_type];
-                           
+
                            if ( !status.errorMessages[import_type] ) {
                                status.errorMessages[import_type] = {};
                            }
@@ -87,15 +106,15 @@ jQuery(document).ready(function() {
                                if ( !status.errorMessages[import_type].hasOwnProperty(message) ) {
                                    status.errorMessages[import_type][message] = 0;
                                }
-                               status.errorMessages[import_type][message] += messages[message];   
+                               status.errorMessages[import_type][message] += messages[message];
                            }
                        }
                    }
-                   
+
                    jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
 
                    if (data.status == 'complete') {
-                       
+
                        doImportComplete(status);
                    } else {
                        do_import();
@@ -103,18 +122,18 @@ jQuery(document).ready(function() {
                }
            });
        };
-       
+
        do_import();
-       
+
        doImportComplete = function( status ) {
            jQuery('#import-results-products').text(status.success.create_product || 0);
            jQuery('#import-results-categories').text(status.success.create_category || 0);
            $wrapper.removeClass('state-woo-in-progress').addClass('state-woo-complete');
-           
+
            if (status.planLimitHit) {
                jQuery('plan-limit-message').show();
            }
-           
+
            var errorContent = '';
            for (var importType in status.errorMessages) {
                errorContent += importType + "\n";
@@ -122,16 +141,35 @@ jQuery(document).ready(function() {
                    errorContent += '  ' + message + ':' + status.errorMessages[importType][message] + "\n";
                }
            }
-           
+
            if (errorContent.length > 0) {
                jQuery('.ecwid-importer .errors').show().find('pre').text(errorContent);
            }
-           
-           
+
+
        }
-   });
+   };
    
-   jQuery('.ecwid-importer .errors .btn-details').click(function() {
-       jQuery('.ecwid-importer .errors .details').toggle();
-   });
+    jQuery('#ecwid-importer-woo-go').click(startWooImport);
+   
+    jQuery('.ecwid-importer .errors .btn-details').click(function() {
+        jQuery('.ecwid-importer .errors .details').toggle();
+    });
+   
+    if (window.location.hash.indexOf('start') != -1) {
+    
+        var params = location.hash.split('&');
+        
+        for ( var i in params ){
+            var name = params[i].split('=');
+            name = name[0];
+            
+            var el = jQuery( 'input[name="' + name + '"]' );
+            if ( el.length == 1 ) {
+                el.prop('checked', true);
+            }
+        }
+
+        startWooImport();
+    }
 });
