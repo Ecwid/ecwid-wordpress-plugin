@@ -397,7 +397,7 @@ JS;
 		$seo_part = str_replace( $path . $relative_permalink, '', $_SERVER['REQUEST_URI'] );
 		
 		foreach ( $noindex_pages as $page ) {
-			if ( preg_match( '!' . 'checkout' . '([\?\/]+.*|)$' . '!', $seo_part ) ) {
+			if ( preg_match( '!' . $page . '([\?\/]+.*|)$' . '!', $seo_part ) ) {
 				return true;
 			}
 		}
