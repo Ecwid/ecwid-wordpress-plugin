@@ -122,14 +122,14 @@
         <?php endif; ?>
         <hr />
 
-        <?php if ( count ( Ecwid_Store_Page::get_store_pages_array() ) > 1 ): ?>
+        <?php if ( count ( Ecwid_Store_Page::get_store_pages_array_for_selector() ) > 1 ): ?>
             <div class="pure-control-group">
                 <div class="label">
                     <label for="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
                         <?php _e('Main storefront page', 'ecwid-shopping-cart'); ?>
                     </label>
                     <select id="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>" name="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
-                        <?php foreach ( Ecwid_Store_Page::get_store_pages_array() as $id ): ?>
+                        <?php foreach ( Ecwid_Store_Page::get_store_pages_array_for_selector() as $id ): ?>
                             <option
                                     value="<?php echo $id; ?>"
                                 <?php if ( $id == Ecwid_Store_Page::get_current_store_page_id() ): ?>
