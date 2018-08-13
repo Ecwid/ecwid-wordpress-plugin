@@ -19,6 +19,7 @@ class Ecwid_Import_Page
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'current_screen', array( $this, 'process_woo_onboarding_redirect' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import') );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import') );
 		add_action( 'current_screen', array( $this, 'do_reconnect') );
 	}
 	
