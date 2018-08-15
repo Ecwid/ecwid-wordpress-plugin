@@ -384,7 +384,6 @@ HTML
 				
 			case 'api_failed_other':
 				return
-					1 ||
 					!ecwid_is_demo_store()
 					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
 					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER
