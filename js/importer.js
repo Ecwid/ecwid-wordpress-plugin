@@ -134,4 +134,23 @@ jQuery(document).ready(function() {
    jQuery('.ecwid-importer .errors .btn-details').click(function() {
        jQuery('.ecwid-importer .errors .details').toggle();
    });
+    
+    if (window.location.hash.indexOf('start') != -1) {
+    
+        var params = location.hash.split('&');
+        
+        for ( var i in params ){
+            var name = params[i].split('=');
+            name = name[0];
+            
+            var el = jQuery( 'input[name="' + name + '"]' );
+            if ( el.length == 1 ) {
+                el.prop('checked', true);
+            }
+        }
+        
+        window.location.hash = '';
+
+        startWooImport();
+    }
 });
