@@ -857,6 +857,7 @@ function ecwid_admin_check_api_cache()
 
 function ecwid_invalidate_cache( $full_reset = false)
 {
+	Ecwid_Api_V3::reset_api_status();
 
 	if ( $full_reset ) {
 		EcwidPlatform::invalidate_categories_cache_from(time());
