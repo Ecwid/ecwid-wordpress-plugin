@@ -2167,7 +2167,7 @@ function ecwid_is_demo_store( $store_id = null ) {
 	}
 	
 	$config_id = Ecwid_Config::get_demo_store_id();
-	if ( $config_id ) return $config_id;
+	if ( $config_id == $store_id ) return $config_id;
 	
 	return in_array( $store_id, ecwid_get_demo_stores() );
 }
