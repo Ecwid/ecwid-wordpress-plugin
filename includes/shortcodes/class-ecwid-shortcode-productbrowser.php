@@ -38,8 +38,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$plain_content = '';
 		
 		$html_catalog_params = false;
-
-		if ( !Ecwid_Api_V3::is_available() ) {
+		
+		if ( Ecwid_Api_V3::is_available() ) {
 
 			if (ecwid_should_display_escaped_fragment_catalog()) {
 				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
@@ -131,7 +131,7 @@ HTML;
 				$plain_content .= '<script data-cfasync="false" type="text/javascript"> document.location = "' . esc_js($url) . '";</script>';
 			}
 		}
-
+		
 		return $plain_content;
 	}
 
