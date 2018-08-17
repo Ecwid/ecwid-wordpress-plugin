@@ -37,6 +37,24 @@ abstract class Ecwid_HTML_Meta
 		
 		return $obj;
 	}
+
+	// static only while ecwid_trim_description exists and meta functionality is not moved into this class
+	public static function process_raw_description( $description, $length = 0 ) {
+		$description = strip_tags( $description );
+		$description = html_entity_decode( $description, ENT_NOQUOTES, 'UTF-8' );
+
+		$description = preg_replace( '![\p{Z}\s]{1,}!u', ' ', $description );
+		$description = trim( $description, " \t\xA0\n\r" ); // Space, tab, non-breaking space, newline, carriage return
+
+		if ( function_exists( 'mb_substr' ) ) {
+			$description = mb_substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8' );
+		} else {
+			$description = substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH );
+		}
+		$description = htmlspecialchars( $description, ENT_COMPAT, 'UTF-8' );
+
+		return $description;
+	}
 }
 
 abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
@@ -144,7 +162,6 @@ abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 
 		return $description;
 	}
-	
 }
 
 class Ecwid_HTML_Meta_Product extends Ecwid_HTML_Meta_Catalog_Entry {
