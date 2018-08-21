@@ -337,7 +337,17 @@ HTML
 			case 'no_token':
 				$no_token = Ecwid_Api_V3::get_token() == false;
 				$is_not_demo = !ecwid_is_demo_store();
-				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				return 
+					$no_token 
+					&& $is_not_demo 
+					&& !$is_ecwid_menu 
+					&& in_array( 
+						Ecwid_Api_V3::get_api_status(), 
+						array( 
+							Ecwid_Api_V3::API_STATUS_OK, 
+							Ecwid_Api_V3::API_STATUS_ERROR_TOKEN
+						) 
+					);
 				
 			case self::MSG_WOO_IMPORT_ONBOARDING:
 				if ( !class_exists( 'Ecwid_Importer' ) ) {

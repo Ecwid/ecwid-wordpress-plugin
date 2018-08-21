@@ -1993,7 +1993,8 @@ function ecwid_register_admin_styles($hook_suffix) {
 	
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 		
-		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) ) {
+		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
+		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) ) {
 			
 			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
 			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
@@ -2002,14 +2003,9 @@ function ecwid_register_admin_styles($hook_suffix) {
 				'isWL' => Ecwid_Config::is_wl()
 				)
 			);
-			if (ecwid_use_old_landing()) {
-		
-				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing_old.css', array(), get_option('ecwid_plugin_version'), 'all');
-			} else {
-				
-				wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
-			}
-			wp_enqueue_style('ecwid-landing-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
+
+			wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
+			wp_enqueue_style('ecwid-landing-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
@@ -2500,7 +2496,7 @@ function ecwid_admin_post_connect()
 			wp_redirect( $ecwid_oauth->get_auth_dialog_url() );
 		}
 	} else if (!isset($_GET['reconnect'])) {
-		wp_redirect(Ecwid_Admin::get_dashboard_url() . '&oauth=no&connection_error');
+		wp_redirect(Ecwid_Admin::get_dashboard_url() . '&oauth=no');
 	} else {
 		wp_redirect(Ecwid_Admin::get_dashboard_url() . '&reconnect&connection_error');
 	}
@@ -3104,10 +3100,6 @@ function ecwid_embed_svg($name) {
 	$code = file_get_contents(ECWID_PLUGIN_DIR . 'images/' . $name . '.svg');
 
 	echo $code;
-}
-
-function ecwid_use_old_landing() {
-	return version_compare(get_bloginfo('version'), '3.7') < 0;
 }
 
 /*
