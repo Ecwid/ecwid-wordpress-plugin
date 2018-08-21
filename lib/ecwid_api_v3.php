@@ -497,7 +497,7 @@ class Ecwid_Api_V3
 		}
 		
 		if ( self::get_api_status() == self::API_STATUS_OK && ( @$result['code'] != '200' || empty($result['data'] ) ) ) {
-			update_option('ecwid_error_log', var_export( $result, true ) );
+			ecwid_log_error( var_export( $result, true ) );
 			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
