@@ -161,12 +161,6 @@ class Ecwid_Products {
 			return '';
 		}
 
-		$url = get_post_meta( $post_id, '_ecwid_seo_url', true );
-
-		if ( $url ) {
-			return $url;
-		}
-
 		$ecwid_product_id = get_post_meta( $post_id, 'ecwid_id', true );
 
 		$url = Ecwid_Store_Page::get_product_url_from_api( $ecwid_product_id );
@@ -490,7 +484,7 @@ class Ecwid_Products {
 		$meta = array(
 			'_price'         	=> $product->defaultDisplayedPrice,
 			'_regular_price' 	=> $product->defaultDisplayedPrice,
-			'image'          	=> $product->imageUrl,
+			'image'          	=> @$product->imageUrl,
 			'ecwid_id'       	=> $product->id,
 			'_sku'           	=> $product->sku,
 			'_visibility'    	=> 'visible',
@@ -625,6 +619,10 @@ class Ecwid_Products {
 	}
 
 	protected function _upload_product_thumbnail( $product, $post_id ) {
+		
+		if ( !@$product->imageUrl ) {
+			return;
+		}
 		$file = download_url( $product->imageUrl );
 
 		if (is_wp_error($file)) return;
