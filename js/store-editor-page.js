@@ -62,7 +62,7 @@ jQuery(document).ready(function() {
 
 		var widgets = attributes.widgets;
 		if (typeof widgets == 'undefined') {
-			widgets = "productbrowser search";
+			widgets = "productbrowser";
 		}
 
 		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 	 */
 	getDefaultParams = function() {
 		return {
-			'show_search': true,
+			'show_search': false,
 			'show_minicart': false,
 			'show_categories': false,
 			'categories_per_row': 3,

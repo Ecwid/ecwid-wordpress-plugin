@@ -1547,9 +1547,6 @@ function _ecwid_get_single_product_widget_parts_v2($attributes) {
 
 function ecwid_shortcode($attributes)
 {
-	if ( isset( $_GET['fl_builder'] ) ) {
-		return '<div>Here goes the store </div>';
-	}
 	$defaults = ecwid_get_default_pb_size();
 
 	$attributes = shortcode_atts(
@@ -1653,7 +1650,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-[$shortcode widgets="productbrowser search" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+[$shortcode widgets="productbrowser" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
 EOT;
 	add_option("ecwid_store_page_id", '', '', 'yes');
 

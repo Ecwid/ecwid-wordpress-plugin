@@ -42,7 +42,7 @@ function ecwid_create_divi_module() {
 						'type'            => 'text',
 						'option_category' => 'basic_option',
 						'description'     => __( 'Here you can create the content that will be used within the module.', 'et_builder' ),
-						'default'         => '[ecwid widgets="productbrowser minicart categories search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]'
+						'default'         => '[ecwid widgets="productbrowser" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]'
 
 					),
 					'admin_label'  => array(
