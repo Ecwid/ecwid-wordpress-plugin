@@ -35,9 +35,9 @@
         supports: {
             customClassName: false,
             className: false,
-            html: false
+            html: false,
+            multiple: false
         },
-        useOnce: true,
         
         edit: function( props ) {
 
