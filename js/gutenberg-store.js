@@ -58,18 +58,13 @@
         },
         save: function( props ) {
             
-            return false;
-            
             var shortcode = new wp.shortcode({
                 'tag': EcwidGutenbergParams.storeShortcodeName,
                 'attrs': props.attributes,
                 'type': 'single'
             });
             
-            return wp.blocks.serialize(
-                wp.blocks.createBlock(EcwidGutenbergParams.storeBlock, props),
-                el( element.RawHTML, null, shortcode.string() )
-            );
+            return shortcode.string();
         },
 
         transforms: {
