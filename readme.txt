@@ -62,7 +62,7 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 
 = Ecwid Site =
 
-* [www.ecwid.com](https://ecwid.to/ecwid-site "Ecwid site")
+* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
 
 
