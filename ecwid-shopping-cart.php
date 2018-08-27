@@ -1650,8 +1650,16 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-[$shortcode widgets="productbrowser" grid="$defaults[grid_rows],$defaults[grid_columns]" list="$defaults[list_rows]" table="$defaults[table_rows]" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]
+	[$shortcode widgets="productbrowser" default_category_id="0" default_product_id="0"]
 EOT;
+	
+	$content = <<<EOT
+<!-- wp:ecwid/store-block {"widgets":"productbrowser","default_category_id":0,"default_product_id":0} -->
+$content
+<!-- /wp:ecwid/store-block -->
+EOT;
+
+	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
 	add_option("ecwid_store_id", ecwid_get_demo_store_id(), '', 'yes');
@@ -2011,7 +2019,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 }
 
 function ecwid_register_settings_styles($hook_suffix) {
-
+	
 	if ( ($hook_suffix != 'post.php' && $hook_suffix != 'post-new.php') && strpos( $hook_suffix, Ecwid_Admin::ADMIN_SLUG ) === false) return;
 
 	wp_enqueue_style('ecwid-settings-css', ECWID_PLUGIN_URL . 'css/settings.css', array(), get_option('ecwid_plugin_version'), 'all');

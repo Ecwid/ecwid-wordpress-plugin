@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 			'grid_columns': grid[2],
 			'default_category_id': attributes.default_category_id,
 			'default_product_id': attributes.default_product_id,
-			'minicart_layout': 'attachToCategories'
+			'minicart_layout': 'MiniAttachToProductBrowser'
 		};
 
 	}

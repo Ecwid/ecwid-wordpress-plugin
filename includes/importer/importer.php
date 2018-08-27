@@ -1,6 +1,6 @@
 <?php
 
-if (version_compare( phpversion(), '5.3', '>' ) ) {
+if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	$oauth = new Ecwid_OAuth();
 	
 	if ( $oauth->has_scope( Ecwid_OAuth::SCOPE_READ_CATALOG ) ) {

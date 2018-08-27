@@ -16,22 +16,21 @@
         }));
     }
     
+    EcwidGutenbergParams.attributes = {
+        widgets: { type: 'string', default: 'productbrowser' },
+        default_category_id: { type: 'integer', default: 0 },
+        default_product_id: { type: 'integer', default: 0 }
+    };
+
+    // Cuz save knows nothing about the original params object, and I need to know the exact original attributes order
+    // Cuz their validation routine sucks and does not allow a tiny little difference between expected and actual block content
+    EcwidGutenbergParams.ownAttributes = Object.assign({}, EcwidGutenbergParams.attributes);
+    
     var ecwidStoreParams = {
         title: EcwidGutenbergParams.storeBlockTitle,
         icon: getIcon(),
         category: 'common',
-        attributes: {
-            widgets: { type: 'string' },
-            categories_per_row: { type: 'integer' },
-            grid: { type: 'string' },
-            list: { type: 'integer' },
-            table: { type: 'integer' },
-            default_category_id: { type: 'integer' },
-            default_product_id: { type: 'integer' },
-            category_view: { type: 'string' },
-            search_view: { type: 'string' },
-            minicart_layout: {type: 'string' }
-        },
+        attributes: EcwidGutenbergParams.attributes,
         supports: {
             customClassName: false,
             className: false,
@@ -51,22 +50,45 @@
                     el( 'button', { className: 'button ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } }, EcwidGutenbergParams.editAppearance )
                 )
             );
-            
-            return el( 'div', { className: 'ecwid-store-block' }, 
-                el( 'button', { className: 'button button-primary ecwid-block-button', onClick: function() { ecwid_open_store_popup( props ); } },  i18n.__( 'Edit Appearance' ) )
-            );
         },
         save: function( props ) {
+            var shortcodeAttributes = {};
+            for ( var i in EcwidGutenbergParams.ownAttributes ) {
+                if ( EcwidGutenbergParams.ownAttributes.hasOwnProperty(i) ) {
+                    shortcodeAttributes[i] = props.attributes[i];
+                }
+            }
             
             var shortcode = new wp.shortcode({
                 'tag': EcwidGutenbergParams.storeShortcodeName,
-                'attrs': props.attributes,
+                'attrs': shortcodeAttributes,
                 'type': 'single'
             });
             
             return shortcode.string();
         },
 
+        deprecated: [
+            {
+                attributes: {
+                    widgets: { type: 'string' },
+                    categories_per_row: { type: 'integer' },
+                    grid: { type: 'string' },
+                    list: { type: 'integer' },
+                    table: { type: 'integer' },
+                    default_category_id: { type: 'integer' },
+                    default_product_id: { type: 'integer' },
+                    category_view: { type: 'string' },
+                    search_view: { type: 'string' },
+                    minicart_layout: {type: 'string' }
+                },
+
+                save: function( props ) {
+                    return null;
+                },
+            }
+        ],
+        
         transforms: {
             from: [{
                 type: 'shortcode',
