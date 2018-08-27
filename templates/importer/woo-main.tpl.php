@@ -43,11 +43,11 @@
     <p>
 		<label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_DELETE_DEMO; ?>"><?php _e( 'Remove demo products', 'ecwid-shopping-cart' ); ?></label>
     </p>
-    <?php endif; ?>
     <p>
         <label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_UPDATE_BY_SKU; ?>"><?php _e( 'Overwrite existing products with matching SKU', 'ecwid-shopping-cart' ); ?></label>
     </p>
-    
+	<?php endif; ?>
+
     <div class="importer-state importer-state-woo-initial">
 		<?php require __DIR__ . '/woo-initial.tpl.php'; ?>
 	</div>

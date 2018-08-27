@@ -342,6 +342,9 @@ class Ecwid_Importer
 	}
 	
 	public static function get_ecwid_demo_products() {
+	
+		// Actual gathering happens in count_ecwid_products
+		// TODO: fix this discrapency
 		$demo_products = EcwidPlatform::get( self::OPTION_DEMO_PRODUCTS, array() );
 		
 		if ( is_array( $demo_products ) ) {
