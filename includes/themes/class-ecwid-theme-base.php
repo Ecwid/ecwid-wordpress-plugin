@@ -86,17 +86,18 @@ class Ecwid_Theme_Base {
 
 	protected function add_css( $parent = null ) {
 
+		$name = strtolower( $this->name );
 		if (is_null($parent)) {
-			$parent = array( $this->name . '-style' );
+			$parent = array( $name . '-style' );
 		} else if (empty($parent)) {
 			$parent = array();
 		} else {
 			$parent = array( $parent );
 		}
-
+		
 		wp_enqueue_style(
 			'ecwid-theme-css',
-			ECWID_PLUGIN_URL . 'css/themes/' . $this->name . '.css',
+			ECWID_PLUGIN_URL . 'css/themes/' . $name . '.css',
 			$parent,
 			get_option('ecwid_plugin_version')
 		);
