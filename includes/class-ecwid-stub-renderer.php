@@ -22,7 +22,16 @@ abstract class Ecwid_Stub_Renderer {
 	public function render_shortcode( $args ) {
 
 		if ( $args instanceof Ecwid_Shortcode_Product ) {
-			return '<div>PRODUCT</div>';
+			ob_start();
+
+			$message = __( 'Product', 'ecwid-shopping-cart' );
+
+			require ECWID_TEMPLATES_DIR . '/shortcode-stub.tpl.php';
+
+			$contents = ob_get_contents();
+			ob_end_clean();
+
+			return $contents;
 		} else if ( is_array( $args ) ) {
 			ob_start();
 
