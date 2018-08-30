@@ -1,6 +1,8 @@
 <?php
 
-class Ecwid_Widget_Products_List_Base extends WP_Widget {
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 
 	protected $_max = 10;
 	protected $_min = 1;
@@ -14,6 +16,8 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 	protected $_instance;
 	
 	protected $_widget_class = 'productsList';
+	
+	abstract protected function _get_products();
 	
 	public function __construct() {
 		
@@ -53,37 +57,28 @@ class Ecwid_Widget_Products_List_Base extends WP_Widget {
 		}
 	}
 
-	function widget($args, $instance) {
+	function _render_widget_content( $args, $instance ) {
 
 		$this->_args = $args;
 		$this->_instance = $instance;
 		
-		// for the sake of phpstorm sanity about undefined vars
-		$before_widget = $before_title = $after_title = $after_widget = '';
-		extract($args);
+		$html = '';
+		$html .= '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
 
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
-		
-		echo $before_widget;
-
-		if ( $title ) {
-			echo $before_title . $title . $after_title;
-		}
-		
-		echo '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
-
-		echo '<div class="' . $this->_class_name . '" data-ecwid-max="' . $instance['number_of_products'] . '">';
+		$html .= '<div class="' . $this->_class_name . '" data-ecwid-max="' . $instance['number_of_products'] . '">';
 
 		$counter = 1;
 		$ids = array();
 		
-		$this->_print_widget_content($instance);
-		echo '</div>';
+		ob_start();
+		$this->_print_widget_content( $instance );
+		$html .= ob_get_contents();
+		ob_end_clean();
 		
-		echo $after_widget;
+		return $html;
 	}
 	
-	protected function _print_widget_content()
+	protected function _print_widget_content( $instance )
 	{
 		$products = $this->_get_products();
 		
@@ -191,7 +186,7 @@ HTML;
 	}
 
 	function is_valid_number_of_products($num) {
-		return is_numeric($num) && $num <= $this->max && $num >= $this->min;
+		return is_numeric($num) && $num <= $this->_max && $num >= $this->_min;
 	}
 	
 	protected function _get_form_fields()

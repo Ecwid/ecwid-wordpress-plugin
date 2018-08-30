@@ -42,6 +42,33 @@ abstract class Ecwid_Shortcode_Base {
 		return 'ecwid';
 	}
 
+	public static function get_shortcode_object( $name, $params )
+	{
+		$names = array( 'productbrowser', 'minicart', 'search', 'categories', 'product' );
+		
+		$expected_prefix = 'ecwid_';
+		if ( Ecwid_Config::is_wl() ) {
+			$expected_prefix = 'ec_';
+		}
+
+		$prefix = substr( $name, 0, strlen( $expected_prefix ) );
+
+		if ( $prefix != $expected_prefix ) return '';
+
+		$base = substr( $name, strlen( $expected_prefix ) );
+
+		if ( in_array( $base, $names ) ) {
+			$class = 'Ecwid_Shortcode_' . $base;
+
+			$class = apply_filters( 'ecwid_get_shortcode_class', $class, $name );
+			$shortcode = new $class( $params );
+
+			return $shortcode;
+		}		
+		
+		return null;
+	}
+	
 	public function wrap_code($code) {
 
 		$version = get_option('ecwid_plugin_version');
