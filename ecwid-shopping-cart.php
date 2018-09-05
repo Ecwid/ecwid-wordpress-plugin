@@ -166,7 +166,7 @@ function ecwid_init_integrations()
 	);
 
 
-	if (version_compare( phpversion(), '5.3', '>' ) ) {
+	if (version_compare( phpversion(), '5.4', '>=' ) ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
