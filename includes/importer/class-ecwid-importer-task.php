@@ -109,7 +109,8 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		
 		if ( $result['response']['code'] == '200' ) {
 			$result_object = json_decode( $result['body'] );
-
+			
+			update_post_meta( $woo_id, 'ecwid_id', $result_object->id );
 			$exporter->save_ecwid_product_id( $woo_id, $result_object->id );
 			
 			$return['status'] = 'success';
@@ -318,7 +319,9 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 		);
 		if ( $result['response']['code'] == '200' ) {
 			$result_object = json_decode( $result['body'] );
-			
+
+
+			update_post_meta( $category_data['woo_id'], 'ecwid_id', $result_object->id );
 			$exporter->save_ecwid_category( $category_data['woo_id'], $result_object->id );
 			
 			$return['status'] = 'success';

@@ -198,6 +198,31 @@ class Ecwid_Importer
 			if ( $product['has_image'] ) {
 				$tasks[] = Ecwid_Importer_Task_Upload_Product_Image::build( $product );
 			}
+
+			if ( $p instanceof WC_Product_Variable ) {
+				$vars = $p->get_available_variations();
+
+				$attributes = $p->get_attributes();
+				$var_attributes = $p->get_variation_attributes();
+				$task = new Ecwid_Importer_Task_Create_Product();
+				$data = $task->_get_variable_product_data($p->get_id());
+
+				die(var_dump(get_post(51)));
+
+				foreach ( $vars as $var ) {
+					$atts = wc_get_product_variation_attributes($var['variation_id']);
+					var_dump($var,  get_post_thumbnail_id( $product['woo_id'] ));
+					foreach ($attributes as $attribute) {
+						//	var_dump($attribute->get_taxonomy_object());
+					}
+
+					foreach ($var['attributes'] as $name => $value) {
+						var_dump($p->get_attribute($name));
+					}
+				}
+				die(var_dump($p, $vars[0]));
+			}
+			
 	/*		
 			if ( $product['has_gallery_images'] ) {
 				foreach ( $product->gallery_images as $image ) {
