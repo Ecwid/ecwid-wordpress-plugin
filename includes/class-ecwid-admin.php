@@ -171,7 +171,7 @@ class Ecwid_Admin {
 				__( 'Store', 'ecwid-shopping-cart' ),
 				__( 'Store', 'ecwid-shopping-cart' ),
 				self::get_capability(),
-				'admin.php?page=' . self::ADMIN_SLUG . '-admin-general-settings'
+				'admin.php?page=' . self::ADMIN_SLUG . '-admin-store-profile'
 			);
 
 			add_users_page(
