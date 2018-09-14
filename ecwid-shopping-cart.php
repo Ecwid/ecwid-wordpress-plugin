@@ -2554,7 +2554,7 @@ function ecwid_get_categories_for_selector() {
 		$offset = 100;
 		
 		$page = 0;
-		while ( $categories->count + $offset * $page > $categories->total ) {
+		while ( $categories->count + $offset * $page < $categories->total ) {
 			$page++;
 			$categories = $api->get_categories( array( 'offset' => $offset * $page, 'hidden_categories' => true ) );
 
