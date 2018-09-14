@@ -281,6 +281,10 @@ JS;
 	}
 	
 	public function are_base_urls_ok() {
+		if (! self::is_feature_available() ) {
+			return true;
+		}
+		
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		$flattened = array();
@@ -310,6 +314,7 @@ JS;
 		}
 		
 		$rules = get_option( 'rewrite_rules' );
+		
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
