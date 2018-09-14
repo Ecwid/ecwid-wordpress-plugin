@@ -851,34 +851,47 @@ function ecwid_admin_check_api_cache()
 	$last_cache = get_option('ecwid_last_api_cache_check');
 
 	if (time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
-		ecwid_invalidate_cache();
+		Ecwid_Api_V3::reset_api_status();
 	}
+	
+	ecwid_regular_cache_check();
 }
 
 function ecwid_invalidate_cache( $full_reset = false)
 {
-	Ecwid_Api_V3::reset_api_status();
-
 	if ( $full_reset ) {
-		EcwidPlatform::invalidate_categories_cache_from(time());
-		EcwidPlatform::invalidate_products_cache_from(time());
-		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
-		EcwidPlatform::cache_reset('all_categories');
-		
+		ecwid_full_cache_reset();
 		return;
 	}
+	
+	ecwid_regular_cache_check();
+}
 
+function ecwid_regular_cache_check()
+{
 	if (Ecwid_Api_V3::is_available()) {
 		$api = new Ecwid_Api_V3();
 
 		$stats = $api->get_store_update_stats();
 
-		if ($stats) {
-			EcwidPlatform::invalidate_products_cache_from(strtotime($stats->productsUpdated));
-			EcwidPlatform::invalidate_categories_cache_from(strtotime($stats->categoriesUpdated));
-			update_option('ecwid_last_api_cache_check', time());
+		if ( $stats ) {
+			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
+			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
+			update_option( 'ecwid_last_api_cache_check', time() );
 		}
 	}
+}
+
+function ecwid_full_cache_reset()
+{
+	Ecwid_Api_V3::reset_api_status();
+
+	EcwidPlatform::invalidate_categories_cache_from( time() );
+	EcwidPlatform::invalidate_products_cache_from( time() );
+	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+	EcwidPlatform::cache_reset( 'all_categories' );
+
+	update_option( 'ecwid_last_api_cache_check', time() );
 }
 
 function add_ecwid_admin_bar_node() {
