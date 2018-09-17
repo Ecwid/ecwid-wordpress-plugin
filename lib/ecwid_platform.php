@@ -298,6 +298,10 @@ class EcwidPlatform {
 		self::_store_in_cache($url, 'categories', $data);
 	}
 
+	static public  function store_in_catalog_cache( $url, $data ) {
+		self::_store_in_cache($url, 'catalog', $data);
+	}
+
 	static protected function _store_in_cache( $url, $type, $data ) {
 		$name = self::_build_cache_name( $url, $type );
 
@@ -328,6 +332,24 @@ class EcwidPlatform {
 		$result = self::cache_get( $cache_name );
 
 		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
+			return $result['data'];
+		}
+
+		return false;
+	}
+	
+	static public function get_from_catalog_cache( $key )
+	{
+		$cache_name = self::_build_cache_name( $key, 'catalog' );
+
+		$result = self::cache_get( $cache_name );
+
+		$valid_from = max( 
+			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
+			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) 
+		);
+		
+		if ( $result['time'] > $valid_from ) {
 			return $result['data'];
 		}
 

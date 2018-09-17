@@ -118,6 +118,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-home-page.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -457,6 +458,7 @@ function ecwid_404_on_broken_escaped_fragment() {
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 	}
 	
+	
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
 		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
@@ -469,11 +471,9 @@ function ecwid_404_on_broken_escaped_fragment() {
 		if (!$is_root_cat && ( empty( $result ) || is_object ( $result ) && !isset($result->id) ) ) {
 			status_header( 404 );
 			
-			if (isset($_GET['escaped_fragment'])) {
-				global $wp_query;
-				
-				$wp_query->set_404();
-			}
+			global $wp_query;
+			
+			$wp_query->set_404();
 		}
 	}
 }
@@ -1930,7 +1930,15 @@ function ecwid_get_update_params_options() {
 				'off',
 				'auto'
 			)
-		)
+		),
+
+		Ecwid_Static_Home_Page::OPTION_IS_ENABLED => array(
+			'values' => array(
+				Ecwid_Static_Home_Page::OPTION_VALUE_AUTO,
+				Ecwid_Static_Home_Page::OPTION_VALUE_ENABLED,
+				Ecwid_Static_Home_Page::OPTION_VALUE_DISABLED
+			)
+		),
 	);
 
 	return $options;

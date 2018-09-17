@@ -19,9 +19,11 @@ abstract class Ecwid_Shortcode_Base {
 
 		if (isset($params['lang']) && $params['lang']) {
 			$this->_lang = $params['lang'];
+			Ecwid_Store_Page::save_store_page_data( 'lang', $this->_lang );
 		}
+		
 		$this->_process_params( $params );
-
+		
 		if (!isset(self::$shortcodes[$this->get_shortcode_name()])) {
 			self::$shortcodes[$this->get_shortcode_name()] = array();
 		}
