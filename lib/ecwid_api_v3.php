@@ -652,6 +652,18 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
+	public function create_product_variation( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
+
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+	
 	public function update_product( $params ) {
 		$request_params =  array(
 			'token'
@@ -712,6 +724,31 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
+	public function upload_product_gallery_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+
+	public function upload_product_variation_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 

@@ -176,7 +176,7 @@ class Ecwid_Importer
 	protected function _build_tasks()
 	{
 		$tasks = array();
-		
+	/*	
 		if ( $this->get_setting( self::SETTING_DELETE_DEMO ) && self::count_ecwid_demo_products() ) {
 			$tasks[] = Ecwid_Importer_Task_Delete_Products::build( self::get_ecwid_demo_products() );
 		}
@@ -189,47 +189,58 @@ class Ecwid_Importer
 				$tasks[] = Ecwid_Importer_Task_Upload_Category_Image::build( $category );
 			}
 		}
-	
+	*/
 		$products = $this->gather_products();
+		$product_id = get_post_meta( 34, '_ecwid_product_id', true );
+		$variation_id = get_post_meta( 325, '_ecwid_variation_id', true );
 		
 		foreach ( $products as $product ) {
+			if ( $product['woo_id'] != 34 ) continue;
+			
 			$tasks[] = Ecwid_Importer_Task_Create_Product::build( $product );
 			
 			if ( $product['has_image'] ) {
 				$tasks[] = Ecwid_Importer_Task_Upload_Product_Image::build( $product );
 			}
 
+			$p = wc_get_product( $product['woo_id'] );
+
 			if ( $p instanceof WC_Product_Variable ) {
+
 				$vars = $p->get_available_variations();
-
-				$attributes = $p->get_attributes();
-				$var_attributes = $p->get_variation_attributes();
-				$task = new Ecwid_Importer_Task_Create_Product();
-				$data = $task->_get_variable_product_data($p->get_id());
-
-				die(var_dump(get_post(51)));
-
+				
 				foreach ( $vars as $var ) {
-					$atts = wc_get_product_variation_attributes($var['variation_id']);
-					var_dump($var,  get_post_thumbnail_id( $product['woo_id'] ));
-					foreach ($attributes as $attribute) {
-						//	var_dump($attribute->get_taxonomy_object());
-					}
-
-					foreach ($var['attributes'] as $name => $value) {
-						var_dump($p->get_attribute($name));
+					
+					$tasks[] = Ecwid_Importer_Task_Create_Product_Variation::build( 
+						array(
+							'woo_id' => $product['woo_id'],
+							'var_id' => $var['variation_id']
+						)
+					);
+					
+					if ( $var['image_id'] != $p->get_image_id() ) {
+						$tasks[] = Ecwid_Importer_Task_Upload_Product_Variation_Image::build(
+							array(
+								'product_id' => $product['woo_id'],
+								'variation_id' => $var['variation_id']
+							)
+						);
 					}
 				}
-				die(var_dump($p, $vars[0]));
 			}
 			
-	/*		
-			if ( $product['has_gallery_images'] ) {
-				foreach ( $product->gallery_images as $image ) {
-					$tasks[] = $this->_build_upload_product_gallery_image_task( $product, $image );
+			
+			if ( $product['gallery_images'] ) {
+				foreach ( $product['gallery_images'] as $image ) {
+					$tasks[] = Ecwid_Importer_Task_Upload_Product_Gallery_Image::build(
+						array(
+							'product_id' => $product['woo_id'],
+							'image_id' => $image
+						)
+					);
 				}
 			}
-	*/	}
+		}
 		
 		$this->_set_tasks($tasks);
 	}
@@ -413,13 +424,14 @@ class Ecwid_Importer
 	public function gather_products()
 	{
 		$products = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 2500 ) );
-
+		
 		$return = array();
 		foreach ($products as $product) {
+			$p = wc_get_product( $product->ID );
 			$return[] = array(
 				'woo_id' => $product->ID,
 				'has_image' => get_post_thumbnail_id( $product->ID ),
-				'has_gallery_images' => false
+				'gallery_images' => $p->get_gallery_image_ids()
 			);
 		}
 		

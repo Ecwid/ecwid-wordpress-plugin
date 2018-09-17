@@ -22,7 +22,16 @@ abstract class Ecwid_Importer_Task
 			return $tasks;
 		}
 		
-		$names = array( 'Create_Category', 'Create_Product', 'Upload_Product_Image', 'Upload_Category_Image', 'Delete_Products' );
+		$names = array( 
+			'Create_Category', 
+			'Create_Product', 
+			'Upload_Product_Image', 
+			'Upload_Category_Image', 
+			'Delete_Products', 
+			'Create_Product_Variation', 
+			'Upload_Product_Variation_Image',
+			'Upload_Product_Gallery_Image'
+		);
 		
 		foreach ( $names as $name ) {
 			$class_name = 'Ecwid_Importer_Task_' . $name;
@@ -90,12 +99,15 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		}
 		
 		$result = null;
+		$ecwid_id = null;
+		
 		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
 			$products = $api->get_products( array( 'sku' => $data['sku'] ) );
 			
 			if ( $products->total > 0 ) {
 				$data['id'] = $products->items[0]->id;
 				$result = $api->update_product( $data );
+				$ecwid_id = $data['id'];
 			}
 		}
 		
@@ -110,8 +122,8 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		if ( $result['response']['code'] == '200' ) {
 			$result_object = json_decode( $result['body'] );
 			
-			update_post_meta( $woo_id, 'ecwid_id', $result_object->id );
-			$exporter->save_ecwid_product_id( $woo_id, $result_object->id );
+			update_post_meta( $woo_id, '_ecwid_product_id', $ecwid_id ? $ecwid_id : $result_object->id );
+			$exporter->save_ecwid_product_id( $woo_id, $ecwid_id ? $ecwid_id : $result_object->id );
 			
 			$return['status'] = 'success';
 			$return['data'] = $result_object;
@@ -137,6 +149,14 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			$default_attributes = $product->get_default_attributes();
 			$result['options'] = array();
 			foreach ( $attributes as $name => $attribute ) {
+
+				$atts = $product->get_attributes();
+				$tax_attribute = $atts[strtolower($name)]->get_taxonomy_object();
+				
+				if ($tax_attribute) {
+					$name = $tax_attribute->attribute_label;
+				}
+				
 				$option = array( 'type' => 'SELECT', 'name' => $name, 'required' => true, 'choices' => array() );
 				foreach ( $attribute as $option_name ) {
 					$choice = array( 'text' => $option_name, 'priceModifier' => 0, 'priceModifierType' => 'ABSOLUTE' );
@@ -190,6 +210,67 @@ class Ecwid_Importer_Task_Delete_Products extends Ecwid_Importer_Task
 		return array(
 			'type' => self::$type,
 			'ids' => $ids
+		);
+	}
+}
+
+class Ecwid_Importer_Task_Upload_Product_Variation_Image extends Ecwid_Importer_Task
+{
+	public static $type = 'upload_product_variation_image';
+
+	public function execute( Ecwid_Importer $exporter, $data ) {
+		$api = new Ecwid_Api_V3();
+
+		$product_id = get_post_meta( $data['product_id'], '_ecwid_product_id', true );
+		$variation_id = get_post_meta( $data['variation_id'], '_ecwid_variation_id', true );
+		
+		$file = get_attached_file ( get_post_thumbnail_id( $data['variation_id'] ) );
+		
+		if ( !$product_id ) {
+			return array(
+				'status' => 'error',
+				'data'   => 'skipped',
+				'message' => 'parent product was not imported. data:' .  var_export($data, true)
+			);
+		}
+
+		if ( !$variation_id ) {
+			return array(
+				'status' => 'error',
+				'data'   => 'skipped',
+				'message' => 'parent variation was not imported. data:' . var_export($data, true)
+			);
+		}
+
+		$data = array(
+			'productId' => $product_id,
+			'variationId' => $variation_id,
+			'data' => file_get_contents( $file )
+		);
+
+		$result = $api->upload_product_variation_image( $data );
+		
+		$return = array(
+			'type' => self::$type
+		);
+		if ( $result['response']['code'] == '200' ) {
+			$result_object = json_decode( $result['body'] );
+
+			$return['status'] = 'success';
+			$return['data'] = $result_object;
+		} else {
+			$return['status'] = 'error';
+			$return['data'] = $result;
+		}
+
+		return $return;
+	}
+
+	public static function build($data) {
+		return array(
+			'type' => self::$type,
+			'product_id' => $data['product_id'],
+			'variation_id' => $data['variation_id']
 		);
 	}
 }
@@ -296,6 +377,142 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 	}
 }
 
+class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Task
+{
+	public static $type = 'upload_product_gallery_image';
+
+	public function execute( Ecwid_Importer $exporter, $product_data ) {
+		$api = new Ecwid_Api_V3();
+
+		$file = get_attached_file( $product_data['image_id'] );
+
+		$product_id = get_post_meta( $product_data['product_id'], '_ecwid_product_id', true );
+		
+		if ( !$product_id ) {
+			return array(
+				'status' => 'error',
+				'data'   => 'skipped',
+				'message' => 'Parent product was not imported'
+			);
+		}
+
+		$data = array(
+			'productId' => $product_id,
+			'data' => file_get_contents( $file )
+		);
+
+		$result = $api->upload_product_gallery_image( $data );
+
+		$return = array(
+			'type' => self::$type
+		);
+		if ( $result['response']['code'] == '200' ) {
+			$result_object = json_decode( $result['body'] );
+
+			$return['status'] = 'success';
+			$return['data'] = $result_object;
+		} else {
+			$return['status'] = 'error';
+			$return['data'] = $result;
+		}
+
+		return $return;
+	}
+
+	public static function build($data) {
+		return array(
+			'type' => self::$type,
+			'product_id' => $data['product_id'],
+			'image_id' => $data['image_id']
+		);
+	}
+}
+
+class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
+{
+	public static $type = 'create_variation';
+
+	public function execute( Ecwid_Importer $exporter, $data ) {
+		$api = new Ecwid_Api_V3();
+
+		$p = wc_get_product( $data['woo_id'] );
+		$attributes = $p->get_attributes();
+		$vars = $p->get_available_variations();
+
+		$variation_data = array(
+			'productId' => $exporter->get_ecwid_product_id( $data['woo_id'] ),
+			'options' => array()
+		);
+		
+		foreach ( $vars as $var ) {
+			if ( $var['variation_id'] != $data['var_id'] ) {
+				continue;
+			}
+			
+			foreach ($attributes as $internal_name => $attribute) {
+				$tax_attribute = $attribute->get_taxonomy_object();
+	
+				$name = '';
+				if ( $tax_attribute ) {
+					$name = $tax_attribute->attribute_label;
+				} else {
+					$name = $attribute->get_name();
+				}
+	
+				$value = $var['attributes']['attribute_' . strtolower($internal_name)];
+	
+				$variation_data['options'][] = array(
+					'name' => $name,
+					'value' => $value
+				);
+			}
+	
+			$variation_data['price'] = $var['display_price'];
+			if ($var['weight']) {
+				$variation_data['weight'] = $var['weight'];
+			}
+			if ($var['max_qty']) {
+ 			    $variation_data['quantity'] = $var['max_qty'];
+			}
+			
+			if ( $var['sku'] != $p->sku ) {
+				$variation_data['sku'] = $var['sku'];
+			}
+			
+			break;
+		}
+		
+		$result = $api->create_product_variation(
+			$variation_data
+		);
+
+		$return = array(
+			'type' => self::$type
+		);
+		if ( $result['response']['code'] == '200' ) {
+			$result_object = json_decode( $result['body'] );
+			
+			update_post_meta( $data['var_id'], '_ecwid_variation_id', $result_object->id );
+			
+			$return['status'] = 'success';
+			$return['data'] = $result_object;
+		} else {
+			$return['status'] = 'error';
+			$return['data'] = $result;
+		}
+
+		return $return;
+	}
+
+	public static function build($data) {
+		return array(
+			'type' => self::$type,
+			'woo_id' => $data['woo_id'],
+			'var_id' => $data['var_id']
+		);
+	}
+}
+
 class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 {
 	public static $type = 'create_category';
@@ -321,7 +538,7 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 			$result_object = json_decode( $result['body'] );
 
 
-			update_post_meta( $category_data['woo_id'], 'ecwid_id', $result_object->id );
+			update_post_meta( $category_data['woo_id'], '_ecwid_category_id', $result_object->id );
 			$exporter->save_ecwid_category( $category_data['woo_id'], $result_object->id );
 			
 			$return['status'] = 'success';
