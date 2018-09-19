@@ -315,6 +315,8 @@ JS;
 		
 		$rules = get_option( 'rewrite_rules' );
 		
+		if ( empty( $rules ) ) return false;
+			
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
