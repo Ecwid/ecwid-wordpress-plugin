@@ -228,6 +228,11 @@ class Ecwid_Api_V3
 	}
 
 	public function get_product( $product_id ) {
+		
+		if ( !$product_id ) {
+			return false;
+		}
+		
 		$params = array('token');
 
 		if ( !isset( $params['baseUrl'] ) ) {
@@ -476,6 +481,7 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 		
+		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
 		if ( $profile ) {
@@ -490,7 +496,7 @@ class Ecwid_Api_V3
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-		
+
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 			return false;
