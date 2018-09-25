@@ -192,12 +192,8 @@ class Ecwid_Importer
 		}
 	*/
 		$products = $this->gather_products();
-		$product_id = get_post_meta( 34, '_ecwid_product_id', true );
-		$variation_id = get_post_meta( 325, '_ecwid_variation_id', true );
 		
 		foreach ( $products as $product ) {
-			if ( $product['woo_id'] != 34 ) continue;
-			
 			$tasks[] = Ecwid_Importer_Task_Create_Product::build( $product );
 			
 			if ( $product['has_image'] ) {
@@ -230,7 +226,6 @@ class Ecwid_Importer
 				}
 			}
 			
-			
 			if ( $product['gallery_images'] ) {
 				foreach ( $product['gallery_images'] as $image ) {
 					$tasks[] = Ecwid_Importer_Task_Upload_Product_Gallery_Image::build(
@@ -242,7 +237,7 @@ class Ecwid_Importer
 				}
 			}
 		}
-		
+
 		$this->_set_tasks($tasks);
 	}
 	
@@ -424,14 +419,14 @@ class Ecwid_Importer
 	
 	public function gather_products()
 	{
-		$products = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 2500 ) );
+		$products = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 2500, 'fields' => 'ids' ) );
 		
 		$return = array();
-		foreach ($products as $product) {
-			$p = wc_get_product( $product->ID );
+		foreach ($products as $id ) {
+			$p = wc_get_product( $id );
 			$return[] = array(
-				'woo_id' => $product->ID,
-				'has_image' => get_post_thumbnail_id( $product->ID ),
+				'woo_id' => $id,
+				'has_image' => get_post_thumbnail_id( $id ),
 				'gallery_images' => $p->get_gallery_image_ids()
 			);
 		}
