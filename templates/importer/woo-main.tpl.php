@@ -38,16 +38,16 @@
 		?>
     </p>
 
+	<?php if ( count( Ecwid_Importer::get_ecwid_demo_products() ) > 0 && Ecwid_Importer::count_ecwid_demo_products() < Ecwid_Importer::count_ecwid_products() ): ?>
     <h2><?php _e( 'Import settings.', 'ecwid-shopping-cart' ); ?></h2>
-    <?php if ( Ecwid_Import::allow_delete_demo_products() && Ecwid_Importer::count_ecwid_demo_products() < Ecwid_Importer::count_ecwid_products() ): ?>
     <p>
 		<label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_DELETE_DEMO; ?>"><?php _e( 'Remove demo products', 'ecwid-shopping-cart' ); ?></label>
     </p>
-    <?php endif; ?>
     <p>
         <label><input type="checkbox" class="import-settings" name="<?php echo Ecwid_Importer::SETTING_UPDATE_BY_SKU; ?>"><?php _e( 'Overwrite existing products with matching SKU', 'ecwid-shopping-cart' ); ?></label>
     </p>
-    
+	<?php endif; ?>
+
     <div class="importer-state importer-state-woo-initial">
 		<?php require __DIR__ . '/woo-initial.tpl.php'; ?>
 	</div>
