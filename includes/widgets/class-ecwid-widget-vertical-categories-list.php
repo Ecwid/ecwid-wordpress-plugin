@@ -1,5 +1,8 @@
 <?php
-class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Vertical_Categories_List extends Ecwid_Widget_Base {
 
 	/**
 	 * Sets up a new Meta widget instance.
@@ -12,39 +15,32 @@ class Ecwid_Widget_Vertical_Categories_List extends WP_Widget {
 		parent::__construct( 'ecwidvcategorieslist', __('Store Root Categories', 'ecwid-shopping-cart' ), $widget_ops);
 	}
 
-	public function widget( $args, $instance ) {
+	public function _render_widget_content( $args, $instance ) {
 
 	    $api = new Ecwid_Api_V3();
 	    
 		$result = $api->get_categories(array( 'parent' => 0 ) );
 
-		if ( !$result || empty( $result->items ) ) return;
+		if ( !$result || empty( $result->items ) ) return "";
 
 		$categories = $result->items;
 		usort( $categories, Ecwid_Category::usort_callback() );
         
-		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Browse by Category', 'ecwid-shopping-cart' ) : $instance['title'], $instance, $this->id_base );
-
-		echo $args['before_widget'];
-		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
-		}
-
-		echo '<ul>';
+		$html = '<ul>';
 		
 		foreach ($categories as $category) {
 		    $category = Ecwid_Category::get_by_id( $category->id );
-			echo '<li>';
-			echo '<a href="' . $category->link 
+			$html .= '<li>';
+			$html .= '<a href="' . $category->link 
                 . '" data-ecwid-page="category" data-ecwid-category-id="' . $category->id . '">' 
                 . $category->name 
                 . '</a>';
-			echo '</li>';
+			$html .= '</li>';
 		}
 
-		echo '</ul>';
-		echo $args['after_widget'];
+		$html .= '</ul>';
+		
+		return $html;
 	}
 
 	/**

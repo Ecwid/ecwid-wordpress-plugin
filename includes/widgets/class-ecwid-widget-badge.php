@@ -1,11 +1,15 @@
 <?php
 
-class Ecwid_Widget_Badge extends WP_Widget {
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Badge extends Ecwid_Widget_Base {
 
 	var $url_template = "https://dj925myfyz5v.cloudfront.net/badges/%s.png";
 	var $available_badges;
 
 	function __construct() {
+		$this->_hide_title = true;
+		
 		$widget_ops = array('classname' => 'widget_ecwid_badge', 'description' => __("Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid.", 'ecwid-shopping-cart') );
 		parent::__construct('ecwidbadge', __('Ecwid Badge', 'ecwid-shopping-cart'), $widget_ops);
 
@@ -72,20 +76,21 @@ class Ecwid_Widget_Badge extends WP_Widget {
 			)
 		);
 	}
-
-	function widget($args, $instance)
-	{
-		extract($args);
+	
+	protected function _render_widget_content( $args, $instance ) {
 
 		if (!isset($instance['badge_id']) || !array_key_exists($instance['badge_id'], $this->available_badges)) {
 			return;
 		}
+
 		$badge = $this->available_badges[$instance['badge_id']];
 		$url = sprintf($this->url_template, $badge['name']);
 
-		echo $before_widget;
+		if (!isset($instance['badge_id']) || !array_key_exists($instance['badge_id'], $this->available_badges)) {
+			return;
+		}
 
-		echo <<<HTML
+		return <<<HTML
 <div>
 	<a target="_blank" rel="nofollow" href="http://www.ecwid.com?source=wporg-badge">
 		<img src="$url" width="$badge[width]" height="$badge[height]" alt="$badge[alt]" />
@@ -93,9 +98,8 @@ class Ecwid_Widget_Badge extends WP_Widget {
 </div>
 HTML;
 
-		echo $after_widget;
 	}
-
+	
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
 		$instance['badge_id'] =

@@ -1,6 +1,5 @@
 <?php
 
-
 require_once dirname(__FILE__) . '/class-ecwid-widget-products-base.php';
 
 class Ecwid_Widget_Random_Products extends Ecwid_Widget_Products_List_Base {

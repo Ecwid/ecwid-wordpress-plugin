@@ -1,21 +1,23 @@
 <?php
-class Ecwid_Widget_Store_Link extends WP_Widget {
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Store_Link extends Ecwid_Widget_Base {
 
 	function __construct() {
+		$this->_hide_title = true;
 		$widget_ops = array('classname' => 'widget_ecwid_store_link', 'description' => __('Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site.', 'ecwid-shopping-cart'));
 		parent::__construct('ecwidstorelink', __('Store Page Link', 'ecwid-shopping-cart'), $widget_ops);
 	}
 
-	function widget($args, $instance) {
-		extract($args);
-		echo $before_widget;
+	function _render_widget_content( $args, $instance ) {
+		
+		$html = '<div>';
 
-		echo '<div>';
+		$html .= '<a href="' . Ecwid_Store_Page::get_store_url() . '" data-ecwid-page="/">' . $instance['label'] . '</a>';
+		$html .= '</div>';
 
-		echo '<a href="' . Ecwid_Store_Page::get_store_url() . '" data-ecwid-page="/">' . $instance['label'] . '</a>';
-		echo '</div>';
-
-		echo $after_widget;
+		return $html;
 	}
 
 	function update($new_instance, $old_instance){
