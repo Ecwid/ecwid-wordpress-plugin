@@ -48,11 +48,13 @@ abstract class Ecwid_Shortcode_Base {
 
 		$shortcode_content = ecwid_get_scriptjs_code($this->_lang) . $code;
 
+		$shortcode_content = apply_filters('ecwid_shortcode_content', $shortcode_content);
+		
 		$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
 	       . $shortcode_content
 	       . "<!-- END Ecwid Shopping Cart v $version -->";
 
-		return apply_filters('ecwid_shortcode_content', $shortcode_content);
+		return $shortcode_content;
 	}
 
 	public function render() {
