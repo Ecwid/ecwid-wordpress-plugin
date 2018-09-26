@@ -198,7 +198,7 @@ class Ecwid_Seo_Links {
 		return false;
 	}
 
-	public function add_js_config() {
+	public function add_js_config( $config ) {
 		
 		$page_id = get_queried_object_id();
 
@@ -206,17 +206,20 @@ class Ecwid_Seo_Links {
 		
 		if ( !$has_store ) {
 			if ( !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
-				return;
+				return $config;
 			}
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
 		
-		echo <<<JS
+		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;
+		$config .= $result;
+		
+		return $config;
 	}
 
 	public static function maybe_extract_html_catalog_params() {
