@@ -85,7 +85,7 @@ function ecwid_apply_theme($theme_name = null)
 		'Boundless',
 		'twentyseventeen',
 		'themify-music',
-		'avada'
+		'Avada'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
