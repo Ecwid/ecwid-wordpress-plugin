@@ -24,7 +24,7 @@ class Ecwid_Seo_Links {
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
 			
-			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
+			add_action( 'ecwid_inline_js_config', array( $this, 'add_js_config') );
 
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
