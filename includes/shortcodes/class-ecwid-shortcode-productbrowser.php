@@ -76,7 +76,7 @@ HTML;
 			}
 		}
 		
-		Ecwid_Store_Page::save_store_page_data( 'default_category_id', $this->_params['defaultCategoryId'] );
+		Ecwid_Store_Page::save_store_page_data( 'default_category_id', @$this->_params['defaultCategoryId'] );
 		
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
