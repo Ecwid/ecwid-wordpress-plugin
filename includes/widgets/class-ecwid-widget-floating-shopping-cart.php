@@ -1,5 +1,9 @@
 <?php
-class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
+
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Floating_Shopping_Cart extends Ecwid_Widget_Base {
 	static $was_enqueued = false;
 	
 	static protected $positions = array(
@@ -55,7 +59,8 @@ class Ecwid_Widget_Floating_Shopping_Cart extends WP_Widget {
 		return $classes;
 	}
 
-	public function widget($args, $instance) {
+	protected function _render_widget_content( $args, $instance ) {
+		return '';
 	}
 
 	public function render() {

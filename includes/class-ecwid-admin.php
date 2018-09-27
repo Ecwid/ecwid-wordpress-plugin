@@ -123,7 +123,7 @@ class Ecwid_Admin {
 			}
 		}
 		
-		if ( Ecwid_Api_V3::is_available() && !$is_newbie || (isset($_GET['page']) && $_GET['page'] == 'ecwid-advanced')) {
+		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Advanced settings', 'ecwid-shopping-cart'),

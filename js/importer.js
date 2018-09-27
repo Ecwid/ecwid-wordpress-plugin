@@ -150,12 +150,13 @@ jQuery(document).ready(function() {
        }
    };
    
-    jQuery('#ecwid-importer-woo-go').click(startWooImport);
-   
-    jQuery('.ecwid-importer .errors .btn-details').click(function() {
-        jQuery('.ecwid-importer .errors .details').toggle();
-    });
-   
+   jQuery('#ecwid-importer-woo-go').click(startWooImport);
+
+   jQuery('.ecwid-importer .errors .btn-details').click(function() {
+       jQuery('.ecwid-importer .errors .details').toggle();
+   });
+    
+
     if (window.location.hash.indexOf('start') != -1) {
     
         var params = location.hash.split('&');
@@ -169,6 +170,8 @@ jQuery(document).ready(function() {
                 el.prop('checked', true);
             }
         }
+
+        window.location.hash = '';
 
         startWooImport();
     }

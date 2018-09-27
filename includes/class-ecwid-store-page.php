@@ -278,7 +278,10 @@ class Ecwid_Store_Page {
 	{
 		$pages = self::get_store_pages_array();
 		foreach ( $pages as $ind => $page ) {
-			if ( $page != self::get_current_store_page_id() && get_post($page)->post_type == 'post' ) {
+			
+			$post = get_post($page);
+			
+			if ( $page != self::get_current_store_page_id() && $post && $post->post_type == 'post' ) {
 				unset( $pages[$ind] );
 			}
 		}

@@ -32,6 +32,9 @@ class Ecwid_Api_V3
 		);
 	}
 
+	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
+	const FEATURE_VARIATIONS = 'COMBINATIONS';
+	
 	public $store_id = null;
 	
 	protected static $profile = null;
@@ -229,6 +232,11 @@ class Ecwid_Api_V3
 	}
 
 	public function get_product( $product_id ) {
+		
+		if ( !$product_id ) {
+			return false;
+		}
+		
 		$params = array('token');
 
 		if ( !isset( $params['baseUrl'] ) ) {
@@ -477,6 +485,7 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 		
+		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
 		if ( $profile ) {
@@ -491,7 +500,7 @@ class Ecwid_Api_V3
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-		
+
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 			return false;
@@ -655,6 +664,18 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
+	public function create_product_variation( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
+
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+	
 	public function update_product( $params, $product_id ) {
 		$request_params =  array(
 			'token'
@@ -772,6 +793,31 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
+	public function upload_product_gallery_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+
+	public function upload_product_variation_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 

@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 6.2.1
+Version: 6.3
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -163,7 +163,10 @@ function ecwid_init_integrations()
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
 		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
-		'js_composer/js_composer.php' => 'wpbakery-composer'
+		'js_composer/js_composer.php' => 'wpbakery-composer',
+		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
+		'elementor/elementor.php' => 'elementor'
+
 	);
 
 
@@ -173,7 +176,7 @@ function ecwid_init_integrations()
 
 	foreach ( $integrations as $plugin => $class ) {
 		if ( is_plugin_active( $plugin ) ) {
-			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-integration-' . $class . '.php';
+			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $class . '.php';
 		}
 	}
 }
@@ -372,28 +375,34 @@ function ecwid_enqueue_frontend() {
 }
 
 function ecwid_print_inline_js_config() {
-	if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
-		add_action ('ecwid_print_inline_js_config', 'ecwid_disable_interactive' );
-	}
-
-	echo <<<HTML
-<script type="text/javascript">
+	
+	echo '<script type="text/javascript">';
+	
+	$js = <<<HTML
 window.ec = window.ec || Object();
 window.ec.config = window.ec.config || Object();
 window.ec.config.enable_canonical_urls = true;
 
 HTML;
 
-	do_action('ecwid_print_inline_js_config');
+	if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
+		$js = ecwid_disable_interactive( $js );
+	}
+
+	$js = apply_filters( 'ecwid_inline_js_config', $js );
+	
+	echo $js;
+	
 	echo '</script>';
 }
 
-function ecwid_disable_interactive() {
-	echo "window.ec.config.interactive = false;\n";
+function ecwid_disable_interactive( $js ) {
+	return $js . "\nwindow.ec.config.interactive = false;\n";
 }
 
-add_action( 'ecwid_print_inline_js_config', 'ecwid_add_chameleon' );
-function ecwid_add_chameleon() {
+add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
+
+function ecwid_add_chameleon( $js ) {
 
 	$colors = array();
 	foreach (array('foreground', 'background', 'link', 'price', 'button') as $kind) {
@@ -404,7 +413,7 @@ function ecwid_add_chameleon() {
 	}
 
 	if ( !get_option( 'ecwid_use_chameleon' ) && empty( $colors ) ) {
-		return;
+		return $js;
 	}
 
 	if ( empty( $colors ) ) {
@@ -431,12 +440,13 @@ function ecwid_add_chameleon() {
 		$chameleon['font'] = $font;
 	}
 
-	echo <<<JS
+	$js .= <<<JS
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
 JS;
 
+	return $js;
 }
 
 function ecwid_load_textdomain() {
@@ -1560,6 +1570,16 @@ function _ecwid_get_single_product_widget_parts_v2($attributes) {
 
 function ecwid_shortcode($attributes)
 {
+	$custom_renderer = apply_filters( 'ecwid_shortcode_custom_renderer', null );
+	
+	if ( $custom_renderer ) {
+		
+		$result = call_user_func( $custom_renderer, array( 'attributes' => $attributes ) );
+		if ( $result ) {
+			return $result;
+		}
+	}
+	
 	$defaults = ecwid_get_default_pb_size();
 
 	$attributes = shortcode_atts(

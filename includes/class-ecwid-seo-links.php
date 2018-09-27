@@ -24,7 +24,7 @@ class Ecwid_Seo_Links {
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
 			
-			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
+			add_action( 'ecwid_inline_js_config', array( $this, 'add_js_config') );
 
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
@@ -198,7 +198,7 @@ class Ecwid_Seo_Links {
 		return false;
 	}
 
-	public function add_js_config() {
+	public function add_js_config( $config ) {
 		
 		$page_id = get_queried_object_id();
 
@@ -206,17 +206,20 @@ class Ecwid_Seo_Links {
 		
 		if ( !$has_store ) {
 			if ( !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
-				return;
+				return $config;
 			}
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
 		
-		echo <<<JS
+		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;
+		$config .= $result;
+		
+		return $config;
 	}
 
 	public static function maybe_extract_html_catalog_params() {
@@ -315,6 +318,8 @@ JS;
 		
 		$rules = get_option( 'rewrite_rules' );
 		
+		if ( empty( $rules ) ) return false;
+			
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
