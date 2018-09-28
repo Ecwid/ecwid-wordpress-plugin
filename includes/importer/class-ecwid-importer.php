@@ -177,20 +177,22 @@ class Ecwid_Importer
 	protected function _build_tasks()
 	{
 		$tasks = array();
-	/*	
+
 		if ( $this->get_setting( self::SETTING_DELETE_DEMO ) && self::count_ecwid_demo_products() ) {
 			$tasks[] = Ecwid_Importer_Task_Delete_Products::build( self::get_ecwid_demo_products() );
 		}
 
-		$categories = $this->gather_categories();
-		
-		foreach ( @$categories as $category ) {
-			$tasks[] = Ecwid_Importer_Task_Create_Category::build( $category );
-			if ( $category['has_image'] ) {
-				$tasks[] = Ecwid_Importer_Task_Upload_Category_Image::build( $category );
+		if ( ecwid_is_paid_account() ) {
+			$categories = $this->gather_categories();
+			
+			foreach ( @$categories as $category ) {
+				$tasks[] = Ecwid_Importer_Task_Create_Category::build( $category );
+				if ( $category['has_image'] ) {
+					$tasks[] = Ecwid_Importer_Task_Upload_Category_Image::build( $category );
+				}
 			}
 		}
-	*/
+	
 		$products = $this->gather_products();
 		
 		foreach ( $products as $product ) {
