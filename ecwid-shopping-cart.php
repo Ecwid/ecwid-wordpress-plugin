@@ -887,6 +887,7 @@ function ecwid_regular_cache_check()
 		if ( $stats ) {
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
 			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
+			EcwidPlatform::invalidate_profile_cache_from( strtotime( $stats->profileUpdated ) );
 			update_option( 'ecwid_last_api_cache_check', time() );
 		}
 	}
@@ -898,6 +899,7 @@ function ecwid_full_cache_reset()
 
 	EcwidPlatform::invalidate_categories_cache_from( time() );
 	EcwidPlatform::invalidate_products_cache_from( time() );
+	EcwidPlatform::invalidate_profile_cache_from( time() );
 	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 	EcwidPlatform::cache_reset( 'all_categories' );
 

@@ -11,6 +11,7 @@ class EcwidPlatform {
 
 	const CATEGORIES_CACHE_VALID_FROM = 'categories_cache_valid_from';
 	const PRODUCTS_CACHE_VALID_FROM = 'products_cache_valid_from';
+	const PROFILE_CACHE_VALID_FROM = 'profile_cache_valid_from';
 
 	static public function get_store_id()
 	{
@@ -289,7 +290,6 @@ class EcwidPlatform {
 	}
 	
 	static public function store_in_products_cache( $url, $data ) {
-		
 		self::_store_in_cache($url, 'products', $data);
 	}
 
@@ -346,7 +346,8 @@ class EcwidPlatform {
 
 		$valid_from = max( 
 			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
-			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) 
+			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
+			EcwidPlatform::get( self::PROFILE_CACHE_VALID_FROM )
 		);
 		
 		if ( $result['time'] > $valid_from ) {
@@ -370,6 +371,12 @@ class EcwidPlatform {
 	{
 		$time = is_null( $time ) ? time() : $time;
 		EcwidPlatform::set( self::CATEGORIES_CACHE_VALID_FROM, $time );
+	}
+
+	static public function invalidate_profile_cache_from( $time = null )
+	{
+		$time = is_null( $time ) ? time() : $time;
+		EcwidPlatform::set( self::PROFILE_CACHE_VALID_FROM, $time );
 	}
 }
 
