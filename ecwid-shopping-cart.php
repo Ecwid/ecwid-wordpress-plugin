@@ -1970,6 +1970,10 @@ function ecwid_get_update_params_options() {
 				Ecwid_Static_Home_Page::OPTION_VALUE_DISABLED
 			)
 		),
+		
+		'ecwid_api_status' => array(
+			'type' => 'string'
+		)
 	);
 
 	return $options;
