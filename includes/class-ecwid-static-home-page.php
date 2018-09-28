@@ -52,17 +52,6 @@ class Ecwid_Static_Home_Page {
 		$data = self::_maybe_fetch_data();
 		
 		if ( $data ) {
-			$html = $data->htmlCode;
-			$data->scripts = array();
-			preg_match_all('!<script>(.*?)</script>!s', $data->htmlCode, $matches);
-			foreach ( $matches[1] as $match ) {
-				$data->scripts[] = $match;
-			}
-			
-			$data->htmlCode = preg_replace('!<script>(.*?)</script>!s', '', $data->htmlCode);
-		}
-		
-		if ( $data ) {
 			return $data;
 		}
 		
@@ -101,7 +90,7 @@ class Ecwid_Static_Home_Page {
 		}
 		
 		$data = EcwidPlatform::get_from_catalog_cache( $url );
-
+		
 		if ( !$data ) {
 			$data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
 		}

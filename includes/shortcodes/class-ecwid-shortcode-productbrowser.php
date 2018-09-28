@@ -43,9 +43,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code .= <<<HTML
 <script language="JavaScript">
 	grid = new Grid();
-    StaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
+    EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
 	if ( location.hash != '' ) {
-	    StaticPageLoader.switchToDynamicMode();
+	    EcwidStaticPageLoader.switchToDynamicMode();
 	}
 </script>
 HTML;

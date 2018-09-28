@@ -1,41 +1,41 @@
-function onDocumentReady(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
-
-function find(selector) {
-    return document.querySelector(selector);
-}
-
-function findAll(selector) {
-    return document.querySelectorAll(selector);
-}
-
-function isVisible(elem) {
-    return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
-}
-
-function forEach(elements, fn) {
-    return Array.prototype.forEach.call(elements, fn);
-}
-
-var StaticPageLoader = {
+var EcwidStaticPageLoader = {
     isTouchDevice: false,
     staticId: null,
     dynamicId: null,
 
+    find: function (selector) {
+        return document.querySelector(selector);
+    },
+
+    findAll: function (selector) {
+        return document.querySelectorAll(selector);
+    },
+
+    isVisible: function (elem) {
+        return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+    },
+
+    forEach: function (elements, fn) {
+        return Array.prototype.forEach.call(elements, fn);
+    },
+
     isRootCategory: function () {
         return window.location.hash === '' || window.location.hash.indexOf("#!/c/0/") !== -1;
+    },
+
+    onDocumentReady: function (fn) {
+        if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
     },
 
     processStaticHomePage: function (staticId, dynamicId) {
         this.staticId = staticId;
         this.dynamicId = dynamicId;
 
-        onDocumentReady(function () {
+        this.onDocumentReady(function () {
             if (!!('ontouchstart' in window)) {
                 this.isTouchDevice = true;
                 document.body.classList.add('touchable');
@@ -52,8 +52,8 @@ var StaticPageLoader = {
             StaticPageLoader.addStaticPageHandlers();
 
             Ecwid.OnPageLoad.add(function (openedPage) {
-                var staticHtml = find('#' + StaticPageLoader.staticId);
-                if (!isVisible(staticHtml)) {
+                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
+                if (!StaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -68,8 +68,8 @@ var StaticPageLoader = {
             });
 
             Ecwid.OnPageLoaded.add(function (openedPage) {
-                var staticHtml = find('#' + StaticPageLoader.staticId);
-                if (!isVisible(staticHtml)) {
+                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
+                if (!StaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -86,61 +86,61 @@ var StaticPageLoader = {
     },
 
     addStaticPageHandlers: function () {
-        var categoryLinks = findAll('#' + this.staticId + ' .grid-category__card a');
+        var categoryLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-category__card a');
         if (categoryLinks.length > 0) {
-            forEach(categoryLinks, function (element) {
+            StaticPageLoader.forEach(categoryLinks, function (element) {
                 var categoryId = element.getAttribute('data-category-id');
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {'id': categoryId}));
             });
         }
 
-        var productLinks = findAll('#' + this.staticId + ' .grid-product a');
+        var productLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-product a');
         if (productLinks.length > 0) {
-            forEach(productLinks, function (element) {
+            StaticPageLoader.forEach(productLinks, function (element) {
                 var productId = element.getAttribute('data-product-id');
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('product', {'id': productId}));
             });
         }
 
-        var buyNowLinks = findAll('#' + this.staticId + ' .grid-product__buy-now');
+        var buyNowLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-product__buy-now');
         if (buyNowLinks.length > 0) {
-            forEach(buyNowLinks, function (element) {
+            StaticPageLoader.forEach(buyNowLinks, function (element) {
                 var productId = element.getAttribute('data-product-id');
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('product', {'id': productId}));
             });
         }
 
-        var trackOrdersLink = findAll('#' + this.staticId + ' .footer__link--track-order');
+        var trackOrdersLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--track-order');
         if (trackOrdersLink.length > 0) {
-            forEach(trackOrdersLink, function (element) {
+            StaticPageLoader.forEach(trackOrdersLink, function (element) {
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('account/orders'));
             });
         }
 
-        var favoritesLink = findAll('#' + this.staticId + ' .footer__link--shopping-favorites');
+        var favoritesLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-favorites');
         if (favoritesLink.length > 0) {
-            forEach(favoritesLink, function (element) {
+            StaticPageLoader.forEach(favoritesLink, function (element) {
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('account/favorites'));
             });
         }
 
-        var shoppingCartLink = findAll('#' + this.staticId + ' .footer__link--shopping-cart');
+        var shoppingCartLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-cart');
         if (shoppingCartLink.length > 0) {
-            forEach(shoppingCartLink, function (element) {
+            StaticPageLoader.forEach(shoppingCartLink, function (element) {
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('cart'));
             });
         }
 
-        var signInLink = findAll('#' + this.staticId + ' .footer__link--sigin-in');
+        var signInLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--sigin-in');
         if (signInLink.length > 0) {
-            forEach(signInLink, function (element) {
+            StaticPageLoader.forEach(signInLink, function (element) {
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('signin'));
             });
         }
 
-        var pagerButtonLinks = findAll('#' + this.staticId + ' .pager__button');
+        var pagerButtonLinks = StaticPageLoader.findAll('#' + this.staticId + ' .pager__button');
         if (pagerButtonLinks.length > 0) {
-            forEach(pagerButtonLinks, function (element) {
+            StaticPageLoader.forEach(pagerButtonLinks, function (element) {
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {
                     'id': 0,
                     'page': 2
@@ -148,9 +148,9 @@ var StaticPageLoader = {
             });
         }
 
-        var pagerNumberLinks = findAll('#' + this.staticId + ' .pager__number');
+        var pagerNumberLinks = StaticPageLoader.findAll('#' + this.staticId + ' .pager__number');
         if (pagerNumberLinks.length > 0) {
-            forEach(pagerNumberLinks, function (element) {
+            StaticPageLoader.forEach(pagerNumberLinks, function (element) {
                 var pageNumber = element.getAttribute('data-page-number');
                 StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {
                     'id': 0,
@@ -199,8 +199,8 @@ var StaticPageLoader = {
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
             Ecwid.OnPageLoaded.add(function () {
-                var staticHtml = find('#' + StaticPageLoader.staticId);
-                if (!isVisible(staticHtml)) {
+                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
+                if (!StaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -210,7 +210,7 @@ var StaticPageLoader = {
     },
 
     hideStorefront: function () {
-        var dynamicEl = find('#' + this.dynamicId);
+        var dynamicEl = StaticPageLoader.find('#' + this.dynamicId);
         // the dynamic div container must be visible while loading Ecwid,
         // so that the scripts could calculate available container width,
         // therefore we ensure the element is visible and hide it via zero-height trick
@@ -222,7 +222,7 @@ var StaticPageLoader = {
     },
 
     showStorefront: function () {
-        var dynamicEl = find('#' + this.dynamicId);
+        var dynamicEl = StaticPageLoader.find('#' + this.dynamicId);
         // disable zero-height trick to show the storefront
         dynamicEl.style.height = '';
         dynamicEl.style.minHeight = '';
@@ -230,13 +230,13 @@ var StaticPageLoader = {
     },
 
     hideStaticHtml: function () {
-        var staticEl = find('#' + this.staticId);
+        var staticEl = StaticPageLoader.find('#' + this.staticId);
         staticEl.style.opacity = 0;
         staticEl.style.display = 'none';
     },
 
     showStaticHtml: function () {
-        var staticEl = find('#' + this.staticId);
+        var staticEl = StaticPageLoader.find('#' + this.staticId);
         staticEl.style.opacity = 1;
     },
 
@@ -251,4 +251,5 @@ var StaticPageLoader = {
             StaticPageLoader.switchToDynamicMode();
         }, 0);
     }
+
 };

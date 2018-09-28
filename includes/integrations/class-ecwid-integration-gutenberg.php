@@ -105,7 +105,19 @@ CSS
 		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
 			return '';
 		}
-		return ecwid_shortcode( $params );
+		
+		$result = '[ecwid';
+		
+		foreach ( $params as $key => $value ) {
+			$result .= " $key='$value'";
+		}
+		
+		$result .= ']';
+//		$result = ecwid_shortcode( $params );
+		
+//		die(var_dump(debug_backtrace(false)));
+		
+		return $result;
 	}
 
 	public function add_popup() {
