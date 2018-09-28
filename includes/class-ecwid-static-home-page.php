@@ -32,8 +32,10 @@ class Ecwid_Static_Home_Page {
 			wp_enqueue_style( 'ecwid-static-home-page-' . $ind, $item );
 		}
 		
-		foreach ($data->scripts as $item) {
-			wp_add_inline_script( 'ecwid-static-home-page', $item );
+		if ( @$data->scripts ) {
+			foreach ($data->scripts as $item) {
+				wp_add_inline_script( 'ecwid-static-home-page', $item );
+			}
 		}
 	}
 	
@@ -80,6 +82,12 @@ class Ecwid_Static_Home_Page {
 			if ( $data ) {
 				$params[$name] = $data;
 			}
+		}
+		
+		if ( !@$params['lang'] ) {
+			$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+			$lang = substr( $lang, 0, strpos( $lang, ';' ) );
+			$params['lang'] = $lang;
 		}
 		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
