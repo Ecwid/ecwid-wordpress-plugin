@@ -1076,6 +1076,16 @@ function ecwid_meta() {
 		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
 		
+		if ( Ecwid_Static_Home_Page::is_enabled() && Ecwid_Static_Home_Page::get_data_for_current_page() ) {
+			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+			
+			$data = Ecwid_Static_Home_Page::get_data_for_current_page();
+
+			foreach ( $data->cssFiles as $ind => $item ) {
+				echo '<link rel="prefetch" href="' . $item . '">' . PHP_EOL;
+			}
+		}
+		
 		if (ecwid_is_store_page_available()) {
 
 			$store_id = get_ecwid_store_id();
@@ -1618,6 +1628,7 @@ function ecwid_shortcode($attributes)
 
 	$widgets_order = array('minicart', 'search', 'categories', 'productbrowser');
 	foreach ($widgets_order as $widget) {
+		
 		if (in_array($widget, $widgets)) {
 			if ( class_exists( 'Ecwid_Shortcode_' . $widget ) ) {
 
