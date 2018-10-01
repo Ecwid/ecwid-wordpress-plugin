@@ -41,19 +41,19 @@ var EcwidStaticPageLoader = {
                 document.body.classList.add('touchable');
             }
 
-            if (!StaticPageLoader.isRootCategory()) {
-                StaticPageLoader.hideStorefront();
-                StaticPageLoader.switchToDynamicMode();
+            if (!EcwidStaticPageLoader.isRootCategory()) {
+                EcwidStaticPageLoader.hideStorefront();
+                EcwidStaticPageLoader.switchToDynamicMode();
                 return;
             }
 
-            StaticPageLoader.hideStorefront();
-            StaticPageLoader.showStaticHtml();
-            StaticPageLoader.addStaticPageHandlers();
+            EcwidStaticPageLoader.hideStorefront();
+            EcwidStaticPageLoader.showStaticHtml();
+            EcwidStaticPageLoader.addStaticPageHandlers();
 
             Ecwid.OnPageLoad.add(function (openedPage) {
-                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
-                if (!StaticPageLoader.isVisible(staticHtml)) {
+                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
+                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -63,13 +63,13 @@ var EcwidStaticPageLoader = {
                     || openedPage.type == "SIGN_IN") {
                     // static links from bottom of the page should be processed before page load event finishes,
                     // so that pre-opening scroll didn't make the page jump
-                    StaticPageLoader.switchToDynamicMode();
+                    EcwidStaticPageLoader.switchToDynamicMode();
                 }
             });
 
             Ecwid.OnPageLoaded.add(function (openedPage) {
-                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
-                if (!StaticPageLoader.isVisible(staticHtml)) {
+                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
+                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -80,79 +80,79 @@ var EcwidStaticPageLoader = {
                 }
                 // other than that we must show opened page in dynamic view,
                 // because static view contains only root category page
-                StaticPageLoader.switchToDynamicModeDeferred();
+                EcwidStaticPageLoader.switchToDynamicModeDeferred();
             });
         });
     },
 
     addStaticPageHandlers: function () {
-        var categoryLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-category__card a');
+        var categoryLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-category__card a');
         if (categoryLinks.length > 0) {
-            StaticPageLoader.forEach(categoryLinks, function (element) {
+            EcwidStaticPageLoader.forEach(categoryLinks, function (element) {
                 var categoryId = element.getAttribute('data-category-id');
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {'id': categoryId}));
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {'id': categoryId}));
             });
         }
 
-        var productLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-product a');
+        var productLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-product a');
         if (productLinks.length > 0) {
-            StaticPageLoader.forEach(productLinks, function (element) {
+            EcwidStaticPageLoader.forEach(productLinks, function (element) {
                 var productId = element.getAttribute('data-product-id');
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('product', {'id': productId}));
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('product', {'id': productId}));
             });
         }
 
-        var buyNowLinks = StaticPageLoader.findAll('#' + this.staticId + ' .grid-product__buy-now');
+        var buyNowLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-product__buy-now');
         if (buyNowLinks.length > 0) {
-            StaticPageLoader.forEach(buyNowLinks, function (element) {
+            EcwidStaticPageLoader.forEach(buyNowLinks, function (element) {
                 var productId = element.getAttribute('data-product-id');
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('product', {'id': productId}));
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('product', {'id': productId}));
             });
         }
 
-        var trackOrdersLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--track-order');
+        var trackOrdersLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--track-order');
         if (trackOrdersLink.length > 0) {
-            StaticPageLoader.forEach(trackOrdersLink, function (element) {
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('account/orders'));
+            EcwidStaticPageLoader.forEach(trackOrdersLink, function (element) {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('account/orders'));
             });
         }
 
-        var favoritesLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-favorites');
+        var favoritesLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-favorites');
         if (favoritesLink.length > 0) {
-            StaticPageLoader.forEach(favoritesLink, function (element) {
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('account/favorites'));
+            EcwidStaticPageLoader.forEach(favoritesLink, function (element) {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('account/favorites'));
             });
         }
 
-        var shoppingCartLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-cart');
+        var shoppingCartLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-cart');
         if (shoppingCartLink.length > 0) {
-            StaticPageLoader.forEach(shoppingCartLink, function (element) {
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('cart'));
+            EcwidStaticPageLoader.forEach(shoppingCartLink, function (element) {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('cart'));
             });
         }
 
-        var signInLink = StaticPageLoader.findAll('#' + this.staticId + ' .footer__link--sigin-in');
+        var signInLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--sigin-in');
         if (signInLink.length > 0) {
-            StaticPageLoader.forEach(signInLink, function (element) {
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('signin'));
+            EcwidStaticPageLoader.forEach(signInLink, function (element) {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('signin'));
             });
         }
 
-        var pagerButtonLinks = StaticPageLoader.findAll('#' + this.staticId + ' .pager__button');
+        var pagerButtonLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .pager__button');
         if (pagerButtonLinks.length > 0) {
-            StaticPageLoader.forEach(pagerButtonLinks, function (element) {
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {
+            EcwidStaticPageLoader.forEach(pagerButtonLinks, function (element) {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
                     'id': 0,
                     'page': 2
                 }));
             });
         }
 
-        var pagerNumberLinks = StaticPageLoader.findAll('#' + this.staticId + ' .pager__number');
+        var pagerNumberLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .pager__number');
         if (pagerNumberLinks.length > 0) {
-            StaticPageLoader.forEach(pagerNumberLinks, function (element) {
+            EcwidStaticPageLoader.forEach(pagerNumberLinks, function (element) {
                 var pageNumber = element.getAttribute('data-page-number');
-                StaticPageLoader.addStaticClickEvent(element, StaticPageLoader.openEcwidPage('category', {
+                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
                     'id': 0,
                     'page': pageNumber
                 }));
@@ -199,8 +199,8 @@ var EcwidStaticPageLoader = {
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
             Ecwid.OnPageLoaded.add(function () {
-                var staticHtml = StaticPageLoader.find('#' + StaticPageLoader.staticId);
-                if (!StaticPageLoader.isVisible(staticHtml)) {
+                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
+                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
@@ -210,7 +210,7 @@ var EcwidStaticPageLoader = {
     },
 
     hideStorefront: function () {
-        var dynamicEl = StaticPageLoader.find('#' + this.dynamicId);
+        var dynamicEl = EcwidStaticPageLoader.find('#' + this.dynamicId);
         // the dynamic div container must be visible while loading Ecwid,
         // so that the scripts could calculate available container width,
         // therefore we ensure the element is visible and hide it via zero-height trick
@@ -222,7 +222,7 @@ var EcwidStaticPageLoader = {
     },
 
     showStorefront: function () {
-        var dynamicEl = StaticPageLoader.find('#' + this.dynamicId);
+        var dynamicEl = EcwidStaticPageLoader.find('#' + this.dynamicId);
         // disable zero-height trick to show the storefront
         dynamicEl.style.height = '';
         dynamicEl.style.minHeight = '';
@@ -230,13 +230,13 @@ var EcwidStaticPageLoader = {
     },
 
     hideStaticHtml: function () {
-        var staticEl = StaticPageLoader.find('#' + this.staticId);
+        var staticEl = EcwidStaticPageLoader.find('#' + this.staticId);
         staticEl.style.opacity = 0;
         staticEl.style.display = 'none';
     },
 
     showStaticHtml: function () {
-        var staticEl = StaticPageLoader.find('#' + this.staticId);
+        var staticEl = EcwidStaticPageLoader.find('#' + this.staticId);
         staticEl.style.opacity = 1;
     },
 
@@ -248,7 +248,7 @@ var EcwidStaticPageLoader = {
     switchToDynamicModeDeferred: function () {
         // defer switching to dynamic to avoid blinking effect
         setTimeout(function () {
-            StaticPageLoader.switchToDynamicMode();
+            EcwidStaticPageLoader.switchToDynamicMode();
         }, 0);
     }
 

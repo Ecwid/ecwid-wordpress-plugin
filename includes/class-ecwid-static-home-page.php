@@ -89,18 +89,22 @@ class Ecwid_Static_Home_Page {
 			$url .= $name . '=' . urlencode( $value ) . '&'; 
 		}
 		
-		$data = EcwidPlatform::get_from_catalog_cache( $url );
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $url );
 		
-		if ( !$data ) {
-			$data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
+		if ( $cached_data ) {
+			return $cached_data;
 		}
 		
-		if ( $data && @$data['data'] ) {
+		$fetched_data = null;
 		
-			EcwidPlatform::store_in_catalog_cache( $url, $data );
-			$data = @json_decode( $data['data'] );
+		$fetched_data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
+		
+		if ( $fetched_data && @$fetched_data['data'] ) {
+
+			$fetched_data = @json_decode( $fetched_data['data'] );
+			EcwidPlatform::store_in_catalog_cache( $url, $fetched_data );
 			
-			return $data;
+			return $fetched_data;
 		}
 
 		return null;
