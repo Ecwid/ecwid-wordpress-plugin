@@ -10,28 +10,32 @@
     <h2><?php _e( 'Import summary.', 'ecwid-shopping-cart' ); ?></h2>
     <p>
 		<?php
-		echo sprintf(
-			__( 'Your WooCommerce store has %s products and %s categories', 'ecwid-shopping-cart' ),
-			Ecwid_Importer::count_woo_products(),
-			Ecwid_Importer::count_woo_categories()
-		);
+			_e( 'Your WooCommerce store has ', 'ecwid-shopping-cart' );
+            echo $this->_get_products_categories_message(
+                Ecwid_Importer::count_woo_products(),
+                Ecwid_Importer::count_woo_categories()
+            );
 		?>
     </p>
     <p>
 		<?php
-		echo sprintf(
-			__( 'Your %s store has %s products and %s categories', 'ecwid-shopping-cart' ),
-			Ecwid_Config::get_brand(),
+		printf(
+			__( 'Your %s store has ', 'ecwid-shopping-cart' ),
+			Ecwid_Config::get_brand()
+		);
+		echo $this->_get_products_categories_message(
 			Ecwid_Importer::count_ecwid_products(),
 			Ecwid_Importer::count_ecwid_categories()
-		);
+        );		
 		?>
     </p>
     <p>
 		<?php
 		echo sprintf(
-			__( 'After import, your %s store will have %s products and %s categories', 'ecwid-shopping-cart' ),
-			Ecwid_Config::get_brand(),
+			__( 'After import, your %s store will have ', 'ecwid-shopping-cart' ),
+			Ecwid_Config::get_brand()
+		);
+		echo $this->_get_products_categories_message(
 			Ecwid_Importer::count_ecwid_products() + Ecwid_Importer::count_woo_products(),
 			Ecwid_Importer::count_ecwid_categories() + Ecwid_Importer::count_woo_categories()
 		);

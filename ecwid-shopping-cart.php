@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Team
-Version: 6.3
+Version: 6.3.2
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -455,11 +455,11 @@ function ecwid_load_textdomain() {
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
-
+	
 	if ( !Ecwid_Api_V3::is_available() ) {
 		return;
 	}
-
+	
 	$params = array();
 	
 	if (isset($_GET['_escaped_fragment_'])) {
@@ -478,9 +478,9 @@ function ecwid_404_on_broken_escaped_fragment() {
 			$result = Ecwid_Category::get_by_id( $params['id'] );
 		}
 		
-		if (!$is_root_cat && ( empty( $result ) || is_object ( $result ) && !isset($result->id) ) ) {
+		if (!$is_root_cat && ( empty( $result ) || is_object ( $result ) && ( !isset( $result->id ) || !$result->enabled ) ) ) {
 			status_header( 404 );
-			
+
 			global $wp_query;
 			
 			$wp_query->set_404();
@@ -2421,7 +2421,7 @@ function ecwid_admin_do_page( $page ) {
     }
 	
 	$result = $request->do_request();
-	
+    
 	if ( @$result['code'] == 403 && ( 
 		strpos($result['data'], 'Token too old') !== false 
 		|| strpos($result['data'], 'window.top.location = \'https://my.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?') !== false 

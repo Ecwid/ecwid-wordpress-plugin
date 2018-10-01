@@ -8,10 +8,12 @@
     <li>
         <?php echo sprintf( __( 'Imported products: %s', 'ecwid-shopping-cart' ), '<span id="import-results-products"></span>' ); ?>
     </li>
+<?php if ( ecwid_is_paid_account() ): ?>     
     <li>
 		<?php echo sprintf( __( 'Imported categories: %s', 'ecwid-shopping-cart' ), '<span id="import-results-categories"></span>' ); ?>
     </li>
 </ul>
+<?php endif; ?>
 
 <p>
     <a class="button button-primary" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>-admin-products">
