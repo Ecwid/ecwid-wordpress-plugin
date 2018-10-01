@@ -85,7 +85,7 @@ function ecwidAddSubmenu(items, parent) {
         $parentListItem.addClass('wp-has-current-submenu3');
     }
 
-    for (var i in items) {
+    for (var i = 0; i < items.length; i++) {
 
         var item = items[i];
         var $link = jQuery('<a>').text(item.title).attr('href', item.url);
@@ -112,7 +112,7 @@ function ecwidAddSubmenu(items, parent) {
 function ecwidAddMenuItems(items) {
 
     var prevItem = jQuery('#toplevel_page_ec-store .wp-submenu-head + li');
-    for (var i in items) {
+    for (var i = 0; i < items.length; i++) {
         
         if (!items.hasOwnProperty(i)) continue;
         
@@ -151,7 +151,7 @@ jQuery(document).ready(function() {
 
     if ( ecwid_admin_menu.enableAutoMenus ) {
     
-        for (var i in ecwid_admin_menu.menu) {
+        for (var i = 0; i < ecwid_admin_menu.menu.length; i++) {
     
             var menu = ecwid_admin_menu.menu[i];
             

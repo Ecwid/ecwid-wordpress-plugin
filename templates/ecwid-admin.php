@@ -30,20 +30,11 @@
                         jQuery('li[data-ecwid-dynamic-menu]').remove();
                         ecwidAddMenuItems(jQuery.parseJSON(result));
                         ecwidRefreshEcwidMenuItemSelection();
-                        if (typeof wpResponsive == 'object' && wpResponsive.activate) {
-                            wpResponsive.trigger(); // prevent 'sticky-menu' from being applied incorrectly
-                        }
+                        jQuery(window).trigger('resize');
                     }
                 });
-		        
-		        
-		        //ecwidUpdateAdminMenus(e.data.data.navigationMenuItems);
-            }
-
-                        if (typeof wpResponsive == 'object' && wpResponsive.trigger) {
-                            wpResponsive.trigger(); // prevent 'sticky-menu' from being applied incorrectly
-                        }
-		},false);
+		    }
+        },false);
 
 		$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
 		ecwidSetPopupCentering('#ecwid-frame');

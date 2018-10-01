@@ -30,7 +30,8 @@ class Ecwid_Api_V3
 	}
 
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
-
+	const FEATURE_VARIATIONS = 'COMBINATIONS';
+	
 	public $store_id = null;
 	
 	protected static $profile = null;
@@ -228,6 +229,11 @@ class Ecwid_Api_V3
 	}
 
 	public function get_product( $product_id ) {
+		
+		if ( !$product_id ) {
+			return false;
+		}
+		
 		$params = array('token');
 
 		if ( !isset( $params['baseUrl'] ) ) {
@@ -476,6 +482,7 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 		
+		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
 		if ( $profile ) {
@@ -490,13 +497,14 @@ class Ecwid_Api_V3
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-		
+
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 			return false;
 		}
 		
 		if ( self::get_api_status() == self::API_STATUS_OK && ( @$result['code'] != '200' || empty($result['data'] ) ) ) {
+			ecwid_log_error( var_export( $result, true ) );
 			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
@@ -645,38 +653,109 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url, $request_params );
+
+		$params = $this->_sanitize_product_data( $params );
 		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
-	public function update_product( $params ) {
+	public function create_product_variation( $params ) {
 		$request_params =  array(
 			'token'
 		);
 		
-		$id = $params['id'];
-		unset( $params['id'] );
-		
-		$url = $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params );
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
 
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+	
+	public function update_product( $params, $product_id ) {
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $product_id, $request_params );
+
+		$params = $this->_sanitize_product_data( $params );
+		
 		$result = $this->_do_put( $url, $params );
 
 		return $result;
 	}
 	
+	protected function _sanitize_product_data( $data ) {
+
+		$int_fields = array( 'quantity', 'defaultCategoryId', 'showOnFrontPage' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+
+		$float_fields = array( 'price' );
+		foreach ( $float_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = floatval( $data[$field] );
+			}
+		}
+
+		if ( array_key_exists( 'categoryIds', $data ) ) {
+			foreach ( $data['categoryIds'] as $key => $id ) {
+				$data['categoryIds'][$key] = intval( $id );
+			}
+		}
+
+		return $data;
+		
+	}
+	
 	public function create_category( $params ) {
+		
 		$request_params =  array(
 			'token'
 		);
+		
 		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
-
+		
+		$params = $this->_sanitize_category_data( $params );
+		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
+	public function update_category( $params, $category_id ) {
+		
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_categories_api_url . '/' . $category_id, $request_params );
+		
+		$params = $this->_sanitize_category_data( $params );
+		
+		$result = $this->_do_put( $url, $params );
+
+		return $result;
+	}
+	
+	protected function _sanitize_category_data( $data ) {
+		$result = array();
+		
+		$int_fields = array( 'parentId', 'orderBy' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+		
+		return $data;
+	}
+	
 	public function delete_products( $ids )
 	{
 		$request_params = array( 'token' );
@@ -711,6 +790,31 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
+	public function upload_product_gallery_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+
+	public function upload_product_variation_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 

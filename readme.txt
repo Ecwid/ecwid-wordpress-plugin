@@ -1,9 +1,9 @@
 === Ecwid Ecommerce Shopping Cart ===
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
-Requires at least: 3.5
+Requires at least: 3.7
 Tested up to: 4.9
-Stable tag: 6.2.1
+Stable tag: 6.3.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -62,7 +62,7 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 
 = Ecwid Site =
 
-* [www.ecwid.com](https://ecwid.to/ecwid-site "Ecwid site")
+* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
 
 
@@ -151,8 +151,27 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
-= 6.2.1 - Aug 8, 2018 =
+= 6.3.2 - Oct 1, 2018 =
+- **Fixed a problem with the WordPress admin menu items.** In some cases, the WordPress admin navigation froze when an Ecwid store admin page was opened. Now everything should work fine. 
 
+= 6.3.1 - Sep 26, 2018 =
+- **Several fixes and improvements.** 
+
+= 6.3 - Sep 25, 2018 =
+- **Compatibility with the popular WordPress page builders: Elementor, Divi, Beaver builder.** The Ecwid e-commerce plugin has always been working great with the default WordPress editor to let you easily add a store or a single product to your site pages. In the recent updates, we also added the same functions to Gutenberg editor. In this update, we went further to make sure the most popular page builders are working fine with Ecwid. We added a lot of improvements and fixes to the plugin to make it work better with the Elementor, Beaver page builder and Divi editor. If you are using one of those page builders and having any problem editing your store page, please let us know so we can further improve it. 
+- **Avada, Bridge and Parallax One themes improved compatibility.** Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes. In this update, we are rolling out a few minor improvements to the Ecwid layout for the Avada, Bridge and Parallax One WordPress themes. 
+- **Fix of a conflict with Master slider plugin.** The Master slider plugin used to conflict with Ecwid plugin in the WordPress admin backend, which may cause some of the slider management pages look broken in the slider dashboard. Fixed. 
+- **Fix of a conflict with the Ultimate tables plugin.** One more plugin conflicting issue is fixed: the Ultimate tables plugin used to affect the Ecwid dashboard layout in the WordPress admin backed. Now it is working fine. 
+- **Improvements for the WooCommerce import tool: options, variations and image gallery are now supported.** In one of the recent update, we made it possible to import WooCommerce products to your Ecwid e-commerce store using a simple import wizard in the Ecwid plugin. In this version, we’ve made it more powerful so you can now import product gallery images, product options and variations to make the import easier and quicker. 
+- **Several fixes and improvements.**
+
+= 6.2.4 - Aug 17, 2018 =
+- Fixed an issue with the SEO content of product and categories pages. In the previous update, there was a bug affecting hidden SEO content of the store pages. It’s now fixed — everything should work fine both for human visitors and search crawlers.
+
+= 6.2.3 - Aug 15, 2018 =
+- Minor fixes and improvements.
+
+= 6.2.1 - Aug 8, 2018 =
 - **New “Main storefront page” selector in the plugin advanced settings.** If you have your storefront added to several pages on your site, you can now choose the main storefront page in the plugin settings (Ecwid → Advanced). This will define where the store navigation menus and sidebar widgets should be linked to. If you have a single online store page (which is totally OK), this new option won’t be displayed. 
 - **New warning messages for the sites with outdated TLS.** Ecwid is a PCI DSS level 1 certified ecommerce provider, which is a gold security standard for e-commerce solutions. Put it simply, when you use Ecwid, you have a bank level of online payments security in your online store. One of the requirements to make sure Ecwid merchants can securely process payments on their site is to use up-to-date TLS software on the server where your site is hosted. If your store dashboard doesn’t load in your Wordpress admin backend or you see a warning message saying that the Ecwid plugin cannot connect to the Ecwid API, that’s most likely caused by outdated TLS on your hosting. We recommend contacting your hosting in such case. If everything works fine and no warning message appears, that means no action is required from your side.
 - **Minor improvements in the store dashboard in the WordPress admin backend.** We improved the scroll behavior on the store admin dashboard pages and fixed a couple minor issues in the Ecwid menu items in the WordPress admin backend.

@@ -8,10 +8,12 @@
     <li>
         <?php echo sprintf( __( 'Imported products: %s', 'ecwid-shopping-cart' ), '<span id="import-results-products"></span>' ); ?>
     </li>
+<?php if ( ecwid_is_paid_account() ): ?>     
     <li>
 		<?php echo sprintf( __( 'Imported categories: %s', 'ecwid-shopping-cart' ), '<span id="import-results-categories"></span>' ); ?>
     </li>
 </ul>
+<?php endif; ?>
 
 <p>
     <a class="button button-primary" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>-admin-products">
@@ -20,6 +22,6 @@
 </p>
 
 <div class="errors">
-    <?php _e( 'Some of the products could not be imported.', 'ecwid-shopping-cart' ); ?> <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
+    <?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?> <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
     <pre class="details"></pre>
 </div>

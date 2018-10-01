@@ -149,16 +149,15 @@ class Ecwid_Config {
 			}
 		}
 		
-		if ( $is_wl_enabled ) {
-			if (
-				isset( $result[self::TOKEN] ) && !isset( $result[self::STORE_ID] )
-				||
-				!isset( $result[self::TOKEN] ) && isset( $result[self::STORE_ID] )
-			) {
-				unset( $result[self::TOKEN] );
-				unset( $result[self::STORE_ID] );
-			}	
-		}
+		
+		if (
+			isset( $result[self::TOKEN] ) && !isset( $result[self::STORE_ID] )
+			||
+			!isset( $result[self::TOKEN] ) && isset( $result[self::STORE_ID] )
+		) {
+			unset( $result[self::TOKEN] );
+			unset( $result[self::STORE_ID] );
+		}	
 		
 		foreach ( $common_config as $name => $ini_name ) {
 			$value = @$result[$ini_name];

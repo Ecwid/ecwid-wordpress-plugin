@@ -12,9 +12,10 @@ class Ecwid_Admin_Main_Page
 	public function do_page()
 	{
 		if ( $this->_is_forced_reconnect() ) {
-			ecwid_update_store_id(0);
-			
-			wp_redirect( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
+			ecwid_update_store_id( ecwid_get_demo_store_id() );
+			if (! ecwid_process_oauth_params() ) {
+				wp_redirect( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
+			}
 		}
 		
 		$is_demo = ecwid_is_demo_store();
@@ -211,7 +212,7 @@ class Ecwid_Admin_Main_Page
 	}
 	
 	protected function _is_current_user_email_registered_at_ecwid()
-	{
+	{	
 		$api = new Ecwid_Api_V3();
 		$current_user = wp_get_current_user();
 		

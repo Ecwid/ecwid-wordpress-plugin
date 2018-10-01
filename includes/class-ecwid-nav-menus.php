@@ -266,11 +266,14 @@ class Ecwid_Nav_Menus {
 
 	public function nav_menu_link_attributes( $attributes, $item )
     {
-		
 		if ( !isset( $item->ecwid_page_type ) ) {
             return $attributes;
         }
-        
+
+		if ( in_array( $item->ecwid_page_type, array( 'cart', 'account/orders' ) ) ) {
+			$attributes['rel'] = 'nofollow';
+		}
+
 		if ( Ecwid_Store_Page::get_current_store_page_id() != get_the_ID() ) {
 		    return $attributes;
         }
@@ -280,6 +283,7 @@ class Ecwid_Nav_Menus {
         if ( $item->ecwid_page_type == 'category' ) {
             $attributes['data-ecwid-category-id'] = $item->ecwid_category_id;
         }
+        
         
         return $attributes;
     }
@@ -335,7 +339,8 @@ class Ecwid_Nav_Menus {
 				'url'        => 'cart',
 				'label'      => __('Shopping Cart', 'ecwid-shopping-cart'),
 				'name'		 => 'cart',
-				'ecwid-page' => 'cart'
+				'ecwid-page' => 'cart',
+				'nofollow'   => true
 			),
 			'ecwid-product-search' => array(
 				'list-name'  => __('Product Search', 'ecwid-shopping-cart'),
@@ -351,7 +356,8 @@ class Ecwid_Nav_Menus {
 				'url'        => 'accountSettings',
 				'label'      => __('My Account', 'ecwid-shopping-cart'),
 				'name'		 => 'account',
-				'ecwid-page' => 'account/orders'
+				'ecwid-page' => 'account/orders',
+                'nofollow'   => true
 			),
 			'ecwid-store' => array(
 				'list-name'  => __('Store', 'ecwid-shopping-cart'),

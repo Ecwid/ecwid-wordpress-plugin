@@ -1,7 +1,9 @@
 <?php
 
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
 // nsf stands for new storefront I guess
-class Ecwid_Widget_NSF_Minicart extends WP_Widget {
+class Ecwid_Widget_NSF_Minicart extends Ecwid_Widget_Base {
 	
 	protected $__idbase;
 
@@ -19,7 +21,7 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 
 	}
 
-	function widget($args, $instance) {
+	function _render_widget_content( $args, $instance ) {
 		extract($args);
 
 		$instance = wp_parse_args( (array) $instance, array(
@@ -29,20 +31,17 @@ class Ecwid_Widget_NSF_Minicart extends WP_Widget {
 			self::FIELD_FIXED_SHAPE => 'RECT'
 		) );
 		
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+		$html = '';
+		$html .= '<div>';
 
-		echo $before_widget;
-
-		if ( $title )
-			echo $before_title . $title . $after_title;
-
-		echo '<div>';
-
+		ob_start();
 		require 'nsf-minicart.tpl.php';
+		$html .= ob_get_contents();
+		ob_end_clean();
 		
-		echo '</div>';
+		$html .= '</div>';
 
-		echo $after_widget;
+		return $html;
 	}
 
 	function update($new_instance, $old_instance) {

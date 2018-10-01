@@ -173,7 +173,7 @@ buildParams = function(attributes) {
 
     var widgets = attributes.widgets;
     if (typeof widgets == 'undefined') {
-        widgets = "productbrowser search minicart";
+        widgets = "productbrowser";
     }
 
     widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);

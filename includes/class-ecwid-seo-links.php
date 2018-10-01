@@ -24,7 +24,7 @@ class Ecwid_Seo_Links {
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
 			
-			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
+			add_action( 'ecwid_inline_js_config', array( $this, 'add_js_config') );
 
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
@@ -198,7 +198,7 @@ class Ecwid_Seo_Links {
 		return false;
 	}
 
-	public function add_js_config() {
+	public function add_js_config( $config ) {
 		
 		$page_id = get_queried_object_id();
 
@@ -206,17 +206,20 @@ class Ecwid_Seo_Links {
 		
 		if ( !$has_store ) {
 			if ( !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
-				return;
+				return $config;
 			}
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
 		
-		echo <<<JS
+		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;
+		$config .= $result;
+		
+		return $config;
 	}
 
 	public static function maybe_extract_html_catalog_params() {
@@ -281,6 +284,10 @@ JS;
 	}
 	
 	public function are_base_urls_ok() {
+		if (! self::is_feature_available() ) {
+			return true;
+		}
+		
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		$flattened = array();
@@ -310,6 +317,9 @@ JS;
 		}
 		
 		$rules = get_option( 'rewrite_rules' );
+		
+		if ( empty( $rules ) ) return false;
+			
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
@@ -341,7 +351,7 @@ JS;
 				if ( !isset( $base_urls[$page_id] ) ) {
 					$base_urls[$page_id] = array();
 				}
-				$base_urls[$page_id][] = urldecode( $this->_get_relative_permalink( $page_id ) );
+				$base_urls[$page_id][] = urldecode( self::_get_relative_permalink( $page_id ) );
 			}
 
 			if (
@@ -353,7 +363,7 @@ JS;
 				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
-						$link = urldecode( $this->_get_relative_permalink( $page_id ) );
+						$link = urldecode( self::_get_relative_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );
 
 						if ( !isset( $base_urls[$page_id] ) ) {
@@ -369,16 +379,42 @@ JS;
 		return $base_urls;
 	}
 	
-	protected function _get_relative_permalink( $item_id ) {
+	protected static function _get_relative_permalink( $item_id ) {
 		$permalink = get_permalink( $item_id );
 		
 		$home_url = home_url();
 		
 		return substr( $permalink, strlen( $home_url ) );
 	}
-	
-	
 
+	public static function is_noindex_page() {
+		
+		if ( !Ecwid_Store_Page::is_store_page() ) {
+			return false;
+		}
+
+		$relative_permalink = self::_get_relative_permalink( get_the_ID() );
+
+		$noindex_pages = array(
+			'cart',
+			'account',
+			'checkout',
+			'signin'
+		);
+		
+		$home_url = home_url();
+		$path = parse_url( $home_url, PHP_URL_PATH );
+		$seo_part = str_replace( $path . $relative_permalink, '', $_SERVER['REQUEST_URI'] );
+		
+		foreach ( $noindex_pages as $page ) {
+			if ( preg_match( '!' . $page . '([\?\/]+.*|)$' . '!', $seo_part ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static function is_enabled() {
 
 		return self::is_feature_available() && get_option( self::OPTION_ENABLED );

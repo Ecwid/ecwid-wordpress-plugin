@@ -2,16 +2,16 @@
 
 class Ecwid_Integration_Divibuilder {
 	public function __construct() {
-		if (is_admin()) {
-			add_action('admin_init', 'ecwid_create_divi_module' );
-			add_action('admin_enqueue_style', array($this, 'enqueue_style'));
+		if ( is_admin() ) {
+			add_action( 'admin_init', 'ecwid_create_divi_module' );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style' ) );
 		} else {
-			add_action('wp', 'ecwid_create_divi_module' );
+			add_action( 'wp', 'ecwid_create_divi_module' );
 		}
 	}
 
 	public function enqueue_style() {
-		wp_enqueue_style('ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css', array('et_pb_admin_css'));
+		wp_enqueue_style('ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css' );
 	}
 }
 
@@ -22,7 +22,7 @@ function ecwid_create_divi_module() {
 	if ( class_exists( 'ET_Builder_Module' ) && ! class_exists( 'ET_Builder_Module_Ecwid' ) ) {
 		class ET_Builder_Module_Ecwid extends ET_Builder_Module {
 			function init() {
-				$this->name            = __( 'Ecwid', 'et_builder' );
+				$this->name            = sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 				$this->slug            = 'et_pb_ecwid';
 				$this->use_row_content = TRUE;
 				$this->decode_entities = TRUE;
@@ -42,7 +42,7 @@ function ecwid_create_divi_module() {
 						'type'            => 'text',
 						'option_category' => 'basic_option',
 						'description'     => __( 'Here you can create the content that will be used within the module.', 'et_builder' ),
-						'default'         => '[ecwid widgets="productbrowser minicart categories search" grid="3,3" list="10" table="20" default_category_id="0" category_view="grid" search_view="grid" minicart_layout="MiniAttachToProductBrowser" ]'
+						'default'         => '[' . Ecwid_Shortcode_Base::get_current_store_shortcode_name() .' widgets="productbrowser" default_category_id="0"]'
 
 					),
 					'admin_label'  => array(

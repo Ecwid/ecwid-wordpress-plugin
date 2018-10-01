@@ -207,9 +207,18 @@ class Ecwid_Store_Page {
 		$pages = self::_set_store_pages( $pages );
 
 		if ( $page_id == get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
-
+			
 			if ( isset( $pages[0] ) ) {
-				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $pages[0] );
+				
+				$new_page = $pages[0];
+				// we prefer pages, not posts
+				foreach( $pages as $page ) {
+					if ( get_post($page)->post_type == 'page' ) {
+						$new_page = $page;
+					}
+				}
+				
+				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $new_page );
 			} else {
 				update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
 			}
@@ -241,6 +250,21 @@ class Ecwid_Store_Page {
 		return self::$_store_pages;
 	}
 
+	public static function get_store_pages_array_for_selector()
+	{
+		$pages = self::get_store_pages_array();
+		foreach ( $pages as $ind => $page ) {
+			
+			$post = get_post($page);
+			
+			if ( $page != self::get_current_store_page_id() && $post && $post->post_type == 'post' ) {
+				unset( $pages[$ind] );
+			}
+		}
+		
+		return $pages;
+	}
+	
 	public static function schedule_flush_rewrites() {
 		update_option( self::OPTION_FLUSH_REWRITES, 1 );
 	}
@@ -275,15 +299,15 @@ class Ecwid_Store_Page {
 			$post_id = get_the_ID();
 		}
 
+		$result = false;
+		
 		$post = get_post($post_id);
-
 		if ( $post ) {
 			$post_content = get_post( $post_id )->post_content;
 
 			$result = ecwid_content_has_productbrowser( $post_content );
 			$result = apply_filters( 'ecwid_page_has_product_browser', $result );
 		}
-
 
 		return $result;
 	}

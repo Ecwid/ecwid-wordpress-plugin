@@ -248,20 +248,41 @@ TXT
 			),
 			
 			'api_failed_tls' => array(
-				'title' => __( 'Warning: some of your online store features are disabled.', 'ecwid-shopping-cart' ),
-				'message' => sprintf( __( 'This Wordpress site doesn\'t seem to be able to connect to the Ecwid servers. Your store is working and your products can be purchased from your site. But some features are disabled including SEO, product sidebar widgets, advanced site menu and store navigation. This is caused by your server misconfiguration — it is using deprecated tools (TLS 1.0) to communicate with the %1$s APIs. This can be fixed by your hosting provider by updating server software to the latest version.' 
-					, 'ecwid-shopping-cart' ),
-					Ecwid_Config::get_brand()
+				'title' => __( 
+					'Warning: some of your online store features are disabled. Please contact your hosting provider to resolve.', 
+					'ecwid-shopping-cart' 
+				),
+				'message' => sprintf( 
+					__( 
+						<<<HTML
+<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that because of your server misconfiguration.
+<br /><br />
+<b>How to fix:</b> Your server seems to be using outdated software (TLS v1.0) to communicate with the %1\$s APIs. The reason can also be a deprecated version of the CURL module. This can be fixed by your hosting provider by updating your server software to the latest version. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
+HTML
+						, 'ecwid-shopping-cart' 
+					),
+					Ecwid_Config::get_brand(),
+					Ecwid_Config::get_contact_us_url()
 				),
 				'type' => 'warning',
 				'hideable' => false
 			),
 			
 			'api_failed_other' => array(
-				'title' => __( 'Warning: some of your online store features are disabled.', 'ecwid-shopping-cart' ),
-				'message' => sprintf( __( 'This Wordpress site doesn\'t seem to be able to connect to the %1$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. This is likely caused by your server misconfiguration and can be fixed by your hosting provider. Here is a more techy description of the problem, which you can send to your hosting provider: "The Wordpress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP POST requests are disabled on this server".'
+				'title' => __( 
+					'Warning: some of your online store features are disabled. Please contact your hosting provider to resolve.', 
+					'ecwid-shopping-cart' 
+				),
+				'message' => sprintf( 
+					__( 
+						<<<HTML
+<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that as your server blocks those requests for some reason.
+<br /><br />
+<b>How to fix:</b> This is likely caused by your server misconfiguration and can be fixed by your hosting provider. In particular, the CURL module can be disabled in your PHP config or a firewall might block requests to our servers. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
+HTML
 					, 'ecwid-shopping-cart' ),
-					Ecwid_Config::get_brand()
+					Ecwid_Config::get_brand(),
+					Ecwid_Config::get_contact_us_url()
 				),
 				'type' => 'warning',
 				'hideable' => false
@@ -316,7 +337,17 @@ TXT
 			case 'no_token':
 				$no_token = Ecwid_Api_V3::get_token() == false;
 				$is_not_demo = !ecwid_is_demo_store();
-				return $no_token && $is_not_demo && !$is_ecwid_menu;
+				return 
+					$no_token 
+					&& $is_not_demo 
+					&& !$is_ecwid_menu 
+					&& in_array( 
+						Ecwid_Api_V3::get_api_status(), 
+						array( 
+							Ecwid_Api_V3::API_STATUS_OK, 
+							Ecwid_Api_V3::API_STATUS_ERROR_TOKEN
+						) 
+					);
 				
 			case self::MSG_WOO_IMPORT_ONBOARDING:
 				if ( !class_exists( 'Ecwid_Importer' ) ) {

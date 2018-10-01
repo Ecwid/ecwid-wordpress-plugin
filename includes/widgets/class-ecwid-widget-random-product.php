@@ -1,5 +1,8 @@
 <?php
-class Ecwid_Widget_Random_Product extends WP_Widget {
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_random_product', 'description' => __("Displays a random product from your store to attract customer attention.", 'ecwid-shopping-cart') );
@@ -7,17 +10,14 @@ class Ecwid_Widget_Random_Product extends WP_Widget {
 
 	}
 
-	function widget($args, $instance) {
-		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
-
+	function _render_widget_content( $args, $instance ) {
 		$product = Ecwid_Product::get_random_product();
 		
 		if (! $product ) {
-			return;
+			return '';
 		}
 		
-		$name = esc_attr($product->name);
+		$name = esc_attr( $product->name );
 		
 		$url = $product->link;
 		
@@ -35,22 +35,17 @@ class Ecwid_Widget_Random_Product extends WP_Widget {
 <script type="text/javascript">xProduct()</script>
 HTML;
 
+		$html = '';
+		$html .= '<div>';
+
+		$html .= '<!-- noptimize -->';
+		$html .= ecwid_get_scriptjs_code();
+		$html .= $content;
 		
-		echo $before_widget;
+		$html .= '<!-- /noptimize -->';
+		$html .= '</div>';
 
-		if ( $title )
-			echo $before_title . $title . $after_title;
-
-		echo '<div>';
-
-		echo '<!-- noptimize -->';
-		echo ecwid_get_scriptjs_code();
-		echo $content;
-		
-		echo '<!-- /noptimize -->';
-		echo '</div>';
-
-		echo $after_widget;
+		return $html;
 	}
 
 	function update($new_instance, $old_instance){

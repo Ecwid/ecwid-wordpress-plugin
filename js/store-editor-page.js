@@ -62,7 +62,7 @@ jQuery(document).ready(function() {
 
 		var widgets = attributes.widgets;
 		if (typeof widgets == 'undefined') {
-			widgets = "productbrowser search";
+			widgets = "productbrowser";
 		}
 
 		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 			'grid_columns': grid[2],
 			'default_category_id': attributes.default_category_id,
 			'default_product_id': attributes.default_product_id,
-			'minicart_layout': 'attachToCategories'
+			'minicart_layout': 'MiniAttachToProductBrowser'
 		};
 
 	}
@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 	 */
 	getDefaultParams = function() {
 		return {
-			'show_search': true,
+			'show_search': false,
 			'show_minicart': false,
 			'show_categories': false,
 			'categories_per_row': 3,
