@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 4.9
-Stable tag: 6.3
+Stable tag: 6.3.2
 
 Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,12 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.3.2 - Oct 1, 2018 =
+- **Fixed a problem with the WordPress admin menu items.** In some cases, the WordPress admin navigation froze when an Ecwid store admin page was opened. Now everything should work fine. 
+
+= 6.3.1 - Sep 26, 2018 =
+- **Several fixes and improvements.** 
+
 = 6.3 - Sep 25, 2018 =
 - **Compatibility with the popular WordPress page builders: Elementor, Divi, Beaver builder.** The Ecwid e-commerce plugin has always been working great with the default WordPress editor to let you easily add a store or a single product to your site pages. In the recent updates, we also added the same functions to Gutenberg editor. In this update, we went further to make sure the most popular page builders are working fine with Ecwid. We added a lot of improvements and fixes to the plugin to make it work better with the Elementor, Beaver page builder and Divi editor. If you are using one of those page builders and having any problem editing your store page, please let us know so we can further improve it. 
 - **Avada, Bridge and Parallax One themes improved compatibility.** Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes. In this update, we are rolling out a few minor improvements to the Ecwid layout for the Avada, Bridge and Parallax One WordPress themes. 
