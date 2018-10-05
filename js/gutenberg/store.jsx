@@ -1,0 +1,1 @@
+../../../gutenberg/src/src/block/block.js

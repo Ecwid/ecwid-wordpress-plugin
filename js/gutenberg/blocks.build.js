@@ -1,0 +1,1 @@
+../../../gutenberg/src/dist/blocks.build.js
