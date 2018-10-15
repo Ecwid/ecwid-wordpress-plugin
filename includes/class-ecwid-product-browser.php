@@ -62,7 +62,8 @@ class Ecwid_Product_Browser
 						'icon'  => 'textalignjustify'
 					)					
 				),
-				'default' => 'CENTER'
+				'default' => 'CENTER',
+				'is_storefront_api' => true
 			),
 			
 			'product_list_title_behavior' => array(
@@ -256,7 +257,7 @@ class Ecwid_Product_Browser
 			),
 			array(
 				'value' => 'SQUARE_1',
-				'title' => __( 'Square', 'ecwid-shopping-cart' ),
+				'title' => __( 'Square 1:1', 'ecwid-shopping-cart' ),
 				'icon'  => 'aspect11'
 			),
 			array(

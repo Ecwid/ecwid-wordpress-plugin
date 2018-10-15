@@ -94,11 +94,18 @@ registerBlockType( 'ecwid/store-block', {
 					<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
 						<path d={ EcwidGutenbergParams.storeIcon }></path>
 					</svg>
-					{ __( 'Your store will be shown here', 'ecwid-shopping-cart' ) }
+					{ __( 'Your store will be shown here!', 'ecwid-shopping-cart' ) }
 				</div>
-				<div className="ec-store-block-title">
-					{ __( 'Store ID', 'ecwid-shopping-cart' ) }: { EcwidGutenbergParams.storeId }
-				</div>
+                {!EcwidGutenbergParams.isDemoStore &&
+                <div className="ec-store-block-title">
+                    { __('Store ID', 'ecwid-shopping-cart') }: { EcwidGutenbergParams.storeId }
+                </div>
+                }
+                {EcwidGutenbergParams.isDemoStore &&
+                <div className="ec-store-block-title">
+                    { __('Demo store', 'ecwid-shopping-cart') }
+                </div>
+                }
 			</div>
 		;
 		
@@ -157,8 +164,8 @@ registerBlockType( 'ecwid/store-block', {
 			</BaseControl>;
 		}
 		
-		function buildMessageWithTitle(title, message) {
-			return <BaseControl label={title}>{ message }</BaseControl>;
+		function buildDangerousHTMLMessageWithTitle(title, message) {
+			return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
 		}
 		
 		function buildItem(props, name, type) {
@@ -184,7 +191,7 @@ registerBlockType( 'ecwid/store-block', {
 			} else if ( type === 'select' ) {
         		return buildSelect( props, item.name, item.title, item.values );
 			} else if ( type === 'text' ) {
-        		return buildMessageWithTitle( item.title, item.message );
+        		return buildDangerousHTMLMessageWithTitle( item.title, item.message );
 			} else if ( type === 'textbox') {
                 return buildTextbox( props, item.name, item.title );
             } else {
@@ -192,14 +199,14 @@ registerBlockType( 'ecwid/store-block', {
 			}
         }
 		
-		const productMigrationWarning = buildMessageWithTitle(
+		const productMigrationWarning = buildDangerousHTMLMessageWithTitle(
 			__( 'Migration warning', 'ecwid-shopping-cart' ),
 			__( 'To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (Settings → What’s New).', 'ecwid-shopping-cart' )
 		);
         
-        const cartIconMessage = buildMessageWithTitle(
+        const cartIconMessage = buildDangerousHTMLMessageWithTitle(
         	__( 'Display cart icon', 'ecwid-shopping-cart' ),
-			__( 'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “Appearance → Customize → Ecwid” menu to enable it.', 'ecwid-shopping-cart' )
+            __( 'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="customize.php">Appearance → Customize → Ecwid</a>” menu to enable it.', 'ecwid-shopping-cart' )
 		);
 		
 		const isNewProductList = EcwidGutenbergStoreBlockParams.is_new_product_list;
@@ -207,22 +214,22 @@ registerBlockType( 'ecwid/store-block', {
         return ([
         	editor, 
 			<InspectorControls>
-				<PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) }>
+				<PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
 					{ isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
 					{ isNewProductList && attributes.product_list_show_product_images && 
 						buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
                     { isNewProductList && attributes.product_list_show_product_images &&
 	                    buildItem( props, 'product_list_image_aspect_ratio', 'toolbar' ) }
-                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
                     { isNewProductList && buildItem( props, 'product_list_product_info_layout', 'toolbar' ) }
                     { isNewProductList && buildItem( props, 'product_list_title_behavior', 'select' ) }
                     { isNewProductList && buildItem( props, 'product_list_price_behavior', 'select' ) }
                     { isNewProductList && buildItem( props, 'product_list_sku_behavior', 'select' ) }
                     { isNewProductList && buildItem( props, 'product_list_buybutton_behavior', 'select' ) }
                     { isNewProductList && buildItem( props, 'product_list_show_additional_image_on_hover', 'toggle' ) }
+                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
 					{ !isNewProductList && productMigrationWarning }
 				</PanelBody>
-				<PanelBody title={ __( 'Category List Appearance', 'ecwid-shopping-cart' ) }>
+				<PanelBody title={ __( 'Category List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
                     { isNewProductList && buildItem( props, 'product_list_category_title_behavior', 'select' ) }
                     { isNewProductList && attributes.product_list_category_title_behavior !== 'SHOW_TEXT_ONLY' &&
                     buildItem( props, 'product_list_category_image_size', 'buttonGroup' ) }
@@ -230,18 +237,21 @@ registerBlockType( 'ecwid/store-block', {
                     buildItem( props, 'product_list_category_image_aspect_ratio', 'toolbar' ) }
                     { !isNewProductList && productMigrationWarning }
 				</PanelBody>
-				<PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) }>
+				<PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
 					{ buildItem( props, 'show_categories', 'toggle' ) }
                     { buildItem( props, 'show_search', 'toggle' ) }
                     { buildItem( props, 'show_breadcrumbs', 'toggle' ) }
                     { isNewProductList && buildItem( props, 'show_footer_menu', 'toggle' ) }
                     { buildItem( props, 'show_signin_link', 'toggle' ) }
                     { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
-					{ cartIconMessage }
+                    { cartIconMessage }
 				</PanelBody>
-				<PanelBody title={ __( 'Store Front Page', 'ecwid-shopping-cart' ) }>
-                    { buildItem( props, 'default_category_id', 'default_category_id' ) }
-				</PanelBody>
+                { props.default_category_id &&
+                <PanelBody title={ __('Store Front Page', 'ecwid-shopping-cart') } initialOpen={false}>
+                    { buildItem(props, 'default_category_id', 'default_category_id') }
+                </PanelBody>
+
+                }
 			</InspectorControls>
         ]); 
 	},

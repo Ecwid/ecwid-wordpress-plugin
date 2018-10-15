@@ -1701,6 +1701,190 @@ msgstr "Вы добавили витрину магазина на нескол�
 msgid "Product List Appearance"
 msgstr "Дизайн списка товаров"
 
+#: includes/class-ecwid-product-browser.php:10
+msgid "Show product thumbnails"
+msgstr "Показывать изображения товаров"
+
+#: includes/class-ecwid-product-browser.php:18
+msgid "Product thumbnail size"
+msgstr "Размер изображения товара"
+
+#: includes/class-ecwid-product-browser.php:26
+msgid "Product thumbnail aspect ratio"
+msgstr "Формат изображения товара"
+
+#: includes/class-ecwid-product-browser.php:34
+msgid "Show product card border"
+msgstr "Показывать рамку карточки товара"
+
+#: includes/class-ecwid-product-browser.php:42
+msgid "Product card text align"
+msgstr "Выравнивание данных товара"
+
+#: includes/class-ecwid-product-browser.php:46
+msgid "Left"
+msgstr "По левому краю"
+
+#: includes/class-ecwid-product-browser.php:51
+msgid "Center"
+msgstr "По центру"
+
+#: includes/class-ecwid-product-browser.php:56
+msgid "Right"
+msgstr "По правому краю"
+
+#: includes/class-ecwid-product-browser.php:61
+msgid "Justify"
+msgstr "По ширине"
+
+#: includes/class-ecwid-product-browser.php:71
+msgid "Product title"
+msgstr "Название товара"
+
+#: includes/class-ecwid-product-browser.php:79
+msgid "Product price"
+msgstr "Цена товара"
+
+#: includes/class-ecwid-product-browser.php:87
+msgid "Product SKU"
+msgstr "Артикул товара"
+
+#: includes/class-ecwid-product-browser.php:95
+msgid "Buy now buttons"
+msgstr "Кнопка “Купить”"
+
+#: includes/class-ecwid-product-browser.php:103
+msgid "Show additional image on hover"
+msgstr "Показывать доп.изображение при наведении мыши"
+
+#: includes/class-ecwid-product-browser.php:111
+msgid "Category card layout"
+msgstr "Формат карточки категории"
+
+#: includes/class-ecwid-product-browser.php:115
+msgid "Title under image"
+msgstr "Название под изображением"
+
+#: includes/class-ecwid-product-browser.php:119
+msgid "Title on image"
+msgstr "Название на изображении"
+
+#: includes/class-ecwid-product-browser.php:123
+msgid "Image and title on mouse over"
+msgstr "Название по наведению мыши"
+
+#: includes/class-ecwid-product-browser.php:127
+msgid "Title only"
+msgstr "Только название"
+
+#: includes/class-ecwid-product-browser.php:131
+msgid "Image only"
+msgstr "Только изображение"
+
+#: includes/class-ecwid-product-browser.php:140
+msgid "Category thumbnail size"
+msgstr "Размер изображения категории"
+
+#: includes/class-ecwid-product-browser.php:148
+msgid "Category thumbnail aspect ratio"
+msgstr "Формат изображения категории"
+
+#: includes/class-ecwid-product-browser.php:156
+msgid "Display categories menu"
+msgstr "Показывать меню категорий над витриной"
+
+#: includes/class-ecwid-product-browser.php:163
+msgid "Display search box"
+msgstr "Показывать поиск над витриной"
+
+#: includes/class-ecwid-product-browser.php:170
+msgid "Display breadcrumbs"
+msgstr "Показывать цепочку навигации"
+
+#: includes/class-ecwid-product-browser.php:178
+msgid "Display footer menu"
+msgstr "Показывать меню внизу страницы"
+
+#: includes/class-ecwid-product-browser.php:186
+msgid "Display sign in link"
+msgstr "Показывать ссылку “Войти”"
+
+#: includes/class-ecwid-product-browser.php:194
+msgid "Display sort by link"
+msgstr "Показывать меню сортировки"
+
+#: includes/class-ecwid-product-browser.php:202
+msgid "Default category ID"
+msgstr "Категория, показываемая по умолчанию"
+
+#: includes/class-ecwid-product-browser.php:214
+msgid "Show"
+msgstr "Показывать"
+
+#: includes/class-ecwid-product-browser.php:218
+msgid "Hide"
+msgstr "Скрывать"
+
+#: includes/class-ecwid-product-browser.php:222
+msgid "Show on hover"
+msgstr "Показывать при наведении мыши"
+
+#: includes/class-ecwid-product-browser.php:232
+msgid "S"
+msgstr "S"
+
+#: includes/class-ecwid-product-browser.php:236
+msgid "M"
+msgstr "M"
+
+#: includes/class-ecwid-product-browser.php:240
+msgid "L"
+msgstr "L"
+
+#: includes/class-ecwid-product-browser.php:250
+msgid "Portrait 2:3"
+msgstr "Вертикальные 2:3"
+
+#: includes/class-ecwid-product-browser.php:255
+msgid "Portrait 3:4"
+msgstr "Вертикальные 3:4"
+
+#: includes/class-ecwid-product-browser.php:260
+msgid "Square 1:1"
+msgstr "Квадратные 1:1"
+
+#: includes/class-ecwid-product-browser.php:265
+msgid "Landscape 4:3"
+msgstr "Горизонтальные 4:3"
+
+#: includes/class-ecwid-product-browser.php:270
+msgid "Landscape 3:2"
+msgstr "Горизонтальные 3:2"
+
+msgid "Add storefront (product listing)"
+msgstr ""
+
+msgid "Migration warning"
+msgstr ""
+
+msgid "To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (Settings → What’s New)."
+msgstr "Чтобы обновить дизайн своего магазина и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина (Настройки → Обновления)"
+
+msgid "Display cart icon"
+msgstr "Показывать иконку корзины"
+
+msgid "You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href=\"customize.php\">Appearance → Customize → Ecwid</a>” menu to enable it."
+msgstr "Включите дополнительный плавающий виджет корзины, который будет появляться на страницах сайта. Доступно в меню “<a href=\"customize.php\">Внешний вид → Настроить → Ecwid</a>”"
+
+msgid "Category List Appearance"
+msgstr "Дизайн списка категорий"
+
+msgid "Store Navigation"
+msgstr "Навигация магазина"
+
+msgid "Store Front Page"
+msgstr "Главная страница магазина"
+
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#

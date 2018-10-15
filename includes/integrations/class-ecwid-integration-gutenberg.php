@@ -34,7 +34,7 @@ class Ecwid_Integration_Gutenberg {
 					'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
 					'storeIcon' => $this->_get_store_icon_path(),
 					'productIcon' => $this->_get_product_icon_path(),
-					
+					'isDemoStore' => ecwid_is_demo_store()
 				)
 			);
 
@@ -89,14 +89,20 @@ CSS
 		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
 			array(
 				'attributes' => $this->_get_attributes_for_editor(),
-				'is_new_product_list' => $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST )
+				'is_new_product_list' => $this->_is_new_product_list()
 			)
 		);
 	}
 	
-	public function product_render_callback($params) {
+	protected function _is_new_product_list() {
+		$api = new Ecwid_Api_V3();
 		
-		if (!@$params['id']) return '';
+		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );	
+	}
+	
+	public function product_render_callback( $params ) {
+		
+		if ( !@$params['id'] ) return '';
 		
 		$display = array(
 			'picture', 'title', 'price', 'options', 'qty', 'addtobag' 
@@ -135,7 +141,6 @@ CSS
 		$result .= '<script type="text/javascript">
 		window.ec = window.ec || Object();
 		window.ec.storefront = window.ec.storefront || Object();
-		window.ec.storefront.enable_new_product_list = true;
 ';
 		
 		$attributes = $this->_get_attributes_for_editor();
@@ -193,6 +198,13 @@ CSS
 					'value' => $category->id,
 					'title' => $category->name
 				);
+			}
+		} else {
+			$api = new Ecwid_Api_V3();
+			$cats = $api->get_categories( array() );
+			
+			if ( $cats->total == 0 ) {
+				unset( $attributes['default_category_id'] );
 			}
 		}
 		
