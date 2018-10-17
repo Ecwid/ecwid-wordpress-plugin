@@ -84,10 +84,7 @@ jQuery(document).ready(function() {
     var populateWidgetParams = function() {
 
         var params;
-        debugger;
         if (popup().data('params') && popup().data('params').props.attributes.id) {
-            
-            debugger;
             
             var selectedParams = popup().data('params').props.attributes;
             params = {
