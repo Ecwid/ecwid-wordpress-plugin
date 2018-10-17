@@ -71,7 +71,6 @@ jQuery(document).ready(function() {
                'url': ajaxurl,
                'data': {'action': ecwid_importer.do_woo_import_action, settings: settings},
                'success': function (json) {
-                   debugger;
                    data = jQuery.parseJSON(json);
 
                    for (var i = 0; i < data.success.length; i++) {
