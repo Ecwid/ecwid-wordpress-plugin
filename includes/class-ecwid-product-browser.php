@@ -202,7 +202,88 @@ class Ecwid_Product_Browser
 				'title' => __( 'Default category ID', 'ecwid-shopping-cart' ),
 				'type' => 'default_category_id',
 				'default' => ''
-			)
+			),
+
+			'product_details_layout' => array(
+				'name' => 'product_details_layout',
+				'title' => __( 'Product page layout', 'ecwid-shopping-cart' ),
+				'values' => self::_get_product_details_layouts(),
+				'default' => 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT',
+				'is_storefront_api' => true
+			),
+
+			'product_details_gallery_layout' => array(
+				'name' => 'product_details_gallery_layout',
+				'title' => __( 'Image gallery layout', 'ecwid-shopping-cart' ),
+				'values' => self::_get_gallery_layouts(),
+				'default' => 'IMAGE_SINGLE_THUMBNAILS_HORIZONTAL',
+				'is_storefront_api' => true
+			),
+
+			'product_details_show_product_name' => array(
+				'name' => 'product_details_show_product_name',
+				'title' => __( 'Title', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+
+			'product_details_show_breadcrumbs' => array(
+				'name' => 'product_details_show_breadcrumbs',
+				'title' => __( 'Breadcrumbs', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_product_sku' => array(
+				'name' => 'product_details_show_product_sku',
+				'title' => _x( 'Product SKU', 'product-browser-attributes', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_product_price' => array(
+				'name' => 'product_details_show_product_price',
+				'title' => _x( 'Product price', 'product-browser-attributes', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_qty' => array(
+				'name' => 'product_details_show_qty',
+				'title' => __( 'Product quantity', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_number_of_items_in_stock' => array(
+				'name' => 'product_details_show_number_of_items_in_stock',
+				'title' => __( 'Available qty in stock', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_in_stock_label' => array(
+				'name' => 'product_details_show_in_stock_label',
+				'title' => __( '"In stock" label', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_wholesale_prices' => array(
+				'name' => 'product_details_show_wholesale_prices',
+				'title' => __( 'Wholesale prices', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
+			'product_details_show_share_buttons' => array(
+				'name' => 'product_details_show_share_buttons',
+				'title' => __( 'Display sign in link', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			),
 		);
 	}
 	
@@ -269,6 +350,43 @@ class Ecwid_Product_Browser
 				'value' => 'LANDSCAPE_15',
 				'title' => __( 'Landscape 3:2', 'ecwid-shopping-cart' ),
 				'icon'  => 'aspect169'
+			)
+		);
+	}
+
+	protected static function _get_product_details_layouts()
+	{
+		return array(
+			array(
+				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT',
+				'title' => __( '2 columns, description on the left', 'ecwid-shopping-cart' ),
+				'icon'  => 'productLayout2ColumnsLeft',
+			),
+			array(
+				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT',
+				'title' => __( '2 columns, description on the right', 'ecwid-shopping-cart' ),
+				'icon'  => 'productLayout2ColumnsRight'
+			)
+		);
+	}
+
+	protected static function _get_gallery_layouts()
+	{
+		return array(
+			array(
+				'value' => 'IMAGE_SINGLE_THUMBNAILS_HORIZONTAL',
+				'title' => __( 'Horizontal thumbnails', 'ecwid-shopping-cart' ),
+				'icon'  => 'galleryLayoutVertical',
+			),
+			array(
+				'value' => 'IMAGE_SINGLE_THUMBNAILS_VERTICAL',
+				'title' => __( 'Vertical thumbnails', 'ecwid-shopping-cart' ),
+				'icon'  => 'galleryLayoutHorizontal'
+			),
+			array(
+				'value' => 'IMAGE_FEED',
+				'title' => __( 'Image feed', 'ecwid-shopping-cart' ),
+				'icon'  => 'galleryLayoutFeed'
 			)
 		);
 	}

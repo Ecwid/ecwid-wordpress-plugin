@@ -1885,6 +1885,68 @@ msgstr "Навигация магазина"
 msgid "Store Front Page"
 msgstr "Главная страница магазина"
 
+msgid "Product Page Appearance"
+msgstr "Дизайн страницы товара"
+
+msgid "Product page layout"
+msgstr "Формат карточки товара"
+
+msgid "2 columns, description on the right"
+msgstr "2 колонки, описание справа"
+
+msgid "2 columns, description below the image"
+msgstr "2 колонки, описание под изображением"
+
+msgid "2 columns, description on the left"
+msgstr "2 колонки, описание слева"
+
+msgid "3 columns"
+msgstr "3 колонки"
+
+msgid "Image gallery layout"
+msgstr "Формат галереи"
+
+msgid "Horizontal thumbnails"
+msgstr "Горизонтально"
+
+msgid "Vertical thumbnails"
+msgstr "Вертикально"
+
+msgid "Image feed"
+msgstr "Полноразмерные изображения"
+
+msgid "Product sidebar content"
+msgstr "Информация на странице"
+
+msgid "Breadcrumbs"
+msgstr "Цепочка навигации"
+
+msgctxt "product-browser-attributes"
+msgid "Product SKU"
+msgstr "Артикул"
+
+msgctxt "product-browser-attributes"
+msgid "Product price"
+msgstr "Цена"
+
+msgid "Product quantity"
+msgstr "Поле \"Количество\""
+
+msgid "Available qty in stock"
+msgstr "Количество в наличии"
+
+msgid "\"In stock\" label"
+msgstr "Метка \"В наличии\""
+
+msgid "Wholesale prices"
+msgstr "Оптовые цены"
+
+msgid "Share buttons"
+msgstr "Кнопки \"Поделиться\""
+
+msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Settings → What’s New</a>)."
+msgstr "Чтобы обновить дизайн страницы товара и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид страницы товара” в панели управления магазина (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Настройки → Обновления</a>)"
+
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#

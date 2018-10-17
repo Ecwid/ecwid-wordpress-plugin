@@ -89,7 +89,8 @@ CSS
 		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
 			array(
 				'attributes' => $this->_get_attributes_for_editor(),
-				'is_new_product_list' => $this->_is_new_product_list()
+				'is_new_product_list' => $this->_is_new_product_list(),
+				'is_new_details_page' => $this->_is_new_details_page()
 			)
 		);
 	}
@@ -98,6 +99,12 @@ CSS
 		$api = new Ecwid_Api_V3();
 		
 		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );	
+	}
+
+	protected function _is_new_details_page() {
+		$api = new Ecwid_Api_V3();
+
+		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_DETAILS_PAGE );
 	}
 	
 	public function product_render_callback( $params ) {

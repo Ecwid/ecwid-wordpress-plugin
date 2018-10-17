@@ -31,6 +31,7 @@ class Ecwid_Api_V3
 
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 	const FEATURE_VARIATIONS = 'COMBINATIONS';
+	const FEATURE_NEW_DETAILS_PAGE = 'NEW_DETAILS_PAGE';
 	
 	public $store_id = null;
 	
