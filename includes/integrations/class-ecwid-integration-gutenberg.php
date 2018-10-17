@@ -145,8 +145,8 @@ CSS
 		
 		$attributes = $this->_get_attributes_for_editor();
 		foreach ( $attributes as $name => $attribute ) {
-			if ( @$attribute['is_storefront_api'] ) {
-				$value = isset( $params[$name] ) ? $params[$name] : $attribute['default'];
+			if ( @$attribute['is_storefront_api'] && isset( $params[$name] ) ) {
+				$value = $params[$name];
 				if ( @$attribute['type'] == 'boolean') {
 					$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
 				} else {
@@ -156,7 +156,6 @@ CSS
 		}
 		
 		$result .= "
-		debugger;
 		Ecwid.OnAPILoaded.add(function() {
 			Ecwid.refreshConfig();
 		});
@@ -182,7 +181,17 @@ CSS
 	
 	protected function _get_attributes_for_editor()
 	{
+
+		$api = new Ecwid_Api_V3();
+		$settings = $api->get_store_profile()->designSettings;
+
 		$attributes = Ecwid_Product_Browser::get_attributes();
+		foreach ( $attributes as $key => $attribute ) {
+			$name = $attribute['name'];
+			if ( property_exists( $settings, $name ) ) {
+				$attributes[$key]['default'] = $settings->$name;
+			}
+		}
 		
 		$categories = ecwid_get_categories_for_selector();
 		
