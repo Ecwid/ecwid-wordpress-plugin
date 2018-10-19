@@ -194,12 +194,13 @@ CSS
 			$chameleon['font'] = $font;
 		}
 		
-		$result .= <<<JS
+		if ( $chameleon['colors'] != 'auto' || $chameleon['font'] != 'auto') {
+			$result .= <<<JS
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
 JS;
-		
+		}
 		$result .= "
 		Ecwid.OnAPILoaded.add(function() {
 			Ecwid.refreshConfig();
