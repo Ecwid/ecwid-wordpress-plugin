@@ -23,6 +23,7 @@ const {
     RichText,
     InspectorControls,
     AlignmentToolbar,
+    withColors
 } = wp.editor;
 
 const {
@@ -34,7 +35,9 @@ const {
 	IconButton,
 	BaseControl,
 	Toolbar,
-	Dropdown
+	Dropdown,
+    ColorPalette,
+    ColorIndicator
 } = wp.components;
 
 const { withState } = wp.compose;
@@ -164,6 +167,128 @@ registerBlockType( 'ecwid/store-block', {
 			</BaseControl>;
 		}
 		
+		const colors = [{
+            name: __("Pale pink"),
+            slug: "pale-pink",
+            color: "#f78da7"
+        }, {
+            name: __("Vivid red"),
+            slug: "vivid-red",
+            color: "#cf2e2e"
+        }, {
+            name: __("Luminous vivid orange"),
+            slug: "luminous-vivid-orange",
+            color: "#ff6900"
+        }, {
+            name: __("Luminous vivid amber"),
+            slug: "luminous-vivid-amber",
+            color: "#fcb900"
+        }, {
+            name: __("Light green cyan"),
+            slug: "light-green-cyan",
+            color: "#7bdcb5"
+        }, {
+            name: __("Vivid green cyan"),
+            slug: "vivid-green-cyan",
+            color: "#00d084"
+        }, {
+            name: __("Pale cyan blue"),
+            slug: "pale-cyan-blue",
+            color: "#8ed1fc"
+        }, {
+            name: __("Vivid cyan blue"),
+            slug: "vivid-cyan-blue",
+            color: "#0693e3"
+        }, {
+            name: __("Very light gray"),
+            slug: "very-light-gray",
+            color: "#eeeeee"
+        }, {
+            name: __("Cyan bluish gray"),
+            slug: "cyan-bluish-gray",
+            color: "#abb8c3"
+        }, {
+            name: __("Very dark gray"),
+            slug: "very-dark-gray",
+            color: "#313131"
+        }];
+		
+		function buildColorPalette(props, name, label ) {
+        
+            const titleElement = <span>{ label }
+                    <ColorIndicator colorValue={ attributes[name]} />
+            </span>;
+            
+            return <BaseControl label={titleElement} className="ec-store-color-picker">
+                <ColorPalette
+                    value={ attributes[name] }
+                    colors={ colors }
+                    onChange={ (color) => props.setAttributes( { [name]: color } ) }
+                />
+            </BaseControl>;
+        }
+        /*
+        function buildChameleonColorControl( props, name, label, setState ) {
+		    return <BaseControl>
+                <select onChange={ (value) => setState(  ( state ) => ( { manual: value } ) ) }>
+                    <option value="0">{ __( 'Detect automatically based on theme settings', 'ecwid-shopping-cart' ); }</option>
+                    <option value="1">{ __( 'Set manually', 'ecwid-shopping-cart' ) }</option>
+                </select>
+            </BaseControl>;
+        }
+		*/
+        
+        function getChameleonColorControl( { manual, color, setState } ) {
+            const name = arguments[0].name;
+            const props = arguments[0].props;
+            const titleText = EcwidGutenbergStoreBlockParams.attributes[name].title;
+
+            const isManual = manual === null && props.attributes[name] !== null && props.attributes[name] !== ""
+                || manual === 'manual';
+            if ( !isManual ) {
+                props.attributes[name] = null;
+            } else if ( color !== null ) {
+                props.attributes[name] = color;
+            }
+
+            const currentValue = props.attributes[name];
+            
+            const titleElement = <span >{ titleText }
+                { currentValue !== null && <ColorIndicator colorValue={ attributes[name] } /> }
+            </span>;
+                
+            function colorPaletteChange( newColor ) {
+                setState( (state) => ( { manual: 'manual', color: newColor } ) );
+                props.setAttributes( { [name]: newColor } );
+            }
+                
+            return <BaseControl label={titleElement} className="ec-store-color-picker">
+                <select onChange={ (value) => setState( ( state ) => ( { manual: event.target.value, color: state.color } ) ) }>
+                    <option value="auto" selected={ !isManual }>{ __( 'Detect automatically', 'ecwid-shopping-cart' ) }</option>
+                    <option value="manual" selected={ isManual }>{ __( 'Set manually', 'ecwid-shopping-cart' ) }</option>
+                </select>
+                { isManual &&
+                <ColorPalette
+                    value={ currentValue }
+                    colors={ colors }
+                    onChange={ ( newColor ) => setState( ( state => ( {manual: 'manual', color: newColor } ) ) ) }
+                >
+                </ColorPalette>
+                }
+            </BaseControl>;
+        }
+            
+        const ChameleonColorControl = withState( {manual: null, color: null} ) ( getChameleonColorControl );
+		
+		function simpleState( { count, setState } ) {
+		    return <div>
+                <button onClick={ () => setState( (state) => ( { count: state.count+1 } ) ) }>text {count} {arguments[0].color}</button>
+            </div>
+        }
+        
+        const Counter = withState( {count:0 } ) (simpleState);
+		
+        
 		function buildDangerousHTMLMessageWithTitle(title, message) {
 			return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
 		}
@@ -190,6 +315,8 @@ registerBlockType( 'ecwid/store-block', {
         		return buildToolbar( props, item.name, item.title, item.values );
 			} else if ( type === 'select' ) {
         		return buildSelect( props, item.name, item.title, item.values );
+            } else if ( type === 'colorPalette' ) {
+                return buildColorPalette( props, item.name, item.title );
 			} else if ( type === 'text' ) {
         		return buildDangerousHTMLMessageWithTitle( item.title, item.message );
 			} else if ( type === 'textbox') {
@@ -208,14 +335,21 @@ registerBlockType( 'ecwid/store-block', {
         	__( 'Display cart icon', 'ecwid-shopping-cart' ),
             __( 'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="customize.php">Appearance → Customize → Ecwid</a>” menu to enable it.', 'ecwid-shopping-cart' )
 		);
+        
+        const productDetailsMigrationWarning = buildDangerousHTMLMessageWithTitle(
+            '',
+            __( 'To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store-admin-whatsnew>Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
+        );
 		
 		const isNewProductList = EcwidGutenbergStoreBlockParams.is_new_product_list;
-		
+        const isNewDetailsPage = EcwidGutenbergStoreBlockParams.is_new_details_page;
+        
         return ([
         	editor, 
 			<InspectorControls>
 				<PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-					{ isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
+                    <ChameleonColorControl props={props} name="product_list_product_info_layout" />
+                    { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
 					{ isNewProductList && attributes.product_list_show_product_images && 
 						buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
                     { isNewProductList && attributes.product_list_show_product_images &&
@@ -246,12 +380,42 @@ registerBlockType( 'ecwid/store-block', {
                     { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
                     { cartIconMessage }
 				</PanelBody>
+                <PanelBody title={ __( 'Product Page Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                    
+                    { isNewDetailsPage && buildItem( props, 'product_details_layout', 'toolbar' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_gallery_layout', 'toolbar' ) }
+                    { isNewDetailsPage &&
+                    <PanelRow>
+                        <h4>{ __( 'Product sidebar content', 'ecwid-shopping-cart' ) }</h4>
+                    </PanelRow>
+                    }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_product_name', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_breadcrumbs', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_product_sku', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_product_price', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_qty', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_number_of_items_in_stock', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_in_stock_label', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_wholesale_prices', 'toggle' ) }
+                    { isNewDetailsPage && buildItem( props, 'product_details_show_share_buttons', 'toggle' ) }
+
+                    { !isNewDetailsPage && productMigrationWarning }
+                    
+                    { buildItem( props, 'product_details_show_qty', 'colorPalette' )}
+                    <div>AAAA</div>
+                </PanelBody>
                 { props.default_category_id &&
                 <PanelBody title={ __('Store Front Page', 'ecwid-shopping-cart') } initialOpen={false}>
                     { buildItem(props, 'default_category_id', 'default_category_id') }
                 </PanelBody>
-
                 }
+                <PanelBody title={ __( 'Color settings', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                    <ChameleonColorControl props={props} name="chameleon_color_button" />
+                    <ChameleonColorControl props={props} name="chameleon_color_foreground" />
+                    <ChameleonColorControl props={props} name="chameleon_color_price" />
+                    <ChameleonColorControl props={props} name="chameleon_color_link" />
+                    <ChameleonColorControl props={props} name="chameleon_color_background" />
+                </PanelBody>
 			</InspectorControls>
         ]); 
 	},

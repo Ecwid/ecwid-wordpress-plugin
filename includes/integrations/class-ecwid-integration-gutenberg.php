@@ -161,6 +161,44 @@ CSS
 				}
 			}
 		}
+
+		$colors = array();
+		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
+			$color = $params['chameleon_color_' . $kind];
+			if ( $color ) {
+				$colors['color-' . $kind] = $color;
+			}
+		}
+
+		if ( empty( $colors ) ) {
+			$colors = 'auto';
+		}
+
+		$colors = json_encode($colors);
+		$font = '"auto"';
+		
+		$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors, 'font' => $font ) );
+
+		if ( !is_array($chameleon ) ) {
+			$chameleon = array(
+				'colors' => $colors,
+				'font'   => $font
+			);
+		}
+
+		if ( !isset( $chameleon['colors'] ) ) {
+			$chameleon['colors'] = json_encode($colors);
+		}
+
+		if ( !isset( $chameleon['font'] ) ) {
+			$chameleon['font'] = $font;
+		}
+		
+		$result .= <<<JS
+window.ec.config.chameleon = window.ec.config.chameleon || Object();
+window.ec.config.chameleon.font = $chameleon[font];
+window.ec.config.chameleon.colors = $chameleon[colors];
+JS;
 		
 		$result .= "
 		Ecwid.OnAPILoaded.add(function() {

@@ -1944,6 +1944,30 @@ msgstr "Оптовые цены"
 msgid "Share buttons"
 msgstr "Кнопки \"Поделиться\""
 
+msgid "Text color"
+msgstr "Цвет текста"
+
+msgid "Button color"
+msgstr "Цвет кнопок"
+
+msgid "Price color"
+msgstr "Цвет цены"
+
+msgid "Link color"
+msgstr "Цвет ссылок"
+
+msgid "Background color"
+msgstr "Цвет фона"
+
+msgid "Color settings"
+msgstr "Настройки цвета"
+
+msgid "Detect automatically"
+msgstr "Определять автоматически"
+
+msgid "Set manually"
+msgstr "Задать вручную"
+
 msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Settings → What’s New</a>)."
 msgstr "Чтобы обновить дизайн страницы товара и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид страницы товара” в панели управления магазина (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Настройки → Обновления</a>)"
 
