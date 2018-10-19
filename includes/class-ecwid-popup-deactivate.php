@@ -43,6 +43,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		
 		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
 		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
+		$body_lines[] = 'Plugin version: ' . get_option('ecwid_plugin_version');
 		$body_lines[] = 'Reason:' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
 		
 		$api = new Ecwid_Api_V3();
