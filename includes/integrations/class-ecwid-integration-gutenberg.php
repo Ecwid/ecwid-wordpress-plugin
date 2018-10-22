@@ -34,7 +34,17 @@ class Ecwid_Integration_Gutenberg {
 					'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
 					'storeIcon' => $this->_get_store_icon_path(),
 					'productIcon' => $this->_get_product_icon_path(),
-					'isDemoStore' => ecwid_is_demo_store()
+					'isDemoStore' => ecwid_is_demo_store(),
+					'customizeMinicartText' => 
+						sprintf(
+							__(
+							'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
+							'ecwid-shopping-cart'
+							), 
+								'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
+							),
+							Ecwid_Config::get_brand()
+						)
 				)
 			);
 
@@ -69,16 +79,6 @@ class Ecwid_Integration_Gutenberg {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		}
 		
-		$storeImageUrl = site_url('?file=ecwid_store_svg.svg');
-		
-		wp_add_inline_style('ecwid-gutenberg-store', <<<CSS
-.editor-block-list__block[data-type="ecwid/store-block"] .editor-block-list__block-edit {
-	background-image: url("$storeImageUrl")
-}
-CSS
-);
-
-
 		wp_add_inline_script(
 			'gutenberg-store',
 			'wp.i18n.setLocaleData( ' . json_encode( gutenberg_get_jed_locale_data( 'ecwid-shopping-cart' ) ) . ', "ecwid-shopping-cart"' . ');',

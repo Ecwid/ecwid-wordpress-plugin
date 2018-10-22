@@ -327,18 +327,18 @@ registerBlockType( 'ecwid/store-block', {
         }
 		
 		const productMigrationWarning = buildDangerousHTMLMessageWithTitle(
-			__( 'Migration warning', 'ecwid-shopping-cart' ),
-			__( 'To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (Settings → What’s New).', 'ecwid-shopping-cart' )
+			'',
+			__( 'To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
 		);
         
         const cartIconMessage = buildDangerousHTMLMessageWithTitle(
         	__( 'Display cart icon', 'ecwid-shopping-cart' ),
-            __( 'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="customize.php">Appearance → Customize → Ecwid</a>” menu to enable it.', 'ecwid-shopping-cart' )
+            EcwidGutenbergParams.customizeMinicartText
 		);
         
         const productDetailsMigrationWarning = buildDangerousHTMLMessageWithTitle(
             '',
-            __( 'To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store-admin-whatsnew>Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
+            __( 'To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
         );
 		
 		const isNewProductList = EcwidGutenbergStoreBlockParams.is_new_product_list;
@@ -348,7 +348,6 @@ registerBlockType( 'ecwid/store-block', {
         	editor, 
 			<InspectorControls>
 				<PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-                    <ChameleonColorControl props={props} name="product_list_product_info_layout" />
                     { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
 					{ isNewProductList && attributes.product_list_show_product_images && 
 						buildItem( props, 'product_list_image_size', 'buttonGroup' ) }

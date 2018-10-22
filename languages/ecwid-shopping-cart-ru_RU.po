@@ -1701,6 +1701,12 @@ msgstr "Вы добавили витрину магазина на нескол�
 msgid "Product List Appearance"
 msgstr "Дизайн списка товаров"
 
+msgid "%s store"
+msgstr "Витрина магазина"
+
+msgid "Add storefront (product listing)"
+msgstr "Список товаров"
+
 #: includes/class-ecwid-product-browser.php:10
 msgid "Show product thumbnails"
 msgstr "Показывать изображения товаров"
@@ -1861,20 +1867,17 @@ msgstr "Горизонтальные 4:3"
 msgid "Landscape 3:2"
 msgstr "Горизонтальные 3:2"
 
-msgid "Add storefront (product listing)"
-msgstr ""
-
 msgid "Migration warning"
 msgstr ""
 
-msgid "To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (Settings → What’s New)."
-msgstr "Чтобы обновить дизайн своего магазина и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина (Настройки → Обновления)"
+msgid "To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Settings → What’s New</a>”)."
+msgstr "Чтобы обновить дизайн своего магазина и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Настройки → Обновления</a>”)"
 
 msgid "Display cart icon"
 msgstr "Показывать иконку корзины"
 
-msgid "You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href=\"customize.php\">Appearance → Customize → Ecwid</a>” menu to enable it."
-msgstr "Включите дополнительный плавающий виджет корзины, который будет появляться на страницах сайта. Доступно в меню “<a href=\"customize.php\">Внешний вид → Настроить → Ecwid</a>”"
+msgid "You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href=\"%1$s\">Appearance → Customize → %2$s</a>” menu to enable it."
+msgstr "Включите дополнительный плавающий виджет корзины, который будет появляться на страницах сайта. Доступно в меню “<a href=\"%1$s\">Внешний вид → Настроить → %2$s</a>”"
 
 msgid "Category List Appearance"
 msgstr "Дизайн списка категорий"

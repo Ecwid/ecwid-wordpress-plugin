@@ -1,9 +1,12 @@
 <?php
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 
 class Ecwid_Customizer
 {
+	const SECTION_MINICART = 'ec-store-minicart';
+	
 	public function __construct()
 	{
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
@@ -21,14 +24,13 @@ class Ecwid_Customizer
 	public function customize_register( $wp_customize )
 	{
 		$panel = 'ec-store';
-		$section = 'ec-store-minicart';
 		
 		$wp_customize->add_panel( $panel, array(
 			'title' => Ecwid_Config::get_brand(),
 			'capability' => Ecwid_Admin::get_capability()
 		) );
 
-		$wp_customize->add_section( $section, array(
+		$wp_customize->add_section( self::SECTION_MINICART, array(
 			'title' 	 => __( 'Shopping Cart Widget', 'ecwid-shopping-cart' ),
 			'priority' 	 => 50,
 			'capability' => Ecwid_Admin::get_capability(),
@@ -42,7 +44,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, array(
 			'type'		=> 'select',
 			'label'		=> __( 'Display shopping cart', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'description' => __( 'Note: when enabled, the cart widget is always displayed in preview to make it easier to customize it. The "Show on store pages" and "Show when empty" options will apply to the cart widget on site when published', 'ecwid-shopping-cart' ),
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY,
 			'choices'	=> Ecwid_Floating_Minicart::get_display_options()
@@ -56,7 +58,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, array(
 			'type'		=> 'checkbox',
 			'label'		=> __( 'Show when empty', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART,
 		) ) );
 		
@@ -67,7 +69,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_LAYOUT, array(
 			'type'		=> 'select',
 			'label'		=> __( 'Layout', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_LAYOUT,
 			'choices'	=> Ecwid_Floating_Minicart::get_layouts()
 		) ) );
@@ -80,12 +82,11 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_FIXED_SHAPE, array(
 			'type'		=> 'select',
 			'label'		=> __( 'Border', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_FIXED_SHAPE,
 			'choices'	=> Ecwid_Floating_Minicart::get_fixed_shapes()
 		) ) );
-
-
+		
 		$wp_customize->add_setting( Ecwid_Floating_Minicart::OPTION_ICON, array(
 			'type'		=> 'option',
 			'transport'	=> 'postMessage'
@@ -93,7 +94,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_ICON, array(
 			'type'		=> 'select',
 			'label'		=> __( 'Icon', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_ICON,
 			'choices'	=> Ecwid_Floating_Minicart::get_icons()
 		) ) );
@@ -106,7 +107,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_FIXED_POSITION, array(
 			'type'		=> 'select',
 			'label'		=> __( 'Position', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_FIXED_POSITION,
 			'choices'	=> Ecwid_Floating_Minicart::get_fixed_positions()
 		) ) );
@@ -119,7 +120,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_HORIZONTAL_INDENT, array(
 			'type'		=> 'number',
 			'label'		=> __( 'Horizontal indent', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_HORIZONTAL_INDENT,
 		) ) );
 
@@ -130,7 +131,7 @@ class Ecwid_Customizer
 		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT, array(
 			'type'		=> 'number',
 			'label'		=> __( 'Vertical indent', 'ecwid-shopping-cart' ),
-			'section'	=> $section,
+			'section'	=> self::SECTION_MINICART,
 			'settings'	=> Ecwid_Floating_Minicart::OPTION_VERTICAL_INDENT,
 		) ) );
 	}
