@@ -308,7 +308,7 @@ JS;
 			foreach ( $links as $link ) {
 				foreach ( $patterns as $pattern ) {
 					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
