@@ -164,12 +164,12 @@ class Ecwid_Integration_Gutenberg {
 
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
-			$color = $params['chameleon_color_' . $kind];
+			$color = @$params['chameleon_color_' . $kind];
 			if ( $color ) {
 				$colors['color-' . $kind] = $color;
 			}
 		}
-
+		
 		if ( empty( $colors ) ) {
 			$colors = 'auto';
 		}

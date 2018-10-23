@@ -212,6 +212,23 @@ class Ecwid_Product_Browser
 				'is_storefront_api' => true
 			),
 
+			'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar' => array(
+				'name' => 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
+				'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => false,
+				'is_storefront_api' => true
+			),
+
+
+			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar' => array(
+				'name' => 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
+				'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => false,
+				'is_storefront_api' => true
+			),
+
 			'product_details_gallery_layout' => array(
 				'name' => 'product_details_gallery_layout',
 				'title' => __( 'Image gallery layout', 'ecwid-shopping-cart' ),
@@ -305,7 +322,7 @@ class Ecwid_Product_Browser
 
 			'chameleon_color_link' => array(
 				'name' => 'chameleon_color_link',
-				'title' => __( 'Text color', 'ecwid-shopping-cart' ),
+				'title' => __( 'Link color', 'ecwid-shopping-cart' ),
 				'default' => get_option( 'ecwid_chameleon_colors_link' )
 			),
 
@@ -390,15 +407,21 @@ class Ecwid_Product_Browser
 	{
 		return array(
 			array(
-				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT',
-				'title' => __( '2 columns, description on the left', 'ecwid-shopping-cart' ),
-				'icon'  => 'productLayout2ColumnsLeft',
+				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT',
+				'title' => __( '2 columns, image on the left', 'ecwid-shopping-cart' )
 			),
 			array(
-				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT',
-				'title' => __( '2 columns, description on the right', 'ecwid-shopping-cart' ),
-				'icon'  => 'productLayout2ColumnsRight'
-			)
+				'value' => 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT',
+				'title' => __( '2 columns, image on the right', 'ecwid-shopping-cart' )
+			),
+			array(
+				'value' => 'THREE_COLUMNS_SIDEBAR_ON_THE_RIGHT',
+				'title' => __( '3 columns, image on the left', 'ecwid-shopping-cart' )
+			),
+			array(
+				'value' => 'THREE_COLUMNS_SIDEBAR_ON_THE_LEFT',
+				'title' => __( '3 columns, image on the right', 'ecwid-shopping-cart' )
+			),
 		);
 	}
 

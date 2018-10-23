@@ -1894,17 +1894,20 @@ msgstr "Дизайн страницы товара"
 msgid "Product page layout"
 msgstr "Формат карточки товара"
 
-msgid "2 columns, description on the right"
-msgstr "2 колонки, описание справа"
+msgid "2 columns, image on the right"
+msgstr "2 колонки, изображение справа"
 
-msgid "2 columns, description below the image"
-msgstr "2 колонки, описание под изображением"
+msgid "2 columns, image on the left"
+msgstr "2 колонки, изображение слева"
 
-msgid "2 columns, description on the left"
-msgstr "2 колонки, описание слева"
+msgid "3 columns, image on the right"
+msgstr "3 колонки, изображение справа"
 
-msgid "3 columns"
-msgstr "3 колонки"
+msgid "3 columns, image on the left"
+msgstr "3 колонки, изображение слева"
+
+msgid "Show description under the image"
+msgstr "Показывать описание под изображением"
 
 msgid "Image gallery layout"
 msgstr "Формат галереи"

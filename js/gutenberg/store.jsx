@@ -246,9 +246,9 @@ registerBlockType( 'ecwid/store-block', {
             const isManual = manual === null && props.attributes[name] !== null && props.attributes[name] !== ""
                 || manual === 'manual';
             if ( !isManual ) {
-                props.attributes[name] = null;
+                props.setAttributes( { [name]: null } )
             } else if ( color !== null ) {
-                props.attributes[name] = color;
+                props.setAttributes( { [name]: color } );
             }
 
             const currentValue = props.attributes[name];
@@ -271,7 +271,7 @@ registerBlockType( 'ecwid/store-block', {
                 <ColorPalette
                     value={ currentValue }
                     colors={ colors }
-                    onChange={ ( newColor ) => setState( ( state => ( {manual: 'manual', color: newColor } ) ) ) }
+                    onChange={ colorPaletteChange }
                 >
                 </ColorPalette>
                 }
@@ -347,21 +347,6 @@ registerBlockType( 'ecwid/store-block', {
         return ([
         	editor, 
 			<InspectorControls>
-				<PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-                    { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
-					{ isNewProductList && attributes.product_list_show_product_images && 
-						buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
-                    { isNewProductList && attributes.product_list_show_product_images &&
-	                    buildItem( props, 'product_list_image_aspect_ratio', 'toolbar' ) }
-                    { isNewProductList && buildItem( props, 'product_list_product_info_layout', 'toolbar' ) }
-                    { isNewProductList && buildItem( props, 'product_list_title_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_price_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_sku_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_buybutton_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_show_additional_image_on_hover', 'toggle' ) }
-                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
-					{ !isNewProductList && productMigrationWarning }
-				</PanelBody>
 				<PanelBody title={ __( 'Category List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
                     { isNewProductList && buildItem( props, 'product_list_category_title_behavior', 'select' ) }
                     { isNewProductList && attributes.product_list_category_title_behavior !== 'SHOW_TEXT_ONLY' &&
@@ -370,22 +355,19 @@ registerBlockType( 'ecwid/store-block', {
                     buildItem( props, 'product_list_category_image_aspect_ratio', 'toolbar' ) }
                     { !isNewProductList && productMigrationWarning }
 				</PanelBody>
-				<PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
-					{ buildItem( props, 'show_categories', 'toggle' ) }
-                    { buildItem( props, 'show_search', 'toggle' ) }
-                    { buildItem( props, 'show_breadcrumbs', 'toggle' ) }
-                    { isNewProductList && buildItem( props, 'show_footer_menu', 'toggle' ) }
-                    { buildItem( props, 'show_signin_link', 'toggle' ) }
-                    { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
-                    { cartIconMessage }
-				</PanelBody>
                 <PanelBody title={ __( 'Product Page Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-                    
-                    { isNewDetailsPage && buildItem( props, 'product_details_layout', 'toolbar' ) }
+
+                    { isNewDetailsPage && buildItem( props, 'product_details_layout', 'select' ) }
+                    { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT'
+                     && buildItem( props, 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar', 'toogle' )
+                    }
+                    { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT'
+                    && buildItem( props, 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar', 'toogle' )
+                    }
                     { isNewDetailsPage && buildItem( props, 'product_details_gallery_layout', 'toolbar' ) }
                     { isNewDetailsPage &&
                     <PanelRow>
-                        <h4>{ __( 'Product sidebar content', 'ecwid-shopping-cart' ) }</h4>
+                        <label className="ec-store-inspector-subheader">{ __( 'Product sidebar content', 'ecwid-shopping-cart' ) }</label>
                     </PanelRow>
                     }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_product_name', 'toggle' ) }
@@ -397,12 +379,32 @@ registerBlockType( 'ecwid/store-block', {
                     { isNewDetailsPage && buildItem( props, 'product_details_show_in_stock_label', 'toggle' ) }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_wholesale_prices', 'toggle' ) }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_share_buttons', 'toggle' ) }
-
                     { !isNewDetailsPage && productMigrationWarning }
-                    
-                    { buildItem( props, 'product_details_show_qty', 'colorPalette' )}
-                    <div>AAAA</div>
                 </PanelBody>
+                <PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                    { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
+                    { isNewProductList && attributes.product_list_show_product_images &&
+                    buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
+                    { isNewProductList && attributes.product_list_show_product_images &&
+                    buildItem( props, 'product_list_image_aspect_ratio', 'toolbar' ) }
+                    { isNewProductList && buildItem( props, 'product_list_product_info_layout', 'toolbar' ) }
+                    { isNewProductList && buildItem( props, 'product_list_title_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_price_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_sku_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_buybutton_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_show_additional_image_on_hover', 'toggle' ) }
+                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
+                    { !isNewProductList && productMigrationWarning }
+                </PanelBody>
+                <PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
+					{ buildItem( props, 'show_categories', 'toggle' ) }
+                    { buildItem( props, 'show_search', 'toggle' ) }
+                    { buildItem( props, 'show_breadcrumbs', 'toggle' ) }
+                    { isNewProductList && buildItem( props, 'show_footer_menu', 'toggle' ) }
+                    { buildItem( props, 'show_signin_link', 'toggle' ) }
+                    { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
+                    { cartIconMessage }
+				</PanelBody>
                 { props.default_category_id &&
                 <PanelBody title={ __('Store Front Page', 'ecwid-shopping-cart') } initialOpen={false}>
                     { buildItem(props, 'default_category_id', 'default_category_id') }
