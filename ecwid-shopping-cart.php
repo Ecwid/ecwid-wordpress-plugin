@@ -1101,7 +1101,7 @@ function ecwid_canonical() {
 
 	$link = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
-
+	
 		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 
 		if ($params['mode'] == 'product') {
@@ -1140,7 +1140,6 @@ function ecwid_canonical() {
 }
 
 function ecwid_is_applicable_escaped_fragment() {
-
 	if (!Ecwid_Api_V3::is_available() ) {
 		return false;
 	}
@@ -1148,6 +1147,7 @@ function ecwid_is_applicable_escaped_fragment() {
 	if (!isset($_GET['_escaped_fragment_'])) return false;
 
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+	
 	if (!$params) return false;
 
 	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return false;
@@ -1642,8 +1642,9 @@ function ecwid_parse_escaped_fragment($escaped_fragment) {
 
 		$fragment = urldecode( $escaped_fragment );
 		$return   = array();
-
+		
 		if ( preg_match( '/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches ) ) {
+		
 			parse_str( $matches[3], $return );
 			$return['mode'] = $matches[2];
 		} elseif ( preg_match( '!.*/(p|c)/([0-9]*)!', $fragment, $matches ) ) {
@@ -2885,8 +2886,17 @@ function ecwid_get_category_url($category)
 
 function ecwid_get_entity_url($entity, $type) {
 
-	$link = Ecwid_Store_Page::get_store_url();
-
+	if ( Ecwid_Store_page::is_store_page() ) {
+		$link = get_permalink();
+	} else {
+		$link = Ecwid_Store_Page::get_store_url();
+	}
+	
+	if ( is_object( $entity ) ) {
+		// If a newer object is passed, fall back to default hash url
+		$entity = $entity->id;
+	}
+	
 	if (is_numeric($entity)) {
 		return $link . '#!/' . $type . '/' . $entity;
 	} elseif (is_array($entity) && isset($entity['url'])) {
