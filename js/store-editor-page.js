@@ -320,7 +320,13 @@ jQuery(document).ready(function() {
 		
 		var result = '<!-- wp:ecwid/store-block ';
 		
-		result += JSON.stringify(shortcode.attrs.named);
+		var attributes = {
+			default_category_id: shortcode.attrs.named.default_category_id,
+			show_categories: shortcode.attrs.named.widgets.indexOf('categories') !== -1,
+            show_search: shortcode.attrs.named.widgets.indexOf('search') !== -1
+		}
+		
+		result += JSON.stringify(attributes);
 		
 		result += ' -->';
 		
