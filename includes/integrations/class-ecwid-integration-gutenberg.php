@@ -74,6 +74,7 @@ class Ecwid_Integration_Gutenberg {
 	
 	public function enqueue_block_editor_assets() {
 		wp_enqueue_script( 'gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
+		wp_enqueue_script( 'gutenberg-store-old', ECWID_PLUGIN_URL . 'js/gutenberg-store.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
 		if ( Ecwid_Api_V3::is_available() ) {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
@@ -194,7 +195,7 @@ class Ecwid_Integration_Gutenberg {
 			$chameleon['font'] = $font;
 		}
 		
-		if ( $chameleon['colors'] != 'auto' || $chameleon['font'] != 'auto') {
+		if ( $chameleon['colors'] != 'auto' || $chameleon['font'] != 'auto' ) {
 			$result .= <<<JS
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.font = $chameleon[font];
@@ -227,10 +228,14 @@ JS;
 	
 	protected function _get_attributes_for_editor()
 	{
-
 		$api = new Ecwid_Api_V3();
-		$settings = $api->get_store_profile()->designSettings;
-
+		
+		if ( $api->is_available() && $api->get_store_profile() ) {
+			$settings = $api->get_store_profile()->designSettings;
+		} else {
+			$settings = new stdClass();
+		}
+		
 		$attributes = Ecwid_Product_Browser::get_attributes();
 		foreach ( $attributes as $key => $attribute ) {
 			$name = $attribute['name'];
@@ -258,7 +263,7 @@ JS;
 			$api = new Ecwid_Api_V3();
 			$cats = $api->get_categories( array() );
 			
-			if ( $cats->total == 0 ) {
+			if ( $cats && $cats->total == 0 ) {
 				unset( $attributes['default_category_id'] );
 			}
 		}
