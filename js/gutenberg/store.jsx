@@ -488,7 +488,12 @@ registerBlockType( 'ecwid/store-block', {
 
                 return shortcode.string();
             },    
-        }, 
+        },
+        {
+            save: function( props ) {
+                return '[ecwid]';
+            },
+        },
     ],
 	
     transforms: {

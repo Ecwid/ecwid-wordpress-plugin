@@ -1686,7 +1686,7 @@ function ecwid_store_activate() {
 EOT;
 	
 	$content = <<<EOT
-<!-- wp:ecwid/store-block {"default_category_id":0} -->
+<!-- wp:ecwid/store-block -->
 $content
 <!-- /wp:ecwid/store-block -->
 EOT;
