@@ -13,40 +13,9 @@ class Ecwid_Integration_Gutenberg {
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', function() {
-			EcwidPlatform::enqueue_script( 'store-editor-gutenberg' );
+			wp_enqueue_script( 'gutenberg-store' );
 			EcwidPlatform::enqueue_style( 'store-popup' );
 			
-			wp_localize_script( 'ecwid-store-editor-gutenberg', 'EcwidGutenbergParams', 
-				array(
-					'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
-					'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
-					'storeBlockTitle' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-					'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
-					'storeBlock' => self::STORE_BLOCK,
-					'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-					'productShortcodeName' => Ecwid_Shortcode_Product::get_shortcode_name(),
-					'productBlock' => self::PRODUCT_BLOCK,
-					'storeId' => get_ecwid_store_id(),
-					'chooseProduct' => __( 'Choose product', 'ecwid-shopping-cart' ),
-					'editAppearance' => __( 'Edit Appearance', 'ecwid-shopping-cart' ),
-					'yourStoreWill' => __( 'Your store will be shown here', 'ecwid-shopping-cart' ),
-					'storeIdLabel' => __( 'Store ID', 'ecwid-shopping-cart' ),
-					'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
-					'storeIcon' => $this->_get_store_icon_path(),
-					'productIcon' => $this->_get_product_icon_path(),
-					'isDemoStore' => ecwid_is_demo_store(),
-					'customizeMinicartText' => 
-						sprintf(
-							__(
-							'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
-							'ecwid-shopping-cart'
-							), 
-								'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
-							),
-							Ecwid_Config::get_brand()
-						)
-				)
-			);
 
 		} );
 
@@ -74,7 +43,6 @@ class Ecwid_Integration_Gutenberg {
 	
 	public function enqueue_block_editor_assets() {
 		wp_enqueue_script( 'gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
-		wp_enqueue_script( 'gutenberg-store-old', ECWID_PLUGIN_URL . 'js/gutenberg-store.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
 		if ( Ecwid_Api_V3::is_available() ) {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
@@ -94,6 +62,39 @@ class Ecwid_Integration_Gutenberg {
 				'is_new_details_page' => $this->_is_new_details_page()
 			)
 		);
+
+		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergParams',
+			array(
+				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
+				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
+				'storeBlockTitle' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
+				'storeBlock' => self::STORE_BLOCK,
+				'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'productShortcodeName' => Ecwid_Shortcode_Product::get_shortcode_name(),
+				'productBlock' => self::PRODUCT_BLOCK,
+				'storeId' => get_ecwid_store_id(),
+				'chooseProduct' => __( 'Choose product', 'ecwid-shopping-cart' ),
+				'editAppearance' => __( 'Edit Appearance', 'ecwid-shopping-cart' ),
+				'yourStoreWill' => __( 'Your store will be shown here', 'ecwid-shopping-cart' ),
+				'storeIdLabel' => __( 'Store ID', 'ecwid-shopping-cart' ),
+				'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
+				'storeIcon' => $this->_get_store_icon_path(),
+				'productIcon' => $this->_get_product_icon_path(),
+				'isDemoStore' => ecwid_is_demo_store(),
+				'customizeMinicartText' =>
+					sprintf(
+						__(
+							'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
+							'ecwid-shopping-cart'
+						),
+						'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
+						),
+						Ecwid_Config::get_brand()
+					)
+			)
+		);
+
 	}
 	
 	protected function _is_new_product_list() {
@@ -168,6 +169,8 @@ class Ecwid_Integration_Gutenberg {
 			$color = @$params['chameleon_color_' . $kind];
 			if ( $color ) {
 				$colors['color-' . $kind] = $color;
+			} else {
+				$colors['color-' . $kind] = 'auto';
 			}
 		}
 		

@@ -455,6 +455,29 @@ registerBlockType( 'ecwid/store-block', {
             save: function( props ) {
                 return null;
             },
+        }, {
+            attributes: {
+                widgets: { type: 'string', default: 'productbrowser' },
+                default_category_id: { type: 'integer', default: 0 },
+                default_product_id: { type: 'integer', default: 0 }
+            },
+            
+            save: function( props ) {
+                var shortcodeAttributes = {};
+                for ( var i in EcwidGutenbergParams.ownAttributes ) {
+                    if ( EcwidGutenbergParams.ownAttributes.hasOwnProperty(i) ) {
+                        shortcodeAttributes[i] = props.attributes[i];
+                    }
+                }
+
+                var shortcode = new wp.shortcode({
+                    'tag': EcwidGutenbergParams.storeShortcodeName,
+                    'attrs': shortcodeAttributes,
+                    'type': 'single'
+                });
+
+                return shortcode.string();
+            },    
         }
     ],
 	
@@ -463,66 +486,24 @@ registerBlockType( 'ecwid/store-block', {
             type: 'shortcode',
             tag: ['ecwid', 'ec_store'],
             attributes: {
-                widgets: {
-                    type: 'string',
-                    shortcode: function(named) {
-                        return named.widgets
-                    }
-                },
-                categories_per_row: {
-                    type: 'integer',
-                    shortcode: function(named) {
-                        return named.categories_per_row
-                    }
-                },
-                grid: {
-                    type: 'string',
-                    shortcode: function(named) {
-                        return named.grid
-                    }
-                },
-                list: {
-                    type: 'integer',
-                    shortcode: function(named) {
-                        return named.list
-                    }
-                },
-                table: {
-                    type: 'integer',
-                    shortcode: function(named) {
-                        return named.table
-                    }
-                },
                 default_category_id: {
                     type: 'integer',
                     shortcode: function(named) {
                         return named.default_category_id
                     }
                 },
-                default_product_id: {
-                    type: 'integer',
-                    shortcode: function(named) {
-                        return named.default_product_id
+                show_categories: {
+                    type: 'boolean',
+                    shortcode: function(attributes) {
+                        return attributes.named.widgets.indexOf('categories') !== -1
                     }
                 },
-                category_view: {
-                    type: 'string',
-                    shortcode: function(named) {
-                        return named.category_view
+                show_search: {
+                    type: 'boolean',
+                    shortcode: function(attributes) {
+                        return attributes.named.widgets.indexOf('search') !== -1
                     }
                 },
-                search_view: {
-                    type: 'string',
-                    shortcode: function(named) {
-                        return named.search_view
-                    }
-                },
-                minicart_layout: {
-                    type: 'string',
-                    shortcode: function(named) {
-                        return named.minicart_layout
-                    }
-                }
             },
             priority: 10
         }]

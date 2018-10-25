@@ -1685,7 +1685,7 @@ function ecwid_store_activate() {
 EOT;
 	
 	$content = <<<EOT
-<!-- wp:ecwid/store-block {"widgets":"productbrowser","default_category_id":0,"default_product_id":0} -->
+<!-- wp:ecwid/store-block {"default_category_id":0} -->
 $content
 <!-- /wp:ecwid/store-block -->
 EOT;
