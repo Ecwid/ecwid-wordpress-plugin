@@ -271,6 +271,8 @@ JS;
 			}
 		}
 		
+		$attributes['widgets'] = array( 'type' => 'string', 'default' => '' );
+		
 		return $attributes;
 	}
 	

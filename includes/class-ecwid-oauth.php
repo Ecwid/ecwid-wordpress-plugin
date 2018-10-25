@@ -295,7 +295,9 @@ class Ecwid_OAuth {
 	}
 
 	protected function _save_state() {
-		setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		if ( !headers_sent( ) ) {
+			setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		}
 	}
 
 	public function get_reconnect_error() {

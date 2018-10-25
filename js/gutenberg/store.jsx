@@ -87,9 +87,8 @@ registerBlockType( 'ecwid/store-block', {
 		
 		const { attributes } = props;
 		
-		function setProp( props, name, value ) {
-			props.setAttributes( { [name]: value } );
-		}
+		// legacy reset 
+        props.setAttributes({widgets:''});
 		
 		const editor = 		
 			<div className="ec-store-block ec-store-block-product-browser">
@@ -227,16 +226,6 @@ registerBlockType( 'ecwid/store-block', {
                 />
             </BaseControl>;
         }
-        /*
-        function buildChameleonColorControl( props, name, label, setState ) {
-		    return <BaseControl>
-                <select onChange={ (value) => setState(  ( state ) => ( { manual: value } ) ) }>
-                    <option value="0">{ __( 'Detect automatically based on theme settings', 'ecwid-shopping-cart' ); }</option>
-                    <option value="1">{ __( 'Set manually', 'ecwid-shopping-cart' ) }</option>
-                </select>
-            </BaseControl>;
-        }
-		*/
         
         function getChameleonColorControl( { manual, color, setState } ) {
             const name = arguments[0].name;
@@ -431,20 +420,26 @@ registerBlockType( 'ecwid/store-block', {
 	},
 
 	save: function( props ) {
-        var shortcodeAttributes = {};
-        for ( var i in EcwidGutenbergParams.ownAttributes ) {
-            if ( EcwidGutenbergParams.ownAttributes.hasOwnProperty(i) ) {
-                shortcodeAttributes[i] = props.attributes[i];
-            }
+	    
+	    var widgets = ['productbrowser'];
+	    if ( props.attributes.show_categories ) {
+	        widgets[widgets.length] = 'categories';    
         }
+        if ( props.attributes.show_search ) {
+            widgets[widgets.length] = 'search';
+        }
+        const shortcodeAttributes = {
+            'widgets': widgets.join(' '),
+            'default_category_id': props.attributes.default_category_id};
 
-        var shortcode = new wp.shortcode({
+        const shortcode = new wp.shortcode({
             'tag': EcwidGutenbergParams.storeShortcodeName,
             'attrs': shortcodeAttributes,
             'type': 'single'
         });
 
-        return shortcode.string();	},
+        return shortcode.string();	
+    },
 
     deprecated: [
         {
@@ -467,17 +462,23 @@ registerBlockType( 'ecwid/store-block', {
         }, {
             attributes: {
                 widgets: { type: 'string', default: 'productbrowser' },
-                default_category_id: { type: 'integer', default: 0 },
-                default_product_id: { type: 'integer', default: 0 }
+                default_category_id: { type: 'integer', default: 0 }
+            },
+            
+            migrate: function ( attributes ) {
+                return {
+                    'widgets': attributes.widgets,
+                    'default_category_id': attributes.default_category_id
+                }
             },
             
             save: function( props ) {
                 var shortcodeAttributes = {};
-                for ( var i in EcwidGutenbergParams.ownAttributes ) {
-                    if ( EcwidGutenbergParams.ownAttributes.hasOwnProperty(i) ) {
-                        shortcodeAttributes[i] = props.attributes[i];
-                    }
+                const attrs = ['widgets', 'default_category_id'];
+                for ( var i = 0; i < attrs.length; i++ ) {
+                    shortcodeAttributes[attrs[i]] = props.attributes[attrs[i]];
                 }
+                shortcodeAttributes.default_product_id = 0;
 
                 var shortcode = new wp.shortcode({
                     'tag': EcwidGutenbergParams.storeShortcodeName,
@@ -487,7 +488,7 @@ registerBlockType( 'ecwid/store-block', {
 
                 return shortcode.string();
             },    
-        }
+        }, 
     ],
 	
     transforms: {

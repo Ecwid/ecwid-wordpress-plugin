@@ -49,7 +49,7 @@ if ( is_admin() ){
   add_action('admin_init', 'ecwid_settings_api_init');
 
 	add_action('admin_init', 'ecwid_check_version');
-	add_action('admin_init', 'ecwid_process_oauth_params');
+	add_action('template_redirect', 'ecwid_process_oauth_params');
   add_action('admin_notices', 'ecwid_show_admin_messages');
   add_action('admin_enqueue_scripts', 'ecwid_common_admin_scripts');
   add_action('admin_enqueue_scripts', 'ecwid_register_admin_styles');
@@ -1682,7 +1682,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id="0" default_product_id="0"]
+	[$shortcode]
 EOT;
 	
 	$content = <<<EOT
@@ -2148,7 +2148,7 @@ function ecwid_common_admin_scripts() {
 function ecwid_is_legacy_appearance_used() {
 	$api = new Ecwid_Api_V3();
 	
-	return Ecwid_Api_V3::get_token() && !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
+	return Ecwid_Api_V3::is_available() && !ecwid_is_demo_store() && !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 }
 
 function ecwid_get_register_link()
@@ -2470,7 +2470,7 @@ function ecwid_help_do_page() {
 }
 
 function ecwid_process_oauth_params() {
-
+	
 	if (strtoupper($_SERVER['REQUEST_METHOD']) != 'GET' || !isset($_GET['page'])) {
 		return false;
 	}
