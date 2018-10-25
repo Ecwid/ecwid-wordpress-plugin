@@ -344,17 +344,24 @@ registerBlockType( 'ecwid/store-block', {
 		const isNewProductList = EcwidGutenbergStoreBlockParams.is_new_product_list;
         const isNewDetailsPage = EcwidGutenbergStoreBlockParams.is_new_details_page;
         
+        const hasCategories = EcwidGutenbergStoreBlockParams.attributes.default_category_id && EcwidGutenbergStoreBlockParams.attributes.default_category_id.values && EcwidGutenbergStoreBlockParams.attributes.default_category_id.values.length > 0;
+        
         return ([
         	editor, 
 			<InspectorControls>
-				<PanelBody title={ __( 'Category List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-                    { isNewProductList && buildItem( props, 'product_list_category_title_behavior', 'select' ) }
+                { hasCategories &&
+                
+                <PanelBody title={ __('Category List Appearance', 'ecwid-shopping-cart') } initialOpen={false}>
+                    { isNewProductList && buildItem(props, 'product_list_category_title_behavior', 'select') }
                     { isNewProductList && attributes.product_list_category_title_behavior !== 'SHOW_TEXT_ONLY' &&
-                    buildItem( props, 'product_list_category_image_size', 'buttonGroup' ) }
+                    buildItem(props, 'product_list_category_image_size', 'buttonGroup') }
                     { isNewProductList && attributes.product_list_category_title_behavior !== 'SHOW_TEXT_ONLY' &&
-                    buildItem( props, 'product_list_category_image_aspect_ratio', 'toolbar' ) }
+                    buildItem(props, 'product_list_category_image_aspect_ratio', 'toolbar') }
                     { !isNewProductList && productMigrationWarning }
-				</PanelBody>
+                </PanelBody>
+                
+                }
+                
                 <PanelBody title={ __( 'Product Page Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
 
                     { isNewDetailsPage && buildItem( props, 'product_details_layout', 'select' ) }
@@ -405,10 +412,12 @@ registerBlockType( 'ecwid/store-block', {
                     { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
                     { cartIconMessage }
 				</PanelBody>
-                { props.default_category_id &&
+                { hasCategories &&
+  
                 <PanelBody title={ __('Store Front Page', 'ecwid-shopping-cart') } initialOpen={false}>
                     { buildItem(props, 'default_category_id', 'default_category_id') }
                 </PanelBody>
+  
                 }
                 <PanelBody title={ __( 'Color settings', 'ecwid-shopping-cart' ) } initialOpen={false}>
                     <ChameleonColorControl props={props} name="chameleon_color_button" />
