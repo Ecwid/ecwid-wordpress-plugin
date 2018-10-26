@@ -171,7 +171,7 @@ class Ecwid_Integration_Gutenberg {
 			if ( $color ) {
 				$colors['color-' . $kind] = $color;
 			} else {
-				$colors['color-' . $kind] = 'auto';
+				//$colors['color-' . $kind] = 'auto';
 			}
 		}
 		
@@ -180,29 +180,22 @@ class Ecwid_Integration_Gutenberg {
 		}
 
 		$colors = json_encode($colors);
-		$font = '"auto"';
 		
-		$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors, 'font' => $font ) );
+		$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors ) );
 
 		if ( !is_array($chameleon ) ) {
 			$chameleon = array(
 				'colors' => $colors,
-				'font'   => $font
 			);
 		}
 
 		if ( !isset( $chameleon['colors'] ) ) {
 			$chameleon['colors'] = json_encode($colors);
 		}
-
-		if ( !isset( $chameleon['font'] ) ) {
-			$chameleon['font'] = $font;
-		}
 		
-		if ( $chameleon['colors'] != 'auto' || $chameleon['font'] != 'auto' ) {
+		if ( $chameleon['colors'] != 'auto' ) {
 			$result .= <<<JS
 window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.chameleon.font = $chameleon[font];
 window.ec.config.chameleon.colors = $chameleon[colors];
 JS;
 		}
