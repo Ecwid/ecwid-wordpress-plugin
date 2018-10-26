@@ -1974,6 +1974,10 @@ msgstr "Определять автоматически"
 msgid "Set manually"
 msgstr "Задать вручную"
 
+msgctxt "gutenberg-store-block-stub"
+msgid "Store"
+msgstr "Витрина магазина"
+
 msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Settings → What’s New</a>)."
 msgstr "Чтобы обновить дизайн страницы товара и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид страницы товара” в панели управления магазина (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Настройки → Обновления</a>)"
 

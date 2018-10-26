@@ -10,7 +10,7 @@ import './style.scss';
 import './editor.scss';
 import {EcwidIcons} from './icons.js';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __, _x } = wp.i18n; // Import __() from wp.i18n
 
 const ecwidIcons = EcwidIcons;
 
@@ -97,7 +97,7 @@ registerBlockType( 'ecwid/store-block', {
 						<path d={ EcwidGutenbergParams.storeIcon }></path>
 					</svg>
                     { EcwidGutenbergParams.isDemoStore && __( 'Demo store', 'ecwid-shopping-cart' ) }
-                    { !EcwidGutenbergParams.isDemoStore && __( 'Store', 'ecwid-shopping-cart' ) }
+                    { !EcwidGutenbergParams.isDemoStore && EcwidGutenbergStoreBlockParams.storeBlockTitle }
 				</div>
                 { EcwidGutenbergParams.isDemoStore &&
                 <div>

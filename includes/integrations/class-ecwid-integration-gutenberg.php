@@ -59,7 +59,8 @@ class Ecwid_Integration_Gutenberg {
 			array(
 				'attributes' => $this->_get_attributes_for_editor(),
 				'is_new_product_list' => $this->_is_new_product_list(),
-				'is_new_details_page' => $this->_is_new_details_page()
+				'is_new_details_page' => $this->_is_new_details_page(),
+				'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' )
 			)
 		);
 
