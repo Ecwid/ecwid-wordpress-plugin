@@ -89,23 +89,19 @@ registerBlockType( 'ecwid/store-block', {
 		
 		// legacy reset 
         props.setAttributes({widgets:''});
-		
+        
 		const editor = 		
 			<div className="ec-store-block ec-store-block-product-browser">
 				<div className="ec-store-block-header">
 					<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
 						<path d={ EcwidGutenbergParams.storeIcon }></path>
 					</svg>
-					{ __( 'Your store will be shown here!', 'ecwid-shopping-cart' ) }
+                    { EcwidGutenbergParams.isDemoStore && __( 'Demo store', 'ecwid-shopping-cart' ) }
+                    { !EcwidGutenbergParams.isDemoStore && __( 'Store', 'ecwid-shopping-cart' ) }
 				</div>
-                {!EcwidGutenbergParams.isDemoStore &&
-                <div className="ec-store-block-title">
-                    { __('Store ID', 'ecwid-shopping-cart') }: { EcwidGutenbergParams.storeId }
-                </div>
-                }
-                {EcwidGutenbergParams.isDemoStore &&
-                <div className="ec-store-block-title">
-                    { __('Demo store', 'ecwid-shopping-cart') }
+                { EcwidGutenbergParams.isDemoStore &&
+                <div>
+                    <a className="button button-primary" href="admin.php?page=ec-store">{ __( 'Set up your store', 'ecwid-shopping-cart') }</a>
                 </div>
                 }
 			</div>

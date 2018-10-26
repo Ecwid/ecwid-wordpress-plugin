@@ -63,11 +63,12 @@ class Ecwid_Integration_Gutenberg {
 			)
 		);
 
+		$is_demo_store = ecwid_is_demo_store();
 		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergParams',
 			array(
 				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
-				'storeBlockTitle' => sprintf( __( '%s store', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
+				'storeBlockTitle' => sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 				'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 				'storeBlock' => self::STORE_BLOCK,
 				'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
@@ -81,7 +82,7 @@ class Ecwid_Integration_Gutenberg {
 				'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
 				'storeIcon' => $this->_get_store_icon_path(),
 				'productIcon' => $this->_get_product_icon_path(),
-				'isDemoStore' => ecwid_is_demo_store(),
+				'isDemoStore' => $is_demo_store,
 				'customizeMinicartText' =>
 					sprintf(
 						__(
