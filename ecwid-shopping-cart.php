@@ -879,6 +879,8 @@ function ecwid_invalidate_cache( $full_reset = false)
 
 function ecwid_regular_cache_check()
 {
+	EcwidPlatform::cache_log_record('reg cache check', null);
+	
 	if (Ecwid_Api_V3::is_available()) {
 		$api = new Ecwid_Api_V3();
 
@@ -2695,8 +2697,10 @@ function ecwid_debug_do_page() {
 
 	global $ecwid_oauth;
 
+	require_once ECWID_PLUGIN_DIR . 'templates/cache_log.php';
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }
+
 
 function ecwid_get_debug_file() {
 	if (!current_user_can('manage_options')) {

@@ -129,6 +129,44 @@ class EcwidPlatform {
 		return esc_html($value);
 	}
 
+	static public function cache_log_record( $operation, $params ) {
+		
+		кидать лог в память и сливать на шатдауне
+		return;
+		if ( !defined( 'WP_DEBUG' ) && !WP_DEBUG ) { return; }
+		if (!$params) $params = array();
+		$backtrace = debug_backtrace(false);
+		
+		$file = $line = '';
+		foreach ( $backtrace as $entry ) {
+			if ( strpos( @$entry['file'], 'ecwid_platform.php' ) !== false ) {
+				continue;
+			}
+			
+			@$file = $entry['file'];
+			@$line = $entry['line'];
+		}
+		
+		$log_entry = array(
+			'operation' => $operation,
+			'file' => $file,
+			'line' => $line
+		);
+		
+		$log_entry = array_merge(
+			$log_entry,
+			$params
+		);
+
+		$cache = get_option( 'ecwid_cache_log' );
+		if (!$cache) {
+			$cache = array();
+		}
+		$cache[] = $log_entry;
+		
+		update_option('ecwid_cache_log', $cache );
+	}
+	
 	static public function get_price_label()
 	{
 		return __('Price', 'ecwid-shopping-cart');
@@ -137,6 +175,9 @@ class EcwidPlatform {
 	static public function cache_get($name, $default = false)
 	{
 		$result = get_transient('ecwid_' . $name);
+
+		self::cache_log_record( 'get', array( 'name' => $name, 'default' => $default, 'result' => $result ) );
+		
 		if ($default !== false && $result === false) {
 			return $default;
 		}
@@ -146,10 +187,12 @@ class EcwidPlatform {
 
 	static public function cache_set($name, $value, $expires_after)
 	{
+		self::cache_log_record( 'set', array( 'name' => $name, 'value' => $value, 'expires' => $expires_after ) );
 		set_transient('ecwid_' . $name, $value, $expires_after);
 	}
 
 	static public function cache_reset($name) {
+		self::cache_log_record( 'reset', array( 'name' => $name ) );
 		delete_transient('ecwid_' . $name);
 	}
 
@@ -311,6 +354,8 @@ class EcwidPlatform {
 		);
 
 		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
+		
+		self::cache_log_record( 'store_in_entity_cache', array( 'name' => $url, 'type' => $type, 'data' => $data ), 'set' );
 	}
 
 	static public function get_from_categories_cache( $key )
@@ -318,6 +363,16 @@ class EcwidPlatform {
 		$cache_name = self::_build_cache_name( $key, 'categories' );
 
 		$result = self::cache_get( $cache_name );
+
+		self::cache_log_record( 
+			'get_from_categories_cache', 
+			array( 
+				'name' => $key,
+				'result' => $result, 
+				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
+			) 
+		);
+
 		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
@@ -331,6 +386,15 @@ class EcwidPlatform {
 
 		$result = self::cache_get( $cache_name );
 
+		self::cache_log_record(
+			'get_from_products_cache',
+			array(
+				'name' => $key,
+				'result' => $result,
+				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
+			)
+		);
+		
 		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
@@ -344,6 +408,15 @@ class EcwidPlatform {
 
 		$result = self::cache_get( $cache_name );
 
+		self::cache_log_record(
+			'get_from_catalog_cache',
+			array(
+				'name' => $key,
+				'result' => $result,
+				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
+			)
+		);
+		
 		$valid_from = max( 
 			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
 			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
@@ -365,12 +438,25 @@ class EcwidPlatform {
 	{
 		$time = is_null( $time ) ? time() : $time; 
 		EcwidPlatform::set( self::PRODUCTS_CACHE_VALID_FROM, $time );
+		self::cache_log_record(
+			'invalidate_products_cache',
+			array(
+				'time' => $time
+			)
+		);
+
 	}
 
 	static public function invalidate_categories_cache_from( $time = null )
 	{
 		$time = is_null( $time ) ? time() : $time;
 		EcwidPlatform::set( self::CATEGORIES_CACHE_VALID_FROM, $time );
+		self::cache_log_record(
+			'invalidate_categories_cache',
+			array(
+				'time' => $time
+			)
+		);
 	}
 
 	static public function invalidate_profile_cache_from( $time = null )
