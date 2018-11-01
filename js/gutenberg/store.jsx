@@ -397,15 +397,6 @@ registerBlockType( 'ecwid/store-block', {
                     { isNewDetailsPage && buildItem( props, 'product_details_show_share_buttons', 'toggle' ) }
                     { !isNewDetailsPage && productMigrationWarning }
                 </PanelBody>
-                <PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
-					{ buildItem( props, 'show_categories', 'toggle' ) }
-                    { buildItem( props, 'show_search', 'toggle' ) }
-                    { buildItem( props, 'show_breadcrumbs', 'toggle' ) }
-                    { isNewProductList && buildItem( props, 'show_footer_menu', 'toggle' ) }
-                    { buildItem( props, 'show_signin_link', 'toggle' ) }
-                    { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
-                    { cartIconMessage }
-				</PanelBody>
                 { hasCategories &&
   
                 <PanelBody title={ __('Store Front Page', 'ecwid-shopping-cart') } initialOpen={false}>
@@ -413,6 +404,15 @@ registerBlockType( 'ecwid/store-block', {
                 </PanelBody>
   
                 }
+                <PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                    { buildItem( props, 'show_categories', 'toggle' ) }
+                    { buildItem( props, 'show_search', 'toggle' ) }
+                    { buildItem( props, 'show_breadcrumbs', 'toggle' ) }
+                    { isNewProductList && buildItem( props, 'show_footer_menu', 'toggle' ) }
+                    { buildItem( props, 'show_signin_link', 'toggle' ) }
+                    { buildItem( props, 'product_list_show_sort_viewas_options', 'toggle' ) }
+                    { cartIconMessage }
+                </PanelBody>
                 <PanelBody title={ __( 'Color settings', 'ecwid-shopping-cart' ) } initialOpen={false}>
                     <ChameleonColorControl props={props} name="chameleon_color_button" />
                     <ChameleonColorControl props={props} name="chameleon_color_foreground" />
