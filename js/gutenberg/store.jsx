@@ -115,6 +115,14 @@ registerBlockType( 'ecwid/store-block', {
 			/>
         }
 
+        function buildInvertedToggle(props, name, label) {
+            return <ToggleControl
+                label={ label }
+                checked={ !props.attributes[name] }
+                onChange={ () => props.setAttributes( { [name]: props.attributes[name] } ) }
+            />
+        }
+
         function buildToolbar(props, name, label, items) {
             return <BaseControl label={label}>
 				<Toolbar
@@ -161,8 +169,48 @@ registerBlockType( 'ecwid/store-block', {
 				</ButtonGroup>
 			</BaseControl>;
 		}
-		
-		const colors = [{
+
+
+        function buildDangerousHTMLMessageWithTitle(title, message) {
+            return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
+        }
+
+        function buildItem(props, name, type) {
+
+            const item = EcwidGutenbergStoreBlockParams.attributes[name];
+
+            if ( typeof type === 'undefined' ) {
+                type = item.type;
+            }
+
+            if ( type === 'default_category_id' ) {
+                if ( item.values && item.values.length > 1 ) {
+                    type = 'select';
+                } else {
+                    type = 'textbox';
+                }
+            }
+
+            if ( type === 'buttonGroup' ) {
+                return buildButtonGroup( props, item.name, item.title, item.values );
+            } else if ( type === 'toolbar' ) {
+                return buildToolbar( props, item.name, item.title, item.values );
+            } else if ( type === 'select' ) {
+                return buildSelect( props, item.name, item.title, item.values );
+            } else if ( type === 'colorPalette' ) {
+                return buildColorPalette( props, item.name, item.title );
+            } else if ( type === 'text' ) {
+                return buildDangerousHTMLMessageWithTitle( item.title, item.message );
+            } else if ( type === 'textbox') {
+                return buildTextbox( props, item.name, item.title );
+            } else if ( type === 'invertedToggle' ) {
+                return buildInvertedToggle( props, item.name, item.title );
+            } else {
+                return buildToggle( props, item.name, item.title );
+            }
+        }
+
+        const colors = [{
             name: __("Pale pink"),
             slug: "pale-pink",
             color: "#f78da7"
@@ -272,45 +320,7 @@ registerBlockType( 'ecwid/store-block', {
         }
         
         const Counter = withState( {count:0 } ) (simpleState);
-		
         
-		function buildDangerousHTMLMessageWithTitle(title, message) {
-			return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
-		}
-		
-		function buildItem(props, name, type) {
-        	
-        	const item = EcwidGutenbergStoreBlockParams.attributes[name];
-        	
-        	if ( typeof type === 'undefined' ) {
-        		type = item.type;
-			}
-			
-			if ( type === 'default_category_id' ) {
-        		if ( item.values && item.values.length > 1 ) {
-        			type = 'select';
-                } else {
-        			type = 'textbox';
-				}
-			} 
-        	
-        	if ( type === 'buttonGroup' ) {
-        		return buildButtonGroup( props, item.name, item.title, item.values );
-        	} else if ( type === 'toolbar' ) {
-        		return buildToolbar( props, item.name, item.title, item.values );
-			} else if ( type === 'select' ) {
-        		return buildSelect( props, item.name, item.title, item.values );
-            } else if ( type === 'colorPalette' ) {
-                return buildColorPalette( props, item.name, item.title );
-			} else if ( type === 'text' ) {
-        		return buildDangerousHTMLMessageWithTitle( item.title, item.message );
-			} else if ( type === 'textbox') {
-                return buildTextbox( props, item.name, item.title );
-            } else {
-        		return buildToggle( props, item.name, item.title );
-			}
-        }
-		
 		const productMigrationWarning = buildDangerousHTMLMessageWithTitle(
 			'',
 			__( 'To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
@@ -346,15 +356,29 @@ registerBlockType( 'ecwid/store-block', {
                 </PanelBody>
                 
                 }
-                
+                <PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                    { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
+                    { isNewProductList && attributes.product_list_show_product_images &&
+                    buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
+                    { isNewProductList && attributes.product_list_show_product_images &&
+                    buildItem( props, 'product_list_image_aspect_ratio', 'toolbar' ) }
+                    { isNewProductList && buildItem( props, 'product_list_product_info_layout', 'toolbar' ) }
+                    { isNewProductList && buildItem( props, 'product_list_title_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_price_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_sku_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_buybutton_behavior', 'select' ) }
+                    { isNewProductList && buildItem( props, 'product_list_show_additional_image_on_hover', 'toggle' ) }
+                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
+                    { !isNewProductList && productMigrationWarning }
+                </PanelBody>
                 <PanelBody title={ __( 'Product Page Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
 
                     { isNewDetailsPage && buildItem( props, 'product_details_layout', 'select' ) }
                     { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT'
-                     && buildItem( props, 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar', 'toogle' )
+                    && buildItem( props, 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar', 'invertedToggle' )
                     }
                     { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT'
-                    && buildItem( props, 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar', 'toogle' )
+                    && buildItem( props, 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar', 'invertedToggle' )
                     }
                     { isNewDetailsPage && buildItem( props, 'product_details_gallery_layout', 'toolbar' ) }
                     { isNewDetailsPage &&
@@ -372,21 +396,6 @@ registerBlockType( 'ecwid/store-block', {
                     { isNewDetailsPage && buildItem( props, 'product_details_show_wholesale_prices', 'toggle' ) }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_share_buttons', 'toggle' ) }
                     { !isNewDetailsPage && productMigrationWarning }
-                </PanelBody>
-                <PanelBody title={ __( 'Product List Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
-                    { isNewProductList && buildItem( props, 'product_list_show_product_images', 'toggle' ) }
-                    { isNewProductList && attributes.product_list_show_product_images &&
-                    buildItem( props, 'product_list_image_size', 'buttonGroup' ) }
-                    { isNewProductList && attributes.product_list_show_product_images &&
-                    buildItem( props, 'product_list_image_aspect_ratio', 'toolbar' ) }
-                    { isNewProductList && buildItem( props, 'product_list_product_info_layout', 'toolbar' ) }
-                    { isNewProductList && buildItem( props, 'product_list_title_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_price_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_sku_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_buybutton_behavior', 'select' ) }
-                    { isNewProductList && buildItem( props, 'product_list_show_additional_image_on_hover', 'toggle' ) }
-                    { isNewProductList && buildItem( props, 'product_list_show_frame', 'toggle' ) }
-                    { !isNewProductList && productMigrationWarning }
                 </PanelBody>
                 <PanelBody title={ __( 'Store Navigation', 'ecwid-shopping-cart' ) } initialOpen={false}>
 					{ buildItem( props, 'show_categories', 'toggle' ) }
@@ -481,13 +490,18 @@ registerBlockType( 'ecwid/store-block', {
                     'attrs': shortcodeAttributes,
                     'type': 'single'
                 });
-
+                
                 return shortcode.string();
             },    
         },
         {
             save: function( props ) {
                 return '[ecwid]';
+            },
+        },
+        {
+            save: function( props ) {
+                return '[ecwid widgets="productbrowser" default_category_id="0" default_product_id="0"]';
             },
         },
     ],

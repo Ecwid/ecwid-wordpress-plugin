@@ -5,7 +5,7 @@ require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-product-browser.php';
 class Ecwid_Integration_Gutenberg {
 	
 	const STORE_BLOCK = 'ecwid/store-block';
-	const PRODUCT_BLOCK = 'ec-store/product-block';
+	const PRODUCT_BLOCK = 'ecwid/product-block';
 	
 	public function __construct() {
 		
@@ -42,20 +42,20 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
-		wp_enqueue_script( 'gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
+		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
 		if ( Ecwid_Api_V3::is_available() ) {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		}
 		
 		wp_add_inline_script(
-			'gutenberg-store',
+			'ecwid-gutenberg-store',
 			'wp.i18n.setLocaleData( ' . json_encode( gutenberg_get_jed_locale_data( 'ecwid-shopping-cart' ) ) . ', "ecwid-shopping-cart"' . ');',
 			'before'
 		);
 		
 		$api = new Ecwid_Api_V3();
-		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
+		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
 			array(
 				'attributes' => $this->_get_attributes_for_editor(),
 				'is_new_product_list' => $this->_is_new_product_list(),
@@ -65,7 +65,7 @@ class Ecwid_Integration_Gutenberg {
 		);
 
 		$is_demo_store = ecwid_is_demo_store();
-		wp_localize_script( 'gutenberg-store', 'EcwidGutenbergParams',
+		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
 				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
@@ -135,11 +135,11 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function render_callback( $params ) {
-
+		
 		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
 			return '';
 		}
-		
+
 		$params['widgets'] = 'productbrowser';
 		if ( @$params['show_categories'] ) {
 			$params['widgets'] .= ' categories';
@@ -158,6 +158,17 @@ class Ecwid_Integration_Gutenberg {
 		foreach ( $attributes as $name => $attribute ) {
 			if ( @$attribute['is_storefront_api'] && isset( $params[$name] ) ) {
 				$value = $params[$name];
+				
+				if (
+					in_array( $attribute['name'], array( 
+							'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
+							'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar'
+						) 
+					) ) {
+				
+					$value = !$value;
+				}
+				
 				if ( @$attribute['type'] == 'boolean') {
 					$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
 				} else {
@@ -165,7 +176,6 @@ class Ecwid_Integration_Gutenberg {
 				}
 			}
 		}
-
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
 			$color = @$params['chameleon_color_' . $kind];
@@ -237,8 +247,29 @@ JS;
 		$attributes = Ecwid_Product_Browser::get_attributes();
 		foreach ( $attributes as $key => $attribute ) {
 			$name = $attribute['name'];
+
+			$default = null;
 			if ( property_exists( $settings, $name ) ) {
-				$attributes[$key]['default'] = $settings->$name;
+				$default = $settings->$name;
+			}
+			
+			$prop_to_default_exceptions = array(
+				'product_list_category_image_aspect_ratio' => 'product_list_image_aspect_ratio',
+				'product_list_category_image_size' => 'product_list_image_size'
+			);
+
+			if ( array_key_exists( $name, $prop_to_default_exceptions ) ) {
+				$another_name = $prop_to_default_exceptions[$name];
+				if ( property_exists( $settings, $another_name ) );
+				$default = $settings->$another_name;
+			}
+				
+			if ( $name == 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar' ) {
+				$default = !$default;
+			}
+			
+			if ( $default !== null ) {
+				$attributes[$key]['default'] = $default;
 			}
 		}
 		

@@ -25,7 +25,7 @@ class Ecwid_Product_Browser
 				'name' => 'product_list_image_aspect_ratio',
 				'title' => __( 'Product thumbnail aspect ratio', 'ecwid-shopping-cart' ),
 				'values' => self::_get_aspect_ratios(),
-				'default' => 'SQUARE_1',
+				'default' => 'SQUARE',
 				'is_storefront_api' => true
 			),
 			
@@ -201,7 +201,7 @@ class Ecwid_Product_Browser
 				'name' => 'default_category_id',
 				'title' => __( 'Default category ID', 'ecwid-shopping-cart' ),
 				'type' => 'default_category_id',
-				'default' => ''
+				'default' => 0
 			),
 
 			'product_details_layout' => array(
@@ -386,7 +386,7 @@ class Ecwid_Product_Browser
 				'icon'  => 'aspect34',
 			),
 			array(
-				'value' => 'SQUARE_1',
+				'value' => 'SQUARE',
 				'title' => __( 'Square 1:1', 'ecwid-shopping-cart' ),
 				'icon'  => 'aspect11'
 			),
