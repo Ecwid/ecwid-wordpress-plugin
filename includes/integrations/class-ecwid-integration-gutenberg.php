@@ -21,7 +21,7 @@ class Ecwid_Integration_Gutenberg {
 
 		add_action( "rest_insert_post", array( $this, 'on_save_post' ), 10, 3 );
 		add_action( "rest_insert_page", array( $this, 'on_save_post' ), 10, 3 );
-
+		
 		register_block_type(self::STORE_BLOCK, array(
 			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'render_callback' ),
@@ -260,8 +260,8 @@ JS;
 
 			if ( array_key_exists( $name, $prop_to_default_exceptions ) ) {
 				$another_name = $prop_to_default_exceptions[$name];
-				if ( property_exists( $settings, $another_name ) );
-				$default = $settings->$another_name;
+				if ( property_exists( $settings, $another_name ) )
+					$default = $settings->$another_name;
 			}
 				
 			if ( $name == 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar' ) {

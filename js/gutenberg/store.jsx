@@ -119,7 +119,7 @@ registerBlockType( 'ecwid/store-block', {
             return <ToggleControl
                 label={ label }
                 checked={ !props.attributes[name] }
-                onChange={ () => props.setAttributes( { [name]: props.attributes[name] } ) }
+                onChange={ () => props.setAttributes( { [name]: !props.attributes[name] } ) }
             />
         }
 
