@@ -14,7 +14,11 @@
     .cache_log .time {
 		width: 190px;
 	}
-	
+
+    .cache_log .timestamp {
+        width: 120px;
+    }
+    
 	.cache_log .op {
 		width: 180px;
 	}
@@ -22,6 +26,15 @@
 	.cache_log .size-300 {
 		width: 300px;
 	}
+
+    .cache_log .nested-field {
+        display: table-row;
+    }
+    
+    .cache_log .nested-field .param-name,
+    .cache_log .nested-field .param-value {
+        display: table-cell;
+    }
 
     .cache_log .title.collapsed:before {
         border: 1px solid black;
@@ -49,24 +62,26 @@
 <?php 
 
 function render_nested( $name, $data ) {
-	echo "<div class='size-300'><label class='title collapsed' onClick='jQuery(this).toggleClass(\"expanded\").toggleClass(\"collapsed\"); event.stopPropagation(); return false;;'>$name";
-	
 	if ( is_array( $data ) || is_object( $data ) ) {
+    
+		echo "<div class='size-300'><label class='title collapsed' onClick='jQuery(this).toggleClass(\"expanded\").toggleClass(\"collapsed\"); event.stopPropagation(); return false;'>$name";
+	
 		foreach ( $data as $key => $item ) {
 			echo '<div class="data">';
 			render_nested( $key, $item );
 			echo '</div>';
 		}
+	
+        echo '</label></div>';
 	} else {
-	    echo $data;
-    }
-    echo '</label></div>';
+		echo "<div class='nested-field'><div class='param-name'>" . $name . ":</div><div class='param-value'>" . $data . '</div></div>';
+	}
 } 
 
 $cache = get_option('ecwid_cache_log');
 
 $kill = @$_GET['kill'];
-while ( $kill-- > 0) {
+while ( $kill-- > 0 && count($cache) > 0) {
     array_pop($cache);
 }
 
@@ -76,6 +91,8 @@ $cache = get_option('ecwid_cache_log');
 
 foreach ($cache as $item) {
 	echo '<div class="cache_log">';
+	$ts = strftime( '%H:%M:%S %D', $item['timestamp'] );
+	echo "<div class=\"timestamp\">$ts</div>";
 	echo "<div class=\"op\">$item[operation]</div>";
 	if ($item['operation'] == 'invalidate_products_cache' || $item['operation'] == 'invalidate_categories_cache') {
 		$time = strftime('%c', $item['time']);
@@ -102,12 +119,21 @@ HTML;
 HTML;
 		render_nested('result', $item['result']);
 	}
-	if ($item['operation'] == 'get_from_produ_cache') {
-		$key = @$item['name'];
+	if ($item['operation'] == 'get_from_catalog_cache') {
+		$valid_from = @$item['valid_from'];
 		echo <<<HTML
-		<div class="entity-title">$key</div>
+		<div class="entity-title">$valid_from</div>
 HTML;
+	}
+
+	if ($item['operation'] == 'reg cache check') {
+		render_nested('stats', $item['stats']);
 	}
 
 	echo '</div>';
 }
+
+echo ''  . '<br />';
+echo 'cats:' . EcwidPlatform::get( EcwidPlatform::CATEGORIES_CACHE_VALID_FROM ) . '<br />';
+echo 'prods:' . EcwidPlatform::get( EcwidPlatform::PRODUCTS_CACHE_VALID_FROM ) . '<br />';
+echo 'profile:' . EcwidPlatform::get( EcwidPlatform::PROFILE_CACHE_VALID_FROM ) . '<br />';

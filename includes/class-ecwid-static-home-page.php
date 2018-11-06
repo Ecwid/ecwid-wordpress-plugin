@@ -99,6 +99,7 @@ class Ecwid_Static_Home_Page {
 		
 		$fetched_data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
 		
+		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 
 			$fetched_data = @json_decode( $fetched_data['data'] );

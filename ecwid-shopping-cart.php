@@ -679,6 +679,9 @@ function ecwid_check_version()
 
 		// Since 6.2.x
 		delete_option( 'force_scriptjs_render' );
+		
+		// Since 6.4.x
+		add_option( EcwidPlatform::OPTION_LOG_CACHE );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -846,8 +849,9 @@ function ecwid_seo_compatibility_restore()
     ecwid_override_option('aiosp_rewrite_titles');
 }
 
-function ecwid_check_api_cache()
-{
+function ecwid_check_api_cache() {
+	EcwidPlatform::cache_log_record( 'init', array() );
+	
 	$last_cache = get_option('ecwid_last_api_cache_check');
 
 	
@@ -858,9 +862,11 @@ function ecwid_check_api_cache()
 
 function ecwid_admin_check_api_cache()
 {
-	$last_cache = get_option('ecwid_last_api_cache_check');
+	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
-	if (time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
+	$last_cache = get_option( 'ecwid_last_api_cache_check' );
+
+	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
 	
@@ -879,12 +885,16 @@ function ecwid_invalidate_cache( $full_reset = false)
 
 function ecwid_regular_cache_check()
 {
-	EcwidPlatform::cache_log_record('reg cache check', null);
+	static $already_checked = false;
 	
-	if (Ecwid_Api_V3::is_available()) {
+	if ( Ecwid_Api_V3::is_available() && !$already_checked ) {
+	
+		$already_checked = true;
 		$api = new Ecwid_Api_V3();
 
 		$stats = $api->get_store_update_stats();
+
+		EcwidPlatform::cache_log_record('reg cache check', array( 'stats' => $stats ) );
 
 		if ( $stats ) {
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );

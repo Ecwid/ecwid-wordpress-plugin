@@ -9,10 +9,15 @@ class EcwidPlatform {
 
 	static protected $crypt = null;
 
+	static protected $ecwid_plugin_data = null;
+	
 	const CATEGORIES_CACHE_VALID_FROM = 'categories_cache_valid_from';
 	const PRODUCTS_CACHE_VALID_FROM = 'products_cache_valid_from';
 	const PROFILE_CACHE_VALID_FROM = 'profile_cache_valid_from';
-
+	
+	const OPTION_LOG_CACHE = 'ecwid_log_cache';
+	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
+	
 	static public function get_store_id()
 	{
 		return get_ecwid_store_id();
@@ -131,9 +136,8 @@ class EcwidPlatform {
 
 	static public function cache_log_record( $operation, $params ) {
 		
-		кидать лог в память и сливать на шатдауне
-		return;
-		if ( !defined( 'WP_DEBUG' ) && !WP_DEBUG ) { return; }
+		if ( !get_option( self::OPTION_LOG_CACHE, false ) )  { return; }
+
 		if (!$params) $params = array();
 		$backtrace = debug_backtrace(false);
 		
@@ -150,7 +154,8 @@ class EcwidPlatform {
 		$log_entry = array(
 			'operation' => $operation,
 			'file' => $file,
-			'line' => $line
+			'line' => $line,
+			'timestamp' => time()
 		);
 		
 		$log_entry = array_merge(
@@ -289,29 +294,34 @@ class EcwidPlatform {
 
 	static public function get( $name, $default = null )
 	{
-		$options = get_option( 'ecwid_plugin_data' );
-
-		if ( is_array( $options ) && array_key_exists( $name, $options ) ) {
-			return $options[$name];
+		if ( !self::$ecwid_plugin_data ) {
+			self::$ecwid_plugin_data = get_option( self::OPTION_ECWID_PLUGIN_DATA );
+		}
+		
+		if ( is_array( self::$ecwid_plugin_data ) && array_key_exists( $name, self::$ecwid_plugin_data ) ) {
+			return self::$ecwid_plugin_data[$name];
 		}
 
 		return $default;
 	}
-
+	
 	static public function set( $name, $value ) {
-		$options = get_option( 'ecwid_plugin_data' );
-
-		if ( !is_array( $options ) ) {
-			$options = array();
+		
+		if ( is_null( self::$ecwid_plugin_data ) ) {
+			self::$ecwid_plugin_data = get_option( self::OPTION_ECWID_PLUGIN_DATA );
+		}
+		
+		if ( !is_array( self::$ecwid_plugin_data ) ) {
+			self::$ecwid_plugin_data = array();
 		}
 
-		$options[$name] = $value;
+		self::$ecwid_plugin_data[$name] = $value;
 
-		update_option( 'ecwid_plugin_data', $options );
+		update_option( self::OPTION_ECWID_PLUGIN_DATA, self::$ecwid_plugin_data );
 	}
 
 	static public function reset( $name ) {
-		$options = get_option( 'ecwid_plugin_data' );
+		$options = get_option( self::OPTION_ECWID_PLUGIN_DATA );
 
 		if ( !is_array( $options ) || !array_key_exists($name, $options)) {
 			return;
@@ -319,7 +329,7 @@ class EcwidPlatform {
 
 		unset($options[$name]);
 
-		update_option( 'ecwid_plugin_data', $options );
+		update_option( self::OPTION_ECWID_PLUGIN_DATA, $options );
 
 	}
 
@@ -407,20 +417,20 @@ class EcwidPlatform {
 		$cache_name = self::_build_cache_name( $key, 'catalog' );
 
 		$result = self::cache_get( $cache_name );
+		
+		$valid_from = max( 
+			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
+			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
+			EcwidPlatform::get( self::PROFILE_CACHE_VALID_FROM )
+		);
 
 		self::cache_log_record(
 			'get_from_catalog_cache',
 			array(
 				'name' => $key,
 				'result' => $result,
-				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
+				'valid_from' => $valid_from
 			)
-		);
-		
-		$valid_from = max( 
-			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
-			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
-			EcwidPlatform::get( self::PROFILE_CACHE_VALID_FROM )
 		);
 		
 		if ( $result['time'] > $valid_from ) {
