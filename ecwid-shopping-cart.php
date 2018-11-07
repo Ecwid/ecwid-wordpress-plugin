@@ -143,6 +143,10 @@ if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
 }
 
+if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-gutenberg.php';
+}
+
 $ecwid_script_rendered = false; // controls single script.js on page
 
 

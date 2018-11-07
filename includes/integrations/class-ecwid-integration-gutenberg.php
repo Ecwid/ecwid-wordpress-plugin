@@ -48,11 +48,21 @@ class Ecwid_Integration_Gutenberg {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
 		}
 		
-		wp_add_inline_script(
-			'ecwid-gutenberg-store',
-			'wp.i18n.setLocaleData( ' . json_encode( gutenberg_get_jed_locale_data( 'ecwid-shopping-cart' ) ) . ', "ecwid-shopping-cart"' . ');',
-			'before'
-		);
+		$locale_data = '';
+		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
+			$locale_data = gutenberg_get_jed_locale_data( 'ecwid-shopping-cart' );
+		} else if ( function_exists( 'wp_get_jed_locale_data' ) ) {
+			$locale_data = wp_get_jed_locale_data( 'ecwid-shopping-cart' );
+		}
+		
+		
+		if ( $locale_data ) {
+			wp_add_inline_script(
+				'ecwid-gutenberg-store',
+				'wp.i18n.setLocaleData( ' . json_encode( $locale_data ) . ', "ecwid-shopping-cart"' . ');',
+				'before'
+			);
+		}
 		
 		$api = new Ecwid_Api_V3();
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
