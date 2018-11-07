@@ -216,16 +216,16 @@ class Ecwid_Product_Browser
 				'name' => 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
 				'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
 				'type' => 'boolean',
-				'default' => false,
+				'default' => true,
 				'is_storefront_api' => true
 			),
 
 
 			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar' => array(
-				'name' => 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
+				'name' => 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar',
 				'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
 				'type' => 'boolean',
-				'default' => false,
+				'default' => true,
 				'is_storefront_api' => true
 			),
 

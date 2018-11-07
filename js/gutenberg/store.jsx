@@ -114,15 +114,7 @@ registerBlockType( 'ecwid/store-block', {
 				onChange={ () => props.setAttributes( { [name]: ! props.attributes[name] } ) }
 			/>
         }
-
-        function buildInvertedToggle(props, name, label) {
-            return <ToggleControl
-                label={ label }
-                checked={ !props.attributes[name] }
-                onChange={ () => props.setAttributes( { [name]: !props.attributes[name] } ) }
-            />
-        }
-
+        
         function buildToolbar(props, name, label, items) {
             return <BaseControl label={label}>
 				<Toolbar
@@ -203,8 +195,6 @@ registerBlockType( 'ecwid/store-block', {
                 return buildDangerousHTMLMessageWithTitle( item.title, item.message );
             } else if ( type === 'textbox') {
                 return buildTextbox( props, item.name, item.title );
-            } else if ( type === 'invertedToggle' ) {
-                return buildInvertedToggle( props, item.name, item.title );
             } else {
                 return buildToggle( props, item.name, item.title );
             }
@@ -374,11 +364,12 @@ registerBlockType( 'ecwid/store-block', {
                 <PanelBody title={ __( 'Product Page Appearance', 'ecwid-shopping-cart' ) } initialOpen={false}>
 
                     { isNewDetailsPage && buildItem( props, 'product_details_layout', 'select' ) }
-                    { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT'
-                    && buildItem( props, 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar', 'invertedToggle' )
-                    }
-                    { isNewDetailsPage && attributes.product_details_layout === 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT'
-                    && buildItem( props, 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar', 'invertedToggle' )
+                    { 
+                        isNewDetailsPage 
+                        && ( 
+                            attributes.product_details_layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT'
+                            || attributes.product_details_layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT'
+                        ) && buildItem( props, 'show_description_under_image', 'toggle' ) 
                     }
                     { isNewDetailsPage && buildItem( props, 'product_details_gallery_layout', 'toolbar' ) }
                     { isNewDetailsPage &&

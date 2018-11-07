@@ -155,19 +155,34 @@ class Ecwid_Integration_Gutenberg {
 ';
 		
 		$attributes = $this->_get_attributes_for_editor();
-		foreach ( $attributes as $name => $attribute ) {
-			if ( @$attribute['is_storefront_api'] && isset( $params[$name] ) ) {
-				$value = $params[$name];
+		
+		foreach ( $attributes as $key => $attribute ) {
+			
+			$name = $attribute['name'];
+			// we do not print defaults
+			if ( !isset( $params[$name] ) ) continue;
+
+			$value = $params[$name];
+			
+			if ( $name == 'show_description_under_image' ) {
+				$attribute['is_storefront_api'] = true;
+				$value = !@$params[$name];
 				
-				if (
-					in_array( $attribute['name'], array( 
-							'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
-							'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar'
-						) 
-					) ) {
-				
-					$value = !$value;
+				$layout = @$params['product_details_layout'];
+				if ( is_null( $layout ) ) {
+					$layout = $attributes['product_details_layout']['default'];
 				}
+				
+				if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT' ) {
+					$name = 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar';
+				} else if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
+					$name = 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar';
+				} else {
+					unset( $attribute['is_storefront_api'] );
+				}
+			}
+			
+			if ( @$attribute['is_storefront_api'] ) {
 				
 				if ( @$attribute['type'] == 'boolean') {
 					$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
@@ -176,6 +191,8 @@ class Ecwid_Integration_Gutenberg {
 				}
 			}
 		}
+		
+		
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
 			$color = @$params['chameleon_color_' . $kind];
@@ -245,6 +262,21 @@ JS;
 		}
 		
 		$attributes = Ecwid_Product_Browser::get_attributes();
+		$to_remove = array(
+			'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
+			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar'
+		);
+		foreach ( $to_remove as $name ) {
+			unset( $attributes[$name] );
+		}
+		
+		$attributes['show_description_under_image'] = array(
+			'name' => 'show_description_under_image',
+			'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
+			'default' => false,
+			'type' => 'boolean'
+		);
+		
 		foreach ( $attributes as $key => $attribute ) {
 			$name = $attribute['name'];
 
@@ -262,10 +294,6 @@ JS;
 				$another_name = $prop_to_default_exceptions[$name];
 				if ( property_exists( $settings, $another_name ) )
 					$default = $settings->$another_name;
-			}
-				
-			if ( $name == 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar' ) {
-				$default = !$default;
 			}
 			
 			if ( $default !== null ) {
@@ -297,7 +325,7 @@ JS;
 			}
 		}
 		
-		$attributes['widgets'] = array( 'type' => 'string', 'default' => '' );
+		$attributes['widgets'] = array( 'type' => 'string', 'default' => '', 'name' => 'widgets' );
 		
 		return $attributes;
 	}
