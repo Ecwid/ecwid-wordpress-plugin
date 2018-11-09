@@ -4,8 +4,8 @@ Plugin Name: Ecwid Shopping Cart
 Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
-Author: Ecwid Team
-Version: 6.3.2
+Author: Ecwid Ecommerce
+Version: 6.4
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -49,7 +49,7 @@ if ( is_admin() ){
   add_action('admin_init', 'ecwid_settings_api_init');
 
 	add_action('admin_init', 'ecwid_check_version');
-	add_action('admin_init', 'ecwid_process_oauth_params');
+	add_action('template_redirect', 'ecwid_process_oauth_params');
   add_action('admin_notices', 'ecwid_show_admin_messages');
   add_action('admin_enqueue_scripts', 'ecwid_common_admin_scripts');
   add_action('admin_enqueue_scripts', 'ecwid_register_admin_styles');
@@ -142,6 +142,10 @@ $version = get_bloginfo('version');
 if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
+}
+
+if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-gutenberg.php';
 }
 
 $ecwid_script_rendered = false; // controls single script.js on page
@@ -1127,7 +1131,7 @@ function ecwid_canonical() {
 
 	$link = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
-
+	
 		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 
 		if ($params['mode'] == 'product') {
@@ -1166,7 +1170,6 @@ function ecwid_canonical() {
 }
 
 function ecwid_is_applicable_escaped_fragment() {
-
 	if (!Ecwid_Api_V3::is_available() ) {
 		return false;
 	}
@@ -1174,6 +1177,7 @@ function ecwid_is_applicable_escaped_fragment() {
 	if (!isset($_GET['_escaped_fragment_'])) return false;
 
 	$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+	
 	if (!$params) return false;
 
 	if (!in_array($params['mode'], array('category', 'product')) || !isset($params['id'])) return false;
@@ -1669,8 +1673,9 @@ function ecwid_parse_escaped_fragment($escaped_fragment) {
 
 		$fragment = urldecode( $escaped_fragment );
 		$return   = array();
-
+		
 		if ( preg_match( '/^(\/~\/)([a-z]+)\/(.*)$/', $fragment, $matches ) ) {
+		
 			parse_str( $matches[3], $return );
 			$return['mode'] = $matches[2];
 		} elseif ( preg_match( '!.*/(p|c)/([0-9]*)!', $fragment, $matches ) ) {
@@ -1708,11 +1713,11 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id="0" default_product_id="0"]
+	[$shortcode]
 EOT;
 	
 	$content = <<<EOT
-<!-- wp:ecwid/store-block {"widgets":"productbrowser","default_category_id":0,"default_product_id":0} -->
+<!-- wp:ecwid/store-block -->
 $content
 <!-- /wp:ecwid/store-block -->
 EOT;
@@ -2186,7 +2191,7 @@ function ecwid_common_admin_scripts() {
 function ecwid_is_legacy_appearance_used() {
 	$api = new Ecwid_Api_V3();
 	
-	return Ecwid_Api_V3::get_token() && !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
+	return Ecwid_Api_V3::is_available() && !ecwid_is_demo_store() && !$api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 }
 
 function ecwid_get_register_link()
@@ -2508,7 +2513,7 @@ function ecwid_help_do_page() {
 }
 
 function ecwid_process_oauth_params() {
-
+	
 	if (strtoupper($_SERVER['REQUEST_METHOD']) != 'GET' || !isset($_GET['page'])) {
 		return false;
 	}
@@ -2926,8 +2931,17 @@ function ecwid_get_category_url($category)
 
 function ecwid_get_entity_url($entity, $type) {
 
-	$link = Ecwid_Store_Page::get_store_url();
-
+	if ( Ecwid_Store_page::is_store_page() ) {
+		$link = get_permalink();
+	} else {
+		$link = Ecwid_Store_Page::get_store_url();
+	}
+	
+	if ( is_object( $entity ) ) {
+		// If a newer object is passed, fall back to default hash url
+		$entity = $entity->id;
+	}
+	
 	if (is_numeric($entity)) {
 		return $link . '#!/' . $type . '/' . $entity;
 	} elseif (is_array($entity) && isset($entity['url'])) {

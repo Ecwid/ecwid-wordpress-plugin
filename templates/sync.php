@@ -65,8 +65,6 @@ function update_no_sse_stuff(data) {
 }
 
 function increment_progress_counter(increment = 1) {
-    debugger;
-
     if (increment == 0) {
 		return;
 	}

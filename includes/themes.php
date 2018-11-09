@@ -85,7 +85,8 @@ function ecwid_apply_theme($theme_name = null)
 		'Boundless',
 		'twentyseventeen',
 		'themify-music',
-		'Avada'
+		'Avada',
+		'twentynineteen'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
@@ -95,7 +96,7 @@ function ecwid_apply_theme($theme_name = null)
 	}
 
 	$theme_file = '';
-
+	
 	if (function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
 		$theme_name = 'responsiveboat';
 	}

@@ -75,7 +75,7 @@ class EcwidCatalog
 			
 			return (object) array(
 				'product' => $product,
-				'formats' => $profile->formatsAndUnits
+				'formats' => @$profile->formatsAndUnits
 			);
 		} 
 		
@@ -118,7 +118,7 @@ class EcwidCatalog
 				'main_category' => $main_category,
 				'categories' => $categories->items,
 				'products' => $products->items,
-				'formats' => $profile->formatsAndUnits
+				'formats' => @$profile->formatsAndUnits
 			);
 		} 
 		

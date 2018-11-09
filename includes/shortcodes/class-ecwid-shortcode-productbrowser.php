@@ -42,7 +42,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$code .= <<<HTML
 <script language="JavaScript">
-	grid = new Grid();
     EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
 	if ( location.hash != '' ) {
 	    EcwidStaticPageLoader.switchToDynamicMode();
@@ -76,7 +75,7 @@ HTML;
 			}
 		}
 		
-		Ecwid_Store_Page::save_store_page_data( 'default_category_id', @$this->_params['defaultCategoryId'] );
+		Ecwid_Store_Page::save_store_page_data_item( 'default_category_id', @$this->_params['defaultCategoryId'] );
 		
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML

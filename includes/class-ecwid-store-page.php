@@ -165,8 +165,22 @@ class Ecwid_Store_Page {
 
 		return $page_id;
 	}
+	
+	public static function save_store_page_data( $input_data ) {
+		$current = get_the_ID();
 
-	public static function save_store_page_data( $name, $value ) {
+		$data = get_post_meta( $current, self::META_STORE_DATA, true );
+
+		if (! is_array( $data ) ) {
+			$data = array();
+		}
+
+		$data = array_merge( $data, $input_data );
+
+		update_post_meta( $current, self::META_STORE_DATA, $data );
+	}
+
+	public static function save_store_page_data_item( $name, $value ) {
 		$current = get_the_ID();
 		
 		$data = get_post_meta( $current, self::META_STORE_DATA, true );
@@ -180,10 +194,14 @@ class Ecwid_Store_Page {
 		update_post_meta( $current, self::META_STORE_DATA, $data );
 	}
 	
-	public static function get_store_page_data( $name ) {
+	public static function get_store_page_data( $name = null ) {
 		$current = get_the_ID();
 		
 		$data = get_post_meta( $current, self::META_STORE_DATA, true );
+		
+		if ( is_null( $name ) ) {
+			return $data;
+		}
 		
 		return @$data[$name];
 	}

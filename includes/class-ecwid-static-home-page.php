@@ -1,5 +1,7 @@
 <?php
 
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-browser.php';
+
 class Ecwid_Static_Home_Page {
 	
 	const OPTION_IS_ENABLED = 'ecwid_static_home_page_enabled';
@@ -64,6 +66,8 @@ class Ecwid_Static_Home_Page {
 	
 	protected static function _maybe_fetch_data()
 	{
+		$store_page_data = Ecwid_Store_Page::get_store_page_data( );
+		
 		$possible_params = array(
 			'lang',
 			'default_category_id'
@@ -72,8 +76,8 @@ class Ecwid_Static_Home_Page {
 		$params = array();
 		foreach ( $possible_params as $name ) {
 			$data = Ecwid_Store_Page::get_store_page_data( $name );
-			if ( $data ) {
-				$params[$name] = $data;
+			if ( isset( $store_page_data[$name] ) ) {
+				$params[$name] = $store_page_data[$name];
 			}
 		}
 		
@@ -86,6 +90,19 @@ class Ecwid_Static_Home_Page {
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['clean_links'] = 'true';
 			$params['base_url'] = get_permalink();
+		}
+		
+		foreach ( Ecwid_Product_Browser::get_attributes() as $attribute ) {
+			$name = $attribute['name'];
+			if ( @$attribute['is_storefront_api'] && isset( $store_page_data[$name] ) ) {
+				if ( @$attribute['type'] == 'boolean' ) {
+					$value = $store_page_data[$name] ? 'true' : 'false';
+				} else {
+					$value = $store_page_data[$name];
+				}
+
+				$params['tplvar_ec.storefront.' . $name] = $value;
+			}
 		}
 		
 		$url = 'https://storefront.ecwid.com/home-page/' . get_ecwid_store_id() . '/static-code?';
