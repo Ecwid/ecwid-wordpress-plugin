@@ -43,6 +43,7 @@ class Ecwid_Static_Home_Page {
 				wp_add_inline_script( 'ecwid-static-home-page', $item );
 			}
 		}
+		wp_add_inline_script( 'ecwid-static-home-page', "window.ec.config.interactive = false;");
 	}
 	
 	public static function get_data_for_current_page()
