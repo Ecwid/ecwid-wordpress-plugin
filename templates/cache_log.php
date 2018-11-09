@@ -130,6 +130,10 @@ HTML;
 		render_nested('stats', $item['stats']);
 	}
 
+	if ($item['operation'] == 'is_trusted') {
+		render_nested('self', $item);
+	}
+
 	echo '</div>';
 }
 

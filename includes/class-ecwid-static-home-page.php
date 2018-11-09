@@ -22,6 +22,10 @@ class Ecwid_Static_Home_Page {
 	
 	public function enqueue_scripts()
 	{
+		if ( !self::is_enabled() ) {
+			return null;
+		}
+		
 		$data = $this->get_data_for_current_page();
 
 		if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
@@ -113,6 +117,10 @@ class Ecwid_Static_Home_Page {
 	
 	public static function is_enabled()
 	{
+		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
+			return false;
+		}
+		
 		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_ENABLED ) {
 			return true;
 		}

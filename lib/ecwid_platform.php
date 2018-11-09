@@ -439,6 +439,19 @@ class EcwidPlatform {
 
 		return false;
 	}
+	
+	static public function is_catalog_cache_trusted() {
+
+		$valid_from = max(
+			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ),
+			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
+			EcwidPlatform::get( self::PROFILE_CACHE_VALID_FROM )
+		);
+		
+		self::cache_log_record( 'is_trusted', array( 'result' => time() - $valid_from > 10, 'time' => time(), 'cats' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 'prods' => EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM )));
+		
+		return time() - $valid_from > 10;
+	}
 
 	static protected function _build_cache_name( $url, $type ) {
 		return $type . '_' . md5($url);
