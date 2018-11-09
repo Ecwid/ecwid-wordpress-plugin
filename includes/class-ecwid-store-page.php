@@ -164,6 +164,32 @@ class Ecwid_Store_Page {
 		return $page_id;
 	}
 
+	public static function save_store_page_data( $name, $value ) {
+		$current = get_the_ID();
+		
+		$data = get_post_meta( $current, self::META_STORE_DATA, true );
+		
+		if (! is_array( $data ) ) {
+			$data = array();
+		}
+
+		$data[$name] = $value;
+		
+		update_post_meta( $current, self::META_STORE_DATA, $data );
+	}
+	
+	public static function get_store_page_data( $name ) {
+		$current = get_the_ID();
+		
+		$data = get_post_meta( $current, self::META_STORE_DATA, true );
+
+		if ( class_exists( 'Ecwid_Integration_Gutenberg' ) ) {
+			$data = array_merge( $data, Ecwid_Integration_Gutenberg::get_store_block_data_from_current_page() );
+		}
+		
+		return @$data[$name];
+	}
+	
 	public static function is_store_page( $page_id = 0 ) {
 
 		if (!$page_id) {

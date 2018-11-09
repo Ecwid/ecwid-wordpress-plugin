@@ -261,32 +261,31 @@ JS;
 		return get_option( 'ecwid_plugin_version' );
 	}
 	
-	protected function _get_attributes_for_editor()
-	{
+	protected function _get_attributes_for_editor() {
 		$api = new Ecwid_Api_V3();
-		
+
 		if ( $api->is_available() && $api->get_store_profile() ) {
 			$settings = $api->get_store_profile()->designSettings;
 		} else {
 			$settings = new stdClass();
 		}
-		
+
 		$attributes = Ecwid_Product_Browser::get_attributes();
-		$to_remove = array(
+		$to_remove  = array(
 			'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
 			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar'
 		);
 		foreach ( $to_remove as $name ) {
-			unset( $attributes[$name] );
+			unset( $attributes[ $name ] );
 		}
-		
+
 		$attributes['show_description_under_image'] = array(
-			'name' => 'show_description_under_image',
-			'title' => __( 'Show description under the image', 'ecwid-shopping-cart' ),
+			'name'    => 'show_description_under_image',
+			'title'   => __( 'Show description under the image', 'ecwid-shopping-cart' ),
 			'default' => false,
-			'type' => 'boolean'
+			'type'    => 'boolean'
 		);
-		
+
 		foreach ( $attributes as $key => $attribute ) {
 			$name = $attribute['name'];
 
@@ -294,25 +293,26 @@ JS;
 			if ( property_exists( $settings, $name ) ) {
 				$default = $settings->$name;
 			}
-			
+
 			$prop_to_default_exceptions = array(
 				'product_list_category_image_aspect_ratio' => 'product_list_image_aspect_ratio',
-				'product_list_category_image_size' => 'product_list_image_size'
+				'product_list_category_image_size'         => 'product_list_image_size'
 			);
 
 			if ( array_key_exists( $name, $prop_to_default_exceptions ) ) {
-				$another_name = $prop_to_default_exceptions[$name];
-				if ( property_exists( $settings, $another_name ) )
+				$another_name = $prop_to_default_exceptions[ $name ];
+				if ( property_exists( $settings, $another_name ) ) {
 					$default = $settings->$another_name;
+				}
 			}
-			
+
 			if ( $default !== null ) {
-				$attributes[$key]['default'] = $default;
+				$attributes[ $key ]['default'] = $default;
 			}
 		}
-		
+
 		$categories = ecwid_get_categories_for_selector();
-		
+
 		if ( $categories ) {
 			$attributes['default_category_id']['values'] = array(
 				array(
@@ -327,17 +327,39 @@ JS;
 				);
 			}
 		} else {
-			$api = new Ecwid_Api_V3();
+			$api  = new Ecwid_Api_V3();
 			$cats = $api->get_categories( array() );
-			
+
 			if ( $cats && $cats->total == 0 ) {
 				unset( $attributes['default_category_id'] );
 			}
 		}
-		
+
 		$attributes['widgets'] = array( 'type' => 'string', 'default' => '', 'name' => 'widgets' );
-		
+
 		return $attributes;
+	}
+		
+	public static function get_store_block_data_from_current_page() {
+		
+		if ( !function_exists( 'gutenberg_parse_blocks' ) ) {
+			return array();
+		}
+		
+		$post = get_post();
+		$blocks = gutenberg_parse_blocks( $post->post_content );
+		
+		$store_block = null;
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] == self::STORE_BLOCK ) {
+				$store_block = $block;
+				break;
+			}
+		}
+		
+		if ( !$store_block ) return array();
+		
+		return $store_block['atts'];
 	}
 	
 	protected function _get_store_icon_path()
