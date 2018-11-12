@@ -42,7 +42,7 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
-		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
+		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
 		if ( Ecwid_Api_V3::is_available() ) {
 			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
