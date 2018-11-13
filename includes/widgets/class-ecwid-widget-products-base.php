@@ -60,12 +60,12 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 	function _render_widget_content( $args, $instance ) {
 
 		$this->_args = $args;
-		$this->_instance = $instance;
+		$this->_instance = wp_parse_args( $instance, array( 'number_of_products' => $this->_default ) );
 		
 		$html = '';
 		$html .= '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
 
-		$html .= '<div class="' . $this->_class_name . '" data-ecwid-max="' . $instance['number_of_products'] . '">';
+		$html .= '<div class="' . $this->_class_name . '" data-ecwid-max="' . $this->_instance['number_of_products'] . '">';
 
 		$counter = 1;
 		$ids = array();
