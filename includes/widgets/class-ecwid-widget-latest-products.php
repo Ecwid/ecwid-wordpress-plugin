@@ -17,6 +17,7 @@ class Ecwid_Widget_Latest_Products extends Ecwid_Widget_Products_List_Base {
 	protected function _get_products() {
 		$api = new Ecwid_Api_V3();
 		
+		
 		$result = $api->search_products(array(
 			'sortBy' => 'ADDED_TIME_DESC',
 			'limit' => $this->_instance['number_of_products']

@@ -151,6 +151,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.4.1 - Nov 13, 2018 =
+- WordPress v 5.0 compatibility. This update brings compatibility with the upcoming WordPress version. In particular, we made sure Ecwid e-commerce stores looks good with the new Twenty Nineteenth theme. Also, we polished the Ecwid online store block in the new WordPress editor (Gutenberg) to make sure you can add a product listing to any site page and customize its appearance including colors, product grid layout, store navigation controls, product page appearance and more. 
+
+
 = 6.4 - Oct 25, 2018 =
 - **New storefront appearance settings in Gutenberg.** The new WordPress page editor (Gutenberg) now has plenty of e-commerce design settings: product thumbnails format and size, button and text colors, category images behavior, product page layout, store navigation elements and a lot more. We previously added these appearance options to your Ecwid store control panel: https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html. Now they are a part of real-time page building experience: you tweak the appearance, preview changes and publish them right from the page editor. To see the new appearance options, please make sure you enabled the Gutenberg editor in your WordPress admin backend.
 - **SEO fix: 404 status for removed products and categories.** Previously, Ecwid didn't mark removed products and categories with correct 404 responses — it just displayed a customer-friendly message saying the product is not available. Google recommends making removed pages clearly marked with a special 404 response code available for search robots to read. We added it to make sure unavailable products will be quicker removed from the Google search results giving more customer attention to the available products.

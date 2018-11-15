@@ -20,7 +20,6 @@ const {
 } = wp.blocks;
 
 const {
-    RichText,
     InspectorControls,
     AlignmentToolbar,
     withColors
