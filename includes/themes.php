@@ -112,6 +112,8 @@ function ecwid_apply_theme($theme_name = null)
 	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
 		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
+		$theme_file = strtolower($theme_file);
+
 		if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
 			require_once( $theme_file );
 		}
