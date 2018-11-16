@@ -74,8 +74,18 @@ HTML;
 				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
 			}
 		}
-		
-		Ecwid_Store_Page::save_store_page_data_item( 'default_category_id', @$this->_params['defaultCategoryId'] );
+
+		if ( Ecwid_Static_Home_Page::is_enabled() ) {
+			$params = array();
+			if ( $this->_lang ) {
+				$params['lang'] = $this->_lang;
+			}
+			if ( @$this->_params['defaultCategoryId'] ) {
+				$params['default_category_id'] = $this->_params['defaultCategoryId'];
+			}
+			
+			Ecwid_Static_Home_Page::save_store_page_params( $params );
+		}
 		
 		$classname = $this->_get_html_class_name();
 		$result = <<<HTML
