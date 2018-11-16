@@ -173,8 +173,12 @@ class Ecwid_Static_Home_Page {
 		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_DISABLED ) {
 			return false;
 		}
+
+		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 10 == 0 ) {
+			return true;
+		}
 		
-		return true;
+		return false;
 	}
 
 	public static function is_feature_available()

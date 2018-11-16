@@ -1515,6 +1515,10 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
 		$params .= '&data_imported=1';
 	}
+	
+	if ( Ecwid_Static_Home_Page::is_enabled() ) {
+		$params .= '&data_static_home=1';
+	}
 
 	return $params;
 }
