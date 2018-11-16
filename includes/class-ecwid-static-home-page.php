@@ -49,7 +49,6 @@ class Ecwid_Static_Home_Page {
 
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
 			EcwidPlatform::force_catalog_cache_reset();
-			return null;
 		}
 		
 		
