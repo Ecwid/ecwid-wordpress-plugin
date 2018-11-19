@@ -716,6 +716,35 @@ body[class*="_page_ecwid"] .ecwid-message {
 	color: #ffffff;
 }
 
+/* WP.com-ish styles  */
+#adminmenu #toplevel_page_ec-store.wpcom-menu .wp-submenu3 {
+	background: white;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu .wp-has-submenu3:not(.wp-has-current-submenu3) .wp-submenu3 {
+	left: 273px;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu .wp-submenu3 {
+	min-width: 200px;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu .wp-submenu3 li:hover>a {
+	background: #f3f6f8;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu  .wp-has-submenu3:not(.wp-has-current-submenu3) .wp-submenu3>li>a {
+	padding-left: 18px;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu  .wp-has-submenu3.wp-has-current-submenu3 .wp-submenu3>li>a {
+	padding-left: 55px;
+}
+
+#adminmenu #toplevel_page_ec-store.wpcom-menu li.wp-has-submenu3.opensub:not(.wp-has-current-submenu3):after {
+	border: 0;
+}
+
 .ecwid-admin-iframe .update-nag {
 	display: none;
 }

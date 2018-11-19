@@ -172,5 +172,12 @@ jQuery(document).ready(function() {
         ecwidApplyIframeAdminMenu($link, {slug:'ec-store', url: 'admin.php?page=ec-store', hash:'dashboard'});
 
     }
+    
+    if ( jQuery( '#calypsoify_wpadminmods_css-css' ).length > 0 ) {
+        jQuery('#toplevel_page_ec-store').addClass('wpcom-menu');
+    }
+    if ( jQuery( '#toplevel_page_ec-store .wp-submenu3 li.current' ) ) {
+        jQuery('#toplevel_page_ec-store > a').addClass('wp-has-current-submenu');
+    }
     ecwidRefreshEcwidMenuItemSelection();
 });
