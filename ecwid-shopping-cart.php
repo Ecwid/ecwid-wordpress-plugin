@@ -2379,7 +2379,7 @@ function ecwid_admin_do_page( $page ) {
 		$page = $_GET['ec-store-page'];
 	}
 
-	if ($page == ecwid_get_admin_iframe_upgrade_page()) {
+	if ( $page == Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ) {
 		update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
 	}
 
@@ -2445,20 +2445,20 @@ function ecwid_admin_do_page( $page ) {
 
 function ecwid_admin_products_do_page() {
 	Ecwid_Admin_Main_Page::do_integrated_admin_page(
-		Ecwid_Admin_Main_Page::PAGE_PRODUCTS
+		Ecwid_Admin_Main_Page::PAGE_HASH_PRODUCTS
 	);
 }
 
 function ecwid_admin_orders_do_page() {
 	Ecwid_Admin_Main_Page::do_integrated_admin_page(
-		Ecwid_Admin_Main_Page::PAGE_ORDERS
+		Ecwid_Admin_Main_Page::PAGE_HASH_ORDERS
 	);
 }
 
 
 function ecwid_admin_mobile_do_page() {
 	Ecwid_Admin_Main_Page::do_integrated_admin_page(
-		Ecwid_Admin_Main_Page::PAGE_MOBILE
+		Ecwid_Admin_Main_Page::PAGE_HASH_MOBILE
 	);
 }
 
@@ -2657,10 +2657,6 @@ function ecwid_advanced_settings_do_page() {
 
 function get_reconnect_link() {
 	return admin_url('admin-post.php?action=ec_connect&reconnect&api_v3_sso');
-}
-
-function ecwid_get_admin_iframe_upgrade_page() {
-	return 'billing:feature=sso&plan=ecwid_venture';
 }
 
 function ecwid_debug_do_page() {
