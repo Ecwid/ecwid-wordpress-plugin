@@ -454,7 +454,7 @@ JS;
 
 function ecwid_load_textdomain() {
 	load_plugin_textdomain( 'ecwid-shopping-cart', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-
+	// )
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
@@ -1686,7 +1686,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-	[$shortcode]
+	[$shortcode widgets="productbrowser" default_category_id="0"]
 EOT;
 	
 	$content = <<<EOT
@@ -2031,6 +2031,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 
 	wp_enqueue_style('ecwid-admin-css', ECWID_PLUGIN_URL . 'css/admin.css', array(), get_option('ecwid_plugin_version'));
 	wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
+	wp_enqueue_style('ecwid-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 	
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 		
@@ -2046,7 +2047,6 @@ function ecwid_register_admin_styles($hook_suffix) {
 			);
 
 			wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
-			wp_enqueue_style('ecwid-landing-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
