@@ -8,7 +8,7 @@ class Ecwid_Integration_Gutenberg {
 	const PRODUCT_BLOCK = 'ecwid/product-block';
 	
 	public function __construct() {
-		
+
 		if ( isset( $_GET['classic-editor'] ) ) return;
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
@@ -150,6 +150,8 @@ class Ecwid_Integration_Gutenberg {
 			return '';
 		}
 
+		$result = "[ecwid";
+		
 		$params['widgets'] = 'productbrowser';
 		if ( @$params['show_categories'] ) {
 			$params['widgets'] .= ' categories';
@@ -158,20 +160,31 @@ class Ecwid_Integration_Gutenberg {
 			$params['widgets'] .= ' search';
 		}
 		
-		$result = ecwid_shortcode( $params );
-		$result .= '<script type="text/javascript">
+		foreach ($params as $key => $value) {
+			$result .= " $key='$value'";
+		} 
+		
+		$result .= ']';
+		
+		$result .= <<<HTML
+<script type="text/javascript">
 		window.ec = window.ec || Object();
 		window.ec.storefront = window.ec.storefront || Object();
-';
+HTML;
 		
 		$attributes = $this->_get_attributes_for_editor();
+		
+		$store_page_data = array();
 		
 		foreach ( $attributes as $key => $attribute ) {
 			
 			$name = $attribute['name'];
 			// we do not print defaults
-			if ( !isset( $params[$name] ) ) continue;
-
+			if ( !isset( $params[$name] ) ) {
+				$store_page_data[$name] = $attribute['default'];
+				continue;
+			}
+			
 			$value = $params[$name];
 			
 			if ( $name == 'show_description_under_image' ) {
@@ -199,9 +212,9 @@ class Ecwid_Integration_Gutenberg {
 				} else {
 					$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
 				}
+				$store_page_data[$name] = $value;
 			}
 		}
-		
 		
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
@@ -229,6 +242,12 @@ class Ecwid_Integration_Gutenberg {
 
 		if ( !isset( $chameleon['colors'] ) ) {
 			$chameleon['colors'] = json_encode($colors);
+		}
+
+		$store_page_data['chameleon-colors'] = $chameleon['colors'];
+		
+		if ( Ecwid_Static_Home_Page::is_enabled() ) {
+			Ecwid_Static_Home_Page::save_store_page_params( $store_page_data );
 		}
 		
 		if ( $chameleon['colors'] != 'auto' ) {

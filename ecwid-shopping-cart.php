@@ -118,6 +118,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-home-page.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -471,6 +472,7 @@ function ecwid_404_on_broken_escaped_fragment() {
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 	}
 	
+	
 	if (isset($params['mode']) && !empty($params['mode']) && isset($params['id'])) {
 		$result = array();
 		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
@@ -681,6 +683,9 @@ function ecwid_check_version()
 
 		// Since 6.2.x
 		delete_option( 'force_scriptjs_render' );
+		
+		// Since 6.4.x
+		add_option( EcwidPlatform::OPTION_LOG_CACHE );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -848,8 +853,9 @@ function ecwid_seo_compatibility_restore()
     ecwid_override_option('aiosp_rewrite_titles');
 }
 
-function ecwid_check_api_cache()
-{
+function ecwid_check_api_cache() {
+	EcwidPlatform::cache_log_record( 'init', array() );
+	
 	$last_cache = get_option('ecwid_last_api_cache_check');
 
 	
@@ -860,9 +866,11 @@ function ecwid_check_api_cache()
 
 function ecwid_admin_check_api_cache()
 {
-	$last_cache = get_option('ecwid_last_api_cache_check');
+	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
-	if (time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
+	$last_cache = get_option( 'ecwid_last_api_cache_check' );
+
+	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
 	
@@ -881,14 +889,21 @@ function ecwid_invalidate_cache( $full_reset = false)
 
 function ecwid_regular_cache_check()
 {
-	if (Ecwid_Api_V3::is_available()) {
+	static $already_checked = false;
+	
+	if ( Ecwid_Api_V3::is_available() && !$already_checked ) {
+	
+		$already_checked = true;
 		$api = new Ecwid_Api_V3();
 
 		$stats = $api->get_store_update_stats();
 
+		EcwidPlatform::cache_log_record('reg cache check', array( 'stats' => $stats ) );
+
 		if ( $stats ) {
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
 			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
+			EcwidPlatform::invalidate_profile_cache_from( strtotime( $stats->profileUpdated ) );
 			update_option( 'ecwid_last_api_cache_check', time() );
 		}
 	}
@@ -900,6 +915,7 @@ function ecwid_full_cache_reset()
 
 	EcwidPlatform::invalidate_categories_cache_from( time() );
 	EcwidPlatform::invalidate_products_cache_from( time() );
+	EcwidPlatform::invalidate_profile_cache_from( time() );
 	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 	EcwidPlatform::cache_reset( 'all_categories' );
 
@@ -1077,6 +1093,16 @@ function ecwid_meta() {
 		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+		
+		if ( Ecwid_Static_Home_Page::is_enabled() && Ecwid_Static_Home_Page::get_data_for_current_page() ) {
+			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+			
+			$data = Ecwid_Static_Home_Page::get_data_for_current_page();
+
+			foreach ( $data->cssFiles as $ind => $item ) {
+				echo '<link rel="prefetch" href="' . $item . '">' . PHP_EOL;
+			}
+		}
 		
 		if (ecwid_is_store_page_available()) {
 
@@ -1489,6 +1515,10 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
 		$params .= '&data_imported=1';
 	}
+	
+	if ( Ecwid_Static_Home_Page::is_enabled() ) {
+		$params .= '&data_static_home=1';
+	}
 
 	return $params;
 }
@@ -1620,6 +1650,7 @@ function ecwid_shortcode($attributes)
 
 	$widgets_order = array('minicart', 'search', 'categories', 'productbrowser');
 	foreach ($widgets_order as $widget) {
+		
 		if (in_array($widget, $widgets)) {
 			if ( class_exists( 'Ecwid_Shortcode_' . $widget ) ) {
 
@@ -1953,6 +1984,18 @@ function ecwid_get_update_params_options() {
 				'off',
 				'auto'
 			)
+		),
+
+		Ecwid_Static_Home_Page::OPTION_IS_ENABLED => array(
+			'values' => array(
+				Ecwid_Static_Home_Page::OPTION_VALUE_AUTO,
+				Ecwid_Static_Home_Page::OPTION_VALUE_ENABLED,
+				Ecwid_Static_Home_Page::OPTION_VALUE_DISABLED
+			)
+		),
+		
+		'ecwid_api_status' => array(
+			'type' => 'string'
 		)
 	);
 
@@ -2669,8 +2712,10 @@ function ecwid_debug_do_page() {
 
 	global $ecwid_oauth;
 
+	require_once ECWID_PLUGIN_DIR . 'templates/cache_log.php';
 	require_once ECWID_PLUGIN_DIR . 'templates/debug.php';
 }
+
 
 function ecwid_get_debug_file() {
 	if (!current_user_can('manage_options')) {
