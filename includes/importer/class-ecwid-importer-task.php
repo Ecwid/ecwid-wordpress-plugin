@@ -30,7 +30,9 @@ abstract class Ecwid_Importer_Task
 			'Delete_Products', 
 			'Create_Product_Variation', 
 			'Upload_Product_Variation_Image',
-			'Upload_Product_Gallery_Image'
+			'Upload_Product_Gallery_Image',
+			
+			'Build_Product_Tasks'
 		);
 		
 		foreach ( $names as $name ) {
@@ -42,6 +44,14 @@ abstract class Ecwid_Importer_Task
 		return $tasks;
 	}
 	
+}
+
+class Ecwid_Importer_Task_Gather_All_Products extends Ecwid_Importer_Task {
+	public static $type = 'gather_products';
+	
+	public function execute( Ecwid_Importer $exporter, $product_data ) {
+	//	собиралка будет собирать сколько-то и шедулить остальные
+	}
 }
 
 class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task

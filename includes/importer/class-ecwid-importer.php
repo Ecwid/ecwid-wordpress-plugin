@@ -83,7 +83,6 @@ class Ecwid_Importer
 					$this->_tasks[$current_task]['error'] = $message;
 					
 					$progress['error_messages'][$task_data['type']][$message]++;
-					error_log( var_export( $result['sent_data'], true ) );
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}
@@ -121,6 +120,8 @@ class Ecwid_Importer
 		
 		return $progress;
 	}
+	
+	//public function 
 	
 	public function has_begun()
 	{
@@ -197,8 +198,9 @@ class Ecwid_Importer
 		
 		foreach ( $products as $product ) {
 			$tasks[] = Ecwid_Importer_Task_Create_Product::build( $product );
-			
-			if ( $product['has_image'] ) {
+
+			$thumb = get_post_thumbnail_id( $product['woo_id'] );
+			if ( $thumb ) {
 				$tasks[] = Ecwid_Importer_Task_Upload_Product_Image::build( $product );
 			}
 
@@ -228,8 +230,8 @@ class Ecwid_Importer
 				}
 			}
 			
-			if ( $product['gallery_images'] ) {
-				foreach ( $product['gallery_images'] as $image ) {
+			if ( $p->get_gallery_image_ids() ) {
+				foreach ( $p->get_gallery_image_ids() as $image ) {
 					$tasks[] = Ecwid_Importer_Task_Upload_Product_Gallery_Image::build(
 						array(
 							'product_id' => $product['woo_id'],
@@ -425,11 +427,8 @@ class Ecwid_Importer
 		
 		$return = array();
 		foreach ($products as $id ) {
-			$p = wc_get_product( $id );
 			$return[] = array(
-				'woo_id' => $id,
-				'has_image' => get_post_thumbnail_id( $id ),
-				'gallery_images' => $p->get_gallery_image_ids()
+				'woo_id' => $id
 			);
 		}
 		
