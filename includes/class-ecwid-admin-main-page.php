@@ -159,7 +159,7 @@ class Ecwid_Admin_Main_Page
 			Ecwid_Api_V3::save_token('');
 		}
 
-		if (empty($result['code']) && empty($result['data']) ) {
+		if ( empty( $result['code'] ) && empty( $result['data'] ) || $result['code'] == 500 ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 		} else if ($result['code'] != 200) {
 			if (ecwid_test_oauth(true)) {
