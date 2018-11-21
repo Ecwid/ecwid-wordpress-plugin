@@ -3,21 +3,20 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 4.9
-Stable tag: 6.3.2
+Stable tag: 6.4.1
 
-Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
+Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
-Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages. 
-
+Ecwid Ecommerce Shopping Cart is everything you need to add an online store to your WordPress site. Powerful, easy-to-use and Gutenberg-friendly. Over 1 million sellers in 175 countries, 45 languages supported. PayPal, Stripe and 40 more payment options. Real-time shipping integrations. Selling on Instagram and Facebook.
 
 = Automatic Shipping and Taxes =
 
 The Ecwid ecommerce plugin integrates with major carriers including USPS, UPS, FedEx, Canada Post, Australia Post, and others to automatically calculate shipping rates. Taxes are also automated and can be set-up in a few clicks.  Automated tax rate calculations are available for the U.S., Canada, and EU VAT.  Additionally, integration with TaxJar provides automatic sales tax reporting and filing in the U.S.
 
-= Facebook Ecommerce =
+= Sell on Facebook and Instagram =
 
-Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
+Add your online store to Facebook and sell to millions of Facebook and Instagram users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
 
 = eCommerce Mobile Apps =
 
@@ -37,13 +36,13 @@ So you don't need to worry about software updates, security patches and server m
 
 Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that Ecwid helps your online store meet the security requirements of the bank you do business with.
 
-= Free Support =
+= Superb Support =
 
-Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
+Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Support options include email, e-commerce community forums, chat and phone support.
 
 = Sell Everywhere =
 
-With Ecwid, you can include your online shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Google Shopping* and *eBay* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
+With Ecwid, you can include your ecommerce shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Amazon*, *eBay* and *Google Shopping* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
 
 = Mobile Responsive Design =
 
@@ -59,7 +58,7 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 
 * [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
 * [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create a free Ecwid account)
-
+* [Showcase](https://ecwid.to/ecwid-wp-site)
 = Ecwid Site =
 
 * [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
@@ -151,6 +150,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog ==
+= 6.4.2 - Nov 14, 2018 =
+- **Speedup for the store main page.** We're working on making Ecwid stores load faster on WordPress sites. This update brings a set of loading speed improvements for some part of the stores. We will gradually roll out these enhancements to all users. No actions required from your side — your store will get all of the improvements in this or upcoming releases. But if you ever noticed your store loading slowly, please contact us so we can help you enable this new feature on your site right now.
+- **Fixed an issue in the plugin settings menu on [Wordpress.com](http://wordpress.com).** Ecwid e-commerce plugin works on Wordpress.com sites as well. In the admin backend of [WordPress.com](http://wordpress.com) sites, the plugin menu didn't look well — some of the styles and colors were broken. We fixed it, now the plugin admin backend should work fine on both [Wordpress.org](http://wordpress.org) and Wordpress.com installations.
+- Minor fixes and improvements.
+
 = 6.4.1 - Nov 13, 2018 =
 - WordPress v 5.0 compatibility. This update brings compatibility with the upcoming WordPress version. In particular, we made sure Ecwid e-commerce stores looks good with the new Twenty Nineteenth theme. Also, we polished the Ecwid online store block in the new WordPress editor (Gutenberg) to make sure you can add a product listing to any site page and customize its appearance including colors, product grid layout, store navigation controls, product page appearance and more. 
 
