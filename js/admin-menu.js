@@ -176,7 +176,7 @@ jQuery(document).ready(function() {
     if ( jQuery( '#calypsoify_wpadminmods_css-css' ).length > 0 ) {
         jQuery('#toplevel_page_ec-store').addClass('wpcom-menu');
     }
-    if ( jQuery( '#toplevel_page_ec-store .wp-submenu3 li.current' ) ) {
+    if ( jQuery( '#toplevel_page_ec-store .wp-submenu3 li.current' ).length > 0 ) {
         jQuery('#toplevel_page_ec-store > a').addClass('wp-has-current-submenu');
     }
     ecwidRefreshEcwidMenuItemSelection();
