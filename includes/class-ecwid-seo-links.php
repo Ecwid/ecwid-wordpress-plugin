@@ -210,6 +210,10 @@ class Ecwid_Seo_Links {
 			}
 		}
 
+		if ( self::is_404_seo_link() ) {
+			return $config;
+		}
+
 		$url = esc_js( get_permalink( $page_id ) );
 		
 		$result = <<<JS
@@ -222,6 +226,42 @@ JS;
 		return $config;
 	}
 
+	public static function is_404_seo_link() {
+		
+		if ( ! self::is_product_browser_url() ) {
+			return false;
+		}
+		
+		$params = self::maybe_extract_html_catalog_params();
+		if ( !$params ) return false;
+		
+		// Root is always ok
+		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
+		if ( $is_root_cat ) {
+			return false;
+		}
+		
+		$result = false;
+		
+		if ($params['mode'] == 'product') {
+			$result = Ecwid_Product::get_by_id( $params['id'] );
+		} elseif (!$is_root_cat && $params['mode'] == 'category') {
+			$result = Ecwid_Category::get_by_id( $params['id'] );
+		}
+		
+		// Can't parse params, assume its ok
+		if ( !$result ) {
+			return false;
+		}
+		
+		// product/category not found, 404
+		if ( is_object ( $result ) && ( !isset( $result->id ) || !$result->enabled ) ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static function maybe_extract_html_catalog_params() {
 
 		$current_url = add_query_arg( null, null );
@@ -268,7 +308,7 @@ JS;
 			foreach ( $links as $link ) {
 				foreach ( $patterns as $pattern ) {
 					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}

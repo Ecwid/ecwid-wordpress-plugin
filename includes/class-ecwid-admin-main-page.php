@@ -4,18 +4,16 @@ define( 'ECWID_ADMIN_TEMPLATES_DIR', ECWID_PLUGIN_DIR . '/templates/admin' );
 
 class Ecwid_Admin_Main_Page
 {
-	const PAGE_DASHBOARD = 'dashboard';
-	const PAGE_PRODUCTS = 'products';
-	const PAGE_ORDERS = 'orders';
-	const PAGE_MOBILE = 'mobile';
-
+	const PAGE_HASH_DASHBOARD = 'dashboard';
+	const PAGE_HASH_PRODUCTS = 'products';
+	const PAGE_HASH_ORDERS = 'orders';
+	const PAGE_HASH_MOBILE = 'mobile';
+	const PAGE_HASH_UPGRADE = 'billing:feature=sso&plan=ecwid_venture';
+	
 	public function do_page()
 	{
 		if ( $this->_is_forced_reconnect() ) {
 			ecwid_update_store_id( ecwid_get_demo_store_id() );
-			if (! ecwid_process_oauth_params() ) {
-				wp_redirect( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG );
-			}
 		}
 		
 		$is_demo = ecwid_is_demo_store();
@@ -79,13 +77,13 @@ class Ecwid_Admin_Main_Page
 			&& !Ecwid_Admin::disable_dashboard();
 	}
 	
-	public static function do_integrated_admin_page( $page = self::PAGE_DASHBOARD )
+	public static function do_integrated_admin_page( $page = self::PAGE_HASH_DASHBOARD )
 	{
 		$this_obj = new Ecwid_Admin_Main_Page();
 		$this_obj->_do_integrated_admin_page( $page );
 	}
 	
-	public function _do_integrated_admin_page( $page = self::PAGE_DASHBOARD )
+	public function _do_integrated_admin_page( $page = self::PAGE_HASH_DASHBOARD )
 	{
 		if (isset($_GET['show_timeout']) && $_GET['show_timeout'] == '1') {
 			require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
@@ -107,11 +105,11 @@ class Ecwid_Admin_Main_Page
 			$page = $_GET['ec-store-page'];
 		}
 
-		if ($page == ecwid_get_admin_iframe_upgrade_page()) {
+		if ( $page == self::PAGE_HASH_UPGRADE ) {
 			update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
 		}
 
-		if ($page == 'dashboard') {
+		if ( $page == self::PAGE_HASH_DASHBOARD ) {
 			$show_reconnect = true;
 		}
 
@@ -122,7 +120,7 @@ class Ecwid_Admin_Main_Page
 		$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
 
 		if (!$request) {
-			echo Ecwid_Message_Manager::show_message('no_oauth');
+			Ecwid_Message_Manager::show_message('no_oauth');
 			return;
 		}
 
@@ -141,7 +139,7 @@ class Ecwid_Admin_Main_Page
 
 				$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
 				if (!$request) {
-					echo Ecwid_Message_Manager::show_message('no_oauth');
+					Ecwid_Message_Manager::show_message('no_oauth');
 					return;
 				}
 				$result = $request->do_request();
@@ -156,8 +154,12 @@ class Ecwid_Admin_Main_Page
 			$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
 			$result = $request->do_request();
 		}
+		
+		if ( $result['code'] == 403 ) {
+			Ecwid_Api_V3::save_token('');
+		}
 
-		if (empty($result['code']) && empty($result['data']) ) {
+		if ( empty( $result['code'] ) && empty( $result['data'] ) || $result['code'] == 500 ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 		} else if ($result['code'] != 200) {
 			if (ecwid_test_oauth(true)) {
@@ -168,6 +170,11 @@ class Ecwid_Admin_Main_Page
 		} else {
 			require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
 		}		
+	}
+	
+	protected static function _get_upgrade_page_hash()
+	{
+		return 'billing:feature=sso&plan=ecwid_venture';
 	}
 	
 	protected function _do_simple_dashboard_page()

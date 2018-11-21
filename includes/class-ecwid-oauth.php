@@ -132,6 +132,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_public_token', $result->public_token );
 		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
+		ecwid_invalidate_cache( true );
 		Ecwid_Api_V3::reset_api_status();
 		
 		$this->api->save_token($result->access_token);
@@ -294,7 +295,9 @@ class Ecwid_OAuth {
 	}
 
 	protected function _save_state() {
-		setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		if ( !headers_sent( ) ) {
+			setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		}
 	}
 
 	public function get_reconnect_error() {

@@ -478,7 +478,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
  			    $variation_data['quantity'] = $var['max_qty'];
 			}
 			
-			if ( $var['sku'] != $p->sku ) {
+			if ( $var['sku'] != $p->get_sku() ) {
 				$variation_data['sku'] = $var['sku'];
 			}
 			

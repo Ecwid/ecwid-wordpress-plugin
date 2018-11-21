@@ -85,7 +85,8 @@ function ecwid_apply_theme($theme_name = null)
 		'Boundless',
 		'twentyseventeen',
 		'themify-music',
-		'Avada'
+		'Avada',
+		'twentynineteen'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
@@ -95,7 +96,7 @@ function ecwid_apply_theme($theme_name = null)
 	}
 
 	$theme_file = '';
-
+	
 	if (function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
 		$theme_name = 'responsiveboat';
 	}
@@ -111,6 +112,8 @@ function ecwid_apply_theme($theme_name = null)
 	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
 		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
+		$theme_file = strtolower($theme_file);
+
 		if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
 			require_once( $theme_file );
 		}

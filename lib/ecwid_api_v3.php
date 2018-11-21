@@ -17,6 +17,9 @@ class Ecwid_Api_V3
 	const API_STATUS_ERROR_TLS = 'fail_old_tls';
 	const API_STATUS_ERROR_OTHER = 'fail_other';
 	const API_STATUS_ERROR_TOKEN = 'fail_token';
+
+	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
+	const FEATURE_STATIC_HOME_PAGE = 'STATIC_HOME_PAGE';
 	
 	public static function get_api_status_list()
 	{
@@ -29,8 +32,8 @@ class Ecwid_Api_V3
 		);
 	}
 
-	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 	const FEATURE_VARIATIONS = 'COMBINATIONS';
+	const FEATURE_NEW_DETAILS_PAGE = 'NEW_DETAILS_PAGE';
 	
 	public $store_id = null;
 	

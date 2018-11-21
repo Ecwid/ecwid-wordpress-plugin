@@ -7,6 +7,8 @@ class Ecwid_Store_Page {
 	const OPTION_LAST_STORE_PAGE_ID = 'ecwid_last_store_page_id';
 	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
 	const WARMUP_ACTION = 'ecwid_warmup_store';
+	
+	const META_STORE_DATA = 'ecwid_store';
 
 	protected static $_store_pages = false;
 
@@ -163,7 +165,7 @@ class Ecwid_Store_Page {
 
 		return $page_id;
 	}
-
+	
 	public static function is_store_page( $page_id = 0 ) {
 
 		if (!$page_id) {
