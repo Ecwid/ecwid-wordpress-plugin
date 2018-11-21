@@ -191,7 +191,7 @@ class EcwidPlatform {
 		return $result;
 	}
 
-	static public function cache_set($name, $value, $expires_after)
+	static public function cache_set($name, $value, $expires_after = 0)
 	{
 		self::cache_log_record( 'set', array( 'name' => $name, 'value' => $value, 'expires' => $expires_after ) );
 		set_transient('ecwid_' . $name, $value, $expires_after);

@@ -69,6 +69,10 @@ class Ecwid_Static_Home_Page {
 	{
 		$store_page_params = self::_get_store_page_params();
 		$params = array();
+
+		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		$lang = substr( $lang, 0, strpos( $lang, ';' ) );
+		$params['lang'] = substr( $lang, 0, 2 );
 		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['clean_links'] = 'true';
@@ -102,7 +106,6 @@ class Ecwid_Static_Home_Page {
 		$fetched_data = null;
 		
 		$fetched_data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
-		
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 
@@ -193,14 +196,11 @@ class Ecwid_Static_Home_Page {
 		
 		$data = array_merge( $existing, $data );
 		
-		EcwidPlatform::store_in_catalog_cache(
-			self::_get_store_page_data_key(),
-			$data
-		);
+		EcwidPlatform::cache_set( self::_get_store_page_data_key(), $data );
 	}
 
 	protected static function _get_store_page_params( ) {
-		$params = EcwidPlatform::get_from_catalog_cache( self::_get_store_page_data_key() );
+		$params = EcwidPlatform::cache_get( self::_get_store_page_data_key(), array() );
 		
 		if ( !empty( $params) ) return $params;
 		
