@@ -21,6 +21,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	public function render() {
+		
 		Ecwid_Store_Page::add_store_page( get_the_ID() );
 		if( current_user_can( Ecwid_Admin::get_capability() ) ) {
 			
@@ -28,7 +29,27 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$seo_links->check_base_urls_on_view_store_page_as_admin();
 		}
 
-		return parent::render();
+		$default_render = parent::render();
+		
+		$data = Ecwid_Static_Home_Page::get_data_for_current_page();
+		if ( !$data ) {
+			return $default_render;
+		}
+
+		$code = '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
+
+		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
+
+		$code .= <<<HTML
+<script language="JavaScript">
+    EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
+	if ( location.hash != '' ) {
+	    EcwidStaticPageLoader.switchToDynamicMode();
+	}
+</script>
+HTML;
+
+		return $code;
 	}
 
 	public function render_placeholder( ) {
@@ -39,7 +60,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		
 		$html_catalog_params = false;
 		
-		if ( Ecwid_Api_V3::is_available() ) {
+		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Home_Page::get_data_for_current_page() ) {
 
 			if (ecwid_should_display_escaped_fragment_catalog()) {
 				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
@@ -52,6 +73,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			if ($html_catalog_params !== false && get_option('ecwid_print_html_catalog', 'Y')) {
 				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
 			}
+		}
+
+		if ( Ecwid_Static_Home_Page::is_enabled() ) {
+			$params = array();
+			if ( $this->_lang ) {
+				$params['lang'] = $this->_lang;
+			}
+			if ( @$this->_params['defaultCategoryId'] ) {
+				$params['default_category_id'] = $this->_params['defaultCategoryId'];
+			}
+			
+			Ecwid_Static_Home_Page::save_store_page_params( $params );
 		}
 		
 		$classname = $this->_get_html_class_name();
