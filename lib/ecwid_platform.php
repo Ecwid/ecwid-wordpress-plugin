@@ -322,15 +322,19 @@ class EcwidPlatform {
 	}
 
 	static public function reset( $name ) {
+		if ( !self::$ecwid_plugin_data ) {
+			self::$ecwid_plugin_data = get_option( self::OPTION_ECWID_PLUGIN_DATA );
+		}
+
 		$options = get_option( self::OPTION_ECWID_PLUGIN_DATA );
 
-		if ( !is_array( $options ) || !array_key_exists($name, $options)) {
+		if ( !is_array( self::$ecwid_plugin_data ) || !array_key_exists( $name, self::$ecwid_plugin_data ) ) {
 			return;
 		}
 
-		unset($options[$name]);
-
-		update_option( self::OPTION_ECWID_PLUGIN_DATA, $options );
+		unset( self::$ecwid_plugin_data[$name] );
+		
+		update_option( self::OPTION_ECWID_PLUGIN_DATA, self::$ecwid_plugin_data );
 
 	}
 

@@ -1,6 +1,5 @@
 <div class="ecwid-debug">
 <?php
-return;
 	$all_plugins = get_plugins();
 
 	$active_plugins = get_option('active_plugins');

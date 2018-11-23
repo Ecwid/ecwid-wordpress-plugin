@@ -92,14 +92,13 @@ class Ecwid_Api_V3
 	public static function check_api_status()
 	{
 		$api = new Ecwid_Api_V3();
-
+		
 		$token = self::_load_token();
 		if ( !$token ) {
 			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 		}
 		
 		$profile = $api->get_store_profile();
-
 		
 		if ( $profile ) {
 			return self::set_api_status( self::API_STATUS_OK );
@@ -434,6 +433,9 @@ class Ecwid_Api_V3
 		$query['redirect_uri']  = $redirect_uri;
 		$query['response_type'] = 'code';
 		$query['scope']         = $scope;
+		if ( Ecwid_Config::get_channel_id() ) {
+			$query['partner'] = Ecwid_Config::get_channel_id();
+		}
 
 		foreach ($query as $key => $value) {
 			$query[$key] = urlencode($value);
@@ -500,9 +502,10 @@ class Ecwid_Api_V3
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-
+		
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			Ecwid_Api_V3::save_token('');
 			return false;
 		}
 		

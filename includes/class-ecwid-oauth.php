@@ -104,19 +104,20 @@ class Ecwid_OAuth {
 		$params['redirect_uri'] = admin_url( $base_admin_url );
 
 		$params['grant_type'] = 'authorization_code';
-
+		
 		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_token_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 
 		$return = $request->do_request(array('body' => $params));
 
-		if (is_array($return) && isset($return['data'])) {
-			$result = json_decode($return['data']);
+		$result = new stdClass();
+		if ( is_array( $return ) && isset( $return['data'] ) ) {
+			$result = json_decode( $return['data'] );
 		}
 
 		if (
-			!is_array($return)
+			!is_array( $return )
 			|| !isset( $result->store_id )
 			|| !isset( $result->scope )
 			|| !isset( $result->access_token )

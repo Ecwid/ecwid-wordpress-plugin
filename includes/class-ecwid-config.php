@@ -117,7 +117,6 @@ class Ecwid_Config {
 			self::CONTACT_US_URL => 'contact_us_url',
 			self::KB_URL => 'kb_url',
 			self::REGISTRATION_URL => 'registration_url',
-			self::CHANNEL_ID => 'channel_id',
 			self::OAUTH_TOKEN_URL => 'oauth_token_url',
 			self::OAUTH_AUTH_URL => 'oauth_authorize_url',
 		);
@@ -127,6 +126,7 @@ class Ecwid_Config {
 			self::OAUTH_APPSECRET => 'oauth_appsecret',
 			self::TOKEN => 'oauth_token',
 			self::STORE_ID => 'store_id',
+			self::CHANNEL_ID => 'channel_id',
 			self::API_DOMAIN => 'api_domain',
 			self::FRONTEND_DOMAIN => 'scriptjs_domain',
 			self::CPANEL_DOMAIN => 'cp_domain',
