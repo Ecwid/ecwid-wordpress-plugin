@@ -84,10 +84,6 @@ class Ecwid_Static_Home_Page {
 			return null;
 		}
 		$params = array();
-
-		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-		$lang = substr( $lang, 0, strpos( $lang, ';' ) );
-		$params['lang'] = substr( $lang, 0, 2 );
 		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['clean_links'] = 'true';
