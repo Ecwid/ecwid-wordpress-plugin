@@ -109,16 +109,17 @@ function ecwid_apply_theme($theme_name = null)
 		return;
 	}
 
+	global $ecwid_current_theme;
+
 	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
 		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
 		$theme_file = strtolower($theme_file);
 
 		if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
-			require_once( $theme_file );
+			$ecwid_current_theme = require_once( $theme_file );
 		}
 	} else if ( array_key_exists( $theme_name, $generic_themes ) ) {
-		global $ecwid_current_theme;
 		
 		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}

@@ -34,4 +34,4 @@ class Ecwid_Theme_Boundless extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Boundless();
+return new Ecwid_Theme_Boundless();

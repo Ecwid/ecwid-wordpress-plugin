@@ -78,5 +78,4 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 
 }
 
-global $ecwid_current_theme;
-$ecwid_current_theme = new Ecwid_Theme_Responsive();
+return new Ecwid_Theme_Responsive();
