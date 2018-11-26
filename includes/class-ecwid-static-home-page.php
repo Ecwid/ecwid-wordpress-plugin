@@ -38,12 +38,6 @@ class Ecwid_Static_Home_Page {
 		if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
 
 		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE );
-
-		wp_add_inline_script( 'ecwid-' .self::HANDLE_STATIC_PAGE,  <<<JS
-document.documentElement.id = 'ecwid_html';
-document.body.id = 'ecwid_body';
-JS
-			, 'before' );
 		
 		foreach ( $data->cssFiles as $ind => $item ) {
 			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
@@ -85,6 +79,10 @@ JS
 	protected static function _maybe_fetch_data()
 	{
 		$store_page_params = self::_get_store_page_params();
+		
+		if ( isset( $store_page_params['default_category_id'] ) ) {
+			return null;
+		}
 		$params = array();
 
 		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -114,7 +112,11 @@ JS
 			$url .= $name . '=' . urlencode( $value ) . '&'; 
 		}
 		
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $url );
+		$accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		
+		$cache_key = $accept_language . "\n" . $url;
+		
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 		
 		if ( $cached_data ) {
 			return $cached_data;
@@ -122,12 +124,20 @@ JS
 		
 		$fetched_data = null;
 		
-		$fetched_data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
+		$fetched_data = EcwidPlatform::fetch_url( 
+			$url, 
+			array( 
+				'timeout' => 3,
+				'headers' => array(
+					'ACCEPT-LANGUAGE' => $accept_language
+				)
+			)
+		);
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 
 			$fetched_data = @json_decode( $fetched_data['data'] );
-			EcwidPlatform::store_in_catalog_cache( $url, $fetched_data );
+			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
 			return $fetched_data;
 		}
@@ -224,13 +234,15 @@ JS
 		return array();
 	}
 	
+	protected static function _get_page_content_data_key( $url ) {
+		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];	
+	}
+	
 	protected static function _get_store_page_data_key()
 	{
 		$post = get_post();
-		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-		$lang = substr( $lang, 0, strpos( $lang, ';' ) );
 		
-		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt . '_' . $lang;		
+		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
 
 	}
 }
