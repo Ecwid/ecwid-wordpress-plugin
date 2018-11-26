@@ -122,6 +122,8 @@ function ecwid_apply_theme($theme_name = null)
 		
 		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}
+	
+	do_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, $ecwid_current_theme );
 }
 
 function ecwid_after_switch_theme()

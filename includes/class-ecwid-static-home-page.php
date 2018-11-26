@@ -13,12 +13,17 @@ class Ecwid_Static_Home_Page {
 	const CACHE_DATA = 'static_home_page_data';
 	const PARAM_VALID_FROM = 'static_home_page_valid_from';
 	
+	const HANDLE_STATIC_PAGE = 'static-home-page';
+	
+	protected $_has_theme_adjustments = false;
+	
 	public function __construct() {
 		
 		add_option( self::OPTION_IS_ENABLED );
 		
 		if ( !is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
 	}
 	
@@ -32,13 +37,25 @@ class Ecwid_Static_Home_Page {
 
 		if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
 
-		EcwidPlatform::enqueue_script( 'static-home-page' );
+		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE );
 
+		wp_add_inline_script( 'ecwid-' .self::HANDLE_STATIC_PAGE,  <<<JS
+document.documentElement.id = 'ecwid_html';
+document.body.id = 'ecwid_body';
+JS
+			, 'before' );
+		
 		foreach ( $data->cssFiles as $ind => $item ) {
-			wp_enqueue_style( 'ecwid-static-home-page-' . $ind, $item );
+			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
 		}
 		
-		wp_add_inline_script( 'ecwid-static-home-page', "window.ec.config.interactive = false;" );
+		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec.config.interactive = false;" );
+	}
+	
+	public function apply_theme( $theme ) {
+		if ( $theme ) {
+			$this->_has_theme_adjustments = true;
+		}
 	}
 	
 	public static function get_data_for_current_page()
