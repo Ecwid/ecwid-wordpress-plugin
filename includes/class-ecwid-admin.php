@@ -36,6 +36,9 @@ class Ecwid_Admin {
 	public function build_menu()
 	{
 		$is_newbie = ecwid_is_demo_store();
+		if ( Ecwid_Admin_Main_Page::is_forced_reconnect() ) {
+			$is_newbie = true;
+		}
 		
 		$page = new Ecwid_Admin_Main_Page();
 		

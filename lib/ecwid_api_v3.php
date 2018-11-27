@@ -130,11 +130,15 @@ class Ecwid_Api_V3
 
 	public static function save_token($token)
 	{
-		EcwidPlatform::init_crypt( true );
-
-		$value = base64_encode( EcwidPlatform::encrypt( $token ) );
-
-		update_option( self::TOKEN_OPTION_NAME, $value );
+		if (!$token) {
+			update_option( self::TOKEN_OPTION_NAME, '' );
+		} else {
+			EcwidPlatform::init_crypt( true );
+	
+			$value = base64_encode( EcwidPlatform::encrypt( $token ) );
+	
+			update_option( self::TOKEN_OPTION_NAME, $value );
+		}
 		self::reset_api_status();
 	}
 
@@ -486,7 +490,6 @@ class Ecwid_Api_V3
 	}
 
 	public function get_store_profile() {
-		
 		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		

@@ -12,10 +12,10 @@ class Ecwid_Admin_Main_Page
 	
 	public function do_page()
 	{
-		if ( $this->_is_forced_reconnect() ) {
+		if ( self::is_forced_reconnect() ) {
 			ecwid_update_store_id( ecwid_get_demo_store_id() );
 		}
-		
+
 		$is_demo = ecwid_is_demo_store();
 		$is_api_connection_ok = !Ecwid_Api_V3::connection_fails();
 		
@@ -25,6 +25,7 @@ class Ecwid_Admin_Main_Page
 				$this->_is_whitelabel_mode_with_no_registration()
 				|| $this->_is_oauth_error()
 				|| $this->_is_current_user_email_registered_at_ecwid()
+				|| self::is_forced_reconnect()
 			) {
 
 				$this->_do_simple_connect_page();
@@ -171,7 +172,12 @@ class Ecwid_Admin_Main_Page
 			require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
 		}		
 	}
-	
+
+	public static function is_forced_reconnect()
+	{
+		return isset( $_GET['reconnect'] );
+	}
+
 	protected static function _get_upgrade_page_hash()
 	{
 		return 'billing:feature=sso&plan=ecwid_venture';
@@ -226,11 +232,6 @@ class Ecwid_Admin_Main_Page
 		return $api->does_store_exist( $current_user->user_email );
 	}
 	
-	protected function _is_forced_reconnect()
-	{
-		return isset( $_GET['reconnect'] );
-	}
-
 	protected function _is_connect_error()
 	{
 		return isset( $_GET['connection_error'] );

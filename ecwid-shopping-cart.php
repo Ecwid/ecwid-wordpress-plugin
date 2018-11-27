@@ -2161,7 +2161,6 @@ function ecwid_settings_api_init() {
 	}
 
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
-		update_option('ecwid_is_api_enabled', 'off');
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
 		update_option( 'ecwid_connected_via_legacy_page_time', time() );
@@ -2563,7 +2562,6 @@ function ecwid_admin_post_connect()
 
 	if (isset($_GET['force_store_id'])) {
 		update_option('ecwid_store_id', $_GET['force_store_id']);
-		update_option('ecwid_is_api_enabled', 'off');
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 1);
 		wp_redirect( Ecwid_Admin::get_dashboard_url() );
@@ -3159,8 +3157,9 @@ function ecwid_update_store_id( $new_store_id ) {
 	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
 	update_option( 'ecwid_store_id', $new_store_id );
-	update_option( 'ecwid_is_api_enabled', 'off' );
 	update_option( 'ecwid_api_check_time', 0 );
+	
+	Ecwid_Api_V3::save_token( '' );
 	
 	ecwid_invalidate_cache( true );
 	EcwidPlatform::cache_reset('all_categories');
