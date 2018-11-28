@@ -149,7 +149,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
-== Changelog ==
+== Changelog == 
+= 6.4.3 - Nov 28, 2018 =
+- Minor fixes and improvements for the Ecwid ecommerce blocks in Gutenberg editor.
+
 = 6.4.2 - Nov 14, 2018 =
 - **Speedup for the store main page.** We're working on making Ecwid stores load faster on WordPress sites. This update brings a set of loading speed improvements for some part of the stores. We will gradually roll out these enhancements to all users. No actions required from your side — your store will get all of the improvements in this or upcoming releases. But if you ever noticed your store loading slowly, please contact us so we can help you enable this new feature on your site right now.
 - **Fixed an issue in the plugin settings menu on [Wordpress.com](http://wordpress.com).** Ecwid e-commerce plugin works on Wordpress.com sites as well. In the admin backend of [WordPress.com](http://wordpress.com) sites, the plugin menu didn't look well — some of the styles and colors were broken. We fixed it, now the plugin admin backend should work fine on both [Wordpress.org](http://wordpress.org) and Wordpress.com installations.
