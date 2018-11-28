@@ -2,6 +2,7 @@ var EcwidStaticPageLoader = {
     isTouchDevice: false,
     staticId: null,
     dynamicId: null,
+    defaultCategoryId: null,
 
     find: function (selector) {
         return document.querySelector(selector);
@@ -19,7 +20,7 @@ var EcwidStaticPageLoader = {
         return Array.prototype.forEach.call(elements, fn);
     },
 
-    isRootCategory: function () {
+    isRootCaregory: function () {
         return window.location.hash === '' || window.location.hash.indexOf("#!/c/0/") !== -1;
     },
 
@@ -31,9 +32,10 @@ var EcwidStaticPageLoader = {
         }
     },
 
-    processStaticHomePage: function (staticId, dynamicId) {
+    processStaticHomePage: function (staticId, dynamicId, defaultCategoryId) {
         this.staticId = staticId;
         this.dynamicId = dynamicId;
+        this.defaultCategoryId = defaultCategoryId;
 
         this.onDocumentReady(function () {
             if (!!('ontouchstart' in window)) {
@@ -41,7 +43,7 @@ var EcwidStaticPageLoader = {
                 document.body.classList.add('touchable');
             }
 
-            if (!EcwidStaticPageLoader.isRootCategory()) {
+            if (!EcwidStaticPageLoader.isRootCaregory()) {
                 EcwidStaticPageLoader.hideStorefront();
                 EcwidStaticPageLoader.switchToDynamicMode();
                 return;
@@ -73,7 +75,10 @@ var EcwidStaticPageLoader = {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
-                if (openedPage.type == "CATEGORY" && openedPage.categoryId == 0) {
+                if (openedPage.type == "CATEGORY"
+                    && openedPage.categoryId == EcwidStaticPageLoader.defaultCategoryId
+                    && openedPage.offset == 0
+                    && openedPage.sort == 'normal') {
                     // we don't need to dispatch root category loading,
                     // since our static contents covers it for the first time
                     return;
@@ -110,6 +115,27 @@ var EcwidStaticPageLoader = {
             });
         }
 
+
+        var breadcrumbsLinks = EcwidStaticPageLoader.find('#' + this.staticId + ' .ec-breadcrumbs a');
+        if (breadcrumbsLinks && breadcrumbsLinks.length > 0) {
+            EcwidStaticPageLoader.forEach(breadcrumbsLinks, function (element) {
+                var categoryId = element.getAttribute('data-category-id');
+                if (categoryId !== EcwidStaticPageLoader.defaultCategoryId) {
+                    EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {'id': categoryId}));
+                }
+            });
+        }
+
+        var orderByOptions = EcwidStaticPageLoader.find('#' + this.staticId + ' .grid__sort select');
+        if (orderByOptions != null) {
+            orderByOptions.onchange = function (e) {
+                EcwidStaticPageLoader.openEcwidPage('category', {
+                    'id': EcwidStaticPageLoader.defaultCategoryId,
+                    'sort': orderByOptions.value
+                }).bind(this)(e);
+            }
+        }
+
         var trackOrdersLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--track-order');
         if (trackOrdersLink.length > 0) {
             EcwidStaticPageLoader.forEach(trackOrdersLink, function (element) {
@@ -142,7 +168,7 @@ var EcwidStaticPageLoader = {
         if (pagerButtonLinks.length > 0) {
             EcwidStaticPageLoader.forEach(pagerButtonLinks, function (element) {
                 EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
-                    'id': 0,
+                    'id': EcwidStaticPageLoader.defaultCategoryId,
                     'page': 2
                 }));
             });
@@ -153,7 +179,7 @@ var EcwidStaticPageLoader = {
             EcwidStaticPageLoader.forEach(pagerNumberLinks, function (element) {
                 var pageNumber = element.getAttribute('data-page-number');
                 EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
-                    'id': 0,
+                    'id': EcwidStaticPageLoader.defaultCategoryId,
                     'page': pageNumber
                 }));
             });
