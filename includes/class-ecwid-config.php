@@ -101,15 +101,14 @@ class Ecwid_Config {
 
 		$filename = apply_filters('ecwid_config_ini_path', ECWID_PLUGIN_DIR . 'config.ini');
 		
-		if (!file_exists($filename)) {
-			return;
+		if ( file_exists( $filename ) ) {
+			$result = @parse_ini_file($filename);
 		}
 
-		$result = @parse_ini_file($filename);
-		
-		if ($result === false) {
-			return;
+		if ( !@$result ) {
+			$result = array();
 		}
+
 
 		$wl_config = array(
 			self::IS_WL => 'wl_mode',
