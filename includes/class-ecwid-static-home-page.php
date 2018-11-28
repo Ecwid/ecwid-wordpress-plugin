@@ -80,7 +80,7 @@ class Ecwid_Static_Home_Page {
 	{
 		$store_page_params = self::_get_store_page_params();
 		
-		if ( isset( $store_page_params['default_category_id'] ) ) {
+		if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] ) {
 			return null;
 		}
 		$params = array();
