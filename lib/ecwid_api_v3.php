@@ -528,29 +528,36 @@ class Ecwid_Api_V3
 
 		return $profile;
 	}
-	
+
 	public function is_store_feature_enabled( $feature_name ) {
-		
+
 		static $features = array();
-	
-		if ( array_key_exists( $feature_name, $features ) ) {
+
+		if ( !empty( $features ) && array_key_exists( $feature_name, $features ) ) {
 			return $features[$feature_name]['enabled'];
 		}
-		
+
 		$profile = $this->get_store_profile();
-	
+
 		if (!$profile) {
 			return false;
 		}
-		
-		foreach ( $profile->featureToggles as $feature ) {
+
+		$toggles = @$profile->featureToggles;
+
+		if ( !$toggles ) {
+			return false;
+		}
+
+		foreach ( $toggles as $feature ) {
 			if ( $feature->name == $feature_name ) {
+				$features[$feature_name] = array();
 				$features[$feature_name]['enabled'] = $feature->enabled;
-				
+
 				return $feature->enabled;
 			}
 		}
-	
+
 		return false;
 	}
 	
