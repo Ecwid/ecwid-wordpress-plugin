@@ -2,19 +2,31 @@
 
 abstract class Ecwid_Importer_Task
 {
+	
+	const WC_POST_TYPE_PRODUCT = 'product';
+	
 	public static $type;
 	
-	abstract public function execute( Ecwid_Importer $exporter, $data );
+	public static function build( array $data ) {
+		return array_merge(
+			array(
+				'type' => static::$type
+			),
+			$data
+		);
+	}
+	
+	abstract public function execute( Ecwid_Importer $importer, array $data );
 	
 	public static function load_task( $task_type ) {
-		$tasks = self::get_tasks();
+		$tasks = self::_get_tasks();
 		
 		$task = $tasks[$task_type];
 		
 		return new $task();
 	}
 	
-	protected static function get_tasks()
+	protected static function _get_tasks()
 	{
 		static $tasks = array();
 	
@@ -23,6 +35,7 @@ abstract class Ecwid_Importer_Task
 		}
 		
 		$names = array( 
+			'Main',
 			'Create_Category', 
 			'Create_Product', 
 			'Upload_Product_Image', 
@@ -31,8 +44,10 @@ abstract class Ecwid_Importer_Task
 			'Create_Product_Variation', 
 			'Upload_Product_Variation_Image',
 			'Upload_Product_Gallery_Image',
-			
-			'Build_Product_Tasks'
+			'Import_Woo_Products',
+			'Import_Woo_Products_Batch',
+			'Import_Woo_Categories',
+			'Import_Woo_Product'
 		);
 		
 		foreach ( $names as $name ) {
@@ -44,13 +59,19 @@ abstract class Ecwid_Importer_Task
 		return $tasks;
 	}
 	
-}
-
-class Ecwid_Importer_Task_Gather_All_Products extends Ecwid_Importer_Task {
-	public static $type = 'gather_products';
+	protected function _result_success()
+	{
+		return array(
+			'status' => 'success'
+		);
+		
+	}
 	
-	public function execute( Ecwid_Importer $exporter, $product_data ) {
-	//	собиралка будет собирать сколько-то и шедулить остальные
+	protected function _result_nothing()
+	{
+		return array(
+			
+		);
 	}
 }
 
@@ -60,7 +81,7 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 
 	const WC_PRODUCT_TYPE_VARIABLE = 'variable';
 	
-	public function execute( Ecwid_Importer $exporter, $product_data ) {
+	public function execute( Ecwid_Importer $exporter, array $product_data ) {
 		$api = new Ecwid_Api_V3( );
 		
 		$woo_id = $product_data['woo_id'];
@@ -190,7 +211,7 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		return $result;
 	}
 	
-	public static function build( $data ) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id']
@@ -202,7 +223,7 @@ class Ecwid_Importer_Task_Delete_Products extends Ecwid_Importer_Task
 {
 	public static $type = 'delete_products';
 
-	public function execute( Ecwid_Importer $exporter, $data ) {
+	public function execute( Ecwid_Importer $exporter, array $data ) {
 		$api = new Ecwid_Api_V3();
 
 		$ids = $data['ids'];
@@ -219,7 +240,7 @@ class Ecwid_Importer_Task_Delete_Products extends Ecwid_Importer_Task
 		return $return;
 	}
 
-	public static function build( $ids ) {
+	public static function build( array $ids ) {
 		return array(
 			'type' => self::$type,
 			'ids' => $ids
@@ -231,7 +252,7 @@ class Ecwid_Importer_Task_Upload_Product_Variation_Image extends Ecwid_Importer_
 {
 	public static $type = 'upload_product_variation_image';
 
-	public function execute( Ecwid_Importer $exporter, $data ) {
+	public function execute( Ecwid_Importer $exporter, array $data ) {
 		$api = new Ecwid_Api_V3();
 
 		$product_id = get_post_meta( $data['product_id'], '_ecwid_product_id', true );
@@ -279,7 +300,7 @@ class Ecwid_Importer_Task_Upload_Product_Variation_Image extends Ecwid_Importer_
 		return $return;
 	}
 
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'product_id' => $data['product_id'],
@@ -292,7 +313,7 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 {
 	public static $type = 'upload_category_image';
 
-	public function execute( Ecwid_Importer $exporter, $category_data ) {
+	public function execute( Ecwid_Importer $exporter, array $category_data ) {
 		$api = new Ecwid_Api_V3();
 
 		$woo_id = $category_data['woo_id'];
@@ -333,7 +354,7 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 		return $return;
 	}
 
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id']
@@ -345,7 +366,7 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 {
 	public static $type = 'upload_product_image';
 
-	public function execute( Ecwid_Importer $exporter, $product_data ) {
+	public function execute( Ecwid_Importer $exporter, array $product_data ) {
 		$api = new Ecwid_Api_V3();
 		
 		$file = get_attached_file ( get_post_thumbnail_id( $product_data['woo_id'] ) );
@@ -382,7 +403,7 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task
 		return $return;
 	}
 
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id']
@@ -394,7 +415,7 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 {
 	public static $type = 'upload_product_gallery_image';
 
-	public function execute( Ecwid_Importer $exporter, $product_data ) {
+	public function execute( Ecwid_Importer $exporter, array $product_data ) {
 		$api = new Ecwid_Api_V3();
 
 		$file = get_attached_file( $product_data['image_id'] );
@@ -406,6 +427,14 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 				'status' => 'error',
 				'data'   => 'skipped',
 				'message' => 'Parent product was not imported'
+			);
+		}
+		
+		if ( !$file || !file_exists( $file ) || !is_readable( $file ) ) {
+			return array(
+				'status' => 'error',
+				'data' => 'skipped',
+				'message' => 'File not found for product#' . $product_data['product_id'] . ' image ' . $product_data['image_id']
 			);
 		}
 
@@ -432,7 +461,7 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 		return $return;
 	}
 
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'product_id' => $data['product_id'],
@@ -445,7 +474,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 {
 	public static $type = 'create_variation';
 
-	public function execute( Ecwid_Importer $exporter, $data ) {
+	public function execute( Ecwid_Importer $exporter, array $data ) {
 		$api = new Ecwid_Api_V3();
 
 		$p = wc_get_product( $data['woo_id'] );
@@ -517,7 +546,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 		return $return;
 	}
 
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id'],
@@ -530,7 +559,7 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 {
 	public static $type = 'create_category';
 
-	public function execute( Ecwid_Importer $exporter, $category_data ) {
+	public function execute( Ecwid_Importer $exporter, array $category_data ) {
 		$api = new Ecwid_Api_V3();
 		
 		$category = get_term_by( 'id', $category_data['woo_id'], 'product_cat' );
@@ -571,7 +600,7 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 		return $return;
 	}
 	
-	public static function build($data) {
+	public static function build( array $data ) {
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id']

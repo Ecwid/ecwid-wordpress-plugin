@@ -118,6 +118,10 @@ jQuery(document).ready(function() {
                    } else {
                        do_import();
                    }
+               },
+               'fail': function(jqXHR, textStatus, errorThrown) {
+                   status.errorMessages['jqXHR fail'][textStatus] = 1;
+                   doImportComplete(status);
                }
            });
        };
