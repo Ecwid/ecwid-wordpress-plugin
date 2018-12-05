@@ -27,7 +27,6 @@ class Ecwid_Importer
 	public function initiate( $settings = array() )
 	{
 		$t = Ecwid_Importer_Task::load_task(Ecwid_Importer_Task_Import_Woo_Product::$type);
-		die(var_dump($t->execute($this, array('woo_id' => 15767))));
 		update_option( self::OPTION_CATEGORIES, array() );
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
@@ -47,8 +46,6 @@ class Ecwid_Importer
 	
 	public function tick()
 	{
-	//	$this->_set_tasks(array());
-	//	die('123123');
 		set_time_limit(0);
 		$results = array();
 		
@@ -57,7 +54,7 @@ class Ecwid_Importer
 		$status = get_option( self::OPTION_STATUS, array( 'plan_limit' => array() ) );
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
-		
+
 		do {
 			$current_task = $this->_get_current_task();
 
@@ -161,15 +158,12 @@ class Ecwid_Importer
 	public function append_after_type( $task ) {
 		$ind = $this->_get_current_task();
 		$type = $this->_tasks[$ind];
-
-		die(var_dump($task, $this->_tasks, $ind));
 		
 		$ind++;
 		while ( $this->_tasks[$ind]['type'] == $type && isset( $this->_tasks[$ind]) ) {
 			$ind++;
 		}
 		
-		die(var_dump($task, $this->_tasks, $ind));
 		array_splice( $this->_tasks, $ind + 1, 0, array( $task ) );
 	}
 	

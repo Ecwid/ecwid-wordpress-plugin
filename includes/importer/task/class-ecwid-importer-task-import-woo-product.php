@@ -26,8 +26,6 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task {
 */
 		$p = wc_get_product( $product['woo_id'] );
 		
-		die(var_dump($p->get_gallery_image_ids(), (bool)$p->get_gallery_image_ids()));
-
 		if ( $p instanceof WC_Product_Variable ) {
 
 			$vars = $p->get_available_variations();

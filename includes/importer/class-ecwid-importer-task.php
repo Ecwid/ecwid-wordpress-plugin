@@ -82,6 +82,7 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 	const WC_PRODUCT_TYPE_VARIABLE = 'variable';
 	
 	public function execute( Ecwid_Importer $exporter, array $product_data ) {
+		
 		$api = new Ecwid_Api_V3( );
 		
 		$woo_id = $product_data['woo_id'];
