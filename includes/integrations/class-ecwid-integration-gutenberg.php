@@ -26,9 +26,9 @@ class Ecwid_Integration_Gutenberg {
 			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'render_callback' ),
         ));
-	
+		
 		register_block_type(self::PRODUCT_BLOCK, array(
-			'editor_script' => 'ecwid-gutenberg-product',
+			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
@@ -42,11 +42,9 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
+
 		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
-		if ( Ecwid_Api_V3::is_available() ) {
-			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
-		}
 		
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
@@ -73,7 +71,7 @@ class Ecwid_Integration_Gutenberg {
 				'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' )
 			)
 		);
-
+		
 		$is_demo_store = ecwid_is_demo_store();
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
@@ -94,6 +92,8 @@ class Ecwid_Integration_Gutenberg {
 				'storeIcon' => $this->_get_store_icon_path(),
 				'productIcon' => $this->_get_product_icon_path(),
 				'isDemoStore' => $is_demo_store,
+				'isApiAvailable' => Ecwid_Api_V3::is_available(),
+				'products' => $this->_get_products_data(),
 				'customizeMinicartText' =>
 					sprintf(
 						__(
@@ -107,6 +107,34 @@ class Ecwid_Integration_Gutenberg {
 			)
 		);
 
+	}
+	
+	protected function _get_products_data() {
+
+		$blocks = gutenberg_parse_blocks( get_post()->post_content );
+
+		$productIds = array();
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
+				$productIds[] = $block['attrs']['id'];
+			}
+		}
+		
+		if ( empty( $productIds ) ) {
+			return array();
+		}
+		
+		$result = array();
+		foreach ( $productIds as $id ) {
+			$product = Ecwid_Product::get_by_id( $id );
+			
+			$result[$id] = array(
+				'name' => $product->name,
+				'imageUrl' => $product->thumbnailUrl
+			);
+		}
+		
+		return $result;
 	}
 	
 	protected function _is_new_product_list() {
