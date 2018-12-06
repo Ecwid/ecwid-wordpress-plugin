@@ -33,8 +33,25 @@ class Ecwid_Integration_Gutenberg {
 		));
 		
 		add_action( 'in_admin_header', array( $this, 'add_popup' ) );
+		add_filter( 'block_categories', array( $this, 'block_categories' ) );
+
 	}
-	
+
+	public function block_categories( $categories ) {
+		return array_merge(
+			$categories,
+			array(
+				array(
+					'slug'  => 'ec-store',
+					'title' => sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+					'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $this->_get_store_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
+				),
+			)
+		);
+	}
+
+
+
 	public function on_save_post( $post, $request, $creating ) {
 		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
 			Ecwid_Store_Page::add_store_page( $post->ID );

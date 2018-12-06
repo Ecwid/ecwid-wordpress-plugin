@@ -63,7 +63,7 @@ registerBlockType( 'ecwid/store-block', {
 			<path d={ EcwidGutenbergParams.storeIcon }></path>
 		</svg>
 	), 
-	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: EcwidGutenbergStoreBlockParams.attributes,
 	description: __( 'Add storefront (product listing)', 'ecwid-shopping-cart' ),
     supports: {

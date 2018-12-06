@@ -60,7 +60,7 @@ registerBlockType( 'ecwid/product-block', {
 			<path d={ EcwidGutenbergParams.storeIcon }></path>
 		</svg>
 	), 
-	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: {
         id: {type: 'integer'},
         show_picture: {type: 'boolean'},
