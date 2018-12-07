@@ -71,8 +71,15 @@ jQuery(document).ready(function() {
                'url': ajaxurl,
                'data': {'action': ecwid_importer.do_woo_import_action, settings: settings},
                'success': function (json) {
-                   data = jQuery.parseJSON(json);
-
+                   
+                   try {
+                        data = jQuery.parseJSON(json);
+                   } catch(e) {
+                        status.errorMessages['json_failed'] = [];
+                        status.errorMessages['json_failed'][json] = 1;
+                        doImportComplete(status);
+                   }
+                   
                    for (var i = 0; i < data.success.length; i++) {
                        if (typeof status.success[data.success[i]] == 'undefined') {
                            status.success[data.success[i]] = 1;
@@ -118,6 +125,11 @@ jQuery(document).ready(function() {
                    } else {
                        do_import();
                    }
+               },
+               'error': function(jqXHR, textStatus, errorThrown) {
+                   status.errorMessages[textStatus] = [];
+                   status.errorMessages[textStatus][errorThrown] = 1;
+                   doImportComplete(status);
                }
            });
        };

@@ -849,7 +849,13 @@ class Ecwid_Api_V3
 		);
 		
 		if ( is_array( $result ) ) {
-			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$result['http_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$json_result = $result['body'];
+			$api_error = json_decode( $json_result );
+			if ( is_object( $api_error ) ) {
+				$result['api_code'] = @$api_error->errorCode;
+				$result['api_message'] = @$api_error->errorMessage;
+			}
 		}
 		
 		return $result;
