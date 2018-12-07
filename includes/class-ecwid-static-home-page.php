@@ -199,7 +199,7 @@ class Ecwid_Static_Home_Page {
 			return false;
 		}
 
-		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 10 == 0 ) {
+		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
 			return true;
 		}
 		
