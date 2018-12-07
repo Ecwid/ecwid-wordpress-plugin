@@ -26,4 +26,4 @@ class Ecwid_Theme_Central extends Ecwid_Theme_Base
 
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Central();
+return new Ecwid_Theme_Central();

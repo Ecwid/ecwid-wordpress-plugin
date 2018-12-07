@@ -13,12 +13,17 @@ class Ecwid_Static_Home_Page {
 	const CACHE_DATA = 'static_home_page_data';
 	const PARAM_VALID_FROM = 'static_home_page_valid_from';
 	
+	const HANDLE_STATIC_PAGE = 'static-home-page';
+	
+	protected $_has_theme_adjustments = false;
+	
 	public function __construct() {
 		
 		add_option( self::OPTION_IS_ENABLED );
 		
 		if ( !is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
 	}
 	
@@ -32,13 +37,19 @@ class Ecwid_Static_Home_Page {
 
 		if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
 
-		EcwidPlatform::enqueue_script( 'static-home-page' );
-
+		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE );
+		
 		foreach ( $data->cssFiles as $ind => $item ) {
-			wp_enqueue_style( 'ecwid-static-home-page-' . $ind, $item );
+			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
 		}
 		
-		wp_add_inline_script( 'ecwid-static-home-page', "window.ec.config.interactive = false;" );
+		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec.config.interactive = false;" );
+	}
+	
+	public function apply_theme( $theme ) {
+		if ( $theme ) {
+			$this->_has_theme_adjustments = true;
+		}
 	}
 	
 	public static function get_data_for_current_page()
@@ -68,6 +79,10 @@ class Ecwid_Static_Home_Page {
 	protected static function _maybe_fetch_data()
 	{
 		$store_page_params = self::_get_store_page_params();
+		
+		if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] ) {
+			return null;
+		}
 		$params = array();
 		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
@@ -93,7 +108,11 @@ class Ecwid_Static_Home_Page {
 			$url .= $name . '=' . urlencode( $value ) . '&'; 
 		}
 		
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $url );
+		$accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		
+		$cache_key = $accept_language . "\n" . $url;
+		
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 		
 		if ( $cached_data ) {
 			return $cached_data;
@@ -101,13 +120,20 @@ class Ecwid_Static_Home_Page {
 		
 		$fetched_data = null;
 		
-		$fetched_data = EcwidPlatform::fetch_url( $url, array( 'timeout' => 3 ) );
-		
+		$fetched_data = EcwidPlatform::fetch_url( 
+			$url, 
+			array( 
+				'timeout' => 3,
+				'headers' => array(
+					'ACCEPT-LANGUAGE' => $accept_language
+				)
+			)
+		);
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 
 			$fetched_data = @json_decode( $fetched_data['data'] );
-			EcwidPlatform::store_in_catalog_cache( $url, $fetched_data );
+			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
 			return $fetched_data;
 		}
@@ -173,7 +199,7 @@ class Ecwid_Static_Home_Page {
 			return false;
 		}
 
-		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 10 == 0 ) {
+		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
 			return true;
 		}
 		
@@ -193,27 +219,26 @@ class Ecwid_Static_Home_Page {
 		
 		$data = array_merge( $existing, $data );
 		
-		EcwidPlatform::store_in_catalog_cache(
-			self::_get_store_page_data_key(),
-			$data
-		);
+		EcwidPlatform::cache_set( self::_get_store_page_data_key(), $data );
 	}
 
 	protected static function _get_store_page_params( ) {
-		$params = EcwidPlatform::get_from_catalog_cache( self::_get_store_page_data_key() );
+		$params = EcwidPlatform::cache_get( self::_get_store_page_data_key(), array() );
 		
 		if ( !empty( $params) ) return $params;
 		
 		return array();
 	}
 	
+	protected static function _get_page_content_data_key( $url ) {
+		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];	
+	}
+	
 	protected static function _get_store_page_data_key()
 	{
 		$post = get_post();
-		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-		$lang = substr( $lang, 0, strpos( $lang, ';' ) );
 		
-		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt . '_' . $lang;		
+		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
 
 	}
 }

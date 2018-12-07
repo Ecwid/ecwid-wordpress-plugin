@@ -29,4 +29,4 @@ HTML;
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Avada();
+return new Ecwid_Theme_Avada();

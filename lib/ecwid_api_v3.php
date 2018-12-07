@@ -92,14 +92,13 @@ class Ecwid_Api_V3
 	public static function check_api_status()
 	{
 		$api = new Ecwid_Api_V3();
-
+		
 		$token = self::_load_token();
 		if ( !$token ) {
 			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 		}
 		
 		$profile = $api->get_store_profile();
-
 		
 		if ( $profile ) {
 			return self::set_api_status( self::API_STATUS_OK );
@@ -131,11 +130,15 @@ class Ecwid_Api_V3
 
 	public static function save_token($token)
 	{
-		EcwidPlatform::init_crypt( true );
-
-		$value = base64_encode( EcwidPlatform::encrypt( $token ) );
-
-		update_option( self::TOKEN_OPTION_NAME, $value );
+		if (!$token) {
+			update_option( self::TOKEN_OPTION_NAME, '' );
+		} else {
+			EcwidPlatform::init_crypt( true );
+	
+			$value = base64_encode( EcwidPlatform::encrypt( $token ) );
+	
+			update_option( self::TOKEN_OPTION_NAME, $value );
+		}
 		self::reset_api_status();
 	}
 
@@ -434,6 +437,9 @@ class Ecwid_Api_V3
 		$query['redirect_uri']  = $redirect_uri;
 		$query['response_type'] = 'code';
 		$query['scope']         = $scope;
+		if ( Ecwid_Config::get_channel_id() ) {
+			$query['partner'] = Ecwid_Config::get_channel_id();
+		}
 
 		foreach ($query as $key => $value) {
 			$query[$key] = urlencode($value);
@@ -485,7 +491,6 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 		
-		
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
 		if ( $profile ) {
@@ -500,9 +505,10 @@ class Ecwid_Api_V3
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-
+		
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			Ecwid_Api_V3::save_token('');
 			return false;
 		}
 		
@@ -522,29 +528,36 @@ class Ecwid_Api_V3
 
 		return $profile;
 	}
-	
+
 	public function is_store_feature_enabled( $feature_name ) {
-		
+
 		static $features = array();
-	
-		if ( array_key_exists( $feature_name, $features ) ) {
+
+		if ( !empty( $features ) && array_key_exists( $feature_name, $features ) ) {
 			return $features[$feature_name]['enabled'];
 		}
-		
+
 		$profile = $this->get_store_profile();
-	
+
 		if (!$profile) {
 			return false;
 		}
-		
-		foreach ( $profile->featureToggles as $feature ) {
+
+		$toggles = @$profile->featureToggles;
+
+		if ( !$toggles ) {
+			return false;
+		}
+
+		foreach ( $toggles as $feature ) {
 			if ( $feature->name == $feature_name ) {
+				$features[$feature_name] = array();
 				$features[$feature_name]['enabled'] = $feature->enabled;
-				
+
 				return $feature->enabled;
 			}
 		}
-	
+
 		return false;
 	}
 	
@@ -836,7 +849,13 @@ class Ecwid_Api_V3
 		);
 		
 		if ( is_array( $result ) ) {
-			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$result['http_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$json_result = $result['body'];
+			$api_error = json_decode( $json_result );
+			if ( is_object( $api_error ) ) {
+				$result['api_code'] = @$api_error->errorCode;
+				$result['api_message'] = @$api_error->errorMessage;
+			}
 		}
 		
 		return $result;

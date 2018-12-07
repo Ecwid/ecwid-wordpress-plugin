@@ -34,7 +34,6 @@ const {
 	IconButton,
 	BaseControl,
 	Toolbar,
-	Dropdown,
     ColorPalette,
     ColorIndicator
 } = wp.components;
@@ -425,7 +424,8 @@ registerBlockType( 'ecwid/store-block', {
         }
         const shortcodeAttributes = {
             'widgets': widgets.join(' '),
-            'default_category_id': props.attributes.default_category_id};
+            'default_category_id': typeof props.attributes.default_category_id != 'undefined' ? props.attributes.default_category_id  : 0
+	    };
 
         const shortcode = new wp.shortcode({
             'tag': EcwidGutenbergParams.storeShortcodeName,
@@ -494,6 +494,11 @@ registerBlockType( 'ecwid/store-block', {
                 return '[ecwid widgets="productbrowser" default_category_id="0" default_product_id="0"]';
             },
         },
+        {
+            save: function( props ) {
+                return '[ecwid widgets="productbrowser" default_category_id="0"]';
+            },
+        },
     ],
 	
     transforms: {
@@ -518,7 +523,7 @@ registerBlockType( 'ecwid/store-block', {
                     shortcode: function(attributes) {
                         return attributes.named.widgets.indexOf('search') !== -1
                     }
-                },
+                }
             },
             priority: 10
         }]

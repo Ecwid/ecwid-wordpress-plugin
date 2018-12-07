@@ -5,6 +5,8 @@ class Ecwid_Theme_Base {
 	const PROP_USE_JS_API_FOR_CATS_NAV_MENU = 'js-api-for-cats-nav-menu';
 	const PROP_AJAX_DEFER_RENDERING = 'ajax-defer-rendering';
 	
+	const ACTION_APPLY_THEME = 'ecwid-apply-theme';
+	
 	public $has_advanced_layout = false;
 
 	protected $adjust_pb_scroll = false;

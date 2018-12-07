@@ -36,10 +36,23 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			return $default_render;
 		}
 
-		$code = '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
+		$code = '';
+		global $ecwid_current_theme;
+		if ( $ecwid_current_theme ) {
+
+			$code = <<<HTML
+<script>
+document.documentElement.id = 'ecwid_html';
+document.body.id = 'ecwid_body';
+</script>
+HTML;
+		}
+
+
+		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
 
 		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
-
+		
 		$code .= <<<HTML
 <script language="JavaScript">
     EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
@@ -53,7 +66,7 @@ HTML;
 	}
 
 	public function render_placeholder( ) {
-
+		
 		$store_id = get_ecwid_store_id();
 
 		$plain_content = '';
@@ -86,9 +99,11 @@ HTML;
 			
 			Ecwid_Static_Home_Page::save_store_page_params( $params );
 		}
+
+		$result = '';
 		
 		$classname = $this->_get_html_class_name();
-		$result = <<<HTML
+		$result .= <<<HTML
 		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
 		<script>
 			function createClass(name,rules){

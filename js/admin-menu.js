@@ -141,6 +141,10 @@ jQuery(document).ready(function() {
     }
 
     window.ecwidOpenAdminPage = function (place) {
+        if (jQuery('#ecwid-frame').length < 1) {
+            return;
+        }
+        
         jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
             ecwidAppNs: "ecwid-wp-plugin",
             method: "openPage",
