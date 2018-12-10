@@ -68,6 +68,8 @@ function ecwidApplyIframeAdminMenu($link, menu) {
             jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
             jQuery(this).parents('.opensub').removeClass('opensub');
 
+            if ( !isOpen ) return true;
+            
             return false;
         });
 }

@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 5.0
-Stable tag: 6.4.5
+Stable tag: 6.4.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,7 +150,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
-= 6.4.4 - Dec 7, 2018 =
+= 6.4.6 - Dec 7, 2018 =
+- Minor fixes & improvements.
+
+= 6.4.5 - Dec 7, 2018 =
 - **Minor fixes for better compatibility with the WordPress v5 and Gutenberg.**
 - **Improvements and fixes for the “Import products from WooCommerce” tool.** Import of products from WooCommerce to Ecwid now should work smoother, especially when you have a lot of products to import.
 
