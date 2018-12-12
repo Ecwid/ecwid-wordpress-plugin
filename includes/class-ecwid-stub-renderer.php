@@ -6,7 +6,7 @@ abstract class Ecwid_Stub_Renderer {
 		if ( $this->_should_apply() ) {
 			add_filter( 'ecwid_shortcode_custom_renderer', array( $this, 'get_custom_renderer' ), 10, 2 );
 			add_filter( 'ecwid_get_custom_widget_renderer', array( $this, 'get_custom_widget_renderer' ), 10, 3 );
-			add_filter( 'ecwid_inline_js_config', array( $this, 'filter_inline_js_config' ) );
+			add_filter( 'ecwid_inline_js_config', array( $this, 'filter_inline_js_config' ), 10000 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 	}
