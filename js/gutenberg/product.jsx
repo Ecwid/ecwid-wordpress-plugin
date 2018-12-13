@@ -5,9 +5,12 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
+
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
+
+if ( !EcwidGutenbergParams.isDemoStore ) {
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 
@@ -40,6 +43,8 @@ const { withState } = wp.compose;
 const {
     Fragment
 } = wp.element;
+
+
 /**
  * Register: aa Gutenberg Block.
  *
@@ -57,21 +62,21 @@ registerBlockType( 'ecwid/product-block', {
 	title: EcwidGutenbergParams.productBlockTitle, // Block title.
 	icon: ( 
 		<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-			<path d={ EcwidGutenbergParams.storeIcon }></path>
+			<path d={ EcwidGutenbergParams.productIcon }></path>
 		</svg>
 	), 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: {
         id: {type: 'integer'},
-        show_picture: {type: 'boolean'},
-        show_title: {type: 'boolean'},
-        show_price: {type: 'boolean'},
-        show_options: {type: 'boolean'},
-        show_qty: {type: 'boolean'},
-        show_addtobag: {type: 'boolean'},
-        show_price_on_button: {type: 'boolean'},
-        show_border: {type: 'boolean'},
-        center_align: {type: 'boolean'}
+        show_picture: {type: 'boolean', default: true},
+        show_title: {type: 'boolean', default: true},
+        show_price: {type: 'boolean', default: true},
+        show_options: {type: 'boolean', default: true},
+        show_qty: {type: 'boolean', default: false},
+        show_addtobag: {type: 'boolean', default: true},
+        show_price_on_button: {type: 'boolean', default: true},
+        show_border: {type: 'boolean', default: true},
+        center_align: {type: 'boolean', default: true}
     },
 	description: __( 'Display product with a buy button', 'ecwid-shopping-cart' ),
     supports: {
@@ -90,8 +95,8 @@ registerBlockType( 'ecwid/product-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	edit: function( props ) {
-		
-		const { attributes } = props;
+        
+        const { attributes } = props;
 		
         var saveCallback = function( params ) {
 
@@ -140,8 +145,19 @@ registerBlockType( 'ecwid/product-block', {
         function openEcwidProductPopup( props ) {
         	ecwid_open_product_popup( { 'saveCallback': saveCallback, 'props': props } );
 		}
+
+        if ( props.isSelected == false ) {
+            EcwidGutenbergParams.existingItems = EcwidGutenbergParams.existingItems || [];
+            EcwidGutenbergParams.existingItems[props.clientId] = true;
+        }
         
-		return ([
+        if ( !EcwidGutenbergParams.existingItems[props.clientId] ) {
+            ecwid_open_product_popup( { 'saveCallback': saveCallback, 'props': props } );
+            EcwidGutenbergParams.existingItems = EcwidGutenbergParams.existingItems || [];
+            EcwidGutenbergParams.existingItems[props.clientId] = true;
+        }
+
+        return ([
         	editor, 
 			<InspectorControls>
 
@@ -155,12 +171,12 @@ registerBlockType( 'ecwid/product-block', {
                     	<label>{ EcwidGutenbergParams.products[attributes.id].name }</label>
 					}
 					
-                    <button onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
+                    <button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
                 </div>
                 }
                 {!attributes.id &&
 				<div className="ec-store-inspector-row">
-					<button onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
+					<button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
 				</div>
                 }
                 <br />
@@ -187,3 +203,5 @@ registerBlockType( 'ecwid/product-block', {
     },
     
 } );
+
+}
