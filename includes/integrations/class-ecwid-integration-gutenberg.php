@@ -32,7 +32,7 @@ class Ecwid_Integration_Gutenberg {
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
-		add_action( 'in_admin_header', array( $this, 'add_popup' ) );
+		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 	
 	public function on_save_post( $post, $request, $creating ) {
@@ -263,12 +263,6 @@ JS;
 		</script>";
 		
 		return $result;
-	}
-
-	public function add_popup() {
-		$categories = ecwid_get_categories_for_selector();
-
-		require ECWID_PLUGIN_DIR . '/templates/store-popup.php';
 	}
 	
 	protected function _get_version_for_assets( $asset_file_path )
