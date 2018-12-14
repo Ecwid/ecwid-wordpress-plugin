@@ -1529,10 +1529,19 @@ msgid "Content"
 msgstr "Элементы виджета"
 
 msgid "Displayed product"
-msgstr "Товар"
+msgstr "Выбранный товар"
 
 msgid "Change"
 msgstr "Изменить"
+
+msgid "Choose product"
+msgstr "Выбрать товар"
+
+msgid "Your product"
+msgstr "Товар"
+
+msgid "%s product"
+msgstr "%s товар"
 
 #: templates/reconnect-sso.php:11
 msgid "Your store Control Panel. Right here in WordPress."

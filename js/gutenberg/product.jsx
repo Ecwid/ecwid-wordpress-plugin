@@ -98,9 +98,9 @@ registerBlockType( 'ecwid/product-block', {
         
         const { attributes } = props;
 		
-        var saveCallback = function( params ) {
+        const saveCallback = function( params ) {
 
-            var attributes = {
+            const attributes = {
                 'id': params.newProps.id
             };
 			
@@ -111,7 +111,7 @@ registerBlockType( 'ecwid/product-block', {
             
             params.originalProps.setAttributes(attributes);
         }
-
+		
         const editor = <div className="ec-store-block">
 			<div className="ec-store-block-header">
 				<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
@@ -131,6 +131,12 @@ registerBlockType( 'ecwid/product-block', {
 				{ EcwidGutenbergParams.products[attributes.id].name }
 			</div>
             }
+            
+            { !attributes.id && 
+            <div>
+                <button className="button ec-store-block-button" onClick={ () => { var params = {'saveCallback':saveCallback, 'props': props}; ecwid_open_product_popup( params ); } }>{ EcwidGutenbergParams.chooseProduct }</button> 
+            </div>
+            }
 			
 		</div>;
 
@@ -145,42 +151,32 @@ registerBlockType( 'ecwid/product-block', {
         function openEcwidProductPopup( props ) {
         	ecwid_open_product_popup( { 'saveCallback': saveCallback, 'props': props } );
 		}
-
-        if ( props.isSelected == false ) {
-            EcwidGutenbergParams.existingItems = EcwidGutenbergParams.existingItems || [];
-            EcwidGutenbergParams.existingItems[props.clientId] = true;
-        }
         
-        if ( !EcwidGutenbergParams.existingItems || !EcwidGutenbergParams.existingItems[props.clientId] ) {
-            ecwid_open_product_popup( { 'saveCallback': saveCallback, 'props': props } );
-            EcwidGutenbergParams.existingItems = EcwidGutenbergParams.existingItems || [];
-            EcwidGutenbergParams.existingItems[props.clientId] = true;
-        }
-
         return ([
         	editor, 
 			<InspectorControls>
 
-                <PanelRow>
-                    <label className="ec-store-inspector-subheader">{ __( 'Displayed product', 'ecwid-shopping-cart' ) }</label>
-                </PanelRow>
-                {attributes.id &&
-                <div className="ec-store-inspector-row">
-					
-					{ EcwidGutenbergParams.products && EcwidGutenbergParams.products[attributes.id] &&
-                    	<label>{ EcwidGutenbergParams.products[attributes.id].name }</label>
-					}
-					
-                    <button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
-                </div>
+                { attributes.id && 
+                    <div>
+                        <div className="ec-store-inspector-row">
+                            <label className="ec-store-inspector-subheader">{ __( 'Displayed product', 'ecwid-shopping-cart' ) }</label>
+                        </div>
+                        <div className="ec-store-inspector-row">
+                            
+                            { EcwidGutenbergParams.products && EcwidGutenbergParams.products[attributes.id] &&
+                                <label>{ EcwidGutenbergParams.products[attributes.id].name }</label>
+                            }
+                            
+                            <button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
+                        </div>
+                    </div>
                 }
                 {!attributes.id &&
 				<div className="ec-store-inspector-row">
-					<button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Change', 'ecwid-shopping-cart' ) }</button>
+					<button className="button" onClick={ () => openEcwidProductPopup( props ) }>{ __( 'Choose product', 'ecwid-shopping-cart' ) }</button>
 				</div>
                 }
-                <br />
-				<PanelBody title={ _x( 'Content', 'gutenberg-product-block', 'ecwid-shopping-cart' ) } initialOpen={false}>
+                <PanelBody title={ _x( 'Content', 'gutenberg-product-block', 'ecwid-shopping-cart' ) } initialOpen={false}>
                     { buildToggle( props, 'show_picture', __( 'Picture', 'ecwid-shopping-cart' ) ) }
                     { buildToggle( props, 'show_title', __( 'Title', 'ecwid-shopping-cart' ) ) }
                     { buildToggle( props, 'show_price', __( 'Price', 'ecwid-shopping-cart' ) ) }
