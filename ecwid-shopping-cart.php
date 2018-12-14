@@ -90,7 +90,6 @@ if ( is_admin() ){
 	add_action('wp_head', 'ecwid_print_inline_js_config');
 	add_action('wp_head', 'ecwid_product_browser_url_in_head');
   add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
-  add_filter('the_content', 'ecwid_content_started', 0);
   add_filter('body_class', 'ecwid_body_class');
   add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
   add_action('init', 'ecwid_check_api_cache');
@@ -100,7 +99,6 @@ add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
 if (get_option('ecwid_last_oauth_fail_time') > 0) {
 	add_action('plugins_loaded', 'ecwid_test_oauth');
 }
-$ecwid_script_rendered = false; // controls single script.js on page
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
@@ -147,9 +145,6 @@ if (version_compare($version, '4.0') >= 0) {
 if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-gutenberg.php';
 }
-
-$ecwid_script_rendered = false; // controls single script.js on page
-
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
 foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
@@ -1448,15 +1443,6 @@ function ecwid_add_credits($powered_by)
 	}
 
 	return $powered_by;
-}
-
-function ecwid_content_started($content)
-{
-	global $ecwid_script_rendered;
-
-	$ecwid_script_rendered = false;
-
-	return $content;
 }
 
 function ecwid_wrap_shortcode_content($content, $name, $attrs)
