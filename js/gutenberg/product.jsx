@@ -151,7 +151,7 @@ registerBlockType( 'ecwid/product-block', {
             EcwidGutenbergParams.existingItems[props.clientId] = true;
         }
         
-        if ( !EcwidGutenbergParams.existingItems[props.clientId] ) {
+        if ( !EcwidGutenbergParams.existingItems || !EcwidGutenbergParams.existingItems[props.clientId] ) {
             ecwid_open_product_popup( { 'saveCallback': saveCallback, 'props': props } );
             EcwidGutenbergParams.existingItems = EcwidGutenbergParams.existingItems || [];
             EcwidGutenbergParams.existingItems[props.clientId] = true;
