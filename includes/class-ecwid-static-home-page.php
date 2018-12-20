@@ -43,7 +43,7 @@ class Ecwid_Static_Home_Page {
 			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
 		}
 		
-		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec.config.interactive = false;" );
+		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec = window.ec || {}; window.ec.config = window.ec.config || {}; window.ec.config.interactive = false;" );
 	}
 	
 	public function apply_theme( $theme ) {
