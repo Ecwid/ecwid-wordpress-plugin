@@ -176,6 +176,21 @@ class Ecwid_Integration_Gutenberg {
 		
 		if ( !@$params['id'] ) return '';
 		
+		$params = wp_parse_args(
+			$params,
+			array(
+				'id' => 0,
+				'show_picture' => true,
+				'show_title' => true,
+				'show_price' => true,
+				'show_options' => true,
+				'show_addtobag' => true,
+				'show_border' => true,
+				'center_align' => true,
+				'show_price_on_button' => true
+			)
+		);
+		
 		$display = array(
 			'picture', 'title', 'price', 'options', 'qty', 'addtobag' 
 		);
