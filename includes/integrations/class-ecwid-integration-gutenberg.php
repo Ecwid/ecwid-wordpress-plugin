@@ -128,8 +128,14 @@ class Ecwid_Integration_Gutenberg {
 	
 	protected function _get_products_data() {
 
-		$blocks = gutenberg_parse_blocks( get_post()->post_content );
-
+		$post = get_post();
+		
+		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
+			$blocks = gutenberg_parse_blocks( $post->post_content );
+		} else {
+			$blocks = parse_blocks( $post->post_content );
+		}
+		
 		$productIds = array();
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
@@ -406,12 +412,13 @@ JS;
 		
 	public static function get_store_block_data_from_current_page() {
 		
-		if ( !function_exists( 'gutenberg_parse_blocks' ) ) {
-			return array();
-		}
-		
 		$post = get_post();
-		$blocks = gutenberg_parse_blocks( $post->post_content );
+		
+		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
+			$blocks = gutenberg_parse_blocks( $post->post_content );
+		} else {
+			$blocks = parse_blocks( $post->post_content );
+		}
 		
 		$store_block = null;
 		foreach ( $blocks as $block ) {
