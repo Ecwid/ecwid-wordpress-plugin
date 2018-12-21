@@ -246,9 +246,7 @@ HTML;
 
 		$store_page_data['chameleon-colors'] = $chameleon['colors'];
 		
-		if ( Ecwid_Static_Home_Page::is_enabled() ) {
-			Ecwid_Static_Home_Page::save_store_page_params( $store_page_data );
-		}
+		Ecwid_Store_Page::save_store_page_params( $store_page_data );
 		
 		if ( $chameleon['colors'] != 'auto' ) {
 			$result .= <<<JS

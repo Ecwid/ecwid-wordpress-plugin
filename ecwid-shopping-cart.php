@@ -681,6 +681,9 @@ function ecwid_check_version()
 		
 		// Since 6.4.x
 		add_option( EcwidPlatform::OPTION_LOG_CACHE );
+		
+		// Since 6.5
+		add_option( 'ecwid_hide_canonical', false );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -1126,9 +1129,11 @@ function ecwid_product_browser_url_in_head() {
 
 function ecwid_canonical() {
 
+	if ( get_option( 'ecwid_hide_canonical', false ) ) return;
+		
 	$link = false;
 	if ( ecwid_is_applicable_escaped_fragment() ) {
-	
+		
 		$params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 
 		if ($params['mode'] == 'product') {
@@ -1139,6 +1144,7 @@ function ecwid_canonical() {
 			$link = ecwid_get_category_url($category);
 		}
 	} else if ( Ecwid_Seo_Links::is_product_browser_url() ) {
+		
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
 		if ($params) {
@@ -1161,7 +1167,18 @@ function ecwid_canonical() {
 		return;
 	}
 
-	if ($link) {
+	
+	if ( $link ) {
+
+		$main_page_id = Ecwid_Store_page::get_current_store_page_id();
+		$params = Ecwid_Store_page::get_store_page_params( $main_page_id );
+		
+		if ( $params['default_category_id'] ) {
+			$current = get_permalink();
+			$store_page = Ecwid_Store_Page::get_store_url();
+			$link = str_replace( $store_page, $current, $link );
+		}
+
 		echo '<link rel="canonical" href="' . esc_attr($link) . '" />' . PHP_EOL;
 	}
 }
