@@ -2001,6 +2001,13 @@ function ecwid_get_update_params_options() {
 		
 		'ecwid_api_status' => array(
 			'type' => 'string'
+		),
+		
+		'ecwid_hide_canonical' => array(
+			'values' => array(
+				'',
+				'hide'
+			)
 		)
 	);
 
