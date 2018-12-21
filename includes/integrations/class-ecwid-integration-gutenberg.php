@@ -32,7 +32,7 @@ class Ecwid_Integration_Gutenberg {
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
-		add_filter( 'block_categories', array( $this, 'block_categories' ) );
+		//add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 	
 	public function on_save_post( $post, $request, $creating ) {
