@@ -16,4 +16,4 @@ class Ecwid_Theme_Genesis extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Genesis();
+return new Ecwid_Theme_Genesis();

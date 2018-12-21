@@ -60,4 +60,4 @@ class Ecwid_Theme_2017 extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_2017();
+return new Ecwid_Theme_2017();

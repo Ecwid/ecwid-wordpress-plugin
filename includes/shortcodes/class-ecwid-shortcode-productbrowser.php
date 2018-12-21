@@ -21,6 +21,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	public function render() {
+		
 		Ecwid_Store_Page::add_store_page( get_the_ID() );
 		if( current_user_can( Ecwid_Admin::get_capability() ) ) {
 			
@@ -28,30 +29,81 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$seo_links->check_base_urls_on_view_store_page_as_admin();
 		}
 
-		return parent::render();
+		$default_render = parent::render();
+		
+		$data = Ecwid_Static_Home_Page::get_data_for_current_page();
+		if ( !$data ) {
+			return $default_render;
+		}
+
+		$code = '';
+		global $ecwid_current_theme;
+		if ( $ecwid_current_theme ) {
+
+			$code = <<<HTML
+<script>
+document.documentElement.id = 'ecwid_html';
+document.body.id = 'ecwid_body';
+</script>
+HTML;
+		}
+
+
+		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
+
+		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
+		
+		$code .= <<<HTML
+<script language="JavaScript">
+    EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
+	if ( location.hash != '' ) {
+	    EcwidStaticPageLoader.switchToDynamicMode();
+	}
+</script>
+HTML;
+
+		return $code;
 	}
 
 	public function render_placeholder( ) {
-
+		
 		$store_id = get_ecwid_store_id();
 
 		$plain_content = '';
 		
 		$html_catalog_params = false;
-		if ( ecwid_should_display_escaped_fragment_catalog() ) {
-			$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-		} elseif ( Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page() ) {
-			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-		}
 		
-		$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
+		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Home_Page::get_data_for_current_page() ) {
 
-		if ( $html_catalog_params !== false && get_option( 'ecwid_print_html_catalog', 'Y' ) ) {
-			$plain_content = $this->_build_html_catalog( $store_id, $html_catalog_params );
+			if (ecwid_should_display_escaped_fragment_catalog()) {
+				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
+			} elseif (Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page()) {
+				$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+			}
+
+			$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
+
+			if ($html_catalog_params !== false && get_option('ecwid_print_html_catalog', 'Y')) {
+				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
+			}
 		}
 
+		$params = array(
+			'default_category_id' => 0
+		);
+		if ( $this->_lang ) {
+			$params['lang'] = $this->_lang;
+		}
+		if ( @$this->_params['defaultCategoryId'] ) {
+			$params['default_category_id'] = $this->_params['defaultCategoryId'];
+		}
+
+		Ecwid_Store_Page::save_store_page_params( $params );
+		
+		$result = '';
+		
 		$classname = $this->_get_html_class_name();
-		$result = <<<HTML
+		$result .= <<<HTML
 		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
 		<script>
 			function createClass(name,rules){
@@ -127,7 +179,7 @@ HTML;
 				$plain_content .= '<script data-cfasync="false" type="text/javascript"> document.location = "' . esc_js($url) . '";</script>';
 			}
 		}
-
+		
 		return $plain_content;
 	}
 

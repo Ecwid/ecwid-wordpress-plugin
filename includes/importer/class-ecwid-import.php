@@ -55,7 +55,7 @@ class Ecwid_Import
 		$ecwid_categories = $api->get_categories(array('limit' => 1));
 		$result['ecwid_total_categories'] = $ecwid_categories->total;
 
-		$result['allow_delete_demo'] = self::allow_delete_demo_products();
+		$result['allow_delete_demo'] = count( Ecwid_Importer::get_ecwid_demo_products() > 0 );
 		
 		$count = wp_count_posts( 'product' );
 
@@ -71,29 +71,5 @@ class Ecwid_Import
 		$result['woo_total_categories'] = count( $all_categories );
 		
 		return $result;
-	}
-	
-	public static function allow_delete_demo_products() 
-	{
-		$result = false;
-		
-		$api = new Ecwid_Api_V3();
-		
-		$demo_products = $api->get_products( array( 'createdFrom' => Ecwid_Importer::DEMO_CREATE_FROM, 'createdTo' => Ecwid_Importer::DEMO_CREATE_TO + 1 ) );
-		if ( $demo_products->total <= 10 ) {
-			$result = true;
-			foreach ( $demo_products->items as $product ) {
-				if ( !self::_is_demo_product( $product ) ) {
-					$result = false;
-					break;
-				}
-			}
-		}
-		
-		return $result;
-	}
-	
-	protected static function _is_demo_product( $product_data ) {
-		return strpos( $product_data->originalImage->url,  '/default-store/' ) > 0;
 	}
 }

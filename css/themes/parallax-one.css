@@ -1,0 +1,3 @@
+.ec-cart-widget[data-icon]:before {
+    content: "";
+}

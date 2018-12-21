@@ -7,6 +7,8 @@ class Ecwid_Store_Page {
 	const OPTION_LAST_STORE_PAGE_ID = 'ecwid_last_store_page_id';
 	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
 	const WARMUP_ACTION = 'ecwid_warmup_store';
+	
+	const META_STORE_DATA = 'ecwid_store';
 
 	protected static $_store_pages = false;
 
@@ -110,10 +112,34 @@ class Ecwid_Store_Page {
 			
 			$link = get_permalink( $id );
 		}
-
+		
 		return $link;
 	}
 
+	public static function save_store_page_params( $data ) {
+		$existing = self::get_store_page_params();
+
+		$data = array_merge( $existing, $data );
+		
+		EcwidPlatform::cache_set( self::_get_store_page_data_key(), $data );
+	}
+
+	public static function get_store_page_params( $page_id = 0 ) {
+		$params = EcwidPlatform::cache_get( self::_get_store_page_data_key( $page_id ), array() );
+		
+		if ( !empty( $params) ) return $params;
+
+		return array();
+	}
+
+	protected static function _get_store_page_data_key( $page_id = 0 )
+	{
+		$post = get_post( $page_id );
+
+		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
+
+	}
+	
 	public static function get_page_base_url( $page = 0 ) {
 		return urldecode( get_page_uri( $page ) );
 	} 
@@ -130,7 +156,7 @@ class Ecwid_Store_Page {
 
 				$post = get_post( $id );
 				$changed = false;
-
+				
 				while ( is_null( $post ) ) {
 
 					$changed = true;
@@ -163,7 +189,7 @@ class Ecwid_Store_Page {
 
 		return $page_id;
 	}
-
+	
 	public static function is_store_page( $page_id = 0 ) {
 
 		if (!$page_id) {
@@ -191,7 +217,7 @@ class Ecwid_Store_Page {
 		self::_set_store_pages( $pages );
 		self::schedule_flush_rewrites();
 	}
-
+	
 	public static function reset_store_page( $page_id ) {
 
 		$pages = self::get_store_pages_array();
@@ -207,9 +233,18 @@ class Ecwid_Store_Page {
 		$pages = self::_set_store_pages( $pages );
 
 		if ( $page_id == get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
-
+			
 			if ( isset( $pages[0] ) ) {
-				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $pages[0] );
+				
+				$new_page = $pages[0];
+				// we prefer pages, not posts
+				foreach( $pages as $page ) {
+					if ( get_post($page)->post_type == 'page' ) {
+						$new_page = $page;
+					}
+				}
+				
+				update_option( self::OPTION_MAIN_STORE_PAGE_ID, $new_page );
 			} else {
 				update_option( self::OPTION_MAIN_STORE_PAGE_ID, '' );
 			}
@@ -241,6 +276,21 @@ class Ecwid_Store_Page {
 		return self::$_store_pages;
 	}
 
+	public static function get_store_pages_array_for_selector()
+	{
+		$pages = self::get_store_pages_array();
+		foreach ( $pages as $ind => $page ) {
+			
+			$post = get_post($page);
+			
+			if ( $page != self::get_current_store_page_id() && $post && $post->post_type == 'post' ) {
+				unset( $pages[$ind] );
+			}
+		}
+		
+		return $pages;
+	}
+	
 	public static function schedule_flush_rewrites() {
 		update_option( self::OPTION_FLUSH_REWRITES, 1 );
 	}
@@ -275,8 +325,9 @@ class Ecwid_Store_Page {
 			$post_id = get_the_ID();
 		}
 
+		$result = false;
+		
 		$post = get_post($post_id);
-
 		if ( $post ) {
 			$post_content = get_post( $post_id )->post_content;
 
@@ -284,10 +335,16 @@ class Ecwid_Store_Page {
 			$result = apply_filters( 'ecwid_page_has_product_browser', $result );
 		}
 
-
 		return $result;
 	}
 
+	public static function update_main_store_page_id( $new_id ) {
+		
+		if ( self::post_content_has_productbrowser( $new_id ) ) {
+			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $new_id );
+		}
+	} 
+	
 	public static function on_save_post( $post_id ) {
 
 		if ( wp_is_post_revision( $post_id ) )

@@ -5,6 +5,8 @@ class Ecwid_Theme_Base {
 	const PROP_USE_JS_API_FOR_CATS_NAV_MENU = 'js-api-for-cats-nav-menu';
 	const PROP_AJAX_DEFER_RENDERING = 'ajax-defer-rendering';
 	
+	const ACTION_APPLY_THEME = 'ecwid-apply-theme';
+	
 	public $has_advanced_layout = false;
 
 	protected $adjust_pb_scroll = false;
@@ -86,17 +88,18 @@ class Ecwid_Theme_Base {
 
 	protected function add_css( $parent = null ) {
 
+		$name = strtolower( $this->name );
 		if (is_null($parent)) {
-			$parent = array( $this->name . '-style' );
+			$parent = array( $name . '-style' );
 		} else if (empty($parent)) {
 			$parent = array();
 		} else {
 			$parent = array( $parent );
 		}
-
+		
 		wp_enqueue_style(
 			'ecwid-theme-css',
-			ECWID_PLUGIN_URL . 'css/themes/' . $this->name . '.css',
+			ECWID_PLUGIN_URL . 'css/themes/' . $name . '.css',
 			$parent,
 			get_option('ecwid_plugin_version')
 		);

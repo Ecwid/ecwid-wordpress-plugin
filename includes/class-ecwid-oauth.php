@@ -1,6 +1,5 @@
 <?php
 
-include ECWID_PLUGIN_DIR . "lib/phpseclib/AES.php";
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 class Ecwid_OAuth {
@@ -72,7 +71,7 @@ class Ecwid_OAuth {
 
 		$scope = $this->_get_scope();
 
-		if (!in_array('create_customers', $scope)) {
+		if (!in_array( 'create_customers', $scope ) ) {
 			$scope[] = 'create_customers';
 		}
 
@@ -105,26 +104,25 @@ class Ecwid_OAuth {
 		$params['redirect_uri'] = admin_url( $base_admin_url );
 
 		$params['grant_type'] = 'authorization_code';
-
+		
 		$request = Ecwid_HTTP::create_post( 'oauth_authorize', Ecwid_Config::get_oauth_token_url(), array(
 			Ecwid_HTTP::POLICY_RETURN_VERBOSE
 		));
 
 		$return = $request->do_request(array('body' => $params));
 
-		if (is_array($return) && isset($return['data'])) {
-			$result = json_decode($return['data']);
+		$result = new stdClass();
+		if ( is_array( $return ) && isset( $return['data'] ) ) {
+			$result = json_decode( $return['data'] );
 		}
 
 		if (
-			!is_array($return)
+			!is_array( $return )
 			|| !isset( $result->store_id )
 			|| !isset( $result->scope )
 			|| !isset( $result->access_token )
 			|| ( $result->token_type != 'Bearer' )
 		) {
-			ecwid_log_error(var_export($return, true));
-
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
@@ -135,13 +133,11 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_public_token', $result->public_token );
 		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
+		ecwid_invalidate_cache( true );
+		Ecwid_Api_V3::reset_api_status();
+		
 		$this->api->save_token($result->access_token);
 		
-		
-		// Reset "Create store cookie" set previously to display the landing page
-		//in "Connect" mode rather than "Create" mode
-		setcookie('ecwid_create_store_clicked', null, strtotime('-1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
-
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
 			wp_redirect( admin_url( $this->state->return_url ) );
 		} else {
@@ -293,22 +289,16 @@ class Ecwid_OAuth {
 			$this->state->reason = '';
 			$this->state->mode = self::MODE_CONNECT;
 		}
-
-		if (isset($_COOKIE['ecwid_create_store_clicked'])) {
-			$this->state->create_store_clicked = $_COOKIE['ecwid_create_store_clicked'];
-		}
 	}
 
 	public function get_state() {
 		return $this->state;
 	}
 
-	public function was_create_store_clicked() {
-		return $this->state->create_store_clicked;
-	}
-
 	protected function _save_state() {
-		setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		if ( !headers_sent( ) ) {
+			setcookie('ecwid_oauth_state', json_encode($this->state), strtotime('+1 day'), ADMIN_COOKIE_PATH, COOKIE_DOMAIN);
+		}
 	}
 
 	public function get_reconnect_error() {

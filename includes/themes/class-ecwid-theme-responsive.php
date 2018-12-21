@@ -20,7 +20,7 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 				add_filter( 'ecwid_search_shortcode_content', array( $this, 'search_shortcode_content' ) );
 			}
 
-			wp_enqueue_style( 'ecwid-open-sans' , 'http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic-ext,cyrillic,greek-ext,vietnamese,greek,latin-ext');
+			wp_enqueue_style( 'ecwid-open-sans' , 'https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic-ext,cyrillic,greek-ext,vietnamese,greek,latin-ext');
 			wp_enqueue_style( 'dashicons' );
 			wp_enqueue_style( 'ecwid-theme-fixes' , ECWID_PLUGIN_URL . 'css/themes/responsive.css', array(), get_option('ecwid_plugin_version'), 'all' );
 
@@ -78,5 +78,4 @@ class Ecwid_Theme_Responsive extends Ecwid_Theme_Base
 
 }
 
-global $ecwid_current_theme;
-$ecwid_current_theme = new Ecwid_Theme_Responsive();
+return new Ecwid_Theme_Responsive();

@@ -68,6 +68,8 @@ function ecwidApplyIframeAdminMenu($link, menu) {
             jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
             jQuery(this).parents('.opensub').removeClass('opensub');
 
+            if ( !isOpen ) return true;
+            
             return false;
         });
 }
@@ -85,7 +87,7 @@ function ecwidAddSubmenu(items, parent) {
         $parentListItem.addClass('wp-has-current-submenu3');
     }
 
-    for (var i in items) {
+    for (var i = 0; i < items.length; i++) {
 
         var item = items[i];
         var $link = jQuery('<a>').text(item.title).attr('href', item.url);
@@ -112,7 +114,7 @@ function ecwidAddSubmenu(items, parent) {
 function ecwidAddMenuItems(items) {
 
     var prevItem = jQuery('#toplevel_page_ec-store .wp-submenu-head + li');
-    for (var i in items) {
+    for (var i = 0; i < items.length; i++) {
         
         if (!items.hasOwnProperty(i)) continue;
         
@@ -141,6 +143,10 @@ jQuery(document).ready(function() {
     }
 
     window.ecwidOpenAdminPage = function (place) {
+        if (jQuery('#ecwid-frame').length < 1) {
+            return;
+        }
+        
         jQuery('#ecwid-frame')[0].contentWindow.postMessage(JSON.stringify({
             ecwidAppNs: "ecwid-wp-plugin",
             method: "openPage",
@@ -151,7 +157,7 @@ jQuery(document).ready(function() {
 
     if ( ecwid_admin_menu.enableAutoMenus ) {
     
-        for (var i in ecwid_admin_menu.menu) {
+        for (var i = 0; i < ecwid_admin_menu.menu.length; i++) {
     
             var menu = ecwid_admin_menu.menu[i];
             
@@ -171,6 +177,13 @@ jQuery(document).ready(function() {
         var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href="admin.php?page=ec-store"]');
         ecwidApplyIframeAdminMenu($link, {slug:'ec-store', url: 'admin.php?page=ec-store', hash:'dashboard'});
 
+    }
+    
+    if ( jQuery( '#calypsoify_wpadminmods_css-css' ).length > 0 ) {
+        jQuery('#toplevel_page_ec-store').addClass('wpcom-menu');
+    }
+    if ( jQuery( '#toplevel_page_ec-store .wp-submenu3 li.current' ).length > 0 ) {
+        jQuery('#toplevel_page_ec-store > a').addClass('wp-has-current-submenu');
     }
     ecwidRefreshEcwidMenuItemSelection();
 });

@@ -1,31 +1,27 @@
 <?php
-class Ecwid_Widget_VCategories extends WP_Widget {
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_VCategories extends Ecwid_Widget_Base {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_vcategories', 'description' => __('Adds vertical categories block to let the customer navigate your store.', 'ecwid-shopping-cart'));
 		parent::__construct('ecwidvcategories', __('Store Categories', 'ecwid-shopping-cart'), $widget_ops);
 	}
 
-	function widget($args, $instance) {
-		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+	function _render_widget_content( $args, $instance ) {
+		
+		$html = '<div>';
+		$html .= '<!-- noptimize -->';
 
-		echo $before_widget;
+		$html .= ecwid_get_scriptjs_code();
+		$html .= ecwid_get_product_browser_url_script();
+		$html .= '<script data-cfasync="false" type="text/javascript"> xVCategories("style="); </script>';
 
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		$html .= '<!-- /noptimize -->';
+		$html .= '</div>';
 
-		echo '<div>';
-		echo '<!-- noptimize -->';
-
-		echo ecwid_get_scriptjs_code();
-		echo ecwid_get_product_browser_url_script();
-		echo '<script data-cfasync="false" type="text/javascript"> xVCategories("style="); </script>';
-
-		echo '<!-- /noptimize -->';
-		echo '</div>';
-
-		echo $after_widget;
+		return $html;
 	}
 
 	function update($new_instance, $old_instance){

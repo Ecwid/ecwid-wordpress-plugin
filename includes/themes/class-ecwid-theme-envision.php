@@ -31,4 +31,4 @@ class Ecwid_Theme_Envision extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Envision();
+return new Ecwid_Theme_Envision();

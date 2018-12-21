@@ -62,7 +62,7 @@ jQuery(document).ready(function() {
 
 		var widgets = attributes.widgets;
 		if (typeof widgets == 'undefined') {
-			widgets = "productbrowser search categories minicart";
+			widgets = "productbrowser";
 		}
 
 		widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);
@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 			'grid_columns': grid[2],
 			'default_category_id': attributes.default_category_id,
 			'default_product_id': attributes.default_product_id,
-			'minicart_layout': 'attachToCategories'
+			'minicart_layout': 'MiniAttachToProductBrowser'
 		};
 
 	}
@@ -91,8 +91,8 @@ jQuery(document).ready(function() {
 	 */
 	getDefaultParams = function() {
 		return {
-			'show_search': true,
-			'show_minicart': true,
+			'show_search': false,
+			'show_minicart': false,
 			'show_categories': false,
 			'categories_per_row': 3,
 			'grid_rows': ecwid_pb_defaults.grid_rows,
@@ -282,6 +282,9 @@ jQuery(document).ready(function() {
 		} else {
 
 			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+				if ($popup.data('range')) {
+                    tinymce.activeEditor.selection.setRng($popup.data('range'));
+				}
 				tinymce.activeEditor.execCommand('mceInsertContent', false, stringToInsert);
 				tinymce.activeEditor.execCommand('mceSetContent', false, tinymce.activeEditor.getBody().innerHTML);
 			} else {
@@ -313,9 +316,17 @@ jQuery(document).ready(function() {
 	});
 
 	createGutenbergedShortcodeString = function( shortcode ) {
+		return shortcode.string();
+		
 		var result = '<!-- wp:ecwid/store-block ';
 		
-		result += JSON.stringify(shortcode.attrs.named);
+		var attributes = {
+			default_category_id: shortcode.attrs.named.default_category_id,
+			show_categories: shortcode.attrs.named.widgets.indexOf('categories') !== -1,
+            show_search: shortcode.attrs.named.widgets.indexOf('search') !== -1
+		}
+		
+		result += JSON.stringify(attributes);
 		
 		result += ' -->';
 		
@@ -357,6 +368,8 @@ ecwid_open_store_popup = function() {
 	if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
 		tinyMCE.activeEditor.save();
 
+		$popup.data('range', tinyMCE.activeEditor.selection.getRng());
+		
 		var content = jQuery(tinyMCE.activeEditor.getBody())
 				.find('.ecwid-store-editor')
 				.attr('data-ecwid-shortcode');

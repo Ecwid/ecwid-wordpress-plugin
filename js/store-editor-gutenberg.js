@@ -40,7 +40,7 @@ jQuery(document).ready(function() {
     getDefaultParams = function() {
         return {
             'show_search': true,
-            'show_minicart': true,
+            'show_minicart': false,
             'show_categories': false,
             'categories_per_row': 3,
             'grid_rows': ecwid_pb_defaults.grid_rows,
@@ -173,7 +173,7 @@ buildParams = function(attributes) {
 
     var widgets = attributes.widgets;
     if (typeof widgets == 'undefined') {
-        widgets = "productbrowser search minicart";
+        widgets = "productbrowser";
     }
 
     widgets = widgets.split(/[^a-z^A-Z^0-9^-^_]/);

@@ -68,7 +68,10 @@ function ecwid_get_embed_content()
 			$trimmed = ecwid_trim_description($category->description);
 			$result .= '<div>' . ecwid_trim_description($category->description);
 
-			if (mb_strlen($trimmed) < mb_strlen($category->description) && mb_strlen($trimmed) == ECWID_TRIMMED_DESCRIPTION_LENGTH) {
+			$descr_length = function_exists( 'mb_strlen' ) ? mb_strlen( $category->description ) : strlen( $category->description );
+			$trimmed_length = function_exists( 'mb_strlen' ) ? mb_strlen( $trimmed ) : strlen( $trimmed );
+			
+			if ( $trimmed_length < $descr_length && $trimmed_length == ECWID_TRIMMED_DESCRIPTION_LENGTH ) {
 				$result .= '... <a class="wp-embed-more" href="' . get_permalink() . '">' . __('See more', 'ecwid-shopping-cart') . '</a>';
 			}
 			$result .= '</div>';

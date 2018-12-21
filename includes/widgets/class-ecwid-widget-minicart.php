@@ -1,5 +1,8 @@
 <?php
-class Ecwid_Widget_Minicart extends WP_Widget {
+
+require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
+
+class Ecwid_Widget_Minicart extends Ecwid_Widget_Base {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_minicart', 'description' => __("Adds a cart widget for customer to see the products they added to the cart.", 'ecwid-shopping-cart') );
@@ -7,26 +10,20 @@ class Ecwid_Widget_Minicart extends WP_Widget {
 
 	}
 
-	function widget($args, $instance) {
-		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '&nbsp;' : $instance['title']);
+	function _render_widget_content( $args, $instance ) {
 
-		echo $before_widget;
-
-		if ( $title )
-			echo $before_title . $title . $after_title;
-
+		$html = '';
 		echo '<div>';
 
-		echo '<!-- noptimize -->';
-		echo ecwid_get_scriptjs_code();
-		echo ecwid_get_product_browser_url_script();
-		echo '<script data-cfasync="false" type="text/javascript"> xMinicart("style="); </script>';
+		$html .= '<!-- noptimize -->';
+		$html .= ecwid_get_scriptjs_code();
+		$html .= ecwid_get_product_browser_url_script();
+		$html .= '<script data-cfasync="false" type="text/javascript"> xMinicart("style="); </script>';
 
-		echo '<!-- /noptimize -->';
-		echo '</div>';
+		$html .= '<!-- /noptimize -->';
+		$html .= '</div>';
 
-		echo $after_widget;
+		return $html;
 	}
 
 	function update($new_instance, $old_instance){

@@ -20,4 +20,4 @@ class Ecwid_Theme_Themify_Music extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Themify_Music();
+return new Ecwid_Theme_Themify_Music();

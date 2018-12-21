@@ -1,23 +1,22 @@
 === Ecwid Ecommerce Shopping Cart ===
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
-Requires at least: 3.5
-Tested up to: 4.9
-Stable tag: 6.0.4
+Requires at least: 3.7
+Tested up to: 5.0
+Stable tag: 6.4.6
 
-Powerful, easy to use ecommerce shopping cart. Bank level PCI DSS Level 1 security. iPhone & Android apps. Superb support. Free plan available.
+Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
 == Description ==
-Ecwid Ecommerce Shopping Cart is a powerful, secure and easy-to-use online store solution that gives you a full-functioned shop on your WordPress website. Join over *1 million* sellers in *175* countries and sell globally with over *40* international payment options, real-time shipping integrations and support of *45* languages. 
-
+Ecwid Ecommerce Shopping Cart is everything you need to add an online store to your WordPress site. Powerful, easy-to-use and Gutenberg-friendly. Over 1 million sellers in 175 countries, 45 languages supported. PayPal, Stripe and 40 more payment options. Real-time shipping integrations. Selling on Instagram and Facebook.
 
 = Automatic Shipping and Taxes =
 
 The Ecwid ecommerce plugin integrates with major carriers including USPS, UPS, FedEx, Canada Post, Australia Post, and others to automatically calculate shipping rates. Taxes are also automated and can be set-up in a few clicks.  Automated tax rate calculations are available for the U.S., Canada, and EU VAT.  Additionally, integration with TaxJar provides automatic sales tax reporting and filing in the U.S.
 
-= Facebook Ecommerce =
+= Sell on Facebook and Instagram =
 
-Add your online store to Facebook and sell to millions of Facebook users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
+Add your online store to Facebook and sell to millions of Facebook and Instagram users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
 
 = eCommerce Mobile Apps =
 
@@ -37,32 +36,32 @@ So you don't need to worry about software updates, security patches and server m
 
 Ecwid Shopping Cart is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means that Ecwid helps your online store meet the security requirements of the bank you do business with.
 
-= Free Support =
+= Superb Support =
 
-Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Free email support and ecommerce community forums. Unlimited chat and phone support available in premium plans.
+Friendly and knowledgeable support experts available 24/5 so you can get immediate help when you need it. Support options include email, e-commerce community forums, chat and phone support.
 
 = Sell Everywhere =
 
-With Ecwid, you can include your online shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Google Shopping* and *eBay* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
+With Ecwid, you can include your ecommerce shop on multiple websites, blogs, social sites and ecommerce marketplaces like *Amazon*, *eBay* and *Google Shopping* and sell simultaneously everywhere. Add your online store to as many sites as you want, manage it from one place.
 
 = Mobile Responsive Design =
 
-Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](http://www.ecwid.com/demo?source=wporg-plugin-site)
+Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
 
 
 = Your Favorite Free Plugin =
 
-Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](http://www.ecwid.com/pricing?source=wporg-plugin-site)
+Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
 
 
 = See Ecwid In Action =
 
-* [Demo Store](http://www.ecwid.com/demo?source=wporg-plugin-site "Ecwid demo")
-* [Ecwid Ecommerce Control panel](https://my.ecwid.com/?source=wporg-plugin-site "Ecwid Control Panel") (you will be able to create a free Ecwid account)
-
+* [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
+* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create a free Ecwid account)
+* [Showcase](https://ecwid.to/ecwid-wp-site)
 = Ecwid Site =
 
-* [www.ecwid.com](http://www.ecwid.com/?source=wporg-plugin-site "Ecwid site")
+* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
 
 
@@ -118,7 +117,7 @@ Ecwid shopping cart plans vary by number of products, types of ecommerce functio
 * Venture - $15/month
 * Business - $35/month
 * Unlimited - $99/month
-Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://www.ecwid.com/pricing).
+Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://ecwid.to/ecwid-pricing).
 
 
  = How can I manage my online shop from a mobile device? =
@@ -144,13 +143,83 @@ You can add the store categories menu to your site menu to help your customers e
 
  = How do I migrate my shop from Shopify or Woocommerce? =
 
-You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center]( https://help.ecwid.com/customer/portal/articles/1169671).
+You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
 
 
 * [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
-== Changelog ==
+== Changelog == 
+= 6.4.6 - Dec 7, 2018 =
+- Minor fixes & improvements.
+
+= 6.4.5 - Dec 7, 2018 =
+- **Minor fixes for better compatibility with the WordPress v5 and Gutenberg.**
+- **Improvements and fixes for the “Import products from WooCommerce” tool.** Import of products from WooCommerce to Ecwid now should work smoother, especially when you have a lot of products to import.
+
+= 6.4.3 - Nov 28, 2018 =
+- Minor fixes and improvements for the Ecwid ecommerce blocks in Gutenberg editor.
+
+= 6.4.2 - Nov 14, 2018 =
+- **Speedup for the store main page.** We're working on making Ecwid stores load faster on WordPress sites. This update brings a set of loading speed improvements for some part of the stores. We will gradually roll out these enhancements to all users. No actions required from your side — your store will get all of the improvements in this or upcoming releases. But if you ever noticed your store loading slowly, please contact us so we can help you enable this new feature on your site right now.
+- **Fixed an issue in the plugin settings menu on [Wordpress.com](http://wordpress.com).** Ecwid e-commerce plugin works on Wordpress.com sites as well. In the admin backend of [WordPress.com](http://wordpress.com) sites, the plugin menu didn't look well — some of the styles and colors were broken. We fixed it, now the plugin admin backend should work fine on both [Wordpress.org](http://wordpress.org) and Wordpress.com installations.
+- Minor fixes and improvements.
+
+= 6.4.1 - Nov 13, 2018 =
+- WordPress v 5.0 compatibility. This update brings compatibility with the upcoming WordPress version. In particular, we made sure Ecwid e-commerce stores looks good with the new Twenty Nineteenth theme. Also, we polished the Ecwid online store block in the new WordPress editor (Gutenberg) to make sure you can add a product listing to any site page and customize its appearance including colors, product grid layout, store navigation controls, product page appearance and more. 
+
+
+= 6.4 - Oct 25, 2018 =
+- **New storefront appearance settings in Gutenberg.** The new WordPress page editor (Gutenberg) now has plenty of e-commerce design settings: product thumbnails format and size, button and text colors, category images behavior, product page layout, store navigation elements and a lot more. We previously added these appearance options to your Ecwid store control panel: https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html. Now they are a part of real-time page building experience: you tweak the appearance, preview changes and publish them right from the page editor. To see the new appearance options, please make sure you enabled the Gutenberg editor in your WordPress admin backend.
+- **SEO fix: 404 status for removed products and categories.** Previously, Ecwid didn't mark removed products and categories with correct 404 responses — it just displayed a customer-friendly message saying the product is not available. Google recommends making removed pages clearly marked with a special 404 response code available for search robots to read. We added it to make sure unavailable products will be quicker removed from the Google search results giving more customer attention to the available products.
+- Minor fixes and improvements.
+
+= 6.3.2 - Oct 1, 2018 =
+- **Fixed a problem with the WordPress admin menu items.** In some cases, the WordPress admin navigation froze when an Ecwid store admin page was opened. Now everything should work fine. 
+
+= 6.3.1 - Sep 26, 2018 =
+- **Several fixes and improvements.** 
+
+= 6.3 - Sep 25, 2018 =
+- **Compatibility with the popular WordPress page builders: Elementor, Divi, Beaver builder.** The Ecwid e-commerce plugin has always been working great with the default WordPress editor to let you easily add a store or a single product to your site pages. In the recent updates, we also added the same functions to Gutenberg editor. In this update, we went further to make sure the most popular page builders are working fine with Ecwid. We added a lot of improvements and fixes to the plugin to make it work better with the Elementor, Beaver page builder and Divi editor. If you are using one of those page builders and having any problem editing your store page, please let us know so we can further improve it. 
+- **Avada, Bridge and Parallax One themes improved compatibility.** Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes. In this update, we are rolling out a few minor improvements to the Ecwid layout for the Avada, Bridge and Parallax One WordPress themes. 
+- **Fix of a conflict with Master slider plugin.** The Master slider plugin used to conflict with Ecwid plugin in the WordPress admin backend, which may cause some of the slider management pages look broken in the slider dashboard. Fixed. 
+- **Fix of a conflict with the Ultimate tables plugin.** One more plugin conflicting issue is fixed: the Ultimate tables plugin used to affect the Ecwid dashboard layout in the WordPress admin backed. Now it is working fine. 
+- **Improvements for the WooCommerce import tool: options, variations and image gallery are now supported.** In one of the recent update, we made it possible to import WooCommerce products to your Ecwid e-commerce store using a simple import wizard in the Ecwid plugin. In this version, we’ve made it more powerful so you can now import product gallery images, product options and variations to make the import easier and quicker. 
+- **Several fixes and improvements.**
+
+= 6.2.4 - Aug 17, 2018 =
+- Fixed an issue with the SEO content of product and categories pages. In the previous update, there was a bug affecting hidden SEO content of the store pages. It’s now fixed — everything should work fine both for human visitors and search crawlers.
+
+= 6.2.3 - Aug 15, 2018 =
+- Minor fixes and improvements.
+
+= 6.2.1 - Aug 8, 2018 =
+- **New “Main storefront page” selector in the plugin advanced settings.** If you have your storefront added to several pages on your site, you can now choose the main storefront page in the plugin settings (Ecwid → Advanced). This will define where the store navigation menus and sidebar widgets should be linked to. If you have a single online store page (which is totally OK), this new option won’t be displayed. 
+- **New warning messages for the sites with outdated TLS.** Ecwid is a PCI DSS level 1 certified ecommerce provider, which is a gold security standard for e-commerce solutions. Put it simply, when you use Ecwid, you have a bank level of online payments security in your online store. One of the requirements to make sure Ecwid merchants can securely process payments on their site is to use up-to-date TLS software on the server where your site is hosted. If your store dashboard doesn’t load in your Wordpress admin backend or you see a warning message saying that the Ecwid plugin cannot connect to the Ecwid API, that’s most likely caused by outdated TLS on your hosting. We recommend contacting your hosting in such case. If everything works fine and no warning message appears, that means no action is required from your side.
+- **Minor improvements in the store dashboard in the WordPress admin backend.** We improved the scroll behavior on the store admin dashboard pages and fixed a couple minor issues in the Ecwid menu items in the WordPress admin backend.
+- **Fixed an issue with store popup appearing on protected pages before the password is entered.** Some online sellers add their store catalog on protected pages on their ecommerce site to restrict access to it for some particular group of customers (e.g. wholesale membership). There was an issue with store catalog appearing in a popup on such pages — we fixed that. 
+- **Fixed an issue in the “Add store” button in the WordPress page editor.** There was a bug that made the store widgets appear at the top of the page when you use the “Add store” button in the classic Wordpress editor. We fixed it, it should work fine now. 
+- Minor fixes and improvements. 
+
+= 6.2 - Jun 25, 2018 =
+- **New! Revamped floating cart icon.** We added a new floating cart widget that allows to display a cart icon along with items count and subtotal in the corner of the screen. This way, it's always visible and your customers can click it to check their cart contents and proceed with checkout. The new floating shopping cart icon looks better and provides a lot of layout customization options. You can enable it in the Customizer menu under "Ecwid" section in your WordPress admin backend: (Appearance → Customize → Ecwid).
+- **Fixed a "Call to undefined function mb_strtolower" error message that appeared on some hosts.** If you saw such an error message, this should be fixed now. 
+- **Fixed a minor issue with the way Ecwid clean URLs work with Divi theme.** If you're using Divi theme on your site, you might notice that product page links gave you a 404 error in some rare cases. It' fixed now.
+- Minor fixes and improvements. 
+
+
+= 6.1.1 - May 30, 2018 =
+- **Compatibility with Gutenberg: buy now buttons in the page editor.** Gutenberg editor is getting more and more popular and will soon be the default WordPress editor. To make sure Ecwid users are ready for it, we are adding Gutenberg support to our plugin. In the previous update, we added a “Store” block to the Gutenberg editor toolbar. This update brings another button to the editor toolbar — “Ecwid product”. Use this one to add product widgets and buy now buttons to the pages and posts of your site.
+- **Revamped cart widget for sidebar.** We added a new sidebar widget that allows to display a cart icon along with items count and subtotal in the sidebar. The new shopping cart icon widget looks better and provides a lot of layout customization options — don’t forget to play with its settings when adding it to your sidebar. You can find the new widget under Appearance → Widgets in your Wordpress admin backend. 
+- **New design/appearance settings: new customization options for your storefront.** We added a lot of new design settings to your store dashboard. Read this detailed post to learn how to tweak your store appearance: [https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html](https://www.ecwid.com/blog/new-ecwid-design-settings-dozens-of-customization-options-no-coding.html)
+- **Compatibility with WP Bakery page builder.** We fixed a few issues and made Ecwid widgets work fine in the “WP Bakery” page builder. Now you can use that sitebuilder with the Ecwid plugin — everything should work fine. 
+- **Fixed a pre-renderering issue in IE browser.** The Ecwid e-commerce plugin adds prerender/preload tags to your site code — those are special html codes aimed to make the store page loads faster for your customers. This pre-rendering technology didn’t work well in old IE browsers (IE 11 and older) so we disabled it for IE visitors on your site. It works automatically, so no actions required from your side. 
+- **Compatibility with Polylang plugin.** We got a report from one of our customers stating that Ecwid didn’t work well with Polylang plugin. We fixed an issue, now everything should work fine. 
+- Improvements and fixes for the plugin navigation in the WP admin menu.
+- Improvements and fixes for store pages SEO friendly urls. 
+- Fixed a minor issue in the “Tools -> Import -> Ecwid products” section in the WP admin backend.
+
 = 6.0.3 - Apr 19, 2018 =
 - Fixed incorrect sorting in the store categories menu widgets. If you use display store categories inn your site menu or in a sidebar using the Ecwid categories sidebar widget, you might notice that the categories list order differs from that in your store control panel. We fixed that — now the sorting matches. 
 - Fixed unclickable products/categories in storefront. This issue appeared in very rare occasions, when a site is running on https (like https://example.com) but someone opens it using an http link (http://example.com). If there was no redirect (it happens sometimes), you might notice that your store product listing doesn’t react on clicks in the http version of your site. We fixed that — now it works well in all cases. We recommend redirecting http to https version though anyway.

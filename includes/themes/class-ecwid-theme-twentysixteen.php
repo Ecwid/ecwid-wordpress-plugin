@@ -48,4 +48,4 @@ class Ecwid_Theme_2016 extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_2016();
+return  new Ecwid_Theme_2016();

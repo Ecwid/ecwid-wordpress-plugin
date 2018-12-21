@@ -64,10 +64,11 @@ function ecwid_apply_theme($theme_name = null)
 		'newsmag'               => array( 'css-no-parent'),
 		'optimizer'             => array( 'css' ),
 		'businesso'				=> array( 'css' ),
-		'Avada' 				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
-		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING )
+		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
+		'bridge'	    		=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
+		'Parallax-One'			=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
@@ -83,7 +84,9 @@ function ecwid_apply_theme($theme_name = null)
 		'trend',
 		'Boundless',
 		'twentyseventeen',
-		'themify-music'
+		'themify-music',
+		'Avada',
+		'twentynineteen'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
@@ -93,7 +96,7 @@ function ecwid_apply_theme($theme_name = null)
 	}
 
 	$theme_file = '';
-
+	
 	if (function_exists('wp_get_theme') && wp_get_theme()->Name == 'ResponsiveBoat') {
 		$theme_name = 'responsiveboat';
 	}
@@ -106,17 +109,22 @@ function ecwid_apply_theme($theme_name = null)
 		return;
 	}
 
+	global $ecwid_current_theme;
+
 	if ( in_array($theme_name, $custom_themes) ) {
 		$theme_file = ECWID_THEMES_DIR . '/class-ecwid-theme-' . $theme_name . '.php';
 		$theme_file = apply_filters( 'ecwid_get_theme_file', $theme_file );
+		$theme_file = strtolower($theme_file);
+
 		if ( !empty( $theme_file ) && is_file( $theme_file ) && is_readable( $theme_file ) ) {
-			require_once( $theme_file );
+			$ecwid_current_theme = require_once( $theme_file );
 		}
 	} else if ( array_key_exists( $theme_name, $generic_themes ) ) {
-		global $ecwid_current_theme;
 		
 		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[$theme_name] );
 	}
+	
+	do_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, $ecwid_current_theme );
 }
 
 function ecwid_after_switch_theme()

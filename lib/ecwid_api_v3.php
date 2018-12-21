@@ -11,12 +11,34 @@ class Ecwid_Api_V3
 	
 	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
 	
-	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
+	const OPTION_API_STATUS = 'ecwid_api_status';
+	const API_STATUS_OK = 'ok';
+	const API_STATUS_UNDEFINED = null;
+	const API_STATUS_ERROR_TLS = 'fail_old_tls';
+	const API_STATUS_ERROR_OTHER = 'fail_other';
+	const API_STATUS_ERROR_TOKEN = 'fail_token';
 
+	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
+	const FEATURE_STATIC_HOME_PAGE = 'STATIC_HOME_PAGE';
+	
+	public static function get_api_status_list()
+	{
+		return array( 
+			self::API_STATUS_UNDEFINED,
+			self::API_STATUS_OK,
+			self::API_STATUS_ERROR_TOKEN,
+			self::API_STATUS_ERROR_TLS,
+			self::API_STATUS_ERROR_OTHER
+		);
+	}
+
+	const FEATURE_VARIATIONS = 'COMBINATIONS';
+	const FEATURE_NEW_DETAILS_PAGE = 'NEW_DETAILS_PAGE';
+	
 	public $store_id = null;
 	
 	protected static $profile = null;
-
+	
 	public function __construct() {
 
 		$this->store_id = EcwidPlatform::get_store_id();
@@ -25,26 +47,99 @@ class Ecwid_Api_V3
 
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
+
+		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
 
 	public static function is_available()
 	{
-		$token = self::_load_token();
+		$status = self::get_api_status();
 		
-		if ( $token && $token != get_option( self::TOKEN_OPTION_NAME ) ) {
-			return true;
+		if ( $status == self::API_STATUS_UNDEFINED ) {
+			return self::check_api_status();
+		}
+		
+		return $status == self::API_STATUS_OK;
+	}
+	
+	public static function connection_fails()
+	{
+		$status = self::get_api_status();
+		
+		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
+	}
+
+	public static function reset_api_status()
+	{
+		update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
+	}
+
+	public static function set_api_status( $new_status )
+	{
+		if ( in_array( $new_status, self::get_api_status_list() ) ) {
+			update_option( self::OPTION_API_STATUS, $new_status );
+		}
+		
+		return $new_status == self::API_STATUS_OK;
+	}
+	
+	public static function get_api_status()
+	{
+		return get_option( self::OPTION_API_STATUS );
+	}
+	
+	
+	public static function check_api_status()
+	{
+		$api = new Ecwid_Api_V3();
+		
+		$profile = $api->get_store_profile();
+		
+		if ( $profile ) {
+			return self::set_api_status( self::API_STATUS_OK );
+		} 
+		
+		$transports = stream_get_transports();
+		
+		$tls_fails = true;
+		
+		foreach ( $transports as $transport ) {
+			$matches = array();
+			
+			$is_tls = preg_match( '!tlsv(.*)!', $transport, $matches );
+			
+			if ( $is_tls ) {
+				if ( version_compare( $matches[1], '1.1', '>=' ) ) {
+					$tls_fails = false;
+					break;
+				}
+			}
+		}
+	
+		if (-$tls_fails ) {
+			return self::set_api_status( self::API_STATUS_ERROR_TLS );
 		}
 
-		return false;
+		$token = self::_load_token();
+		if ( !$token ) {
+			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+		}
+		
+		return self::set_api_status( self::API_STATUS_ERROR_OTHER );
 	}
 
 	public static function save_token($token)
 	{
-		EcwidPlatform::init_crypt(true);
-
-		$value = base64_encode(EcwidPlatform::encrypt($token));
-
-		update_option(self::TOKEN_OPTION_NAME, $value);
+		if (!$token) {
+			update_option( self::TOKEN_OPTION_NAME, '' );
+		} else {
+			EcwidPlatform::init_crypt( true );
+	
+			$value = base64_encode( EcwidPlatform::encrypt( $token ) );
+	
+			update_option( self::TOKEN_OPTION_NAME, $value );
+		}
+		self::reset_api_status();
 	}
 
 
@@ -140,6 +235,11 @@ class Ecwid_Api_V3
 	}
 
 	public function get_product( $product_id ) {
+		
+		if ( !$product_id ) {
+			return false;
+		}
+		
 		$params = array('token');
 
 		if ( !isset( $params['baseUrl'] ) ) {
@@ -337,6 +437,9 @@ class Ecwid_Api_V3
 		$query['redirect_uri']  = $redirect_uri;
 		$query['response_type'] = 'code';
 		$query['scope']         = $scope;
+		if ( Ecwid_Config::get_channel_id() ) {
+			$query['partner'] = Ecwid_Config::get_channel_id();
+		}
 
 		foreach ($query as $key => $value) {
 			$query[$key] = urlencode($value);
@@ -373,7 +476,7 @@ class Ecwid_Api_V3
 		$url = $this->_api_url . $this->store_id . '/latest-stats';
 
 		$params = array(
-			'token' => $this->get_token()
+			'token' => self::get_token()
 		);
 
 		$url = $this->build_request_url($url, $params);
@@ -397,13 +500,21 @@ class Ecwid_Api_V3
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
-			'token' => $this->get_token()
+			'token' => self::get_token()
 		);
 		
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		
-		if (@$result['code'] != '200' || empty($result['data'])) {
+		if ( @$result['code'] == '403' ) {
+			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			Ecwid_Api_V3::save_token('');
+			return false;
+		}
+		
+		if ( self::get_api_status() == self::API_STATUS_OK && ( @$result['code'] != '200' || empty($result['data'] ) ) ) {
+			ecwid_log_error( var_export( $result, true ) );
+			self::set_api_status( self::API_STATUS_UNDEFINED );
 			return false;
 		}
 
@@ -417,29 +528,36 @@ class Ecwid_Api_V3
 
 		return $profile;
 	}
-	
+
 	public function is_store_feature_enabled( $feature_name ) {
-		
+
 		static $features = array();
-	
-		if ( array_key_exists( $feature_name, $features ) ) {
+
+		if ( !empty( $features ) && array_key_exists( $feature_name, $features ) ) {
 			return $features[$feature_name]['enabled'];
 		}
-		
+
 		$profile = $this->get_store_profile();
-	
+
 		if (!$profile) {
 			return false;
 		}
-		
-		foreach ( $profile->featureToggles as $feature ) {
+
+		$toggles = @$profile->featureToggles;
+
+		if ( !$toggles ) {
+			return false;
+		}
+
+		foreach ( $toggles as $feature ) {
 			if ( $feature->name == $feature_name ) {
+				$features[$feature_name] = array();
 				$features[$feature_name]['enabled'] = $feature->enabled;
-				
+
 				return $feature->enabled;
 			}
 		}
-	
+
 		return false;
 	}
 	
@@ -551,38 +669,109 @@ class Ecwid_Api_V3
 			'token'
 		);
 		$url = $this->build_request_url( $this->_products_api_url, $request_params );
+
+		$params = $this->_sanitize_product_data( $params );
 		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
-	public function update_product( $params ) {
+	public function create_product_variation( $params ) {
 		$request_params =  array(
 			'token'
 		);
 		
-		$id = $params['id'];
-		unset( $params['id'] );
-		
-		$url = $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params );
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
 
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+	
+	public function update_product( $params, $product_id ) {
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $product_id, $request_params );
+
+		$params = $this->_sanitize_product_data( $params );
+		
 		$result = $this->_do_put( $url, $params );
 
 		return $result;
 	}
 	
+	protected function _sanitize_product_data( $data ) {
+
+		$int_fields = array( 'quantity', 'defaultCategoryId', 'showOnFrontPage' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+
+		$float_fields = array( 'price' );
+		foreach ( $float_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = floatval( $data[$field] );
+			}
+		}
+
+		if ( array_key_exists( 'categoryIds', $data ) ) {
+			foreach ( $data['categoryIds'] as $key => $id ) {
+				$data['categoryIds'][$key] = intval( $id );
+			}
+		}
+
+		return $data;
+		
+	}
+	
 	public function create_category( $params ) {
+		
 		$request_params =  array(
 			'token'
 		);
+		
 		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
-
+		
+		$params = $this->_sanitize_category_data( $params );
+		
 		$result = $this->_do_post( $url, $params );
 
 		return $result;
 	}
 
+	public function update_category( $params, $category_id ) {
+		
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_categories_api_url . '/' . $category_id, $request_params );
+		
+		$params = $this->_sanitize_category_data( $params );
+		
+		$result = $this->_do_put( $url, $params );
+
+		return $result;
+	}
+	
+	protected function _sanitize_category_data( $data ) {
+		$result = array();
+		
+		$int_fields = array( 'parentId', 'orderBy' );
+		foreach ( $int_fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				$data[$field] = intval( $data[$field] );
+			}
+		}
+		
+		return $data;
+	}
+	
 	public function delete_products( $ids )
 	{
 		$request_params = array( 'token' );
@@ -595,8 +784,6 @@ class Ecwid_Api_V3
 		}
 
 		$result = Requests::request_multiple( $requests );
-	
-		die(var_dump($result));
 		
 		return $result;
 	}
@@ -625,6 +812,31 @@ class Ecwid_Api_V3
 		return $result;
 	}
 	
+	public function upload_product_gallery_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+
+
+	public function upload_product_variation_image( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
+
+		$result = $this->_do_post( $url, $params['data'], true );
+
+		return $result;
+	}
+	
 	protected function _do_post( $url, $data, $raw = false ) {
 		$result = wp_remote_post( $url,
 			array(
@@ -637,7 +849,13 @@ class Ecwid_Api_V3
 		);
 		
 		if ( is_array( $result ) ) {
-			$result['api_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$result['http_message'] = $this->_get_response_message_from_wp_remote_results( $result );
+			$json_result = $result['body'];
+			$api_error = json_decode( $json_result );
+			if ( is_object( $api_error ) ) {
+				$result['api_code'] = @$api_error->errorCode;
+				$result['api_message'] = @$api_error->errorMessage;
+			}
 		}
 		
 		return $result;

@@ -1,9 +1,3 @@
-switch_to_connect = function() {
-	jQuery('.ecwid-landing').removeClass('register').addClass('connect');
-	jQuery('.ecwid-thank-step-one').addClass('active');
-	wpCookies.set('ecwid_create_store_clicked', 1);
-}
-
 hide_on_loading = '.create-store-button, .create-store-have-account-question';
 invisible_on_loading = '.create-store-have-account-link';
 show_on_loading = '.create-store-loading, .create-store-loading-note';

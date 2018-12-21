@@ -66,12 +66,6 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 		
 		return array_reverse($recently_viewed->products);
 	}
-
-	protected function _print_widget_content()
-	{
-		parent::_print_widget_content();
-		$products = $this->_get_products();
-	}
 	
 	protected function _print_no_products()
 	{

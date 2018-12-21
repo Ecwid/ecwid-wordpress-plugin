@@ -33,4 +33,4 @@ class Ecwid_Theme_Bretheon extends Ecwid_Theme_Base
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Bretheon();
+return new Ecwid_Theme_Bretheon();

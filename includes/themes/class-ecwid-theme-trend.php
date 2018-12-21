@@ -110,4 +110,4 @@ HTML;
 	}
 }
 
-$ecwid_current_theme = new Ecwid_Theme_Trend();
+return new Ecwid_Theme_Trend();

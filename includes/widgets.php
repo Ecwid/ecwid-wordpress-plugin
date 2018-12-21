@@ -32,7 +32,9 @@ function ecwid_sidebar_widgets_init() {
 
 	register_widget('Ecwid_Widget_Search');
 
-	register_widget('Ecwid_Widget_NSF_Minicart');
+	if ( version_compare( get_bloginfo('version'), '4.0' ) >= 0 ) {
+		register_widget('Ecwid_Widget_NSF_Minicart');
+	}
 
 	$old_minicarts = array(
 		'ecwidminicart_miniview' => 'Ecwid_Widget_Minicart_Miniview', 
@@ -40,18 +42,21 @@ function ecwid_sidebar_widgets_init() {
 		'ecwidfloatingshoppingcart' => 'Ecwid_Widget_Floating_Shopping_Cart' );
 	
 	foreach ( $old_minicarts as $idbase => $widget_class ) {
-		if ( is_active_widget( false, false, $idbase ) ) {
+		if ( is_active_widget( false, false, $idbase ) || version_compare( get_bloginfo('version'), '4.0' ) < 0 ) {
 			register_widget( $widget_class );
 		}
 	}
 
 	register_widget('Ecwid_Widget_Store_Link');
-	register_widget('Ecwid_Widget_Recently_Viewed');
-	register_widget('Ecwid_Widget_Latest_Products');
-
-	register_widget('Ecwid_Widget_Vertical_Categories_List');
-	register_widget('Ecwid_Widget_Random_Product');
-
+	
+	if ( Ecwid_Api_V3::is_available() ) {
+		register_widget('Ecwid_Widget_Recently_Viewed');
+		register_widget('Ecwid_Widget_Latest_Products');
+	
+		register_widget('Ecwid_Widget_Vertical_Categories_List');
+		register_widget('Ecwid_Widget_Random_Product');
+	}
+	
 	if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
 		register_widget('Ecwid_Widget_VCategories');
 	}

@@ -36,7 +36,7 @@ msgstr "Посмотреть FAQ"
 
 #: ecwid-shopping-cart.php:881
 msgid ""
-"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-"
+"https://support.ecwid.com/hc/en-us/articles/360000635709-Customizing-design-of-your-Ecwid-store-on-a-Wordpress-site"
 msgstr "https://support.ecwid.com/hc/ru/articles/207101259-Wordpress-ORG"
 
 #: ecwid-shopping-cart.php:890
@@ -1692,7 +1692,294 @@ msgstr "Витрина магазина"
 msgid "Displays storefront: product listing and checkout"
 msgstr "Показывает витрину магазина, корзину и оформление заказа"
 
+msgid "Main storefront page"
+msgstr "Главная страница магазина"
 
+msgid "You have your storefront added to several pages on your site. You can choose the main storefront page here — the store navigation menus and sidebar widgets will open it."
+msgstr "Вы добавили витрину магазина на несколько страниц сайта. С помощью этой настройки вы можете выбрать, какую из страниц считать главной витриной — на неё будут ссылаться пункты меню и сайдбар-виджеты."
+
+msgid "Product List Appearance"
+msgstr "Дизайн списка товаров"
+
+msgid "%s store"
+msgstr "Витрина магазина"
+
+msgid "Add storefront (product listing)"
+msgstr "Список товаров"
+
+#: includes/class-ecwid-product-browser.php:10
+msgid "Show product thumbnails"
+msgstr "Показывать изображения товаров"
+
+#: includes/class-ecwid-product-browser.php:18
+msgid "Product thumbnail size"
+msgstr "Размер изображения товара"
+
+#: includes/class-ecwid-product-browser.php:26
+msgid "Product thumbnail aspect ratio"
+msgstr "Формат изображения товара"
+
+#: includes/class-ecwid-product-browser.php:34
+msgid "Show product card border"
+msgstr "Показывать рамку карточки товара"
+
+#: includes/class-ecwid-product-browser.php:42
+msgid "Product card text align"
+msgstr "Выравнивание данных товара"
+
+#: includes/class-ecwid-product-browser.php:46
+msgid "Left"
+msgstr "По левому краю"
+
+#: includes/class-ecwid-product-browser.php:51
+msgid "Center"
+msgstr "По центру"
+
+#: includes/class-ecwid-product-browser.php:56
+msgid "Right"
+msgstr "По правому краю"
+
+#: includes/class-ecwid-product-browser.php:61
+msgid "Justify"
+msgstr "По ширине"
+
+#: includes/class-ecwid-product-browser.php:71
+msgid "Product title"
+msgstr "Название товара"
+
+#: includes/class-ecwid-product-browser.php:79
+msgid "Product price"
+msgstr "Цена товара"
+
+#: includes/class-ecwid-product-browser.php:87
+msgid "Product SKU"
+msgstr "Артикул товара"
+
+#: includes/class-ecwid-product-browser.php:95
+msgid "Buy now buttons"
+msgstr "Кнопка “Купить”"
+
+#: includes/class-ecwid-product-browser.php:103
+msgid "Show additional image on hover"
+msgstr "Показывать доп.изображение при наведении мыши"
+
+#: includes/class-ecwid-product-browser.php:111
+msgid "Category card layout"
+msgstr "Формат карточки категории"
+
+#: includes/class-ecwid-product-browser.php:115
+msgid "Title under image"
+msgstr "Название под изображением"
+
+#: includes/class-ecwid-product-browser.php:119
+msgid "Title on image"
+msgstr "Название на изображении"
+
+#: includes/class-ecwid-product-browser.php:123
+msgid "Image and title on mouse over"
+msgstr "Название по наведению мыши"
+
+#: includes/class-ecwid-product-browser.php:127
+msgid "Title only"
+msgstr "Только название"
+
+#: includes/class-ecwid-product-browser.php:131
+msgid "Image only"
+msgstr "Только изображение"
+
+#: includes/class-ecwid-product-browser.php:140
+msgid "Category thumbnail size"
+msgstr "Размер изображения категории"
+
+#: includes/class-ecwid-product-browser.php:148
+msgid "Category thumbnail aspect ratio"
+msgstr "Формат изображения категории"
+
+#: includes/class-ecwid-product-browser.php:156
+msgid "Display categories menu"
+msgstr "Показывать меню категорий над витриной"
+
+#: includes/class-ecwid-product-browser.php:163
+msgid "Display search box"
+msgstr "Показывать поиск над витриной"
+
+#: includes/class-ecwid-product-browser.php:170
+msgid "Display breadcrumbs"
+msgstr "Показывать цепочку навигации"
+
+#: includes/class-ecwid-product-browser.php:178
+msgid "Display footer menu"
+msgstr "Показывать меню внизу страницы"
+
+#: includes/class-ecwid-product-browser.php:186
+msgid "Display sign in link"
+msgstr "Показывать ссылку “Войти”"
+
+#: includes/class-ecwid-product-browser.php:194
+msgid "Display sort by link"
+msgstr "Показывать меню сортировки"
+
+#: includes/class-ecwid-product-browser.php:202
+msgid "Default category ID"
+msgstr "Категория, показываемая по умолчанию"
+
+#: includes/class-ecwid-product-browser.php:214
+msgid "Show"
+msgstr "Показывать"
+
+#: includes/class-ecwid-product-browser.php:218
+msgid "Hide"
+msgstr "Скрывать"
+
+#: includes/class-ecwid-product-browser.php:222
+msgid "Show on hover"
+msgstr "Показывать при наведении мыши"
+
+#: includes/class-ecwid-product-browser.php:232
+msgid "S"
+msgstr "S"
+
+#: includes/class-ecwid-product-browser.php:236
+msgid "M"
+msgstr "M"
+
+#: includes/class-ecwid-product-browser.php:240
+msgid "L"
+msgstr "L"
+
+#: includes/class-ecwid-product-browser.php:250
+msgid "Portrait 2:3"
+msgstr "Вертикальные 2:3"
+
+#: includes/class-ecwid-product-browser.php:255
+msgid "Portrait 3:4"
+msgstr "Вертикальные 3:4"
+
+#: includes/class-ecwid-product-browser.php:260
+msgid "Square 1:1"
+msgstr "Квадратные 1:1"
+
+#: includes/class-ecwid-product-browser.php:265
+msgid "Landscape 4:3"
+msgstr "Горизонтальные 4:3"
+
+#: includes/class-ecwid-product-browser.php:270
+msgid "Landscape 3:2"
+msgstr "Горизонтальные 3:2"
+
+msgid "Migration warning"
+msgstr ""
+
+msgid "To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Settings → What’s New</a>”)."
+msgstr "Чтобы обновить дизайн своего магазина и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Настройки → Обновления</a>”)"
+
+msgid "Display cart icon"
+msgstr "Показывать иконку корзины"
+
+msgid "You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href=\"%1$s\">Appearance → Customize → %2$s</a>” menu to enable it."
+msgstr "Включите дополнительный плавающий виджет корзины, который будет появляться на страницах сайта. Доступно в меню “<a href=\"%1$s\">Внешний вид → Настроить → %2$s</a>”"
+
+msgid "Category List Appearance"
+msgstr "Дизайн списка категорий"
+
+msgid "Store Navigation"
+msgstr "Навигация магазина"
+
+msgid "Store Front Page"
+msgstr "Главная страница магазина"
+
+msgid "Product Page Appearance"
+msgstr "Дизайн страницы товара"
+
+msgid "Product page layout"
+msgstr "Формат карточки товара"
+
+msgid "2 columns, image on the right"
+msgstr "2 колонки, изображение справа"
+
+msgid "2 columns, image on the left"
+msgstr "2 колонки, изображение слева"
+
+msgid "3 columns, image on the right"
+msgstr "3 колонки, изображение справа"
+
+msgid "3 columns, image on the left"
+msgstr "3 колонки, изображение слева"
+
+msgid "Show description under the image"
+msgstr "Показывать описание под изображением"
+
+msgid "Image gallery layout"
+msgstr "Формат галереи"
+
+msgid "Horizontal thumbnails"
+msgstr "Горизонтально"
+
+msgid "Vertical thumbnails"
+msgstr "Вертикально"
+
+msgid "Image feed"
+msgstr "Полноразмерные изображения"
+
+msgid "Product sidebar content"
+msgstr "Информация на странице"
+
+msgid "Breadcrumbs"
+msgstr "Цепочка навигации"
+
+msgctxt "product-browser-attributes"
+msgid "Product SKU"
+msgstr "Артикул"
+
+msgctxt "product-browser-attributes"
+msgid "Product price"
+msgstr "Цена"
+
+msgid "Product quantity"
+msgstr "Поле \"Количество\""
+
+msgid "Available qty in stock"
+msgstr "Количество в наличии"
+
+msgid "\"In stock\" label"
+msgstr "Метка \"В наличии\""
+
+msgid "Wholesale prices"
+msgstr "Оптовые цены"
+
+msgid "Share buttons"
+msgstr "Кнопки \"Поделиться\""
+
+msgid "Text color"
+msgstr "Цвет текста"
+
+msgid "Button color"
+msgstr "Цвет кнопок"
+
+msgid "Price color"
+msgstr "Цвет цены"
+
+msgid "Link color"
+msgstr "Цвет ссылок"
+
+msgid "Background color"
+msgstr "Цвет фона"
+
+msgid "Color settings"
+msgstr "Настройки цвета"
+
+msgid "Detect automatically"
+msgstr "Определять автоматически"
+
+msgid "Set manually"
+msgstr "Задать вручную"
+
+msgctxt "gutenberg-store-block-stub"
+msgid "Store"
+msgstr "Витрина магазина"
+
+msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Settings → What’s New</a>)."
+msgstr "Чтобы обновить дизайн страницы товара и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид страницы товара” в панели управления магазина (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Настройки → Обновления</a>)"
 
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme

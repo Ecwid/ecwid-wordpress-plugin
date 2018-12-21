@@ -299,13 +299,15 @@ display: none;
 .ecwid-admin {
 	margin-left: 20px;
 }
-.ecwid-admin .box {
+.ecwid-admin div.box {
 	position: relative;
 	margin-top: 25px;
 
 	border: 1px solid #E5E5E5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #FFF;
+	
+	height: auto;
 }
 
 

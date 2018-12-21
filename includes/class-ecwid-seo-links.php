@@ -24,7 +24,7 @@ class Ecwid_Seo_Links {
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
 			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ) );
 			
-			add_action( 'ecwid_print_inline_js_config', array( $this, 'add_js_config') );
+			add_action( 'ecwid_inline_js_config', array( $this, 'add_js_config') );
 
 			add_filter( 'wp_unique_post_slug_is_bad_hierarchical_slug', array( $this,  'is_post_slug_bad'), 10, 4 );
 			add_filter( 'wp_unique_post_slug_is_bad_flat_slug', array( $this,  'is_post_slug_bad' ), 10, 2 );
@@ -198,28 +198,70 @@ class Ecwid_Seo_Links {
 		return false;
 	}
 
-	public function add_js_config() {
+	public function add_js_config( $config ) {
 		
-		global $wp_query;
-		$page_id = $wp_query->get( 'page_id' );
+		$page_id = get_queried_object_id();
 
 		$has_store = Ecwid_Store_Page::is_store_page( $page_id );
 		
 		if ( !$has_store ) {
 			if ( !Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
-				return;
+				return $config;
 			}
+		}
+
+		if ( self::is_404_seo_link() ) {
+			return $config;
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
 		
-		echo <<<JS
+		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
 JS;
+		$config .= $result;
+		
+		return $config;
 	}
 
+	public static function is_404_seo_link() {
+		
+		if ( ! self::is_product_browser_url() ) {
+			return false;
+		}
+		
+		$params = self::maybe_extract_html_catalog_params();
+		if ( !$params ) return false;
+		
+		// Root is always ok
+		$is_root_cat = $params['mode'] == 'category' && $params['id'] == 0;
+		if ( $is_root_cat ) {
+			return false;
+		}
+		
+		$result = false;
+		
+		if ($params['mode'] == 'product') {
+			$result = Ecwid_Product::get_by_id( $params['id'] );
+		} elseif (!$is_root_cat && $params['mode'] == 'category') {
+			$result = Ecwid_Category::get_by_id( $params['id'] );
+		}
+		
+		// Can't parse params, assume its ok
+		if ( !$result ) {
+			return false;
+		}
+		
+		// product/category not found, 404
+		if ( is_object ( $result ) && ( !isset( $result->id ) || !$result->enabled ) ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static function maybe_extract_html_catalog_params() {
 
 		$current_url = add_query_arg( null, null );
@@ -254,27 +296,38 @@ JS;
 
 		$all_base_urls = $this->_build_all_base_urls();
 		
+		foreach ( $all_base_urls as $page_id => $links ) {
+			$patterns = $this->get_seo_links_patterns();
+			
+			$post = get_post( $page_id );
+			if ( ! $post ) continue;
+			if ( !in_array( $post->post_type, array( 'page', 'post' ) ) ) continue;
+
+			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
+			
+			foreach ( $links as $link ) {
+				foreach ( $patterns as $pattern ) {
+					$link = trim( $link, '/' );
+					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+				}
+			}
+		}
+
 		if ( $this->is_store_on_home_page() ) {
 			$patterns = $this->get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
 				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
 		}
-		
-		foreach ( $all_base_urls as $page_id => $links ) {
-			$patterns = $this->get_seo_links_patterns();
 
-			foreach ( $links as $link ) {
-				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( '^' . $link . '/' . $pattern . '.*', 'index.php?page_id=' . $page_id, 'top' );
-				}
-			}
-		}
-		
 		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => $this->is_store_on_home_page() ) ) );
 	}
 	
 	public function are_base_urls_ok() {
+		if (! self::is_feature_available() ) {
+			return true;
+		}
+		
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		$flattened = array();
@@ -303,6 +356,23 @@ JS;
 			}
 		}
 		
+		$rules = get_option( 'rewrite_rules' );
+		
+		if ( empty( $rules ) ) return false;
+			
+		foreach ( $flattened as $link ) {
+			$link = trim( $link, '/' );
+			
+			$patterns = $this->get_seo_links_patterns();
+			$pattern = $patterns[0];
+			
+			$rules_pattern = '^' . $link . '/' . $pattern . '.*';
+			
+			if ( !array_key_exists( $rules_pattern, $rules ) ) {
+				return false;
+			}
+		}
+		
 		$are_the_same = array_diff( $flattened, $flattened_saved );
 		
 		return empty( $are_the_same ) && $saved_home == $this->is_store_on_home_page();
@@ -321,7 +391,7 @@ JS;
 				if ( !isset( $base_urls[$page_id] ) ) {
 					$base_urls[$page_id] = array();
 				}
-				$base_urls[$page_id][] = urldecode( get_page_uri( $page_id ) );
+				$base_urls[$page_id][] = urldecode( self::_get_relative_permalink( $page_id ) );
 			}
 
 			if (
@@ -333,7 +403,7 @@ JS;
 				if ( PLL()->options['force_lang'] == 1 ) {
 					$patterns = $this->get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
-						$link = urldecode( get_page_uri( $page_id ) );
+						$link = urldecode( self::_get_relative_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );
 
 						if ( !isset( $base_urls[$page_id] ) ) {
@@ -349,8 +419,42 @@ JS;
 		return $base_urls;
 	}
 	
-	
+	protected static function _get_relative_permalink( $item_id ) {
+		$permalink = get_permalink( $item_id );
+		
+		$home_url = home_url();
+		
+		return substr( $permalink, strlen( $home_url ) );
+	}
 
+	public static function is_noindex_page() {
+		
+		if ( !Ecwid_Store_Page::is_store_page() ) {
+			return false;
+		}
+
+		$relative_permalink = self::_get_relative_permalink( get_the_ID() );
+
+		$noindex_pages = array(
+			'cart',
+			'account',
+			'checkout',
+			'signin'
+		);
+		
+		$home_url = home_url();
+		$path = parse_url( $home_url, PHP_URL_PATH );
+		$seo_part = str_replace( $path . $relative_permalink, '', $_SERVER['REQUEST_URI'] );
+		
+		foreach ( $noindex_pages as $page ) {
+			if ( preg_match( '!' . $page . '([\?\/]+.*|)$' . '!', $seo_part ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static function is_enabled() {
 
 		return self::is_feature_available() && get_option( self::OPTION_ENABLED );
