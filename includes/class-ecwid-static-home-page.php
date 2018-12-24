@@ -63,10 +63,10 @@ class Ecwid_Static_Home_Page {
 		}
 		
 		
-		if ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url() ) {
+		if ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_seo_link() ) {
 			return null;
 		}
-
+		
 		$data = self::_maybe_fetch_data();
 		
 		if ( $data ) {
