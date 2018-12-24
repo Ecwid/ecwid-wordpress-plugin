@@ -2437,11 +2437,7 @@ function ecwid_admin_do_page( $page ) {
 	if ( $page == Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ) {
 		update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
 	}
-
-	if ($page == 'dashboard') {
-		$show_reconnect = true;
-	}
-
+	
 	$time = time() - get_option('ecwid_time_correction', 0);
 
 	$iframe_src = ecwid_get_iframe_src($time, $page);
@@ -2493,6 +2489,7 @@ function ecwid_admin_do_page( $page ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
 		}
 	} else {
+		$show_reconnect = true;
 		require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
 	}
 }
