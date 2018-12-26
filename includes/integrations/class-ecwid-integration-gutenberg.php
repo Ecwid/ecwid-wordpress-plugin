@@ -196,7 +196,7 @@ class Ecwid_Integration_Gutenberg {
 		$params['display'] = '';
 		$display_string = '';
 		foreach ( $display as $name ) {
-			if ($params['show_' . $name]) {
+			if ( @$params['show_' . $name] ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}

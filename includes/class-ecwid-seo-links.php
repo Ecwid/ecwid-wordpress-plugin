@@ -139,7 +139,7 @@ class Ecwid_Seo_Links {
 		static $pattern = '';
 
 		if ( !$pattern ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 
 			$pattern = '!(^' . implode('$|^', $patterns) . '$)!';
 		}
@@ -147,7 +147,7 @@ class Ecwid_Seo_Links {
 		return preg_match($pattern, $slug);
  	}
 
- 	protected function get_seo_links_patterns() {
+ 	protected static function get_seo_links_patterns() {
 		return array(
 			'.*-p([0-9]+)(\/.*|\?.*)?',
 			'.*-c([0-9]+)(\/.*|\?.*)?',
@@ -317,7 +317,7 @@ JS;
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		foreach ( $all_base_urls as $page_id => $links ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			
 			$post = get_post( $page_id );
 			if ( ! $post ) continue;
@@ -334,7 +334,7 @@ JS;
 		}
 
 		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
 				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
@@ -383,7 +383,7 @@ JS;
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			$pattern = $patterns[0];
 			
 			$rules_pattern = '^' . $link . '/' . $pattern . '.*';
@@ -421,7 +421,7 @@ JS;
 			) {
 				
 				if ( PLL()->options['force_lang'] == 1 ) {
-					$patterns = $this->get_seo_links_patterns();
+					$patterns = self::get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
 						$link = urldecode( self::_get_relative_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );
