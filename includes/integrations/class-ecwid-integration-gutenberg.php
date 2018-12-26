@@ -32,7 +32,6 @@ class Ecwid_Integration_Gutenberg {
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
-		add_action( 'in_admin_header', array( $this, 'add_popup' ) );
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 
