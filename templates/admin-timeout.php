@@ -1,5 +1,5 @@
 <div class="ecwid-admin-timeout">
-	<div class="box">
+	<div class="ec-store-box">
 		<div class="logo">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
 				<path d="M34.5 67C16.58 67 2 52.42 2 34.5S16.58 2 34.5 2 67 16.58 67 34.5 52.42 67 34.5 67zm0-62C18.23 5 5 18.23 5 34.5S18.23 64 34.5 64 64 50.77 64 34.5 50.77 5 34.5 5z"></path>

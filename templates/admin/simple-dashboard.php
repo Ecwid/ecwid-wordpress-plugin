@@ -1,5 +1,5 @@
 <div class="wrap ecwid-admin ecwid-dashboard">
-	<div class="box">
+	<div class="ec-store-box">
 		<div class="head">
 			<?php ecwid_embed_svg( 'ecwid-logo-blue' );?>
 			<h3>

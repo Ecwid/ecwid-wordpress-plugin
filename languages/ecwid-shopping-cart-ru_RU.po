@@ -1491,7 +1491,7 @@ msgstr "Количество"
 
 #: templates/product-popup.php:176
 msgid "«Buy now» button"
-msgstr "Кнопка \"Купить\""
+msgstr "Кнопка «Купить»"
 
 #: templates/product-popup.php:196
 msgid "Add border"
@@ -1500,6 +1500,10 @@ msgstr "Показывать рамку"
 #: templates/product-popup.php:201
 msgid "Show price inside the \"Buy now\" button"
 msgstr "Показывать цену в кнопке \"Купить\""
+
+#: templates/product-popup.php:201
+msgid "Show price inside the «Buy now» button"
+msgstr "Показывать цену в кнопке «Купить»"
 
 #: templates/product-popup.php:206
 msgid "Center align on a page"
@@ -1516,6 +1520,28 @@ msgstr "выбрать товар"
 #: templates/product-popup.php:220
 msgid "Insert"
 msgstr "Вставить"
+
+msgid "Display product with a buy button"
+msgstr "Товар с кнопкой \"Купить\""
+
+msgctxt "gutenberg-product-block"
+msgid "Content"
+msgstr "Элементы виджета"
+
+msgid "Displayed product"
+msgstr "Выбранный товар"
+
+msgid "Change"
+msgstr "Изменить"
+
+msgid "Choose product"
+msgstr "Выбрать товар"
+
+msgid "Your product"
+msgstr "Товар"
+
+msgid "%s product"
+msgstr "%s товар"
 
 #: templates/reconnect-sso.php:11
 msgid "Your store Control Panel. Right here in WordPress."

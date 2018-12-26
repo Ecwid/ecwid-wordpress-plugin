@@ -1,6 +1,6 @@
 <div class="wrap ecwid-admin">
     
-    <div class="box">
+    <div class="ec-store-box">
 		<?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
 
         <form method="POST" action="options.php" class="pure-form ecwid-settings general-settings">

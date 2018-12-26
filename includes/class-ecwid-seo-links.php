@@ -285,6 +285,26 @@ JS;
 
 		return preg_match( self::_get_pb_preg_pattern(), $url );
 	}
+	
+	public static function is_seo_link() {
+		if ( !Ecwid_Store_Page::is_store_page() ) return false;
+		
+		$url = add_query_arg( null, null );
+		
+		$link = urldecode( self::_get_relative_permalink( get_the_ID() ) );
+		$site_url = parse_url( get_bloginfo('url') );
+		$site_path = $site_url['path'];
+		
+		foreach ( self::get_seo_links_patterns() as $pattern ) {
+			$pattern = '#' . $site_path . preg_quote( $link ) . $pattern . '#';
+			
+			if ( preg_match( $pattern, $url ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	protected static function _get_pb_preg_pattern() {
 		return $pattern = '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';

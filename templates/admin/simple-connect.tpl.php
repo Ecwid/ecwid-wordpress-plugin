@@ -4,7 +4,7 @@
 ?>
 
 <div class="wrap ecwid-admin ecwid-connect<?php if ($no_oauth): ?> no-oauth<?php else: ?> with-oauth<?php endif; ?>">
-	<div class="box">
+	<div class="ec-store-box">
         <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
 
 		<div class="greeting-image">

@@ -219,6 +219,7 @@
   -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
   -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+  object-fit: cover;
 }
 
 .ec-store-block .ec-store-block-title {
@@ -238,8 +239,24 @@
   margin-top: .6rem;
 }
 
+.ec-store-inspector-row {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.ec-store-inspector-row label,
+.ec-store-inspector-row button
+{
+  display: block;
+}
+
 .ec-store-inspector-subheader {
-  color: #555d66;
+  color: #191e23;
   font-weight: 600;
-  padding: 15px 0;
+  cursor: default;
+}
+
+.ec-store-inspector-row {
+  margin: 15px 0;
 }
