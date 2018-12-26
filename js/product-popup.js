@@ -28,32 +28,18 @@ jQuery(document).ready(function() {
 
         setSelectedProduct(null);
 
+        
         if (popup().data('params')) {
-
             var props = popup().data('params').props.attributes;
+
             if (props.id) {
-                var productTemplate = wp.template('selected-product');
-
                 setSelectedProduct(
-                    {'name': props.productName, 'thumb': props.productImageURL, 'sku': props.productSKU, 'id': props.id}
+                    { 'id': props.id }
                 );
-                
-                var productHtml = productTemplate(
-                    getSelectedProduct()
-                );
-    
-                jQuery('.media-frame-content.selected-product').empty().append(productHtml);
-                changeMode('selected-product');
-                changeTab('selected-product');
-
-                jQuery('#choose-another-product').click(function() {
-                    jQuery('.media-modal-content', popup()).attr('data-active-dialog', 'add-product');
-                    jQuery('.media-button-update').addClass('disabled');
-                });
-                jQuery('media-modal-content', popup()).attr('data-mode', 'selected-product');
-                changeTab('customize');
             }
-        } 
+            changeMode('selected-product');
+
+        }
         
         if ( !getSelectedProduct() ) {
             changeMode('add-product');

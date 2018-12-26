@@ -5951,6 +5951,19 @@ body, html {
     visibility: visible;
 }
 
+.gutenberg-editor-page #ecwid-product-popup-content .media-frame-menu,
+.gutenberg-editor-page #ecwid-product-popup-content .toolbar-link.customize-appearance,
+.gutenberg-editor-page #ecwid-product-popup-content .toolbar-link.add-product {
+    display: none !important;
+}
+
+.gutenberg-editor-page #ecwid-product-popup-content .media-frame-toolbar,
+.gutenberg-editor-page #ecwid-product-popup-content .media-frame-content,
+.gutenberg-editor-page #ecwid-product-popup-content .media-frame-title {
+    left: 0;
+}
+
+
 @media only screen and (max-width: 640px) {
     #ecwid-product-popup-content .note.pb-note {
         text-align: left;
