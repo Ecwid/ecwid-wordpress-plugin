@@ -7,6 +7,8 @@ class Ecwid_Theme_Base {
 	
 	const ACTION_APPLY_THEME = 'ecwid-apply-theme';
 	
+	const OPTION_LEGACY_CUSTOM_SCROLLER = 'ec_store_custom_scroller';
+	
 	public $has_advanced_layout = false;
 
 	protected $adjust_pb_scroll = false;
@@ -78,12 +80,15 @@ class Ecwid_Theme_Base {
 	}
 
 	protected function create_scroller() {
-		wp_enqueue_script(
-			'ecwid-scroller',
-			ECWID_PLUGIN_URL . 'js/create_scroller.js' ,
-			array( 'jquery' ),
-			get_option('ecwid_plugin_version')
-		);
+		
+		if ( get_option( self::OPTION_LEGACY_CUSTOM_SCROLLER, false ) ) {
+			wp_enqueue_script(
+				'ecwid-scroller',
+				ECWID_PLUGIN_URL . 'js/create_scroller.js' ,
+				array( 'jquery' ),
+				get_option('ecwid_plugin_version')
+			);
+		}
 	}
 
 	protected function add_css( $parent = null ) {
