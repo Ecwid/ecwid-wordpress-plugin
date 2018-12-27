@@ -682,8 +682,11 @@ function ecwid_check_version()
 		// Since 6.4.x
 		add_option( EcwidPlatform::OPTION_LOG_CACHE );
 		
-		// Since 6.5
+		// Since 6.4.8
 		add_option( 'ecwid_hide_canonical', false );
+
+		// Since 6.4.9+
+		add_option( Ecwid_Theme_Base::OPTION_LEGACY_CUSTOM_SCROLLER, false );
 
 		do_action( 'ecwid_on_plugin_update' );
 

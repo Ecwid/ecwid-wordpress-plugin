@@ -5951,15 +5951,15 @@ body, html {
     visibility: visible;
 }
 
-.gutenberg-editor-page #ecwid-product-popup-content .media-frame-menu,
-.gutenberg-editor-page #ecwid-product-popup-content .toolbar-link.customize-appearance,
-.gutenberg-editor-page #ecwid-product-popup-content .toolbar-link.add-product {
+#ecwid-product-popup-content.gutenberg .media-frame-menu,
+#ecwid-product-popup-content.gutenberg .toolbar-link.customize-appearance,
+#ecwid-product-popup-content.gutenberg .toolbar-link.add-product {
     display: none !important;
 }
 
-.gutenberg-editor-page #ecwid-product-popup-content .media-frame-toolbar,
-.gutenberg-editor-page #ecwid-product-popup-content .media-frame-content,
-.gutenberg-editor-page #ecwid-product-popup-content .media-frame-title {
+#ecwid-product-popup-content.gutenberg .media-frame-toolbar,
+#ecwid-product-popup-content.gutenberg .media-frame-content,
+#ecwid-product-popup-content.gutenberg .media-frame-title {
     left: 0;
 }
 
