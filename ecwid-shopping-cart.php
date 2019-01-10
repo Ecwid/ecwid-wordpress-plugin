@@ -164,6 +164,7 @@ function ecwid_init_integrations()
 		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 		'js_composer/js_composer.php' => 'wpbakery-composer',
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
+		'bb-plugin/fl-builder.php' => 'beaver-builder',
 		'elementor/elementor.php' => 'elementor'
 
 	);
