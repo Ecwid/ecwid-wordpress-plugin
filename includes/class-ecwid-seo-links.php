@@ -326,9 +326,15 @@ JS;
 			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
 			
 			foreach ( $links as $link ) {
+				$link = trim( $link, '/' );
+
+				if (strpos($link, 'index.php') !== 0) {
+					$link = '^' . preg_quote( $link );
+				}
+
 				foreach ( $patterns as $pattern ) {
-					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+
+					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
