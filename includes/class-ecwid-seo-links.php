@@ -210,7 +210,7 @@ class Ecwid_Seo_Links {
 			}
 		}
 
-		if ( self::is_404_seo_link() ) {
+		if ( Ecwid_Api_V3::is_available() && self::is_404_seo_link() ) {
 			return $config;
 		}
 
