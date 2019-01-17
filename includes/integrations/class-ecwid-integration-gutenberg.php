@@ -6,7 +6,9 @@ class Ecwid_Integration_Gutenberg {
 	
 	const STORE_BLOCK = 'ecwid/store-block';
 	const PRODUCT_BLOCK = 'ecwid/product-block';
-	
+	const CATEGORIES_BLOCK = 'ecwid/categories';
+	const SEARCH_BLOCK = 'ecwid/search';
+
 	public function __construct() {
 
 		if ( isset( $_GET['classic-editor'] ) ) return;
@@ -31,6 +33,16 @@ class Ecwid_Integration_Gutenberg {
 			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
+
+		register_block_type(self::CATEGORIES_BLOCK, array(
+			'editor_script' => 'ecwid-gutenberg-store',
+			'render_callback' => array( $this, 'categories_render_callback' ),
+		));
+
+		register_block_type(self::SEARCH_BLOCK, array(
+			'editor_script' => 'ecwid-gutenberg-store',
+			'render_callback' => array( $this, 'search_render_callback' ),
+		));
 		
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
@@ -47,8 +59,7 @@ class Ecwid_Integration_Gutenberg {
 			)
 		);
 	}
-
-
+	
 
 	public function on_save_post( $post, $request, $creating ) {
 		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
@@ -204,6 +215,34 @@ class Ecwid_Integration_Gutenberg {
 		$params['version'] = 2;
 
 		$shortcode = new Ecwid_Shortcode_Product( $params );
+
+		return $shortcode->render();
+	}
+	
+	public function categories_render_callback( $params ) {
+		
+		$params = wp_parse_args(
+			$params,
+			array(
+				'is_ecwid_shortcode' => true
+			)
+		);
+		
+		$shortcode = new Ecwid_Shortcode_Categories( $params );
+
+		return $shortcode->render();
+	}
+
+	public function search_render_callback( $params ) {
+
+		$params = wp_parse_args(
+			$params,
+			array(
+				'is_ecwid_shortcode' => true
+			)
+		);
+
+		$shortcode = new Ecwid_Shortcode_Search( $params );
 
 		return $shortcode->render();
 	}
