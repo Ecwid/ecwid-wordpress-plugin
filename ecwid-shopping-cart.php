@@ -2399,7 +2399,7 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 		Ecwid_Api_V3::get_token(),
 		$time,
 		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Config::get_oauth_appsecret() ),
-		$page,
+		urlencode( $page ),
 		substr( $lang, 0, 2 )
 	);
 }

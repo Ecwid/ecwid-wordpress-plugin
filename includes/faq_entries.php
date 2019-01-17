@@ -44,7 +44,7 @@ $faqs = array(
 		)
 	),
 	array(
-		'title' => __( 'How do I add store categories to the site menu.', 'ecwid-shopping-cart' ),
+		'title' => __( 'How do I add store categories to the site menu?', 'ecwid-shopping-cart' ),
 		'body' => __(
 'You can add the store categories menu to your site menu to help your customers easily navigate your site. Just open "Appearance > Menus" in your WordPress control panel and add the "Store with Categories Menu" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site.'
 			, 'ecwid-shopping-cart'
@@ -68,6 +68,15 @@ $faqs = array(
 		'body' => __(
 'You can display your store on the site main page. Adjust the "Reading" settings of your site as described in our <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#displaystoreonhomepage">Help Center.</a>'
 			, 'ecwid-shopping-cart'
+		)
+	),
+	array(
+		'title' => __( 'Is there a WordPress theme for Ecwid?', 'ecwid-shopping-cart' ),
+		'body' => sprintf(
+			__(
+				'Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a target="_blank" href="%s">TemplateMonster themes</a>'
+				, 'ecwid-shopping-cart'
+			), admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-store-page=apps%3Aview%3Dapp%26name%3Dtemplatemonster-themes' )
 		)
 	)
 );

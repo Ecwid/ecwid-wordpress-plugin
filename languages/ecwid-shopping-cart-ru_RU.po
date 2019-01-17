@@ -411,7 +411,7 @@ msgstr ""
 "target=\"_blank\" href=\"%s\">Подробнее о расценках.</a>"
 
 #: includes/faq_entries.php:45
-msgid "How do I add store categories to the site menu."
+msgid "How do I add store categories to the site menu?"
 msgstr "Как добавить категории в меню сайта?"
 
 #: includes/faq_entries.php:46
@@ -480,6 +480,15 @@ msgid ""
 msgstr ""
 "Перейдите на страницу <a href=\"options-reading.php\">«Настройки > Чтение»</"
 "a> и выберите «Магазин\t» в выпадающем списке главной страницы."
+
+msgid "Is there a WordPress theme for Ecwid?"
+msgstr "Существуют ли темы для Эквида?"
+
+#: includes/faq_entries.php:66
+msgid "Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a target=\"_blank\" href=\"%s\">TemplateMonster themes</a>"
+msgstr ""
+"Эквид совместим с любой темой, будь то бесплатная тема из каталога WordPress.org, платная тема или заказная разработка. Ваш магазин должен работать хорошо в любом случае. Если вы ищете хорошие премиум-темы, мы рекомендуем <a target=\"_blank\" href=\"%s\">TemplateMonster</a>"
+
 
 #: includes/oembed.php:68 includes/oembed.php:97 templates/help.php:96
 msgid "See more"
