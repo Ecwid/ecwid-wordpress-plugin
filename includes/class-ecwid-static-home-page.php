@@ -43,7 +43,18 @@ class Ecwid_Static_Home_Page {
 			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
 		}
 		
-		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec = window.ec || {}; window.ec.config = window.ec.config || {}; window.ec.config.interactive = false;" );
+		if (! is_array( $data->js) ) {
+			$data->js = array();
+		}
+		$data->js[] = <<<JS
+window.ec = window.ec || {}; 
+window.ec.config = window.ec.config || {}; 
+window.ec.config.interactive = false;
+JS;
+		
+		foreach ( $data->js as $code ) {
+			wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, $code );
+		}
 	}
 	
 	public function apply_theme( $theme ) {
@@ -131,8 +142,23 @@ class Ecwid_Static_Home_Page {
 		);
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
-
+			
 			$fetched_data = @json_decode( $fetched_data['data'] );
+			
+			$matches = array();
+			
+			$pattern = '!<script>([\s]*var Grid.*?)</script>!s';
+			preg_match( $pattern, $fetched_data->htmlCode, $matches );
+			
+			if ( isset( $matches[1] ) && !empty( $matches[1] ) ) {
+				$fetched_data->js = array(
+					$matches[1]
+				);
+
+				$pattern = '!<script>[\s]*var Grid.*?</script>!s';
+				$fetched_data->htmlCode = preg_replace( $pattern, '', $fetched_data->htmlCode );
+			}
+			
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
 			return $fetched_data;
