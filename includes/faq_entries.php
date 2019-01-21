@@ -77,6 +77,7 @@ $faqs = array(
 				'Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a target="_blank" href="%s">TemplateMonster themes</a>'
 				, 'ecwid-shopping-cart'
 			), admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-store-page=apps%3Aview%3Dapp%26name%3Dtemplatemonster-themes' )
-		)
+		),
+		'priority' => 'guaranteed_3'
 	)
 );
