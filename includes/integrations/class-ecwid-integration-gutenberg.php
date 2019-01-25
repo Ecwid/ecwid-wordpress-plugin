@@ -8,7 +8,11 @@ class Ecwid_Integration_Gutenberg {
 	const PRODUCT_BLOCK = 'ecwid/product-block';
 	const CATEGORIES_BLOCK = 'ecwid/categories';
 	const SEARCH_BLOCK = 'ecwid/search';
+	const CATEGORY_PAGE_BLOCK = 'ecwid/category-page';
+	const MINICART_BLOCK = 'ecwid/minicart';
 
+	
+	
 	public function __construct() {
 
 		if ( isset( $_GET['classic-editor'] ) ) return;
@@ -42,6 +46,16 @@ class Ecwid_Integration_Gutenberg {
 		register_block_type(self::SEARCH_BLOCK, array(
 			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'search_render_callback' ),
+		));
+		
+		register_block_type(self::MINICART_BLOCK, array(
+			'editor_script' => 'ecwid-gutenberg-store',
+			'render_callback' => array( $this, 'minicart_render_callback' ),
+		));
+		
+		register_block_type(self::CATEGORY_PAGE_BLOCK, array(
+			'editor_script' => 'ecwid-gutenberg-store',
+			'render_callback' => array( $this, 'category_page_render_callback' ),
 		));
 		
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
@@ -101,6 +115,7 @@ class Ecwid_Integration_Gutenberg {
 		$is_demo_store = ecwid_is_demo_store();
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
+				'minicartAttributes' => $this->_get_attributes_for_minicart_editor(),
 				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
 				'storeBlockTitle' => sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
@@ -233,6 +248,44 @@ class Ecwid_Integration_Gutenberg {
 		return $shortcode->render();
 	}
 
+	public function minicart_render_callback( $params ) {
+
+		$params = wp_parse_args(
+			$params,
+			array(
+				'is_ecwid_shortcode' => true
+			)
+		);
+
+		ob_start(); 
+?>
+<!-- noptimize -->
+<?php
+
+echo ecwid_get_scriptjs_code();
+echo ecwid_get_product_browser_url_script();
+
+?>
+
+<div class='ec-cart-widget'
+	 data-fixed='false'
+	 data-fixed-shape='<?php echo $params['fixed_shape']; ?>'
+	 data-layout='<?php echo $params['layout']; ?>'
+	 data-icon='<?php echo $params['icon']; ?>'
+></div>
+
+<script>
+    Ecwid.init();
+</script>
+<!-- /noptimize -->
+<?php
+		
+		$contents = ob_get_contents();
+		ob_end_clean();
+		
+		return $contents;
+	}
+	
 	public function search_render_callback( $params ) {
 
 		$params = wp_parse_args(
@@ -373,6 +426,51 @@ JS;
 		}
 		
 		return get_option( 'ecwid_plugin_version' );
+	}
+
+	protected function _get_attributes_for_minicart_editor() {
+		
+		$minicart_attributes = array(
+			'layout' => array(
+				'name' => 'layout',
+				'title' => __( 'Layout', 'ecwid-shopping-cart' ),
+				'values' => Ecwid_Floating_Minicart::get_layouts(),
+				'default' => 'BIG_ICON_TITLE_SUBTOTAL'
+			),
+			'icon' => array(
+				'name' => 'icon',
+				'title' => __( 'Cart icon', 'ecwid-shopping-cart' ),
+				'values' => Ecwid_Floating_Minicart::get_icons(),
+				'default' => 'BAG'
+			),
+			'fixed_shape' => array(
+				'name' => 'fixed_shape',
+				'title' => __( 'Border', 'ecwid-shopping-cart' ),
+				'values' => Ecwid_Floating_Minicart::get_fixed_shapes(),
+				'default' => 'RECT'
+			)
+		);
+		
+		$attributes = array();
+		
+		foreach ( $minicart_attributes as $name => $attr ) {
+			$result = array();
+			$result['name'] = $attr['name'];
+			$result['title'] = $attr['title'];
+			$result['default'] = $attr['default'];
+			$result['values'] = array();
+			
+			foreach ( $attr['values'] as $value => $title ) {
+				$result['values'][] = array(
+					'value' => $value,
+					'title' => $title
+				);
+			}
+			
+			$attributes[$name] = $result;
+		}
+
+		return $attributes;
 	}
 	
 	protected function _get_attributes_for_editor() {
