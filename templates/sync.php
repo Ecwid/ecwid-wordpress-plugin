@@ -47,7 +47,7 @@ function process_no_sse_sync(data) {
 		if (processed_updates > 0) {
 			mode = 'updated';
 		}
-		offset = data.offset + data.limit;
+		offset = parseInt(data.offset) + parseInt(data.limit);
 	}
 	if (mode == 'updated') {
 		jQuery('#current_item').text('Updating products...');
@@ -69,7 +69,7 @@ function increment_progress_counter(increment = 1) {
 		return;
 	}
 
-	name = 'count_updated';
+	var name = 'count_updated';
 
 	var css = '#' + name;
 	var current = jQuery(css).data('count');

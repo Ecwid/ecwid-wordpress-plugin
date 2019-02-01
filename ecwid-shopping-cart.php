@@ -2724,6 +2724,14 @@ function ecwid_advanced_settings_do_page() {
 	
 	$reconnect_link = get_reconnect_link();
 
+	/*
+	$s = new Ecwid_Products_Sync_Status();
+	$s->update_last_sync_time(0);
+	
+	$p = new Ecwid_Products();
+	$p->set_last_update_time(0);
+	*/
+	
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
 
