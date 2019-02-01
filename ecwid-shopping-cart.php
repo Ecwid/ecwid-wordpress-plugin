@@ -1528,6 +1528,23 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( Ecwid_Static_Home_Page::is_enabled() ) {
 		$params .= '&data_static_home=1';
 	}
+	
+	if ( class_exists( 'Ecwid_Integration_Gutenberg') ) {
+		
+		$all_blocks = Ecwid_Integration_Gutenberg::get_block_names();
+		$page_blocks = Ecwid_Integration_Gutenberg::get_blocks_on_page();
+		
+		$mask = "";
+		foreach ( $all_blocks as $name ) {
+			if ( array_key_exists( $name, $page_blocks ) ) {
+				$mask .= '1';
+			} else {
+				$mask .= '0';
+			}
+		}
+		
+		$params .= 'data_g=' . $mask;
+	}
 
 	return $params;
 }
