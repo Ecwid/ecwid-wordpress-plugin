@@ -485,9 +485,9 @@ msgid "Is there a WordPress theme for Ecwid?"
 msgstr "Существуют ли темы для Эквида?"
 
 #: includes/faq_entries.php:66
-msgid "Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a target=\"_blank\" href=\"%s\">TemplateMonster themes</a>"
+msgid "Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a href=\"%s\">TemplateMonster themes</a>"
 msgstr ""
-"Эквид совместим с любой темой, будь то бесплатная тема из каталога WordPress.org, платная тема или заказная разработка. Ваш магазин должен работать хорошо в любом случае. Если вы ищете хорошие премиум-темы, мы рекомендуем <a target=\"_blank\" href=\"%s\">TemplateMonster</a>"
+"Эквид совместим с любой темой, будь то бесплатная тема из каталога WordPress.org, платная тема или заказная разработка. Ваш магазин должен работать хорошо в любом случае. Если вы ищете хорошие премиум-темы, мы рекомендуем <a href=\"%s\">TemplateMonster</a>"
 
 
 #: includes/oembed.php:68 includes/oembed.php:97 templates/help.php:96
