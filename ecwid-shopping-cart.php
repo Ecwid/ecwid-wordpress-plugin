@@ -2724,6 +2724,9 @@ function ecwid_advanced_settings_do_page() {
 
 	$key = get_option('ecwid_sso_secret_key');
 	$is_sso_checkbox_disabled = !$is_sso_enabled && !$has_create_customers_scope && empty($key);
+	if (!ecwid_is_paid_account()) {
+		$is_sso_checkbox_disabled = true;
+	}
 	
 	$reconnect_link = get_reconnect_link();
 	
@@ -3049,8 +3052,8 @@ function ecwid_is_sso_enabled() {
 
 	$is_sso_enabled = false;
 
-	$is_apiv3_sso = get_option('ecwid_is_sso_enabled') && $ecwid_oauth && $ecwid_oauth->has_scope('create_customers');
-	$is_apiv1_sso = get_option('ecwid_sso_secret_key');
+	$is_apiv3_sso = ecwid_is_paid_account() && get_option('ecwid_is_sso_enabled') && $ecwid_oauth && $ecwid_oauth->has_scope('create_customers');
+	$is_apiv1_sso = ecwid_is_paid_account() && get_option('ecwid_sso_secret_key');
 
 	$is_sso_enabled = $is_apiv3_sso || $is_apiv1_sso;
 

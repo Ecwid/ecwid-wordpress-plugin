@@ -61,12 +61,25 @@
 					    <?php endif; ?>
 					/>
 					<?php _e('Customer Single Sign-On', 'ecwid-shopping-cart'); ?>
+					<?php ecwid_embed_svg('star'); ?>
 				</label>
 
 				<div class="note">
 					<?php printf( __( 'Single Sign-On allows your customers to have a single login for your WordPress site and your %s. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
 				</div>
-				<?php if ( !$is_sso_enabled && !get_option('ecwid_sso_secret_key') && !$has_create_customers_scope): ?>
+				<?php if (!ecwid_is_paid_account()): ?>
+				<div class="upgrade-note">
+					<a
+						class="button ecwid-button button-green" target="_blank"
+						href="<?php echo Ecwid_Admin::get_dashboard_url(); ?>&ec-page=<?php echo urlencode( Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ); ?>">
+						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
+					</a>
+					<div class="note grayed-links">
+						<?php printf( __( 'Please subscribe to a paid plan to get this feature.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
+					</div>
+				</div>
+				<?php endif; ?>
+				<?php if ( !$is_sso_enabled && ecwid_is_paid_account() && !get_option('ecwid_sso_secret_key') && !$has_create_customers_scope): ?>
 					<div class="note">
 						<?php printf( __( 'To allow %s automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), 'href="' . $reconnect_link . '"'); ?>
 					</div>
