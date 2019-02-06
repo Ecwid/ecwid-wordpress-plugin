@@ -32,7 +32,6 @@ class Ecwid_Integration_Gutenberg {
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
-		add_action( 'in_admin_header', array( $this, 'add_popup' ) );
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 
@@ -48,9 +47,7 @@ class Ecwid_Integration_Gutenberg {
 			)
 		);
 	}
-
-
-
+	
 	public function on_save_post( $post, $request, $creating ) {
 		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
 			Ecwid_Store_Page::add_store_page( $post->ID );
@@ -127,14 +124,8 @@ class Ecwid_Integration_Gutenberg {
 	
 	protected function _get_products_data() {
 
-		$post = get_post();
-		
-		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
-			$blocks = gutenberg_parse_blocks( $post->post_content );
-		} else {
-			$blocks = parse_blocks( $post->post_content );
-		}
-		
+		$blocks = self::get_blocks_on_page();
+
 		$productIds = array();
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
@@ -197,7 +188,7 @@ class Ecwid_Integration_Gutenberg {
 		$params['display'] = '';
 		$display_string = '';
 		foreach ( $display as $name ) {
-			if ($params['show_' . $name]) {
+			if ( @$params['show_' . $name] ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}
@@ -327,7 +318,43 @@ JS;
 		
 		return $result;
 	}
+
+	public static function get_block_names() {
+		return array(
+			self::STORE_BLOCK,
+			self::PRODUCT_BLOCK
+		);
+	}
 	
+	/**
+	 * @param $post
+	 *
+	 * @return array
+	 */
+	public static function get_blocks_on_page() {
+		$post = get_post();
+		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
+			$blocks = gutenberg_parse_blocks( $post->post_content );
+		} else {
+			$blocks = parse_blocks( $post->post_content );
+		}
+		
+		if ( empty( $blocks ) ) {
+			return array();
+		}
+
+		$result = array();
+		
+		$ecwid_blocks = self::get_block_names();
+		foreach ( $blocks as $block ) {
+			if ( in_array( $block['blockName'], $ecwid_blocks ) ) {
+				$result[$block['blockName']] = $block;
+			}
+		}
+
+		return $result;
+	}
+
 	protected function _get_version_for_assets( $asset_file_path )
 	{
 		if ( $_SERVER['HTTP_HOST'] == 'localhost' ) {
@@ -418,13 +445,7 @@ JS;
 		
 	public static function get_store_block_data_from_current_page() {
 		
-		$post = get_post();
-		
-		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
-			$blocks = gutenberg_parse_blocks( $post->post_content );
-		} else {
-			$blocks = parse_blocks( $post->post_content );
-		}
+		$blocks = self::get_blocks_on_page();
 		
 		$store_block = null;
 		foreach ( $blocks as $block ) {

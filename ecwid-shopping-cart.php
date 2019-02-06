@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.4.6
+Version: 6.4.9
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -134,7 +134,9 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
-require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+if (version_compare( phpversion(), '5.6', '>=' ) ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+}
 
 $version = get_bloginfo('version');
 if (version_compare($version, '4.0') >= 0) {
@@ -164,6 +166,7 @@ function ecwid_init_integrations()
 		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 		'js_composer/js_composer.php' => 'wpbakery-composer',
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
+		'bb-plugin/fl-builder.php' => 'beaver-builder',
 		'elementor/elementor.php' => 'elementor'
 
 	);
@@ -682,8 +685,11 @@ function ecwid_check_version()
 		// Since 6.4.x
 		add_option( EcwidPlatform::OPTION_LOG_CACHE );
 		
-		// Since 6.5
+		// Since 6.4.8
 		add_option( 'ecwid_hide_canonical', false );
+
+		// Since 6.4.9+
+		add_option( Ecwid_Theme_Base::OPTION_LEGACY_CUSTOM_SCROLLER, false );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -1515,14 +1521,32 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
 		$params .= '&data_api_disabled=1';
 	}
-	
-	require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
-	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
-		$params .= '&data_imported=1';
+	if (version_compare( phpversion(), '5.6', '>=' ) ) {
+		require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
+		if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+			$params .= '&data_imported=1';
+		}
 	}
-	
+		
 	if ( Ecwid_Static_Home_Page::is_enabled() ) {
 		$params .= '&data_static_home=1';
+	}
+	
+	if ( class_exists( 'Ecwid_Integration_Gutenberg') ) {
+		
+		$all_blocks = Ecwid_Integration_Gutenberg::get_block_names();
+		$page_blocks = Ecwid_Integration_Gutenberg::get_blocks_on_page();
+		
+		$mask = "";
+		foreach ( $all_blocks as $name ) {
+			if ( array_key_exists( $name, $page_blocks ) ) {
+				$mask .= '1';
+			} else {
+				$mask .= '0';
+			}
+		}
+		
+		$params .= '&data_g=' . $mask;
 	}
 
 	return $params;
@@ -2173,6 +2197,8 @@ function ecwid_settings_api_init() {
 	}
 
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
+    	
+    	ecwid_update_store_id( $_POST['ecwid_store_id'] );
 		update_option('ecwid_is_api_enabled', 'off');
 		update_option('ecwid_api_check_time', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
@@ -2393,7 +2419,7 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 		Ecwid_Api_V3::get_token(),
 		$time,
 		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Config::get_oauth_appsecret() ),
-		$page,
+		urlencode( $page ),
 		substr( $lang, 0, 2 )
 	);
 }
@@ -2698,12 +2724,9 @@ function ecwid_advanced_settings_do_page() {
 
 	$key = get_option('ecwid_sso_secret_key');
 	$is_sso_checkbox_disabled = !$is_sso_enabled && !$has_create_customers_scope && empty($key);
-	if (!ecwid_is_paid_account()) {
-		$is_sso_checkbox_disabled = true;
-	}
 	
 	$reconnect_link = get_reconnect_link();
-
+	
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
 
@@ -3026,8 +3049,8 @@ function ecwid_is_sso_enabled() {
 
 	$is_sso_enabled = false;
 
-	$is_apiv3_sso = ecwid_is_paid_account() && get_option('ecwid_is_sso_enabled') && $ecwid_oauth && $ecwid_oauth->has_scope('create_customers');
-	$is_apiv1_sso = ecwid_is_paid_account() && get_option('ecwid_sso_secret_key');
+	$is_apiv3_sso = get_option('ecwid_is_sso_enabled') && $ecwid_oauth && $ecwid_oauth->has_scope('create_customers');
+	$is_apiv1_sso = get_option('ecwid_sso_secret_key');
 
 	$is_sso_enabled = $is_apiv3_sso || $is_apiv1_sso;
 

@@ -63,9 +63,9 @@ abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 
 	protected function __construct($id)
 	{
-		parent::__construct();
-		
 		$this->id = $id;
+
+		parent::__construct();
 	}
 
 	public function wp_head()
@@ -87,7 +87,7 @@ abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 		);
 
 		$og_tags = apply_filters( 'ecwid_og_tags', $og_tags );
-
+		
 		if (!empty($og_tags)) {
 			foreach ($og_tags as $tag => $value) {
 				if (!$value) continue;
