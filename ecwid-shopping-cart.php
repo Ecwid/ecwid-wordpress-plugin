@@ -134,7 +134,9 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
-require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+if (version_compare( phpversion(), '5.6', '>=' ) ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+}
 
 $version = get_bloginfo('version');
 if (version_compare($version, '4.0') >= 0) {
@@ -1519,12 +1521,13 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
 		$params .= '&data_api_disabled=1';
 	}
-	
-	require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
-	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
-		$params .= '&data_imported=1';
+	if (version_compare( phpversion(), '5.6', '>=' ) ) {
+		require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
+		if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+			$params .= '&data_imported=1';
+		}
 	}
-	
+		
 	if ( Ecwid_Static_Home_Page::is_enabled() ) {
 		$params .= '&data_static_home=1';
 	}
