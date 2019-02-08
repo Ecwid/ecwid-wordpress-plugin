@@ -1,5 +1,9 @@
 var createGutenbergedShortcodeString;
 
+function ecwidIsTinyMCEActive() {
+    return typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+}
+
 jQuery(document).ready(function() {
 	$popup = jQuery('#ecwid-store-popup-content');
 
@@ -106,14 +110,14 @@ jQuery(document).ready(function() {
 			'minicart_layout': 'MiniAttachToProductBrowser'
 		}
 	}
-
+	
 	/*
 	 * Tests whether there is a valid store shortcode
 	 */
 	checkEcwid = function() {
 
 		var hasEcwid = false;
-		if (typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
+		if (ecwidIsTinyMCEActive()) {
 			content = tinyMCE.activeEditor.getBody();
 
 			hasEcwid = jQuery(content).find('.ecwid-store-editor').length > 0;
@@ -126,7 +130,7 @@ jQuery(document).ready(function() {
 		} else {
 			jQuery('.wp-media-buttons').removeClass('has-ecwid');
 		}
-		if (typeof tinymce != 'undefined' && tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+		if (ecwidIsTinyMCEActive()) {
 			var body = tinymce.activeEditor.dom.doc.body;
 			var button = tinymce.activeEditor.dom.select('#ecwid-edit-store-button');
 
@@ -276,12 +280,12 @@ jQuery(document).ready(function() {
 			jQuery('#content').val(
 				jQuery('#content').val().replace(stringToReplace, stringToInsert)
 			);
-			if (tinyMCE.activeEditor) {
+			if (ecwidIsTinyMCEActive()) {
 				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', shortcode.shortcode.string());
 			}
 		} else {
 
-			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+			if (ecwidIsTinyMCEActive()) {
 				if ($popup.data('range')) {
                     tinymce.activeEditor.selection.setRng($popup.data('range'));
 				}
@@ -365,7 +369,7 @@ ecwid_open_store_popup = function() {
 
 	var shortcode;
 
-	if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
+	if (ecwidIsTinyMCEActive()) {
 		tinyMCE.activeEditor.save();
 
 		$popup.data('range', tinyMCE.activeEditor.selection.getRng());
@@ -405,7 +409,7 @@ ecwid_open_store_popup = function() {
 
 	updatePreview();
 
-	if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+	if (ecwidIsTinyMCEActive()) {
 		tinyMCE.activeEditor.execCommand('SelectAll');
 		tinyMCE.activeEditor.selection.collapse(true);
 	}
