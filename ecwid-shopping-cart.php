@@ -93,6 +93,7 @@ if ( is_admin() ){
   add_filter('body_class', 'ecwid_body_class');
   add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
   add_action('init', 'ecwid_check_api_cache');
+  add_filter( 'the_title', 'ecwid_page_title' );
   $ecwid_seo_title = '';
 }
 add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
@@ -1421,6 +1422,26 @@ function _ecwid_get_seo_title()
 	}
 
 	return "";
+}
+
+function ecwid_page_title( $title ) {
+	$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+
+	if ( !@$params['mode'] ) return $title;
+
+	$ecwid_title = _ecwid_get_seo_title();
+	
+	if ( !empty( $ecwid_title ) ) {
+
+		if ( empty( $sep ) ) {
+			$sep = ecwid_get_title_separator();
+		}
+
+		
+		return "<span id='ecwid-main-page-title'>$ecwid_title $sep $title</span>";
+	}
+
+	return $title;
 }
 
 add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
