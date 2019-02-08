@@ -64,6 +64,7 @@ if ( is_admin() ){
   add_action('wp_ajax_ecwid_sync_products', 'ecwid_sync_products');
   add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
   add_action('init', 'ecwid_apply_theme', 0);
+	add_action('init', 'ecwid_maybe_remove_emoji');
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
 	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
@@ -291,6 +292,13 @@ function ecwid_ie8_fonts_inclusion()
 </style>
 HTML;
 
+}
+add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
+function ecwid_maybe_remove_emoji() {
+	
+	if ( Ecwid_Store_page::is_store_page() && get_option( 'ecwid_remove_emoji' ) == 'Y' ) {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	}
 }
 
 add_action('wp_ajax_ecwid_get_product_info', 'ecwid_ajax_get_product_info' );
@@ -689,8 +697,11 @@ function ecwid_check_version()
 		// Since 6.4.8
 		add_option( 'ecwid_hide_canonical', false );
 
-		// Since 6.4.9+
+		// Since 6.4.9
 		add_option( Ecwid_Theme_Base::OPTION_LEGACY_CUSTOM_SCROLLER, false );
+		
+		// Since 6.4.9+
+		add_option( 'ecwid_remove_emoji', 'Y' );
 
 		do_action( 'ecwid_on_plugin_update' );
 
