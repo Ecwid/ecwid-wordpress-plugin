@@ -38,6 +38,7 @@ jQuery(document).ready(function() {
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
     
+    /*
     if ( jQuery('#ecwid-main-page-title').length > 0 ) {
         Ecwid.OnPageLoaded.add(function(page) {
             var isCategory = page.type == 'CATEGORY';
@@ -52,10 +53,11 @@ jQuery(document).ready(function() {
             if ( isCategory && page.categoryId == 0) {
                 var title = el.attr('data-original-title');
             } else {
-                var title = format.replace( titlePlaceholder, page.name );
+                var title = format.replace( titlePlaceholder, jQuery('title').html() );
             }
             
             el.html( title );
         });
     }
+    */
 });
