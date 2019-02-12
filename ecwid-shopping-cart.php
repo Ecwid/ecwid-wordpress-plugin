@@ -1441,7 +1441,7 @@ function ecwid_page_title( $title ) {
 
 	$sep = ecwid_get_title_separator();
 	$title_placeholder = '@title@';
-	$format = "$title_placeholder $sep $title";
+	$format = "$title_placeholder";
 	$title_pattern = sprintf( 
 		'<span id="ecwid-main-page-title" data-original-title="%s" data-title-placeholder="%s" data-format="%s">%%s</span>',
 		$title, 
