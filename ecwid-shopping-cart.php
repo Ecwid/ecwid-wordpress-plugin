@@ -295,8 +295,8 @@ HTML;
 }
 add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
 function ecwid_maybe_remove_emoji() {
-	
-	if ( Ecwid_Store_page::is_store_page() && get_option( 'ecwid_remove_emoji' ) == 'Y' ) {
+
+	if ( Ecwid_Store_page::is_store_page() && get_option( 'ecwid_remove_emoji' ) == 'Y' && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false ) {
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	}
 }
