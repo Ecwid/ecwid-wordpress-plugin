@@ -1436,20 +1436,42 @@ function _ecwid_get_seo_title()
 }
 
 function ecwid_page_title( $title ) {
+	
+	if ( ! Ecwid_Store_Page::is_store_page() ) return $title;
+
+	$sep = ecwid_get_title_separator();
+	$title_placeholder = '@title@';
+	$format = "$title_placeholder $sep $title";
+	$title_pattern = sprintf( 
+		'<span id="ecwid-main-page-title" data-original-title="%s" data-title-placeholder="%s" data-format="%s">%%s</span>',
+		$title, 
+		$title_placeholder,
+		$format
+	);
+	
 	$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
-	if ( !@$params['mode'] ) return $title;
+	if ( !@$params['mode'] ) {
+		return sprintf( $title_pattern, $title );
+	}
 
-	$ecwid_title = _ecwid_get_seo_title();
+	$ecwid_title = null;
+	
+	if ( $params['mode'] == 'product' ) {
+		$p = Ecwid_Product::get_by_id( $params['id'] );
+		$ecwid_title = $p->seoTitle ? $p->seoTitle : $p->name;
+	} else if ( $params['mode'] == 'category' ) {
+		$c = Ecwid_Category::get_by_id( $params['id'] );
+		$ecwid_title = $c->name;
+	}
 	
 	if ( !empty( $ecwid_title ) ) {
 
-		if ( empty( $sep ) ) {
-			$sep = ecwid_get_title_separator();
-		}
-
 		
-		return "<span id='ecwid-main-page-title'>$ecwid_title $sep $title</span>";
+		return sprintf(
+			$title_pattern,
+			esc_html( str_replace( $title_placeholder, $ecwid_title, $format ) )
+		);
 	}
 
 	return $title;

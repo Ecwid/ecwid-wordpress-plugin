@@ -37,4 +37,25 @@ jQuery(document).ready(function() {
     };
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
+    
+    if ( jQuery('#ecwid-main-page-title').length > 0 ) {
+        Ecwid.OnPageLoaded.add(function(page) {
+            var isCategory = page.type == 'CATEGORY';
+            var isProduct = page.type == 'PRODUCT';
+            
+            if ( !isCategory && !isProduct ) return;
+            
+            var el = jQuery('#ecwid-main-page-title');
+            var format = el.attr('data-format');
+            var titlePlaceholder = el.attr('data-title-placeholder');
+            
+            if ( isCategory && page.categoryId == 0) {
+                var title = el.attr('data-original-title');
+            } else {
+                var title = format.replace( titlePlaceholder, page.name );
+            }
+            
+            el.html( title );
+        });
+    }
 });
