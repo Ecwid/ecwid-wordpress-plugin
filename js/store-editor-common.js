@@ -38,3 +38,28 @@ function ecwid_get_store_shortcode(content) {
 
 	return found;
 }
+
+function ecwid_create_gutenberged_shortcode_string( shortcode ) {
+	
+	if ( typeof shortcode == 'string' ) return shortcode;
+	
+    return shortcode.string();
+
+    var result = '<!-- wp:ecwid/store-block ';
+
+    var attributes = {
+        default_category_id: shortcode.attrs.named.default_category_id,
+        show_categories: shortcode.attrs.named.widgets.indexOf('categories') !== -1,
+        show_search: shortcode.attrs.named.widgets.indexOf('search') !== -1
+    }
+
+    result += JSON.stringify(attributes);
+
+    result += ' -->';
+
+    result += shortcode.string();
+
+    result += '<!-- /wp:ecwid/store-block -->';
+
+    return result;
+}

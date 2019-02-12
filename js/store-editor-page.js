@@ -1,5 +1,3 @@
-var createGutenbergedShortcodeString;
-
 function ecwidIsTinyMCEActive() {
     return typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
 }
@@ -267,7 +265,7 @@ jQuery(document).ready(function() {
 			shortcode.shortcode.attrs.named[i] = result[i];
 		}
 
-		var stringToInsert = createGutenbergedShortcodeString(shortcode.shortcode);
+		var stringToInsert = ecwid_create_gutenberged_shortcode_string(shortcode.shortcode);
 		
 		if (existingShortcode) {
 			
@@ -318,28 +316,6 @@ jQuery(document).ready(function() {
 
 		jQuery('#ecwid-store-popup-content').removeClass('open');
 	});
-
-	createGutenbergedShortcodeString = function( shortcode ) {
-		return shortcode.string();
-		
-		var result = '<!-- wp:ecwid/store-block ';
-		
-		var attributes = {
-			default_category_id: shortcode.attrs.named.default_category_id,
-			show_categories: shortcode.attrs.named.widgets.indexOf('categories') !== -1,
-            show_search: shortcode.attrs.named.widgets.indexOf('search') !== -1
-		}
-		
-		result += JSON.stringify(attributes);
-		
-		result += ' -->';
-		
-		result += shortcode.string();
-		
-		result += '<!-- /wp:ecwid/store-block -->';
-		
-		return result;
-	}
 	
 	updatePreview = function() {
 		jQuery('.store-settings input[type=checkbox]', $popup).each(function(idx, el) {
