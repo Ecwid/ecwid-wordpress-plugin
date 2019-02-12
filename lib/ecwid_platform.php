@@ -387,7 +387,7 @@ class EcwidPlatform {
 				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
 			) 
 		);
-
+		
 		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
@@ -463,38 +463,36 @@ class EcwidPlatform {
 		return $type . '_' . md5($url);
 	}
 
-	static public function invalidate_products_cache_from( $time = null )
-	{
-		$time = is_null( $time ) ? time() : $time; 
-		EcwidPlatform::set( self::PRODUCTS_CACHE_VALID_FROM, $time );
+	static protected function _invalidate_cache_from( $name, $time ) {
+		$time = is_null( $time ) ? time() : $time;
+		
+		$old = EcwidPlatform::get( $name );
+		if ( $old > $time) return;
+
+		EcwidPlatform::set( $name, $time );
 		self::cache_log_record(
-			'invalidate_products_cache',
+			'invalidate_cache_' . $name,
 			array(
 				'time' => $time
 			)
 		);
-
+	}
+	
+	static public function invalidate_products_cache_from( $time = null )
+	{
+		self::_invalidate_cache_from( self::PRODUCTS_CACHE_VALID_FROM, $time );
 	}
 
 	static public function invalidate_categories_cache_from( $time = null )
 	{
-		$time = is_null( $time ) ? time() : $time;
-		EcwidPlatform::set( self::CATEGORIES_CACHE_VALID_FROM, $time );
-		self::cache_log_record(
-			'invalidate_categories_cache',
-			array(
-				'time' => $time
-			)
-		);
+		self::_invalidate_cache_from( self::CATEGORIES_CACHE_VALID_FROM, $time );
 	}
 
 	static public function invalidate_profile_cache_from( $time = null )
 	{
-		$time = is_null( $time ) ? time() : $time;
-		EcwidPlatform::set( self::PROFILE_CACHE_VALID_FROM, $time );
+		self::_invalidate_cache_from( self::PROFILE_CACHE_VALID_FROM, $time );
 	}
-
-
+	
 	static public function force_catalog_cache_reset( $time = null )
 	{
 		$time = is_null( $time ) ? time() : $time;

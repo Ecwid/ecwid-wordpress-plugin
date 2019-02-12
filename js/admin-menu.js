@@ -53,13 +53,16 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         .data('ecwid-menu', menu)
         .attr('data-ecwid-menu-slug', menu.slug)
         .click(function () {
+            if ( jQuery(this).hasClass('current') ) {
+                return false;
+            }
             var ecwidMenu = jQuery(this).data('ecwid-menu');
 
             var link = jQuery(this).closest('li');
             var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
-            var isOpen = link.hasClass('wp-has-current-submenu3');
-
-
+            
+            var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
+            
             ecwidOpenAdminPage(ecwidMenu.hash);
             history.pushState({}, null, ecwidMenu.url);
 
@@ -68,6 +71,8 @@ function ecwidApplyIframeAdminMenu($link, menu) {
             jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
             jQuery(this).parents('.opensub').removeClass('opensub');
 
+            if ( !isOpen ) return true;
+            
             return false;
         });
 }
@@ -134,6 +139,44 @@ function ecwidAddMenuItems(items) {
 }
 
 jQuery(document).ready(function() {
+
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+    // Listen to message from child window
+    eventer(messageEvent,function(e) {
+
+        if ( typeof e.data.action != 'undefined') {
+            if ( e.data.action == 'pageLoad' ) {
+                var page = e.data.data.page.path;
+
+                jQuery('*[data-ecwid-menu-slug=ec-store-admin-' + page + ']').eq(0).click();
+            } else if (
+                e.data.action
+                && e.data.action == 'navigationMenuUpdated'
+                && e.data.data && e.data.data.navigationMenuItems
+                && e.data.data.navigationMenuItems.length > 0
+                && ecwid_admin_menu.enableAutoMenus
+            ) {
+                jQuery.ajax({
+                    'url': ajaxurl + '?action=' + ecwid_admin_menu.actionUpdateMenu,
+                    'method': 'POST',
+                    'data': {
+                        menu: e.data.data.navigationMenuItems
+                    },
+                    'success': function(result) {
+                        jQuery('li[data-ecwid-dynamic-menu]').remove();
+                        ecwidAddMenuItems(jQuery.parseJSON(result));
+                        ecwidRefreshEcwidMenuItemSelection();
+                        jQuery(window).trigger('resize');
+                    }
+                });
+            }
+        }
+    },false);
+
+
     if (jQuery('#ecwid-frame').length > 0) {
         if (jQuery('div.update-nag').length > 0) {
             jQuery('#ecwid-frame').addClass('has-wp-message');

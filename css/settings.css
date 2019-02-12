@@ -299,7 +299,7 @@ display: none;
 .ecwid-admin {
 	margin-left: 20px;
 }
-.ecwid-admin div.box {
+.ecwid-admin div.ec-store-box {
 	position: relative;
 	margin-top: 25px;
 
@@ -339,7 +339,7 @@ display: none;
 	height: 70px;
 }
 
-.ecwid-admin .box .head {
+.ecwid-admin .ec-store-box .head {
 	text-align: left;
 	margin-bottom: 20px;
 }
@@ -356,31 +356,31 @@ display: none;
 
 
 /* CONNECT - positioning */
-.ecwid-connect .box > div {
+.ecwid-connect .ec-store-box > div {
 	margin: 0px auto;
 	text-align: center;
 }
 
-.ecwid-connect .box h3 + div {
+.ecwid-connect .ec-store-box h3 + div {
 	margin-top: 40px;
 }
 
-.ecwid-connect .box div:last-child {
+.ecwid-connect .ec-store-box div:last-child {
 	margin-bottom: 40px;
 }
 
-.ecwid-connect .box .greeting-message {
+.ecwid-connect .ec-store-box .greeting-message {
 	margin-top: 11px;
 	line-height: 1.3em;
 	margin-bottom: 38px;
 }
 
 
-.ecwid-connect.ecwid-reconnect .box .greeting-message {
+.ecwid-connect.ecwid-reconnect .ec-store-box .greeting-message {
 	margin-bottom: 15px;
 }
 
-.ecwid-connect .box .connect-button {
+.ecwid-connect .ec-store-box .connect-button {
 	margin-top: 8px;
 	margin-bottom: 15px;
 }
@@ -389,28 +389,28 @@ display: none;
 	margin-bottom: 0;
 }
 
-.ecwid-connect .box .note {
+.ecwid-connect .ec-store-box .note {
 	margin-top: 6px;
 	max-width: 760px;
 	font-size: 13px;
 }
 
-.ecwid-connect .box .note.reconnect-message {
+.ecwid-connect .ec-store-box .note.reconnect-message {
 	margin-bottom: 38px;
 	color: #707070;
 }
-.ecwid-connect .box .create-account-link {
+.ecwid-connect .ec-store-box .create-account-link {
 	margin-top: 35px;
 }
 
 
 /* CONNECT - styles */
-.ecwid-connect .box .greeting-message {
+.ecwid-connect .ec-store-box .greeting-message {
 	font-size: 24px;
 	font-weight: lighter;
 }
 
-.ecwid-connect .box .connect-button a {
+.ecwid-connect .ec-store-box .connect-button a {
 	padding: 14px 40px;
 	border: 0px none;
 	border-radius: 4px;
@@ -427,20 +427,20 @@ display: none;
 	white-space: nowrap;
 }
 
-.ecwid-connect .box .connect-button a:hover {
+.ecwid-connect .ec-store-box .connect-button a:hover {
 	background: #64A52F;
 }
 
-.ecwid-connect .box .note {
+.ecwid-connect .ec-store-box .note {
 	color: #A0A0A0;
 	line-height: 18px;
 	max-width: 400px;
 }
 
-.ecwid-connect .box .note.initial {
+.ecwid-connect .ec-store-box .note.initial {
 }
 
-.ecwid-connect .box .note.auth-error {
+.ecwid-connect .ec-store-box .note.auth-error {
 	max-width: 350px;
 	color: red;
 }
@@ -466,7 +466,7 @@ display: none;
 	font-family: 'Open Sans';
 }
 
-.ecwid-connect .box .create-account-link a {
+.ecwid-connect .ec-store-box .create-account-link a {
 	text-decoration: none;
 	font-size: 14px;
 }
@@ -685,7 +685,7 @@ display: none;
 	margin: 0px;
 }
 
-.ecwid-popup .box {
+.ecwid-popup .ec-store-box {
 	margin: 0px;
 	position: absolute;
 	left: 0;

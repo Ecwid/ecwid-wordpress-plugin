@@ -139,7 +139,7 @@ class Ecwid_Seo_Links {
 		static $pattern = '';
 
 		if ( !$pattern ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 
 			$pattern = '!(^' . implode('$|^', $patterns) . '$)!';
 		}
@@ -147,7 +147,7 @@ class Ecwid_Seo_Links {
 		return preg_match($pattern, $slug);
  	}
 
- 	protected function get_seo_links_patterns() {
+ 	protected static function get_seo_links_patterns() {
 		return array(
 			'.*-p([0-9]+)(\/.*|\?.*)?',
 			'.*-c([0-9]+)(\/.*|\?.*)?',
@@ -210,7 +210,7 @@ class Ecwid_Seo_Links {
 			}
 		}
 
-		if ( self::is_404_seo_link() ) {
+		if ( Ecwid_Api_V3::is_available() && self::is_404_seo_link() ) {
 			return $config;
 		}
 
@@ -285,6 +285,26 @@ JS;
 
 		return preg_match( self::_get_pb_preg_pattern(), $url );
 	}
+	
+	public static function is_seo_link() {
+		if ( !Ecwid_Store_Page::is_store_page() ) return false;
+		
+		$url = add_query_arg( null, null );
+		
+		$link = urldecode( self::_get_relative_permalink( get_the_ID() ) );
+		$site_url = parse_url( get_bloginfo('url') );
+		$site_path = $site_url['path'];
+		
+		foreach ( self::get_seo_links_patterns() as $pattern ) {
+			$pattern = '#' . $site_path . preg_quote( $link ) . $pattern . '#';
+			
+			if ( preg_match( $pattern, $url ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	protected static function _get_pb_preg_pattern() {
 		return $pattern = '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';
@@ -297,7 +317,7 @@ JS;
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		foreach ( $all_base_urls as $page_id => $links ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			
 			$post = get_post( $page_id );
 			if ( ! $post ) continue;
@@ -306,15 +326,21 @@ JS;
 			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
 			
 			foreach ( $links as $link ) {
+				$link = trim( $link, '/' );
+
+				if (strpos($link, 'index.php') !== 0) {
+					$link = '^' . preg_quote( $link );
+				}
+
 				foreach ( $patterns as $pattern ) {
-					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+
+					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
 
 		if ( $this->is_store_on_home_page() ) {
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
 				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
@@ -363,7 +389,7 @@ JS;
 		foreach ( $flattened as $link ) {
 			$link = trim( $link, '/' );
 			
-			$patterns = $this->get_seo_links_patterns();
+			$patterns = self::get_seo_links_patterns();
 			$pattern = $patterns[0];
 			
 			$rules_pattern = '^' . $link . '/' . $pattern . '.*';
@@ -401,7 +427,7 @@ JS;
 			) {
 				
 				if ( PLL()->options['force_lang'] == 1 ) {
-					$patterns = $this->get_seo_links_patterns();
+					$patterns = self::get_seo_links_patterns();
 					foreach ( $pages as $page_id ) {
 						$link = urldecode( self::_get_relative_permalink( $page_id ) );
 						$language = pll_get_post_language( $page_id );

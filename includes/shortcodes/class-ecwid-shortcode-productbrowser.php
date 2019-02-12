@@ -88,18 +88,18 @@ HTML;
 			}
 		}
 
-		if ( Ecwid_Static_Home_Page::is_enabled() ) {
-			$params = array();
-			if ( $this->_lang ) {
-				$params['lang'] = $this->_lang;
-			}
-			if ( @$this->_params['defaultCategoryId'] ) {
-				$params['default_category_id'] = $this->_params['defaultCategoryId'];
-			}
-			
-			Ecwid_Static_Home_Page::save_store_page_params( $params );
+		$params = array(
+			'default_category_id' => 0
+		);
+		if ( $this->_lang ) {
+			$params['lang'] = $this->_lang;
+		}
+		if ( @$this->_params['defaultCategoryId'] ) {
+			$params['default_category_id'] = $this->_params['defaultCategoryId'];
 		}
 
+		Ecwid_Store_Page::save_store_page_params( $params );
+		
 		$result = '';
 		
 		$classname = $this->_get_html_class_name();

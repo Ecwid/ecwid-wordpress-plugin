@@ -66,6 +66,17 @@ class Ecwid_Help_Page {
 
 		$max = 8;
 
+		$guaranteed_3 = null;
+
+		foreach ( $faqs as $idx => $faq ) {
+			if ( isset( $faq['priority'] ) && $faq['priority'] == 'guaranteed_3' ) {
+				$guaranteed_3 = array();
+				$guaranteed_3[] = $faq;
+				unset( $faqs[$idx] );
+				break;
+			}
+		}
+		
 		$result = array();
 		foreach ( $faqs as $idx => $faq ) {
 			if ( isset($faq['priority']) && $faq['priority'] == 'newbie_with_woo' ) {
@@ -79,7 +90,7 @@ class Ecwid_Help_Page {
 		}
 		$faqs = array_values($faqs);
 
-		while (count($result) < $max) {
+		while ( count($result) < $max + ( $guaranteed_3 ? 1 : 0 ) ) {
 			$rand = rand(0, count($faqs) - 1);
 			$result[] = $faqs[$rand];
 
@@ -87,6 +98,8 @@ class Ecwid_Help_Page {
 			$faqs = array_values($faqs);
 		}
 
+		array_splice( $result, 2, 0, $guaranteed_3 );
+		
 		$faqs = $result;
 
 		$result = array();

@@ -3,7 +3,7 @@
 
 	jQuery(document).ready(function() {
 		document.body.className += ' ecwid-no-padding';
-		$ = jQuery;
+		
 		// Create IE + others compatible event handler
 		var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 		var eventer = window[eventMethod];
@@ -12,31 +12,11 @@
 		// Listen to message from child window
 		eventer(messageEvent,function(e) {
 		    if (typeof e.data.height != 'undefined') {
-                $('#ecwid-frame').css('height', e.data.height + 'px');
-            } else if (
-                e.data.action 
-                && e.data.action == 'navigationMenuUpdated' 
-                && e.data.data && e.data.data.navigationMenuItems 
-                && e.data.data.navigationMenuItems.length > 0
-                && ecwid_admin_menu.enableAutoMenus
-            ) {
-		        jQuery.ajax({
-                    'url': ajaxurl + '?action=<?php echo Ecwid_Admin::AJAX_ACTION_UPDATE_MENU; ?>',
-                    'method': 'POST',
-                    'data': {
-                        menu: e.data.data.navigationMenuItems
-                    },
-                    'success': function(result) {
-                        jQuery('li[data-ecwid-dynamic-menu]').remove();
-                        ecwidAddMenuItems(jQuery.parseJSON(result));
-                        ecwidRefreshEcwidMenuItemSelection();
-                        jQuery(window).trigger('resize');
-                    }
-                });
-		    }
+                jQuery('#ecwid-frame').css('height', e.data.height + 'px');
+            } 
         },false);
 
-		$('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
+		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
 		ecwidSetPopupCentering('#ecwid-frame');
 	});
 	//]]>

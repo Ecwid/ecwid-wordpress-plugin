@@ -102,30 +102,30 @@ class Ecwid_Api_V3
 		
 		if ( $profile ) {
 			return self::set_api_status( self::API_STATUS_OK );
-		} else {
-			$transports = stream_get_transports();
+		} 
+		
+		$transports = stream_get_transports();
+		
+		$tls_fails = true;
+		
+		foreach ( $transports as $transport ) {
+			$matches = array();
 			
-			$tls_fails = true;
+			$is_tls = preg_match( '!tlsv(.*)!', $transport, $matches );
 			
-			foreach ( $transports as $transport ) {
-				$matches = array();
-				
-				$is_tls = preg_match( '!tlsv(.*)!', $transport, $matches );
-				
-				if ( $is_tls ) {
-					if ( version_compare( $matches[1], '1.1', '>=' ) ) {
-						$tls_fails = false;
-						break;
-					}
+			if ( $is_tls ) {
+				if ( version_compare( $matches[1], '1.1', '>=' ) ) {
+					$tls_fails = false;
+					break;
 				}
 			}
-		
-			if ( $tls_fails ) {
-				return self::set_api_status( self::API_STATUS_ERROR_TLS );
-			} else {
-				return self::set_api_status( self::API_STATUS_ERROR_OTHER );
-			}
 		}
+	
+		if (-$tls_fails ) {
+			return self::set_api_status( self::API_STATUS_ERROR_TLS );
+		}
+		
+		return self::set_api_status( self::API_STATUS_ERROR_OTHER );
 	}
 
 	public static function save_token($token)

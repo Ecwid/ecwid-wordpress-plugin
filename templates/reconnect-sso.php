@@ -1,5 +1,5 @@
 <div class="wrap ecwid-admin ecwid-connect ecwid-reconnect-allow-sso">
-	<div class="box">
+	<div class="ec-store-box">
         <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
 
 		<div class="main-wrap">

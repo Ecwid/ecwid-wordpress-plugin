@@ -311,12 +311,12 @@ class Ecwid_Products {
         $result['last_update'] = $this->_status->get_last_sync_time();
 
         if ($updated->total > 0) {
-			$result['updated_from'] = $updated->items[0]->updated;
+			$result['updated_from'] = $updated->items[0]->updated - 1;
 			$result['last_updated'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
 
 		if ($deleted->total > 0) {
-			$result['deleted_from'] = $deleted->items[0]->date;
+			$result['deleted_from'] = $deleted->items[0]->date - 1;
 			$result['last_deleted'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
 
@@ -404,7 +404,7 @@ class Ecwid_Products {
 			$offset = $settings['offset'];
 		}
 
-		if ($settings && $settings['from']) {
+		if ( $settings && isset( $settings['from'] ) ) {
 			$updated_from = $settings['from'];
 		} else {
 			$updated_from = $this->_status->get_updated_from();
@@ -442,7 +442,7 @@ class Ecwid_Products {
 				$over = TRUE;
 				return false;
 			}
-
+			
 			foreach ( $products->items as $product ) {
 				$this->_process_product( $product );
 			}
@@ -541,13 +541,12 @@ class Ecwid_Products {
 			$offset = $settings['offset'];
 		}
 
-		if ($settings && $settings['from']) {
+		if ($settings && isset( $settings['from'] ) ) {
 			$deleted_from = $settings['from'];
 		} else {
-			$deleted_from = $this->_status->get_updated_from();
+			$deleted_from = $this->_status->get_deleted_from();
 		}
 
-		$deleted_from = $this->_status->get_deleted_from();
 		while ( ! $over ) {
 
 			$this->_status_event(array(

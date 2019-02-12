@@ -100,66 +100,99 @@ class Ecwid_Config {
 	public static function load_from_ini() {
 
 		$filename = apply_filters('ecwid_config_ini_path', ECWID_PLUGIN_DIR . 'config.ini');
-		
+
+		$result = false;
 		if ( file_exists( $filename ) ) {
 			$result = @parse_ini_file($filename);
 		}
-
-		if ( !@$result ) {
-			$result = array();
+		
+		if ( !$result ) {
+			return;
+		}
+		
+		self::_apply_config( $result );
+	}
+	
+	public static function enqueue_styles() {
+		if ( !self::is_wl() ) {
+			return;
 		}
 
+		wp_enqueue_style( 'ecwid-wl', ECWID_PLUGIN_URL . 'css/wl.css', array( 'ecwid-admin-css' ), get_option( 'ecwid_plugin_version' ) );
+	}
 
+	/**
+	 * @return array
+	 */
+	protected static function _get_wl_config() {
 		$wl_config = array(
-			self::IS_WL => 'wl_mode',
-			self::BRAND => 'brand',
-			self::CONTACT_US_URL => 'contact_us_url',
-			self::KB_URL => 'kb_url',
+			self::IS_WL            => 'wl_mode',
+			self::BRAND            => 'brand',
+			self::CONTACT_US_URL   => 'contact_us_url',
+			self::KB_URL           => 'kb_url',
 			self::REGISTRATION_URL => 'registration_url',
-			self::OAUTH_TOKEN_URL => 'oauth_token_url',
-			self::OAUTH_AUTH_URL => 'oauth_authorize_url',
+			self::OAUTH_TOKEN_URL  => 'oauth_token_url',
+			self::OAUTH_AUTH_URL   => 'oauth_authorize_url',
 		);
-		
+
+		return $wl_config;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected static function _get_common_config() {
 		$common_config = array(
-			self::OAUTH_APPID => 'oauth_appid',
+			self::OAUTH_APPID     => 'oauth_appid',
 			self::OAUTH_APPSECRET => 'oauth_appsecret',
-			self::TOKEN => 'oauth_token',
-			self::STORE_ID => 'store_id',
-			self::CHANNEL_ID => 'channel_id',
-			self::API_DOMAIN => 'api_domain',
+			self::TOKEN           => 'oauth_token',
+			self::STORE_ID        => 'store_id',
+			self::CHANNEL_ID      => 'channel_id',
+			self::API_DOMAIN      => 'api_domain',
 			self::FRONTEND_DOMAIN => 'scriptjs_domain',
-			self::CPANEL_DOMAIN => 'cp_domain',
-			self::DEMO_STORE_ID => 'demo_store_id'
+			self::CPANEL_DOMAIN   => 'cp_domain',
+			self::DEMO_STORE_ID   => 'demo_store_id'
 		);
-		
+
+		return $common_config;
+	}
+
+	/**
+	 * @param $values
+	 */
+	protected static function _apply_config( $values ) {
+		$wl_config = self::_get_wl_config();
+
+		$common_config = self::_get_common_config();
+
 		$empty_is_allowed = array(
 			self::REGISTRATION_URL
 		);
-		
-		$is_wl_enabled = @$result['wl_mode'];
+
+		$is_wl_enabled = @$values['wl_mode'];
 
 		foreach ( $wl_config as $name => $ini_name ) {
 
-			$value = @$result[$ini_name];
+			$value = @$values[ $ini_name ];
 			if ( $is_wl_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
-				EcwidPlatform::set($name, @$result[$ini_name]);
+				EcwidPlatform::set( $name, @$values[ $ini_name ] );
 			} else {
-				EcwidPlatform::reset($name);
+				EcwidPlatform::reset( $name );
 			}
 		}
-		
-		
+
+
 		if (
-			isset( $result[self::TOKEN] ) && !isset( $result[self::STORE_ID] )
+			isset( $values[ self::TOKEN ] ) && ! isset( $values[ self::STORE_ID ] )
 			||
-			!isset( $result[self::TOKEN] ) && isset( $result[self::STORE_ID] )
+			! isset( $values[ self::TOKEN ] ) && isset( $values[ self::STORE_ID ] )
 		) {
-			unset( $result[self::TOKEN] );
-			unset( $result[self::STORE_ID] );
-		}	
-		
+			unset( $values[ self::TOKEN ] );
+			unset( $values[ self::STORE_ID ] );
+		}
+
 		foreach ( $common_config as $name => $ini_name ) {
-			$value = @$result[$ini_name];
+			$value = @$values[ $ini_name ];
 			if ( $value ) {
 				EcwidPlatform::set( $name, $value );
 			} else {
@@ -168,13 +201,6 @@ class Ecwid_Config {
 		}
 
 		ecwid_invalidate_cache( true );
-	}
-	public static function enqueue_styles() {
-		if ( !self::is_wl() ) {
-			return;
-		}
-
-		wp_enqueue_style( 'ecwid-wl', ECWID_PLUGIN_URL . 'css/wl.css', array( 'ecwid-admin-css' ), get_option( 'ecwid_plugin_version' ) );
 	}
 }
 

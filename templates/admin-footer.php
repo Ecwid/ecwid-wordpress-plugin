@@ -22,7 +22,7 @@
         
     <?php endif; ?>
     
-    <?php if (@$show_reconnect && Ecwid_Config::should_show_reconnect_in_footer()): ?>
+    <?php if ( @$show_reconnect && Ecwid_Config::should_show_reconnect_in_footer() ): ?>
         <div class="ecwid-admin-footer-block">
             <h4 class="ecwid-admin-footer-title"><?php printf( __('Want to connect another %s store?', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?></h4>
             <div class="ecwid-admin-footer-text">

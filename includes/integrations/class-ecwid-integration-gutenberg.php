@@ -26,13 +26,26 @@ class Ecwid_Integration_Gutenberg {
 			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'render_callback' ),
         ));
-	
+		
 		register_block_type(self::PRODUCT_BLOCK, array(
-			'editor_script' => 'ecwid-gutenberg-product',
+			'editor_script' => 'ecwid-gutenberg-store',
 			'render_callback' => array( $this, 'product_render_callback' ),
 		));
 		
-		add_action( 'in_admin_header', array( $this, 'add_popup' ) );
+		add_filter( 'block_categories', array( $this, 'block_categories' ) );
+	}
+
+	public function block_categories( $categories ) {
+		return array_merge(
+			$categories,
+			array(
+				array(
+					'slug'  => 'ec-store',
+					'title' => sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+					'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $this->_get_store_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
+				),
+			)
+		);
 	}
 	
 	public function on_save_post( $post, $request, $creating ) {
@@ -42,11 +55,9 @@ class Ecwid_Integration_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
+
 		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
-		if ( Ecwid_Api_V3::is_available() ) {
-			EcwidPlatform::enqueue_script( 'gutenberg-product', array( 'wp-blocks', 'wp-i18n', 'wp-element' ) );
-		}
 		
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
@@ -73,7 +84,7 @@ class Ecwid_Integration_Gutenberg {
 				'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' )
 			)
 		);
-
+		
 		$is_demo_store = ecwid_is_demo_store();
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
@@ -94,6 +105,8 @@ class Ecwid_Integration_Gutenberg {
 				'storeIcon' => $this->_get_store_icon_path(),
 				'productIcon' => $this->_get_product_icon_path(),
 				'isDemoStore' => $is_demo_store,
+				'isApiAvailable' => Ecwid_Api_V3::is_available(),
+				'products' => $this->_get_products_data(),
 				'customizeMinicartText' =>
 					sprintf(
 						__(
@@ -107,6 +120,34 @@ class Ecwid_Integration_Gutenberg {
 			)
 		);
 
+	}
+	
+	protected function _get_products_data() {
+
+		$blocks = self::get_blocks_on_page();
+
+		$productIds = array();
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
+				$productIds[] = $block['attrs']['id'];
+			}
+		}
+		
+		if ( empty( $productIds ) ) {
+			return array();
+		}
+		
+		$result = array();
+		foreach ( $productIds as $id ) {
+			$product = Ecwid_Product::get_by_id( $id );
+			
+			$result[$id] = array(
+				'name' => $product->name,
+				'imageUrl' => $product->thumbnailUrl
+			);
+		}
+		
+		return $result;
 	}
 	
 	protected function _is_new_product_list() {
@@ -125,6 +166,21 @@ class Ecwid_Integration_Gutenberg {
 		
 		if ( !@$params['id'] ) return '';
 		
+		$params = wp_parse_args(
+			$params,
+			array(
+				'id' => 0,
+				'show_picture' => true,
+				'show_title' => true,
+				'show_price' => true,
+				'show_options' => true,
+				'show_addtobag' => true,
+				'show_border' => true,
+				'center_align' => true,
+				'show_price_on_button' => true
+			)
+		);
+		
 		$display = array(
 			'picture', 'title', 'price', 'options', 'qty', 'addtobag' 
 		);
@@ -132,7 +188,7 @@ class Ecwid_Integration_Gutenberg {
 		$params['display'] = '';
 		$display_string = '';
 		foreach ( $display as $name ) {
-			if ($params['show_' . $name]) {
+			if ( @$params['show_' . $name] ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}
@@ -246,9 +302,7 @@ HTML;
 
 		$store_page_data['chameleon-colors'] = $chameleon['colors'];
 		
-		if ( Ecwid_Static_Home_Page::is_enabled() ) {
-			Ecwid_Static_Home_Page::save_store_page_params( $store_page_data );
-		}
+		Ecwid_Store_Page::save_store_page_params( $store_page_data );
 		
 		if ( $chameleon['colors'] != 'auto' ) {
 			$result .= <<<JS
@@ -265,12 +319,42 @@ JS;
 		return $result;
 	}
 
-	public function add_popup() {
-		$categories = ecwid_get_categories_for_selector();
-
-		require ECWID_PLUGIN_DIR . '/templates/store-popup.php';
+	public static function get_block_names() {
+		return array(
+			self::STORE_BLOCK,
+			self::PRODUCT_BLOCK
+		);
 	}
 	
+	/**
+	 * @param $post
+	 *
+	 * @return array
+	 */
+	public static function get_blocks_on_page() {
+		$post = get_post();
+		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
+			$blocks = gutenberg_parse_blocks( $post->post_content );
+		} else {
+			$blocks = parse_blocks( $post->post_content );
+		}
+		
+		if ( empty( $blocks ) ) {
+			return array();
+		}
+
+		$result = array();
+		
+		$ecwid_blocks = self::get_block_names();
+		foreach ( $blocks as $block ) {
+			if ( in_array( $block['blockName'], $ecwid_blocks ) ) {
+				$result[$block['blockName']] = $block;
+			}
+		}
+
+		return $result;
+	}
+
 	protected function _get_version_for_assets( $asset_file_path )
 	{
 		if ( $_SERVER['HTTP_HOST'] == 'localhost' ) {
@@ -361,12 +445,7 @@ JS;
 		
 	public static function get_store_block_data_from_current_page() {
 		
-		if ( !function_exists( 'gutenberg_parse_blocks' ) ) {
-			return array();
-		}
-		
-		$post = get_post();
-		$blocks = gutenberg_parse_blocks( $post->post_content );
+		$blocks = self::get_blocks_on_page();
 		
 		$store_block = null;
 		foreach ( $blocks as $block ) {

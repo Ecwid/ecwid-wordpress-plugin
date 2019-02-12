@@ -29,7 +29,8 @@ class Ecwid_Admin {
 			'dashboard_url' => Ecwid_Admin::get_relative_dashboard_url(),
 			'menu' => self::are_auto_menus_enabled() ? $menu : array(),
 			'baseSlug' => self::ADMIN_SLUG,
-			'enableAutoMenus' => self::are_auto_menus_enabled()
+			'enableAutoMenus' => self::are_auto_menus_enabled(),
+			'actionUpdateMenu' => self::AJAX_ACTION_UPDATE_MENU
 		));		
 	}
 
@@ -64,7 +65,7 @@ class Ecwid_Admin {
 				$title,
 				'manage_options',
 				self::ADMIN_SLUG,
-				'ecwid_general_settings_do_page'
+				array( $page, 'do_page' )
 			);
 		}
 		

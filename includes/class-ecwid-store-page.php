@@ -116,6 +116,30 @@ class Ecwid_Store_Page {
 		return $link;
 	}
 
+	public static function save_store_page_params( $data ) {
+		$existing = self::get_store_page_params();
+
+		$data = array_merge( $existing, $data );
+		
+		EcwidPlatform::cache_set( self::_get_store_page_data_key(), $data );
+	}
+
+	public static function get_store_page_params( $page_id = 0 ) {
+		$params = EcwidPlatform::cache_get( self::_get_store_page_data_key( $page_id ), array() );
+		
+		if ( !empty( $params) ) return $params;
+
+		return array();
+	}
+
+	protected static function _get_store_page_data_key( $page_id = 0 )
+	{
+		$post = get_post( $page_id );
+
+		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
+
+	}
+	
 	public static function get_page_base_url( $page = 0 ) {
 		return urldecode( get_page_uri( $page ) );
 	} 

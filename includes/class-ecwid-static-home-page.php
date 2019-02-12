@@ -43,7 +43,7 @@ class Ecwid_Static_Home_Page {
 			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
 		}
 		
-		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec.config.interactive = false;" );
+		wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, "window.ec = window.ec || {}; window.ec.config = window.ec.config || {}; window.ec.config.interactive = false;" );
 	}
 	
 	public function apply_theme( $theme ) {
@@ -63,10 +63,10 @@ class Ecwid_Static_Home_Page {
 		}
 		
 		
-		if ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url() ) {
+		if ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_seo_link() ) {
 			return null;
 		}
-
+		
 		$data = self::_maybe_fetch_data();
 		
 		if ( $data ) {
@@ -78,7 +78,7 @@ class Ecwid_Static_Home_Page {
 	
 	protected static function _maybe_fetch_data()
 	{
-		$store_page_params = self::_get_store_page_params();
+		$store_page_params = Ecwid_Store_Page::get_store_page_params();
 		
 		if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] ) {
 			return null;
@@ -159,7 +159,7 @@ class Ecwid_Static_Home_Page {
 		$store_params = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
 		if ( !$store_params ) {
-			$store_params = self::_get_store_page_params();
+			$store_params = Ecwid_Store_Page::get_store_page_params();
 		}
 
 		$non_tplvar_params = array(
@@ -199,7 +199,7 @@ class Ecwid_Static_Home_Page {
 			return false;
 		}
 
-		if ( get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
+		if ( 0 && get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
 			return true;
 		}
 		
@@ -213,34 +213,11 @@ class Ecwid_Static_Home_Page {
 		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_STATIC_HOME_PAGE )
 		       && $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
-
-	public static function save_store_page_params( $data ) {
-		$existing = self::_get_store_page_params();
-		
-		$data = array_merge( $existing, $data );
-		
-		EcwidPlatform::cache_set( self::_get_store_page_data_key(), $data );
-	}
-
-	protected static function _get_store_page_params( ) {
-		$params = EcwidPlatform::cache_get( self::_get_store_page_data_key(), array() );
-		
-		if ( !empty( $params) ) return $params;
-		
-		return array();
-	}
 	
 	protected static function _get_page_content_data_key( $url ) {
 		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];	
 	}
-	
-	protected static function _get_store_page_data_key()
-	{
-		$post = get_post();
-		
-		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
 
-	}
 }
 
 $__ecwid_static_home_page = new Ecwid_Static_Home_Page();
