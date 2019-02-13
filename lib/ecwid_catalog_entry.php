@@ -6,9 +6,6 @@ abstract class Ecwid_Catalog_Entry {
 	protected $_cache_name_prefix = null;
 	protected $_link_prefix = null;
 	
-	abstract protected function _get_from_local_object_cache( $id );
-	abstract protected function _put_into_local_object_cache( $id );
-	
 	protected function __construct()
 	{
 		$this->_data = new stdClass();
