@@ -46,21 +46,7 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 			$recently_viewed = null;
 		}
 
-		if ($recently_viewed && isset($recently_viewed->products)) {
-
-			$to_load = array();
-
-			foreach ($recently_viewed->products as $product_data) {
-				$product = Ecwid_Product::get_without_loading($product_data->id);
-				if (!@$product->imageUrl) {
-					$to_load[] = $product_data->id;
-				}
-			}
-
-			if (!empty($to_load)) {
-				Ecwid_Product::load_by_ids($to_load);
-			}
-		} else {
+		if (!$recently_viewed && !isset($recently_viewed->products)) {
 			return null;
 		}
 		
