@@ -140,13 +140,7 @@ HTML;
 		foreach ($this->_get_form_fields() as $field) {
 			$name = $field['name'];
 			if ( $name == 'number_of_products' ) {
-				$num = intval($new_instance['number_of_products']);
-				if ($num > $this->_max) {
-					$num = $this->_max;
-				} else if ($num < $this->_min) {
-					$num = $this->_default;
-				}
-				$instance[$name] = intval($num);
+				$instance[$name] = $this->_get_valid_number_of_products($new_instance['number_of_products']);
 			} else {
 				$instance[$name] = strip_tags(stripslashes($new_instance[$name]));
 			}
@@ -185,8 +179,14 @@ HTML;
 		}
 	}
 
-	function is_valid_number_of_products($num) {
-		return is_numeric($num) && $num <= $this->_max && $num >= $this->_min;
+	function _get_valid_number_of_products($num) {
+		$num = intval($num);
+		if ($num > $this->_max) {
+			$num = $this->_max;
+		} else if ($num < $this->_min) {
+			$num = $this->_default;
+		}
+		return $num;
 	}
 	
 	protected function _get_form_fields()
