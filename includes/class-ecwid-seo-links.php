@@ -215,11 +215,13 @@ class Ecwid_Seo_Links {
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
-		
+
 		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
+			window.ec.storefront = window.ec.storefront || {};
+			window.ec.storefront.sharing_button_link = "DIRECT_PAGE_URL";
 JS;
 		$config .= $result;
 		
