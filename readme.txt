@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 5.0
-Stable tag: 6.4.6
+Stable tag: 6.4.10
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,6 +150,24 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.4.10 - Feb 12, 2019 =
+- **SEO improvement for the H1 tags on the product and category pages**. Ecwid puts product and categories ecommerce data in the page content in a SEO-friendly ‘microdata’ format so that search engines can index your store well. On the other hand, Wordpress pages have their own data, specifically &lt;h1&gt; tags, which stay on product pages and visible to Google when it is indexing your site. So, in addition to a product title like “My cool product”, Google may see your store page title on the same page like “Shop”. We improved it — the product pages will now have more prominent and clear &lt;h1&gt; tags containing product title only. This should improve indexation and the way your products look in the search results in Google.
+- Minor fixes and improvements.
+
+= 6.4.9 - Feb 7, 2019 =
+- **Fixes for the Open Graph image tag (og:image tag).** When you share a page from your ecommerce site on Facebook or in a messenger, you should see the product title, description and image in the sharing preview snippet. 
+- **Improvements for the product listing auto-scroll function.** In some Wordpress themes, the site header might overlap product pages when you navigate from page to page in your online store. We improved it to make the product and category pages appear better to your customers. 
+- Various minor fixes and improvements.
+
+= 6.4.8 - Dec 26, 2018 =
+- **Improved settings interface for the "Product" block in Gutenberg (the new WordPress page editor)**. You can add a single product to any of your pages or posts using the Ecwid ecommerce "Product" block and fine-tune its layout in the block settings on the right side in the editor.
+- **Resolved a minor layout issue caused by the Embed Any Document plugin.** The Embed Any Document plugin adds a breaking CSS code to the Wordpress admin backend which caused some of the Ecwid plugin admin pages display incorreclty. We fixed that, the plugins are now compatible.
+- **SEO enhancement: improved canonical tags for the sites that display different store categories on different site pages.** In such case, the canonical tags on products and categories pages will keep the pages structure as is (link to the page that they are opened from). Otherwise, if you have one main store page displaying the whole catalog, the product/categories canonical tags will link to the main store page to avoid duplicates issues and make your e-commerce store appear better in the Google search results.
+- Minor improvements for the Ecwid admin backend pages navigation. 
+
+= 6.4.7 - Dec 14, 2018 =
+- **Compatibility fixes for Elementor and Gravity Forms.** Thanks to a user report, we found a few glitches in how the Ecwid e-commerce plugin works with Elementor and Gravity Forms. All fixed — the plugins should work fine together now
+
 = 6.4.6 - Dec 7, 2018 =
 - Minor fixes & improvements.
 

@@ -210,16 +210,18 @@ class Ecwid_Seo_Links {
 			}
 		}
 
-		if ( self::is_404_seo_link() ) {
+		if ( Ecwid_Api_V3::is_available() && self::is_404_seo_link() ) {
 			return $config;
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
-		
+
 		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
+			window.ec.storefront = window.ec.storefront || {};
+			window.ec.storefront.sharing_button_link = "DIRECT_PAGE_URL";
 JS;
 		$config .= $result;
 		
@@ -326,9 +328,15 @@ JS;
 			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
 			
 			foreach ( $links as $link ) {
+				$link = trim( $link, '/' );
+
+				if (strpos($link, 'index.php') !== 0) {
+					$link = '^' . preg_quote( $link );
+				}
+
 				foreach ( $patterns as $pattern ) {
-					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+
+					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}

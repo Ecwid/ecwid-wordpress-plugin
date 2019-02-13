@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.4.6
+Version: 6.4.10
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -64,6 +64,7 @@ if ( is_admin() ){
   add_action('wp_ajax_ecwid_sync_products', 'ecwid_sync_products');
   add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
   add_action('init', 'ecwid_apply_theme', 0);
+	add_action('init', 'ecwid_maybe_remove_emoji');
 	add_action('get_footer', 'ecwid_admin_get_footer');
 	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
 	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
@@ -134,7 +135,9 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
-require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+if (version_compare( phpversion(), '5.6', '>=' ) ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
+}
 
 $version = get_bloginfo('version');
 if (version_compare($version, '4.0') >= 0) {
@@ -288,6 +291,13 @@ function ecwid_ie8_fonts_inclusion()
 </style>
 HTML;
 
+}
+add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
+function ecwid_maybe_remove_emoji() {
+
+	if ( Ecwid_Store_page::is_store_page() && get_option( 'ecwid_remove_emoji' ) == 'Y' && strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false ) {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	}
 }
 
 add_action('wp_ajax_ecwid_get_product_info', 'ecwid_ajax_get_product_info' );
@@ -686,8 +696,11 @@ function ecwid_check_version()
 		// Since 6.4.8
 		add_option( 'ecwid_hide_canonical', false );
 
-		// Since 6.4.9+
+		// Since 6.4.9
 		add_option( Ecwid_Theme_Base::OPTION_LEGACY_CUSTOM_SCROLLER, false );
+		
+		// Since 6.4.9+
+		add_option( 'ecwid_remove_emoji', 'Y' );
 
 		do_action( 'ecwid_on_plugin_update' );
 
@@ -1421,6 +1434,7 @@ function _ecwid_get_seo_title()
 	return "";
 }
 
+
 add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
 
 function ecwid_oembed_url( $url, $permalink, $format ) {
@@ -1519,14 +1533,32 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
 		$params .= '&data_api_disabled=1';
 	}
-	
-	require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
-	if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
-		$params .= '&data_imported=1';
+	if (version_compare( phpversion(), '5.6', '>=' ) ) {
+		require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
+		if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
+			$params .= '&data_imported=1';
+		}
 	}
-	
+		
 	if ( Ecwid_Static_Home_Page::is_enabled() ) {
 		$params .= '&data_static_home=1';
+	}
+	
+	if ( class_exists( 'Ecwid_Integration_Gutenberg') ) {
+		
+		$all_blocks = Ecwid_Integration_Gutenberg::get_block_names();
+		$page_blocks = Ecwid_Integration_Gutenberg::get_blocks_on_page();
+		
+		$mask = "";
+		foreach ( $all_blocks as $name ) {
+			if ( array_key_exists( $name, $page_blocks ) ) {
+				$mask .= '1';
+			} else {
+				$mask .= '0';
+			}
+		}
+		
+		$params .= '&data_g=' . $mask;
 	}
 
 	return $params;
@@ -2399,7 +2431,7 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 		Ecwid_Api_V3::get_token(),
 		$time,
 		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Config::get_oauth_appsecret() ),
-		$page,
+		urlencode( $page ),
 		substr( $lang, 0, 2 )
 	);
 }
@@ -2709,7 +2741,7 @@ function ecwid_advanced_settings_do_page() {
 	}
 	
 	$reconnect_link = get_reconnect_link();
-
+	
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
 

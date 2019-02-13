@@ -93,6 +93,11 @@ class Ecwid_Api_V3
 	{
 		$api = new Ecwid_Api_V3();
 		
+		$token = self::_load_token();
+		if ( !$token ) {
+			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+		}
+		
 		$profile = $api->get_store_profile();
 		
 		if ( $profile ) {
@@ -118,11 +123,6 @@ class Ecwid_Api_V3
 	
 		if (-$tls_fails ) {
 			return self::set_api_status( self::API_STATUS_ERROR_TLS );
-		}
-
-		$token = self::_load_token();
-		if ( !$token ) {
-			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 		}
 		
 		return self::set_api_status( self::API_STATUS_ERROR_OTHER );
