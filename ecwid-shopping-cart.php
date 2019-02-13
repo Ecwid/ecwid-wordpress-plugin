@@ -94,7 +94,6 @@ if ( is_admin() ){
   add_filter('body_class', 'ecwid_body_class');
   add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
   add_action('init', 'ecwid_check_api_cache');
-  add_filter( 'the_title', 'ecwid_page_title' );
   $ecwid_seo_title = '';
 }
 add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
@@ -1435,47 +1434,6 @@ function _ecwid_get_seo_title()
 	return "";
 }
 
-function ecwid_page_title( $title ) {
-	
-	if ( ! Ecwid_Store_Page::is_store_page() ) return $title;
-
-	$sep = ecwid_get_title_separator();
-	$title_placeholder = '@title@';
-	$format = "$title_placeholder";
-	$title_pattern = sprintf( 
-		'<span id="ecwid-main-page-title" data-original-title="%s" data-title-placeholder="%s" data-format="%s">%%s</span>',
-		$title, 
-		$title_placeholder,
-		$format
-	);
-	
-	$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-
-	if ( !@$params['mode'] ) {
-		return sprintf( $title_pattern, $title );
-	}
-
-	$ecwid_title = null;
-	
-	if ( $params['mode'] == 'product' ) {
-		$p = Ecwid_Product::get_by_id( $params['id'] );
-		$ecwid_title = isset( $p->seoTitle ) ? $p->seoTitle : $p->name;
-	} else if ( $params['mode'] == 'category' ) {
-		$c = Ecwid_Category::get_by_id( $params['id'] );
-		$ecwid_title = $c->name;
-	}
-	
-	if ( !empty( $ecwid_title ) ) {
-
-		
-		return sprintf(
-			$title_pattern,
-			esc_html( str_replace( $title_placeholder, $ecwid_title, $format ) )
-		);
-	}
-
-	return $title;
-}
 
 add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
 

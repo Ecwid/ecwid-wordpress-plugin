@@ -43,24 +43,43 @@ class EcwidPlatform {
 			$filename = substr( $filename, 0, strlen( $file ) - 3 );
 		}
 		
-		if ( !$handle ) {
-			$handle = self::slugify( $filename );
-		}
+		$handle = self::make_handle( $file );
 		
-		$handle = 'ecwid-' . $handle;
-		
-		$file .= '.js';
+		$filename .= '.js';
 		
 		if ( defined( 'WP_DEBUG' ) ) {
-			$path = ECWID_PLUGIN_DIR . 'js/' . $file;
+			$path = ECWID_PLUGIN_DIR . 'js/' . $filename;
 			
 			$ver = filemtime( $path );
 		} else {
 			$ver = get_option( 'ecwid_plugin_version' );
 		}
 		
-		wp_enqueue_script( $handle, ECWID_PLUGIN_URL . 'js/' . $file, $deps, $ver, $in_footer );
+		wp_enqueue_script( $handle, ECWID_PLUGIN_URL . 'js/' . $filename, $deps, $ver, $in_footer );
 	}
+	
+	static public function make_handle( $file )
+	{
+		$filename = $file;
+
+		if ( strpos( $file, '.js' ) == strlen( $file ) - 3 ) {
+			$filename = substr( $filename, 0, strlen( $file ) - 3 );
+		}
+
+		$prefix = 'ecwid-';
+		
+		if ( strpos( $file, $prefix ) === 0 ) {
+			$filename = substr( $filename, strlen( $prefix ) );
+		}
+		
+		$handle = self::slugify( $filename );
+		
+		$handle = $prefix . $handle;
+		
+		return $handle;
+	}
+	
+	
 
 	/*
  * @throws InvalidArgumentException if $file can't be slugified at all

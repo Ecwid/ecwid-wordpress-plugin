@@ -416,9 +416,50 @@ class Ecwid_Store_Page {
 		
 		$catalog->warmup_store_page(intval($category));
 	}
+	
+	/* If you figure out a better place to put this the_title functionality, go ahead, move it =) */
+	
+	static $original_title = '';
+	static public function enqueue_original_page_title( )
+	{
+		$script = 'dynamic-title';
+		EcwidPlatform::enqueue_script( $script, array( 'jquery' ), true );
+		wp_localize_script( EcwidPlatform::make_handle( $script ), 'ecwidOriginalTitle', array(
+			'title' => get_the_title()
+		) );
+	}
+	
+	static public function the_title( $title )
+	{
+		if ( ! self::is_store_page() ) return $title;
+		
+		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+
+		if ( !@$params['mode'] ) {
+			return $title;
+		}
+
+		$ecwid_title = null;
+
+		if ( $params['mode'] == 'product' ) {
+			$p = Ecwid_Product::get_by_id( $params['id'] );
+			$ecwid_title = isset( $p->seoTitle ) ? $p->seoTitle : $p->name;
+		} else if ( $params['mode'] == 'category' ) {
+			$c = Ecwid_Category::get_by_id( $params['id'] );
+			$ecwid_title = $c->name;
+		}
+
+		if ( empty( $ecwid_title ) ) {
+			return $title;
+		}
+		return $ecwid_title;
+	}
 }
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
+add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
 add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
 add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_flush_rewrites' ) );
+
+add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
