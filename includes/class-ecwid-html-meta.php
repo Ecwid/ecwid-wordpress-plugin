@@ -106,7 +106,7 @@ abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 		$twitter_tags = array(
 			'card' => 'summary_large_image',
 			'description' => $this->_get_description( ECWID_TRIMMED_DESCRIPTION_LENGTH ),
-			'title' => $this->_get_title() . ' - ' . $this->_get_site_name(),
+			'title' => $this->_get_title(),
 			'image' => $this->_get_image_url()
 		);
 
@@ -175,7 +175,7 @@ class Ecwid_HTML_Meta_Product extends Ecwid_HTML_Meta_Catalog_Entry {
 	
 	protected function _get_title()
 	{
-		return @$this->product->title;
+		return @$this->product->name;
 	}
 	
 	protected function _get_raw_description()
