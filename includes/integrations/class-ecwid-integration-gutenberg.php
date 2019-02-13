@@ -557,7 +557,7 @@ JS;
 		if ( $categories ) {
 			$attributes['default_category_id']['values'] = array(
 				array(
-					'value' => '',
+					'value' => '0',
 					'title' => __( 'Store root category', 'ecwid-shopping-cart' )
 				)
 			);
@@ -567,6 +567,8 @@ JS;
 					'title' => $category->name
 				);
 			}
+			
+			$attributes['default_category_id']['default'] = '';
 		} else {
 			$api  = new Ecwid_Api_V3();
 			$cats = $api->get_categories( array() );
