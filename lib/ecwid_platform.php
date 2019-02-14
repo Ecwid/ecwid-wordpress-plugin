@@ -126,7 +126,18 @@ class EcwidPlatform {
 	
 	static protected function _init_crypt()
 	{
-		self::$crypt->setIV( substr( md5( SECURE_AUTH_SALT . get_option('ecwid_store_id') ), 0, 16 ) );
+		$salt = '';
+		
+		// It turns out sometimes there is no salt is wp-config. And since it is already seeded
+		// with the SECURE_AUTH_KEY, and to avoid breaking someones encryption
+		// we use 'SECURE_AUTH_SALT' as string
+		if ( defined( 'SECURE_AUTH_SALT' ) ) {
+			$salt = SECURE_AUTH_SALT;
+		} else {
+			$salt = 'SECURE_AUTH_SALT';
+		}
+		
+		self::$crypt->setIV( substr( md5( $salt . get_option('ecwid_store_id') ), 0, 16 ) );
 		self::$crypt->setKey( SECURE_AUTH_KEY );
 	}
 
