@@ -35,3 +35,7 @@
 <?php endforeach; ?>
 <button class="btn btn-primary">submit</button>
 </form>
+
+<br />
+<h2>Сlean cache files</h2>
+<a href="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
