@@ -2131,6 +2131,24 @@ function ecwid_update_plugin_params()
 	wp_redirect('admin.php?page=ec-params');
 }
 
+function ecwid_get_clear_all_cache_action() {
+	return 'ecwid-clear-all-cache';
+}
+
+add_action('admin_post_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
+add_action('admin_post_nopriv_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
+
+function ecwid_clear_all_cache()
+{
+	ecwid_full_cache_reset();
+
+	if ( wp_verify_nonce(@$_POST['nonce'], ecwid_get_clear_all_cache_action() ) ) {
+		wp_redirect('admin.php?page=ec-params');
+	}
+
+	echo 'Clear all cache - OK!';
+}
+
 function ecwid_sync_do_page() {
 
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';

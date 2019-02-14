@@ -35,3 +35,14 @@
 <?php endforeach; ?>
 <button class="btn btn-primary">submit</button>
 </form>
+
+<br />
+<h2>Сlean cache files</h2>
+<form method="POST" type="multipart/form-data" action="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>">
+	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( ecwid_get_clear_all_cache_action() ); ?>" />
+	<button class="btn btn-primary">Clear all caches</button>
+</form>
+<br />
+<div style="max-width: 800px">
+To reset the cache without authorization use the link: %site-url%/wp-admin/admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>
+</div>
