@@ -119,7 +119,7 @@ class EcwidPlatform {
 		if ( $result && count( @$match[0] ) > 0 ) {
 			$handle = implode('-', $match[0] );
 		} else {
-			throw new InvalidArgumentException( 'Can\'t make slug from ' . $file );
+			throw new InvalidArgumentException( 'Can\'t make slug from ' . $string );
 		}		
 		return $handle;
 	}
