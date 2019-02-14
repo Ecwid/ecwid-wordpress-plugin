@@ -2110,7 +2110,7 @@ function ecwid_update_plugin_params()
 		die();
 	}
 	
-	if ( !wp_verify_nonce(@$_POST['nonce'], 'ecwid-update-params' ) ) {
+	if ( !wp_verify_nonce(@$_POST['nonce'], ecwid_get_update_params_action() ) ) {
 		header('403 Access Denied');
 
 		die();
