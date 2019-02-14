@@ -2142,7 +2142,7 @@ function ecwid_clear_all_cache()
 {
 	ecwid_full_cache_reset();
 
-	if ( wp_verify_nonce(@$_POST['nonce'], ecwid_get_clear_all_cache_action() ) ) {
+	if ( array_key_exists( 'redirect_back', $_POST ) ) {
 		wp_redirect('admin.php?page=ec-params');
 	}
 
