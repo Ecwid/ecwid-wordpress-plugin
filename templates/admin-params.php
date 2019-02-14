@@ -42,7 +42,3 @@
 	<input type="hidden" name="redirect_back" value="y" />
 	<button class="btn btn-primary">Clear all caches</button>
 </form>
-<br />
-<div style="max-width: 800px">
-To reset the cache without authorization use the link: %site-url%/wp-admin/admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>
-</div>
