@@ -2142,7 +2142,7 @@ function ecwid_clear_all_cache()
 {
 	ecwid_full_cache_reset();
 
-	if ( array_key_exists( 'redirect_back', $_POST ) ) {
+	if ( array_key_exists( 'redirect_back', $_GET ) ) {
 		wp_redirect ( 'admin.php?page=ec-params' );
 	}
 

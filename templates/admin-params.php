@@ -38,7 +38,4 @@
 
 <br />
 <h2>Сlean cache files</h2>
-<form method="POST" type="multipart/form-data" action="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>">
-	<input type="hidden" name="redirect_back" value="y" />
-	<button class="btn btn-primary">Clear all caches</button>
-</form>
+<a href="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
