@@ -461,7 +461,6 @@ JS;
 
 function ecwid_load_textdomain() {
 	load_plugin_textdomain( 'ecwid-shopping-cart', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-	// )
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
