@@ -36,7 +36,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 
 		add_filter( 'wpseo_sitemap_url', array( $this, 'wpseo_hook_sitemap_url' ), 10, 2 );
-		add_action( 'init', array($this, 'test_load') );
+		add_action( 'init', array($this, 'clear_ecwid_search_sitemap_index') );
 	}
 
 	public function wpseo_hook_sitemap_url( $output, $url )
@@ -48,7 +48,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		}
 	}
 
-	public function test_load() {
+	public function clear_ecwid_search_sitemap_index() {
 
 		if( strpos( $_SERVER['REQUEST_URI'], 'sitemap_index.xml' ) !== false ) {
 			ob_start();
