@@ -37,5 +37,5 @@
 </form>
 
 <br />
-<h2>Сlean cache files</h2>
+<h2>Clear plugin cache</h2>
 <a href="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>

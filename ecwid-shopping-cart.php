@@ -2132,11 +2132,11 @@ function ecwid_update_plugin_params()
 }
 
 function ecwid_get_clear_all_cache_action() {
-	return 'ecwid-clear-all-cache';
+	return 'ec-clear-all-cache';
 }
 
 add_action('admin_post_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
-add_action('admin_post_nopriv_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
+add_action('pre_get_posts' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
 
 function ecwid_clear_all_cache()
 {
