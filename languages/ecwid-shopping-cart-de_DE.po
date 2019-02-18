@@ -1,5 +1,5 @@
 msgid "Ecwid Shopping Cart"
-msgstr "Ecwid Onlineshop"
+msgstr ""
 
 msgid "Ecwid Team"
 msgstr "Ecwid-Team"
