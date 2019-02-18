@@ -2135,18 +2135,17 @@ function ecwid_get_clear_all_cache_action() {
 	return 'ec-clear-all-cache';
 }
 
-add_action('admin_post_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
-add_action('pre_get_posts' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
+add_action('plugins_loaded', 'ecwid_clear_all_cache');
 
 function ecwid_clear_all_cache()
 {
-	ecwid_full_cache_reset();
+	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
+		ecwid_full_cache_reset();
 
-	if ( array_key_exists( 'redirect_back', $_GET ) ) {
-		wp_redirect ( 'admin.php?page=ec-params' );
+		if ( array_key_exists( 'redirect_back', $_GET ) ) {
+			wp_redirect ( 'admin.php?page=ec-params' );
+		}
 	}
-
-	echo 'Clear all cache - OK!';
 }
 
 function ecwid_sync_do_page() {

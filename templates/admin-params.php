@@ -38,4 +38,4 @@
 
 <br />
 <h2>Clear plugin cache</h2>
-<a href="admin-post.php?action=<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
+<a href="?<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
