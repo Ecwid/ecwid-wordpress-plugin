@@ -57,16 +57,21 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 			    $output = ob_get_contents();
 			    ob_end_clean();
 
+			    libxml_use_internal_errors(true);
 			    $xml = simplexml_load_string($output);
-			    
-			    foreach ($xml->sitemap as $sitemap) {
-			    	if( strpos( (string) $sitemap->loc, 'ec-product') !== false ) {
-			    		$dom = dom_import_simplexml($sitemap);
-        				$dom->parentNode->removeChild($dom);
-			    	}
-			    }
 
-			    echo $xml->asXML();
+			    if($xml !== false) {
+				    foreach ($xml->sitemap as $sitemap) {
+				    	if( strpos( (string) $sitemap->loc, 'ec-product') !== false ) {
+				    		$dom = dom_import_simplexml($sitemap);
+	        				$dom->parentNode->removeChild($dom);
+				    	}
+				    }
+
+				    echo $xml->asXML();
+				} else {
+					echo $output;
+				}
 			}, 0);
 		}
 	}
