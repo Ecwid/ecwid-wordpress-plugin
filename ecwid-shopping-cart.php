@@ -2110,7 +2110,7 @@ function ecwid_update_plugin_params()
 		die();
 	}
 	
-	if ( !wp_verify_nonce(@$_POST['nonce'], 'ecwid-update-params' ) ) {
+	if ( !wp_verify_nonce(@$_POST['nonce'], ecwid_get_update_params_action() ) ) {
 		header('403 Access Denied');
 
 		die();
@@ -2129,6 +2129,23 @@ function ecwid_update_plugin_params()
 	}
 	
 	wp_redirect('admin.php?page=ec-params');
+}
+
+function ecwid_get_clear_all_cache_action() {
+	return 'ec-clear-all-cache';
+}
+
+add_action('plugins_loaded', 'ecwid_clear_all_cache');
+
+function ecwid_clear_all_cache()
+{
+	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
+		ecwid_full_cache_reset();
+
+		if ( array_key_exists( 'redirect_back', $_GET ) ) {
+			wp_redirect ( 'admin.php?page=ec-params' );
+		}
+	}
 }
 
 function ecwid_sync_do_page() {

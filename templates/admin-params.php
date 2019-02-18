@@ -35,3 +35,7 @@
 <?php endforeach; ?>
 <button class="btn btn-primary">submit</button>
 </form>
+
+<br />
+<h2>Clear plugin cache</h2>
+<a href="?<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
