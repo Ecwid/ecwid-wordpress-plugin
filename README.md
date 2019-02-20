@@ -1,5 +1,5 @@
 # Ecwid Ecommerce Shopping Cart
-Contributors: Ecwid
+Contributors: @Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 5.0
