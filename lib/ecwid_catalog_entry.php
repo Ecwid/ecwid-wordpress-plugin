@@ -17,7 +17,11 @@ abstract class Ecwid_Catalog_Entry {
 			return $this->get_link();
 		}
 
-		return $this->_data->$name;
+		if ( isset($this->_data->$name) ) {
+			return $this->_data->$name;	
+		}
+		
+		return null;
 	}
 
 	public function __isset( $name ) {
