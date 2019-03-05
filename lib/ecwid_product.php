@@ -60,7 +60,12 @@ class Ecwid_Product extends Ecwid_Catalog_Entry
 				return null;
 			}
 			
-			$random_product_id = $result->items[$index - $offset]->id;
+			if( count($result->items) < ($index - $offset) ) {
+				$random_product = current($result->items);
+				$random_product_id = $random_product->id;
+			} else {
+				$random_product_id = $result->items[$index - $offset]->id;
+			}
 		}
 		
 		return Ecwid_Product::get_by_id( $random_product_id );
