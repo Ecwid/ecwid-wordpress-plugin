@@ -1892,6 +1892,17 @@ function ecwid_disable_other_notices() {
 
 function ecwid_show_admin_messages() {
 	if (is_admin()) {
+		global $wp_filter;
+		if ( $wp_filter && isset($wp_filter['admin_notices']) && class_exists('WP_Hook') ){
+			foreach ($wp_filter['admin_notices']->callbacks as $priority => $collection) {
+				foreach ($collection as $name => $item) {
+					if( is_object($item['function'][0]) && get_class($item['function'][0]) == 'Storefront_NUX_Admin' ){
+						remove_action('admin_notices', $item['function'], $priority);
+					}
+				}
+			}
+		}
+
 		Ecwid_Message_Manager::show_messages();
 	}
 }
