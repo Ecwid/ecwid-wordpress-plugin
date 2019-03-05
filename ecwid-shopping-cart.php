@@ -131,7 +131,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-page.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
