@@ -125,6 +125,17 @@ class Ecwid_Admin {
 					}
 				}
 			}
+
+
+			if( !Ecwid_Config::is_wl() ) {
+				add_submenu_page( 
+					'plugins.php',
+					__('Ecwid App Market'),
+					__('Ecwid App Market'), 
+					'manage_options',
+					'admin.php?page=ec-store-admin-appmarket'
+				); 
+			}
 		}
 		
 		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
@@ -141,16 +152,6 @@ class Ecwid_Admin {
 		add_submenu_page('', 'Ecwid debug', '', 'manage_options', 'ec_debug', 'ecwid_debug_do_page');
 		add_submenu_page('', 'Ecwid get mobile app', '', 'manage_options', 'ec-admin-mobile', 'ecwid_admin_mobile_do_page');
 		add_submenu_page('', 'Ecwid params', '', 'manage_options', 'ec-params', 'ecwid_params_do_page');
-
-		if( !$is_newbie ) {
-			add_submenu_page( 
-				'plugins.php',
-				__('Ecwid App Market'),
-				__('Ecwid App Market'), 
-				'manage_options',
-				'admin.php?page=ec-store-admin-appmarket'
-			); 
-		}
 
 		if (!Ecwid_Config::is_wl()) {
 			add_submenu_page(
