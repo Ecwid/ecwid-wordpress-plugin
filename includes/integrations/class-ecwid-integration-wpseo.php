@@ -36,7 +36,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 
 		add_filter( 'wpseo_sitemap_url', array( $this, 'wpseo_hook_sitemap_url' ), 10, 2 );
-		add_action( 'init', array($this, 'clear_ecwid_search_sitemap_index') );
+		add_action( 'init', array($this, 'clear_ecwid_sitemap_index') );
 	}
 
 	public function wpseo_hook_sitemap_url( $output, $url )
@@ -48,31 +48,33 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		}
 	}
 
-	public function clear_ecwid_search_sitemap_index() {
+	public function clear_ecwid_sitemap_index() {
 
 		if( strpos( $_SERVER['REQUEST_URI'], 'sitemap_index.xml' ) !== false ) {
 			ob_start();
+			add_action('shutdown', array($this, 'shutdown_hook_ecwid_sitemap_clear'), 0);
+		}
+	}
 
-			add_action('shutdown', function() {
-			    $output = ob_get_contents();
-			    ob_end_clean();
+	public function shutdown_hook_ecwid_sitemap_clear()
+	{
+		$output = ob_get_contents();
+	    ob_end_clean();
 
-			    libxml_use_internal_errors(true);
-			    $xml = simplexml_load_string($output);
+	    libxml_use_internal_errors(true);
+	    $xml = simplexml_load_string($output);
 
-			    if($xml !== false) {
-				    foreach ($xml->sitemap as $sitemap) {
-				    	if( strpos( (string) $sitemap->loc, 'ec-product') !== false ) {
-				    		$dom = dom_import_simplexml($sitemap);
-	        				$dom->parentNode->removeChild($dom);
-				    	}
-				    }
+	    if($xml !== false) {
+		    foreach ($xml->sitemap as $sitemap) {
+		    	if( strpos( (string) $sitemap->loc, 'ec-product') !== false ) {
+		    		$dom = dom_import_simplexml($sitemap);
+					$dom->parentNode->removeChild($dom);
+		    	}
+		    }
 
-				    echo $xml->asXML();
-				} else {
-					echo $output;
-				}
-			}, 0);
+		    echo $xml->asXML();
+		} else {
+			echo $output;
 		}
 	}
 
