@@ -29,7 +29,7 @@ if ( version_compare( get_bloginfo('version'), '4.0' ) >= 0 ) {
 		{
 			if ( post_password_required() ) return;
 			
-			$display = get_option(self::OPTION_WIDGET_DISPLAY);
+			$display = get_option(self::OPTION_WIDGET_DISPLAY, self::DISPLAY_STORE);
 
 			if (!array_key_exists($display, self::get_display_options())) {
 				$display = self::DISPLAY_NONE;

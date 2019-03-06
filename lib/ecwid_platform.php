@@ -43,24 +43,43 @@ class EcwidPlatform {
 			$filename = substr( $filename, 0, strlen( $file ) - 3 );
 		}
 		
-		if ( !$handle ) {
-			$handle = self::slugify( $filename );
-		}
+		$handle = self::make_handle( $file );
 		
-		$handle = 'ecwid-' . $handle;
-		
-		$file .= '.js';
+		$filename .= '.js';
 		
 		if ( defined( 'WP_DEBUG' ) ) {
-			$path = ECWID_PLUGIN_DIR . 'js/' . $file;
+			$path = ECWID_PLUGIN_DIR . 'js/' . $filename;
 			
 			$ver = filemtime( $path );
 		} else {
 			$ver = get_option( 'ecwid_plugin_version' );
 		}
 		
-		wp_enqueue_script( $handle, ECWID_PLUGIN_URL . 'js/' . $file, $deps, $ver, $in_footer );
+		wp_enqueue_script( $handle, ECWID_PLUGIN_URL . 'js/' . $filename, $deps, $ver, $in_footer );
 	}
+	
+	static public function make_handle( $file )
+	{
+		$filename = $file;
+
+		if ( strpos( $file, '.js' ) == strlen( $file ) - 3 ) {
+			$filename = substr( $filename, 0, strlen( $file ) - 3 );
+		}
+
+		$prefix = 'ecwid-';
+		
+		if ( strpos( $file, $prefix ) === 0 ) {
+			$filename = substr( $filename, strlen( $prefix ) );
+		}
+		
+		$handle = self::slugify( $filename );
+		
+		$handle = $prefix . $handle;
+		
+		return $handle;
+	}
+	
+	
 
 	/*
  * @throws InvalidArgumentException if $file can't be slugified at all
@@ -100,14 +119,25 @@ class EcwidPlatform {
 		if ( $result && count( @$match[0] ) > 0 ) {
 			$handle = implode('-', $match[0] );
 		} else {
-			throw new InvalidArgumentException( 'Can\'t make slug from ' . $file );
+			throw new InvalidArgumentException( 'Can\'t make slug from ' . $string );
 		}		
 		return $handle;
 	}
 	
 	static protected function _init_crypt()
 	{
-		self::$crypt->setIV( substr( md5( SECURE_AUTH_SALT . get_option('ecwid_store_id') ), 0, 16 ) );
+		$salt = '';
+		
+		// It turns out sometimes there is no salt is wp-config. And since it is already seeded
+		// with the SECURE_AUTH_KEY, and to avoid breaking someones encryption
+		// we use 'SECURE_AUTH_SALT' as string
+		if ( defined( 'SECURE_AUTH_SALT' ) ) {
+			$salt = SECURE_AUTH_SALT;
+		} else {
+			$salt = 'SECURE_AUTH_SALT';
+		}
+		
+		self::$crypt->setIV( substr( md5( $salt . get_option('ecwid_store_id') ), 0, 16 ) );
 		self::$crypt->setKey( SECURE_AUTH_KEY );
 	}
 

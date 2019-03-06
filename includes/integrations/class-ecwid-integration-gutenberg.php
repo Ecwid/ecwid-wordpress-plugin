@@ -333,6 +333,9 @@ JS;
 	 */
 	public static function get_blocks_on_page() {
 		$post = get_post();
+		
+		if ( !$post ) return array();
+		
 		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
 			$blocks = gutenberg_parse_blocks( $post->post_content );
 		} else {

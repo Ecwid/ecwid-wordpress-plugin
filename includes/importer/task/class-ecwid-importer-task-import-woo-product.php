@@ -24,6 +24,14 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task {
 			);
 		}
 */
+		$importer->append_after_current(
+			Ecwid_Importer_Task_Create_Product::build(
+				array(
+					'woo_id' => $product['woo_id']
+				)
+			)
+		);
+		
 		$p = wc_get_product( $product['woo_id'] );
 		
 		if ( $p instanceof WC_Product_Variable ) {

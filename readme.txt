@@ -151,7 +151,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 = 6.4.10 - Feb 12, 2019 =
-- **SEO improvement for the H1 tags on the product and category pages**. Ecwid puts product and categories ecommerce data in the page content in a SEO-friendly ‘microdata’ format so that search engines can index your store well. On the other hand, Wordpress pages have their own data, specifically <h1> tags, which stay on product pages and visible to Google when it is indexing your site. So, in addition to a product title like “My cool product”, Google may see your store page title on the same page like “Shop”. We improved it — the product pages will now have more prominent and clear <h1> tags containing product title only. This should improve indexation and the way your products look in the search results in Google.
+- **SEO improvement for the H1 tags on the product and category pages**. Ecwid puts product and categories ecommerce data in the page content in a SEO-friendly ‘microdata’ format so that search engines can index your store well. On the other hand, Wordpress pages have their own data, specifically &lt;h1&gt; tags, which stay on product pages and visible to Google when it is indexing your site. So, in addition to a product title like “My cool product”, Google may see your store page title on the same page like “Shop”. We improved it — the product pages will now have more prominent and clear &lt;h1&gt; tags containing product title only. This should improve indexation and the way your products look in the search results in Google.
 - Minor fixes and improvements.
 
 = 6.4.9 - Feb 7, 2019 =
