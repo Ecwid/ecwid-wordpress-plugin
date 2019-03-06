@@ -129,8 +129,6 @@ class Ecwid_Nav_Menus {
 	}
 
 	public function add_meta_box() {
-/*
-*/
 		add_meta_box('ecwid_nav_links', __('Store', 'ecwid-shopping-cart'), array( $this, 'create_menu_items'), 'nav-menus', 'side');
 	}
 
