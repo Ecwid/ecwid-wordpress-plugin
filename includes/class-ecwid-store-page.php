@@ -435,7 +435,7 @@ class Ecwid_Store_Page {
 		
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
-		if ( !@$params['mode'] ) {
+		if ( !isset($params['mode']) ) {
 			return $title;
 		}
 
