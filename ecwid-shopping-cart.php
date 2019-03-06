@@ -1864,6 +1864,16 @@ EOT;
 	Ecwid_Config::load_from_ini();
 }
 
+add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
+function ecwid_plugin_activation_redirect( $plugin ) {
+	$is_newbie = ecwid_is_demo_store();
+
+    if( $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+        exit( wp_redirect( Ecwid_Admin::get_dashboard_url() ) );
+    }
+}
+
+
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
