@@ -1334,7 +1334,7 @@ msgstr "https://support.ecwid.com/hc/ru"
 
 #. Plugin Name of the plugin/theme
 msgid "Ecwid Shopping Cart"
-msgstr "Интернет-магазин Эквид"
+msgstr ""
 
 msgid "%s products and categories"
 msgstr "Товары и категории магазина %s"
