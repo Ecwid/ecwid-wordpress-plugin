@@ -311,12 +311,12 @@ class Ecwid_Products {
         $result['last_update'] = $this->_status->get_last_sync_time();
 
         if ($updated->total > 0) {
-			$result['updated_from'] = $updated->items[0]->updated - 1;
+			$result['updated_from'] = $updated->items[0]->updated;
 			$result['last_updated'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
 
 		if ($deleted->total > 0) {
-			$result['deleted_from'] = $deleted->items[0]->date - 1;
+			$result['deleted_from'] = $deleted->items[0]->date;
 			$result['last_deleted'] = Ecwid_Api_V3::format_time($this->_status->last_deleted_product_time);
 		}
 

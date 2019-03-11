@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Ecwid Shopping Cart
+Plugin Name: Ecwid Ecommerce Shopping Cart
 Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
@@ -131,7 +131,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-page.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
@@ -461,7 +461,6 @@ JS;
 
 function ecwid_load_textdomain() {
 	load_plugin_textdomain( 'ecwid-shopping-cart', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-	// )
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
@@ -1865,6 +1864,16 @@ EOT;
 	Ecwid_Config::load_from_ini();
 }
 
+add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
+function ecwid_plugin_activation_redirect( $plugin ) {
+	$is_newbie = ecwid_is_demo_store();
+
+    if( $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+        exit( wp_redirect( Ecwid_Admin::get_dashboard_url() ) );
+    }
+}
+
+
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
 
@@ -1892,6 +1901,17 @@ function ecwid_disable_other_notices() {
 
 function ecwid_show_admin_messages() {
 	if (is_admin()) {
+		global $wp_filter;
+		if ( $wp_filter && isset($wp_filter['admin_notices']) && class_exists('WP_Hook') ){
+			foreach ($wp_filter['admin_notices']->callbacks as $priority => $collection) {
+				foreach ($collection as $name => $item) {
+					if( is_object($item['function'][0]) && get_class($item['function'][0]) == 'Storefront_NUX_Admin' ){
+						remove_action('admin_notices', $item['function'], $priority);
+					}
+				}
+			}
+		}
+
 		Ecwid_Message_Manager::show_messages();
 	}
 }

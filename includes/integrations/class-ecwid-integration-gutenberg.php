@@ -12,12 +12,7 @@ class Ecwid_Integration_Gutenberg {
 		if ( isset( $_GET['classic-editor'] ) ) return;
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
-		add_action( 'admin_enqueue_scripts', function() {
-			wp_enqueue_script( 'gutenberg-store' );
-			EcwidPlatform::enqueue_style( 'store-popup' );
-			
-
-		} );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		add_action( "rest_insert_post", array( $this, 'on_save_post' ), 10, 3 );
 		add_action( "rest_insert_page", array( $this, 'on_save_post' ), 10, 3 );
@@ -35,6 +30,12 @@ class Ecwid_Integration_Gutenberg {
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 
+	public function admin_enqueue_scripts()
+	{
+		wp_enqueue_script( 'gutenberg-store' );
+		EcwidPlatform::enqueue_style( 'store-popup' );
+	}
+	
 	public function block_categories( $categories ) {
 		return array_merge(
 			$categories,

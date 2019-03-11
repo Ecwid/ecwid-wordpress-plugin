@@ -125,6 +125,16 @@ class Ecwid_Admin {
 					}
 				}
 			}
+
+			if( !Ecwid_Config::is_wl() ) {
+				add_submenu_page( 
+					'plugins.php',
+					__('Online Store Apps', 'ecwid-shopping-cart'),
+					__('Online Store Apps', 'ecwid-shopping-cart'),
+					'manage_options',
+					'admin.php?page=ec-store-admin-appmarket'
+				); 
+			}
 		}
 		
 		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
