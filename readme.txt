@@ -1,6 +1,6 @@
 === Ecwid Ecommerce Shopping Cart ===
 Contributors: Ecwid
-Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
+Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.1
 Stable tag: 6.4.13
