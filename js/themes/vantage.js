@@ -1,14 +1,41 @@
+(function(){
+    var originalAddClassMethod = jQuery.fn.addClass;
+    jQuery.fn.addClass = function(){
+        var result = originalAddClassMethod.apply( this, arguments );
+        jQuery(this).trigger('change');
+        return result;
+    }
 
-jQuery(document).ready(function(){
+    var originalRemoveClassMethod = jQuery.fn.removeClass;
+    jQuery.fn.removeClass = function(){
+        var result = originalRemoveClassMethod.apply( this, arguments );
+        jQuery(this).trigger('change');
+        return result;
+    }
 
-	console.log( jQuery('#ec-cart-widget') );
-	console.log( jQuery('#ec-cart-widget').data('fixedPosition') );
+})();
 
-	setTimeout(function(){
-		var st_bottom = parseInt(jQuery('#scroll-to-top').css('bottom')),
-			st_height = parseInt(jQuery('#scroll-to-top').outerHeight(true));
+Ecwid.OnAPILoaded.add( function() {
+	var s = jQuery('#scroll-to-top'),
+		sb = parseInt(s.css('bottom')),
+		sr = parseInt(s.css('right')),
+		sh = s.outerHeight(true),
+		sw = s.outerWidth(true);
 
-		jQuery('#scroll-to-top').css('right', jQuery('.ec-minicart').css('right'));
-		jQuery('.ec-minicart').css('bottom', st_bottom + st_height + 10 + 'px' );
-	}, 2000);
+	var c = jQuery('.ec-minicart'),
+		cb = c.parent().data('verticalIndent'),
+		cr = c.parent().data('horizontalIndent'),
+		cw = c.outerWidth(true);
+
+	if( cr <= (sr + sw) && cb <= (sb + sh) ){
+		s.on('change',function(){
+			if( jQuery(this).hasClass('displayed') ){
+				c.css('bottom', sb + sh + 10 );
+			} else {
+				c.css('bottom', cb );
+			}
+		});
+
+		s.trigger('change');
+	}
 });
