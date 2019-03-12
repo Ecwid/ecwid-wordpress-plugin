@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 5.1
-Stable tag: 6.4.12
+Stable tag: 6.4.13
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,6 +150,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.4.13 - Mar 12, 2019 =
+- Fixed a PHP error message ("Cannot use object of type Closure as array")
+
 = 6.4.12 - Mar 11, 2019 =
 - Improvement for the sharing buttons on the product pages. "Share to Facebook", "Tweet" and other share buttons now uses the actual product page URLs instead of a "proxy" Ecwid URL. This should make shared links look more appealing in social networks and improve the SEO of your ecommerce store.
 - Fixed an issue in the "Import products from WooCommerce" tool. In some cases, import failed and stopped importing products — we fixed that, now it should work fine and you can import your products from WooCommerce to Ecwid when you need it.
