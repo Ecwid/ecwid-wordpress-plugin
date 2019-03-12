@@ -17,7 +17,7 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 		
 		if ( $products ) {
 			foreach ( $products as $id ) {
-				$importer->append_after_current(
+				$importer->append_child(
 					Ecwid_Importer_Task_Import_Woo_Product::build(
 						array( 'id' => $id )
 					)

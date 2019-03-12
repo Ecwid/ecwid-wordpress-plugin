@@ -7,18 +7,13 @@ class Ecwid_Importer_Task_Import_Woo_Products extends Ecwid_Importer_Task {
 	const BATCH_SIZE = 50;
 
 	public function execute( Ecwid_Importer $importer, array $data ) {
-
-
-		$products = new WP_Query( array( 
-			'post_type' => self::WC_POST_TYPE_PRODUCT 
-		) );
-	
-		$count = $products->post_count;
+		
+		$count = wp_count_posts( self::WC_POST_TYPE_PRODUCT )->publish;
 		
 		$ind = 0;
 		
 		while ( $ind * self::BATCH_SIZE < $count ) {
-			$importer->append_after_current(
+			$importer->append_task(
 				Ecwid_Importer_Task_Import_Woo_Products_Batch::build( 
 					array(
 						'start' => $ind * self::BATCH_SIZE,

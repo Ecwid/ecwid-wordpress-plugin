@@ -10,14 +10,22 @@ class Ecwid_Importer_Task_Import_Woo_Categories extends Ecwid_Importer_Task {
 			return $this->_result_nothing();
 		}
 		$categories = $importer->gather_categories();
-
+		
 		foreach ( @$categories as $category ) {
-			$tasks[] = Ecwid_Importer_Task_Create_Category::build( $category );
-			if ( $category['has_image'] ) {
-				$tasks[] = Ecwid_Importer_Task_Upload_Category_Image::build( $category );
-			}
+			$index = $importer->append_child(
+				Ecwid_Importer_Task_Create_Category::build( $category )
+			);
 		}
 
+		foreach ( @$categories as $category ) {
+			if ( $category['has_image'] ) {
+				$importer->append_after(
+					Ecwid_Importer_Task_Upload_Category_Image::build( $category ),
+					$index++
+				);
+			}
+		}
+		
 		return $this->_result_success();
 	}
 }
