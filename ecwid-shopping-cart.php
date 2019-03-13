@@ -1876,13 +1876,9 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
-
-	$pages = array('toplevel_page_' . Ecwid_Admin::ADMIN_SLUG, 'toplevel_page_ec_store', 'admin_page_ecwid-help');
-
-	$is_admin_subpage = strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false
-		|| strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false;
+	$is_admin_subpage = strpos(get_current_screen()->base, Ecwid_Admin::ADMIN_SLUG) !== false;
 		
-	if (!$is_admin_subpage && !in_array(get_current_screen()->base, $pages)) return;
+	if (!$is_admin_subpage) return;
 	
 	global $wp_filter;
 
