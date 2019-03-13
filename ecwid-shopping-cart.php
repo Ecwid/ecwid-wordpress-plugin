@@ -1906,7 +1906,7 @@ function ecwid_show_admin_messages() {
 		if ( $wp_filter && isset($wp_filter['admin_notices']) && class_exists('WP_Hook') ){
 			foreach ($wp_filter['admin_notices']->callbacks as $priority => $collection) {
 				foreach ($collection as $name => $item) {
-					if( is_array($item) && is_object($item['function'][0]) && get_class($item['function'][0]) == 'Storefront_NUX_Admin' ){
+					if( is_array($item) && is_array($item['function']) && is_object($item['function'][0]) && get_class($item['function'][0]) == 'Storefront_NUX_Admin' ){
 						remove_action('admin_notices', $item['function'], $priority);
 					}
 				}
