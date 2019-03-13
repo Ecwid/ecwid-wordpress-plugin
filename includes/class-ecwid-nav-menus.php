@@ -218,7 +218,7 @@ class Ecwid_Nav_Menus {
                         foreach ($categories as $category) {
                             $category = Ecwid_Category::get_by_id( $category->id );
                             $post = new stdClass;
-                            $post->ID = -1;
+                            $post->ID = 0;
                             $post->post_author = '';
                             $post->post_date = '';
                             $post->post_date_gmt = '';

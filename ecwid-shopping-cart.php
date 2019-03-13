@@ -932,6 +932,7 @@ function ecwid_full_cache_reset()
 	EcwidPlatform::invalidate_profile_cache_from( time() );
 	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 	EcwidPlatform::cache_reset( 'all_categories' );
+	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
