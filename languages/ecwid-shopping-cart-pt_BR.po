@@ -1295,7 +1295,7 @@ msgstr "Não sincronizado ainda"
 #. Plugin Name of the plugin/theme
 #: 
 msgid "Ecwid Shopping Cart"
-msgstr "Carrinho de compras Ecwid"
+msgstr ""
 
 #. #-#-#-#-#  ecwid-shopping-cart.pot (Ecwid Shopping Cart 5.0.7)  #-#-#-#-#
 #. Plugin URI of the plugin/theme

@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Ecwid Shopping Cart
+Plugin Name: Ecwid Ecommerce Shopping Cart
 Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.4.10
+Version: 6.4.14
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -131,7 +131,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-page.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
+
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
@@ -461,7 +461,6 @@ JS;
 
 function ecwid_load_textdomain() {
 	load_plugin_textdomain( 'ecwid-shopping-cart', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-	// )
 }
 
 function ecwid_404_on_broken_escaped_fragment() {
@@ -702,6 +701,9 @@ function ecwid_check_version()
 		// Since 6.4.9+
 		add_option( 'ecwid_remove_emoji', 'Y' );
 
+		// Since 6.4.14+
+		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install ? 'Y' : '' );
+		
 		do_action( 'ecwid_on_plugin_update' );
 
 		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id') );
@@ -933,6 +935,7 @@ function ecwid_full_cache_reset()
 	EcwidPlatform::invalidate_profile_cache_from( time() );
 	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 	EcwidPlatform::cache_reset( 'all_categories' );
+	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
@@ -1865,15 +1868,21 @@ EOT;
 	Ecwid_Config::load_from_ini();
 }
 
+add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
+function ecwid_plugin_activation_redirect( $plugin ) {
+	$is_newbie = ecwid_is_demo_store();
+
+    if( $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+        exit( wp_redirect( Ecwid_Admin::get_dashboard_url() ) );
+    }
+}
+
+
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
-
-	$pages = array('toplevel_page_' . Ecwid_Admin::ADMIN_SLUG, 'toplevel_page_ec_store', 'admin_page_ecwid-help');
-
-	$is_admin_subpage = strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false
-		|| strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false;
+	$is_admin_subpage = strpos(get_current_screen()->base, Ecwid_Admin::ADMIN_SLUG) !== false;
 		
-	if (!$is_admin_subpage && !in_array(get_current_screen()->base, $pages)) return;
+	if (!$is_admin_subpage) return;
 	
 	global $wp_filter;
 
@@ -1892,6 +1901,17 @@ function ecwid_disable_other_notices() {
 
 function ecwid_show_admin_messages() {
 	if (is_admin()) {
+		global $wp_filter;
+		if ( $wp_filter && isset($wp_filter['admin_notices']) && class_exists('WP_Hook') ){
+			foreach ($wp_filter['admin_notices']->callbacks as $priority => $collection) {
+				foreach ($collection as $name => $item) {
+					if( is_array($item) && is_array($item['function']) && is_object($item['function'][0]) && get_class($item['function'][0]) == 'Storefront_NUX_Admin' ){
+						remove_action('admin_notices', $item['function'], $priority);
+					}
+				}
+			}
+		}
+
 		Ecwid_Message_Manager::show_messages();
 	}
 }
@@ -2044,6 +2064,13 @@ function ecwid_get_update_params_options() {
 				'',
 				'hide'
 			)
+		),
+		
+		Ecwid_Store_Page::OPTION_REPLACE_TITLE => array(
+			'values' => array(
+				'',
+				'Y'
+			)
 		)
 	);
 
@@ -2090,21 +2117,20 @@ function ecwid_update_plugin_params()
 }
 
 function ecwid_get_clear_all_cache_action() {
-	return 'ecwid-clear-all-cache';
+	return 'ec-clear-all-cache';
 }
 
-add_action('admin_post_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
-add_action('admin_post_nopriv_' . ecwid_get_clear_all_cache_action(), 'ecwid_clear_all_cache');
+add_action('plugins_loaded', 'ecwid_clear_all_cache');
 
 function ecwid_clear_all_cache()
 {
-	ecwid_full_cache_reset();
+	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
+		ecwid_full_cache_reset();
 
-	if ( array_key_exists( 'redirect_back', $_GET ) ) {
-		wp_redirect ( 'admin.php?page=ec-params' );
+		if ( array_key_exists( 'redirect_back', $_GET ) ) {
+			wp_redirect ( 'admin.php?page=ec-params' );
+		}
 	}
-
-	echo 'Clear all cache - OK!';
 }
 
 function ecwid_sync_do_page() {

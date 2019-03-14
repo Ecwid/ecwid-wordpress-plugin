@@ -1,5 +1,7 @@
 <?php
 
+
+
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	$oauth = new Ecwid_OAuth();
 	
