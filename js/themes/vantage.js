@@ -18,21 +18,24 @@
 jQuery(document).ready(function() {
     if (typeof Ecwid == 'undefined') return;
 
-	Ecwid.OnAPILoaded.add( function() {
-		if( jQuery('#scroll-to-top:visible').length > 0 ) {
+    var scroll = '#scroll-to-top',
+    	minicart = '.ec-minicart';
 
-			var $scroll = jQuery('#scroll-to-top'),
-				scroll_bottom = parseInt($scroll.css('bottom'));
-			
-			var $cart = jQuery('.ec-minicart'),
-				cart_bottom = $cart.parent().data('verticalIndent');
+    if( jQuery( scroll + ':visible' ).length > 0 ) {
+		Ecwid.OnCartChanged.add( function( cart ) {
 
 			var overlap = false,
 				overlap_init = false;
 
-			$scroll.on('change',function(){
-				var rect1 = $scroll.get(0).getBoundingClientRect(),
-					rect2 = $cart.get(0).getBoundingClientRect();
+			if( !cart.productsQuantity ) {
+				jQuery( scroll ).unbind( 'change.Overlap' );
+				return;
+			}
+
+			jQuery( scroll ).on( 'change.Overlap', function() {
+
+				var rect1 = jQuery( this ).get(0).getBoundingClientRect(),
+					rect2 = jQuery( minicart ).get(0).getBoundingClientRect();
 				
 				if( !overlap_init ) {
 					overlap = !(rect1.right < rect2.left || 
@@ -42,16 +45,21 @@ jQuery(document).ready(function() {
 				}
 
 				if( overlap ){
-					if( jQuery(this).hasClass('displayed') ){
-						$cart.css('bottom', rect1.height + scroll_bottom + 10 );
+					if( jQuery( this ).hasClass( 'displayed' ) ){
+						jQuery( minicart ).css({
+							'bottom': rect1.height + parseInt( jQuery( this ).css( 'bottom' ) ) + 10
+						});
 						overlap_init = true;
 					} else {
-						$cart.css('bottom', cart_bottom );
+						jQuery( minicart ).css('bottom', jQuery( minicart ).parent().data( 'verticalIndent' ) );
 					}
 				}
 			});
+			
+			setTimeout(function(){
+				if( jQuery( minicart ).length ) jQuery( document ).trigger('scroll');
+			}, 500);
 
-			$scroll.trigger('change');
-		}
-	});
+		});
+	}
 });
