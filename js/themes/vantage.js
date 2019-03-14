@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
 			var overlap = false,
 				overlap_init = false;
 
-			if( !cart.productsQuantity ) {
+			if( !jQuery( minicart ).parent().data('showEmptyCart') && !cart.productsQuantity ) {
 				jQuery( scroll ).unbind( 'change.Overlap' );
 				return;
 			}
