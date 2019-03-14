@@ -701,6 +701,9 @@ function ecwid_check_version()
 		// Since 6.4.9+
 		add_option( 'ecwid_remove_emoji', 'Y' );
 
+		// Since 6.4.14+
+		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install );
+		
 		do_action( 'ecwid_on_plugin_update' );
 
 		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id') );
@@ -2063,6 +2066,13 @@ function ecwid_get_update_params_options() {
 			'values' => array(
 				'',
 				'hide'
+			)
+		),
+		
+		Ecwid_Store_Page::OPTION_REPLACE_TITLE => array(
+			'values' => array(
+				'',
+				'Y'
 			)
 		)
 	);
