@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
 Tested up to: 5.1
-Stable tag: 6.4.13
+Stable tag: 6.4.14
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,7 +150,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
-= 6.4.13 - Mar 12, 2019 =
+= 6.4.14 - Mar 12, 2019 =
 - Fixed a PHP error message ("Cannot use object of type Closure as array")
 
 = 6.4.12 - Mar 11, 2019 =
