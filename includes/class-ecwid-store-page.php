@@ -443,7 +443,7 @@ class Ecwid_Store_Page {
 
 		self::$main_page_title = $title;
 		
-		if ( !@$params['mode'] ) {
+		if ( !isset($params['mode']) ) {
 			return $title;
 		}
 

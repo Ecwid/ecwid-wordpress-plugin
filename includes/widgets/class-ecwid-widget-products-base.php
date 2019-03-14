@@ -74,6 +74,8 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 		$this->_print_widget_content( $instance );
 		$html .= ob_get_contents();
 		ob_end_clean();
+
+		$html .= '</div>';
 		
 		return $html;
 	}
