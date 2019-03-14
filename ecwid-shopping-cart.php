@@ -702,7 +702,7 @@ function ecwid_check_version()
 		add_option( 'ecwid_remove_emoji', 'Y' );
 
 		// Since 6.4.14+
-		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install );
+		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install ? 'Y' : '' );
 		
 		do_action( 'ecwid_on_plugin_update' );
 
