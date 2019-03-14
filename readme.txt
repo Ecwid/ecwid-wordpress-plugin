@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
 Requires at least: 3.7
-Tested up to: 5.0
-Stable tag: 6.4.10
+Tested up to: 5.1
+Stable tag: 6.4.14
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,12 +150,21 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
-= 6.4.10 - Feb 12, 2019 =
-- **SEO improvement for the H1 tags on the product and category pages**. Ecwid puts product and categories ecommerce data in the page content in a SEO-friendly ‘microdata’ format so that search engines can index your store well. On the other hand, Wordpress pages have their own data, specifically &lt;h1&gt; tags, which stay on product pages and visible to Google when it is indexing your site. So, in addition to a product title like “My cool product”, Google may see your store page title on the same page like “Shop”. We improved it — the product pages will now have more prominent and clear &lt;h1&gt; tags containing product title only. This should improve indexation and the way your products look in the search results in Google.
+= 6.4.14 - Mar 12, 2019 =
+- Fixed a PHP error message ("Cannot use object of type Closure as array")
+
+= 6.4.12 - Mar 11, 2019 =
+- Improvement for the sharing buttons on the product pages. "Share to Facebook", "Tweet" and other share buttons now uses the actual product page URLs instead of a "proxy" Ecwid URL. This should make shared links look more appealing in social networks and improve the SEO of your ecommerce store.
+- Fixed an issue in the "Import products from WooCommerce" tool. In some cases, import failed and stopped importing products — we fixed that, now it should work fine and you can import your products from WooCommerce to Ecwid when you need it.
+- Fixed a Javascript warning message in the browser console when the Recently viewed products widget is used.
+- Minor fixes and improvements for SEO, stability and performance.
+- Besides the changes in the plugin, Ecwid e-commerce functionality is constantly updated with new features and tools. One of the recent major updates is product filters — you can now add product filtering panel to your store search page without dealing with custom code or an external plugin. Check it out in our [blog](https://www.ecwid.com/blog/all-sorted-introducing-storefront-product-filters.html).
+
+= 6.4.11 - Feb 26, 2019 =
 - Minor fixes and improvements.
 
 = 6.4.9 - Feb 7, 2019 =
-- **Fixes for the Open Graph image tag (og:image tag).** When you share a page from your ecommerce site on Facebook or in a messenger, you should see the product title, description and image in the sharing preview snippet. 
+- **Fixes for the Open Graph image tag (og:image tag) .** When you share a page from your ecommerce site on Facebook or in a messenger, you should see the product title, description and image in the sharing preview snippet. 
 - **Improvements for the product listing auto-scroll function.** In some Wordpress themes, the site header might overlap product pages when you navigate from page to page in your online store. We improved it to make the product and category pages appear better to your customers. 
 - Various minor fixes and improvements.
 
