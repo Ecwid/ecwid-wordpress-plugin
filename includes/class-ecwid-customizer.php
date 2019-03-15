@@ -27,7 +27,8 @@ class Ecwid_Customizer
 		
 		$wp_customize->add_panel( $panel, array(
 			'title' => Ecwid_Config::get_brand(),
-			'capability' => Ecwid_Admin::get_capability()
+			'capability' => Ecwid_Admin::get_capability(),
+			'priority' => 2000
 		) );
 
 		$wp_customize->add_section( self::SECTION_MINICART, array(
@@ -138,6 +139,17 @@ class Ecwid_Customizer
 	
 	public function preview_init() {
 		EcwidPlatform::enqueue_script( 'minicart-customize', array(), true );
+
+		add_filter( 'the_content', array($this, 'add_shortcodes_to_content') );
+	}
+
+	public function add_shortcodes_to_content($content){
+
+		if ( !has_shortcode( $content, 'ecwid' ) && Ecwid_Store_Page::is_store_page() && is_page() ) {
+			$content .= do_shortcode('[ecwid]');
+		}
+
+		return $content;
 	}
 }
 

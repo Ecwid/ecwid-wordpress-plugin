@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.4.13
+Version: 6.4.14
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -701,6 +701,9 @@ function ecwid_check_version()
 		// Since 6.4.9+
 		add_option( 'ecwid_remove_emoji', 'Y' );
 
+		// Since 6.4.14+
+		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install ? 'Y' : '' );
+		
 		do_action( 'ecwid_on_plugin_update' );
 
 		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id') );
@@ -932,6 +935,7 @@ function ecwid_full_cache_reset()
 	EcwidPlatform::invalidate_profile_cache_from( time() );
 	EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 	EcwidPlatform::cache_reset( 'all_categories' );
+	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
@@ -1876,13 +1880,9 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 
 add_action('in_admin_header', 'ecwid_disable_other_notices');
 function ecwid_disable_other_notices() {
-
-	$pages = array('toplevel_page_' . Ecwid_Admin::ADMIN_SLUG, 'toplevel_page_ec_store', 'admin_page_ecwid-help');
-
-	$is_admin_subpage = strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false
-		|| strpos(get_current_screen()->base, 'admin_page_' . Ecwid_Admin::ADMIN_SLUG) !== false;
+	$is_admin_subpage = strpos(get_current_screen()->base, Ecwid_Admin::ADMIN_SLUG) !== false;
 		
-	if (!$is_admin_subpage && !in_array(get_current_screen()->base, $pages)) return;
+	if (!$is_admin_subpage) return;
 	
 	global $wp_filter;
 
@@ -2063,6 +2063,13 @@ function ecwid_get_update_params_options() {
 			'values' => array(
 				'',
 				'hide'
+			)
+		),
+		
+		Ecwid_Store_Page::OPTION_REPLACE_TITLE => array(
+			'values' => array(
+				'',
+				'Y'
 			)
 		)
 	);
