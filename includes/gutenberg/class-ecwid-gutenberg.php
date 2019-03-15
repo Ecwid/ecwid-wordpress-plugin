@@ -22,7 +22,8 @@ class Ecwid_Gutenberg {
             'minicart',
             'product',
             'categories',
-            'search'
+            'search',
+			'buynow'
         );
         
 		foreach ( $blocks as $block ) {

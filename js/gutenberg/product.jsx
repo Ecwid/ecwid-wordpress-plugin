@@ -76,7 +76,7 @@ registerBlockType( 'ecwid/product-block', {
         center_align: {type: 'boolean', default: true}
     },
 	description: __( 'Display product with a buy button', 'ecwid-shopping-cart' ),
-    align: 'right',
+    alignWide: false,
     supports: {
         customClassName: false,
         className: false,
