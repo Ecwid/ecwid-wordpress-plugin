@@ -186,6 +186,21 @@
   min-height: 220px;
 }
 
+.ec-store-block-product {
+  background: none;
+  display: inline-block;
+}
+
+.ec-store-block-product svg {
+  margin: auto;
+}
+.ec-store-product-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
 .ec-store-block > div {
   display: flex;
   justify-content: center;
@@ -222,6 +237,34 @@
   object-fit: cover;
 }
 
+.ec-store-block-product .ec-store-block-image,
+.ec-store-block-product .ec-store-block-product-preview {
+  height: 180px;
+  min-width: 180px;
+}
+
+.ec-store-block-product .ec-store-block-product-preview {
+  border: 1px solid rgba(145,151,162,.25);
+}
+
+.ec-store-block-minicart {
+  min-height: 180px;
+  min-width: 180px;
+  display: inline-block;
+  background: none;
+  position: relative;
+}
+
+.ec-store-block-minicart .image {
+  background: url( '../../images/minicart-widget-preview.png') 50% 50% no-repeat;
+  background-size: 50%;
+  position: absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+}
+
 .ec-store-block .ec-store-block-title {
   margin-top: 11px;
   margin-bottom: 1em;
@@ -229,6 +272,7 @@
 
 .ec-store-block .ec-store-block-button {
   font-weight: 400;
+  margin-top: 11px;
 }
 
 .ec-store-color-picker .component-color-indicator {
@@ -259,4 +303,8 @@
 
 .ec-store-inspector-row {
   margin: 15px 0;
+}
+
+.ec-store-inspector-select {
+  max-width: 100%;
 }

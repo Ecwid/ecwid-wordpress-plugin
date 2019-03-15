@@ -8,21 +8,16 @@
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
-import {EcwidIcons} from './icons.js';
+import {EcwidIcons} from '../icons.js';
 
-const { __, _x } = wp.i18n; // Import __() from wp.i18n
-
-const ecwidIcons = EcwidIcons;
+const { __, _x } = wp.i18n;
 
 const {
-    BlockControls,
     registerBlockType,
 } = wp.blocks;
 
 const {
     InspectorControls,
-    AlignmentToolbar,
-    withColors
 } = wp.editor;
 
 const {
@@ -31,7 +26,6 @@ const {
 	ToggleControl,
 	ButtonGroup,
 	Button,
-	IconButton,
 	BaseControl,
 	Toolbar,
     ColorPalette,
@@ -40,9 +34,6 @@ const {
 
 const { withState } = wp.compose;
 
-const {
-    Fragment
-} = wp.element;
 /**
  * Register: aa Gutenberg Block.
  *
@@ -57,12 +48,8 @@ const {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'ecwid/store-block', {
-	title: EcwidGutenbergParams.storeBlockTitle, // Block title.
-	icon: ( 
-		<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-			<path d={ EcwidGutenbergParams.storeIcon }></path>
-		</svg>
-	), 
+	title: EcwidGutenbergStoreBlockParams.title, // Block title.
+	icon: EcwidIcons.store, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: EcwidGutenbergStoreBlockParams.attributes,
 	description: __( 'Add storefront (product listing)', 'ecwid-shopping-cart' ),
@@ -92,12 +79,12 @@ registerBlockType( 'ecwid/store-block', {
 			<div className="ec-store-block ec-store-block-product-browser">
 				<div className="ec-store-block-header">
 					<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-						<path d={ EcwidGutenbergParams.storeIcon }></path>
+						<path d={ EcwidGutenbergStoreBlockParams.icon }></path>
 					</svg>
-                    { EcwidGutenbergParams.isDemoStore && __( 'Demo store', 'ecwid-shopping-cart' ) }
-                    { !EcwidGutenbergParams.isDemoStore && EcwidGutenbergStoreBlockParams.storeBlockTitle }
+                    { EcwidGutenbergStoreBlockParams.isDemoStore && __( 'Demo store', 'ecwid-shopping-cart' ) }
+                    { !EcwidGutenbergStoreBlockParams.isDemoStore && EcwidGutenbergStoreBlockParams.storeBlockTitle }
 				</div>
-                { EcwidGutenbergParams.isDemoStore &&
+                { EcwidGutenbergStoreBlockParams.isDemoStore &&
                 <div>
                     <a className="button button-primary" href="admin.php?page=ec-store">{ __( 'Set up your store', 'ecwid-shopping-cart') }</a>
                 </div>
@@ -316,7 +303,7 @@ registerBlockType( 'ecwid/store-block', {
         
         const cartIconMessage = buildDangerousHTMLMessageWithTitle(
         	__( 'Display cart icon', 'ecwid-shopping-cart' ),
-            EcwidGutenbergParams.customizeMinicartText
+            EcwidGutenbergStoreBlockParams.customizeMinicartText
 		);
         
         const productDetailsMigrationWarning = buildDangerousHTMLMessageWithTitle(
@@ -324,8 +311,8 @@ registerBlockType( 'ecwid/store-block', {
             __( 'To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
         );
 		
-		const isNewProductList = EcwidGutenbergStoreBlockParams.is_new_product_list;
-        const isNewDetailsPage = EcwidGutenbergStoreBlockParams.is_new_details_page;
+		const isNewProductList = EcwidGutenbergStoreBlockParams.isNewProductList;
+        const isNewDetailsPage = EcwidGutenbergStoreBlockParams.isNewDetailsPage;
         
         const hasCategories = EcwidGutenbergStoreBlockParams.attributes.default_category_id && EcwidGutenbergStoreBlockParams.attributes.default_category_id.values && EcwidGutenbergStoreBlockParams.attributes.default_category_id.values.length > 0;
         
@@ -428,7 +415,7 @@ registerBlockType( 'ecwid/store-block', {
 	    };
 
         const shortcode = new wp.shortcode({
-            'tag': EcwidGutenbergParams.storeShortcodeName,
+            'tag': EcwidGutenbergStoreBlockParams.shortcodeName,
             'attrs': shortcodeAttributes,
             'type': 'single'
         });
@@ -476,7 +463,7 @@ registerBlockType( 'ecwid/store-block', {
                 shortcodeAttributes.default_product_id = 0;
 
                 var shortcode = new wp.shortcode({
-                    'tag': EcwidGutenbergParams.storeShortcodeName,
+                    'tag': EcwidGutenbergStoreBlockParams.shortcodeName,
                     'attrs': shortcodeAttributes,
                     'type': 'single'
                 });

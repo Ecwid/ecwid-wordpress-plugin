@@ -9,6 +9,7 @@
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
+import {EcwidIcons} from '../icons.js';
 
 if ( !EcwidGutenbergParams.isDemoStore ) {
 
@@ -60,11 +61,7 @@ const {
  */
 registerBlockType( 'ecwid/product-block', {
 	title: EcwidGutenbergParams.productBlockTitle, // Block title.
-	icon: ( 
-		<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-			<path d={ EcwidGutenbergParams.productIcon }></path>
-		</svg>
-	), 
+	icon: EcwidIcons.product, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: {
         id: {type: 'integer'},
@@ -79,10 +76,12 @@ registerBlockType( 'ecwid/product-block', {
         center_align: {type: 'boolean', default: true}
     },
 	description: __( 'Display product with a buy button', 'ecwid-shopping-cart' ),
+    align: 'right',
     supports: {
         customClassName: false,
         className: false,
         html: false,
+        align: true,
 		isPrivate: !EcwidGutenbergParams.isApiAvailable
     },
 
@@ -112,24 +111,23 @@ registerBlockType( 'ecwid/product-block', {
             params.originalProps.setAttributes(attributes);
         }
 		
-        const editor = <div className="ec-store-block">
-			<div className="ec-store-block-header">
-				<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-					<path d={ EcwidGutenbergParams.productIcon }></path>
-				</svg>
-				{ EcwidGutenbergParams.yourProductLabel }
-			</div>
-			
-            { EcwidGutenbergParams.products && attributes.id && EcwidGutenbergParams.products[attributes.id] &&
+        const editor = <div className="ec-store-block ec-store-block-product">
+			{ EcwidGutenbergParams.products && attributes.id && EcwidGutenbergParams.products[attributes.id] &&
 			<div className="ec-store-block-image">
 				<img src={ EcwidGutenbergParams.products[attributes.id].imageUrl }/>
 			</div>
             }
             
 			{ EcwidGutenbergParams.products && attributes.id && EcwidGutenbergParams.products[attributes.id] &&
-			<div className="ec-store-block-title">
+			<div className="ec-store-product-title">
 				{ EcwidGutenbergParams.products[attributes.id].name }
 			</div>
+            }
+
+            { !attributes.id &&
+            <div className="ec-store-block-product-preview">
+                { EcwidIcons.productPreview }
+            </div>
             }
             
             { !attributes.id && 
