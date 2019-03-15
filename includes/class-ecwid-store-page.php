@@ -451,12 +451,12 @@ class Ecwid_Store_Page {
 
 		if ( $params['mode'] == 'product' ) {
 			$p = Ecwid_Product::get_by_id( $params['id'] );
-			$ecwid_title = isset( $p->seoTitle ) ? $p->seoTitle : $p->name;
+			$ecwid_title = isset( $p->seoTitle ) && !empty( $p->seoTitle ) ? $p->seoTitle : $p->name;
 		} else if ( $params['mode'] == 'category' ) {
 			$c = Ecwid_Category::get_by_id( $params['id'] );
 			$ecwid_title = $c->name;
 		}
-
+		
 		if ( empty( $ecwid_title ) ) {
 			return $title;
 		}

@@ -25,14 +25,16 @@ jQuery(document).ready(function() {
             var isCategory = page.type === 'CATEGORY';
             var isProduct = page.type === 'PRODUCT';
 
-            if ( !isCategory && !isProduct ) return;
+            var isNotPbPage = !isCategory && !isProduct;
+            var isHomePage = isCategory && page.categoryId === 0;
             
-            var newTitle = jQuery('title').html();
-
-            if ( isCategory && page.categoryId === 0 || newTitle.length === 0 ) {
+            var newTitle = '';
+            if ( isNotPbPage || isHomePage ) {
                 newTitle = ecwidOriginalTitle.mainPageTitle;
-            } 
-
+            } else {
+                newTitle = jQuery('title').html();
+            }
+            
             el.html( newTitle );
         });
     }
