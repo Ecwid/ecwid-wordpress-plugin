@@ -46,13 +46,13 @@ jQuery(document).ready(function() {
 
 				if( overlap ){
 					if( jQuery( this ).hasClass( 'displayed' ) ){
-						jQuery( minicart ).css({
-							'bottom': rect1.height + parseInt( jQuery( this ).css( 'bottom' ) ) + 10
-						});
+						window.ec.storefront.cart_widget_vertical_indent = rect1.height + parseInt( jQuery( this ).css( 'bottom' ) ) + 10;
+
 						overlap_init = true;
 					} else {
-						jQuery( minicart ).css('bottom', jQuery( minicart ).parent().data( 'verticalIndent' ) );
+						window.ec.storefront.cart_widget_vertical_indent = jQuery( minicart ).parent().data( 'verticalIndent' );
 					}
+					Ecwid.refreshConfig();
 				}
 			});
 			
