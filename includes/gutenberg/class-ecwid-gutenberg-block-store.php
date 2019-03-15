@@ -42,6 +42,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 	}
 
 	public function render_callback( $params ) {
+		
 		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
 			return '';
 		}
@@ -68,7 +69,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		window.ec.storefront = window.ec.storefront || Object();
 HTML;
 
-		$attributes = $this->_get_attributes_for_editor();
+		$attributes = $this->get_attributes_for_editor();
 
 		$store_page_data = array();
 

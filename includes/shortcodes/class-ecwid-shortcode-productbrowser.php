@@ -66,7 +66,6 @@ HTML;
 	}
 
 	public function render_placeholder( ) {
-		
 		$store_id = get_ecwid_store_id();
 
 		$plain_content = '';

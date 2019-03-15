@@ -11,7 +11,7 @@ class Ecwid_Gutenberg {
 	const CATEGORY_PAGE_BLOCK = 'ecwid/category-page';
 	const MINICART_BLOCK = 'ecwid/minicart';
 	
-	protected $_blocks = array();
+	public $_blocks = array();
 	
 	public function __construct() {
 
@@ -35,7 +35,7 @@ class Ecwid_Gutenberg {
         foreach ( $this->_blocks as $block ) {
 		    $block->register();
         }
-		
+        
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -131,7 +131,7 @@ class Ecwid_Gutenberg {
 
 		$productIds = array();
 		foreach ( $blocks as $block ) {
-			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
+			if ( $block['blockName'] == self::PRODUCT_BLOCK && @$block['attrs']['id'] ) {
 				$productIds[] = $block['attrs']['id'];
 			}
 		}

@@ -7,7 +7,7 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 	protected $_name = 'minicart';
 	
 	public function render_callback( $params ) {
-
+		
 		$params = wp_parse_args(
 			$params,
 			array(
@@ -26,20 +26,18 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 		$attributes = $this->get_attributes_for_editor();
 		
 		foreach ( array( 'fixed_shape', 'layout', 'icon' ) as $param ) {
-		    if ( !$params[$param] ) {
+		    if ( !@$params[$param] ) {
 		        $params[$param] = $attributes[$param]['default'];
             }
         }
         
 		?>
-
-        
         
 		<div class='ec-cart-widget'
 		     data-fixed='false'
-		     data-fixed-shape='<?php echo $params['fixed_shape']; ?>'
-		     data-layout='<?php echo $params['layout']; ?>'
-		     data-icon='<?php echo $params['icon']; ?>'
+		     data-fixed-shape='<?php echo @$params['fixed_shape']; ?>'
+		     data-layout='<?php echo @$params['layout']; ?>'
+		     data-icon='<?php echo @$params['icon']; ?>'
 		></div>
 
 		<script>
