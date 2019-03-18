@@ -46,11 +46,6 @@ class Ecwid_Importer
 	
 	public function tick()
 	{
-
-		$task = Ecwid_Importer_Task_Create_Product::build(array('woo_id' => '596'));
-		$t = new Ecwid_Importer_Task_Create_Product();
-		$t->execute($this, $task);
-		
 		set_time_limit(0);
 		$results = array();
 		
