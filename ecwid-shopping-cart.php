@@ -383,7 +383,7 @@ function ecwid_enqueue_frontend() {
 		wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
 	}
 
-	if ( Ecwid_Store_Page::is_store_page() && ( is_super_admin() || is_admin_bar_showing() ) ) {
+	if ( Ecwid_Store_Page::is_store_page() && ( current_user_can( Ecwid_Admin::get_capability() ) || is_admin_bar_showing() ) ) {
 		$is_post_edit_replace = true;
 
 		if( Ecwid_Config::is_wl() && !Ecwid_Api_V3::is_available() ) {
