@@ -408,7 +408,7 @@ function ecwid_enqueue_frontend() {
 				),
 				'url' => $post_edit_url,
 				'admin_url' => admin_url(),
-				'in_admin' => $is_api_available
+				'is_api_available' => $is_api_available
 			));
 		}
 	}
