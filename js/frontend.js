@@ -38,17 +38,4 @@ jQuery(document).ready(function() {
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 
-    // is WL && not_work_in_admin
-    // is not_work_in_admin
-    if (typeof Ecwid != 'undefined') {
-        Ecwid.OnPageLoaded.add(function(page){
-            var get_edit_post_link = (page.categoryId != 0);
-
-            if( !get_edit_post_link ) return true;
-
-            console.log( get_edit_post_link );
-            console.log( page );
-        });
-    }
-
 });

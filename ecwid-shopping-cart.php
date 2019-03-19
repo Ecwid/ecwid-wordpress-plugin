@@ -382,6 +382,28 @@ function ecwid_enqueue_frontend() {
 	if (current_user_can('manage_options')) {
 		wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
 	}
+
+	//Ecwid_Store_Page::is_store_page()
+	//Ecwid_Config::is_wl()
+	//ecwid_is_sso_enabled()
+	if ( Ecwid_Store_Page::is_store_page() && ( is_super_admin() || is_admin_bar_showing() ) ) {
+		if( !Ecwid_Config::is_wl() && !ecwid_is_sso_enabled() ) {
+			
+			$post_edit_url = '#';
+			var_dump(ecwid_is_sso_enabled());
+			if( !ecwid_is_sso_enabled() )
+				$post_edit_url = 'https://my.ecwid.com/';
+
+			wp_enqueue_script( 'ecwid-admin-bar-js', ECWID_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
+			wp_localize_script( 'ecwid-admin-bar-js', 'ecwidEditPostLinkParams', array(
+				'languages' => array(
+					'editProduct' => __('Edit Product', 'ecwid-shopping-cart'),
+					'editCategory' => __('Edit Category', 'ecwid-shopping-cart')
+				),
+				'url' => $post_edit_url
+			));
+		}
+	}
 }
 
 function ecwid_print_inline_js_config() {
