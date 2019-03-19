@@ -35,17 +35,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 
-		add_filter( 'wpseo_sitemap_url', array( $this, 'wpseo_hook_sitemap_url' ), 10, 2 );
 		add_action( 'init', array($this, 'clear_ecwid_sitemap_index') );
-	}
-
-	public function wpseo_hook_sitemap_url( $output, $url )
-	{
-		$type = get_query_var( 'sitemap' );
-
-		if( $type == 'ec-product') {
-			return false;
-		}
 	}
 
 	public function clear_ecwid_sitemap_index() {
