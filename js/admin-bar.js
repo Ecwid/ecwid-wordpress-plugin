@@ -1,12 +1,7 @@
 jQuery(document).ready(function() {
 
     if ( typeof Ecwid != 'undefined' ) {
-        
-        console.log( '***' );
-
-        console.log( typeof ecwidEditPostLinkParams );
-
-        var $post_edit_links = jQuery('[href*="/wp-admin/post.php"]').filter('[href*="action=edit"]'),
+        var $post_edit_links = jQuery('[href*="'+ecwidEditPostLinkParams.admin_url+'post.php"]').filter('[href*="action=edit"]'),
             url = ( $post_edit_links.length ) ? $post_edit_links.eq(0).attr( 'href' ) : false,
             $bar,
             text;
@@ -31,17 +26,25 @@ jQuery(document).ready(function() {
                         new_text = ( is_product ) ? ecwidEditPostLinkParams.languages.editProduct : ( is_subcategory ) ? ecwidEditPostLinkParams.languages.editCategory : text;
                     }
 
-                    var id = ( is_product ) ? page.productId : page.categoryId; 
-                    new_url = ecwidEditPostLinkParams.url + '#' + page.type.toLowerCase() + ':mode=edit&id=' + id;
+                    var id = ( is_product ) ? page.productId : page.categoryId,
+                        hash = page.type.toLowerCase() + ':mode=edit&id=' + id;
+
+                    if( ecwidEditPostLinkParams.is_api_available ) {
+                        hash = encodeURIComponent( hash );
+                    }
+
+                    new_url = ecwidEditPostLinkParams.url + hash;
                 }
 
-                if( typeof $bar != 'undefined' ) $bar.text( new_text );
+                if( typeof $bar != 'undefined' ) {
+                    $bar.text( new_text );
+                }
 
-                if( $post_edit_links.length ) $post_edit_links.attr( 'href', new_url );
+                if( $post_edit_links.length ) {
+                    $post_edit_links.attr( 'href', new_url );
+                }
             });
         }
-
-        console.log( '***' );
     }
 
 });

@@ -383,16 +383,22 @@ function ecwid_enqueue_frontend() {
 		wp_enqueue_style('ecwid-fonts-css', ECWID_PLUGIN_URL . 'css/fonts.css', array(), get_option('ecwid_plugin_version'));
 	}
 
-	//Ecwid_Store_Page::is_store_page()
-	//Ecwid_Config::is_wl()
-	//ecwid_is_sso_enabled()
 	if ( Ecwid_Store_Page::is_store_page() && ( is_super_admin() || is_admin_bar_showing() ) ) {
-		if( !Ecwid_Config::is_wl() && !ecwid_is_sso_enabled() ) {
-			
-			$post_edit_url = '#';
-			var_dump(ecwid_is_sso_enabled());
-			if( !ecwid_is_sso_enabled() )
-				$post_edit_url = 'https://my.ecwid.com/';
+		$is_post_edit_replace = true;
+
+		if( Ecwid_Config::is_wl() && !Ecwid_Api_V3::is_available() ) {
+			$is_post_edit_replace = false;
+		}
+		
+		if( $is_post_edit_replace ) {
+
+			$post_edit_url = 'https://my.ecwid.com/#';
+			$is_api_available = false;
+
+			if( Ecwid_Config::is_wl() || Ecwid_Api_V3::is_available() ) {
+				$post_edit_url = get_admin_url() . 'admin.php?page=ec-store&ec-store-page=';
+				$is_api_available = true;
+			}
 
 			wp_enqueue_script( 'ecwid-admin-bar-js', ECWID_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 			wp_localize_script( 'ecwid-admin-bar-js', 'ecwidEditPostLinkParams', array(
@@ -400,7 +406,9 @@ function ecwid_enqueue_frontend() {
 					'editProduct' => __('Edit Product', 'ecwid-shopping-cart'),
 					'editCategory' => __('Edit Category', 'ecwid-shopping-cart')
 				),
-				'url' => $post_edit_url
+				'url' => $post_edit_url,
+				'admin_url' => admin_url(),
+				'in_admin' => $is_api_available
 			));
 		}
 	}
