@@ -151,7 +151,7 @@ jQuery(document).ready(function() {
             if ( e.data.action == 'pageLoad' ) {
                 var page = e.data.data.page.path;
 
-                jQuery('*[data-ecwid-menu-slug=ec-store-admin-' + page + ']').eq(0).click();
+                jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
             } else if (
                 e.data.action
                 && e.data.action == 'navigationMenuUpdated'
