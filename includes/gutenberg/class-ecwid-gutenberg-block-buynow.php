@@ -20,16 +20,17 @@ class Ecwid_Gutenberg_Block_Buynow extends Ecwid_Gutenberg_Block_Product {
 				'show_price_on_button' => true,
 				'center_align' => true,
 				'show_border' => false,
-				'display' => 'addtobag',
 				'id' => 0,
 				'show_picture' => false,
 				'show_title' => false,
-				'show_price' => false,
+				'show_price' => true,
 				'show_options' => false,
 				'show_qty' => false,
-				'show_addtobag' => false,
+				'show_addtobag' => true
 			)
 		);
+		
+		$params['show_price'] = $params['show_price_on_button'];
 
 		$result = Ecwid_Gutenberg_Block_Product::render_callback( $params );
 
