@@ -6,7 +6,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 	
 	protected $_name = 'store';
 
-	protected function _get_block_name() {
+	public function get_block_name() {
 		return 'ecwid/store-block';
 	}
 

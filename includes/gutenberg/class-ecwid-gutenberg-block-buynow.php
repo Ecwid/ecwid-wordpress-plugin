@@ -6,8 +6,8 @@ class Ecwid_Gutenberg_Block_Buynow extends Ecwid_Gutenberg_Block_Product {
 
 	protected $_name = 'buynow';
 
-	protected function _get_block_name() {
-		return Ecwid_Gutenberg_Block_Base::_get_block_name();
+	public function get_block_name() {
+		return Ecwid_Gutenberg_Block_Base::get_block_name();
 	}
 
 	public function render_callback( $params ) {

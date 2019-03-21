@@ -6,7 +6,7 @@ class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
 	
 	protected $_name = 'product';
 	
-	protected function _get_block_name() {
+	public function get_block_name() {
 		return 'ecwid/product-block';
 	}
 	

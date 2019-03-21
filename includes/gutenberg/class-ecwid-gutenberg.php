@@ -6,11 +6,8 @@ class Ecwid_Gutenberg {
 	
 	const STORE_BLOCK = 'ecwid/store-block';
 	const PRODUCT_BLOCK = 'ecwid/product-block';
-	const CATEGORIES_BLOCK = 'ecwid/categories';
-	const SEARCH_BLOCK = 'ecwid/search';
-	const CATEGORY_PAGE_BLOCK = 'ecwid/category-page';
-	const MINICART_BLOCK = 'ecwid/minicart';
-	
+	const BUYNOW_BLOCK = 'ec-store/buynow';
+
 	public $_blocks = array();
 	
 	public function __construct() {
@@ -131,8 +128,20 @@ class Ecwid_Gutenberg {
 		$blocks = self::get_blocks_on_page();
 
 		$productIds = array();
+		
+		$product_block = new Ecwid_Gutenberg_Block_Product();
+		$buynow_block = new Ecwid_Gutenberg_Block_Buynow();
 		foreach ( $blocks as $block ) {
-			if ( $block['blockName'] == self::PRODUCT_BLOCK && @$block['attrs']['id'] ) {
+			if ( 
+				in_array( 
+					$block['blockName'], 
+					array( 
+						$product_block->get_block_name(), 
+						$buynow_block->get_block_name() 
+					) 
+				)
+				&& @$block['attrs']['id'] 
+			) {
 				$productIds[] = $block['attrs']['id'];
 			}
 		}
@@ -157,7 +166,8 @@ class Ecwid_Gutenberg {
 	public static function get_block_names() {
 		return array(
 			self::STORE_BLOCK,
-			self::PRODUCT_BLOCK
+			self::PRODUCT_BLOCK,
+			self::BUYNOW_BLOCK
 		);
 	}
 	

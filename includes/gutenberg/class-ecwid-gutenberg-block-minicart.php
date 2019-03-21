@@ -33,13 +33,13 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
         
 		?>
         
-		<div class='ec-cart-widget'
+        <div class='ec-cart-widget'
 		     data-fixed='false'
 		     data-fixed-shape='<?php echo @$params['fixed_shape']; ?>'
 		     data-layout='<?php echo @$params['layout']; ?>'
 		     data-icon='<?php echo @$params['icon']; ?>'
 		></div>
-
+        
 		<script>
             Ecwid.init();
 		</script>
@@ -48,6 +48,11 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 
 		$contents = ob_get_contents();
 		ob_end_clean();
+
+		$align = @$params['align'];
+        if ( $align == 'right' || $align == "left" ) {
+            $contents = '<div class="align' . $align . '">' . $contents . '</div>';
+        }
 
 		return $contents;
 	}
