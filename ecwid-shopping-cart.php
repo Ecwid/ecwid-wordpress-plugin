@@ -169,7 +169,6 @@ function ecwid_init_integrations()
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
 		'bb-plugin/fl-builder.php' => 'beaver-builder',
 		'elementor/elementor.php' => 'elementor'
-
 	);
 
 
@@ -395,8 +394,16 @@ window.ec.config.enable_canonical_urls = true;
 
 HTML;
 
-	if ( is_plugin_active( 'shiftnav-pro/shiftnav.php' ) ) {
-		$js = ecwid_disable_interactive( $js );
+	$plugins_disabling_interactive = array(	
+		'shiftnav-pro/shiftnav.php',
+		'easymega/easymega.php'
+	);
+
+	foreach ( $plugins_disabling_interactive as $plugin ) {
+		if ( is_plugin_active( $plugin ) ) {
+			$js = ecwid_disable_interactive( $js );
+			break;
+		}
 	}
 
 	$js = apply_filters( 'ecwid_inline_js_config', $js );
