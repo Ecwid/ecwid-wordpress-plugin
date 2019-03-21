@@ -45,7 +45,14 @@ class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
 
 		$shortcode = new Ecwid_Shortcode_Product( $params );
 
-		return $shortcode->render();
+		$contents = $shortcode->render();
+
+		$align = @$params['align'];
+		if ( $align == 'right' || $align == "left" ) {
+			$contents = '<div class="align' . $align . '">' . $contents . '</div>';
+		}
+		
+		return $contents;
 	}
 
 	public function get_icon_path()
