@@ -56,7 +56,7 @@ HTML;
 		$code .= <<<HTML
 <script language="JavaScript">
     EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
-	if ( location.hash != '' ) {
+	if ( location.hash != '' && location.hash.indexOf('#!/c/0/') !== 0) {
 	    EcwidStaticPageLoader.switchToDynamicMode();
 	}
 </script>
