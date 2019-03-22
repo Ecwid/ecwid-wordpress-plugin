@@ -77,13 +77,14 @@ registerBlockType( 'ecwid/store-block', {
         
 		const editor = 		
 			<div className="ec-store-block ec-store-block-product-browser">
-				<div className="ec-store-block-header">
-					<svg className="dashicon" viewBox="0 0 20 20" width="20" height="20">
-						<path d={ EcwidGutenbergStoreBlockParams.icon }></path>
-					</svg>
-                    { EcwidGutenbergStoreBlockParams.isDemoStore && __( 'Demo store', 'ecwid-shopping-cart' ) }
-                    { !EcwidGutenbergStoreBlockParams.isDemoStore && EcwidGutenbergStoreBlockParams.storeBlockTitle }
-				</div>
+                <div className="ec-store-products">
+                    <div className="ec-store-product1"></div>
+                    <div className="ec-store-product2"></div>
+                    <div className="ec-store-product3"></div>
+                    <div className="ec-store-product4"></div>
+                    <div className="ec-store-product5"></div>
+                    <div className="ec-store-product6"></div>
+                </div>
                 { EcwidGutenbergStoreBlockParams.isDemoStore &&
                 <div>
                     <a className="button button-primary" href="admin.php?page=ec-store">{ __( 'Set up your store', 'ecwid-shopping-cart') }</a>
@@ -358,9 +359,9 @@ registerBlockType( 'ecwid/store-block', {
                     }
                     { isNewDetailsPage && buildItem( props, 'product_details_gallery_layout', 'toolbar' ) }
                     { isNewDetailsPage &&
-                    <PanelRow>
+                    <div class="ec-store-inspector-subheader-row">
                         <label className="ec-store-inspector-subheader">{ __( 'Product sidebar content', 'ecwid-shopping-cart' ) }</label>
-                    </PanelRow>
+                    </div>
                     }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_product_name', 'toggle' ) }
                     { isNewDetailsPage && buildItem( props, 'product_details_show_breadcrumbs', 'toggle' ) }

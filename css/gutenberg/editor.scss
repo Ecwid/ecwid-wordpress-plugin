@@ -275,12 +275,54 @@
   margin-top: 11px;
 }
 
+.ec-store-block > .ec-store-products {
+  margin: 30px;
+  display: block;
+}
+
+.ec-store-products > div {
+  width: 120px;
+  height: 120px;
+  margin: 15px;
+  display: inline-flex;
+  border: 1px solid #e2e4e7;
+  background-size: 100% 100%;
+}
+
+.ec-store-product1 {
+  background: url("../../images/gutenberg/store1.png");
+}
+
+.ec-store-product2 {
+  background: url("../../images/gutenberg/store2.png");
+}
+
+.ec-store-product3 {
+  background: url("../../images/gutenberg/store3.png");
+}
+
+.ec-store-product4 {
+  background: url("../../images/gutenberg/store4.png");
+}
+
+.ec-store-product5 {
+  background: url("../../images/gutenberg/store5.png");
+}
+
+.ec-store-product6 {
+  background: url("../../images/gutenberg/store6.png");
+}
+
 .ec-store-color-picker .component-color-indicator {
   vertical-align: text-bottom;
 }
 
 .ec-store-color-picker .components-color-palette {
   margin-top: .6rem;
+}
+
+.ec-store-inspector-subheader-row {
+  margin-bottom: 20px;  
 }
 
 .ec-store-inspector-row {
