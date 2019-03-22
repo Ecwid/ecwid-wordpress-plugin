@@ -2,4 +2,5 @@
 .wp-block-cgb-block-my-block2{background:#bada55;border:0.2rem solid #292929;color:#292929;margin:0 auto;max-width:740px;padding:2rem}
 .ec-store-block-buynow{min-height:40px;min-width:120px;display:inline-block;background:none;position:relative}.ec-store-block-buynow .image{background:url("../../images/gutenberg/button-preview.png") 50% 50% no-repeat;background-size:120px 40px;position:absolute;left:0;top:0;right:0;height:40px}.ec-store-block-buynow .button-container{margin-top:35px}
 .ec-store-block-search{min-width:500px;min-height:48px;display:inline-block;background:none;position:relative}.ec-store-block-search .image{background:url("../../images/gutenberg/search-preview.png") 50% 50% no-repeat;background-size:500px 48px;position:absolute;left:0;top:0;right:0;bottom:0}
+.ec-store-block-categories{height:50px;min-height:50px}
 .ec-store-block-minicart{min-height:77px;min-width:77px;display:inline-block;background:none;position:relative}.ec-store-block-minicart .image{background:url("../../images/gutenberg/minicart-preview.png") 50% 50% no-repeat;background-size:100%;position:absolute;left:0;top:0;right:0;bottom:0}
