@@ -7,6 +7,7 @@ class Ecwid_Gutenberg {
 	const STORE_BLOCK = 'ecwid/store-block';
 	const PRODUCT_BLOCK = 'ecwid/product-block';
 	const BUYNOW_BLOCK = 'ec-store/buynow';
+	const PRODUCT_PAGE_BLOCK = 'ec-store/product-page';
 
 	public $_blocks = array();
 	
@@ -20,12 +21,14 @@ class Ecwid_Gutenberg {
             'product',
             'categories',
             'search',
-			'buynow'
+			'buynow',
+			'product-page',
+			'filters-page'
         );
         
 		foreach ( $blocks as $block ) {
 		    require_once dirname( __FILE__ ) . "/class-ecwid-gutenberg-block-$block.php";
-		    $className = "Ecwid_Gutenberg_Block_" . ucfirst( $block );
+		    $className = "Ecwid_Gutenberg_Block_" . str_replace('-', '_', ucfirst( $block ) );
             
 		    $this->_blocks[] = new $className();
         }
@@ -97,11 +100,18 @@ class Ecwid_Gutenberg {
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
 			$store_block->get_params()
         );
+		
+		$blockParams = array();
+		foreach ( $this->_blocks as $block ) {
+			$blockParams[$block->get_block_name()] = $block->get_params();
+		}
+		
         
 		$minicart_block = new Ecwid_Gutenberg_Block_Minicart();
 		$is_demo_store = ecwid_is_demo_store();
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
+				'blockParams' => $blockParams,
 				'minicartAttributes' => $minicart_block->get_attributes_for_editor(),
 				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
 				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
@@ -131,18 +141,23 @@ class Ecwid_Gutenberg {
 		
 		$product_block = new Ecwid_Gutenberg_Block_Product();
 		$buynow_block = new Ecwid_Gutenberg_Block_Buynow();
+		$product_page_block = new Ecwid_Gutenberg_Block_Product_Page();
 		foreach ( $blocks as $block ) {
 			if ( 
 				in_array( 
 					$block['blockName'], 
 					array( 
 						$product_block->get_block_name(), 
-						$buynow_block->get_block_name() 
+						$buynow_block->get_block_name(),
 					) 
 				)
 				&& @$block['attrs']['id'] 
 			) {
 				$productIds[] = $block['attrs']['id'];
+			}
+			
+			if ( $block['blockName'] == $product_page_block->get_block_name() && @$block['attrs']['default_product_id'] ) {
+				$productIds[] = $block['attrs']['default_product_id'];
 			}
 		}
 		
@@ -167,7 +182,8 @@ class Ecwid_Gutenberg {
 		return array(
 			self::STORE_BLOCK,
 			self::PRODUCT_BLOCK,
-			self::BUYNOW_BLOCK
+			self::BUYNOW_BLOCK,
+			self::PRODUCT_PAGE_BLOCK
 		);
 	}
 	

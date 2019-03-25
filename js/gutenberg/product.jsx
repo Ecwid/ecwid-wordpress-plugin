@@ -100,10 +100,10 @@ registerBlockType( 'ecwid/product-block', {
         const saveCallback = function( params ) {
 
             const attributes = {
-                'id': params.newProps.id
+                'id': params.newProps.product.id
             };
 			
-            EcwidGutenbergParams.products[params.newProps.id] = {
+            EcwidGutenbergParams.products[params.newProps.product.id] = {
             	name: params.newProps.product.name,
 				imageUrl: params.newProps.product.thumb
 			};

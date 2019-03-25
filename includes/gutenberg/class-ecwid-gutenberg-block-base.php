@@ -32,5 +32,8 @@ abstract class Ecwid_Gutenberg_Block_Base {
 		return $this->_block_prefix . '/' . $this->_name;
 	}
 	
+	public function get_params() {
+		return array();
+	}
 	
 }

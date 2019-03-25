@@ -72,16 +72,14 @@ HTML;
 		$attributes = $this->get_attributes_for_editor();
 
 		$store_page_data = array();
-
+		
 		foreach ( $attributes as $key => $attribute ) {
 
 			$name = $attribute['name'];
-			// we do not print defaults
 			if ( !isset( $params[$name] ) ) {
 				$store_page_data[$name] = $attribute['default'];
-				continue;
-			}
-
+			} 
+			
 			$value = $params[$name];
 
 			if ( $name == 'show_description_under_image' ) {
@@ -104,12 +102,22 @@ HTML;
 
 			if ( @$attribute['is_storefront_api'] ) {
 
-				if ( @$attribute['type'] == 'boolean') {
-					$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
-				} else {
-					$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
+				if ( is_null( $value ) ) {
+					$value = $attribute['default'];
 				}
-				$store_page_data[$name] = $value;
+				$profile_default = isset( $attribute['profile_default'] ) 
+					? $attribute['profile_default'] 
+					: $attribute['default'];
+				$is_profile_default = $profile_default == $value;
+				
+				if ( !$is_profile_default ) {
+					if ( @$attribute['type'] == 'boolean') {
+						$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
+					} else {
+						$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
+					}
+					$store_page_data[$name] = $value;
+				}
 			}
 		}
 
@@ -205,7 +213,7 @@ JS;
 			}
 
 			if ( $default !== null ) {
-				$attributes[ $key ]['default'] = $default;
+				$attributes[$key]['profile_default'] = $attributes[ $key ]['default'] = $default;
 			}
 		}
 

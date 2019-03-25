@@ -81,6 +81,7 @@ HTML;
 			}
 
 			$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
+			$html_catalog_params['default_product_id'] = @ (int)$this->_params['defaultProductId'];
 
 			if ($html_catalog_params !== false && get_option('ecwid_print_html_catalog', 'Y')) {
 				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
@@ -160,16 +161,21 @@ HTML;
 
 		} else {
 
-			$id = intval( $this->_get_param_default_category_id( $params ) );
-			$plain_content = $catalog->get_category($id);
-			if ( empty( $plain_content ) ) {
-				$plain_content = $catalog->get_category(0);
+			$cat_id = intval( $this->_get_param_default_category_id( $params ) );
+			if ( $cat_id ) {
+				$plain_content = $catalog->get_category( $id );
+			} else if ( @$this->_params['defaultProductId'] ) {
+				$plain_content = $catalog->get_product( $this->_params['defaultProductId'] );
 			}
 			
-			$is_default_category = true;
+			if ( empty( $plain_content ) ) {
+				$plain_content = $catalog->get_category(0);
+			} else {
+				$is_default_catalog = true;
+			} 
 		}
 
-		if ( $url && !$is_default_category && !Ecwid_Seo_Links::is_product_browser_url() ) {
+		if ( $url && !$is_default_catalog && !Ecwid_Seo_Links::is_product_browser_url() ) {
 			$parsed = parse_url($url);
 
 			if ($parsed['fragment']) {
