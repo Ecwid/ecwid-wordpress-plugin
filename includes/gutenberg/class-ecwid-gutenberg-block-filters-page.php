@@ -35,4 +35,19 @@ class Ecwid_Gutenberg_Block_Filters_Page extends Ecwid_Gutenberg_Block_Store {
 
 		return $attributes;
 	}
+
+	public function render_callback( $params ) {
+		$result = parent::render_callback( $params );
+		
+		$result .= <<<HTML
+<script>
+Ecwid.OnAPILoaded.add(function() {
+    Ecwid.openPage('search');
+});
+</script>
+HTML;
+
+		return $result;
+	}
+	
 }

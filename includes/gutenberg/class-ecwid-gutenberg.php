@@ -23,7 +23,8 @@ class Ecwid_Gutenberg {
             'search',
 			'buynow',
 			'product-page',
-			'filters-page'
+			'filters-page',
+			'cart-page'
         );
         
 		foreach ( $blocks as $block ) {
