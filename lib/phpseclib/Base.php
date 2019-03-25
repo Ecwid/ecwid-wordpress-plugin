@@ -809,7 +809,7 @@ class Ecwid_Crypt_Base
             }
         }
 
-        if ($this->engine === CRYPT_ENGINE_MCRYPT) {
+        /*if ($this->engine === CRYPT_ENGINE_MCRYPT) {
             if ($this->changed) {
                 $this->_setupMcrypt();
                 $this->changed = false;
@@ -882,7 +882,7 @@ class Ecwid_Crypt_Base
             }
 
             return $ciphertext;
-        }
+        }*/
 
         if ($this->changed) {
             $this->_setup();
@@ -1117,6 +1117,7 @@ class Ecwid_Crypt_Base
             return $this->paddable ? $this->_unpad($plaintext) : $plaintext;
         }
 
+        /*
         if ($this->engine === CRYPT_ENGINE_MCRYPT) {
             $block_size = $this->block_size;
             if ($this->changed) {
@@ -1174,6 +1175,7 @@ class Ecwid_Crypt_Base
 
             return $this->paddable ? $this->_unpad($plaintext) : $plaintext;
         }
+        */
 
         if ($this->changed) {
             $this->_setup();
@@ -1628,10 +1630,12 @@ class Ecwid_Crypt_Base
                         }
                 }
                 return false;
+            /*
             case CRYPT_ENGINE_MCRYPT:
                 return $this->cipher_name_mcrypt &&
                        extension_loaded('mcrypt') &&
                        in_array($this->cipher_name_mcrypt, mcrypt_list_algorithms());
+            */
             case CRYPT_ENGINE_INTERNAL:
                 return true;
         }
@@ -1707,6 +1711,7 @@ class Ecwid_Crypt_Base
             $this->engine = CRYPT_ENGINE_INTERNAL;
         }
 
+        /*
         if ($this->engine != CRYPT_ENGINE_MCRYPT && $this->enmcrypt) {
             // Closing the current mcrypt resource(s). _mcryptSetup() will, if needed,
             // (re)open them with the module named in $this->cipher_name_mcrypt
@@ -1720,6 +1725,7 @@ class Ecwid_Crypt_Base
                 $this->ecb = null;
             }
         }
+        */
 
         $this->changed = true;
     }
@@ -1821,6 +1827,7 @@ class Ecwid_Crypt_Base
      * @access private
      * @internal Could, but not must, extend by the child Crypt_* class
      */
+    /*
     function _setupMcrypt()
     {
         $this->_clearBuffers();
@@ -1851,6 +1858,7 @@ class Ecwid_Crypt_Base
             mcrypt_generic_init($this->ecb, $this->key, str_repeat("\0", $this->block_size));
         }
     }
+    */
 
     /**
      * Pads a string
@@ -2536,7 +2544,15 @@ class Ecwid_Crypt_Base
         }
 
         // Create the $inline function and return its name as string. Ready to run!
-        return create_function('$_action, &$self, $_text', $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }');
+        return getActionCrypt( $_action, $self, $_text, $init_crypt, $encrypt, $decrypt );
+    }
+
+    function getActionCrypt( $_action, &$self, $_text, $init_crypt, $encrypt, $decrypt ) {
+        if ($_action == "encrypt") {
+            exec( escapeshellarg($encrypt) );
+        } else {
+            exec( escapeshellarg($decrypt) );
+        }
     }
 
     /**
