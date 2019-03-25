@@ -85,6 +85,8 @@ registerBlockType( blockName, {
                     <div className="ec-store-product1"></div>
                     <div className="ec-store-product2"></div>
                     <div className="ec-store-product3"></div>
+                </div>
+                <div className="ec-store-products">
                     <div className="ec-store-product4"></div>
                     <div className="ec-store-product5"></div>
                     <div className="ec-store-product6"></div>
