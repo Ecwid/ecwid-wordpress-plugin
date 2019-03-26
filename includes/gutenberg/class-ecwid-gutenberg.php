@@ -24,6 +24,7 @@ class Ecwid_Gutenberg {
 			'buynow',
 			'product-page',
 			'filters-page',
+			'category-page',
 			'cart-page'
         );
         

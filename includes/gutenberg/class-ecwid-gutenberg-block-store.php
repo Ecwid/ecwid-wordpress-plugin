@@ -48,6 +48,10 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		}
 
 		$result = "[ecwid";
+		
+		if ( @$params['hide_html_catalog'] == '1' ) {
+			$result .= ' no_html_catalog="1"';
+		}
 
 		$params['widgets'] = 'productbrowser';
 		if ( @$params['show_categories'] ) {
@@ -80,7 +84,11 @@ HTML;
 				$store_page_data[$name] = $attribute['default'];
 			} 
 			
-			$value = $params[$name];
+			$value = null;
+			
+			if ( isset( $params[$name] ) ) {
+				$value = $params[$name];
+			}
 
 			if ( $name == 'show_description_under_image' ) {
 				$attribute['is_storefront_api'] = true;
