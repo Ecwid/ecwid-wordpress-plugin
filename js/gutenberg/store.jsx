@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import {EcwidIcons} from '../icons.js';
-import { EcwidControls, EcwidInspectorSubheader } from '../includes/controls.js';
+import { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock } from '../includes/controls.js';
 
 const { __, _x } = wp.i18n;
 
@@ -79,8 +79,8 @@ registerBlockType( blockName, {
 		// legacy reset 
         props.setAttributes({widgets:''});
         
-		const editor = 		
-			<div className="ec-store-block ec-store-block-product-browser">
+		const editor =
+            <EcwidProductBrowserBlock icon={ EcwidIcons.store } title={ __( 'Store Home Page') } showDemoButton={ blockParams.isDemoStore }>
                 <div className="ec-store-products">
                     <div className="ec-store-product1"></div>
                     <div className="ec-store-product2"></div>
@@ -91,14 +91,8 @@ registerBlockType( blockName, {
                     <div className="ec-store-product5"></div>
                     <div className="ec-store-product6"></div>
                 </div>
-                { blockParams.isDemoStore &&
-                <div>
-                    <a className="button button-primary" href="admin.php?page=ec-store">{ __( 'Set up your store', 'ecwid-shopping-cart') }</a>
-                </div>
-                }
-			</div>
-		;
-        
+            </EcwidProductBrowserBlock>;
+       
         function buildDangerousHTMLMessageWithTitle( title, message ) {
             return <BaseControl label={ title }><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
         }

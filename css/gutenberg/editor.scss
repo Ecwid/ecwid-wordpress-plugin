@@ -209,10 +209,11 @@
 .ec-store-block .ec-store-block-header {
   font-weight: 600;
   margin-bottom: 1em;
+  line-height: 24px;
 }
 
 .ec-store-block .ec-store-block-header svg {
-  max-height: 20px;
+  max-height: 24px;
   margin-right: 1ch;
 }
 
@@ -280,8 +281,8 @@
 }
 
 .ec-store-products > div {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   margin: 15px;
   display: inline-flex;
   border: 1px solid #e2e4e7;
@@ -349,4 +350,21 @@
 
 .ec-store-inspector-select {
   max-width: 100%;
+}
+
+
+.ec-store-generic-block > div {
+  display: block;
+}
+
+.ec-store-block .ec-store-block-header {
+  font-weight: 600;
+  margin-bottom: 1em;
+  line-height: 24px;
+  display: flex;
+}
+
+.ec-store-block .ec-store-block-header svg {
+  max-height: 24px;
+  margin-right: 1ch;
 }

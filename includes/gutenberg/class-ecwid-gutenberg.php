@@ -129,7 +129,8 @@ class Ecwid_Gutenberg {
 				'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
 				'isDemoStore' => $is_demo_store,
 				'isApiAvailable' => Ecwid_Api_V3::is_available(),
-				'products' => $this->_get_products_data()
+				'products' => $this->_get_products_data(),
+				'imagesUrl' => ECWID_PLUGIN_URL . '/images/gutenberg/'
 			)
 		);
 

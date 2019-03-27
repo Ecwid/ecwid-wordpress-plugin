@@ -16,27 +16,16 @@ if ( !EcwidGutenbergParams.isDemoStore ) {
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 
 const {
-    BlockControls,
     registerBlockType,
 } = wp.blocks;
 
 const {
     InspectorControls,
-    AlignmentToolbar,
-    withColors
 } = wp.editor;
 
 const {
     PanelBody,
-    PanelRow,
 	ToggleControl,
-	ButtonGroup,
-	Button,
-	IconButton,
-	BaseControl,
-	Toolbar,
-    ColorPalette,
-    ColorIndicator
 } = wp.components;
 
 const { withState } = wp.compose;
@@ -60,7 +49,7 @@ const {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'ecwid/product-block', {
-	title: EcwidGutenbergParams.productBlockTitle, // Block title.
+	title: __( 'Product Card Small', 'ecwid-shopping-cart' ), // Block title.
 	icon: EcwidIcons.product, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: {

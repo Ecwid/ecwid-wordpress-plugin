@@ -17,7 +17,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			'isNewDetailsPage' => $this->_is_new_details_page(),
 			'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' ),
 			'shortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
-			'title' => sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+			'title' => __( 'Store Home Page', 'ecwid-shopping-cart' ),
 			'icon'=> self::get_icon_path(),
 			'isDemoStore' => ecwid_is_demo_store(),
 			'customizeMinicartText' =>
