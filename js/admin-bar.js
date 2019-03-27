@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
         });
 
         if( url ) {
-            Ecwid.OnPageLoaded.add(function(page){
+            Ecwid.OnPageLoad.add(function(page){
                 var is_product = ( page.type == 'PRODUCT' ),
                     is_subcategory = ( page.type == 'CATEGORY' && page.categoryId > 0 ),
                     new_url = url;
