@@ -37,4 +37,5 @@ jQuery(document).ready(function() {
     };
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
+
 });
