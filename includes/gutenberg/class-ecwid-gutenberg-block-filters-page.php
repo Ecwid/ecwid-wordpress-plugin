@@ -42,7 +42,11 @@ class Ecwid_Gutenberg_Block_Filters_Page extends Ecwid_Gutenberg_Block_Store {
 		$result .= <<<HTML
 <script>
 Ecwid.OnAPILoaded.add(function() {
-    Ecwid.openPage('search');
+    Ecwid.OnPageLoad.add(function(page) {
+        if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
+            Ecwid.openPage("search");
+        }
+    })
 });
 </script>
 HTML;
