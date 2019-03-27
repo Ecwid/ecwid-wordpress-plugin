@@ -32,7 +32,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$default_render = parent::render();
 		
 		$data = Ecwid_Static_Home_Page::get_data_for_current_page();
-		if ( !$data ) {
+		if ( !$data || @$this->_params['noHTMLCatalog'] ) {
 			return $default_render;
 		}
 
@@ -71,6 +71,7 @@ HTML;
 		$plain_content = '';
 		
 		$html_catalog_params = false;
+
 		
 		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Home_Page::get_data_for_current_page() ) {
 
@@ -83,7 +84,11 @@ HTML;
 			$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
 			$html_catalog_params['default_product_id'] = @ (int)$this->_params['defaultProductId'];
 
-			if ($html_catalog_params !== false && get_option('ecwid_print_html_catalog', 'Y')) {
+			if (
+				$html_catalog_params !== false 
+				&& get_option('ecwid_print_html_catalog', 'Y') 
+				&& !@$this->_params['noHTMLCatalog']
+			) {
 				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
 			}
 		}
@@ -103,8 +108,14 @@ HTML;
 		$result = '';
 		
 		$classname = $this->_get_html_class_name();
+		
+		
 		$result .= <<<HTML
-		<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
+	<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]">
+HTML;
+		
+		if ( ! @$this->_params['noHTMLCatalog'] ) 
+			$result .= <<<HTML
 		<script>
 			function createClass(name,rules){
 				var style = document.createElement('style');
@@ -117,6 +128,10 @@ HTML;
 			}
 			createClass('#ecwid-html-catalog-$store_id','display:none;');
 		</script>
+HTML;
+		
+		
+		$result .= <<<HTML
 		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;
@@ -261,7 +276,11 @@ HTML;
 		if (isset($shortcode_params['default_product_id'])) {
 			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
 		}
-		
+
+		if (isset($shortcode_params['no_html_catalog'])) {
+			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
+		}
+
 		$this->_params = $input_params;
 	}
 

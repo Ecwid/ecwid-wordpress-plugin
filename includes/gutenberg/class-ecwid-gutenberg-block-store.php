@@ -49,10 +49,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		$result = "[ecwid";
 		
-		if ( @$params['hide_html_catalog'] == '1' ) {
-			$result .= ' no_html_catalog="1"';
-		}
-
 		$params['widgets'] = 'productbrowser';
 		if ( @$params['show_categories'] ) {
 			$params['widgets'] .= ' categories';
@@ -66,7 +62,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		}
 
 		$result .= ']';
-
+		
 		$result .= <<<HTML
 <script type="text/javascript">
 		window.ec = window.ec || Object();

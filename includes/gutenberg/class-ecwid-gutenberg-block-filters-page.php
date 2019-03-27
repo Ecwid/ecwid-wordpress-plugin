@@ -37,6 +37,8 @@ class Ecwid_Gutenberg_Block_Filters_Page extends Ecwid_Gutenberg_Block_Store {
 	}
 
 	public function render_callback( $params ) {
+		$params['no_html_catalog'] = 1;
+		
 		$result = parent::render_callback( $params );
 		
 		$result .= <<<HTML

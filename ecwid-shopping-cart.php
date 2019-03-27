@@ -1707,7 +1707,8 @@ function ecwid_shortcode($attributes)
 			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
 			'default_product_id' => 0,
-			'lang' => ''
+			'lang' => '',
+			'no_html_catalog' => 0
 		)
 		, $attributes
 	);
