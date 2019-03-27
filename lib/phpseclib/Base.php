@@ -1872,15 +1872,6 @@ class Ecwid_Crypt_Base
         $this->use_inline_crypt = false;
     }
 
-
-    function getActionCrypt( $_action, &$self, $_text, $init_crypt, $encrypt, $decrypt ) {
-        if ($_action == "encrypt") {
-            exec( escapeshellarg($encrypt) );
-        } else {
-            exec( escapeshellarg($decrypt) );
-        }
-    }
-
     /**
      * Creates the performance-optimized function for en/decrypt()
      *
@@ -2341,8 +2332,9 @@ class Ecwid_Crypt_Base
         }
 
         // Create the $inline function and return its name as string. Ready to run!
-        return getActionCrypt( $_action, $self, $_text, $init_crypt, $encrypt, $decrypt );
+        return create_function('$_action, &$self, $_text', $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }');
     }
+
 
     /**
      * Holds the lambda_functions table (classwide)
