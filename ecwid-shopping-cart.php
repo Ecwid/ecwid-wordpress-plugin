@@ -1807,7 +1807,7 @@ $content
 <!-- /wp:ecwid/store-block -->
 EOT;
 
-	if( get_option("ecwid_store_id", "") == "" ) {
+	if( !get_option("ecwid_store_id", false) ) {
 		ecwid_set_theme_options();
 	}
 	
