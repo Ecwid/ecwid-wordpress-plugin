@@ -920,6 +920,8 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
+	if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
+	
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
