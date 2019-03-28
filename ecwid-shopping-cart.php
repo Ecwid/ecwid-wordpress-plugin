@@ -1807,6 +1807,9 @@ $content
 <!-- /wp:ecwid/store-block -->
 EOT;
 
+	if( get_option("ecwid_store_id", "") == "" ) {
+		ecwid_set_theme_options();
+	}
 	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
@@ -1903,8 +1906,6 @@ EOT;
 	Ecwid_Message_Manager::enable_message('on_activate');
 	
 	Ecwid_Config::load_from_ini();
-	
-	ecwid_set_theme_options();
 }
 
 add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
