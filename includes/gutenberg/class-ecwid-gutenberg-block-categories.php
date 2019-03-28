@@ -28,11 +28,7 @@ class Ecwid_Gutenberg_Block_Categories extends Ecwid_Gutenberg_Block_Base {
 			$params['has_categories'] = false;
 		} else {
 			$api = new Ecwid_Api_V3();
-			$cats = $api->get_categories( array( 'hidden_categories' => true ) );
-
-			if ( $cats->count == 0 ) {
-				$params['has_categories'] = false;
-			}
+			$params['has_categories'] = $api->has_public_categories();
 		}
 
 		return $params;

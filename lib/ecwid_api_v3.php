@@ -142,8 +142,7 @@ class Ecwid_Api_V3
 		}
 		self::reset_api_status();
 	}
-
-
+	
 	public function get_categories($input_params)
 	{
 		$params = array('token');
@@ -197,6 +196,13 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
+	public function has_public_categories()
+	{
+		$cats = $this->get_categories( array( 'limit' => 1 ) );
+		
+		return $cats->total > 0;
+	}
+	
 	public function get_category($categoryId)
 	{
 		if (!isset($categoryId) || $categoryId == 0 ) {

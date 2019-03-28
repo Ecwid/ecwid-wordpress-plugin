@@ -107,7 +107,6 @@ class Ecwid_Gutenberg {
 		foreach ( $this->_blocks as $block ) {
 			$blockParams[$block->get_block_name()] = $block->get_params();
 		}
-		
         
 		$minicart_block = new Ecwid_Gutenberg_Block_Minicart();
 		$is_demo_store = ecwid_is_demo_store();
@@ -130,6 +129,7 @@ class Ecwid_Gutenberg {
 				'isDemoStore' => $is_demo_store,
 				'isApiAvailable' => Ecwid_Api_V3::is_available(),
 				'products' => $this->_get_products_data(),
+				'hasCategories' => $api->has_public_categories(),
 				'imagesUrl' => ECWID_PLUGIN_URL . '/images/gutenberg/'
 			)
 		);
