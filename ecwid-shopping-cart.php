@@ -146,7 +146,7 @@ if (version_compare($version, '4.0') >= 0) {
 }
 
 if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
-	require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-gutenberg.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/gutenberg/class-ecwid-gutenberg.php';
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
@@ -1707,7 +1707,8 @@ function ecwid_shortcode($attributes)
 			'minicart_layout' 	  => 'MiniAttachToProductBrowser',
 			'default_category_id' => 0,
 			'default_product_id' => 0,
-			'lang' => ''
+			'lang' => '',
+			'no_html_catalog' => 0
 		)
 		, $attributes
 	);
