@@ -68,8 +68,7 @@ function ecwid_apply_theme($theme_name = null)
 		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'bridge'	    		=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
-		'Parallax-One'			=> array( 'css' ),
-		'vantage'				=> array( 'js' )
+		'Parallax-One'			=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
