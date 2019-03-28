@@ -3317,9 +3317,12 @@ function ecwid_is_paid_account()
 }
 
 function ecwid_embed_svg($name) {
-	$code = file_get_contents(ECWID_PLUGIN_DIR . 'images/' . $name . '.svg');
-
-	echo $code;
+	$path = ECWID_PLUGIN_DIR . 'images/' . $name . '.svg';
+	
+	if( file_exists( $path ) ) {
+		$code = file_get_contents( $path );
+		echo $code;
+	}
 }
 
 /*
