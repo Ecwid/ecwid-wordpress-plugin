@@ -1903,6 +1903,8 @@ EOT;
 	Ecwid_Message_Manager::enable_message('on_activate');
 	
 	Ecwid_Config::load_from_ini();
+	
+	ecwid_set_theme_options();
 }
 
 add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );

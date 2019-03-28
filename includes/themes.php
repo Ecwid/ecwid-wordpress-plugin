@@ -133,3 +133,31 @@ function ecwid_after_switch_theme()
 {
 	ecwid_apply_theme();
 }
+
+function ecwid_set_theme_options($theme_name = null)
+{
+	$custom_options_themes = array(
+		'vantage' => array(
+			Ecwid_Floating_Minicart::OPTION_FIXED_POSITION => 'BOTTOM_LEFT'
+		),
+		'zenlife' => array(
+			Ecwid_Floating_Minicart::OPTION_FIXED_POSITION => 'BOTTOM_LEFT'
+		),
+	);
+	$custom_options_themes = apply_filters( 'ecwid_custom_options_themes', $custom_options_themes );
+
+	if (empty($theme_name)) {
+		$theme_name = ecwid_get_theme_identification();
+	}
+	
+	if (!$theme_name) {
+		return;
+	}
+
+	if ( array_key_exists($theme_name, $custom_options_themes) && is_array($custom_options_themes[$theme_name]) ) {
+		foreach ($custom_options_themes[$theme_name] as $option_name => $value) {
+			update_option( $option_name , $value );
+		}
+	}
+
+}
