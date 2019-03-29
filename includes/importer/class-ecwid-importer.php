@@ -26,7 +26,6 @@ class Ecwid_Importer
 	
 	public function initiate( $settings = array() )
 	{
-		$t = Ecwid_Importer_Task::load_task(Ecwid_Importer_Task_Import_Woo_Product::$type);
 		update_option( self::OPTION_CATEGORIES, array() );
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );

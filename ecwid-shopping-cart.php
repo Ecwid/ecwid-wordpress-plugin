@@ -497,6 +497,7 @@ JS;
 }
 
 function ecwid_load_textdomain() {
+		
 	load_plugin_textdomain( 'ecwid-shopping-cart', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 
@@ -1075,7 +1076,7 @@ function ecwid_content_has_productbrowser( $content ) {
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
 	
-	if ( class_exists( 'Ecwid_Integration_Gutenberg' ) && strpos( $content, Ecwid_Integration_Gutenberg::STORE_BLOCK ) !== false ) {
+	if ( class_exists( 'Ecwid_Gutenberg' ) && strpos( $content, Ecwid_Gutenberg::STORE_BLOCK ) !== false ) {
 		return true;
 	} 
 	
@@ -1586,10 +1587,10 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$params .= '&data_static_home=1';
 	}
 	
-	if ( class_exists( 'Ecwid_Integration_Gutenberg') ) {
+	if ( class_exists( 'Ecwid_Gutenberg') ) {
 		
-		$all_blocks = Ecwid_Integration_Gutenberg::get_block_names();
-		$page_blocks = Ecwid_Integration_Gutenberg::get_blocks_on_page();
+		$all_blocks = Ecwid_Gutenberg::get_block_names();
+		$page_blocks = Ecwid_Gutenberg::get_blocks_on_page();
 		
 		$mask = "";
 		foreach ( $all_blocks as $name ) {
