@@ -504,6 +504,8 @@ class Ecwid_Api_V3
 			return $profile;
 		}
 		
+		//$this->set_store_url();
+
 		$url = $this->_api_url . $this->store_id . '/profile';
 
 		$params = array(
@@ -535,6 +537,38 @@ class Ecwid_Api_V3
 
 		return $profile;
 	}
+
+	/*
+	// set_store_profile_params
+	public function set_store_url( $store_url = null ) {
+
+		// if (substr($_SERVER['REMOTE_ADDR'], 0, 4) == '127.' || $_SERVER['REMOTE_ADDR'] == '::1') {
+			//code
+		// }
+
+		$store_url = 'https://ecwid.com';
+		// if( is_null($store_url) ) {
+		// 	$store_url = Ecwid_Store_Page::get_store_url();
+		// }
+
+		$params = array(
+			'generalInfo' => array(
+				'storeUrl' => $store_url
+			)
+		);
+
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->_api_url . $this->store_id . '/profile';
+		$url = $this->build_request_url( $url, $request_params );
+		
+		$result = $this->_do_put( $url, $params );
+
+		print_r( $result ); die();
+	}
+	*/
 
 	public function is_store_feature_enabled( $feature_name ) {
 

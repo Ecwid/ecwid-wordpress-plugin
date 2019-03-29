@@ -189,7 +189,7 @@ class Ecwid_OAuth {
 		} else {
 			$stored_scope = get_option( 'ecwid_oauth_scope' );
 			if (empty($stored_scope)) {
-				$stored_scope = 'read_store_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG;
+				$stored_scope = 'read_store_profile update_store_profile' . Ecwid_OAuth::SCOPE_READ_CATALOG;
 			}
 		}
 
@@ -197,7 +197,7 @@ class Ecwid_OAuth {
 	}
 
 	protected function _get_default_scopes_array() {
-		$defaults = array( 'read_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
+		$defaults = array( 'read_store_profile', 'update_store_profile', Ecwid_OAuth::SCOPE_READ_CATALOG, 'allow_sso', 'create_customers', 'public_storefront' );
 	
 		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 			$defaults[] = 'create_catalog';
