@@ -1,7 +1,11 @@
 <div class="wrap ecwid-admin ecwid-dashboard">
 	<div class="ec-store-box">
 		<div class="head">
-			<?php ecwid_embed_svg( 'ecwid-logo-blue' );?>
+			<?php
+			if( !Ecwid_Config::is_wl() ) {
+				ecwid_embed_svg( 'ecwid-logo-blue' );
+			}
+			?>
 			<h3>
 				<?php printf( __( '%s Shopping Cart', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 			</h3>
