@@ -1305,6 +1305,15 @@ function ecwid_meta_description() {
 				}
 			}
 		}
+	} else if ( Ecwid_Store_Page::is_store_page() ) {
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+
+		if( !empty($profile->settings->storeDescription) ) {
+			$description = $profile->settings->storeDescription;
+			
+			do_action( 'ecwid_clear_other_meta_description' );
+		}
 	}
 
 	if ( !$description ) {
