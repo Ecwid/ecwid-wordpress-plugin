@@ -136,7 +136,9 @@ class Ecwid_Store_Page {
 	protected static function _get_store_page_data_key( $page_id = 0 )
 	{
 		$post = get_post( $page_id );
-
+		
+		if ( !$post ) return; 
+		
 		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
 
 	}
@@ -240,7 +242,7 @@ class Ecwid_Store_Page {
 				$new_page = $pages[0];
 				// we prefer pages, not posts
 				foreach( $pages as $page ) {
-					if ( get_post($page)->post_type == 'page' ) {
+					if ( get_post($page) && get_post($page)->post_type == 'page' ) {
 						$new_page = $page;
 					}
 				}

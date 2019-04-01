@@ -178,13 +178,13 @@ HTML;
 
 			$cat_id = intval( $this->_get_param_default_category_id( $params ) );
 			if ( $cat_id ) {
-				$plain_content = $catalog->get_category( $id );
+				$plain_content = $catalog->get_category( $cat_id );
 			} else if ( @$this->_params['defaultProductId'] ) {
 				$plain_content = $catalog->get_product( $this->_params['defaultProductId'] );
 			}
 			
 			if ( empty( $plain_content ) ) {
-				$plain_content = $catalog->get_category(0);
+				$plain_content = $catalog->get_category( 0 );
 			} else {
 				$is_default_catalog = true;
 			} 

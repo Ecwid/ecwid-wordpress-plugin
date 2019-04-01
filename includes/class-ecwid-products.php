@@ -43,7 +43,6 @@ class Ecwid_Products {
 		add_action( 'ecwid_on_plugin_update', array( $this, 'on_plugin_update' ) );
 
 		if (EcwidPlatform::get('hide_out_of_stock')) {
-			add_filter( 'posts_where_paged', array( $this, 'where_out_of_stock' ) );
 			add_filter( 'posts_join_paged', array( $this, 'join_out_of_stock' ) );
 		}
 
@@ -95,22 +94,12 @@ class Ecwid_Products {
 			}
 		}
 	}
-
-
-	public function where_out_of_stock($where) {
-		if (!is_search()) {
-			return $where;
-		}
-		$where .= ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_value=1 ';
-
-		return $where;
-	}
-
+	
 	public function join_out_of_stock($join) {
 		if (!is_search()) {
 			return $join;
 		}
-
+		
 		if (!$join) {
 			$join = '';
 		}
@@ -119,7 +108,8 @@ class Ecwid_Products {
 
 		$join .= 'LEFT JOIN ' . $wpdb->postmeta .' ' . self::DB_ALIAS_OUT_OF_STOCK
 		         . ' ON ' . $wpdb->posts . '.id = ' . self::DB_ALIAS_OUT_OF_STOCK . '.post_id'
-			     . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_key=' . '"in_stock"';
+			     . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_key=' . '"in_stock"'
+			     . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_value=1';
 
 		return $join;
 	}

@@ -8,6 +8,12 @@ class Ecwid_Gutenberg {
 	const PRODUCT_BLOCK = 'ecwid/product-block';
 	const BUYNOW_BLOCK = 'ec-store/buynow';
 	const PRODUCT_PAGE_BLOCK = 'ec-store/product-page';
+	const CATEGORIES_BLOCK = 'ec-store/categories';
+	const CATEGORY_PAGE_BLOCK = 'ec-store/category-page';
+	const CART_PAGE_BLOCK = 'ec-store/cart';
+	const FILTERS_PAGE_BLOCK = 'ec-store/filters';
+	const SEARCH_BLOCK = 'ec-store/search';
+	const MINICART_BLOCK = 'ec-store/minicart';
 
 	public $_blocks = array();
 	
@@ -15,20 +21,9 @@ class Ecwid_Gutenberg {
 
 		if ( isset( $_GET['classic-editor'] ) ) return;
 		
-		$blocks = array(
-            'store',
-            'minicart',
-            'product',
-            'categories',
-            'search',
-			'buynow',
-			'product-page',
-			'filters-page',
-			'category-page',
-			'cart-page'
-        );
+		$blocks = self::get_block_names();
         
-		foreach ( $blocks as $block ) {
+		foreach ( $blocks as $block => $block_name ) {
 		    require_once dirname( __FILE__ ) . "/class-ecwid-gutenberg-block-$block.php";
 		    $className = "Ecwid_Gutenberg_Block_" . str_replace('-', '_', ucfirst( $block ) );
             
@@ -77,8 +72,8 @@ class Ecwid_Gutenberg {
 	
 	public function enqueue_block_editor_assets() {
 
-		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
-		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
+		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), get_option('ecwid_plugin_version') );
+		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css', get_option('ecwid_plugin_version') );
 		
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
@@ -182,11 +177,18 @@ class Ecwid_Gutenberg {
 	}
     
 	public static function get_block_names() {
+		// cuz no late static binding sadly
 		return array(
-			self::STORE_BLOCK,
-			self::PRODUCT_BLOCK,
-			self::BUYNOW_BLOCK,
-			self::PRODUCT_PAGE_BLOCK
+			'store' => self::STORE_BLOCK,
+			'product' => self::PRODUCT_BLOCK,
+			'buynow' => self::BUYNOW_BLOCK,
+			'categories' => self::CATEGORIES_BLOCK,
+			'search' => self::SEARCH_BLOCK,
+			'minicart' => self::MINICART_BLOCK,
+			'category-page' => self::CATEGORY_PAGE_BLOCK,
+			'product-page' => self::PRODUCT_PAGE_BLOCK,
+			'filters-page' => self::FILTERS_PAGE_BLOCK,
+			'cart-page' => self::CART_PAGE_BLOCK,
 		);
 	}
 	

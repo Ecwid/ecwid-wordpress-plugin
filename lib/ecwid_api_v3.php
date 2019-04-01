@@ -203,7 +203,7 @@ class Ecwid_Api_V3
 		return $cats->total > 0;
 	}
 	
-	public function get_category($categoryId)
+	public function get_category( $categoryId )
 	{
 		if (!isset($categoryId) || $categoryId == 0 ) {
 			return false;
@@ -480,6 +480,10 @@ class Ecwid_Api_V3
 
 	public function get_store_update_stats() {
 
+		static $stats = null;
+		
+		if ( $stats ) return $stats;
+		
 		$url = $this->_api_url . $this->store_id . '/latest-stats';
 
 		$params = array(
@@ -493,7 +497,9 @@ class Ecwid_Api_V3
 			return null;
 		}
 		
-		return json_decode($result['data']);
+		$stats = json_decode($result['data']);
+		
+		return $stats;
 	}
 
 	public function get_store_profile() {
