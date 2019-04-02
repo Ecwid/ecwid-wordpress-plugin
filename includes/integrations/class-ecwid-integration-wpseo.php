@@ -23,7 +23,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 			if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
 				add_filter( 'wpseo_title', 'ecwid_seo_title' );
 				remove_filter( 'wp_title', 'ecwid_seo_title' , 10000, 3 );
-				$this->wpseo_metadesc_hook();
+				add_filter( 'wpseo_metadesc', '__return_false' );
 
 				add_filter( 'ecwid_og_tags', array( $this, 'filter_og_tags' ) );
 				foreach ( $this->_og_drop as $name ) {
@@ -33,7 +33,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 				add_filter( 'wpseo_output_twitter_card', '__return_false' );
 			}
 
-			add_action( 'ecwid_clear_other_meta_description',  array( $this, 'wpseo_metadesc_hook' ) );
+			add_filter( 'ecwid_set_mainpage_metadesc', array( $this, 'ecwid_set_mainpage_metadesc_hook' ) );
 		}
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
@@ -41,8 +41,21 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		add_action( 'init', array($this, 'clear_ecwid_sitemap_index') );
 	}
 
-	public function wpseo_metadesc_hook() {
-		add_filter( 'wpseo_metadesc', '__return_false' );
+	public function ecwid_set_mainpage_metadesc_hook( $set_metadesc ) {
+		
+		global $wpseo_front;
+
+		if ( empty($wpseo_front) && class_exists('WPSEO_Frontend') ) {
+			$wpseo_front = WPSEO_Frontend::get_instance();
+		}
+
+		$wpseo_metadesc = $wpseo_front->metadesc(false);
+		
+		if( empty($wpseo_metadesc) ) {
+			return true;
+		}
+		
+		return $set_metadesc;
 	}
 
 	public function clear_ecwid_sitemap_index() {
