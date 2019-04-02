@@ -17,9 +17,7 @@ class Ecwid_Vantage extends Ecwid_Theme_Base
 	{
 		$option_fixed_position = get_option( Ecwid_Floating_Minicart::OPTION_FIXED_POSITION );
 
-		if( $option_fixed_position == 'BOTTOM_RIGHT' ) {
-			update_option( Ecwid_Floating_Minicart::OPTION_FIXED_POSITION, 'BOTTOM_LEFT' );
-		}
+		update_option( Ecwid_Floating_Minicart::OPTION_FIXED_POSITION, 'BOTTOM_LEFT' );
 	}
 }
 
