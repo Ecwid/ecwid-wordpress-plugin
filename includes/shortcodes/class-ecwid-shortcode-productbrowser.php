@@ -186,11 +186,11 @@ HTML;
 			if ( empty( $plain_content ) ) {
 				$plain_content = $catalog->get_category( 0 );
 			} else {
-				$is_default_catalog = true;
+				$is_default_category = true;
 			} 
 		}
 
-		if ( $url && !$is_default_catalog && !Ecwid_Seo_Links::is_product_browser_url() ) {
+		if ( $url && !$is_default_category && !Ecwid_Seo_Links::is_product_browser_url() ) {
 			$parsed = parse_url($url);
 
 			if ($parsed['fragment']) {
