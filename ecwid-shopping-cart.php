@@ -1833,7 +1833,6 @@ EOT;
 $content
 <!-- /wp:ecwid/store-block -->
 EOT;
-
 	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
