@@ -538,59 +538,31 @@ class Ecwid_Api_V3
 		if ($profile && isset($profile->settings) && isset($profile->settings->hideOutOfStockProductsInStorefront)) {
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
+
+		if( class_exists('Ecwid_Store_Page') ) {
+			Ecwid_Store_Page::set_store_url();
+		}
+
+		return $profile;
+	}
+
+
+	public function update_store_profile( $params ) {
+		$request_params =  array(
+			'token'
+		);
+
+		$url = $this->_api_url . $this->store_id . '/profile';
+		$url = $this->build_request_url( $url, $request_params );
+
+		$result = $this->_do_put( $url, $params );
+
+		if ( @$result['response']['code'] == '200' ) {
+			return $result;
+		}
 		
-		$profile = apply_filters( 'ecwid_set_store_url', $profile );
-
-		return $profile;
+		return false;
 	}
-
-	static public function set_store_url( $profile ) {
-		$api = new Ecwid_Api_V3();
-		$store_url = Ecwid_Store_Page::get_store_url();
-		$need_set_store_url = true;
-var_dump( $store_profile );
-die();
-		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) ) {
-			$need_set_store_url = false;
-		} else if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
-			$need_set_store_url = false;
-		} else if (
-			!in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') )
-			&& $profile->generalInfo->storeUrl != $profile->generalInfo->starterSite->generatedUrl
-			&& $profile->generalInfo->storeUrl == $store_url
-		) {
-			$need_set_store_url = false;
-		}
-
-		if( $need_set_store_url ) {
-
-			$params = array(
-				'generalInfo' => array(
-					'storeUrl' => $store_url
-				)
-			);
-
-			$request_params =  array(
-				'token'
-			);
-
-			$url = $api->_api_url . $api->store_id . '/profile';
-			$url = $api->build_request_url( $url, $request_params );
-
-			$result = $api->_do_put( $url, $params );
-
-			if ( @$result['response']['code'] == '200' ) {
-				$profile->generalInfo->storeUrl = $store_url;
-			}
-		}
-
-		var_dump( $need_set_store_url );
-		var_dump( $profile->generalInfo->storeUrl );
-		var_dump( $profile->generalInfo->starterSite->generatedUrl );
-
-		return $profile;
-	}
-	
 
 	public function is_store_feature_enabled( $feature_name ) {
 
