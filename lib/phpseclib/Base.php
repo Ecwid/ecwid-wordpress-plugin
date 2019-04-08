@@ -813,6 +813,7 @@ class Ecwid_Crypt_Base
             $this->_setup();
             $this->changed = false;
         }
+
         if ($this->use_inline_crypt) {
             $inline = $this->inline_crypt;
             return $inline('encrypt', $this, $plaintext);
@@ -1048,6 +1049,7 @@ class Ecwid_Crypt_Base
         }
         if ($this->use_inline_crypt) {
             $inline = $this->inline_crypt;
+            
             return $inline('decrypt', $this, $ciphertext);
         }
 
@@ -2331,8 +2333,18 @@ class Ecwid_Crypt_Base
                 break;
         }
 
+        
+        $inline_code = $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }';
+
         // Create the $inline function and return its name as string. Ready to run!
-        return create_function('$_action, &$self, $_text', $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }');
+        if( version_compare(PHP_VERSION, '7.2.0', '>=') ) {
+
+            eval('$func = function ($_action, &$self, $_text) { ' . $inline_code . '};');
+            return Closure::bind($func, $this);
+
+        } else {
+            return create_function('$_action, &$self, $_text', $inline_code);
+        }
     }
 
     /**
