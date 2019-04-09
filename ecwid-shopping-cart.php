@@ -45,6 +45,18 @@ add_action('sm_buildmap', 'ecwid_build_google_xml_sitemap');
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
+
+add_filter('views_plugin-install', 'ecwid_add_promo_plugins', 10, 1);
+function ecwid_add_promo_plugins( $views ){
+
+	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+		$views['plugin-install-ecwid'] = '<a href="admin.php?page=ec-store-admin-appmarket">' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
+	}
+
+	return $views;
+}
+
+
 if ( is_admin() ){ 
   add_action('admin_init', 'ecwid_settings_api_init');
 
