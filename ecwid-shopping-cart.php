@@ -82,9 +82,6 @@ if ( is_admin() ){
 	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
 	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
 	add_action('admin_init', 'ecwid_admin_check_api_cache');
-
-	add_action('admin_init', 'ecwid_install_plugins_search');
-	// add_action('install_plugins_search', 'ecwid_install_plugins_search');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_action('init', 'ecwid_backward_compatibility');
@@ -3394,28 +3391,6 @@ function ecwid_find_shortcodes( $content, $tag ) {
 		return $result;
 	}
 	return false;
-}
-
-function ecwid_get_app_market_notice()
-{
-	return '<p>See more applications for Ecwid in <a href="admin.php?page=ec-store-admin-appmarket">App Market</a></p>';
-}
-
-function ecwid_install_plugins_search()
-{
-	if( @$_REQUEST['action'] == 'search-install-plugins' && strpos($_REQUEST['s'], 'ecwid') !== false ) {
-		ob_start();
-		add_action('shutdown', function() {
-		    $output = ob_get_contents();
-		    ob_end_clean();
-
-		    $output = json_decode($output);
-
-		    $output->data->items = ecwid_get_app_market_notice().$output->data->items;
-
-		    echo json_encode($output);
-		}, 0);
-	}
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
