@@ -1301,10 +1301,6 @@ function ecwid_meta_description() {
 				$category = Ecwid_Category::get_by_id( $params['id'] );
 
 				if ( $category ) {
-					if ( isset( $category->seoDescription ) ) {
-						$description = $category->seoDescription;
-					}
-
 					if (!$description && isset( $category->description ) ) {
 						$description = $category->description;
 					}
@@ -1312,14 +1308,28 @@ function ecwid_meta_description() {
 			}
 		}
 	} else if ( Ecwid_Store_Page::is_store_page() ) {
-		$api = new Ecwid_Api_V3();
-		$profile = $api->get_store_profile();
+		$set_metadesc = false;
+		$set_metadesc = apply_filters( 'ecwid_set_mainpage_metadesc', $set_metadesc );
 
-		if( !empty($profile->settings->storeDescription) ) {
-			$description = $profile->settings->storeDescription;
-			
-			do_action( 'ecwid_clear_other_meta_description' );
-		}
+		if( $set_metadesc ) {
+			$store_page_params = Ecwid_Store_Page::get_store_page_params();
+			if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+				$category = Ecwid_Category::get_by_id( $store_page_params['default_category_id'] );
+
+				if ( $category ) {
+					if (!$description && isset( $category->description ) ) {
+						$description = $category->description;
+					}
+				}
+			} else {
+				$api = new Ecwid_Api_V3();
+				$profile = $api->get_store_profile();
+
+				if( !empty($profile->settings->storeDescription) ) {
+					$description = $profile->settings->storeDescription;
+				}
+			}
+		} 
 	}
 
 	if ( !$description ) {
@@ -1823,7 +1833,6 @@ EOT;
 $content
 <!-- /wp:ecwid/store-block -->
 EOT;
-
 	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 

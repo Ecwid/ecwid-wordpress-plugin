@@ -49,7 +49,7 @@ const {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'ecwid/product-block', {
-	title: __( 'Product Card Small', 'ecwid-shopping-cart' ), // Block title.
+	title: __( 'Product card small', 'ecwid-shopping-cart' ), // Block title.
 	icon: EcwidIcons.product, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: {
