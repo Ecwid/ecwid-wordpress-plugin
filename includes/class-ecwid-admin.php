@@ -227,6 +227,8 @@ class Ecwid_Admin {
 			}
 		}
 		
+		
+		
 		// Yeah, in some case there might be a collision between the wp slug and ecwid hash if some hashes collide into the same slug
 		ecwid_admin_do_page( $hash );	
 	}

@@ -322,7 +322,6 @@ display: none;
 	position: relative;
 	padding: 0px;
 	margin: 0px;
-	left: 60px;
 
 	display: inline-block;
 	height: 70px;
@@ -342,15 +341,15 @@ display: none;
 .ecwid-admin .ec-store-box .head {
 	text-align: left;
 	margin-bottom: 20px;
+	padding-left: 20px;
 }
 
 .ecwid-admin .head svg {
 	width: 32px;
 	height: 32px;
-	position: absolute;
-	top: 20px;
-	left: 20px;
 	margin-right: 10px;
+	margin-top: 20px;
+	float: left; 
 }
 /* END Common main */
 

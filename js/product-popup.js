@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
     if ( typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined' ) {
-        jQuery('#ecwid-product-popup-content').addClass('gutenberg');
+        jQuery('#ecwid-product-popup-content').addClass('ec-store-gutenberg');
     }
     
     var popup = function() {

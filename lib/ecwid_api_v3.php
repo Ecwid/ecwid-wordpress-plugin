@@ -20,6 +20,7 @@ class Ecwid_Api_V3
 
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 	const FEATURE_STATIC_HOME_PAGE = 'STATIC_HOME_PAGE';
+	const FEATURE_PRODUCT_FILTERS = 'PRODUCT_FILTERS';
 	
 	public static function get_api_status_list()
 	{
@@ -141,8 +142,7 @@ class Ecwid_Api_V3
 		}
 		self::reset_api_status();
 	}
-
-
+	
 	public function get_categories($input_params)
 	{
 		$params = array('token');
@@ -196,7 +196,14 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
-	public function get_category($categoryId)
+	public function has_public_categories()
+	{
+		$cats = $this->get_categories( array( 'limit' => 1 ) );
+		
+		return $cats->total > 0;
+	}
+	
+	public function get_category( $categoryId )
 	{
 		if (!isset($categoryId) || $categoryId == 0 ) {
 			return false;
@@ -473,6 +480,10 @@ class Ecwid_Api_V3
 
 	public function get_store_update_stats() {
 
+		static $stats = null;
+		
+		if ( $stats ) return $stats;
+		
 		$url = $this->_api_url . $this->store_id . '/latest-stats';
 
 		$params = array(
@@ -486,7 +497,9 @@ class Ecwid_Api_V3
 			return null;
 		}
 		
-		return json_decode($result['data']);
+		$stats = json_decode($result['data']);
+		
+		return $stats;
 	}
 
 	public function get_store_profile() {

@@ -86,7 +86,11 @@ function ecwid_apply_theme($theme_name = null)
 		'twentyseventeen',
 		'themify-music',
 		'Avada',
-		'twentynineteen'
+		'twentynineteen',
+		'woodiex',
+		'enfold',
+		'vantage',
+		'zenlife'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );
