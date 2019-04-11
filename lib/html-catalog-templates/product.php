@@ -13,6 +13,7 @@
 		?></span>
 		<span itemprop="priceCurrency" content="<?php echo EcwidPlatform::esc_attr( $formats->currency ); ?>"></span>
 		<?php if ( !isset( $product->quantity) || $product->quantity > 0): ?><link itemprop="availability" href="http://schema.org/InStock" />In stock<?php endif; ?> 
+		<link itemprop="url" href="<?php if( !empty($product->seo_link) ) { echo $product->seo_link; } else { echo $product->url; }?>" />
 	</div>
 	<?php if ( isset( $product->attributes ) && is_array( $product->attributes ) && !empty( $product->attributes) ): ?> 
 	<div class="attributes">
