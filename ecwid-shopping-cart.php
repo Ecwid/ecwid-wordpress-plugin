@@ -155,6 +155,12 @@ foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
 
+
+add_action( 'update_option_' . Ecwid_Api_V3::TOKEN_OPTION_NAME, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_' . Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_rewrite_rules', array( 'Ecwid_Store_Page', 'set_store_url' ) );
+
+
 function ecwid_init_integrations()
 {
 	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }

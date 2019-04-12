@@ -451,25 +451,29 @@ class Ecwid_Store_Page {
 	{
 		$store_url = Ecwid_Store_Page::get_store_url();
 
+		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+
 		$api = new Ecwid_Api_V3();
 		$profile = $api->get_store_profile();
 
-		$need_set_store_url = true;
-
-		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) ) {
-			$need_set_store_url = false;
-		} else if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
-			$need_set_store_url = false;
-		} else if (
-			(!in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') )
-			&& $profile->generalInfo->storeUrl != $profile->generalInfo->starterSite->generatedUrl)
-			|| $profile->generalInfo->storeUrl == $store_url
-		) {
-			$need_set_store_url = false;
+		if ( ecwid_is_demo_store() ) {
+			return; 
 		}
 
-		if( !$need_set_store_url ) {
+		if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
 			return;
+		}
+
+		if ( $profile->generalInfo->storeUrl == $store_url ) {
+			return;
+		}
+
+		$is_empty = in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') );
+		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
+		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
+
+		if ( !$is_empty && !$is_generated_url && !$is_same_domain ) {
+		    return;
 		}
 
 		$params = array(
@@ -493,5 +497,3 @@ add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_
 
 add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
 add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
-
-add_action( 'update_option_' . Ecwid_Api_V3::TOKEN_OPTION_NAME, array( 'Ecwid_Store_Page', 'set_store_url' ) );

@@ -48,6 +48,7 @@ class Ecwid_Api_V3
 
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
+		$this->_profile_api_url = $this->_api_url . $this->store_id . '/profile';
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -510,13 +511,11 @@ class Ecwid_Api_V3
 			return $profile;
 		}
 
-		$url = $this->_api_url . $this->store_id . '/profile';
-
 		$params = array(
 			'token' => self::get_token()
 		);
 		
-		$url = $this->build_request_url($url, $params);
+		$url = $this->build_request_url($this->_profile_api_url, $params);
 		$result = EcwidPlatform::fetch_url($url);
 		
 		if ( @$result['code'] == '403' ) {
@@ -539,9 +538,7 @@ class Ecwid_Api_V3
 			EcwidPlatform::set('hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront);
 		}
 
-		if( class_exists('Ecwid_Store_Page') ) {
-			Ecwid_Store_Page::set_store_url();
-		}
+		add_action( 'wp' , array( 'Ecwid_Store_Page', 'set_store_url' ) );
 
 		return $profile;
 	}
@@ -552,8 +549,7 @@ class Ecwid_Api_V3
 			'token'
 		);
 
-		$url = $this->_api_url . $this->store_id . '/profile';
-		$url = $this->build_request_url( $url, $request_params );
+		$url = $this->build_request_url( $this->_profile_api_url, $request_params );
 
 		$result = $this->_do_put( $url, $params );
 
