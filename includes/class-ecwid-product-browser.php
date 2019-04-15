@@ -204,6 +204,13 @@ class Ecwid_Product_Browser
 				'default' => 0
 			),
 
+			'default_product_id' => array(
+				'name' => 'default_product_id',
+				'title' => __( 'Default product_ID', 'ecwid-shopping-cart' ),
+				'type' => 'default_product_id',
+				'default' => 0
+			),
+
 			'product_details_layout' => array(
 				'name' => 'product_details_layout',
 				'title' => __( 'Product page layout', 'ecwid-shopping-cart' ),
@@ -330,6 +337,23 @@ class Ecwid_Product_Browser
 				'name' => 'chameleon_color_background',
 				'title' => __( 'Background color', 'ecwid-shopping-cart' ),
 				'default' => get_option( 'ecwid_chameleon_colors_background' )
+			),
+
+			'product_filters_position_search_page' => array(
+				'name' => 'product_filters_position_search_page',
+				'title' => __( 'Filters panel position', 'ecwid-shopping-cart' ),
+				'values' => array(
+					array(
+						'value' => 'LEFT',
+						'title' => __( 'On the left', 'ecwid-shopping-cart' )
+					),
+					array(
+						'value' => 'RIGHT',
+						'title' => __( 'On the right', 'ecwid-shopping-cart' )
+					)
+				),
+				'default' => 'LEFT',
+				'is_storefront_api' => true
 			),
 
 		);

@@ -19,6 +19,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
 			add_filter( 'wpseo_do_sitemap_ecwid', array( $this, 'wpseo_hook_do_sitemap' ) );
+
 			if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
 				add_filter( 'wpseo_title', 'ecwid_seo_title' );
 				remove_filter( 'wp_title', 'ecwid_seo_title' , 10000, 3 );
@@ -31,21 +32,30 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 
 				add_filter( 'wpseo_output_twitter_card', '__return_false' );
 			}
+
+			add_filter( 'ecwid_set_mainpage_metadesc', array( $this, 'ecwid_set_mainpage_metadesc_hook' ) );
 		}
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 
-		add_filter( 'wpseo_sitemap_url', array( $this, 'wpseo_hook_sitemap_url' ), 10, 2 );
 		add_action( 'init', array($this, 'clear_ecwid_sitemap_index') );
 	}
 
-	public function wpseo_hook_sitemap_url( $output, $url )
-	{
-		$type = get_query_var( 'sitemap' );
+	public function ecwid_set_mainpage_metadesc_hook( $set_metadesc ) {
+		
+		global $wpseo_front;
 
-		if( $type == 'ec-product') {
-			return false;
+		if ( empty($wpseo_front) && class_exists('WPSEO_Frontend') ) {
+			$wpseo_front = WPSEO_Frontend::get_instance();
 		}
+
+		$wpseo_metadesc = $wpseo_front->metadesc(false);
+		
+		if( empty($wpseo_metadesc) ) {
+			return true;
+		}
+		
+		return $set_metadesc;
 	}
 
 	public function clear_ecwid_sitemap_index() {
