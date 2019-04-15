@@ -139,18 +139,6 @@ class Ecwid_Customizer
 	
 	public function preview_init() {
 		EcwidPlatform::enqueue_script( 'minicart-customize', array(), true );
-
-		add_filter( 'the_content', array( $this, 'add_shortcodes_to_content' ) );
-		add_action( 'customize_preview_init' , array( $this, 'live_preview' ) );
-	}
-
-	public function add_shortcodes_to_content($content){
-
-		if ( !has_shortcode( $content, 'ecwid' ) && Ecwid_Store_Page::is_store_page() && is_page() ) {
-			$content = get_post()->post_content;
-		}
-
-		return $content;
 	}
 
 }
