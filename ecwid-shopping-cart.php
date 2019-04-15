@@ -1237,7 +1237,7 @@ function ecwid_canonical() {
 		$main_page_id = Ecwid_Store_page::get_current_store_page_id();
 		$params = Ecwid_Store_page::get_store_page_params( $main_page_id );
 		
-		if ( $params['default_category_id'] ) {
+		if ( @$params['default_category_id'] ) {
 			$current = get_permalink();
 			$store_page = Ecwid_Store_Page::get_store_url();
 			$link = str_replace( $store_page, $current, $link );
