@@ -161,10 +161,21 @@ jQuery(document).ready(function() {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
 
+        if (typeof e.data.height != 'undefined') {
+            jQuery('#ecwid-frame').css('height', e.data.height + 'px');
+        } 
+
         if ( typeof e.data.action != 'undefined') {
+
+            // проверить на выпил этого условия
             if ( e.data.action == 'pageLoad' ) {
-                var page = e.data.data.page.path;
-                jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+                if(
+                    typeof e.currentTarget.adminpage != 'undefined' 
+                    && e.currentTarget.adminpage == "toplevel_page_ec-store"
+                ) {
+                    var page = e.data.data.page.path;
+                    jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+                }
             } else if (
                 e.data.action
                 && e.data.action == 'navigationMenuUpdated'

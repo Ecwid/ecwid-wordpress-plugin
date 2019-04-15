@@ -46,53 +46,49 @@ add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter('plugins_loaded', 'ecwid_load_textdomain');
 
 
-add_filter('views_plugin-install', 'ecwid_add_promo_plugins', 10, 1);
-function ecwid_add_promo_plugins( $views ){
+// может быть вынести это в отдельный класс или добавить в какой-то текущий класс
+add_filter('views_plugin-install', 'ecwid_views_plugin_install', 10, 1 );
+function ecwid_views_plugin_install( $views ){
+	global $tabs, $tab;
 
 	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+		
+		$current_link_attributes = ( $tab == 'ecwid' ) ? 'class="current" aria-current="page"' : '';
 
-		$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
-		$iframe_src .= '&hide_profile_header=true';
-
-		$content = <<<HTML
-			<script>
-			jQuery(document).ready(function(){
-				jQuery(document).on( 'click', '#ec-store-show-appmarket', function( e ){
-					e.preventDefault();
-
-
-					var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-					var eventer = window[eventMethod];
-					var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-					// Listen to message from child window
-					eventer(messageEvent,function(e) {
-					    if (typeof e.data.height != 'undefined') {
-			                jQuery('#ecwid-frame').css('height', e.data.height + 'px');
-			            } 
-			        },false);
-
-
-					jQuery('.filter-links').find('.current').removeClass('current');
-					jQuery(this).addClass('current');
-
-					jQuery('#plugin-filter, .plugins-popular-tags-wrapper').hide();
-
-					jQuery('#plugin-filter').after('<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>');
-
-					jQuery('#ecwid-frame').attr('src', '$iframe_src');
-
-				});
-			});
-			</script>
-HTML;
-
-		$content .= '<a href="plugin-install.php?tab=ecwid" id="ec-store-show-appmarket">' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
-
-		$views['plugin-install-ecwid'] = $content;
+		$views['plugin-install-ecwid'] = '<a href="plugin-install.php?tab=ecwid" ' . $current_link_attributes . ' >' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
 	}
 
 	return $views;
 }
+
+add_filter( 'install_plugins_tabs', 'ecwid_install_plugins_tabs', 10, 1 );
+function ecwid_install_plugins_tabs( $tabs ){
+	$tabs['ecwid'] = 'Ecwid Apps';
+	return $tabs;
+}
+
+add_action( 'install_plugins_ecwid', 'ecwid_install_plugins', 10, 1 );
+function ecwid_install_plugins( $paged ){
+
+	$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
+	$iframe_src .= '&hide_profile_header=true';
+
+	echo <<<HTML
+
+		<script type='text/javascript'>//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('.search-form.search-plugins').hide();
+			});
+			//]]>
+		</script>
+
+		<p></p>
+
+		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no" src="$iframe_src"></iframe>
+HTML;
+
+}
+
 
 
 if ( is_admin() ){ 
