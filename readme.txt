@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.1
-Stable tag: 6.5.1
+Stable tag: 6.5.2
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,6 +150,13 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.5.3 - Apr 11, 2019 =
+- **Compatibility fixes for KingComposer Editor.** There were some problems in how Ecwid e-commerce plugin works with KingComposer editor. Fixed it — the plugins should work fine together now.
+- Minor fixes and improvements.
+
+= 6.5.2 - Apr 3, 2019 =
+- Minor fixes and improvements.
+
 = 6.5.1 - Mar 28, 2019 =
 - Fixed a minor appearance issue in the Ecwid e-commerce blocks in Gutenberg.
 

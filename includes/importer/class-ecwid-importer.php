@@ -305,8 +305,6 @@ class Ecwid_Importer
 		if ( self::count_ecwid_demo_products() > 0 && self::count_ecwid_demo_products() == self::count_ecwid_products() ) {
 			$this->_set_setting( self::SETTING_DELETE_DEMO, true );
 		}
-		
-		$this->_set_setting( self::SETTING_UPDATE_BY_SKU, true );
 	}
 	
 	protected static function _get_woo_categories( $args ) {

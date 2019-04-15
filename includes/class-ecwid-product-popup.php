@@ -91,7 +91,7 @@ class Ecwid_Product_Popup {
 				$output['items'][] = array(
 					'id' => $product->id,
 					'name' => $product->name,
-					'thumb' => $product->thumbnailUrl,
+					'thumb' => @$product->thumbnailUrl,
 					'sku' => $product->sku
 				);
 			}

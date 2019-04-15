@@ -51,8 +51,8 @@ const blockParams = EcwidGutenbergParams.blockParams[blockName];
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( blockName, {
-	title: blockParams.title, // Block title.
+registerBlockType( 'ecwid/store-block', {
+	title: _x( 'Store Home Page', 'ecwid-shopping-cart' ), // Block title.
 	icon: EcwidIcons.store, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: blockParams.attributes,
