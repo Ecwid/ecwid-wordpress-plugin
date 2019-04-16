@@ -3399,9 +3399,9 @@ function ecwid_find_shortcodes( $content, $tag ) {
 
 
 function ecwid_plugins_install_view( $views ){
-	global $tabs, $tab;
+	global $ecwid_oauth, $tab;
 
-	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
 		
 		$url = get_admin_url(null, 'plugin-install.php?tab=ecwid', 'admin');
 		$current_link_attributes = ( $tab == 'ecwid' ) ? 'class="current" aria-current="page"' : '';
@@ -3413,14 +3413,14 @@ function ecwid_plugins_install_view( $views ){
 }
 
 function ecwid_plugins_install_tab( $tabs ){
-	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
 		$tabs['ecwid'] = __('Plugins for Ecwid', 'ecwid-shopping-cart');
 	}
 	return $tabs;
 }
 
 function ecwid_plugins_install_page( $paged ){
-	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
 		$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
 		$iframe_src .= '&hide_profile_header=true';
 
