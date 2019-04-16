@@ -40,111 +40,81 @@ if ( ! defined('ECWID_SHORTCODES_DIR' ) ) {
 }
 
 // Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
-add_action('sm_buildmap', 'ecwid_build_google_xml_sitemap');
+add_action( 'sm_buildmap', 'ecwid_build_google_xml_sitemap' );
 
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
-add_filter('plugins_loaded', 'ecwid_load_textdomain');
+add_filter( 'plugins_loaded', 'ecwid_load_textdomain' );
 
+if ( is_admin() ) {
+	add_action( 'init', 'ecwid_apply_theme', 0 );
+	add_action( 'init', 'ecwid_maybe_remove_emoji' );
 
-// может быть вынести это в отдельный класс или добавить в какой-то текущий класс
-add_filter('views_plugin-install', 'ecwid_views_plugin_install', 10, 1 );
-function ecwid_views_plugin_install( $views ){
-	global $tabs, $tab;
+	add_action( 'admin_init', 'ecwid_settings_api_init' );
+	add_action( 'admin_init', 'ecwid_check_version' );
+	add_action( 'admin_init', 'ecwid_admin_check_api_cache' );
 
-	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
-		
-		$current_link_attributes = ( $tab == 'ecwid' ) ? 'class="current" aria-current="page"' : '';
+	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_register_settings_styles' );
 
-		$views['plugin-install-ecwid'] = '<a href="plugin-install.php?tab=ecwid" ' . $current_link_attributes . ' >' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
-	}
+	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
+	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
+	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' );
+	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
+	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
+	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
 
-	return $views;
-}
-
-add_filter( 'install_plugins_tabs', 'ecwid_install_plugins_tabs', 10, 1 );
-function ecwid_install_plugins_tabs( $tabs ){
-	$tabs['ecwid'] = 'Ecwid Apps';
-	return $tabs;
-}
-
-add_action( 'install_plugins_ecwid', 'ecwid_install_plugins', 10, 1 );
-function ecwid_install_plugins( $paged ){
-
-	$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
-	$iframe_src .= '&hide_profile_header=true';
-
-	echo <<<HTML
-
-		<script type='text/javascript'>//<![CDATA[
-			jQuery(document).ready(function() {
-				jQuery('.search-form.search-plugins').hide();
-			});
-			//]]>
-		</script>
-
-		<p></p>
-
-		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no" src="$iframe_src"></iframe>
-HTML;
-
-}
-
-
-
-if ( is_admin() ){ 
-  add_action('admin_init', 'ecwid_settings_api_init');
-
-	add_action('admin_init', 'ecwid_check_version');
-	add_action('template_redirect', 'ecwid_process_oauth_params');
-  add_action('admin_notices', 'ecwid_show_admin_messages');
-  add_action('admin_enqueue_scripts', 'ecwid_common_admin_scripts');
-  add_action('admin_enqueue_scripts', 'ecwid_register_admin_styles');
-  add_action('admin_enqueue_scripts', 'ecwid_register_settings_styles');
-  add_action('wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message');
-  add_action('wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message');
-	add_action('wp_ajax_save-widget', 'ecwid_ajax_save_widget');
-	add_action('wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache');
-	add_action('wp_ajax_ecwid_create_store', 'ecwid_create_store');
-  add_filter('plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions');
-  add_action('admin_post_ecwid_sync_products', 'ecwid_sync_products');
-  add_action('wp_ajax_ecwid_sync_products', 'ecwid_sync_products');
-  add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
-  add_action('init', 'ecwid_apply_theme', 0);
-	add_action('init', 'ecwid_maybe_remove_emoji');
-	add_action('get_footer', 'ecwid_admin_get_footer');
-	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
-	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
-	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
-	add_action('admin_init', 'ecwid_admin_check_api_cache');
+	add_action( 'admin_post_ecwid_sync_products', 'ecwid_sync_products' );
+	add_action( 'admin_post_ec_connect', 'ecwid_admin_post_connect' );
+	add_action( 'admin_post_ecwid_get_debug', 'ecwid_get_debug_file' );
+	
+	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
+	add_action( 'get_footer', 'ecwid_admin_get_footer' );
+	add_action( 'template_redirect', 'ecwid_process_oauth_params' );
+	add_action( 'admin_notices', 'ecwid_show_admin_messages' );
+	add_filter( 'plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions' );
+	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
+	
+	add_filter( 'views_plugin-install', 'ecwid_plugins_install_view', 10, 1 );
+	add_filter( 'install_plugins_tabs', 'ecwid_plugins_install_tab', 10, 1 );
+	add_action( 'install_plugins_ecwid', 'ecwid_plugins_install_page', 10, 1 );
 } else {
-  add_shortcode('ecwid_script', 'ecwid_script_shortcode');
-  add_action('init', 'ecwid_backward_compatibility');
-  add_action('send_headers', 'ecwid_503_on_store_closed');
-  add_action('template_redirect', 'ecwid_404_on_broken_escaped_fragment');
-  add_action('template_redirect', 'ecwid_apply_theme'); // Why not init?
-  add_action('wp_enqueue_scripts', 'ecwid_enqueue_frontend');
-  add_action('wp', 'ecwid_seo_ultimate_compatibility', 0);
-  add_action('wp', 'ecwid_remove_default_canonical');
-  add_filter('wp', 'ecwid_seo_compatibility_init', 0);
-  add_filter('wp_title', 'ecwid_seo_title', 10000, 3);
-  add_filter('document_title_parts', 'ecwid_seo_title_parts');
-  add_action('plugins_loaded', 'ecwid_minifier_compatibility', 0);
-  add_action('wp_head', 'ecwid_meta_description', 0);
-  add_action('wp_head', 'ecwid_ajax_crawling_fragment');
-  add_action('wp_head', 'ecwid_meta');
-  add_action('wp_head', 'ecwid_canonical');
-  add_action('wp_head', 'ecwid_seo_compatibility_restore', 1000);
-	add_action('wp_head', 'ecwid_print_inline_js_config');
-	add_action('wp_head', 'ecwid_product_browser_url_in_head');
-  add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
-  add_filter('body_class', 'ecwid_body_class');
-  add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
-  add_action('init', 'ecwid_check_api_cache');
-  $ecwid_seo_title = '';
+	add_shortcode( 'ecwid_script', 'ecwid_script_shortcode' );
+	
+	add_action( 'init', 'ecwid_backward_compatibility' );
+	add_action( 'init', 'ecwid_check_api_cache' );
+
+	add_action( 'template_redirect', 'ecwid_404_on_broken_escaped_fragment' );
+	add_action( 'template_redirect', 'ecwid_apply_theme' ); // Why not init?
+
+	add_action( 'wp', 'ecwid_seo_ultimate_compatibility', 0 );
+	add_action( 'wp', 'ecwid_remove_default_canonical' );
+	add_filter( 'wp', 'ecwid_seo_compatibility_init', 0 );
+
+	add_action( 'wp_head', 'ecwid_meta_description', 0 );
+	add_action( 'wp_head', 'ecwid_ajax_crawling_fragment' );
+	add_action( 'wp_head', 'ecwid_meta' );
+	add_action( 'wp_head', 'ecwid_canonical' );
+	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
+	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
+	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
+
+	add_action( 'send_headers', 'ecwid_503_on_store_closed' );
+	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
+	add_filter( 'wp_title', 'ecwid_seo_title', 10000, 3 );
+	add_filter( 'document_title_parts', 'ecwid_seo_title_parts' );
+	add_action( 'plugins_loaded', 'ecwid_minifier_compatibility', 0 );
+	add_filter( 'widget_meta_poweredby', 'ecwid_add_credits' );
+	add_filter( 'body_class', 'ecwid_body_class' );
+	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
+	
+	$ecwid_seo_title = '';
 }
-add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
-if (get_option('ecwid_last_oauth_fail_time') > 0) {
-	add_action('plugins_loaded', 'ecwid_test_oauth');
+
+add_action( 'admin_bar_menu', 'add_ecwid_admin_bar_node', 1000 );
+
+if ( get_option('ecwid_last_oauth_fail_time') > 0 ) {
+	add_action( 'plugins_loaded', 'ecwid_test_oauth');
 }
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
@@ -181,11 +151,13 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
+
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
 
 $version = get_bloginfo('version');
+
 if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
@@ -239,8 +211,6 @@ function ecwid_estimate_sync() {
 	echo json_encode($result);
 }
 
-$version = get_bloginfo('version');
-
 if (version_compare($version, '3.6') < 0) {
     /**
      * A copy of has_shortcode functionality from wordpress 3.6
@@ -278,9 +248,9 @@ if (version_compare($version, '3.6') < 0) {
 	}
 }
 
-if (is_admin()) {
+if ( is_admin() ) {
 	$main_button_class = "";
-	if (version_compare($version, '3.8-beta') > 0) {
+	if ( version_compare($version, '3.8-beta' ) > 0) {
 		$main_button_class = "button-primary";
 	} else {
 		$main_button_class = "pure-button pure-button-primary";
@@ -3425,6 +3395,44 @@ function ecwid_find_shortcodes( $content, $tag ) {
 		return $result;
 	}
 	return false;
+}
+
+
+function ecwid_plugins_install_view( $views ){
+	global $tabs, $tab;
+
+	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+		
+		$url = get_admin_url(null, 'plugin-install.php?tab=ecwid', 'admin');
+		$current_link_attributes = ( $tab == 'ecwid' ) ? 'class="current" aria-current="page"' : '';
+
+		$views['plugin-install-ecwid'] = '<a href="' . $url . '" ' . $current_link_attributes . ' >' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
+	}
+
+	return $views;
+}
+
+function ecwid_plugins_install_tab( $tabs ){
+	$tabs['ecwid'] = __('Plugins for Ecwid', 'ecwid-shopping-cart');
+	return $tabs;
+}
+
+function ecwid_plugins_install_page( $paged ){
+	$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
+	$iframe_src .= '&hide_profile_header=true';
+
+	echo <<<HTML
+		<script type='text/javascript'>//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('.search-form.search-plugins').hide();
+				jQuery('#ecwid-frame').attr( 'src', '$iframe_src' );
+			});
+			//]]>
+		</script>
+		<p></p>
+		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
+HTML;
+
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent

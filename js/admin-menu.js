@@ -167,12 +167,10 @@ jQuery(document).ready(function() {
 
         if ( typeof e.data.action != 'undefined') {
 
-            // проверить на выпил этого условия
             if ( e.data.action == 'pageLoad' ) {
-                if(
-                    typeof e.currentTarget.adminpage != 'undefined' 
-                    && e.currentTarget.adminpage == "toplevel_page_ec-store"
-                ) {
+                var adminpage = e.currentTarget.adminpage;
+
+                if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
                     var page = e.data.data.page.path;
                     jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
                 }
