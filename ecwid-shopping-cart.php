@@ -3413,26 +3413,29 @@ function ecwid_plugins_install_view( $views ){
 }
 
 function ecwid_plugins_install_tab( $tabs ){
-	$tabs['ecwid'] = __('Plugins for Ecwid', 'ecwid-shopping-cart');
+	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+		$tabs['ecwid'] = __('Plugins for Ecwid', 'ecwid-shopping-cart');
+	}
 	return $tabs;
 }
 
 function ecwid_plugins_install_page( $paged ){
-	$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
-	$iframe_src .= '&hide_profile_header=true';
+	if( !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
+		$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
+		$iframe_src .= '&hide_profile_header=true';
 
-	echo <<<HTML
-		<script type='text/javascript'>//<![CDATA[
-			jQuery(document).ready(function() {
-				jQuery('.search-form.search-plugins').hide();
-				jQuery('#ecwid-frame').attr( 'src', '$iframe_src' );
-			});
-			//]]>
-		</script>
-		<p></p>
-		<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
+		echo <<<HTML
+			<script type='text/javascript'>//<![CDATA[
+				jQuery(document).ready(function() {
+					jQuery('.search-form.search-plugins').hide();
+					jQuery('#ecwid-frame').attr( 'src', '$iframe_src' );
+				});
+				//]]>
+			</script>
+			<p></p>
+			<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
 HTML;
-
+	}
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
