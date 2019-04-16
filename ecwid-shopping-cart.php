@@ -3438,6 +3438,55 @@ HTML;
 	}
 }
 
+
+
+add_action( 'install_themes_tabs', function(){
+
+	$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
+	$iframe_src .= '&hide_profile_header=true';
+
+	echo <<<HTML
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('.filter-links').append('<li><a href="theme-install.php?tab=ecwid" id="ecwid-themes" data-sort="ecwid">Themes for Ecwid</a></li>');
+
+			jQuery(document).on('click', '.filter-links li > a', function(){
+				if( jQuery(this).attr('id') == 'ecwid-themes' ){
+					
+					if( jQuery('#ecwid-frame').length == 0 ){
+						jQuery('.theme-browser').html('<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no" src="$iframe_src"></iframe>');
+					}
+					jQuery('#ecwid-frame').show();
+					jQuery('.filter-count').hide();
+
+				} else {
+					jQuery('.filter-count').show();
+					jQuery('#ecwid-frame').hide();
+				}
+				return false;
+			});
+
+			// не грузится если рефрешнуть страницу theme-install.php?browse=ecwid
+			jQuery('.filter-links li > a.current').trigger('click');
+		});
+	</script>
+HTML;
+});
+
+
+add_action( 'wp_ajax_query-themes', function(){
+	if( $_REQUEST['request']['browse'] == 'ecwid' ) {
+		wp_send_json_success( array(
+			"data" => array(
+				"info" => array( "page"=>1,"pages"=>1,"results"=>0),
+			)
+		) );
+		wp_die();
+	}
+}, 1);
+
+
+
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
 	global $shortcode_tags;
