@@ -74,10 +74,6 @@ if ( is_admin() ) {
 	add_action( 'admin_notices', 'ecwid_show_admin_messages' );
 	add_filter( 'plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions' );
 	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
-	
-	add_filter( 'views_plugin-install', 'ecwid_plugins_install_view', 10, 1 );
-	add_filter( 'install_plugins_tabs', 'ecwid_plugins_install_tab', 10, 1 );
-	add_action( 'install_plugins_ecwid', 'ecwid_plugins_install_page', 10, 1 );
 } else {
 	add_shortcode( 'ecwid_script', 'ecwid_script_shortcode' );
 	
@@ -137,6 +133,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-home-page.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
@@ -3396,96 +3393,6 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	}
 	return false;
 }
-
-
-function ecwid_plugins_install_view( $views ){
-	global $ecwid_oauth, $tab;
-
-	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
-		
-		$url = get_admin_url(null, 'plugin-install.php?tab=ecwid', 'admin');
-		$current_link_attributes = ( $tab == 'ecwid' ) ? 'class="current" aria-current="page"' : '';
-
-		$views['plugin-install-ecwid'] = '<a href="' . $url . '" ' . $current_link_attributes . ' >' . __('Plugins for Ecwid', 'ecwid-shopping-cart') . '</a>';
-	}
-
-	return $views;
-}
-
-function ecwid_plugins_install_tab( $tabs ){
-	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
-		$tabs['ecwid'] = __('Plugins for Ecwid', 'ecwid-shopping-cart');
-	}
-	return $tabs;
-}
-
-function ecwid_plugins_install_page( $paged ){
-	if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() && get_current_screen()->id == 'plugin-install' ) {
-		$iframe_src = ecwid_get_iframe_src( time(), 'appmarket' );
-		$iframe_src .= '&hide_profile_header=true';
-
-		echo <<<HTML
-			<script type='text/javascript'>//<![CDATA[
-				jQuery(document).ready(function() {
-					jQuery('.search-form.search-plugins').hide();
-					jQuery('#ecwid-frame').attr( 'src', '$iframe_src' );
-				});
-				//]]>
-			</script>
-			<p></p>
-			<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
-HTML;
-	}
-}
-
-
-
-add_action( 'install_themes_tabs', function(){
-
-	$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
-	$iframe_src .= '&hide_profile_header=true';
-
-	echo <<<HTML
-	<script type="text/javascript">
-		jQuery(document).ready(function(){
-			jQuery('.filter-links').append('<li><a href="theme-install.php?tab=ecwid" id="ecwid-themes" data-sort="ecwid">Themes for Ecwid</a></li>');
-
-			jQuery(document).on('click', '.filter-links li > a', function(){
-				if( jQuery(this).attr('id') == 'ecwid-themes' ){
-					
-					if( jQuery('#ecwid-frame').length == 0 ){
-						jQuery('.theme-browser').html('<iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no" src="$iframe_src"></iframe>');
-					}
-					jQuery('#ecwid-frame').show();
-					jQuery('.filter-count').hide();
-
-				} else {
-					jQuery('.filter-count').show();
-					jQuery('#ecwid-frame').hide();
-				}
-				return false;
-			});
-
-			// не грузится если рефрешнуть страницу theme-install.php?browse=ecwid
-			jQuery('.filter-links li > a.current').trigger('click');
-		});
-	</script>
-HTML;
-});
-
-
-add_action( 'wp_ajax_query-themes', function(){
-	if( $_REQUEST['request']['browse'] == 'ecwid' ) {
-		wp_send_json_success( array(
-			"data" => array(
-				"info" => array( "page"=>1,"pages"=>1,"results"=>0),
-			)
-		) );
-		wp_die();
-	}
-}, 1);
-
-
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
