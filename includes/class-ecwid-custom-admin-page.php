@@ -50,7 +50,7 @@ class Ecwid_Custom_Admin_Page {
 		echo $this->get_iframe_html( $iframe_src );
 	}
 
-	public function themes_install_init_tab() {
+	public function themes_install_init_tab( $tabs ) {
 		$tab_name = self::TAB_NAME;
 
 		$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
@@ -102,6 +102,8 @@ class Ecwid_Custom_Admin_Page {
 		HTML;
 
 		echo $content;
+
+		return $tabs;
 	}
 
 	public function themes_install_ajax() {
