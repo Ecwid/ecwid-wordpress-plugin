@@ -1,9 +1,9 @@
 === Ecwid Ecommerce Shopping Cart ===
 Contributors: Ecwid
-Tags: ecommerce, downloadable products, Facebook ecommerce, online store, paypal, product catalog, shop, shopping cart, store
+Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.0
-Stable tag: 6.4.6
+Tested up to: 5.1
+Stable tag: 6.5.2
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -141,7 +141,7 @@ To create a sitemap for your WordPress shop, we recommend using the fully compat
 
 You can add the store categories menu to your site menu to help your customers easily navigate your online shop. Just open "Appearance > Menus" in your WordPress control panel and add the "Store with Categories Menu" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site.
 
- = How do I migrate my shop from Shopify or Woocommerce? =
+ = How do I migrate my shop from Shopify, WooCommerce or BigCommerce? =
 
 You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
 
@@ -150,6 +150,55 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.5.3 - Apr 11, 2019 =
+- **Compatibility fixes for KingComposer Editor.** There were some problems in how Ecwid e-commerce plugin works with KingComposer editor. Fixed it — the plugins should work fine together now.
+- Minor fixes and improvements.
+
+= 6.5.2 - Apr 3, 2019 =
+- Minor fixes and improvements.
+
+= 6.5.1 - Mar 28, 2019 =
+- Fixed a minor appearance issue in the Ecwid e-commerce blocks in Gutenberg.
+
+= 6.5 - Mar 28, 2019 =
+- **Added 8 new Gutenberg blocks — 10 in total.** The Ecwid plugin now provides 10 ecommerce blocks for Gutenberg for adding online store functionality to your site pages. The blocks include: the store home page to display the whole storefront, the store category page to show a particular category, the large product card to show detailed product information, the small product card to display one or several product widgets, the buy now button to add buttons to blog posts, the search and filters page, the search input block, the shopping cart icon block and the cart and checkout block. To try the new blocks, open Gutenberg editor in your WordPress admin backend, click "Add block" and find the "Ecwid" blocks set there.
+- **Added In-context "Edit Product" links.** You can now open store product editor quickly when browsing published store pages as an administrator. Just click the "Edit Product" link at the top of the page in the WordPress admin header or the "Edit" button at the bottom of the post and you will get redirected to the product details in your e-commerce store dashboard.
+- **Added SEO improvement for the H1 tags on the product and category pages**. Ecwid puts product and categories ecommerce data in the page content in a SEO-friendly microdata format so that search engines can index your store well. On the other hand, Wordpress pages have their own data, specifically &lt;h1&gt; tags, which stay on product pages and visible to Google when it is indexing your site. So, in addition to a product title like "My cool product", Google may see your store page title on the same page like "Shop". We improved it: the product pages will now have more prominent and clear &lt;h1&gt; tags containing product titles. This should improve indexation and the way your products look in the search results in Google.
+- **Added compatibility with the Enfold theme page builder (Avia Layout Builder)**. We learned that Ecwid didn't work well with the Avia page builder which is a part of the Enfold theme. Enfold users might notice it was difficult to add Ecwid blocks to a page. We fixed that — now Ecwid should work fine with Enfold theme.
+- **Added Mega Menu plugin compatibility**. Added fixes and layout improvements to make the Ecwid e-commerce plugin compatible with the Mega Menu WordPress plugin. If you use the Mega Menu plugin, you might notice layout issues on your store page. We fixed that. If you find any trouble in how Ecwid works with your theme or plugin, please let us know.
+- Minor fixes for the "Import products from WooCommerce to Ecwid" import tool.
+- Ecwid is constantly updated with new features and tools which are of course available to WordPress users. One of the recent major updates is Dynamic AMP emails: we’ve collaborated with Google/Gmail to launch dynamic email for e-commerce merchants. It's available for the Ecwid plugin users now and you will be able to use it without dealing with custom code or any external plugin. Check it out in our [blog](https://www.ecwid.com/blog/e-commerce-email). 
+
+= 6.4.15 - Mar 19, 2019 =
+- Fixed generation of sitemap for Yoast SEO plugin
+
+= 6.4.14 - Mar 12, 2019 =
+- Fixed a PHP error message ("Cannot use object of type Closure as array")
+
+= 6.4.12 - Mar 11, 2019 =
+- Improvement for the sharing buttons on the product pages. "Share to Facebook", "Tweet" and other share buttons now uses the actual product page URLs instead of a "proxy" Ecwid URL. This should make shared links look more appealing in social networks and improve the SEO of your ecommerce store.
+- Fixed an issue in the "Import products from WooCommerce" tool. In some cases, import failed and stopped importing products — we fixed that, now it should work fine and you can import your products from WooCommerce to Ecwid when you need it.
+- Fixed a Javascript warning message in the browser console when the Recently viewed products widget is used.
+- Minor fixes and improvements for SEO, stability and performance.
+- Besides the changes in the plugin, Ecwid e-commerce functionality is constantly updated with new features and tools. One of the recent major updates is product filters — you can now add product filtering panel to your store search page without dealing with custom code or an external plugin. Check it out in our [blog](https://www.ecwid.com/blog/all-sorted-introducing-storefront-product-filters.html).
+
+= 6.4.11 - Feb 26, 2019 =
+- Minor fixes and improvements.
+
+= 6.4.9 - Feb 7, 2019 =
+- **Fixes for the Open Graph image tag (og:image tag) .** When you share a page from your ecommerce site on Facebook or in a messenger, you should see the product title, description and image in the sharing preview snippet. 
+- **Improvements for the product listing auto-scroll function.** In some Wordpress themes, the site header might overlap product pages when you navigate from page to page in your online store. We improved it to make the product and category pages appear better to your customers. 
+- Various minor fixes and improvements.
+
+= 6.4.8 - Dec 26, 2018 =
+- **Improved settings interface for the "Product" block in Gutenberg (the new WordPress page editor)**. You can add a single product to any of your pages or posts using the Ecwid ecommerce "Product" block and fine-tune its layout in the block settings on the right side in the editor.
+- **Resolved a minor layout issue caused by the Embed Any Document plugin.** The Embed Any Document plugin adds a breaking CSS code to the Wordpress admin backend which caused some of the Ecwid plugin admin pages display incorreclty. We fixed that, the plugins are now compatible.
+- **SEO enhancement: improved canonical tags for the sites that display different store categories on different site pages.** In such case, the canonical tags on products and categories pages will keep the pages structure as is (link to the page that they are opened from). Otherwise, if you have one main store page displaying the whole catalog, the product/categories canonical tags will link to the main store page to avoid duplicates issues and make your e-commerce store appear better in the Google search results.
+- Minor improvements for the Ecwid admin backend pages navigation. 
+
+= 6.4.7 - Dec 14, 2018 =
+- **Compatibility fixes for Elementor and Gravity Forms.** Thanks to a user report, we found a few glitches in how the Ecwid e-commerce plugin works with Elementor and Gravity Forms. All fixed — the plugins should work fine together now
+
 = 6.4.6 - Dec 7, 2018 =
 - Minor fixes & improvements.
 

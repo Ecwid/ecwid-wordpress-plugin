@@ -6,6 +6,7 @@ class Ecwid_Store_Page {
 	const OPTION_MAIN_STORE_PAGE_ID = 'ecwid_store_page_id';
 	const OPTION_LAST_STORE_PAGE_ID = 'ecwid_last_store_page_id';
 	const OPTION_FLUSH_REWRITES = 'ecwid_flush_rewrites';
+	const OPTION_REPLACE_TITLE = 'ecwid_replace_title';
 	const WARMUP_ACTION = 'ecwid_warmup_store';
 	
 	const META_STORE_DATA = 'ecwid_store';
@@ -135,7 +136,9 @@ class Ecwid_Store_Page {
 	protected static function _get_store_page_data_key( $page_id = 0 )
 	{
 		$post = get_post( $page_id );
-
+		
+		if ( !$post ) return; 
+		
 		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
 
 	}
@@ -239,7 +242,7 @@ class Ecwid_Store_Page {
 				$new_page = $pages[0];
 				// we prefer pages, not posts
 				foreach( $pages as $page ) {
-					if ( get_post($page)->post_type == 'page' ) {
+					if ( get_post($page) && get_post($page)->post_type == 'page' ) {
 						$new_page = $page;
 					}
 				}
@@ -416,9 +419,38 @@ class Ecwid_Store_Page {
 		
 		$catalog->warmup_store_page(intval($category));
 	}
+	
+	/* If you figure out a better place to put this the_title functionality, go ahead, move it =) */
+	
+	static $main_page_title = '';
+	static public function enqueue_original_page_title( )
+	{
+		if ( !get_option( self::OPTION_REPLACE_TITLE, false ) || !Ecwid_Store_Page::is_store_page() ) {
+			return;
+		}
+		
+		$script = 'dynamic-title';
+		EcwidPlatform::enqueue_script( $script, array( 'jquery' ), true );
+		wp_localize_script( EcwidPlatform::make_handle( $script ), 'ecwidOriginalTitle', array(
+			'initialTitle' => get_the_title(),
+			'mainPageTitle' => self::$main_page_title
+		) );
+	}   
+	
+	static public function the_title( $title )
+	{
+		if ( ! self::is_store_page() || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
+	
+		self::$main_page_title = $title;
+		
+		return $title;
+	}
 }
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
 add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
 add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_flush_rewrites' ) );
+
+add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
+add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );

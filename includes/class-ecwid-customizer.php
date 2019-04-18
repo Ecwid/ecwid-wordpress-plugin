@@ -27,7 +27,8 @@ class Ecwid_Customizer
 		
 		$wp_customize->add_panel( $panel, array(
 			'title' => Ecwid_Config::get_brand(),
-			'capability' => Ecwid_Admin::get_capability()
+			'capability' => Ecwid_Admin::get_capability(),
+			'priority' => 2000
 		) );
 
 		$wp_customize->add_section( self::SECTION_MINICART, array(
@@ -139,6 +140,7 @@ class Ecwid_Customizer
 	public function preview_init() {
 		EcwidPlatform::enqueue_script( 'minicart-customize', array(), true );
 	}
+
 }
 
 new Ecwid_Customizer();

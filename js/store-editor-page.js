@@ -1,4 +1,6 @@
-var createGutenbergedShortcodeString;
+function ecwidIsTinyMCEActive() {
+    return typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+}
 
 jQuery(document).ready(function() {
 	$popup = jQuery('#ecwid-store-popup-content');
@@ -106,14 +108,14 @@ jQuery(document).ready(function() {
 			'minicart_layout': 'MiniAttachToProductBrowser'
 		}
 	}
-
+	
 	/*
 	 * Tests whether there is a valid store shortcode
 	 */
 	checkEcwid = function() {
 
 		var hasEcwid = false;
-		if (typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
+		if (ecwidIsTinyMCEActive()) {
 			content = tinyMCE.activeEditor.getBody();
 
 			hasEcwid = jQuery(content).find('.ecwid-store-editor').length > 0;
@@ -126,7 +128,7 @@ jQuery(document).ready(function() {
 		} else {
 			jQuery('.wp-media-buttons').removeClass('has-ecwid');
 		}
-		if (typeof tinymce != 'undefined' && tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+		if (ecwidIsTinyMCEActive()) {
 			var body = tinymce.activeEditor.dom.doc.body;
 			var button = tinymce.activeEditor.dom.select('#ecwid-edit-store-button');
 
@@ -263,7 +265,7 @@ jQuery(document).ready(function() {
 			shortcode.shortcode.attrs.named[i] = result[i];
 		}
 
-		var stringToInsert = createGutenbergedShortcodeString(shortcode.shortcode);
+		var stringToInsert = ecwid_create_gutenberged_shortcode_string(shortcode.shortcode);
 		
 		if (existingShortcode) {
 			
@@ -276,12 +278,12 @@ jQuery(document).ready(function() {
 			jQuery('#content').val(
 				jQuery('#content').val().replace(stringToReplace, stringToInsert)
 			);
-			if (tinyMCE.activeEditor) {
+			if (ecwidIsTinyMCEActive()) {
 				jQuery(tinymce.activeEditor.getBody()).find('.ecwid-store-editor').attr('data-ecwid-shortcode', shortcode.shortcode.string());
 			}
 		} else {
 
-			if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+			if (ecwidIsTinyMCEActive()) {
 				if ($popup.data('range')) {
                     tinymce.activeEditor.selection.setRng($popup.data('range'));
 				}
@@ -314,28 +316,6 @@ jQuery(document).ready(function() {
 
 		jQuery('#ecwid-store-popup-content').removeClass('open');
 	});
-
-	createGutenbergedShortcodeString = function( shortcode ) {
-		return shortcode.string();
-		
-		var result = '<!-- wp:ecwid/store-block ';
-		
-		var attributes = {
-			default_category_id: shortcode.attrs.named.default_category_id,
-			show_categories: shortcode.attrs.named.widgets.indexOf('categories') !== -1,
-            show_search: shortcode.attrs.named.widgets.indexOf('search') !== -1
-		}
-		
-		result += JSON.stringify(attributes);
-		
-		result += ' -->';
-		
-		result += shortcode.string();
-		
-		result += '<!-- /wp:ecwid/store-block -->';
-		
-		return result;
-	}
 	
 	updatePreview = function() {
 		jQuery('.store-settings input[type=checkbox]', $popup).each(function(idx, el) {
@@ -365,7 +345,7 @@ ecwid_open_store_popup = function() {
 
 	var shortcode;
 
-	if (tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
+	if (ecwidIsTinyMCEActive()) {
 		tinyMCE.activeEditor.save();
 
 		$popup.data('range', tinyMCE.activeEditor.selection.getRng());
@@ -405,7 +385,7 @@ ecwid_open_store_popup = function() {
 
 	updatePreview();
 
-	if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+	if (ecwidIsTinyMCEActive()) {
 		tinyMCE.activeEditor.execCommand('SelectAll');
 		tinyMCE.activeEditor.selection.collapse(true);
 	}

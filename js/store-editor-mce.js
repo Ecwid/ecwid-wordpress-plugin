@@ -218,23 +218,38 @@ tinymce.PluginManager.add( 'ecwid', function( editor ) {
 		// Replace Read More/Next Page tags with images
 	editor.onBeforeSetContent.add( function( editor, e ) {
 		if ( e.content ) {
-
-			found = ecwid_get_store_shortcode(e.content);
+			
+			var found = ecwid_get_store_shortcode(e.content);
 
 			if (!found) return;
 
+			var start = found.index;
+			var end = found.index + found.content.length;
+			
 			var content = e.content;
+            
+			var gutenStart = content.indexOf('<!-- wp:ecwid/store-block');
+			var gutenEnd = content.indexOf('<!-- /wp:ecwid/store-block -->') + '<!-- /wp:ecwid/store-block -->'.length;
+			
+			
+            if (gutenStart != -1 && gutenEnd != -1) {
+            	var gutenberged = content.substr(gutenStart, gutenEnd);
+            	if (gutenberged.indexOf(found.content) != -1) {
+            		start = gutenStart;
+            		end = gutenEnd;
+				}
+			}
 
 			var store = '<img height="200" width="100%" data-ecwid-shortcode="' + window.encodeURIComponent(found.content) + '" src="' + ecwid_store_svg + '" data-mce-placeholder="true" data-mce-resize="false" class="ecwid-store-editor mceItem">';
 
-			e.content = e.content.substr(0, found.index) + store + e.content.substr(found.index + found.content.length);
+			e.content = e.content.substr(0, start) + store + e.content.substr(end);
 		}
 	});
 
 	// Replace images with tags
 	editor.onPostProcess.add( function( editor, e ) {
 
-		if ( e.get ) {
+        if ( e.get ) {
 
 			return e.content = e.content.replace( /(<img [^>]*data-ecwid-shortcode=[^>]+>)/g, function( match, image ) {
 

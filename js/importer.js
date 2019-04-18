@@ -66,10 +66,15 @@ jQuery(document).ready(function() {
            jQuery(el).attr('onclick', 'return false').closest('label').addClass('readonly');
        });
 
-       do_import = function () {
+       do_import = function (start = null) {
+           
+           var data = {'action': ecwid_importer.do_woo_import_action, settings: settings};
+           if (start) {
+               data.reset = 1
+           }
            jQuery.ajax({
                'url': ajaxurl,
-               'data': {'action': ecwid_importer.do_woo_import_action, settings: settings},
+               'data': data,
                'success': function (json) {
                    
                    try {
@@ -134,7 +139,7 @@ jQuery(document).ready(function() {
            });
        };
 
-       do_import();
+       do_import( true );
 
        doImportComplete = function( status ) {
            jQuery('#import-results-products').text(status.success.create_product || 0);
@@ -156,8 +161,6 @@ jQuery(document).ready(function() {
            if (errorContent.length > 0) {
                jQuery('.ecwid-importer .errors').show().find('pre').text(errorContent);
            }
-
-
        }
    };
    

@@ -152,11 +152,7 @@ class Ecwid_Seo_Links {
 			'.*-p([0-9]+)(\/.*|\?.*)?',
 			'.*-c([0-9]+)(\/.*|\?.*)?',
 			'cart',
-			'checkout',
-			'checkout\/shipping',
-			'checkout\/payment',
-			'checkout\/place-order',
-			'checkout\/order-confirmation',
+			'checkout.*',
 			'account',
 			'account\/settings',
 			'account\/orders',
@@ -174,8 +170,6 @@ class Ecwid_Seo_Links {
 			'resetPassword.*',
 			'checkoutAB.*',
 			'downloadError.*',
-			'checkoutResult.*',
-			'checkoutWait.*',
 			'orderFailure.*',
 			'checkoutCC.*',
 			'checkoutEC.*',
@@ -210,16 +204,18 @@ class Ecwid_Seo_Links {
 			}
 		}
 
-		if ( self::is_404_seo_link() ) {
+		if ( Ecwid_Api_V3::is_available() && self::is_404_seo_link() ) {
 			return $config;
 		}
 
 		$url = esc_js( get_permalink( $page_id ) );
-		
+
 		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
 			window.ec.config.baseUrl = '$url';
+			window.ec.storefront = window.ec.storefront || {};
+			window.ec.storefront.sharing_button_link = "DIRECT_PAGE_URL";
 JS;
 		$config .= $result;
 		
@@ -313,7 +309,7 @@ JS;
 	public function build_rewrite_rules( ) {
 
 		if ( !self::is_enabled() ) return;
-
+		
 		$all_base_urls = $this->_build_all_base_urls();
 		
 		foreach ( $all_base_urls as $page_id => $links ) {
@@ -322,13 +318,18 @@ JS;
 			$post = get_post( $page_id );
 			if ( ! $post ) continue;
 			if ( !in_array( $post->post_type, array( 'page', 'post' ) ) ) continue;
-
+			
 			$param_name = $post->post_type == 'page' ? 'page_id' : 'p';
 			
 			foreach ( $links as $link ) {
+				$link = trim( $link, '/' );
+
+				if (strpos($link, 'index.php') !== 0) {
+					$link = '^' . preg_quote( $link );
+				}
+				
 				foreach ( $patterns as $pattern ) {
-					$link = trim( $link, '/' );
-					add_rewrite_rule( '^' . preg_quote( $link ) . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
 				}
 			}
 		}
@@ -411,9 +412,12 @@ JS;
 				if ( !isset( $base_urls[$page_id] ) ) {
 					$base_urls[$page_id] = array();
 				}
-				$base_urls[$page_id][] = urldecode( self::_get_relative_permalink( $page_id ) );
+				
+				$link = urldecode( self::_get_relative_permalink( $page_id ) );
+				
+				$base_urls[$page_id][] = $link;
 			}
-
+			
 			if (
 				is_plugin_active('polylang/polylang.php')
 				&& function_exists( 'PLL' )
@@ -440,11 +444,44 @@ JS;
 	}
 	
 	protected static function _get_relative_permalink( $item_id ) {
+		
 		$permalink = get_permalink( $item_id );
-		
 		$home_url = home_url();
+		$default_link = substr( $permalink, strlen( $home_url ) );
 		
-		return substr( $permalink, strlen( $home_url ) );
+		if ( !is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+			return $default_link;
+		}
+
+		try {  
+			global $sitepress;
+
+			if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
+
+				$translation_details = apply_filters( 'wpml_element_language_details', null, array(
+					'element_id'   => $item_id,
+					'element_type' => 'post_page'
+				) );
+				
+				$code = $translation_details->language_code;
+
+				$lang_info = apply_filters( 'wpml_active_languages', null );
+				$permalink = apply_filters( 'wpml_permalink', get_permalink( $item_id ), $code, true );
+				$home_url  = $lang_info[$code]['url'];
+				
+				$link = substr( $permalink, strlen( $home_url ) );
+			}
+		} catch ( Exception $e ) {
+			$permalink = get_permalink( $item_id );
+
+			$home_url = home_url();
+
+			$link = substr( $permalink, strlen( $home_url ) );
+
+			return $default_link;			
+		}
+		
+		return $link;
 	}
 
 	public static function is_noindex_page() {

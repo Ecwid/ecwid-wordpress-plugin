@@ -26,7 +26,6 @@ class Ecwid_Importer
 	
 	public function initiate( $settings = array() )
 	{
-		$t = Ecwid_Importer_Task::load_task(Ecwid_Importer_Task_Import_Woo_Product::$type);
 		update_option( self::OPTION_CATEGORIES, array() );
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
@@ -149,10 +148,35 @@ class Ecwid_Importer
 		return $progress;
 	}
 	
-	public function append_after_current( $task ) {
+	public function append_task( $task ) {
 
 		$this->_tasks[] = $task;
+		
+		return count( $this->_tasks ) - 1;
 		//array_splice( $this->_tasks, (int)$this->_get_current_task() + 1, 0, array( $task ) );
+	}
+
+	/**
+	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
+	 * and appends $task after all its siblings
+	 * 
+	 * @param $task 
+	 */
+	public function append_child( $task ) {
+		$ind = $this->_get_current_task();
+
+		$ind++;
+		while ( isset( $this->_tasks[$ind] ) && $this->_tasks[$ind]['type'] == $task['type'] ) {
+			$ind++;
+		}
+		
+		return $this->append_after( $task, $ind );
+	}
+	
+	public function append_after( $task, $index ) {
+		array_splice( $this->_tasks, $index, 0, array( $task ) );
+	
+		return $index;
 	}
 	
 	public function append_after_type( $task ) {
@@ -164,7 +188,7 @@ class Ecwid_Importer
 			$ind++;
 		}
 		
-		array_splice( $this->_tasks, $ind + 1, 0, array( $task ) );
+		return $this->append_after( $task, $ind );
 	}
 	
 	public function has_begun()
@@ -187,7 +211,7 @@ class Ecwid_Importer
 		
 		$categories = get_option( self::OPTION_CATEGORIES, array() );
 		
-		return $categories[$woo_category_id];
+		return @$categories[$woo_category_id];
 	}
 	
 	public function save_ecwid_category( $woo_category_id, $ecwid_category_id )
@@ -221,7 +245,7 @@ class Ecwid_Importer
 	
 	protected function _build_tasks()
 	{
-		$this->append_after_current( 
+		$this->append_task( 
 			Ecwid_Importer_Task_Main::build( array() )
 		);
 	}

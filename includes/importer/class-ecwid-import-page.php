@@ -103,7 +103,7 @@ class Ecwid_Import_Page
 	{
 		$importer = new Ecwid_Importer();
 		
-		if ( !$importer->has_begun() ) {
+		if ( !$importer->has_begun() || isset( $_REQUEST['reset'] ) ) {
 			$importer->initiate( @$_REQUEST['settings'] );
 		}
 		

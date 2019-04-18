@@ -15,6 +15,22 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 
 		add_filter( 'aiosp_sitemap_extra', array( $this, 'aiosp_hook_sitemap_extra' ) );
 		add_filter( 'aiosp_sitemap_custom_ecwid', array( $this, 'aiosp_hook_sitemap_content') );
+		add_filter( 'aiosp_sitemap_prio_item_filter', array($this, 'aiosp_hook_sitemap_prio_item_filter'), 10, 3 );
+	}
+
+	public function aiosp_hook_sitemap_prio_item_filter($pr_info, $post, $args)
+	{
+		$post_type = (string)$post->post_type;
+
+		if( $post_type == 'ec-product' ) {
+			return false;
+		}
+
+		if( $post_type == 'attachment' && strpos($pr_info['loc'], Ecwid_Store_Page::get_store_url()) === 0 ){
+			return false;
+		}
+
+		return $pr_info;
 	}
 
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
