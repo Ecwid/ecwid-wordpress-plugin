@@ -1570,6 +1570,15 @@ msgstr "3 колонки, изображение справа"
 msgid "3 columns, image on the left"
 msgstr "3 колонки, изображение слева"
 
+msgid "Filters panel position"
+msgstr "Положение панели фильтров"
+
+msgid "On the left"
+msgstr "Слева"
+
+msgid "On the right"
+msgstr "Справа"
+
 msgid "Show description under the image"
 msgstr "Показывать описание под изображением"
 

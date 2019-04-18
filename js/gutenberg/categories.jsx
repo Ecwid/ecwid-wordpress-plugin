@@ -36,7 +36,7 @@ registerBlockType( 'ec-store/categories', {
 	title: __( 'Store Categories Menu', 'ecwid-shopping-cart' ),
 	icon: EcwidIcons.categories, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-	description: __( 'Display categories menu', 'ecwid-shopping-cart' ),
+	description: __( 'Display categories navigation bar', 'ecwid-shopping-cart' ),
     supports: {
         customClassName: false,
         className: false,

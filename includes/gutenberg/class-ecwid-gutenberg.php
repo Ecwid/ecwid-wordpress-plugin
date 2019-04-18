@@ -33,7 +33,9 @@ class Ecwid_Gutenberg {
         foreach ( $this->_blocks as $block ) {
 		    $block->register();
         }
-        
+
+		add_action( 'admin_init', array( $this, 'init_scripts' ) );
+
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -43,6 +45,13 @@ class Ecwid_Gutenberg {
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 
+	public function init_scripts()
+	{
+		wp_register_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), get_option('ecwid_plugin_version') );
+
+		wp_set_script_translations( 'ecwid-gutenberg-store', 'ecwid-shopping-cart', ECWID_PLUGIN_DIR . '/languages' );
+	}
+	
 	public function admin_enqueue_scripts()
 	{
 		wp_enqueue_script( 'gutenberg-store' );
@@ -71,8 +80,7 @@ class Ecwid_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
-
-		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), get_option('ecwid_plugin_version') );
+		wp_enqueue_script( 'ecwid-gutenberg-store' ); //, ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), get_option('ecwid_plugin_version') );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css', get_option('ecwid_plugin_version') );
 		
 		$locale_data = '';

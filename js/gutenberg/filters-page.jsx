@@ -77,7 +77,7 @@ registerBlockType( 'ec-store/filters-page', {
         const { attributes } = props;
         
         const editor =
-            <EcwidProductBrowserBlock icon={ EcwidIcons.filters } title={ __( 'Search and Filters') }>
+            <EcwidProductBrowserBlock icon={ EcwidIcons.filters } title={ __( 'Search and Filters', 'ecwid-shopping-cart' ) }>
                 <EcwidImage src="filter-preview.png" />
             </EcwidProductBrowserBlock>;
  /*       const editor =
