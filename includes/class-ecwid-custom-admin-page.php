@@ -51,57 +51,51 @@ class Ecwid_Custom_Admin_Page {
 	}
 
 	public function themes_install_init_tab( $tabs ) {
-		$tab_name = self::TAB_NAME;
-
 		$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
 		$iframe_src .= '&hide_profile_header=true';
 
-		$tab_content = '<div style="overflow:hidden;">';
-		$tab_content .= $this->get_iframe_html( $iframe_src );
-		$tab_content .= '</div>';
+		$tab_content = sprintf( '<div style="overflow:hidden;">%s</div>', $this->get_iframe_html( $iframe_src ) );
 
-		$link_html = '<li><a href="#" data-sort="' . $tab_name . '">' . __('Themes for Ecwid', 'ecwid-shopping-cart') . '</a></li>';
+		$link_html = sprintf( '<li><a href="#" data-sort="%s">%s</a></li>', self::TAB_NAME, __('Themes for Ecwid', 'ecwid-shopping-cart') );
 
-		$is_show_tab = (int)(isset($_REQUEST['browse']) && $_REQUEST['browse'] == $tab_name);
+		if ( isset( $_REQUEST['browse'] ) && $_REQUEST['browse'] == self::TAB_NAME ) {
+			$init_script =  sprintf( 'ecwid_switch_theme_tab("%s");', self::TAB_NAME );
+		} else {
+			$init_script = '';
+		}
 
 		$content = <<<HTML
 			<script type="text/javascript">//<![CDATA[
 				function ecwid_switch_theme_tab( sort ){
-					if( sort == '$tab_name' ) {
+					if( sort == '%s' ) {
 						if( jQuery('#ecwid-frame').length == 0 ) {
-							jQuery('.theme-browser').before('$tab_content');
+							jQuery('.theme-browser').before('%s');
 							jQuery('#ecwid-frame').css({'margin-top': '-70px'});
 						}
 
 						jQuery('#ecwid-frame').show();
-						jQuery('.filter-count, .button.drawer-toggle, .search-form, .theme-browser .themes').hide();
+						jQuery('.filter-count, .button.drawer-toggle, .search-form, .theme-browser').hide();
 					} else {
 						jQuery('#ecwid-frame').hide();
-						jQuery('.filter-count, .button.drawer-toggle, .search-form, .theme-browser .themes').show();
+						jQuery('.theme-browser').removeAttr('style');
+						jQuery('.filter-count, .button.drawer-toggle, .search-form').show();
 					}
 				}
 
 				jQuery(document).ready(function(){
-					jQuery('.filter-links').append('$link_html');
+					jQuery('.filter-links').append('%s');
 
 					jQuery(document).on('click', '.filter-links li > a', function(){
 						ecwid_switch_theme_tab( jQuery(this).data('sort') );
 					});
-		HTML;
 
-		if ( isset( $_REQUEST['browse'] ) && $_REQUEST['browse'] == $tab_name ) {
-			$content .=  <<<HTML
-				ecwid_switch_theme_tab('$tab_name');
-			HTML;
-		}
-
-		$content .= <<<HTML
+					%s
 				});
 				//]]>
 			</script>
-		HTML;
+HTML;
 
-		echo $content;
+		echo sprintf( $content, self::TAB_NAME, $tab_content, $link_html, $init_script );
 
 		return $tabs;
 	}
