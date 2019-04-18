@@ -13,7 +13,7 @@
 		</label>	
 		<?php if ( @$reason['has_message'] ): ?>
 		<div class="message">
-			<textarea name="message[<?php echo $key; ?>]" placeholder="<?php echo $reason['message_hint']; ?>"></textarea>
+			<textarea name="message[<?php echo $key; ?>]" placeholder="<?php echo $reason['message_hint']; ?>"><?php if($reason['code'] == 'theme'){ echo $reason['message_hint']; } ?></textarea>
 		</div>
 		<?php endif; ?>
 	</li>

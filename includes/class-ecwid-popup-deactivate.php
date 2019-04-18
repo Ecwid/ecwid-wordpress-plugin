@@ -36,7 +36,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		
 		$reasons = $this->_get_reasons();
 		$reason = $reasons[$_GET['reason']];
-		
+
 		if ( isset( $reason['is_disable_message'] ) ) {
 			update_option( self::OPTION_DISABLE_POPUP, true );
 		}
@@ -129,10 +129,13 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
 			),
 			array(
-				'text' => __( 'The plugin is difficult to set up and use', 'ecwid-shopping-cart' ),
+				'text' => __( 'I couldn’t find a WordPress theme that goes well with Ecwid', 'ecwid-shopping-cart' ),
 				'has_message' => true,
-				'code' => 'hard to use',
-				'message_hint' => __( 'What was difficult?', 'ecwid-shopping-cart' )
+				'code' => 'theme',
+				'message_hint' => sprintf( 
+					__( 'I use this WordPress theme: %s', 'ecwid-shopping-cart' ), 
+					wp_get_theme()->get('Name')
+				)
 			),
 			array(
 				'text' => __( 'The plugin doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
