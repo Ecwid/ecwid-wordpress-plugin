@@ -37,23 +37,10 @@ class Ecwid_Static_Home_Page {
 
 		if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
 
-		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE );
+		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE, array() );
 		
 		foreach ( $data->cssFiles as $ind => $item ) {
 			wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
-		}
-		
-		if (! is_array( $data->js) ) {
-			$data->js = array();
-		}
-		$data->js[] = <<<JS
-window.ec = window.ec || {}; 
-window.ec.config = window.ec.config || {}; 
-window.ec.config.interactive = false;
-JS;
-		
-		foreach ( $data->js as $code ) {
-			wp_add_inline_script( 'ecwid-' . self::HANDLE_STATIC_PAGE, $code );
 		}
 	}
 	
@@ -94,6 +81,11 @@ JS;
 		if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] ) {
 			return null;
 		}
+
+		if ( isset( $store_page_params['default_product_id'] ) && $store_page_params['default_product_id'] ) {
+			return null;
+		}
+
 		$params = array();
 		
 		if ( Ecwid_Seo_Links::is_enabled() ) {
@@ -141,22 +133,17 @@ JS;
 			)
 		);
 		
+		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
-			
-			$matches = array();
-			
-			$pattern = '!<script>([\s]*var Grid.*?)</script>!s';
-			preg_match( $pattern, $fetched_data->htmlCode, $matches );
-			
-			if ( isset( $matches[1] ) && !empty( $matches[1] ) ) {
-				$fetched_data->js = array(
-					$matches[1]
-				);
 
-				$pattern = '!<script>[\s]*var Grid.*?</script>!s';
-				$fetched_data->htmlCode = preg_replace( $pattern, '', $fetched_data->htmlCode );
+			if ( $fetched_data->jsCode ) {
+				$fetched_data->jsCode .=  <<<JS
+				window.ec = window.ec || {}; 
+				window.ec.config = window.ec.config || {}; 
+				window.ec.config.interactive = false;
+JS;
 			}
 			
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
