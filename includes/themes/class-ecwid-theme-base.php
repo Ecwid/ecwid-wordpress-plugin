@@ -38,7 +38,7 @@ class Ecwid_Theme_Base {
 
 		if (is_admin()) return;
 
-		if ( in_array( 'scroll', $props ) || array_key_exists( 'scroll', $props ) ) {
+		if ( array_key_exists( 'scroll', $props ) ) {
 			$theme->create_scroller( $props );
 		}
 
@@ -83,9 +83,7 @@ class Ecwid_Theme_Base {
 	}
 
 	public function create_scroller( $props ) {
-		if( isset( $props['scroll'] ) ) {
-			$this->scroll_indent = $props['scroll'];
-		}
+		$this->scroll_indent = $props['scroll'];
 
 		if( is_admin_bar_showing() ) {
 			$this->scroll_indent += $this->scroll_indent_admin_bar;	
