@@ -2,7 +2,7 @@
 
     <tr id="product-{{ data.id }}">
         <td class="product-thumb column-product-thumb has-row-actions" data-colname="Product">
-            <div><img src="{{ data.image_url }}" alt=""></div>
+            <div><img data-src="{{ data.image_url }}" alt=""></div>
         </td>
         <td class="product-name column-product-name has-row-actions column-primary" data-colname="Product Name">
             <div>{{ data.name }}</div>

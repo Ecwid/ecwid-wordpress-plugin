@@ -93,7 +93,7 @@ class Ecwid_Admin {
 				$menu = $this->_get_menus();
 				
 				foreach ( $menu as $item ) {
-					if ( @$item['slug'] ) {
+					if ( isset( $item['slug'] ) ) {
 						add_submenu_page(
 							self::ADMIN_SLUG,
 							$item['title'],
@@ -103,7 +103,7 @@ class Ecwid_Admin {
 							array( $this, 'do_admin_page' )
 						);
 		
-						if (@$item['children']) foreach ($item['children'] as $subitem) {
+						if ( isset( $item['children'] ) ) foreach ($item['children'] as $subitem) {
 							add_submenu_page(
 								null,
 								$subitem['title'],
@@ -283,7 +283,7 @@ class Ecwid_Admin {
 				$menu_item['type'] = 'separator';
 			}
 			
-			if ( @$item['items'] ) foreach ( $item['items'] as $item2 ) {
+			if ( isset( $item['items'] ) ) foreach ( $item['items'] as $item2 ) {
 				
 				$slug2 = $this->_slugify_ecwid_cp_hash( $item2['path'], $slugs );
 				$slugs[] = $slug2;

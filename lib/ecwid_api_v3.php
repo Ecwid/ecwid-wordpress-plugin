@@ -200,6 +200,9 @@ class Ecwid_Api_V3
 	{
 		$cats = $this->get_categories( array( 'limit' => 1 ) );
 		
+		if( !isset($cats->total) )
+			return false;
+
 		return $cats->total > 0;
 	}
 	

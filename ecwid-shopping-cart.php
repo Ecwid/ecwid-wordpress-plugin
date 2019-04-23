@@ -3381,6 +3381,24 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	return false;
 }
 
+add_action( 'admin_footer', 'filter_function_name_8755' );
+function filter_function_name_8755(){
+
+	global $wp_scripts;
+	
+	var_dump( 'xxx' );
+	// print_r( $wp_scripts->registered );
+
+	echo '<script>';
+	foreach( $wp_scripts->registered as $key => $script ) {
+		if( strpos($key, 'ecwid') !== false ) {
+			echo file_get_contents( $script->src );
+			wp_dequeue_script( $wp_scripts->handle );
+		}
+	}
+	echo '</script>';
+}
+
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
 	global $shortcode_tags;
