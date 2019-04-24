@@ -3381,12 +3381,12 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	return false;
 }
 
-add_action( 'admin_footer', 'filter_function_name_8755' );
+// add_action( 'admin_footer', 'filter_function_name_8755' );
 function filter_function_name_8755(){
 
 	global $wp_scripts;
 	
-	var_dump( 'xxx' );
+	// var_dump( 'xxx' );
 	// print_r( $wp_scripts->registered );
 
 	echo '<script>';
