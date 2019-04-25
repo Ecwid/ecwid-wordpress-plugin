@@ -96,6 +96,7 @@ if ( is_admin() ){
   add_action('init', 'ecwid_check_api_cache');
   $ecwid_seo_title = '';
 }
+
 add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
 if (get_option('ecwid_last_oauth_fail_time') > 0) {
 	add_action('plugins_loaded', 'ecwid_test_oauth');
@@ -153,6 +154,12 @@ if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 
 foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
+
+
+add_action( 'update_option_' . Ecwid_Api_V3::TOKEN_OPTION_NAME, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_' . Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_rewrite_rules', array( 'Ecwid_Store_Page', 'set_store_url' ) );
+
 
 function ecwid_init_integrations()
 {
@@ -1499,7 +1506,6 @@ function _ecwid_get_seo_title()
 
 	return "";
 }
-
 
 add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
 

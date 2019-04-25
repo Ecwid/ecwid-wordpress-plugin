@@ -445,6 +445,49 @@ class Ecwid_Store_Page {
 		
 		return $title;
 	}
+
+
+	static public function set_store_url()
+	{
+		$store_url = Ecwid_Store_Page::get_store_url();
+
+		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+
+		if ( ecwid_is_demo_store() ) {
+			return; 
+		}
+
+		if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
+			return;
+		}
+
+		if ( $profile->generalInfo->storeUrl == $store_url ) {
+			return;
+		}
+
+		$is_empty = in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') );
+		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
+		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
+
+		if ( !$is_empty && !$is_generated_url && !$is_same_domain ) {
+		    return;
+		}
+
+		$params = array(
+			'generalInfo' => array(
+				'storeUrl' => $store_url
+			)
+		);
+
+		$result = $api->update_store_profile( $params );
+
+		if ( $result ) {
+			EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+		}
+	}
 }
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
