@@ -129,7 +129,10 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
 			),
 			array(
-				'text' => __( 'I couldn’t find a WordPress theme that goes well with Ecwid', 'ecwid-shopping-cart' ),
+				'text' => sprintf(
+					__( 'I couldn’t find a WordPress theme that goes well with %s', 'ecwid-shopping-cart' ),
+					Ecwid_Config::get_brand()
+				),
 				'has_message' => true,
 				'code' => 'theme',
 				'message_hint' => sprintf( 
