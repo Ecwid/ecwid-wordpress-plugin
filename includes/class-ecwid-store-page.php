@@ -354,6 +354,7 @@ class Ecwid_Store_Page {
 			return;
 
 		$has_pb = self::post_content_has_productbrowser( $post_id );
+		$is_page = get_post_type( $post_id ) == 'page';
 
 		if ( self::is_store_page( $post_id ) ) {
 			$is_disabled = !in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() );
@@ -363,11 +364,11 @@ class Ecwid_Store_Page {
 			}
 		}
 		
-		if ($has_pb) {
+		if ( $is_page && $has_pb ) {
 			ecwid_reset_categories_cache();
 		}
 
-		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
+		if ( $is_page && $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
 			update_option( self::OPTION_LAST_STORE_PAGE_ID, $post_id );
