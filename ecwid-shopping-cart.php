@@ -926,7 +926,9 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
-	// if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
+	$is_ajax_check_api_cache = $_GET['action'] == 'check_api_cache';
+
+	if ( !$is_ajax_check_api_cache && wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
 	
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
@@ -935,7 +937,7 @@ function ecwid_admin_check_api_cache()
 	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
-	
+
 	ecwid_regular_cache_check();
 }
 
