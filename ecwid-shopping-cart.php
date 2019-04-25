@@ -3381,22 +3381,49 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	return false;
 }
 
-// add_action( 'admin_footer', 'filter_function_name_8755' );
-function filter_function_name_8755(){
+
+
+add_action( 'wp_footer', function(){
+	wp_dequeue_style( 'ecwid-settings-css' );
+});
+
+// add_action( 'wp_print_styles', 'ecwid_minify_styles', 100 );
+function ecwid_minify_styles() {
+	var_dump( 'xxx' );
+	global $wp_styles;
+
+	echo '<style>';
+
+	foreach( $wp_styles->registered as $key => $style ) {
+		if( strpos($key, 'ecwid') !== false ) {
+			// echo file_get_contents( $style->src );
+
+			wp_dequeue_style( 'ecwid-settings-css' );
+			wp_deregister_style( $style->handle );
+		}
+	}
+
+	echo '</style>';
+}
+
+// add_action( 'wp_print_scripts', 'de_script', 100 );
+function de_script() {
 
 	global $wp_scripts;
 	
-	// var_dump( 'xxx' );
-	// print_r( $wp_scripts->registered );
+	var_dump( 'xxx' );
 
-	echo '<script>';
-	foreach( $wp_scripts->registered as $key => $script ) {
-		if( strpos($key, 'ecwid') !== false ) {
-			echo file_get_contents( $script->src );
-			wp_dequeue_script( $wp_scripts->handle );
-		}
-	}
-	echo '</script>';
+	// echo '<script>';
+	// foreach( $wp_scripts->registered as $key => $script ) {
+	// 	if( strpos($key, 'ecwid') !== false ) {
+
+	// 		echo strip_tags( file_get_contents( $script->src ) );
+			
+	// 		wp_dequeue_script( $script->handle );
+	// 		wp_deregister_script( $script->handle );
+	// 	}
+	// }
+	// echo '</script>';
 }
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
