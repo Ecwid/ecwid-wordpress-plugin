@@ -46,7 +46,7 @@ class Ecwid_Custom_Admin_Page {
 				//]]>
 			</script>
 			<p></p>
-		HTML;
+HTML;
 		echo $this->get_iframe_html( $iframe_src );
 	}
 
