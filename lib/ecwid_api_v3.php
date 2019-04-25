@@ -501,7 +501,7 @@ class Ecwid_Api_V3
 		}
 		
 		$stats = json_decode($result['data']);
-		
+
 		return $stats;
 	}
 

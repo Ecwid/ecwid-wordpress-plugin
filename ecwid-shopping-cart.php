@@ -69,7 +69,8 @@ if ( is_admin() ){
 	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
 	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
 	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
-	add_action('admin_init', 'ecwid_admin_check_api_cache');
+	// add_action('admin_init', 'ecwid_admin_check_api_cache');
+	add_action('wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_action('init', 'ecwid_backward_compatibility');
@@ -925,7 +926,7 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
-	if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
+	// if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
 	
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
@@ -3381,50 +3382,6 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	return false;
 }
 
-
-
-add_action( 'wp_footer', function(){
-	wp_dequeue_style( 'ecwid-settings-css' );
-});
-
-// add_action( 'wp_print_styles', 'ecwid_minify_styles', 100 );
-function ecwid_minify_styles() {
-	var_dump( 'xxx' );
-	global $wp_styles;
-
-	echo '<style>';
-
-	foreach( $wp_styles->registered as $key => $style ) {
-		if( strpos($key, 'ecwid') !== false ) {
-			// echo file_get_contents( $style->src );
-
-			wp_dequeue_style( 'ecwid-settings-css' );
-			wp_deregister_style( $style->handle );
-		}
-	}
-
-	echo '</style>';
-}
-
-// add_action( 'wp_print_scripts', 'de_script', 100 );
-function de_script() {
-
-	global $wp_scripts;
-	
-	var_dump( 'xxx' );
-
-	// echo '<script>';
-	// foreach( $wp_scripts->registered as $key => $script ) {
-	// 	if( strpos($key, 'ecwid') !== false ) {
-
-	// 		echo strip_tags( file_get_contents( $script->src ) );
-			
-	// 		wp_dequeue_script( $script->handle );
-	// 		wp_deregister_script( $script->handle );
-	// 	}
-	// }
-	// echo '</script>';
-}
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
