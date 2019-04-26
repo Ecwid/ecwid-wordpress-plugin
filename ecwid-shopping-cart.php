@@ -101,6 +101,14 @@ if (get_option('ecwid_last_oauth_fail_time') > 0) {
 	add_action('plugins_loaded', 'ecwid_test_oauth');
 }
 
+$version = get_bloginfo('version');
+
+if (version_compare($version, '4.7') < 0 && !function_exists( 'wp_doing_ajax' ) ) {
+	function wp_doing_ajax() {
+		return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
+	}
+}
+
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
@@ -139,7 +147,7 @@ if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
 
-$version = get_bloginfo('version');
+
 if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
@@ -927,8 +935,8 @@ function ecwid_admin_check_api_cache()
 {
 	$is_ajax_check_api_cache = $_GET['action'] == 'check_api_cache';
 
-	if ( !$is_ajax_check_api_cache && wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
-	
+	if ( !$is_ajax_check_api_cache && ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) ) return;
+
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
