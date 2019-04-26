@@ -69,7 +69,7 @@ if ( is_admin() ){
 	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
 	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
 	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
-	add_action('admin_init', 'ecwid_admin_check_api_cache');
+	add_action('wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache');
 } else {
   add_shortcode('ecwid_script', 'ecwid_script_shortcode');
   add_action('init', 'ecwid_backward_compatibility');
@@ -141,6 +141,7 @@ if (version_compare( phpversion(), '5.6', '>=' ) ) {
 }
 
 $version = get_bloginfo('version');
+
 if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
@@ -932,8 +933,12 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
-	if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
-	
+	$is_ajax_check_api_cache = $_GET['action'] == 'check_api_cache';
+	$is_doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+	$is_get_request = @$_SERVER['REQUEST_METHOD'] != 'GET';
+
+	if ( !$is_ajax_check_api_cache && ( $is_doing_ajax || $is_get_request ) ) return;
+
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
@@ -941,7 +946,7 @@ function ecwid_admin_check_api_cache()
 	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
-	
+
 	ecwid_regular_cache_check();
 }
 
@@ -3386,6 +3391,7 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	}
 	return false;
 }
+
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
