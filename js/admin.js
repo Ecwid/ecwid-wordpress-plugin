@@ -1,4 +1,15 @@
 jQuery(document).ready(function() {
+
+
+	function ecwidCheckApiCache() {
+		jQuery.getJSON(
+			'admin-ajax.php',
+			{
+				action: 'check_api_cache',
+			}
+		);
+	}
+	ecwidCheckApiCache();
 	
 	var is_safari = navigator.userAgent.indexOf('Chrome') == -1 && navigator.userAgent.indexOf("Safari") > -1;
 	
