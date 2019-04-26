@@ -184,20 +184,30 @@ class Ecwid_Gutenberg {
 		return $result;
 	}
     
-	public static function get_block_names() {
+	public static function get_block_names( $return_with_pb_only = false ) {
 		// cuz no late static binding sadly
-		return array(
+		$blocks_with_productbrowser = array(
 			'store' => self::STORE_BLOCK,
+			'product-page' => self::PRODUCT_PAGE_BLOCK,
+			'category-page' => self::CATEGORY_PAGE_BLOCK,
+			'filters-page' => self::FILTERS_PAGE_BLOCK,
+			'cart-page' => self::CART_PAGE_BLOCK,
+		);
+
+		$blocks_without_productbrowser = array(
 			'product' => self::PRODUCT_BLOCK,
 			'buynow' => self::BUYNOW_BLOCK,
 			'categories' => self::CATEGORIES_BLOCK,
 			'search' => self::SEARCH_BLOCK,
 			'minicart' => self::MINICART_BLOCK,
-			'category-page' => self::CATEGORY_PAGE_BLOCK,
-			'product-page' => self::PRODUCT_PAGE_BLOCK,
-			'filters-page' => self::FILTERS_PAGE_BLOCK,
 			'cart-page' => self::CART_PAGE_BLOCK,
 		);
+
+		if( $return_with_pb_only == true ) {
+			return $blocks_with_productbrowser;
+		}
+
+		return array_merge($blocks_with_productbrowser, $blocks_without_productbrowser);
 	}
 	
 	/**
@@ -256,6 +266,19 @@ class Ecwid_Gutenberg {
 		if ( !$store_block ) return array();
 		
 		return $store_block['atts'];
+	}
+
+	public function has_content_productbrowser( $content ) {
+		
+		$blocks_with_productbrowser = Ecwid_Gutenberg::get_block_names( true );
+
+		foreach ($blocks_with_productbrowser as $block_name) {
+			if( strpos( $content, $block_name ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
