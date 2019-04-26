@@ -169,10 +169,15 @@ jQuery(document).ready(function() {
 
             if ( e.data.action == 'pageLoad' ) {
                 var adminpage = e.currentTarget.adminpage;
+                var page = e.data.data.page.path;
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
-                    var page = e.data.data.page.path;
                     jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+                } else {
+                    if( page.indexOf('app:name=') != -1 ) {
+                        jQuery('#ecwid-frame').remove();
+                        location.href = 'admin.php?page=ec-store-admin-my_apps&ec-store-page=' + page;
+                    }
                 }
             } else if (
                 e.data.action

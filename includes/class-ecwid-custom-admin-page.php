@@ -1,7 +1,7 @@
 <?php
 
 class Ecwid_Custom_Admin_Page {
-	const TAB_NAME = 'ecwid';
+	const TAB_NAME = 'ec-apps';
 
 	public function __construct() {		
 		if( Ecwid_Api_V3::get_token() && !Ecwid_Config::is_wl() ) {
