@@ -173,10 +173,12 @@ jQuery(document).ready(function() {
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
                     jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
-                } else {
-                    if( page.indexOf('app:name=') != -1 ) {
-                        jQuery('#ecwid-frame').remove();
-                        location.href = 'admin.php?page=ec-store-admin-my_apps&ec-store-page=' + page;
+                } else if( adminpage == 'plugin-install-php' ) {
+                    if( page.indexOf('apps:view=app&name=') != -1 ) {
+                        window.open('admin.php?page=ec-store-admin-my_apps&ec-store-page=' + encodeURIComponent(page), '_blank');
+                        jQuery('#ecwid-frame').attr("src", function(index, attr){ 
+                            return attr;
+                        });
                     }
                 }
             } else if (
