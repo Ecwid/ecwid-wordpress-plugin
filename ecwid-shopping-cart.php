@@ -944,7 +944,7 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
-	$is_ajax_check_api_cache = $_GET['action'] == 'check_api_cache';
+	$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] == 'check_api_cache';
 	$is_doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 	$is_get_request = @$_SERVER['REQUEST_METHOD'] != 'GET';
 
