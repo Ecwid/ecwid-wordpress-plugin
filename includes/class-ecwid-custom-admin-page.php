@@ -54,7 +54,6 @@ HTML;
 		$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
 		$iframe_src .= '&hide_profile_header=true';
 
-		// $tab_content = sprintf( '<div style="overflow:hidden;">%s</div>', $this->get_iframe_html( $iframe_src ) );
 		$tab_content = sprintf(
 			__(
 				'Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a href="%s">TemplateMonster themes</a>'
