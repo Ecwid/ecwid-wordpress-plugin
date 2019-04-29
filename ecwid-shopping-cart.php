@@ -51,7 +51,7 @@ if ( is_admin() ) {
 
 	add_action( 'admin_init', 'ecwid_settings_api_init' );
 	add_action( 'admin_init', 'ecwid_check_version' );
-	add_action( 'admin_init', 'ecwid_admin_check_api_cache' );
+	add_action('wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache');
 
 	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
