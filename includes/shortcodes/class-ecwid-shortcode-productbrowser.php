@@ -47,11 +47,15 @@ document.body.id = 'ecwid_body';
 </script>
 HTML;
 		}
-
+		
 
 		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
 
 		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
+		
+		if ( $data->jsCode ) {
+			$code .= '<script type="text/javascript">' . $data->jsCode . '</script>';
+		}
 		
 		$code .= <<<HTML
 <script language="JavaScript">
