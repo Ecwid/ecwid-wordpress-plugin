@@ -78,7 +78,7 @@ registerBlockType( 'ec-store/cart-page', {
 
 
         const editor =
-            <EcwidProductBrowserBlock icon={ EcwidIcons.cartPage } title={ __( 'Cart and Checkout') }>
+            <EcwidProductBrowserBlock icon={ EcwidIcons.cartPage } title={ __( 'Cart and Checkout', 'ecwid-shopping-cart' ) }>
                 <EcwidImage src="cart-page-preview.png" />
             </EcwidProductBrowserBlock>;
 

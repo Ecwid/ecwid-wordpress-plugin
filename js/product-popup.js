@@ -443,6 +443,11 @@ jQuery(document).ready(function() {
 
         if (!getInitialSearchData()) {
             setInitialSearchData(data);
+        } else {
+            popup().find('img[data-src]').each(function( index ){
+                var src = jQuery(this).data('src');
+                popup().find('img[data-src]').eq(index).attr('src', src);
+            });
         }
     }
 

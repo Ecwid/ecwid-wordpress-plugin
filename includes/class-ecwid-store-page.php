@@ -285,8 +285,8 @@ class Ecwid_Store_Page {
 		foreach ( $pages as $ind => $page ) {
 			
 			$post = get_post($page);
-			
-			if ( $page != self::get_current_store_page_id() && $post && $post->post_type == 'post' ) {
+
+			if ( $page != self::get_current_store_page_id() && isset( $post ) && $post->post_type != 'page' ) {
 				unset( $pages[$ind] );
 			}
 		}
@@ -354,6 +354,7 @@ class Ecwid_Store_Page {
 			return;
 
 		$has_pb = self::post_content_has_productbrowser( $post_id );
+		$is_allowable_post_type = in_array( get_post_type( $post_id ), array( 'page', 'post' ) );
 
 		if ( self::is_store_page( $post_id ) ) {
 			$is_disabled = !in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() );
@@ -363,11 +364,11 @@ class Ecwid_Store_Page {
 			}
 		}
 		
-		if ($has_pb) {
+		if ( $is_allowable_post_type && $has_pb ) {
 			ecwid_reset_categories_cache();
 		}
 
-		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
+		if ( $is_allowable_post_type && $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
 			update_option( self::OPTION_LAST_STORE_PAGE_ID, $post_id );
@@ -444,6 +445,49 @@ class Ecwid_Store_Page {
 		self::$main_page_title = $title;
 		
 		return $title;
+	}
+
+
+	static public function set_store_url()
+	{
+		$store_url = Ecwid_Store_Page::get_store_url();
+
+		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+
+		if ( ecwid_is_demo_store() ) {
+			return; 
+		}
+
+		if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
+			return;
+		}
+
+		if ( $profile->generalInfo->storeUrl == $store_url ) {
+			return;
+		}
+
+		$is_empty = in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') );
+		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
+		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
+
+		if ( !$is_empty && !$is_generated_url && !$is_same_domain ) {
+		    return;
+		}
+
+		$params = array(
+			'generalInfo' => array(
+				'storeUrl' => $store_url
+			)
+		);
+
+		$result = $api->update_store_profile( $params );
+
+		if ( $result ) {
+			EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+		}
 	}
 }
 

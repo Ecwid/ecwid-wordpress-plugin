@@ -43,7 +43,9 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 	public function render_callback( $params ) {
 		
-		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
+		$is_wp_customize = isset( $_REQUEST['wp_customize'] ) && $_REQUEST['wp_customize'] == 'on';
+
+		if ( $_SERVER['REQUEST_METHOD'] != 'GET' && !$is_wp_customize ) {
 			return '';
 		}
 
@@ -161,11 +163,12 @@ window.ec.config.chameleon = window.ec.config.chameleon || Object();
 window.ec.config.chameleon.colors = $chameleon[colors];
 JS;
 		}
-		$result .= "
+		$result .= <<<HTML
 		Ecwid.OnAPILoaded.add(function() {
 			Ecwid.refreshConfig();
 		});
-		</script>";
+		</script>
+HTML;
 
 		return $result;
 	}

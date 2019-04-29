@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.5.3
+Version: 6.6
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -40,65 +40,77 @@ if ( ! defined('ECWID_SHORTCODES_DIR' ) ) {
 }
 
 // Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
-add_action('sm_buildmap', 'ecwid_build_google_xml_sitemap');
+add_action( 'sm_buildmap', 'ecwid_build_google_xml_sitemap' );
 
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
-add_filter('plugins_loaded', 'ecwid_load_textdomain');
+add_filter( 'plugins_loaded', 'ecwid_load_textdomain' );
 
-if ( is_admin() ){ 
-  add_action('admin_init', 'ecwid_settings_api_init');
+if ( is_admin() ) {
+	add_action( 'init', 'ecwid_apply_theme', 0 );
+	add_action( 'init', 'ecwid_maybe_remove_emoji' );
 
-	add_action('admin_init', 'ecwid_check_version');
-	add_action('template_redirect', 'ecwid_process_oauth_params');
-  add_action('admin_notices', 'ecwid_show_admin_messages');
-  add_action('admin_enqueue_scripts', 'ecwid_common_admin_scripts');
-  add_action('admin_enqueue_scripts', 'ecwid_register_admin_styles');
-  add_action('admin_enqueue_scripts', 'ecwid_register_settings_styles');
-  add_action('wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message');
-  add_action('wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message');
-	add_action('wp_ajax_save-widget', 'ecwid_ajax_save_widget');
-	add_action('wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache');
-	add_action('wp_ajax_ecwid_create_store', 'ecwid_create_store');
-  add_filter('plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions');
-  add_action('admin_post_ecwid_sync_products', 'ecwid_sync_products');
-  add_action('wp_ajax_ecwid_sync_products', 'ecwid_sync_products');
-  add_action('admin_head', 'ecwid_ie8_fonts_inclusion');
-  add_action('init', 'ecwid_apply_theme', 0);
-	add_action('init', 'ecwid_maybe_remove_emoji');
-	add_action('get_footer', 'ecwid_admin_get_footer');
-	add_action('admin_post_ec_connect', 'ecwid_admin_post_connect');
-	add_filter('tiny_mce_before_init', 'ecwid_tinymce_init');
-	add_action('admin_post_ecwid_get_debug', 'ecwid_get_debug_file');
-	add_action('admin_init', 'ecwid_admin_check_api_cache');
+	add_action( 'admin_init', 'ecwid_settings_api_init' );
+	add_action( 'admin_init', 'ecwid_check_version' );
+	add_action('wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache');
+
+	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_register_settings_styles' );
+
+	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
+	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
+	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' );
+	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
+	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
+	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
+
+	add_action( 'admin_post_ecwid_sync_products', 'ecwid_sync_products' );
+	add_action( 'admin_post_ec_connect', 'ecwid_admin_post_connect' );
+	add_action( 'admin_post_ecwid_get_debug', 'ecwid_get_debug_file' );
+	
+	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
+	add_action( 'get_footer', 'ecwid_admin_get_footer' );
+	add_action( 'template_redirect', 'ecwid_process_oauth_params' );
+	add_action( 'admin_notices', 'ecwid_show_admin_messages' );
+	add_filter( 'plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions' );
+	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
 } else {
-  add_shortcode('ecwid_script', 'ecwid_script_shortcode');
-  add_action('init', 'ecwid_backward_compatibility');
-  add_action('send_headers', 'ecwid_503_on_store_closed');
-  add_action('template_redirect', 'ecwid_404_on_broken_escaped_fragment');
-  add_action('template_redirect', 'ecwid_apply_theme'); // Why not init?
-  add_action('wp_enqueue_scripts', 'ecwid_enqueue_frontend');
-  add_action('wp', 'ecwid_seo_ultimate_compatibility', 0);
-  add_action('wp', 'ecwid_remove_default_canonical');
-  add_filter('wp', 'ecwid_seo_compatibility_init', 0);
-  add_filter('wp_title', 'ecwid_seo_title', 10000, 3);
-  add_filter('document_title_parts', 'ecwid_seo_title_parts');
-  add_action('plugins_loaded', 'ecwid_minifier_compatibility', 0);
-  add_action('wp_head', 'ecwid_meta_description', 0);
-  add_action('wp_head', 'ecwid_ajax_crawling_fragment');
-  add_action('wp_head', 'ecwid_meta');
-  add_action('wp_head', 'ecwid_canonical');
-  add_action('wp_head', 'ecwid_seo_compatibility_restore', 1000);
-	add_action('wp_head', 'ecwid_print_inline_js_config');
-	add_action('wp_head', 'ecwid_product_browser_url_in_head');
-  add_filter( 'widget_meta_poweredby', 'ecwid_add_credits');
-  add_filter('body_class', 'ecwid_body_class');
-  add_action('redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
-  add_action('init', 'ecwid_check_api_cache');
-  $ecwid_seo_title = '';
+	add_shortcode( 'ecwid_script', 'ecwid_script_shortcode' );
+	
+	add_action( 'init', 'ecwid_backward_compatibility' );
+	add_action( 'init', 'ecwid_check_api_cache' );
+
+	add_action( 'template_redirect', 'ecwid_404_on_broken_escaped_fragment' );
+	add_action( 'template_redirect', 'ecwid_apply_theme' ); // Why not init?
+
+	add_action( 'wp', 'ecwid_seo_ultimate_compatibility', 0 );
+	add_action( 'wp', 'ecwid_remove_default_canonical' );
+	add_filter( 'wp', 'ecwid_seo_compatibility_init', 0 );
+
+	add_action( 'wp_head', 'ecwid_meta_description', 0 );
+	add_action( 'wp_head', 'ecwid_ajax_crawling_fragment' );
+	add_action( 'wp_head', 'ecwid_meta' );
+	add_action( 'wp_head', 'ecwid_canonical' );
+	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
+	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
+	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
+
+	add_action( 'send_headers', 'ecwid_503_on_store_closed' );
+	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
+	add_filter( 'wp_title', 'ecwid_seo_title', 10000, 3 );
+	add_filter( 'document_title_parts', 'ecwid_seo_title_parts' );
+	add_action( 'plugins_loaded', 'ecwid_minifier_compatibility', 0 );
+	add_filter( 'widget_meta_poweredby', 'ecwid_add_credits' );
+	add_filter( 'body_class', 'ecwid_body_class' );
+	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
+	
+	$ecwid_seo_title = '';
 }
-add_action('admin_bar_menu', 'add_ecwid_admin_bar_node', 1000);
-if (get_option('ecwid_last_oauth_fail_time') > 0) {
-	add_action('plugins_loaded', 'ecwid_test_oauth');
+
+add_action( 'admin_bar_menu', 'add_ecwid_admin_bar_node', 1000 );
+
+if ( get_option('ecwid_last_oauth_fail_time') > 0 ) {
+	add_action( 'plugins_loaded', 'ecwid_test_oauth');
 }
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
@@ -121,6 +133,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-home-page.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
@@ -135,11 +148,13 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
+
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
 
 $version = get_bloginfo('version');
+
 if (version_compare($version, '4.0') >= 0) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
@@ -153,6 +168,12 @@ if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 
 foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
+
+
+add_action( 'update_option_' . Ecwid_Api_V3::TOKEN_OPTION_NAME, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_' . Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID, array( 'Ecwid_Store_Page', 'set_store_url' ) );
+add_action( 'update_option_rewrite_rules', array( 'Ecwid_Store_Page', 'set_store_url' ) );
+
 
 function ecwid_init_integrations()
 {
@@ -193,8 +214,6 @@ function ecwid_estimate_sync() {
 	echo json_encode($result);
 }
 
-$version = get_bloginfo('version');
-
 if (version_compare($version, '3.6') < 0) {
     /**
      * A copy of has_shortcode functionality from wordpress 3.6
@@ -232,9 +251,9 @@ if (version_compare($version, '3.6') < 0) {
 	}
 }
 
-if (is_admin()) {
+if ( is_admin() ) {
 	$main_button_class = "";
-	if (version_compare($version, '3.8-beta') > 0) {
+	if ( version_compare($version, '3.8-beta' ) > 0) {
 		$main_button_class = "button-primary";
 	} else {
 		$main_button_class = "pure-button pure-button-primary";
@@ -723,7 +742,9 @@ function ecwid_check_version()
 		add_option( 'ecwid_hide_prefetch', 'off' );
 
 		// Since 6.1.x 
-		Ecwid_Floating_Minicart::create_default_options();
+		if ( class_exists( 'Ecwid_Floating_Minicart' ) ) {
+			Ecwid_Floating_Minicart::create_default_options();
+		}
 		add_option( 'ecwid_hide_old_minicart', ecwid_is_recent_installation() );
 		
 		Ecwid_Config::load_from_ini();
@@ -925,8 +946,12 @@ function ecwid_check_api_cache() {
 
 function ecwid_admin_check_api_cache()
 {
-	if ( wp_doing_ajax() || @$_SERVER['REQUEST_METHOD'] != 'GET' ) return;
-	
+	$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] == 'check_api_cache';
+	$is_doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+	$is_get_request = @$_SERVER['REQUEST_METHOD'] != 'GET';
+
+	if ( !$is_ajax_check_api_cache && ( $is_doing_ajax || $is_get_request ) ) return;
+
 	EcwidPlatform::cache_log_record( 'admin_init', array() );
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
@@ -934,7 +959,7 @@ function ecwid_admin_check_api_cache()
 	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
-	
+
 	ecwid_regular_cache_check();
 }
 
@@ -1079,8 +1104,7 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
-	
-	if ( class_exists( 'Ecwid_Gutenberg' ) && strpos( $content, Ecwid_Gutenberg::STORE_BLOCK ) !== false ) {
+	if ( class_exists( 'Ecwid_Gutenberg' ) && Ecwid_Gutenberg::has_content_productbrowser( $content ) !== false ) {
 		return true;
 	} 
 	
@@ -1237,7 +1261,7 @@ function ecwid_canonical() {
 		$main_page_id = Ecwid_Store_page::get_current_store_page_id();
 		$params = Ecwid_Store_page::get_store_page_params( $main_page_id );
 		
-		if ( $params['default_category_id'] ) {
+		if ( @$params['default_category_id'] ) {
 			$current = get_permalink();
 			$store_page = Ecwid_Store_Page::get_store_url();
 			$link = str_replace( $store_page, $current, $link );
@@ -1499,7 +1523,6 @@ function _ecwid_get_seo_title()
 
 	return "";
 }
-
 
 add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
 
@@ -3380,6 +3403,7 @@ function ecwid_find_shortcodes( $content, $tag ) {
 	}
 	return false;
 }
+
 
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {

@@ -12,6 +12,8 @@ class Ecwid_Theme_Avada extends Ecwid_Theme_Base
 
 		add_filter( Ecwid_Nav_Menus::FILTER_USE_JS_API_FOR_CATS_MENU, array( $this, 'filter_use_js_api_for_cats_menu' ) );
 		add_filter( 'ecwid_shortcode_content', array( $this, 'shortcode_content' ) );
+
+		$this->create_scroller( array( 'scroll' => 95 ) );
 	}
 	
 	public function shortcode_content( $content )

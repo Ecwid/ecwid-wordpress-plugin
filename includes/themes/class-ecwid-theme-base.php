@@ -15,6 +15,9 @@ class Ecwid_Theme_Base {
 
 	protected $name;
 
+	protected $scroll_indent = 100;
+	protected $scroll_indent_admin_bar = 32;
+
 	protected $has_js = false;
 	protected $has_css = false;
 	protected $css_parent = false;
@@ -35,8 +38,8 @@ class Ecwid_Theme_Base {
 
 		if (is_admin()) return;
 
-		if ( in_array( 'scroll', $props ) ) {
-			$theme->create_scroller();
+		if ( array_key_exists( 'scroll', $props ) ) {
+			$theme->create_scroller( $props );
 		}
 
 		if ( in_array( 'js', $props ) ) {
@@ -79,16 +82,20 @@ class Ecwid_Theme_Base {
 		);
 	}
 
-	protected function create_scroller() {
-		
-		if ( get_option( self::OPTION_LEGACY_CUSTOM_SCROLLER, false ) ) {
-			wp_enqueue_script(
-				'ecwid-scroller',
-				ECWID_PLUGIN_URL . 'js/create_scroller.js' ,
-				array( 'jquery' ),
-				get_option('ecwid_plugin_version')
-			);
+	public function create_scroller( $props ) {
+		$this->scroll_indent = $props['scroll'];
+
+		if( is_admin_bar_showing() ) {
+			$this->scroll_indent += $this->scroll_indent_admin_bar;	
 		}
+
+		add_filter( 'ecwid_inline_js_config', array( $this, 'ecwid_inline_js_config_hook' ) );
+	}
+
+	public function ecwid_inline_js_config_hook( $js )
+	{
+		$js .= 'window.ec.config.scroll_indent = ' . $this->scroll_indent . ';';
+		return $js;
 	}
 
 	protected function add_css( $parent = null ) {

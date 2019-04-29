@@ -52,7 +52,7 @@ const blockParams = EcwidGutenbergParams.blockParams[blockName];
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'ecwid/store-block', {
-	title: _x( 'Store Home Page', 'ecwid-shopping-cart' ), // Block title.
+	title: __( 'Store Home Page', 'ecwid-shopping-cart' ), // Block title.
 	icon: EcwidIcons.store, 
 	category: 'ec-store', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     attributes: blockParams.attributes,
@@ -80,7 +80,7 @@ registerBlockType( 'ecwid/store-block', {
         props.setAttributes({widgets:''});
         
 		const editor =
-            <EcwidProductBrowserBlock icon={ EcwidIcons.store } title={ __( 'Store Home Page') } showDemoButton={ blockParams.isDemoStore }>
+            <EcwidProductBrowserBlock icon={ EcwidIcons.store } title={ __( 'Store Home Page', 'ecwid-shopping-cart') } showDemoButton={ blockParams.isDemoStore }>
                 <div className="ec-store-products">
                     <div className="ec-store-product1"></div>
                     <div className="ec-store-product2"></div>
@@ -109,7 +109,7 @@ registerBlockType( 'ecwid/store-block', {
         
         const productDetailsMigrationWarning = buildDangerousHTMLMessageWithTitle(
             '',
-            __( 'To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
+            __( 'To improve the look and feel of your product page and manage its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href="admin.php?page=ec-store&ec-store-page=whatsnew">Settings → What’s New</a>”).', 'ecwid-shopping-cart' )
         );
 		
 		const isNewProductList = blockParams.isNewProductList;
