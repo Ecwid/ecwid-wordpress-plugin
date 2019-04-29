@@ -1091,8 +1091,7 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
-	
-	if ( class_exists( 'Ecwid_Gutenberg' ) && strpos( $content, Ecwid_Gutenberg::STORE_BLOCK ) !== false ) {
+	if ( class_exists( 'Ecwid_Gutenberg' ) && Ecwid_Gutenberg::has_content_productbrowser( $content ) !== false ) {
 		return true;
 	} 
 	
