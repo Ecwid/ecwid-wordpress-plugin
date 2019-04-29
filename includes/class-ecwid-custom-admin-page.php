@@ -54,7 +54,14 @@ HTML;
 		$iframe_src = ecwid_get_iframe_src( time(), 'apps:view=app&name=templatemonster-themes' );
 		$iframe_src .= '&hide_profile_header=true';
 
-		$tab_content = sprintf( '<div style="overflow:hidden;">%s</div>', $this->get_iframe_html( $iframe_src ) );
+		// $tab_content = sprintf( '<div style="overflow:hidden;">%s</div>', $this->get_iframe_html( $iframe_src ) );
+		$tab_content = sprintf(
+			__(
+				'Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a href="%s">TemplateMonster themes</a>'
+				, 'ecwid-shopping-cart'
+			), admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-store-page=apps%3Aview%3Dapp%26name%3Dtemplatemonster-themes' )
+		);
+		$tab_content = sprintf( '<div id="ec-theme-tab">%s</div>', $tab_content );
 
 		$link_html = sprintf( '<li><a href="#" data-sort="%s">%s</a></li>', self::TAB_NAME, __('Themes for Ecwid', 'ecwid-shopping-cart') );
 
@@ -68,15 +75,15 @@ HTML;
 			<script type="text/javascript">//<![CDATA[
 				function ecwid_switch_theme_tab( sort ){
 					if( sort == '%s' ) {
-						if( jQuery('#ecwid-frame').length == 0 ) {
+						if( jQuery('#ec-theme-tab').length == 0 ) {
 							jQuery('.theme-browser').before('%s');
-							jQuery('#ecwid-frame').css({'margin-top': '-70px'});
+							// jQuery('#ecwid-frame').css({'margin-top': '-70px'});
 						}
 
-						jQuery('#ecwid-frame').show();
+						jQuery('#ec-theme-tab').show();
 						jQuery('.filter-count, .button.drawer-toggle, .search-form, .theme-browser').hide();
 					} else {
-						jQuery('#ecwid-frame').hide();
+						jQuery('#ec-theme-tab').hide();
 						jQuery('.theme-browser').removeAttr('style');
 						jQuery('.filter-count, .button.drawer-toggle, .search-form').show();
 					}
