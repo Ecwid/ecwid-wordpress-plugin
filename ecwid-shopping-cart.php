@@ -742,7 +742,9 @@ function ecwid_check_version()
 		add_option( 'ecwid_hide_prefetch', 'off' );
 
 		// Since 6.1.x 
-		Ecwid_Floating_Minicart::create_default_options();
+		if ( class_exists( 'Ecwid_Floating_Minicart' ) ) {
+			Ecwid_Floating_Minicart::create_default_options();
+		}
 		add_option( 'ecwid_hide_old_minicart', ecwid_is_recent_installation() );
 		
 		Ecwid_Config::load_from_ini();
