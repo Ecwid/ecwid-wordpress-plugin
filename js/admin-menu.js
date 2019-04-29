@@ -161,10 +161,19 @@ jQuery(document).ready(function() {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
 
+        if (typeof e.data.height != 'undefined') {
+            jQuery('#ecwid-frame').css('height', e.data.height + 'px');
+        } 
+
         if ( typeof e.data.action != 'undefined') {
+
             if ( e.data.action == 'pageLoad' ) {
-                var page = e.data.data.page.path;
-                jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+                var adminpage = e.currentTarget.adminpage;
+
+                if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
+                    var page = e.data.data.page.path;
+                    jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+                }
             } else if (
                 e.data.action
                 && e.data.action == 'navigationMenuUpdated'

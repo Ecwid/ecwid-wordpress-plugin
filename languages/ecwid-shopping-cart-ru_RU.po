@@ -1531,6 +1531,12 @@ msgstr "Горизонтальные 3:2"
 msgid "Online Store Apps"
 msgstr "Приложения для магазина"
 
+msgid "Plugins for Ecwid"
+msgstr "Приложения для Эквида"
+
+msgid "Themes for Ecwid"
+msgstr "Темы для Эквида"
+
 msgid "Migration warning"
 msgstr ""
 
