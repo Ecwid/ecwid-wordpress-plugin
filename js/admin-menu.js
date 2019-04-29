@@ -157,6 +157,7 @@ jQuery(document).ready(function() {
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    var previous_frame_page;
 
     // Listen to message from child window
     eventer(messageEvent,function(e) {
@@ -169,10 +170,26 @@ jQuery(document).ready(function() {
 
             if ( e.data.action == 'pageLoad' ) {
                 var adminpage = e.currentTarget.adminpage;
+                var page = e.data.data.page.path;
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
-                    var page = e.data.data.page.path;
+
                     jQuery('*[data-ecwid-menu-slug="ec-store-admin-' + page + '"]').eq(0).click();
+
+                } 
+
+                if( adminpage == 'plugin-install-php' ) {
+                    if( page.indexOf('apps:view=app&name=') != -1 ) {
+                        var admin_page_app = 'admin.php?page=ec-store-admin-my_apps&ec-store-page=';
+                        window.open( admin_page_app + encodeURIComponent(page), '_blank' );
+
+                        var frame_src = jQuery('#ecwid-frame')
+                                    .attr( 'src' )
+                                    .replace( /(&place=).*?(&)/i, '$1' + previous_frame_page + '$2' );
+                        jQuery('#ecwid-frame').attr( 'src', frame_src );
+                    } else {
+                        previous_frame_page = page;
+                    }
                 }
             } else if (
                 e.data.action
