@@ -58,7 +58,8 @@ HTML;
 			__(
 				'Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a href="%s">TemplateMonster themes</a>'
 				, 'ecwid-shopping-cart'
-			), admin_url( 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-store-page=apps%3Aview%3Dapp%26name%3Dtemplatemonster-themes' )
+			), 
+			'https://www.templatemonster.com/ecwid-ready-wordpress-themes/?aff=Ecwid'
 		);
 		$tab_content = sprintf( '<div id="ec-theme-tab">%s</div>', $tab_content );
 
