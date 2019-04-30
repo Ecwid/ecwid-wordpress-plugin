@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.1
-Stable tag: 6.5.2
+Stable tag: 6.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -150,8 +150,15 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.6 - Apr 29, 2019 =
+- **Improved loading time for the Ecwid plugin in WordPress admin backend**. We noticed that the Ecwid plugin affected the loading time of the pages editor in the WordPress admin backend. We improved a few things in the plugin to make it load faster.
+- **Improved compatibility with WPML**. WPML is a popular plugin for multilingual sites. We got a few reports that it didn’t work well with Ecwid. We talked to the WPML team and tracked down the issue. It’s now fixed and your site should work fine if you use both WPML and Ecwid. In future versions, we will add a full support for WPML — you will be able to translate your Ecwid catalog to multiple languages and display your store content in your visitor language.
+- **Added Russian translations for Gutenberg blocks**. The Ecwid ecommerce plugin now has 10 Gutenberg e-commerce blocks, which help you build your online store pages in more convenient drag-n-drop manner. In this update, we translated those blocks to Russian to make it more friendly for Ecwid users from Russia.
+- Various fixes and improvements.
+
+
 = 6.5.3 - Apr 11, 2019 =
-- **Compatibility fixes for KingComposer Editor.** There were some problems in how Ecwid e-commerce plugin works with KingComposer editor. Fixed it — the plugins should work fine together now.
+- **Compatibility fixes for KingComposer Editor.** There was a problem in how Ecwid e-commerce plugin works with KingComposer editor. We've fixed it.
 - Minor fixes and improvements.
 
 = 6.5.2 - Apr 3, 2019 =

@@ -285,8 +285,8 @@ class Ecwid_Store_Page {
 		foreach ( $pages as $ind => $page ) {
 			
 			$post = get_post($page);
-			
-			if ( $page != self::get_current_store_page_id() && $post && $post->post_type == 'post' ) {
+
+			if ( $page != self::get_current_store_page_id() && isset( $post ) && $post->post_type != 'page' ) {
 				unset( $pages[$ind] );
 			}
 		}
@@ -354,6 +354,7 @@ class Ecwid_Store_Page {
 			return;
 
 		$has_pb = self::post_content_has_productbrowser( $post_id );
+		$is_allowable_post_type = in_array( get_post_type( $post_id ), array( 'page', 'post' ) );
 
 		if ( self::is_store_page( $post_id ) ) {
 			$is_disabled = !in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() );
@@ -363,11 +364,11 @@ class Ecwid_Store_Page {
 			}
 		}
 		
-		if ($has_pb) {
+		if ( $is_allowable_post_type && $has_pb ) {
 			ecwid_reset_categories_cache();
 		}
 
-		if ( $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
+		if ( $is_allowable_post_type && $has_pb && in_array( get_post_status( $post_id ), self::_get_allowed_post_statuses() ) ) {
 			self::add_store_page( $post_id );
 		} else if ( get_option( self::OPTION_MAIN_STORE_PAGE_ID ) == $post_id ) {
 			update_option( self::OPTION_LAST_STORE_PAGE_ID, $post_id );
