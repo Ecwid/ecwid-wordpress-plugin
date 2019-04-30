@@ -71,7 +71,9 @@ if ( version_compare( get_bloginfo('version'), '4.0' ) >= 0 ) {
 ></div>
 
 <script>
-			Ecwid.init();
+	if( typeof Ecwid != 'undefined' ){
+    	Ecwid.init();
+	}
 </script>
 HTML;
 		}

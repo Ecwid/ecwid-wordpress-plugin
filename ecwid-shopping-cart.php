@@ -8,7 +8,7 @@ Author: Ecwid Ecommerce
 Version: 6.6
 Author URI: https://ecwid.to/ecwid-site
 */
-
+var_dump( $_REQUEST );
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
