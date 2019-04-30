@@ -13,8 +13,6 @@ echo ecwid_get_product_browser_url_script();
 ></div>
 
 <script>
-if( typeof Ecwid != 'undefined' ){
 	Ecwid.init();
-}
 </script>
 <!-- /noptimize -->

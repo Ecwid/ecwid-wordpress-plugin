@@ -41,9 +41,7 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 		></div>
         
 		<script>
-			if( typeof Ecwid != 'undefined' ){
-            	Ecwid.init();
-			}
+            Ecwid.init();
 		</script>
 		<!-- /noptimize -->
 		<?php
