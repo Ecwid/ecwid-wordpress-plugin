@@ -8,7 +8,7 @@ Author: Ecwid Ecommerce
 Version: 6.6
 Author URI: https://ecwid.to/ecwid-site
 */
-var_dump( $_REQUEST );
+
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
@@ -1598,7 +1598,7 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 	$code .= ecwid_sso();
 	$code .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 
-	return $code;
+	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {
