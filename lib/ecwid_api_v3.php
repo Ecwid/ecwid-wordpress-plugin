@@ -695,6 +695,11 @@ class Ecwid_Api_V3
 			}
 		}
 
+		$lang = apply_filters( 'ecwid_lang', null );
+		if( !empty($lang) ) {
+			$params['lang'] = $lang;
+		}
+
 		return $url . '?' . build_query($params);
 	}
 
