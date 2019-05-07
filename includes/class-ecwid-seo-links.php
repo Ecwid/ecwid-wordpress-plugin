@@ -445,43 +445,16 @@ JS;
 	
 	protected static function _get_relative_permalink( $item_id ) {
 		
-		$permalink = get_permalink( $item_id );
-		$home_url = home_url();
-		$default_link = substr( $permalink, strlen( $home_url ) );
+		$permalink = parse_url( get_permalink( $item_id ) );
+		$home_url = parse_url( home_url() );
 		
-		if ( !is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
-			return $default_link;
-		}
-
-		try {  
-			global $sitepress;
-
-			if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
-
-				$translation_details = apply_filters( 'wpml_element_language_details', null, array(
-					'element_id'   => $item_id,
-					'element_type' => 'post_page'
-				) );
-				
-				$code = $translation_details->language_code;
-
-				$lang_info = apply_filters( 'wpml_active_languages', null );
-				$permalink = apply_filters( 'wpml_permalink', get_permalink( $item_id ), $code, true );
-				$home_url  = $lang_info[$code]['url'];
-				
-				$link = substr( $permalink, strlen( $home_url ) );
-			}
-		} catch ( Exception $e ) {
-			$permalink = get_permalink( $item_id );
-
-			$home_url = home_url();
-
-			$link = substr( $permalink, strlen( $home_url ) );
-
-			return $default_link;			
+		if( isset($home_url['query']) ) {
+			$home_url['path'] = substr( $home_url['path'], 0, -1 );
 		}
 		
-		return $link;
+		$default_link = substr( $permalink['path'], strlen( $home_url['path'] ) );
+
+		return apply_filters( 'ecwid_relative_permalink', $default_link, $item_id );
 	}
 
 	public static function is_noindex_page() {
