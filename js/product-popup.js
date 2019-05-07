@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
 
     popup().data( 'defaultSortBy', 'ADDED_TIME_DESC' );
 
-    jQuery('#insert-ecwid-product-button').click(function() {
+    jQuery(document).on('click', '#insert-ecwid-product-button', function() {
         openPopup();
     });
     
