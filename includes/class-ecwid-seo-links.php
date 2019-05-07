@@ -444,14 +444,13 @@ JS;
 	}
 	
 	protected static function _get_relative_permalink( $item_id ) {
-		
 		$permalink = parse_url( get_permalink( $item_id ) );
 		$home_url = parse_url( home_url() );
-		
+
 		if( isset($home_url['query']) ) {
 			$home_url['path'] = substr( $home_url['path'], 0, -1 );
 		}
-		
+
 		$default_link = substr( $permalink['path'], strlen( $home_url['path'] ) );
 
 		return apply_filters( 'ecwid_relative_permalink', $default_link, $item_id );

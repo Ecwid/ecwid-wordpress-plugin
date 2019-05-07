@@ -23,7 +23,7 @@ class Ecwid_Integration_WPML
 				'element_id'   => $item_id,
 				'element_type' => 'post_page'
 			) );
-			
+
 			$code = $translation_details->language_code;
 
 			$lang_info = apply_filters( 'wpml_active_languages', null );
