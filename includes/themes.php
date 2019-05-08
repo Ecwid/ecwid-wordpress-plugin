@@ -65,7 +65,6 @@ function ecwid_apply_theme($theme_name = null)
 		'optimizer'             => array( 'css' ),
 		'businesso'				=> array( 'css' ),
 		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
-		'Divi'					=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
 		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'bridge'	    		=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'Parallax-One'			=> array( 'css' )
@@ -90,7 +89,8 @@ function ecwid_apply_theme($theme_name = null)
 		'woodiex',
 		'enfold',
 		'vantage',
-		'zenlife'
+		'zenlife',
+		'Divi'
 	);
 
 	$custom_themes = apply_filters( 'ecwid_custom_themes', $custom_themes );

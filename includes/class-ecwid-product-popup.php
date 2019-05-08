@@ -106,9 +106,9 @@ class Ecwid_Product_Popup {
 
         $title = __( 'Add Product', 'ecwid-shopping-cart' );
         $button = <<<HTML
-	<a href="#" id="insert-ecwid-product-button" class="button add-ecwid-product ecwid_button" title="$title">
+	<button id="insert-ecwid-product-button" class="button add-ecwid-product ecwid_button" title="$title">
 		$title
-	</a>
+	</button>
 HTML;
 
         return $context . $button;

@@ -146,6 +146,10 @@ class Ecwid_Api_V3
 	
 	public function get_categories($input_params)
 	{
+		if( ecwid_is_demo_store() ) {
+			return false;
+		}
+
 		$params = array('token');
 		if (array_key_exists('parent', $input_params)) {
 			$params['parent'] = $input_params['parent'];
@@ -171,7 +175,7 @@ class Ecwid_Api_V3
 		);
 		
 		$result = EcwidPlatform::get_from_categories_cache($url);
-		
+
 		if ( !$result ) {
 			$result = EcwidPlatform::fetch_url( $url );
 		}
@@ -508,6 +512,10 @@ class Ecwid_Api_V3
 
 	public function get_store_profile() {
 		
+		if( ecwid_is_demo_store() ) {
+			return false;
+		}
+
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
 		if ( $profile ) {
@@ -517,10 +525,10 @@ class Ecwid_Api_V3
 		$params = array(
 			'token' => self::get_token()
 		);
-		
+
 		$url = $this->build_request_url($this->_profile_api_url, $params);
 		$result = EcwidPlatform::fetch_url($url);
-		
+
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 			Ecwid_Api_V3::save_token('');
@@ -693,6 +701,11 @@ class Ecwid_Api_V3
 			}else {
 				$params[$key] = urlencode($param);
 			}
+		}
+
+		$lang = apply_filters( 'ecwid_lang', null );
+		if( !empty($lang) ) {
+			$params['lang'] = $lang;
 		}
 
 		return $url . '?' . build_query($params);

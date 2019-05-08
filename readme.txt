@@ -2,7 +2,7 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.1
+Tested up to: 5.2
 Stable tag: 6.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
@@ -150,6 +150,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.7 - May 8, 2019 =
+- **Improved compatibility with WPML (part 2)**. WPML is a popular plugin for multilingual sites. Ecwid now supports full-featured multilingual storefronts, too. So, in this update, we added a few more improvements for WPML support. Now, if you have enabled the multilingual mode in your ecommerce store and are using WPML on your WordPress site, your shop pages will be displayed in the language selected by a visitor in a language selector. Read more about setting up a multilingual e-commerce store in Ecwid in the Ecwid blog: [https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html](https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html)
+- **A few fixes for compatibility with Divi builder**. If you use Divi builder to edit your WordPress site content, you might notice that the Ecwid buttons "Add store" and "Add product" didn't work well in the editor lately. We fixed that, now it should work fine.
+
 = 6.6 - Apr 29, 2019 =
 - **Improved loading time for the Ecwid plugin in WordPress admin backend**. We noticed that the Ecwid plugin affected the loading time of the pages editor in the WordPress admin backend. We improved a few things in the plugin to make it load faster.
 - **Improved compatibility with WPML**. WPML is a popular plugin for multilingual sites. We got a few reports that it didn’t work well with Ecwid. We talked to the WPML team and tracked down the issue. It’s now fixed and your site should work fine if you use both WPML and Ecwid. In future versions, we will add a full support for WPML — you will be able to translate your Ecwid catalog to multiple languages and display your store content in your visitor language.

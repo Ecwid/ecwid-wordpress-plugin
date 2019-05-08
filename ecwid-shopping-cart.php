@@ -189,7 +189,8 @@ function ecwid_init_integrations()
 		'js_composer/js_composer.php' => 'wpbakery-composer',
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
 		'bb-plugin/fl-builder.php' => 'beaver-builder',
-		'elementor/elementor.php' => 'elementor'
+		'elementor/elementor.php' => 'elementor',
+		'sitepress-multilingual-cms/sitepress.php' => 'wpml'
 	);
 
 
@@ -1591,6 +1592,8 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 function ecwid_get_scriptjs_code( $force_lang = null ) {
 	static $code = '';
 	
+	$force_lang = apply_filters( 'ecwid_lang', $force_lang );
+
 	$store_id = get_ecwid_store_id();
 	$params = ecwid_get_scriptjs_params( $force_lang );
 
@@ -1598,7 +1601,7 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 	$code .= ecwid_sso();
 	$code .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 
-	return $code;
+	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {

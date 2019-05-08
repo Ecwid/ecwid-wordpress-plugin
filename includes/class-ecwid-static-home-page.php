@@ -112,6 +112,7 @@ class Ecwid_Static_Home_Page {
 		}
 		
 		$accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		$accept_language = apply_filters( 'ecwid_lang', $accept_language );
 		
 		$cache_key = $accept_language . "\n" . $url;
 		
