@@ -1598,7 +1598,7 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 	$code .= ecwid_sso();
 	$code .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 
-	return $code;
+	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {

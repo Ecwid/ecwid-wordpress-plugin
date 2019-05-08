@@ -13,6 +13,6 @@ echo ecwid_get_product_browser_url_script();
 ></div>
 
 <script>
-    Ecwid.init();
+	Ecwid.init();
 </script>
 <!-- /noptimize -->
