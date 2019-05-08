@@ -174,9 +174,9 @@ class Ecwid_Importer
 	}
 	
 	public function append_after( $task, $index ) {
-		array_splice( $this->_tasks, $index, 0, array( $task ) );
+		array_splice( $this->_tasks, $index + 1, 0, array( $task ) );
 	
-		return $index;
+		return $index + 1;
 	}
 	
 	public function append_after_type( $task ) {

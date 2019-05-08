@@ -33,10 +33,12 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 
 				$value = $var['attributes']['attribute_' . strtolower($internal_name)];
 
-				$variation_data['options'][] = array(
-					'name' => $name,
-					'value' => $value
-				);
+				if ( $value ) {
+					$variation_data['options'][] = array(
+						'name' => $name,
+						'value' => $value
+					);
+				}
 			}
 
 			$variation_data['price'] = $var['display_price'];
