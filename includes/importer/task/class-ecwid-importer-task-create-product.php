@@ -104,8 +104,13 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 			$result['options'] = array();
 			foreach ( $attributes as $name => $attribute ) {
 
-				$atts = $product->get_attributes();
-				$tax_attribute = $atts[strtolower($name)]->get_taxonomy_object();
+				$att = $this->_get_attribute_by_name( $product, $name );
+				
+				if ( !$att ) {
+					continue;
+				}
+				
+				$tax_attribute = $att->get_taxonomy_object();
 
 				if ($tax_attribute) {
 					$name = $tax_attribute->attribute_label;
@@ -129,6 +134,20 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task
 		}
 
 		return $result;
+	}
+	
+	protected function _get_attribute_by_name( $product, $name ) {
+		
+		$atts = $product->get_attributes();
+		$found = null;
+		foreach ( $atts as $att ) {
+			if ( $att['name'] == $name ) {
+				$found = $att;
+				break;
+			}
+		}
+		
+		return $found;
 	}
 
 	public static function build( array $data ) {
