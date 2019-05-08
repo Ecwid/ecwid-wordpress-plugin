@@ -51,18 +51,18 @@ class Ecwid_Store_Editor {
 
 		$title = __( 'Add Store', 'ecwid-shopping-cart' );
 		$button = <<<HTML
-	<a href="#" id="insert-ecwid-button" class="button add-ecwid ecwid_button" title="$title">
+	<button id="insert-ecwid-button" class="button add-ecwid ecwid_button" title="$title">
 		<span class="ecwid-store-icon">$image_code</span>
 		$title
-	</a>
+	</button>
 HTML;
 
 		$title = __( 'Edit Store', 'ecwid-shopping-cart' );
 		$button .= <<<HTML
-	<a href="#" id="update-ecwid-button" class="button update-ecwid ecwid_button" title="$title">
+	<button id="update-ecwid-button" class="button update-ecwid ecwid_button" title="$title">
 		<span class="ecwid-store-icon">$image_code</span>
 		$title
-	</a>
+	</button>
 HTML;
 
 		return $context . $button;
