@@ -10,7 +10,8 @@ class Ecwid_Integration_WPML
 
 	public function force_scriptjs_lang( $lang ) 
 	{
-		return ICL_LANGUAGE_CODE;
+		$current_language_code = apply_filters( 'wpml_current_language', null );
+		return $current_language_code;
 	}
 
 	public function mod_relative_permalink( $default_link, $item_id )
