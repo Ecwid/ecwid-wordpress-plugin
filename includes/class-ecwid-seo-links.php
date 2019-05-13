@@ -55,7 +55,7 @@ class Ecwid_Seo_Links {
 			return;
 		}
 		
-		$id = @$_GET['post'];
+		$id = (isset( $_GET['post'] )) ? $_GET['post'] : false;
 		
 		if ( !$id ) {
 			return;

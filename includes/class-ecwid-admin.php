@@ -215,15 +215,17 @@ class Ecwid_Admin {
 		$menu = $this->_get_menus();
 		
 		foreach ($menu as $item) {
-			if ( @$item['slug'] == $slug ) {
+			if ( isset($item['slug']) && $item['slug'] == $slug ) {
 				$hash = $item['hash'];
 				break;
 			}
-			if ( @$item['children'] ) foreach ( $item['children'] as $child ) {
-				if ($child['slug'] == $slug) {
-					$hash = $child['hash'];
-					break;
-				}	
+			if ( isset($item['children']) && $item['children'] ) {
+				foreach ( $item['children'] as $child ) {
+					if ($child['slug'] == $slug) {
+						$hash = $child['hash'];
+						break;
+					}	
+				}
 			}
 		}
 		
