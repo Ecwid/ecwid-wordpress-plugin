@@ -447,6 +447,9 @@ JS;
 		$permalink = parse_url( get_permalink( $item_id ) );
 		$home_url = parse_url( home_url() );
 
+		if( !isset($permalink['path']) ) $permalink['path'] = '/';
+		if( !isset($home_url['path']) ) $home_url['path'] = '';
+
 		if( isset($home_url['query']) ) {
 			$home_url['path'] = substr( $home_url['path'], 0, -1 );
 		}
