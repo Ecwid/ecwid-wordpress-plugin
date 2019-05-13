@@ -268,7 +268,7 @@ class Ecwid_Gutenberg {
 		return $store_block['atts'];
 	}
 
-	public function has_content_productbrowser( $content ) {
+	public static function has_content_productbrowser( $content ) {
 		
 		$blocks_with_productbrowser = Ecwid_Gutenberg::get_block_names( true );
 
