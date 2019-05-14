@@ -3224,7 +3224,6 @@ function ecwid_sso() {
 window.EcwidSignInUrl = '$signin_url';
 window.EcwidSignOutUrl = '$signout_url';
 window.Ecwid.OnAPILoaded.add(function() {
-
     window.Ecwid.setSignInUrls({
         signInUrl: '$signin_url',
         signOutUrl: '$signout_url'
@@ -3273,17 +3272,19 @@ JS;
 	return <<<HTML
 <script data-cfasync="false" type="text/javascript">
 
-var ecwid_sso_profile='$ecwid_sso_profile';
-$sign_in_out_urls
+	var ecwid_sso_profile='$ecwid_sso_profile';
+	$sign_in_out_urls
 
-jQuery(document).ready(function() {
-	Ecwid.OnPageLoad.add(function(page) {
-		if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
-			location.href = '$signin_url';
-		}
-	})
-}
-    );
+	jQuery(document).ready(function() {
+		if (typeof Ecwid == 'undefined') return;
+
+		Ecwid.OnPageLoad.add(function(page) {
+			if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
+				location.href = '$signin_url';
+			}
+		})
+	}
+);
 </script>
 HTML;
 }

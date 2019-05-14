@@ -116,15 +116,16 @@ HTML;
 				if (el) {
 				    el.style.display = 'none';
 				}
-				Ecwid.OnPageLoad.add(function() {
-					var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
-					catalog.parentElement.removeChild(catalog);
-				});
+				if ( typeof Ecwid != 'undefined' ) {
+					Ecwid.OnPageLoad.add(function() {
+						var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
+						catalog.parentElement.removeChild(catalog);
+					});
+				}
 			} else {
-			ecwid_onBodyDone();
+				ecwid_onBodyDone();
+			}
 		}
-
-}
 </script>
 HTML;
 		return $before . $content . $after;
