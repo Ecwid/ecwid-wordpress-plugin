@@ -85,8 +85,11 @@ HTML;
 				$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 			}
 
-			$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
-			$html_catalog_params['default_product_id'] = @ (int)$this->_params['defaultProductId'];
+			if( !isset($this->_params['defaultCategoryId']) ) $this->_params['defaultCategoryId'] = null;
+			if( !isset($this->_params['defaultProductId']) ) $this->_params['defaultProductId'] = null;
+
+			$html_catalog_params['default_category_id'] = (int)$this->_params['defaultCategoryId'];
+			$html_catalog_params['default_product_id'] = (int)$this->_params['defaultProductId'];
 
 			if (
 				$html_catalog_params !== false 
@@ -103,7 +106,7 @@ HTML;
 		if ( $this->_lang ) {
 			$params['lang'] = $this->_lang;
 		}
-		if ( @$this->_params['defaultCategoryId'] ) {
+		if ( isset($this->_params['defaultCategoryId']) ) {
 			$params['default_category_id'] = $this->_params['defaultCategoryId'];
 		}
 
