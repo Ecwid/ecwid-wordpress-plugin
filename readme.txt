@@ -150,6 +150,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.7.1 - May 8, 2019 =
+- Minor fixes and improvements.
+
 = 6.7 - May 8, 2019 =
 - **Improved compatibility with WPML (part 2)**. WPML is a popular plugin for multilingual sites. Ecwid now supports full-featured multilingual storefronts, too. So, in this update, we added a few more improvements for WPML support. Now, if you have enabled the multilingual mode in your ecommerce store and are using WPML on your WordPress site, your shop pages will be displayed in the language selected by a visitor in a language selector. Read more about setting up a multilingual e-commerce store in Ecwid in the Ecwid blog: [https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html](https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html)
 - **A few fixes for compatibility with Divi builder**. If you use Divi builder to edit your WordPress site content, you might notice that the Ecwid buttons "Add store" and "Add product" didn't work well in the editor lately. We fixed that, now it should work fine.
