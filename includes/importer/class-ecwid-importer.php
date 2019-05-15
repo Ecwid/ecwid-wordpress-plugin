@@ -162,20 +162,28 @@ class Ecwid_Importer
 	 * 
 	 * @param $task 
 	 */
+	/**
+	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
+	 * and appends $task after all its siblings
+	 *
+	 * @param $task
+	 */
 	public function append_child( $task ) {
 		$ind = $this->_get_current_task();
 
+		$this_task = $this->_tasks[$ind];
+
 		$ind++;
-		while ( isset( $this->_tasks[$ind] ) && $this->_tasks[$ind]['type'] == $task['type'] ) {
+		while ( isset( $this->_tasks[$ind] ) && ( $this->_tasks[$ind]['type'] == $task['type'] || $this->_tasks[$ind]['type'] == $this_task['type'] ) ) {
 			$ind++;
 		}
-		
-		return $this->append_after( $task, $ind );
+
+		return $this->append_after( $task, $ind - 1 );
 	}
-	
+
 	public function append_after( $task, $index ) {
 		array_splice( $this->_tasks, $index + 1, 0, array( $task ) );
-	
+
 		return $index + 1;
 	}
 	
