@@ -2,10 +2,21 @@
 
 class Ecwid_Integration_WPML
 {
+	public $hreflang_items = null;
+
 	public function __construct()
 	{
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		add_filter( 'ecwid_relative_permalink', array( $this, 'mod_relative_permalink' ), 10, 2 );
+		
+
+		// add_filter( 'wpml_hreflangs', function( $hreflang_items ){
+		// 	$this->hreflang_items = $hreflang_items;
+		// 	add_filter( 'ecwid_hreflangs', function( $hreflang_items ){
+		// 		return $this->hreflang_items;
+		// 	}, 10, 1);
+		// 	return $hreflang_items;
+		// }, 10, 1 );
 	}
 
 	public function force_scriptjs_lang( $lang ) 
