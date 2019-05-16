@@ -2336,7 +2336,7 @@ function ecwid_settings_api_init() {
 			update_option('ecwid_sso_secret_key', '');
 		}
 		
-		if ($_POST['settings_section'] == 'advanced' && $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
+		if ($_POST['settings_section'] == 'advanced' && isset( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] ) && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
 			Ecwid_Store_Page::update_main_store_page_id( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] );
 		}
 	}
