@@ -6,6 +6,37 @@ class Ecwid_Integration_WPML
 	{
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		add_filter( 'ecwid_relative_permalink', array( $this, 'mod_relative_permalink' ), 10, 2 );
+
+		// dynamic 
+		add_filter( 'wpml_hreflangs', function( $wpml_hreflangs ){
+
+			if( is_array( $wpml_hreflangs ) ) {
+				$hreflang_js = 'window.ec.config.storefrontUrls.enableHreflangTags = true;';
+				$hreflang_js .= 'window.ec.config.storefrontUrls.internationalPages = {';
+				foreach( $wpml_hreflangs as $lang => $url ) {
+					$hreflang_js .= sprintf( '"%s": "%s",', $lang, $url );
+				}
+				$hreflang_js .= '};';
+			}
+
+			// add_filters( 'ecwid_inline_js_config', function( $js ){
+
+			// 	var_dump('xxx');
+			// 	var_dump($hreflang_js);
+
+			// 	return $js;
+			// });
+
+			return $wpml_hreflangs;
+		}, 10, 1 );
+
+		// static
+		// add_filter( 'wpml_hreflangs_html', function( $hreflang ){
+
+		// 	$hreflang = Ecwid_Static_Page::get_meta_hreflang();
+		// 	return $hreflang;
+
+		// }, 10, 1);
 	}
 
 	public function force_scriptjs_lang( $lang ) 
