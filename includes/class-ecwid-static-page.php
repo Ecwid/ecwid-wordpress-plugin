@@ -111,10 +111,6 @@ class Ecwid_Static_Page {
 			EcwidPlatform::force_catalog_cache_reset();
 		}
 		
-		// if ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_seo_link() ) {
-		// 	return null;
-		// }
-		
 		$data = self::_maybe_fetch_data();
 		
 		return $data;
