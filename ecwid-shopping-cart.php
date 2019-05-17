@@ -1184,17 +1184,16 @@ function ecwid_meta() {
 		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
-		
-		// echo apply_filters( 'ecwid_meta', '' );
-		// or
-		// Ecwid_Static_Page::get_css_files()
-		if ( Ecwid_Static_Home_Page::is_enabled() && Ecwid_Static_Home_Page::get_data_for_current_page() ) {
+
+		if ( Ecwid_Static_Page::is_enabled() && Ecwid_Static_Page::is_data_available() ) {
 			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
 			
-			$data = Ecwid_Static_Home_Page::get_data_for_current_page();
+			$css_files = Ecwid_Static_Page::get_css_files();
 
-			foreach ( $data->cssFiles as $ind => $item ) {
-				echo '<link rel="prefetch" href="' . $item . '">' . PHP_EOL;
+			if( $css_files && is_array( $css_files ) ) {
+				foreach ( $css_files as $item ) {
+					echo '<link rel="prefetch" href="' . $item . '">' . PHP_EOL;
+				}
 			}
 		}
 		

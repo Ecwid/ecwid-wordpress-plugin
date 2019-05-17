@@ -21,9 +21,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	public function render() {
-		
-// $data_ex = Ecwid_Static_Page::get_data_for_current_page();
-// print_r( $data_ex );
 
 		Ecwid_Store_Page::add_store_page( get_the_ID() );
 		if( current_user_can( Ecwid_Admin::get_capability() ) ) {
@@ -34,8 +31,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$default_render = parent::render();
 		
-		$data = Ecwid_Static_Home_Page::get_data_for_current_page();
-		if ( !$data || @$this->_params['noHTMLCatalog'] ) {
+		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] ) {
 			return $default_render;
 		}
 
@@ -51,13 +47,14 @@ document.body.id = 'ecwid_body';
 HTML;
 		}
 		
-
-		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $data->htmlCode ) . '</div>';
+		$static_html_code = Ecwid_Static_Page::get_html_code();
+		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $static_html_code ) . '</div>';
 
 		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
 		
-		if ( $data->jsCode ) {
-			$code .= '<script type="text/javascript">' . $data->jsCode . '</script>';
+		$js_code = Ecwid_Static_Page::get_js_code();
+		if ( $js_code ) {
+			$code .= '<script type="text/javascript" id="jscode">' . $js_code . '</script>';
 		}
 		
 		$code .= <<<HTML
@@ -80,7 +77,7 @@ HTML;
 		$html_catalog_params = false;
 
 		
-		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Home_Page::get_data_for_current_page() ) {
+		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Page::is_data_available() ) {
 
 			if (ecwid_should_display_escaped_fragment_catalog()) {
 				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
@@ -96,7 +93,7 @@ HTML;
 				&& get_option('ecwid_print_html_catalog', 'Y') 
 				&& !@$this->_params['noHTMLCatalog']
 			) {
-				$plain_content = $this->_build_html_catalog($store_id, $html_catalog_params);
+				$plain_content = Ecwid_Static_Page::get_html_code();
 			}
 		}
 
@@ -144,70 +141,6 @@ HTML;
 HTML;
 
 		return $result;
-	}
-
-	/**
-	 * @param $store_id
-	 * @param $params
-	 * @return string
-	 */
-	public function _build_html_catalog($store_id, $params)
-	{
-		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
-		
-		$id = get_the_ID();
-		if (!$id) {
-			$id = Ecwid_Store_Page::get_current_store_page_id();
-		}
-		
-		if ($id) {
-			$page_url = get_permalink( $id );
-		} else {
-			$page_url = '';
-		}
-		
-		$catalog = new EcwidCatalog($store_id, $page_url);
-
-		$url = false;
-		
-		$is_default_category = false;
-
-		if ( isset( $params['mode'] ) && !empty( $params['mode'] ) ) {
-			if ( $params['mode'] == 'product' ) {
-				$plain_content = $catalog->get_product( $params['id'] );
-				$url = Ecwid_Store_Page::get_product_url( $params['id'] );
-			} elseif ( $params['mode'] == 'category' ) {
-				$plain_content = $catalog->get_category( $params['id'] );
-				$url = Ecwid_Store_Page::get_category_url( $params['id'] );
-			}
-
-		} else {
-
-			$cat_id = intval( $this->_get_param_default_category_id( $params ) );
-			if ( $cat_id ) {
-				$plain_content = $catalog->get_category( $cat_id );
-			} else if ( @$this->_params['defaultProductId'] ) {
-				$plain_content = $catalog->get_product( $this->_params['defaultProductId'] );
-			}
-			
-			if ( empty( $plain_content ) ) {
-				$plain_content = $catalog->get_category( 0 );
-			} else {
-				$is_default_category = true;
-			} 
-		}
-
-		if ( $url && !$is_default_category && !Ecwid_Seo_Links::is_product_browser_url() ) {
-			$parsed = parse_url($url);
-
-			if ($parsed['fragment']) {
-				$plain_content .= '<script data-cfasync="false" type="text/javascript"> if (!document.location.hash) document.location.hash = "' . $parsed['fragment'] . '";</script>';
-			} else {
-				$plain_content .= '<script data-cfasync="false" type="text/javascript"> document.location = "' . esc_js($url) . '";</script>';
-			}
-		}
-		
-		return $plain_content;
 	}
 
 	protected function _process_params( $shortcode_params = array() ) {

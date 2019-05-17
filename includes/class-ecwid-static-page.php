@@ -10,44 +10,48 @@ class Ecwid_Static_Page {
 
 	const PARAM_VALID_FROM = 'static_page_valid_from';
 	
-	// const HANDLE_STATIC_PAGE = 'static-home-page';
+	const HANDLE_STATIC_PAGE = 'static-home-page';
 	const API_URL = 'https://storefront.ecwid.com/';
 
 
-	// protected $_has_theme_adjustments = false;
+	protected $_has_theme_adjustments = false;
 	
 	public function __construct() {
 		
 		add_option( self::OPTION_IS_ENABLED );
 		
 		if ( !is_admin() ) {
-			// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			// add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
 	}
 	
-	// public function enqueue_scripts()
-	// {
-	// 	if ( !self::is_enabled() ) {
-	// 		return null;
-	// 	}
+	public function enqueue_scripts()
+	{
+		// if ( !self::is_enabled() ) {
+			// return null;
+		// }
 		
-	// 	$data = $this->get_data_for_current_page();
+		if( !self::is_data_available() ) {
+			return null;
+		}
 
-	// 	if ( !$data || !is_array( $data->cssFiles ) || empty ( $data->cssFiles ) ) return;
-
-	// 	EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE, array() );
+		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE, array() );
 		
-	// 	foreach ( $data->cssFiles as $ind => $item ) {
-	// 		wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $ind, $item );
-	// 	}
-	// }
+		$css_files = self::get_css_files();
+
+		if( $css_files && is_array( $css_files ) ) {
+			foreach ( $css_files as $index => $item ) {
+				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item );
+			}
+		}
+	}
 	
-	// public function apply_theme( $theme ) {
-	// 	if ( $theme ) {
-	// 		$this->_has_theme_adjustments = true;
-	// 	}
-	// }
+	public function apply_theme( $theme ) {
+		if ( $theme ) {
+			$this->_has_theme_adjustments = true;
+		}
+	}
 	
 	public static function _get_data_field( $field ) {
 		$data = self::get_data_for_current_page();
@@ -94,6 +98,14 @@ class Ecwid_Static_Page {
 		return self::_get_data_field( 'lastUpdated' );
 	}
 
+	public static function is_data_available() {
+		if( self::get_last_update() ){
+			return true;
+		}
+
+		return false;
+	}
+
 
 	public static function get_data_for_current_page()
 	{
@@ -112,11 +124,7 @@ class Ecwid_Static_Page {
 		
 		$data = self::_maybe_fetch_data();
 		
-		if ( $data ) {
-			return $data;
-		}
-		
-		return null;
+		return $data;
 	}
 	
 	protected static function _get_endpoint_url(){
