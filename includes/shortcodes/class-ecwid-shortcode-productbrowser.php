@@ -31,7 +31,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$default_render = parent::render();
 		
-		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] ) {
+		if ( !Ecwid_Static_Page::is_enabled_static_home_page() || @$this->_params['noHTMLCatalog'] ) {
 			return $default_render;
 		}
 
@@ -70,6 +70,7 @@ HTML;
 	}
 
 	public function render_placeholder( ) {
+
 		$store_id = get_ecwid_store_id();
 
 		$plain_content = '';
@@ -77,8 +78,8 @@ HTML;
 		$html_catalog_params = false;
 
 		
-		if ( Ecwid_Api_V3::is_available() && !Ecwid_Static_Page::is_data_available() ) {
-
+		if ( Ecwid_Api_V3::is_available() && Ecwid_Static_Page::is_data_available() ) {
+			
 			if (ecwid_should_display_escaped_fragment_catalog()) {
 				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 			} elseif (Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page()) {

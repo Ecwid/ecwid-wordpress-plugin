@@ -130,7 +130,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-products.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-home-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 
 if ( is_admin() ) {
@@ -1177,7 +1176,7 @@ function ecwid_meta() {
 	
 	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
     
-    if (!Ecwid_Store_Page::is_store_page()) {
+    if ( !Ecwid_Store_Page::is_store_page() ) {
 		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
@@ -1185,7 +1184,7 @@ function ecwid_meta() {
 		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
 		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
 
-		if ( Ecwid_Static_Page::is_enabled() && Ecwid_Static_Page::is_data_available() ) {
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
 			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
 			
 			$css_files = Ecwid_Static_Page::get_css_files();
@@ -1197,7 +1196,7 @@ function ecwid_meta() {
 			}
 		}
 		
-		if (ecwid_is_store_page_available()) {
+		if ( ecwid_is_store_page_available() ) {
 
 			$store_id = get_ecwid_store_id();
 			$params = ecwid_get_scriptjs_params();
@@ -1596,7 +1595,7 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		}
 	}
 		
-	if ( Ecwid_Static_Home_Page::is_enabled() ) {
+	if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 		$params .= '&data_static_home=1';
 	}
 	
@@ -2100,11 +2099,11 @@ function ecwid_get_update_params_options() {
 			)
 		),
 
-		Ecwid_Static_Home_Page::OPTION_IS_ENABLED => array(
+		Ecwid_Static_Page::OPTION_IS_ENABLED => array(
 			'values' => array(
-				Ecwid_Static_Home_Page::OPTION_VALUE_AUTO,
-				Ecwid_Static_Home_Page::OPTION_VALUE_ENABLED,
-				Ecwid_Static_Home_Page::OPTION_VALUE_DISABLED
+				Ecwid_Static_Page::OPTION_VALUE_AUTO,
+				Ecwid_Static_Page::OPTION_VALUE_ENABLED,
+				Ecwid_Static_Page::OPTION_VALUE_DISABLED
 			)
 		),
 		
