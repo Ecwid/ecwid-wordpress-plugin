@@ -2,12 +2,15 @@
 
 class Ecwid_Integration_WPML
 {
+	public $hreflang_items;
+
 	public function __construct()
 	{
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		add_filter( 'ecwid_relative_permalink', array( $this, 'mod_relative_permalink' ), 10, 2 );
 
 		// dynamic 
+		/*
 		add_filter( 'wpml_hreflangs', function( $wpml_hreflangs ){
 
 			if( is_array( $wpml_hreflangs ) ) {
@@ -29,14 +32,23 @@ class Ecwid_Integration_WPML
 
 			return $wpml_hreflangs;
 		}, 10, 1 );
+		*/
 
 		// static
-		// add_filter( 'wpml_hreflangs_html', function( $hreflang ){
+		add_filter( 'wpml_hreflangs', array( $this, 'set_hreflangs' ), 10, 1 );
+	}
 
-		// 	$hreflang = Ecwid_Static_Page::get_meta_hreflang();
-		// 	return $hreflang;
+	public function set_hreflangs( $hreflang_items )
+	{
+		$this->hreflang_items = $hreflang_items;
+		add_filter( 'ecwid_hreflangs', array( $this, 'get_hreflangs' ), 10, 1);
 
-		// }, 10, 1);
+		return $hreflang_items;
+	}
+
+	public function get_hreflangs()
+	{
+		return $this->hreflang_items;
 	}
 
 	public function force_scriptjs_lang( $lang ) 
