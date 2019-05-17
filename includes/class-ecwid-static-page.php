@@ -64,47 +64,6 @@ class Ecwid_Static_Page {
 		return false;
 	}
 
-	public static function get_css_files() {
-		return self::_get_data_field( 'cssFiles' );
-	}
-
-	public static function get_html_code() {
-		return self::_get_data_field( 'htmlCode' );
-	}
-
-	public static function get_js_code() {
-		return self::_get_data_field( 'jsCode' );
-	}
-
-	public static function get_meta_description_html() {
-		return self::_get_data_field( 'metaDescriptionHtml' );
-	}
-
-	public static function get_canonical_url() {
-		return self::_get_data_field( 'canonicalUrl' );
-	}
-
-	public static function get_og_tags_html() {
-		return self::_get_data_field( 'ogTagsHtml' );
-	}
-
-	public static function get_json_ld_html() {
-		return self::_get_data_field( 'jsonLDHtml' );
-	}
-
-	public static function get_last_update() {
-		return self::_get_data_field( 'lastUpdated' );
-	}
-
-	public static function is_data_available() {
-		if( self::get_last_update() ){
-			return true;
-		}
-
-		return false;
-	}
-
-
 	public static function get_data_for_current_page()
 	{
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
@@ -273,6 +232,46 @@ class Ecwid_Static_Page {
 	}
 
 
+	public static function get_css_files() {
+		return self::_get_data_field( 'cssFiles' );
+	}
+
+	public static function get_html_code() {
+		return self::_get_data_field( 'htmlCode' );
+	}
+
+	public static function get_js_code() {
+		return self::_get_data_field( 'jsCode' );
+	}
+
+	public static function get_meta_description_html() {
+		return self::_get_data_field( 'metaDescriptionHtml' );
+	}
+
+	public static function get_canonical_url() {
+		return self::_get_data_field( 'canonicalUrl' );
+	}
+
+	public static function get_og_tags_html() {
+		return self::_get_data_field( 'ogTagsHtml' );
+	}
+
+	public static function get_json_ld_html() {
+		return self::_get_data_field( 'jsonLDHtml' );
+	}
+
+	public static function get_last_update() {
+		return self::_get_data_field( 'lastUpdated' );
+	}
+
+	public static function is_data_available() {
+		if( self::get_last_update() ){
+			return true;
+		}
+
+		return false;
+	}
+
 	protected static function _is_homepage(){
 		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
@@ -285,7 +284,8 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page()
 	{
-		if( !self::_is_homepage() ) {
+		$is_home_page = empty( Ecwid_Seo_Links::maybe_extract_html_catalog_params() );
+		if( !$is_home_page ) {
 			return false;
 		}
 

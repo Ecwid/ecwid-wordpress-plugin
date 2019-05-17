@@ -48,9 +48,9 @@ HTML;
 		}
 		
 		$static_html_code = Ecwid_Static_Page::get_html_code();
-		$code .= '<div id="static-ecwid">' . htmlspecialchars_decode( $static_html_code ) . '</div>';
+		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>';
 
-		$code .= '<div id="dynamic-ecwid">' . $default_render . '</div>';
+		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>';
 		
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if ( $js_code ) {
@@ -59,7 +59,7 @@ HTML;
 		
 		$code .= <<<HTML
 <script language="JavaScript">
-    EcwidStaticPageLoader.processStaticHomePage('static-ecwid', 'dynamic-ecwid');
+    EcwidStaticPageLoader.processStaticHomePage('static-ec-store', 'dynamic-ec-store');
 	if ( location.hash != '' && location.hash.indexOf('#!/c/0/') !== 0) {
 	    EcwidStaticPageLoader.switchToDynamicMode();
 	}
@@ -79,7 +79,7 @@ HTML;
 
 		
 		if ( Ecwid_Api_V3::is_available() && Ecwid_Static_Page::is_data_available() ) {
-			
+
 			if (ecwid_should_display_escaped_fragment_catalog()) {
 				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
 			} elseif (Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page()) {
@@ -131,13 +131,13 @@ HTML;
 				else
 					style.sheet.insertRule(name+'{'+rules+'}',0);
 			}
-			createClass('#ecwid-html-catalog-$store_id','display:none;');
+			createClass('#ec-html-catalog-$store_id','display:none;');
 		</script>
 HTML;
 		
 		
 		$result .= <<<HTML
-		<div id="ecwid-html-catalog-$store_id">{$plain_content}</div>
+		<div id="ec-html-catalog-$store_id">{$plain_content}</div>
 	</div>
 HTML;
 
