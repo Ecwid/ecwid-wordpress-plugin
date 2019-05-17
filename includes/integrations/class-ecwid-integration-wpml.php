@@ -2,7 +2,7 @@
 
 class Ecwid_Integration_WPML
 {
-	public $hreflang_items;
+	public $hreflang_items = null;
 
 	public function __construct()
 	{

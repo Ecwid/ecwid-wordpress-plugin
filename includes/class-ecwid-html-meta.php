@@ -70,59 +70,14 @@ abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 
 	public function wp_head()
 	{
-		$this->_print_opengraph_tags();
-		$this->_print_twitter_tags();
+		$this->_print_og_tags();
 	}
 
-	protected function _print_opengraph_tags()
+	protected function _print_og_tags()
 	{
-		$og_tags = array(
-			'locale' => get_locale(),
-			'type' => 'article',
-			'title' => $this->_get_title(),
-			'description' => $this->_get_description( ECWID_TRIMMED_DESCRIPTION_LENGTH ),
-			'url' => $this->_get_url(),
-			'site_name' => $this->_get_site_name(),
-			'image' => $this->_get_image_url()
-		);
+		$og_tags_html = Ecwid_Static_Page::get_og_tags_html();
 
-		$og_tags = apply_filters( 'ecwid_og_tags', $og_tags );
-		
-		if (!empty($og_tags)) {
-			foreach ($og_tags as $tag => $value) {
-				if (!$value) continue;
-
-				echo sprintf(
-					'<meta property="og:%s" content="%s" />',
-					$tag,
-					esc_attr($value)
-				);
-			}
-		}
-	}
-
-	protected function _print_twitter_tags()
-	{
-		$twitter_tags = array(
-			'card' => 'summary_large_image',
-			'description' => $this->_get_description( ECWID_TRIMMED_DESCRIPTION_LENGTH ),
-			'title' => $this->_get_title(),
-			'image' => $this->_get_image_url()
-		);
-
-		$twitter_tags = apply_filters( 'ecwid_twitter_tags', $twitter_tags );
-
-		if ( !empty( $twitter_tags ) ) {
-			foreach ($twitter_tags as $tag => $value) {
-				if (!$value) continue;
-
-				echo sprintf(
-					'<meta property="twitter:%s" content="%s" />',
-					$tag,
-					esc_attr( $value )
-				);
-			}
-		}
+		echo $og_tags_html;
 	}
 
 	protected function _get_site_name()
