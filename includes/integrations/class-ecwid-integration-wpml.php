@@ -2,8 +2,6 @@
 
 class Ecwid_Integration_WPML
 {
-	public $hreflang_items = null;
-
 	public function __construct()
 	{
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
