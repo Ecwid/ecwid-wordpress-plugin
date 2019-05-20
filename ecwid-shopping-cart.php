@@ -729,6 +729,9 @@ function ecwid_check_version()
 		
 		// Since 5.8
 		add_option( Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS, 'auto' );
+
+		// Since 5.8
+		add_option( 'ecwid_print_html_catalog', 'Y' );
 		
 		// Since 5.8.x
 		add_option( 'ecwid_print_category_in_title', 'Y' );
@@ -2083,6 +2086,9 @@ function ecwid_get_update_params_options() {
 				Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_OFF,
 				Ecwid_Admin::OPTION_ENABLE_AUTO_MENUS_AUTO
 			)
+		),
+		'ecwid_print_html_catalog' => array(
+			'type' => 'bool'
 		),
 		
 		'ecwid_hide_prefetch' => array(

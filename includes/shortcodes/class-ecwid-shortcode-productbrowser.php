@@ -31,6 +31,11 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$default_render = parent::render();
 
+		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( get_option('ecwid_print_html_catalog', 'Y') ) ) {
+			return $default_render;
+		}
+
+
 		$code = '';
 		global $ecwid_current_theme;
 		if ( $ecwid_current_theme ) {
@@ -42,7 +47,6 @@ document.body.id = 'ecwid_body';
 </script>
 HTML;
 		}
-
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
@@ -93,20 +97,6 @@ HTML;
 	public function render_placeholder( ) {
 
 		$store_id = get_ecwid_store_id();
-		
-		$html_catalog_params = false;
-
-		if ( Ecwid_Api_V3::is_available() && Ecwid_Static_Page::is_data_available() ) {
-
-			if (ecwid_should_display_escaped_fragment_catalog()) {
-				$html_catalog_params = ecwid_parse_escaped_fragment($_GET['_escaped_fragment_']);
-			} elseif (Ecwid_Seo_Links::is_enabled() && Ecwid_Store_Page::is_store_page()) {
-				$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-			}
-
-			$html_catalog_params['default_category_id'] = @ (int)$this->_params['defaultCategoryId'];
-			$html_catalog_params['default_product_id'] = @ (int)$this->_params['defaultProductId'];
-		}
 
 		$params = array(
 			'default_category_id' => 0
@@ -114,8 +104,13 @@ HTML;
 		if ( $this->_lang ) {
 			$params['lang'] = $this->_lang;
 		}
+
 		if ( @$this->_params['defaultCategoryId'] ) {
 			$params['default_category_id'] = $this->_params['defaultCategoryId'];
+		}
+
+		if ( @$this->_params['defaultProductId'] ) {
+			$params['default_product_id'] = $this->_params['defaultProductId'];
 		}
 
 		Ecwid_Store_Page::save_store_page_params( $params );
@@ -123,7 +118,7 @@ HTML;
 		$classname = $this->_get_html_class_name();
 		
 		$result = <<<HTML
-	<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$html_catalog_params[default_category_id]"></div>
+	<div id="ecwid-store-$store_id" class="ecwid-shopping-cart-$classname" data-ecwid-default-category-id="$params[default_category_id]"></div>
 HTML;
 
 		return $result;
@@ -202,6 +197,10 @@ HTML;
 
 		if (isset($shortcode_params['default_product_id'])) {
 			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
+		}
+
+		if (isset($shortcode_params['no_html_catalog'])) {
+			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
 		}
 
 		$this->_params = $input_params;
