@@ -166,7 +166,6 @@ class Ecwid_Static_Page {
 		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
 		if ( $cached_data ) {
-			error_log( 'cached_data: ' );
 			return $cached_data;
 		}
 		
@@ -181,8 +180,6 @@ class Ecwid_Static_Page {
 				)
 			)
 		);
-
-		error_log( 'fetch_url: ' );
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
