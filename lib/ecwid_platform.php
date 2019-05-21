@@ -457,7 +457,7 @@ class EcwidPlatform {
 			EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ), 
 			EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ),
 			EcwidPlatform::get( self::PROFILE_CACHE_VALID_FROM ),
-			EcwidPlatform::get( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM )
+			// EcwidPlatform::get( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM )
 		);
 
 		self::cache_log_record(

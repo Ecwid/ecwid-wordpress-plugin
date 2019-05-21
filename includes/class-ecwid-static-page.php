@@ -163,9 +163,10 @@ class Ecwid_Static_Page {
 
 		
 		$cache_key = $url;
-		$cached_data = EcwidPlatform::get_from_products_cache( $cache_key );
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
 		if ( $cached_data ) {
+			error_log( 'cached_data: ' );
 			return $cached_data;
 		}
 		
@@ -180,12 +181,14 @@ class Ecwid_Static_Page {
 				)
 			)
 		);
+
+		error_log( 'fetch_url: ' );
 		
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
 
-			EcwidPlatform::store_in_products_cache( $cache_key, $fetched_data );
+			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
 			return $fetched_data;
 		}
