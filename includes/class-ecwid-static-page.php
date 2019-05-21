@@ -162,8 +162,8 @@ class Ecwid_Static_Page {
 		$url = substr( $url, 0, -1 );
 
 		
-		$cache_key = $accept_language . "\n" . $url;
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
+		$cache_key = $url;
+		$cached_data = EcwidPlatform::get_from_products_cache( $cache_key );
 
 		if ( $cached_data ) {
 			return $cached_data;
@@ -185,7 +185,7 @@ class Ecwid_Static_Page {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
 
-			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
+			EcwidPlatform::store_in_products_cache( $cache_key, $fetched_data );
 			
 			return $fetched_data;
 		}
