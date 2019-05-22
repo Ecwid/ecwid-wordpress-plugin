@@ -17,13 +17,48 @@ abstract class Ecwid_HTML_Meta
 	public static function maybe_create() {
 		$obj = null;
 		
+		if( !Ecwid_Store_Page::is_store_page() ) {
+			return new Ecwid_HTML_Meta_Other();
+		}
+
 		if ( Ecwid_Seo_Links::is_noindex_page() ) {
-			$obj = new Ecwid_HTML_Meta_Noindex();
-		} else if ( Ecwid_Store_Page::is_store_page() ) {
-			$obj = new Ecwid_HTML_Meta_Catalog_Entry();
+			return new Ecwid_HTML_Meta_Noindex();
+		} else {
+			return new Ecwid_HTML_Meta_Catalog_Entry();
 		}
 		
 		return $obj;
+	}
+
+	protected function _is_available_prefetch_tags(){
+		$ua = @$_SERVER['HTTP_USER_AGENT'];
+	
+		$is_ie = strpos( $ua, 'MSIE' ) !== false 
+			|| strpos( $ua, 'Trident' ) !== false;
+		
+		if ( $is_ie  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
+			return false;	
+		}
+
+		return true;
+	}
+
+	protected function _print_dns_prefetch_control() {
+		echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
+	}
+
+	protected function _print_prefetch() {
+
+		if( !$this->_is_available_prefetch_tags() ){
+			return;
+		}
+
+		$store_id = get_ecwid_store_id();
+        $params = ecwid_get_scriptjs_params();
+
+        $this->_print_dns_prefetch_control();
+		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
+			. $store_id . $params . '" as="script">' . PHP_EOL;
 	}
 
 	// static only while ecwid_trim_description exists and meta functionality is not moved into this class
@@ -53,8 +88,10 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta
 
 	public function wp_head() {
 		$this->_print_description();
+		$this->_print_prefetch();
 		$this->_print_og_tags();
 		$this->_print_canonical();
+		$this->_print_ajax_crawling_fragment();
 	}
 
 	public function wp_head_last() {
@@ -85,7 +122,7 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta
 					if( !empty($profile->settings->storeDescription) ) {
 						
 						$description = $profile->settings->storeDescription;
-						$description = ecwid_trim_description($description);
+						$description = Ecwid_HTML_Meta::process_raw_description( $description, ECWID_TRIMMED_DESCRIPTION_LENGTH );
 
 						$description_html = sprintf( '<meta name="description" content="%s" />', $description ) . PHP_EOL;
 					}
@@ -129,6 +166,17 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta
 		echo $json_ld;
 	}
 
+	protected function _print_ajax_crawling_fragment() {
+
+		if ( !Ecwid_Api_V3::is_available() ) return;
+
+		if ( isset( $_GET['_escaped_fragment_'] ) ) return;
+
+		if ( Ecwid_Seo_Links::is_enabled() ) return;
+
+	    echo '<meta name="fragment" content="!">' . PHP_EOL;
+	}
+
 	protected function _get_site_name() {
 		return get_bloginfo( 'name' );
 	}
@@ -136,7 +184,57 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta
 
 class Ecwid_HTML_Meta_Noindex extends Ecwid_HTML_Meta {
 	public function wp_head() {
+		$this->_print_prefetch();
 		echo '<meta name="robots" content="noindex">' . PHP_EOL;
+	}
+
+	public function wp_head_last() {
+		return false;
+	}
+}
+
+class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
+	public function wp_head() {
+		$this->_print_prefetch();
+	}
+
+	protected function _print_prefetch() {
+
+		if( !$this->_is_available_prefetch_tags() ){
+			return;
+		}
+		
+		$this->_print_dns_prefetch_control();
+
+		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
+			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+			
+			$css_files = Ecwid_Static_Page::get_css_files();
+
+			if( $css_files && is_array( $css_files ) ) {
+				foreach ( $css_files as $item ) {
+					echo sprintf( '<link rel="prefetch" href="%s">', $item ) . PHP_EOL;
+				}
+			}
+		}
+		
+		if ( ecwid_is_store_page_available() ) {
+			$store_id = get_ecwid_store_id();
+			$params = ecwid_get_scriptjs_params();
+
+			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
+			echo sprintf( '<link rel="prefetch" href="%s" />', $scriptjs_url ) . PHP_EOL;
+
+			$page_url = Ecwid_Store_Page::get_store_url();
+			echo sprintf( '<link rel="prerender" href="%s" />', $page_url ) . PHP_EOL;
+		}
 	}
 
 	public function wp_head_last() {

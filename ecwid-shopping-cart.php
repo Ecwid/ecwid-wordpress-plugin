@@ -87,8 +87,6 @@ if ( is_admin() ) {
 	add_action( 'wp', 'ecwid_remove_default_canonical' );
 	add_filter( 'wp', 'ecwid_seo_compatibility_init', 0 );
 
-	add_action( 'wp_head', 'ecwid_ajax_crawling_fragment' );
-	add_action( 'wp_head', 'ecwid_meta' );
 	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
 	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
 	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
@@ -1137,74 +1135,6 @@ function ecwid_get_current_user_locale()
 	}
 	
 	return $lang;
-}
-
-function ecwid_ajax_crawling_fragment() {
-
-	if ( !Ecwid_Api_V3::is_available() ) return;
-
-	if ( isset( $_GET['_escaped_fragment_'] ) ) return;
-
-	if ( ! Ecwid_Store_Page::is_store_page() ) return;
-
-	global $wp, $ecwid_seo_links;
-
-	$slug = ltrim( strrchr( $wp->request, '/' ), '/' );
-
-	if ( Ecwid_Seo_Links::is_enabled() ) return;
-
-    echo '<meta name="fragment" content="!">' . PHP_EOL;
-}
-
-function ecwid_meta() {
-
-	$ua = @$_SERVER['HTTP_USER_AGENT'];
-	
-	$is_ie = strpos( $ua, 'MSIE' ) !== false 
-		|| strpos( $ua, 'Trident' ) !== false;
-	
-	if ( $is_ie  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
-		return;	
-	}
-	
-	echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
-    
-    if ( !Ecwid_Store_Page::is_store_page() ) {
-		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
-
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
-			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
-			
-			$css_files = Ecwid_Static_Page::get_css_files();
-
-			if( $css_files && is_array( $css_files ) ) {
-				foreach ( $css_files as $item ) {
-					echo '<link rel="prefetch" href="' . $item . '">' . PHP_EOL;
-				}
-			}
-		}
-		
-		if ( ecwid_is_store_page_available() ) {
-
-			$store_id = get_ecwid_store_id();
-			$params = ecwid_get_scriptjs_params();
-			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
-			echo '<link rel="prefetch" href="' . $scriptjs_url . '" />' . PHP_EOL;
-
-			$page_url = Ecwid_Store_Page::get_store_url();
-			echo '<link rel="prerender" href="' . $page_url . '" />' . PHP_EOL;
-		}
-	} else {
-        $store_id = get_ecwid_store_id();
-        $params = ecwid_get_scriptjs_params();
-		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
-			. $store_id . $params . '" as="script">' . PHP_EOL;
-    }
 }
 
 function ecwid_product_browser_url_in_head() {
