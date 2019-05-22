@@ -2,37 +2,25 @@
 
 abstract class Ecwid_HTML_Meta
 {
-	protected function __construct()
-	{
+	protected function __construct() {
 		$this->_init();
 	}
 
-
-	protected function _init()
-	{
-		add_action( 'wp_head', array( $this, 'wp_head' ) );
+	protected function _init() {
+		add_action( 'wp_head', array( $this, 'wp_head' ), 1 );
+		add_action( 'wp_head', array( $this, 'wp_head_last') , 1000 );
 	}
 	
 	abstract public function wp_head();
+	abstract public function wp_head_last();
 	
-	public static function maybe_create()
-	{
-		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-	
+	public static function maybe_create() {
 		$obj = null;
-		if ( ! empty( $params ) ) {
-			$obj = null;
-	
-			if ( $params['mode'] == 'product' ) {
-				$obj = new Ecwid_HTML_Meta_Product( $params['id'] );
-			} else if ( $params['mode'] == 'category' ) {
-				$obj = new Ecwid_HTML_Meta_Category( $params['id'] );
-			} 
-	
-		}
 		
 		if ( Ecwid_Seo_Links::is_noindex_page() ) {
 			$obj = new Ecwid_HTML_Meta_Noindex();
+		} else if ( Ecwid_Store_Page::is_store_page() ) {
+			$obj = new Ecwid_HTML_Meta_Catalog_Entry();
 		}
 		
 		return $obj;
@@ -57,134 +45,103 @@ abstract class Ecwid_HTML_Meta
 	}
 }
 
-abstract class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
-	
-	protected $id;
-
-	protected function __construct($id)
-	{
-		$this->id = $id;
-
+class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta 
+{
+	protected function __construct() {
 		parent::__construct();
 	}
 
-	public function wp_head()
-	{
+	public function wp_head() {
+		$this->_print_description();
 		$this->_print_og_tags();
+		$this->_print_canonical();
 	}
 
-	protected function _print_og_tags()
-	{
+	public function wp_head_last() {
+		$this->_print_json_ld();
+	}
+
+	protected function _print_description() {
+		$description_html = false;
+
+		if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
+			
+			$description_html = Ecwid_Static_Page::get_meta_description_html();
+
+		} else if ( Ecwid_Store_Page::is_store_page() ) {
+			$set_metadesc = false;
+			$set_metadesc = apply_filters( 'ecwid_set_mainpage_metadesc', $set_metadesc );
+
+			if( $set_metadesc ) {
+				$store_page_params = Ecwid_Store_Page::get_store_page_params();
+				if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+					
+					$description_html = Ecwid_Static_Page::get_meta_description_html();
+
+				} else {
+					$api = new Ecwid_Api_V3();
+					$profile = $api->get_store_profile();
+
+					if( !empty($profile->settings->storeDescription) ) {
+						
+						$description = $profile->settings->storeDescription;
+						$description = ecwid_trim_description($description);
+
+						$description_html = sprintf( '<meta name="description" content="%s" />', $description ) . PHP_EOL;
+					}
+				}
+			} 
+		}
+
+		if( $description_html ) {
+			echo $description_html;
+		}
+
+		return;
+	}
+
+	protected function _print_og_tags() {
 		$og_tags_html = Ecwid_Static_Page::get_og_tags_html();
+
+		$site_name = $this->_get_site_name();
+		$og_tags_html = preg_replace(
+			'/(<meta property="og:site_name" content=").*?(" \/>)/', 
+			'$1'.$site_name.'$2',
+			$og_tags_html 
+		);
 
 		echo $og_tags_html;
 	}
 
-	protected function _get_site_name()
-	{
-		return get_bloginfo( 'name' );
-	}
 
-	protected function _get_description( $length )
-	{
-		$raw = $this->_get_raw_description();
+	protected function _print_canonical() {
+		if ( get_option( 'ecwid_hide_canonical', false ) ) return;
+		
+		$link = Ecwid_Static_Page::get_canonical_url();
 
-		return self::process_raw_description( $raw, $length );
-	}
-
-	abstract protected function _get_title();
-
-	abstract protected function _get_raw_description();
-
-	abstract protected function _get_url();
-
-	abstract protected function _get_image_url();
-
-	// static only while ecwid_trim_description exists and meta functionality is not moved into this class
-	public static function process_raw_description( $description, $length = 0 ) {
-		$description = strip_tags( $description );
-		$description = html_entity_decode( $description, ENT_NOQUOTES, 'UTF-8' );
-
-		$description = preg_replace( '![\p{Z}\s]{1,}!u', ' ', $description );
-		$description = trim( $description, " \t\xA0\n\r" ); // Space, tab, non-breaking space, newline, carriage return
-
-		if ( function_exists( 'mb_substr' ) ) {
-			$description = mb_substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH, 'UTF-8' );
-		} else {
-			$description = substr( $description, 0, $length ? $length : ECWID_TRIMMED_DESCRIPTION_LENGTH );
+		if ( $link ) {
+			echo '<link rel="canonical" href="' . esc_attr($link) . '" />' . PHP_EOL;
 		}
-		$description = htmlspecialchars( $description, ENT_COMPAT, 'UTF-8' );
-
-		return $description;
-	}
-}
-
-class Ecwid_HTML_Meta_Product extends Ecwid_HTML_Meta_Catalog_Entry {
-	
-	protected $product;
-	protected function _init()
-	{
-		parent::_init();
-		$this->product = Ecwid_Product::get_by_id( $this->id );
-	}
-	
-	protected function _get_title()
-	{
-		return @$this->product->name;
-	}
-	
-	protected function _get_raw_description()
-	{
-		return @$this->product->description;
-	}
-	
-	protected function _get_url()
-	{
-		return @$this->product->link;
 	}
 
-	protected function _get_image_url()
-	{
-		return @$this->product->hdThumbnailUrl ? @$this->product->hdThumbnailUrl : @$this->product->thumbnailUrl;
-	}
-}
-
-class Ecwid_HTML_Meta_Category extends Ecwid_HTML_Meta_Catalog_Entry {
-
-	protected $category;
-	protected function _init()
-	{
-		parent::_init();
-		$this->category = Ecwid_Category::get_by_id( $this->id );
+	protected function _print_json_ld() {
+		$json_ld = Ecwid_Static_Page::get_json_ld_html();
+		echo $json_ld;
 	}
 
-
-	protected function _get_title()
-	{
-		return @$this->category->name;
-	}
-
-	protected function _get_raw_description()
-	{
-		return @$this->category->description;
-	}
-	
-	protected function _get_url()
-	{
-		return @$this->category->link;
-	}
-
-	protected function _get_image_url()
-	{
-		return @$this->category->hdThumbnailUrl ? @$this->category->hdThumbnailUrl : @$this->category->thumbnailUrl;
+	protected function _get_site_name() {
+		return get_bloginfo( 'name' );
 	}
 }
 
 class Ecwid_HTML_Meta_Noindex extends Ecwid_HTML_Meta {
-	public function wp_head()
-	{
-		echo '<meta name="robots" content="noindex">';
-	}	
+	public function wp_head() {
+		echo '<meta name="robots" content="noindex">' . PHP_EOL;
+	}
+
+	public function wp_head_last() {
+		return false;
+	}
 }
 
 add_action( 'wp', array( 'Ecwid_HTML_Meta', 'maybe_create' ) );
