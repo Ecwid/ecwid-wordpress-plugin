@@ -732,10 +732,6 @@ function ecwid_check_version()
 
 		// Since 5.8
 		add_option( 'ecwid_print_html_catalog', 'Y' );
-		
-		// Since 5.8.x
-		add_option( 'ecwid_print_category_in_title', 'Y' );
-
 
 		// Since 5.8.1+
 		add_option( Ecwid_Products::OPTION_SYNC_LIMIT, 20 );
