@@ -67,10 +67,12 @@ HTML;
 	{
 		return <<<HTML
 			<script language="JavaScript">
-			    EcwidStaticPageLoader.processStaticHomePage('$static_container_id', '$dynamic_container_id');
-				if ( location.hash != '' && location.hash.indexOf('#!/c/0/') !== 0) {
-				    EcwidStaticPageLoader.switchToDynamicMode();
-				}
+				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
+
+				ec.storefront.staticPages.staticStorefrontEnabled = true;
+				ec.storefront.staticPages.staticContainerID = '$static_container_id';
+				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
+				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
 			</script>
 HTML;
 	}

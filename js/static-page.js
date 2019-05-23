@@ -1,281 +1,360 @@
-var EcwidStaticPageLoader = {
-    isTouchDevice: false,
-    staticId: null,
-    dynamicId: null,
-    defaultCategoryId: null,
+(function () {
+    var isTouchDevice = false;
+    var staticId = null;
+    var staticContentClass = 'static-content';
+    var dynamicId = null;
+    var ecwidPageOpened = false;
+    var autoSwitchStaticToDynamicWhenReady = false;
+    var autoSwitchStaticToDynamicWhenReadyDefault = false;
+    var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;";
+    var mainCategoryId = 0;
 
-    find: function (selector) {
+    function find(selector) {
         return document.querySelector(selector);
-    },
+    }
 
-    findAll: function (selector) {
-        return document.querySelectorAll(selector);
-    },
-
-    isVisible: function (elem) {
-        return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
-    },
-
-    forEach: function (elements, fn) {
-        return Array.prototype.forEach.call(elements, fn);
-    },
-
-    isRootCaregory: function () {
-        return window.location.hash === '' || window.location.hash.indexOf("#!/c/0/") !== -1;
-    },
-
-    onDocumentReady: function (fn) {
-        if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-            fn();
-        } else {
-            document.addEventListener('DOMContentLoaded', fn);
+    function isDynamicMode() {
+        function isVisible(elem) {
+            return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
         }
-    },
 
-    processStaticHomePage: function (staticId, dynamicId, defaultCategoryId) {
-        this.staticId = staticId;
-        this.dynamicId = dynamicId;
-        this.defaultCategoryId = defaultCategoryId;
+        var staticHtml = find('#' + staticId);
+        return !staticHtml || !isVisible(staticHtml);
+    }
 
-        this.onDocumentReady(function () {
-            if (!!('ontouchstart' in window)) {
-                this.isTouchDevice = true;
-                document.body.classList.add('touchable');
+    function processStaticHomePage() {
+
+        window.ec = window.ec || {};
+        window.ec.storefront = window.ec.storefront || {};
+        window.ec.storefront.staticPages = window.ec.storefront.staticPages || {};
+
+
+        window.ec.storefront.staticPages.switchStaticToDynamic = switchToDynamicMode;
+
+        function isRootCategory() {
+            return window.location.hash === '' || window.location.hash.indexOf("#!/c/0/") !== -1;
+        }
+
+        function onDocumentReady(fn) {
+            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
             }
+        }
 
-            if (!EcwidStaticPageLoader.isRootCaregory()) {
-                EcwidStaticPageLoader.hideStorefront();
-                EcwidStaticPageLoader.switchToDynamicMode();
+        onDocumentReady(function () {
+            var staticStorefrontEnabled = window.ec.storefront.staticPages.staticStorefrontEnabled || false;
+
+            if (staticStorefrontEnabled !== true) {
                 return;
             }
 
-            EcwidStaticPageLoader.hideStorefront();
-            EcwidStaticPageLoader.showStaticHtml();
-            EcwidStaticPageLoader.addStaticPageHandlers();
+            staticId = ec.storefront.staticPages.staticContainerID;
+            dynamicId = ec.storefront.staticPages.dynamicContainerID;
+            if (!staticId || !document.querySelector("#" + staticId)) {
+                if (!!console) {
+                    console.warn("Static storefront is enabled, but no staticContainerID is provided or container is not present");
+                }
+                return;
+            }
+            if (!dynamicId || !document.querySelector("#" + dynamicId)) {
+                if (!!console) {
+                    console.warn("Static storefront is enabled, but no dynamicContainerID is provided or container is not present");
+                }
+                return;
+            }
 
-            Ecwid.OnPageLoad.add(function (openedPage) {
-                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
-                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
-                    // if we've already switched to dynamic, we don't need to dispatch this event anymore
-                    return;
-                }
-                if (openedPage.type == "CART"
-                    || openedPage.type == "ORDERS"
-                    || openedPage.type == "FAVORITES"
-                    || openedPage.type == "SIGN_IN") {
-                    // static links from bottom of the page should be processed before page load event finishes,
-                    // so that pre-opening scroll didn't make the page jump
-                    EcwidStaticPageLoader.switchToDynamicMode();
-                }
+            var mainCategoryIdFromConfig = ec.storefront.staticPages.mainCategoryId;
+            if (mainCategoryIdFromConfig) {
+                mainCategoryId = mainCategoryIdFromConfig;
+            }
+
+
+            var autoSwitchStaticToDynamicWhenReadyFromConfig = ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady;
+            if (autoSwitchStaticToDynamicWhenReadyFromConfig) {
+                autoSwitchStaticToDynamicWhenReady = autoSwitchStaticToDynamicWhenReadyFromConfig;
+            } else {
+                autoSwitchStaticToDynamicWhenReady = autoSwitchStaticToDynamicWhenReadyDefault;
+            }
+
+            hideStorefront();
+            showStaticHtml();
+
+            window.ec.config = window.ec.config || {};
+            window.ec.config.navigation_scrolling = "DISABLED";
+            if (!!('ontouchstart' in window)) {
+                isTouchDevice = true;
+                document.body.classList.add('touchable');
+            }
+
+            if (!isRootCategory()) {
+                hideStorefront();
+                switchToDynamicMode();
+                return;
+            }
+
+            addStaticPageHandlers();
+
+
+            function setupAfterEcwidLoaded() {
+
+                Ecwid.OnAPILoaded.add(function () {
+                    var storeClosed = window.ecwid_initial_data.data.storeClosed;
+                    var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
+                    var storeClosedAndWrapperNotExists = storeClosed && storeClosedWrapper.length === 0;
+                    var storeNotClosedAndWrapperExists = !storeClosed && storeClosedWrapper.length > 0;
+
+                    if (!isDynamicMode()
+                        && (storeNotClosedAndWrapperExists || storeClosedAndWrapperNotExists)) {
+                        switchToDynamicMode();
+                    }
+                });
+
+                Ecwid.OnPageLoad.add(function (openedPage) {
+                    if (isDynamicMode()) {
+                        // if we've already switched to dynamic, we don't need to dispatch this event anymore
+                        return;
+                    }
+
+                    if (openedPage.type === "CART"
+                        || openedPage.type === "ORDERS"
+                        || openedPage.type === "FAVORITES"
+                        || openedPage.type === "SIGN_IN") {
+                        // static links from bottom of the page should be processed before page load event finishes,
+                        // so self pre-opening scroll didn't make the page jump
+                        switchToDynamicMode();
+                    }
+                });
+
+                Ecwid.OnPageLoaded.add(function (openedPage) {
+                    if (isDynamicMode()) {
+                        // if we've already switched to dynamic, we don't need to dispatch this event anymore
+                        return;
+                    }
+
+                    if (autoSwitchStaticToDynamicWhenReady) {
+                        switchToDynamicMode();
+                        return;
+                    }
+
+                    if (!ecwidPageOpened
+                        && openedPage.type === "CATEGORY"
+                        && openedPage.categoryId === mainCategoryId
+                        && openedPage.offset === 0) {
+
+                        // we don't need to dispatch root category loading,
+                        // since our static contents covers it for the first time
+                        return;
+                    }
+                    // other than self we must show opened page in dynamic view,
+                    // because static view contains only root category page
+                    switchToDynamicMode();
+                });
+            }
+
+            function ecwidLoaded() {
+                return !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
+            }
+
+            if (ecwidLoaded()) {
+                setupAfterEcwidLoaded();
+            } else {
+                var setupIntervalId = setInterval(function () {
+                    if (ecwidLoaded()) {
+                        setupAfterEcwidLoaded();
+                        clearInterval(setupIntervalId);
+                    }
+                }, 100);
+            }
+        });
+    }
+
+    function addStaticPageHandlers() {
+        function addClickHandlers(selector, elementProcessor) {
+            document.querySelectorAll(selector).forEach(elementProcessor);
+        }
+
+        addClickHandlers('#' + staticId + ' .ec-breadcrumbs a', function (element) {
+            var categoryId = element.getAttribute('categoryId');
+            if (categoryId !== mainCategoryId) {
+                addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+            }
+        });
+
+        var orderByOptions = document.querySelector('#' + staticId + ' .grid__sort select');
+        if (!!orderByOptions) {
+            orderByOptions.addEventListener("change", function (event) {
+                openEcwidPage('category', {
+                    'id': mainCategoryId,
+                    'sort': orderByOptions.value
+                })(event);
             });
+        }
 
-            Ecwid.OnPageLoaded.add(function (openedPage) {
-                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
-                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
-                    // if we've already switched to dynamic, we don't need to dispatch this event anymore
-                    return;
-                }
-                if (openedPage.type == "CATEGORY"
-                    && openedPage.categoryId == EcwidStaticPageLoader.defaultCategoryId
-                    && openedPage.offset == 0
-                    && openedPage.sort == 'normal') {
-                    // we don't need to dispatch root category loading,
-                    // since our static contents covers it for the first time
-                    return;
-                }
-                // other than that we must show opened page in dynamic view,
-                // because static view contains only root category page
-                EcwidStaticPageLoader.switchToDynamicModeDeferred();
+        addClickHandlers('#' + staticId + ' .grid__sort .grid-sort__item--filter', function (element) {
+            addStaticClickEvent(element, function () {
+                Ecwid.OnPageLoaded.add(function () {
+                    if (isDynamicMode()) {
+                        return;
+                    }
+                    switchToDynamicMode();
+                    Ecwid.showProductFilters();
+                });
             });
         });
-    },
 
-    addStaticPageHandlers: function () {
-        var categoryLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-category__card a');
-        if (categoryLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(categoryLinks, function (element) {
-                var categoryId = element.getAttribute('data-category-id');
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {'id': categoryId}));
-            });
-        }
+        addClickHandlers('#' + staticId + ' .grid-category__card a', function (element) {
+            var categoryId = element.getAttribute('data-category-id');
+            addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+        });
 
-        var productLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-product a');
-        if (productLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(productLinks, function (element) {
-                var productId = element.getAttribute('data-product-id');
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('product', {'id': productId}));
-            });
-        }
+        addClickHandlers('#' + staticId + ' .grid-product a', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
 
-        var buyNowLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .grid-product__buy-now');
-        if (buyNowLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(buyNowLinks, function (element) {
-                var productId = element.getAttribute('data-product-id');
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('product', {'id': productId}));
-            });
-        }
+        addClickHandlers('#' + staticId + ' .grid-product__buy-now', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--all-products', function (element) {
+            addStaticClickEvent(element, openEcwidPage('search'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--track-order', function (element) {
+            addStaticClickEvent(element, openEcwidPage('account/orders'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--shopping-favorites', function (element) {
+            addStaticClickEvent(element, openEcwidPage('account/favorites'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--shopping-cart', function (element) {
+            addStaticClickEvent(element, openEcwidPage('cart'));
+        });
 
 
-        var breadcrumbsLinks = EcwidStaticPageLoader.find('#' + this.staticId + ' .ec-breadcrumbs a');
-        if (breadcrumbsLinks && breadcrumbsLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(breadcrumbsLinks, function (element) {
-                var categoryId = element.getAttribute('data-category-id');
-                if (categoryId !== EcwidStaticPageLoader.defaultCategoryId) {
-                    EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {'id': categoryId}));
-                }
-            });
-        }
+        addClickHandlers('#' + staticId + ' .footer__link--sigin-in', function (element) {
+            addStaticClickEvent(element, openEcwidPage('signin'));
+        });
 
-        var orderByOptions = EcwidStaticPageLoader.find('#' + this.staticId + ' .grid__sort select');
-        if (orderByOptions != null) {
-            orderByOptions.onchange = function (e) {
-                EcwidStaticPageLoader.openEcwidPage('category', {
-                    'id': EcwidStaticPageLoader.defaultCategoryId,
-                    'sort': orderByOptions.value
-                }).bind(this)(e);
-            }
-        }
+        addClickHandlers('#' + staticId + ' .pager__button', function (element) {
+            addStaticClickEvent(element, openEcwidPage('category', {
+                'id': mainCategoryId,
+                'page': 2
+            }));
+        });
 
-        var trackOrdersLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--track-order');
-        if (trackOrdersLink.length > 0) {
-            EcwidStaticPageLoader.forEach(trackOrdersLink, function (element) {
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('account/orders'));
-            });
-        }
+        addClickHandlers('#' + staticId + ' .pager__number', function (element) {
+            var pageNumber = element.getAttribute('data-page-number');
+            addStaticClickEvent(element, openEcwidPage('category', {
+                'id': mainCategoryId,
+                'page': pageNumber
+            }));
+        });
 
-        var favoritesLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-favorites');
-        if (favoritesLink.length > 0) {
-            EcwidStaticPageLoader.forEach(favoritesLink, function (element) {
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('account/favorites'));
-            });
-        }
+    }
 
-        var shoppingCartLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--shopping-cart');
-        if (shoppingCartLink.length > 0) {
-            EcwidStaticPageLoader.forEach(shoppingCartLink, function (element) {
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('cart'));
-            });
-        }
-
-        var signInLink = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .footer__link--sigin-in');
-        if (signInLink.length > 0) {
-            EcwidStaticPageLoader.forEach(signInLink, function (element) {
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('signin'));
-            });
-        }
-
-        var pagerButtonLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .pager__button');
-        if (pagerButtonLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(pagerButtonLinks, function (element) {
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
-                    'id': EcwidStaticPageLoader.defaultCategoryId,
-                    'page': 2
-                }));
-            });
-        }
-
-        var pagerNumberLinks = EcwidStaticPageLoader.findAll('#' + this.staticId + ' .pager__number');
-        if (pagerNumberLinks.length > 0) {
-            EcwidStaticPageLoader.forEach(pagerNumberLinks, function (element) {
-                var pageNumber = element.getAttribute('data-page-number');
-                EcwidStaticPageLoader.addStaticClickEvent(element, EcwidStaticPageLoader.openEcwidPage('category', {
-                    'id': EcwidStaticPageLoader.defaultCategoryId,
-                    'page': pageNumber
-                }));
-            });
-        }
-    },
-
-    addStaticClickEvent: function (el, callback) {
+    function addStaticClickEvent(el, callback) {
         var x = 0,
             y = 0,
             dx = 0,
             dy = 0,
             isTap = false;
 
-        if (this.isTouchDevice) {
+        if (isTouchDevice) {
             el.addEventListener('touchstart', function (e) {
                 isTap = true;
-                x = e.originalEvent.touches[0].clientX;
-                y = e.originalEvent.touches[0].clientY;
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
                 dx = 0;
                 dy = 0;
-            }).addEventListener('touchmove', function (e) {
-                dx = e.originalEvent.changedTouches[0].clientX - x;
-                dy = e.originalEvent.changedTouches[0].clientY - y;
-            }).addEventListener('touchend', function (e) {
+            });
+            el.addEventListener('touchmove', function (e) {
+                dx = e.changedTouches[0].clientX - x;
+                dy = e.changedTouches[0].clientY - y;
+            });
+            el.addEventListener('touchend', function (e) {
                 if (isTap && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
-                    callback.bind(this)(e);
+                    callback(e);
                 }
             });
         }
 
         el.addEventListener('click', function (e) {
             if (!isTap) {
-                callback.bind(this)(e);
-            }
-            else {
+                callback(e);
+            } else {
                 isTap = false;
             }
         });
-    },
+    }
 
-    openEcwidPage: function (page, params) {
+    function openEcwidPage(page, params) {
         return function (e) {
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
             Ecwid.OnPageLoaded.add(function () {
-                var staticHtml = EcwidStaticPageLoader.find('#' + EcwidStaticPageLoader.staticId);
-                if (!EcwidStaticPageLoader.isVisible(staticHtml)) {
+                if (isDynamicMode()) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
+                var onClickCallback = window.ec.storefront.staticPages.onClickCallback;
+                if (!autoSwitchStaticToDynamicWhenReady && onClickCallback) {
+                    onClickCallback();
+                }
+                ecwidPageOpened = true;
                 Ecwid.openPage(page, params);
             });
         }
-    },
-
-    hideStorefront: function () {
-        var dynamicEl = EcwidStaticPageLoader.find('#' + this.dynamicId);
-        // the dynamic div container must be visible while loading Ecwid,
-        // so that the scripts could calculate available container width,
-        // therefore we ensure the element is visible and hide it via zero-height trick
-        dynamicEl.style.display = 'block';
-        dynamicEl.style.overflowY = 'auto';
-        dynamicEl.style.height = '0';
-        dynamicEl.style.minHeight = '0';
-        dynamicEl.style.maxHeight = '0';
-    },
-
-    showStorefront: function () {
-        var dynamicEl = EcwidStaticPageLoader.find('#' + this.dynamicId);
-        // disable zero-height trick to show the storefront
-        dynamicEl.style.height = '';
-        dynamicEl.style.minHeight = '';
-        dynamicEl.style.maxHeight = '';
-    },
-
-    hideStaticHtml: function () {
-        var staticEl = EcwidStaticPageLoader.find('#' + this.staticId);
-        staticEl.style.opacity = 0;
-        staticEl.style.display = 'none';
-    },
-
-    showStaticHtml: function () {
-        var staticEl = EcwidStaticPageLoader.find('#' + this.staticId);
-        staticEl.style.opacity = 1;
-    },
-
-    switchToDynamicMode: function () {
-        this.showStorefront();
-        this.hideStaticHtml();
-    },
-
-    switchToDynamicModeDeferred: function () {
-        // defer switching to dynamic to avoid blinking effect
-        setTimeout(function () {
-            EcwidStaticPageLoader.switchToDynamicMode();
-        }, 0);
     }
 
-};
+    function hideStorefront() {
+        var dynamicEl = find('#' + dynamicId);
+        dynamicEl.setAttribute("style", dynamicEl.getAttribute("style") + invisibleDynamicContainerStyle);
+    }
+
+    function showStorefront() {
+        var dynamicEl = find('#' + dynamicId);
+        // disable zero-height trick to show the storefront
+        dynamicEl.style.height = "";
+        dynamicEl.style.maxHeight = "";
+        dynamicEl.style.minHeight = "";
+        dynamicEl.style.overflowY = "";
+        dynamicEl.style.display = "block";
+    }
+
+    function hideStaticHtml() {
+        var staticEl = find('#' + staticId);
+        if (!!staticEl) {
+            staticEl.style.opacity = 0;
+            staticEl.style.display = 'none';
+        }
+    }
+
+    function showStaticHtml() {
+        var element = find('#' + staticId + " ." + staticContentClass);
+        if (!!element) {
+            element.style.opacity = 1;
+        }
+    }
+
+    function switchToDynamicMode() {
+        requestAnimationFrame(function () {
+            showStorefront();
+            hideStaticHtml();
+            var staticEl = find('#' + staticId);
+            staticEl.remove();
+            var switchToDynamicCallback = window.ec.storefront.staticPages.switchToDynamicCallback;
+            if (!autoSwitchStaticToDynamicWhenReady && switchToDynamicCallback) {
+                switchToDynamicCallback();
+            }
+        });
+    }
+
+
+    processStaticHomePage();
+
+})();
