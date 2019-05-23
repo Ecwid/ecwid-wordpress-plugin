@@ -48,6 +48,9 @@ With Ecwid, you can include your ecommerce shop on multiple websites, blogs, soc
 
 Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
 
+= Hundreds of extensions and powerful API =
+
+There is a lot of in-house and third party extensions built on the Ecwid Ecommerce APIs. You can find a ready made plugin extending features of your online storefront the way you want or build a custom addon yourself. The existing family of third party plugins include tax automation apps like TaxJar, fulfilment services like ShipStation, customer support tools like LiveChat and many others.
 
 = Your Favorite Free Plugin =
 
