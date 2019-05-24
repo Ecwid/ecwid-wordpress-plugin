@@ -1296,6 +1296,10 @@ msgstr "Товары загружаются. Это может занять не
 msgid "Products synchronized: %s out of %s"
 msgstr "Загружено товаров: %s из %s"
 
+#: templates/sync.php:179
+msgid "Deleted products synchronized: %s out of %s"
+msgstr "Обработано удалённых товаров: %s из %s"
+
 #: templates/sync.php:186
 msgid "Products are successfully synchronized. The product pages are up to date."
 msgstr "Товары успешно синхронизированы. Страницы товаров обновлены."
