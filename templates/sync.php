@@ -86,6 +86,7 @@ function increment_progress_counter(increment = 1, counter_type) {
 
 function do_no_sse_over() {
 	jQuery('#sync-container').removeClass('state-in-progress').addClass('state-complete');
+	jQuery('#deleted-progress,#updated-progress').hide();
 }
 
 jQuery('#sync-button-slow').click(function() {
@@ -125,7 +126,7 @@ jQuery('#sync-button-slow').click(function() {
 	</div>
 </div>
 <div class="sync-block" id="deleted-progress">
-  <?php echo sprintf(__( 'Deleted products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
+  <?php echo sprintf(__( 'Deleted products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
     '<span id="count_deleted">0</span>',
     '<span id="total_deleted">' . ($estimation['total_deleted']) . '</span>'
   );
@@ -133,7 +134,7 @@ jQuery('#sync-button-slow').click(function() {
 </div>
   
 <div class="sync-block" id="updated-progress">
-	<?php echo sprintf(__( 'Products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
+	<?php echo sprintf(__( 'Products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
 			'<span id="total_updated">' . ($estimation['total_updated']) . '</span>'
 		);

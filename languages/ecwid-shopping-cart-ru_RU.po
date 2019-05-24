@@ -1293,12 +1293,12 @@ msgid "We're synchronizing your products. This may take a few minutes. Please do
 msgstr "Товары загружаются. Это может занять несколько минут. Пожалуйста, не перезагружайте страницу."
 
 #: templates/sync.php:179
-msgid "Products synchronized: %s out of %s"
-msgstr "Загружено товаров: %s из %s"
+msgid "Products synchronized: %1$s out of %2$s"
+msgstr "Загружено товаров: %1$s из %2$s"
 
 #: templates/sync.php:179
-msgid "Deleted products synchronized: %s out of %s"
-msgstr "Обработано удалённых товаров: %s из %s"
+msgid "Deleted products synchronized: %1$s out of %2$s"
+msgstr "Обработано удалённых товаров: %1$s из %2$s"
 
 #: templates/sync.php:186
 msgid "Products are successfully synchronized. The product pages are up to date."
