@@ -255,22 +255,16 @@ class Ecwid_Static_Page {
 
 		return false;
 	}
-
-	protected static function _is_homepage(){
-		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-
-		if( !isset( $params['mode'] ) ) {
-			return true;
-		}
-
-		return false;
-	}
 	
 	public static function is_enabled_static_home_page()
 	{
 		$is_home_page = empty( Ecwid_Seo_Links::maybe_extract_html_catalog_params() );
 		if( !$is_home_page ) {
 			return false;
+		}
+
+		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) {
+			return true;
 		}
 
 		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
