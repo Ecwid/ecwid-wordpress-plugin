@@ -24,6 +24,7 @@
 .ecwid-importer .errors .btn-details {
     cursor: pointer;
 }
+
 .ecwid-importer .errors .details {
     display: none;
     border: 1px solid gray;
@@ -33,4 +34,17 @@
 
 .plan-limit-message {
     display: none;
+}
+
+.log-entry, .log-entry-product {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.log-entry .log-entry-product {
+    display: none;
+}
+
+.log-entry.expanded .log-entry-product {
+    display: block;
 }

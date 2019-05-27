@@ -268,11 +268,11 @@ class Ecwid_Gutenberg {
 		return $store_block['atts'];
 	}
 
-	public static function has_content_productbrowser( $content ) {
+	public static function content_has_productbrowser( $content ) {
 		
 		$blocks_with_productbrowser = Ecwid_Gutenberg::get_block_names( true );
 
-		foreach ($blocks_with_productbrowser as $block_name) {
+		foreach ( $blocks_with_productbrowser as $block_name ) {
 			if( strpos( $content, $block_name ) !== false ) {
 				return true;
 			}

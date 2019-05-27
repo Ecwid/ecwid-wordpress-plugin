@@ -1,0 +1,76 @@
+#sync-container {
+    line-height: normal;
+}
+
+#sync-container.state-initial #sync-buttons,
+#sync-container.state-initial #last-sync-date,
+
+#sync-container.state-in-progress #updating,
+
+#sync-container.state-complete #complete,
+#sync-container.state-complete #last-sync-date,
+#sync-container.state-complete #sync-error
+{
+    display: block;
+}
+
+
+#sync-container #sync-button-slow {
+    display: none;
+}
+
+#sync-container.no-sse #sync-button-slow {
+    display: initial;
+}
+
+#sync-container.no-sse #sync-button {
+    display: none;
+}
+
+#sync-container .sync-block {
+    display: none;
+}
+
+#sync-container #sync-error .message {
+    color: #d34f2b;
+}
+
+#sync-container #sync-button,
+#sync-container #sync-button-slow {
+    cursor: pointer;
+}
+
+#sync-container #updated-progress,
+#sync-container #deleted-progress {
+    padding-left: 30px;
+    font-weight: 600;
+}
+
+#sync-container #complete {
+    font-weight: 600;
+}
+
+#sync-container #complete,
+#sync-container #sync-buttons,
+#sync-container #updating {
+    height: 3em;
+}
+
+#updating {
+    line-height: 26px;
+    color: #298CBA;
+    font-weight: 600;
+}
+
+.sync-block#updating > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.sync-block#updating {
+    line-height: initial;
+}
+
+.sync-block#updating .sync-icon {
+    width: 30px;
+}

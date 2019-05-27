@@ -1,6 +1,6 @@
 <?php
 
-class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task {
+class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task_Product_Base {
 
 	public static $type = 'import-woo-product';
 	
@@ -13,6 +13,8 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task {
 
 	public function execute( Ecwid_Importer $importer, array $product ) {
 
+		$this->_woo_product_id = $product['woo_id'];
+		
 		$importer->append_task(
 			Ecwid_Importer_Task_Create_Product::build(
 				array(
@@ -43,7 +45,7 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task {
 					Ecwid_Importer_Task_Create_Product_Variation::build(
 						array(
 							'woo_id' => $product['woo_id'],
-							'var_id' => $var['variation_id']
+							'variation_id' => $var['variation_id']
 						)
 					)
 				);

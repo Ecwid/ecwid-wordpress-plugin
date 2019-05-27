@@ -1105,7 +1105,7 @@ function ecwid_content_has_productbrowser( $content ) {
 
 	$result = has_shortcode( $content, 'ecwid_productbrowser' );
 
-	if ( class_exists( 'Ecwid_Gutenberg' ) && Ecwid_Gutenberg::has_content_productbrowser( $content ) !== false ) {
+	if ( class_exists( 'Ecwid_Gutenberg' ) && Ecwid_Gutenberg::content_has_productbrowser( $content ) !== false ) {
 		return true;
 	} 
 	
@@ -2336,7 +2336,7 @@ function ecwid_settings_api_init() {
 			update_option('ecwid_sso_secret_key', '');
 		}
 		
-		if ($_POST['settings_section'] == 'advanced' && $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
+		if ($_POST['settings_section'] == 'advanced' && isset( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] ) && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
 			Ecwid_Store_Page::update_main_store_page_id( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] );
 		}
 	}
@@ -3224,7 +3224,6 @@ function ecwid_sso() {
 window.EcwidSignInUrl = '$signin_url';
 window.EcwidSignOutUrl = '$signout_url';
 window.Ecwid.OnAPILoaded.add(function() {
-
     window.Ecwid.setSignInUrls({
         signInUrl: '$signin_url',
         signOutUrl: '$signout_url'
@@ -3273,17 +3272,19 @@ JS;
 	return <<<HTML
 <script data-cfasync="false" type="text/javascript">
 
-var ecwid_sso_profile='$ecwid_sso_profile';
-$sign_in_out_urls
+	var ecwid_sso_profile='$ecwid_sso_profile';
+	$sign_in_out_urls
 
-jQuery(document).ready(function() {
-	Ecwid.OnPageLoad.add(function(page) {
-		if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
-			location.href = '$signin_url';
-		}
-	})
-}
-    );
+	jQuery(document).ready(function() {
+		if (typeof Ecwid == 'undefined') return;
+
+		Ecwid.OnPageLoad.add(function(page) {
+			if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
+				location.href = '$signin_url';
+			}
+		})
+	}
+);
 </script>
 HTML;
 }
