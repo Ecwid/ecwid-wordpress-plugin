@@ -97,7 +97,7 @@ HTML;
 	public function render_placeholder( ) {
 
 		$store_id = get_ecwid_store_id();
-
+    
 		$params = array(
 			'default_category_id' => 0
 		);
@@ -105,7 +105,7 @@ HTML;
 			$params['lang'] = $this->_lang;
 		}
 
-		if ( @$this->_params['defaultCategoryId'] ) {
+		if ( isset($this->_params['defaultCategoryId']) ) {
 			$params['default_category_id'] = $this->_params['defaultCategoryId'];
 		}
 

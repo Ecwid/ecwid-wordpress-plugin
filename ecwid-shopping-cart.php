@@ -680,7 +680,7 @@ function ecwid_check_version()
 		do_action( 'ecwid_on_plugin_upgrade' );
 	}
 
-	if ($fresh_install || $upgrade || @$_GET['ecwid_reinit']) {
+	if ($fresh_install || $upgrade || isset($_GET['ecwid_reinit'])) {
 
 		add_option( Ecwid_Seo_Links::OPTION_ENABLED, false );
 
@@ -2542,7 +2542,7 @@ function ecwid_get_categories_for_selector() {
 	foreach ( $all_categories as $category ) {
 		$result[$category->id] = $category;
 		
-		if ( !@$category->parentId ) {
+		if ( !isset($category->parentId) ) {
 			$result[$category->id]->path = $category->name;
 		} else {
 			$current_parent_id = $category->parentId;
