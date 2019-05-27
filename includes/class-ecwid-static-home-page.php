@@ -95,8 +95,8 @@ class Ecwid_Static_Home_Page {
 		
 		foreach ( Ecwid_Product_Browser::get_attributes() as $attribute ) {
 			$name = $attribute['name'];
-			if ( @$attribute['is_storefront_api'] && isset( $store_page_params[$name] ) ) {
-				if ( @$attribute['type'] == 'boolean' ) {
+			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] && isset( $store_page_params[$name] ) ) {
+				if ( isset($attribute['type']) && $attribute['type'] == 'boolean' ) {
 					$value = $store_page_params[$name] ? 'true' : 'false';
 				} else {
 					$value = $store_page_params[$name];
