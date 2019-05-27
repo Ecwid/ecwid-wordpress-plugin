@@ -132,7 +132,6 @@ class Ecwid_Static_Page {
 
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
-		
 
 		foreach ( Ecwid_Product_Browser::get_attributes() as $attribute ) {
 			$name = $attribute['name'];
@@ -143,8 +142,18 @@ class Ecwid_Static_Page {
 					$value = $store_page_params[$name];
 				}
 
-				$params['tplvar_ec.storefront.' . $name] = $value;
+				if( strpos($name, 'chameleon') !== false ) {
+					$name = str_replace('chameleon_', '', $name);
+					$params['tplvar_ec.chameleon.' . $name] = $value;
+				} else {
+					$params['tplvar_ec.storefront.' . $name] = $value;
+				}
 			}
+		}
+
+
+		if( !empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
+			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $_COOKIE['ec_store_chameleon_font'] );
 		}
 
 
@@ -165,7 +174,6 @@ class Ecwid_Static_Page {
 
 		$url = substr( $url, 0, -1 );
 
-		
 		$cache_key = $url;
 		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
