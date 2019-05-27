@@ -54,18 +54,24 @@ function process_no_sse_sync(data) {
 }
 
 function update_no_sse_stuff(data) {
-	var counters = ['created', 'updated', 'deleted', 'skipped_deleted', 'deleted_disabled'];
+    var counters = ['deleted', 'skipped_deleted', 'deleted_disabled'];
+    for (var i = 0; i < counters.length; i++) {
+        increment_progress_counter(data[counters[i]], 'deleted');
+    }
+	var counters = ['created', 'updated'];
 	for (var i = 0; i < counters.length; i++) {
-		increment_progress_counter(data[counters[i]]);
+		increment_progress_counter(data[counters[i]], 'updated');
 	}
 }
 
-function increment_progress_counter(increment = 1) {
+function increment_progress_counter(increment = 1, counter_type) {
+    debugger;
+    
     if (increment == 0) {
 		return;
 	}
 
-	var name = 'count_updated';
+	var name = 'count_' + counter_type;
 
 	var css = '#' + name;
 	var current = jQuery(css).data('count');
@@ -75,10 +81,12 @@ function increment_progress_counter(increment = 1) {
 		current += increment;
 	}
 	jQuery(css).data('count', current).text(current);
+	jQuery('#' + counter_type + '-progress').show();
 }
 
 function do_no_sse_over() {
 	jQuery('#sync-container').removeClass('state-in-progress').addClass('state-complete');
+	jQuery('#deleted-progress,#updated-progress').hide();
 }
 
 jQuery('#sync-button-slow').click(function() {
@@ -117,8 +125,16 @@ jQuery('#sync-button-slow').click(function() {
 		<?php _e('We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart'); ?>
 	</div>
 </div>
-    <div class="sync-block" id="update-progress">
-	<?php echo sprintf(__( 'Products synchronized: %s out of %s', 'ecwid-shopping-cart' ),
+<div class="sync-block" id="deleted-progress">
+  <?php echo sprintf(__( 'Deleted products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
+    '<span id="count_deleted">0</span>',
+    '<span id="total_deleted">' . ($estimation['total_deleted']) . '</span>'
+  );
+  ?>
+</div>
+  
+<div class="sync-block" id="updated-progress">
+	<?php echo sprintf(__( 'Products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
 			'<span id="total_updated">' . ($estimation['total_updated']) . '</span>'
 		);

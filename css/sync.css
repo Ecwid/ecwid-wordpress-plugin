@@ -6,8 +6,6 @@
 #sync-container.state-initial #last-sync-date,
 
 #sync-container.state-in-progress #updating,
-#sync-container.state-in-progress #update-progress,
-#sync-container.state-in-progress #deleted-progress,
 
 #sync-container.state-complete #complete,
 #sync-container.state-complete #last-sync-date,
@@ -42,7 +40,7 @@
     cursor: pointer;
 }
 
-#sync-container #update-progress,
+#sync-container #updated-progress,
 #sync-container #deleted-progress {
     padding-left: 30px;
     font-weight: 600;

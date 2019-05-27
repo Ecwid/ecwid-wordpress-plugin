@@ -104,9 +104,28 @@ class Ecwid_Importer
 					}
 
 					if ( !isset( $progress['error_messages'][$task_data['type']][$message] ) ) {
-						$progress['error_messages'][$task_data['type']][$message] = 0;
+						$progress['error_messages'][$task_data['type']][$message] = [];
 					}
-					$progress['error_messages'][$task_data['type']][$message]++;
+					
+					$error_data = array();
+					if ( $task instanceof Ecwid_Importer_Task_Product_Base ) {
+						$error_data['woo_id'] = $task->get_woo_id();
+						$error_data['woo_link'] = $task->get_woo_link();
+						$error_data['name'] = $task->get_product_name();
+						
+						if ( $task->get_ecwid_id() ) {
+							$error_data['ecwid_id'] = $task->get_ecwid_id();
+							$error_data['ecwid_link'] = $task->get_ecwid_link();
+						}
+						
+						if ( $task instanceof Ecwid_Importer_Task_Create_Product_Variation || $task instanceof Ecwid_Importer_Task_Upload_Product_Variation_Image ) {
+						  $error_data['variation_id'] = $task_data['variation_id'];
+            }
+					} else {
+						$error_data = $task_data;
+					}
+					
+					$progress['error_messages'][$task_data['type']][$message][] = $error_data;
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}

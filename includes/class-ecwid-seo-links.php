@@ -55,7 +55,7 @@ class Ecwid_Seo_Links {
 			return;
 		}
 		
-		$id = @$_GET['post'];
+		$id = (isset( $_GET['post'] )) ? $_GET['post'] : false;
 		
 		if ( !$id ) {
 			return;
@@ -289,7 +289,7 @@ JS;
 		
 		$link = urldecode( self::_get_relative_permalink( get_the_ID() ) );
 		$site_url = parse_url( get_bloginfo('url') );
-		$site_path = $site_url['path'];
+		$site_path = (isset($site_url['path'])) ? $site_url['path'] : '';
 		
 		foreach ( self::get_seo_links_patterns() as $pattern ) {
 			$pattern = '#' . $site_path . preg_quote( $link ) . $pattern . '#';

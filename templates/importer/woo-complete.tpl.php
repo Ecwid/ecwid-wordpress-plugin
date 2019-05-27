@@ -23,5 +23,6 @@
 
 <div class="errors">
     <?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?> <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
+    <div class="details" id="fancy-errors"></div>
     <pre class="details"></pre>
 </div>

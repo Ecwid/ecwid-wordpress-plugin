@@ -65,7 +65,11 @@ class Ecwid_Static_Page {
 	protected static function _get_endpoint_url( $params = false ){
 
 		if( !$params ) {
-			$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+			if ( ecwid_is_applicable_escaped_fragment() ) {
+				$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+			} else {
+				$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+			}
 		}
 
 		if( !isset( $params['mode'] ) ) {
@@ -156,7 +160,7 @@ class Ecwid_Static_Page {
 		}
 		
 		$fetched_data = null;
-		
+
 		$fetched_data = EcwidPlatform::fetch_url( 
 			$url, 
 			array( 
@@ -203,8 +207,25 @@ class Ecwid_Static_Page {
 		return self::_get_data_field( 'jsCode' );
 	}
 
+	public static function get_title() {
+		$title = self::_get_data_field( 'metaDescriptionHtml' );
+
+		if( $title ) {
+			$title = preg_replace( '/<title>(.*?)<\/title>(.*)/is', '$1', $title );
+			$title = trim( $title );
+		}
+
+		return $title;
+	}
+
 	public static function get_meta_description_html() {
-		return self::_get_data_field( 'metaDescriptionHtml' );
+		$description = self::_get_data_field( 'metaDescriptionHtml' );
+
+		if( $description ) {
+			$description = preg_replace( '/<title>.*?<\/title>/i', '', $description );
+		}
+
+		return $description;
 	}
 
 	public static function get_canonical_url() {
