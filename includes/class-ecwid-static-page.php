@@ -50,19 +50,6 @@ class Ecwid_Static_Page {
 			$this->_has_theme_adjustments = true;
 		}
 	}
-	
-	public static function _get_data_field( $field ) {
-		$data = self::get_data_for_current_page();
-
-		if( isset( $data->$field ) ) {
-
-			$data->$field = apply_filters( 'ecwid_static_page_field_' . strtolower($field), $data->$field );
-
-			return $data->$field;
-		}
-
-		return false;
-	}
 
 	public static function get_data_for_current_page()
 	{
@@ -129,7 +116,6 @@ class Ecwid_Static_Page {
 			$params['base_url'] = get_permalink();
 		}
 
-
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 		
@@ -184,7 +170,7 @@ class Ecwid_Static_Page {
 				)
 			)
 		);
-		
+
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
@@ -197,6 +183,17 @@ class Ecwid_Static_Page {
 		return null;
 	}
 
+
+	public static function _get_data_field( $field ) {
+		$data = self::get_data_for_current_page();
+
+		if( isset( $data->$field ) ) {
+			$data->$field = apply_filters( 'ecwid_static_page_field_' . strtolower($field), $data->$field );
+			return $data->$field;
+		}
+
+		return false;
+	}
 
 	public static function get_css_files() {
 		return self::_get_data_field( 'cssFiles' );
@@ -241,6 +238,10 @@ class Ecwid_Static_Page {
 
 	public static function get_json_ld_html() {
 		return self::_get_data_field( 'jsonLDHtml' );
+	}
+
+	public static function get_href_lang_html() {
+		return self::_get_data_field( 'hrefLangHtml' );
 	}
 
 	public static function get_last_update() {
