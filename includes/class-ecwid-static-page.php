@@ -91,6 +91,12 @@ class Ecwid_Static_Page {
 
 	protected static function _maybe_fetch_data()
 	{
+		$version = get_bloginfo('version');
+		$pb_attribures = array();
+		if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
+			$pb_attribures = Ecwid_Product_Browser::get_attributes();
+		}
+
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
 		$endpoint_params = false;
 
@@ -104,7 +110,7 @@ class Ecwid_Static_Page {
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
-		foreach ( Ecwid_Product_Browser::get_attributes() as $attribute ) {
+		foreach ( $pb_attribures as $attribute ) {
 			$name = $attribute['name'];
 			if ( @$attribute['is_storefront_api'] && isset( $store_page_params[$name] ) ) {
 				if ( @$attribute['type'] == 'boolean' ) {
@@ -251,7 +257,8 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page()
 	{
-		$is_home_page = empty( Ecwid_Seo_Links::maybe_extract_html_catalog_params() );
+		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+		$is_home_page = empty( $html_catalog_params );
 		if( !$is_home_page ) {
 			return false;
 		}
