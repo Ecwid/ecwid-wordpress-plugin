@@ -31,7 +31,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$default_render = parent::render();
 
-		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( get_option('ecwid_print_html_catalog', 'Y') ) ) {
+		$option_print_html_catalog = get_option('ecwid_print_html_catalog', 'Y');
+
+		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
 			return $default_render;
 		}
 
