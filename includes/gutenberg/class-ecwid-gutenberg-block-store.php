@@ -52,10 +52,10 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$result = "[ecwid";
 		
 		$params['widgets'] = 'productbrowser';
-		if ( @$params['show_categories'] ) {
+		if ( isset($params['show_categories']) ) {
 			$params['widgets'] .= ' categories';
 		}
-		if ( @$params['show_search'] ) {
+		if ( isset($params['show_search']) ) {
 			$params['widgets'] .= ' search';
 		}
 
@@ -90,9 +90,9 @@ HTML;
 
 			if ( $name == 'show_description_under_image' ) {
 				$attribute['is_storefront_api'] = true;
-				$value = !@$params[$name];
+				$value = isset( $params[$name] ) ? !$params[$name] : true;
 
-				$layout = @$params['product_details_layout'];
+				$layout = ( isset($params['product_details_layout']) ) ? $params['product_details_layout'] : null;
 				if ( is_null( $layout ) ) {
 					$layout = $attributes['product_details_layout']['default'];
 				}
@@ -106,7 +106,7 @@ HTML;
 				}
 			}
 
-			if ( @$attribute['is_storefront_api'] ) {
+			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] ) {
 
 				if ( is_null( $value ) ) {
 					$value = $attribute['default'];
@@ -129,7 +129,7 @@ HTML;
 
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
-			$color = @$params['chameleon_color_' . $kind];
+			$color = ( isset($params['chameleon_color_' . $kind]) ) ? $params['chameleon_color_' . $kind] : false;
 			if ( $color ) {
 				$colors['color-' . $kind] = $color;
 			}
