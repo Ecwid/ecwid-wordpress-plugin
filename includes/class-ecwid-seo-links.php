@@ -413,11 +413,11 @@ JS;
 					$base_urls[$page_id] = array();
 				}
 				
-				$link = urldecode( self::_get_relative_permalink( $page_id ) );
-				
+				$link = urldecode( self::_get_relative_permalink( $page_id, true ) );
+
 				$base_urls[$page_id][] = $link;
 			}
-			
+
 			if (
 				is_plugin_active('polylang/polylang.php')
 				&& function_exists( 'PLL' )
@@ -443,7 +443,7 @@ JS;
 		return $base_urls;
 	}
 	
-	protected static function _get_relative_permalink( $item_id ) {
+	protected static function _get_relative_permalink( $item_id, $not_filter_return_value = false ) {
 		$permalink = parse_url( get_permalink( $item_id ) );
 		$home_url = parse_url( home_url() );
 
@@ -455,6 +455,10 @@ JS;
 		}
 
 		$default_link = substr( $permalink['path'], strlen( $home_url['path'] ) );
+
+		if( $not_filter_return_value ) {
+			return $default_link;
+		}
 
 		return apply_filters( 'ecwid_relative_permalink', $default_link, $item_id );
 	}

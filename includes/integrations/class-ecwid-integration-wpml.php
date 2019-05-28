@@ -73,9 +73,11 @@ class Ecwid_Integration_WPML
 
 			$lang_info = apply_filters( 'wpml_active_languages', null );
 			$permalink = apply_filters( 'wpml_permalink', get_permalink( $item_id ), $code, true );
-			$home_url  = $lang_info[$code]['url'];
-			
-			$default_link = substr( $permalink, strlen( $home_url ) );
+
+			if( isset($lang_info[$code]) ) {
+				$home_url  = $lang_info[$code]['url'];
+				$default_link = substr( $permalink, strlen( $home_url ) );
+			}
 		}
 
 		return $default_link;
