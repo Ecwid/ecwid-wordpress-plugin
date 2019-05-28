@@ -153,6 +153,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.7.3 - May 29, 2019 =
+- Fixed compatibility with WordPress versions older 5.0
+- Fixed a PHP error message ("Can't use function return value in write context ") for PHP < 5.5
+- Minor fixes and improvements.
+
 = 6.7.2 - May 28, 2019 =
 - **SEO improvement: new ld+json and improved [schema.org](https://schema.org/) markup on product pages**. Ecwid adds product ecommerce data to product pages in a SEO-friendly microdata format so that search engines can index your store pages and better display them in search results. In this update, we enhanced the structured products data on store pages to make it meet the latest Google recommendations. Also, the plugin now adds the same product data in ld+json format in your storefront, which is an alternative way to expose your e-commerce information to search engines. This should increase chances the Google bot will crawl and index your product catalog well.
 - **Improved compatibility with WPML (part 3): hreflang tags for SEO**. WPML is a popular plugin to build multilingual sites. As we mentioned before, Ecwid now supports full-featured multilingual storefronts, too. In this update, we further improved WPML support in Ecwid. Now, if you have enabled the multilingual mode in your ecommerce store and are using WPML on your WordPress site, your shop pages will have links to the alternative language versions so that search engines will know which version to display to customer. Those alternative links are specified in hreflang tags in your storefront — special HTML elements aimed to link language versions of the same page between each other.
