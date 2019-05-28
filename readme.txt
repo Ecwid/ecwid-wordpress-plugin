@@ -155,7 +155,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 == Changelog == 
 = 6.7.3 - May 29, 2019 =
 - Fixed compatibility with WordPress versions older 5.0
-- Fixed a PHP error message ("Can't use function return value in write context ") for PHP older 5.5
+- Fixed a PHP error message ("Can't use function return value in write context ") for PHP versions older 5.5
 - Minor fixes and improvements.
 
 = 6.7.2 - May 28, 2019 =
