@@ -3122,6 +3122,79 @@ function ecwid_find_shortcodes( $content, $tag ) {
 }
 
 
+/*
+$worker_script = <<<JS
+caches.open('my-pwa-cache').then(cache => {
+     // добавляем все URL ресурсов, которые хотим закэшировать
+     return cache.addAll([
+       'http://localhost:8888/wp-content/plugins/ecwid-shopping-cart/js/frontend.js?ver=6.7.3'
+     ]);
+   })
+JS;
+
+$worker_script = <<<JS
+console.log( 'Hello worker' );
+JS;
+
+function register_bar_service_worker_script( $scripts ) {
+	$scripts->register(
+		'bar',
+		array(
+			// Use a script render callback instead of a source file.
+			'src'  => function() {
+				global $worker_script;
+
+				return $worker_script;
+			},
+			'deps' => array(), // No dependencies (can also be omitted).
+		)
+	);
+}
+add_action( 'wp_front_service_worker', 'register_bar_service_worker_script' );
+add_action( 'wp_admin_service_worker', 'register_bar_service_worker_script' );
+*/
+
+add_action( 'plugins_loaded', function(){
+
+	if( !function_exists( 'wp_register_service_worker_caching_route' ) ) {
+		return;
+	}
+
+	// wp_register_service_worker_precaching_route(
+	// 	'http://localhost:8888/wp-content/plugins/ecwid-shopping-cart/js/frontend.js?ver=6.7.3',
+	// 	array(
+			// 'revision' => get_bloginfo( 'version' ),
+	// 	)
+	// );
+
+	$stale_while_revalidate = [
+			'd1q3axnfhmyveb.cloudfront.net',
+			'd1q3axnfhmyveb.cloudfront.net',
+			'd34ikvsdm2rlij.cloudfront.net',
+			'd1q3axnfhmyveb.cloudfront.net',
+			'categories.js?ownerid=',// + storeId,
+			'd3j0zfs7paavns.cloudfront.net',
+			'data.js?ownerid='// + storeId
+		];
+
+	wp_register_service_worker_caching_route(
+		'.*(?:' . implode( '|', $stale_while_revalidate ) . ').*$',
+		array(
+			'strategy'  => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
+			'cacheName' => 'ec-wporg: stale-while-revalidate',
+			'plugins'   => array(
+				'expiration'        => array(
+					'maxEntries'    => 100,
+					'maxAgeSeconds' => 60// * 60 * 24,
+				)
+			)
+		)
+	);
+
+});
+
+
+
 // Since we use shortcode regex in our own functions, we need it to be persistent
 function ecwid_get_shortcode_regex() {
 	global $shortcode_tags;
