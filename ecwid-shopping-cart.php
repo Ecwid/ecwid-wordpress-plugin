@@ -2231,16 +2231,7 @@ function ecwid_general_settings_do_page() {
 			}
 		} else {
 			if ($connection_error || isset($_GET['reconnect'])) {
-				if (isset($_GET['reason'])) switch ($_GET['reason']) {
-					case 'spw': $reconnect_message = sprintf( __( 'To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the "Add product" dialog.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
-					break;
-				}
-
-				$scopes = '';
-
-				$connection_error = isset($_GET['connection_error']);
-
-				require_once ECWID_PLUGIN_DIR . 'templates/reconnect.php';
+				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
 				ecwid_admin_do_page( 'dashboard' );
 			}
