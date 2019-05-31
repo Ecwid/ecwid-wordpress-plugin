@@ -5,6 +5,10 @@ class Ecwid_Integration_PWA
 	public $cache_prefix = 'ec-store';
 
 	public function __construct() {
+		if( !class_exists( 'WP_Service_Worker_Caching_Routes' ) ) {
+			return;
+		}
+
 		$this->_register_routes();
 	}
 
