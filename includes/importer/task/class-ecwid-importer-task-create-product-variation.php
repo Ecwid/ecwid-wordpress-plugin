@@ -56,6 +56,10 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task_P
 				$variation_data['sku'] = $var['sku'];
 			}
 
+			if ( !isset( $variation_data['sku']) ) {
+			  unset( $variation_data['quantity'] );
+      }
+			
 			break;
 		}
 
