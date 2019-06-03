@@ -166,7 +166,7 @@
                             disabled="disabled"
                         <?php endif; ?>
                     />
-                    <?php _e('Integration with search on your site <sup>beta</sup>', 'ecwid-shopping-cart'); ?>
+                    <?php _e('Integration with search on your site', 'ecwid-shopping-cart'); ?>
                 </label>
 
                 <div class="note">
@@ -177,8 +177,32 @@
             
         <?php ecwid_sync_do_page(); ?>
 
-        <div class="note grayed-links">
-            <?php echo sprintf(__('Please note this functionality is in beta. So if you run into difficulties or find problems with it, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . Ecwid_Config::get_contact_us_url() . '"'); ?>
+        <hr />
+
+
+        <div class="pure-control-group checkbox">
+            <div class="label">
+
+                <input type="hidden" name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>" value="<?php echo Ecwid_Static_Page::OPTION_VALUE_DISABLED; ?>" />
+
+                <label for="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>">
+
+                    <input
+                        id="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
+                        name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
+                        type="checkbox"
+                        <?php if ( get_option( Ecwid_Static_Page::OPTION_IS_ENABLED ) == Ecwid_Static_Page::OPTION_VALUE_ENABLED ): ?>
+                            checked="checked"
+                        <?php endif; ?>
+                        value="Y"
+                    />
+                    <?php _e('Cache and speed up the store home page <sup>new</sup>', 'ecwid-shopping-cart'); ?>
+                </label>
+
+                <div class="note">
+                    <?php echo __( 'This caches your store home page on your site to make it load way faster for your customers.', 'ecwid-shopping-cart' ); ?>
+                </div>
+            </div>
         </div>
 
 	</fieldset>
