@@ -38,7 +38,7 @@ class Ecwid_Static_Page {
 
 		if( $css_files && is_array( $css_files ) ) {
 			foreach ( $css_files as $index => $item ) {
-				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item );
+				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item, array(), null );
 			}
 		}
 	}
