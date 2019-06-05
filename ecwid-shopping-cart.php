@@ -56,6 +56,7 @@ if ( is_admin() ) {
 	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_settings_styles' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_enqueue_cache_control' );
 
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
@@ -99,7 +100,7 @@ if ( is_admin() ) {
 	add_filter( 'widget_meta_poweredby', 'ecwid_add_credits' );
 	add_filter( 'body_class', 'ecwid_body_class' );
 	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
-	
+
 	$ecwid_seo_title = '';
 }
 
@@ -935,6 +936,15 @@ function ecwid_check_api_cache() {
 	if (time() - $last_cache > HOUR_IN_SECONDS ) {
 		ecwid_invalidate_cache();
 	}
+}
+
+
+function ecwid_enqueue_cache_control() {
+	wp_enqueue_script('ecwid-cache-control-js', ECWID_PLUGIN_URL . 'js/cache-control.js', array(), get_option('ecwid_plugin_version'));
+
+	wp_localize_script( 'ecwid-cache-control-js', 'ecwidCacheControlParams', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' )
+	));
 }
 
 function ecwid_admin_check_api_cache()
