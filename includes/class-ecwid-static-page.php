@@ -7,8 +7,6 @@ class Ecwid_Static_Page {
 	const OPTION_VALUE_ENABLED = 'Y';
 	const OPTION_VALUE_DISABLED = 'N';
 	const OPTION_VALUE_AUTO = '';
-
-	const PARAM_VALID_FROM = 'static_page_valid_from';
 	
 	const HANDLE_STATIC_PAGE = 'static-page';
 	const API_URL = 'https://storefront.ecwid.com/';
@@ -173,6 +171,8 @@ class Ecwid_Static_Page {
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
+
+			EcwidPlatform::invalidate_catalog_cache_from( substr($fetched_data->lastUpdated, 0, -3) );
 
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
