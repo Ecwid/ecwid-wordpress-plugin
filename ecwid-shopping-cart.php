@@ -187,7 +187,8 @@ function ecwid_init_integrations()
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
 		'bb-plugin/fl-builder.php' => 'beaver-builder',
 		'elementor/elementor.php' => 'elementor',
-		'sitepress-multilingual-cms/sitepress.php' => 'wpml'
+		'sitepress-multilingual-cms/sitepress.php' => 'wpml',
+		'pwa/pwa.php' => 'pwa',
 	);
 
 
