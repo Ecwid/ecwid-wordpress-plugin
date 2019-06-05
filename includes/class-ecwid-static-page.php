@@ -54,7 +54,7 @@ class Ecwid_Static_Page {
 	public static function get_data_for_current_page()
 	{
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
-			EcwidPlatform::force_catalog_cache_reset();
+			add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_cache_control', 100 );
 		}
 		
 		$data = self::_maybe_fetch_data();
@@ -157,7 +157,7 @@ class Ecwid_Static_Page {
 		if ( $cached_data ) {
 			return $cached_data;
 		}
-		
+
 		$fetched_data = null;
 
 		$fetched_data = EcwidPlatform::fetch_url( 
