@@ -8,7 +8,8 @@ jQuery(document).ready(function() {
 	/*
 	 * Media buttons handlers
 	 */
-	jQuery('#update-ecwid-button,#insert-ecwid-button').click(ecwid_open_store_popup);
+	// jQuery('#update-ecwid-button,#insert-ecwid-button').click(ecwid_open_store_popup);
+	jQuery(document).on('click', '#update-ecwid-button,#insert-ecwid-button', ecwid_open_store_popup);
 
 	/*
 	 * Close button handler

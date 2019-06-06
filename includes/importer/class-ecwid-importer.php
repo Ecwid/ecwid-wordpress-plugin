@@ -104,9 +104,28 @@ class Ecwid_Importer
 					}
 
 					if ( !isset( $progress['error_messages'][$task_data['type']][$message] ) ) {
-						$progress['error_messages'][$task_data['type']][$message] = 0;
+						$progress['error_messages'][$task_data['type']][$message] = [];
 					}
-					$progress['error_messages'][$task_data['type']][$message]++;
+					
+					$error_data = array();
+					if ( $task instanceof Ecwid_Importer_Task_Product_Base ) {
+						$error_data['woo_id'] = $task->get_woo_id();
+						$error_data['woo_link'] = $task->get_woo_link();
+						$error_data['name'] = $task->get_product_name();
+						
+						if ( $task->get_ecwid_id() ) {
+							$error_data['ecwid_id'] = $task->get_ecwid_id();
+							$error_data['ecwid_link'] = $task->get_ecwid_link();
+						}
+						
+						if ( $task instanceof Ecwid_Importer_Task_Create_Product_Variation || $task instanceof Ecwid_Importer_Task_Upload_Product_Variation_Image ) {
+						  $error_data['variation_id'] = $task_data['variation_id'];
+            }
+					} else {
+						$error_data = $task_data;
+					}
+					
+					$progress['error_messages'][$task_data['type']][$message][] = $error_data;
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}
@@ -162,21 +181,29 @@ class Ecwid_Importer
 	 * 
 	 * @param $task 
 	 */
+	/**
+	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
+	 * and appends $task after all its siblings
+	 *
+	 * @param $task
+	 */
 	public function append_child( $task ) {
 		$ind = $this->_get_current_task();
 
+		$this_task = $this->_tasks[$ind];
+
 		$ind++;
-		while ( isset( $this->_tasks[$ind] ) && $this->_tasks[$ind]['type'] == $task['type'] ) {
+		while ( isset( $this->_tasks[$ind] ) && ( $this->_tasks[$ind]['type'] == $task['type'] || $this->_tasks[$ind]['type'] == $this_task['type'] ) ) {
 			$ind++;
 		}
-		
-		return $this->append_after( $task, $ind );
+
+		return $this->append_after( $task, $ind - 1 );
 	}
-	
+
 	public function append_after( $task, $index ) {
-		array_splice( $this->_tasks, $index, 0, array( $task ) );
-	
-		return $index;
+		array_splice( $this->_tasks, $index + 1, 0, array( $task ) );
+
+		return $index + 1;
 	}
 	
 	public function append_after_type( $task ) {

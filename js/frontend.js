@@ -38,4 +38,11 @@ jQuery(document).ready(function() {
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 
+
+    if ( typeof Ecwid != 'undefined' ) {
+        Ecwid.OnAPILoaded.add(function() {
+            var font = window.ec.config.chameleonDefaults.font['font-family'] || '';
+            document.cookie = "ec_store_chameleon_font=" + font;
+        });
+    }
 });

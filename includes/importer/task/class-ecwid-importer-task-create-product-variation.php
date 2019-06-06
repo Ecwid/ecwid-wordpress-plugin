@@ -1,23 +1,26 @@
 <?php
 
-class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
+class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task_Product_Base
 {
 	public static $type = 'create_variation';
 
 	public function execute( Ecwid_Importer $exporter, array $data ) {
 		$api = new Ecwid_Api_V3();
-
-		$p = wc_get_product( $data['woo_id'] );
+	
+		$this->_woo_product_id = $data['woo_id'];
+		$this->_ecwid_product_id = $exporter->get_ecwid_product_id( $this->get_woo_id() );
+		
+		$p = wc_get_product( $this->get_woo_id() );
 		$attributes = $p->get_attributes();
 		$vars = $p->get_available_variations();
 
 		$variation_data = array(
-			'productId' => $exporter->get_ecwid_product_id( $data['woo_id'] ),
+			'productId' => $this->get_ecwid_id(),
 			'options' => array()
 		);
 
 		foreach ( $vars as $var ) {
-			if ( $var['variation_id'] != $data['var_id'] ) {
+			if ( $var['variation_id'] != $data['variation_id'] ) {
 				continue;
 			}
 
@@ -33,10 +36,12 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 
 				$value = $var['attributes']['attribute_' . strtolower($internal_name)];
 
-				$variation_data['options'][] = array(
-					'name' => $name,
-					'value' => $value
-				);
+				if ( $value ) {
+					$variation_data['options'][] = array(
+						'name' => $name,
+						'value' => $value
+					);
+				}
 			}
 
 			$variation_data['price'] = $var['display_price'];
@@ -51,6 +56,10 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 				$variation_data['sku'] = $var['sku'];
 			}
 
+			if ( !isset( $variation_data['sku']) ) {
+			  unset( $variation_data['quantity'] );
+      }
+			
 			break;
 		}
 
@@ -63,7 +72,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 		if ( $return['status'] == self::STATUS_SUCCESS ) {
 			$result_object = json_decode( $result['body'] );
 
-			update_post_meta( $data['var_id'], '_ecwid_variation_id', $result_object->id );
+			update_post_meta( $data['variation_id'], '_ecwid_variation_id', $result_object->id );
 		}
 
 		return $return;
@@ -73,7 +82,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task
 		return array(
 			'type' => self::$type,
 			'woo_id' => $data['woo_id'],
-			'var_id' => $data['var_id']
+			'variation_id' => $data['variation_id']
 		);
 	}
 }

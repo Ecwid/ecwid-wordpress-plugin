@@ -55,7 +55,7 @@ class Ecwid_Seo_Links {
 			return;
 		}
 		
-		$id = @$_GET['post'];
+		$id = (isset( $_GET['post'] )) ? $_GET['post'] : false;
 		
 		if ( !$id ) {
 			return;
@@ -289,7 +289,7 @@ JS;
 		
 		$link = urldecode( self::_get_relative_permalink( get_the_ID() ) );
 		$site_url = parse_url( get_bloginfo('url') );
-		$site_path = $site_url['path'];
+		$site_path = (isset($site_url['path'])) ? $site_url['path'] : '';
 		
 		foreach ( self::get_seo_links_patterns() as $pattern ) {
 			$pattern = '#' . $site_path . preg_quote( $link ) . $pattern . '#';
@@ -413,11 +413,11 @@ JS;
 					$base_urls[$page_id] = array();
 				}
 				
-				$link = urldecode( self::_get_relative_permalink( $page_id ) );
-				
+				$link = urldecode( self::_get_relative_permalink( $page_id, true ) );
+
 				$base_urls[$page_id][] = $link;
 			}
-			
+
 			if (
 				is_plugin_active('polylang/polylang.php')
 				&& function_exists( 'PLL' )
@@ -443,45 +443,24 @@ JS;
 		return $base_urls;
 	}
 	
-	protected static function _get_relative_permalink( $item_id ) {
-		
-		$permalink = get_permalink( $item_id );
-		$home_url = home_url();
-		$default_link = substr( $permalink, strlen( $home_url ) );
-		
-		if ( !is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+	protected static function _get_relative_permalink( $item_id, $not_filter_return_value = false ) {
+		$permalink = parse_url( get_permalink( $item_id ) );
+		$home_url = parse_url( home_url() );
+
+		if( !isset($permalink['path']) ) $permalink['path'] = '/';
+		if( !isset($home_url['path']) ) $home_url['path'] = '';
+
+		if( isset($home_url['query']) ) {
+			$home_url['path'] = substr( $home_url['path'], 0, -1 );
+		}
+
+		$default_link = substr( $permalink['path'], strlen( $home_url['path'] ) );
+
+		if( $not_filter_return_value ) {
 			return $default_link;
 		}
 
-		try {  
-			global $sitepress;
-
-			if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
-
-				$translation_details = apply_filters( 'wpml_element_language_details', null, array(
-					'element_id'   => $item_id,
-					'element_type' => 'post_page'
-				) );
-				
-				$code = $translation_details->language_code;
-
-				$lang_info = apply_filters( 'wpml_active_languages', null );
-				$permalink = apply_filters( 'wpml_permalink', get_permalink( $item_id ), $code, true );
-				$home_url  = $lang_info[$code]['url'];
-				
-				$link = substr( $permalink, strlen( $home_url ) );
-			}
-		} catch ( Exception $e ) {
-			$permalink = get_permalink( $item_id );
-
-			$home_url = home_url();
-
-			$link = substr( $permalink, strlen( $home_url ) );
-
-			return $default_link;			
-		}
-		
-		return $link;
+		return apply_filters( 'ecwid_relative_permalink', $default_link, $item_id );
 	}
 
 	public static function is_noindex_page() {

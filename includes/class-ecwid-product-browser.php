@@ -312,31 +312,36 @@ class Ecwid_Product_Browser
 			'chameleon_color_button' => array(
 				'name' => 'chameleon_color_button',
 				'title' => __( 'Button color', 'ecwid-shopping-cart' ),
-				'default' => get_option( 'ecwid_chameleon_colors_button' )
+				'default' => get_option( 'ecwid_chameleon_colors_button' ),
+				'is_storefront_api' => true
 			),
 			
 			'chameleon_color_foreground' => array(
 				'name' => 'chameleon_color_foreground',
 				'title' => __( 'Text color', 'ecwid-shopping-cart' ),
-				'default' => get_option( 'ecwid_chameleon_colors_foreground' )
+				'default' => get_option( 'ecwid_chameleon_colors_foreground' ),
+				'is_storefront_api' => true
 			),
 
 			'chameleon_color_price' => array(
 				'name' => 'chameleon_color_price',
 				'title' => __( 'Price color', 'ecwid-shopping-cart' ),
-				'default' => get_option( 'ecwid_chameleon_colors_price' )
+				'default' => get_option( 'ecwid_chameleon_colors_price' ),
+				'is_storefront_api' => true
 			),
 
 			'chameleon_color_link' => array(
 				'name' => 'chameleon_color_link',
 				'title' => __( 'Link color', 'ecwid-shopping-cart' ),
-				'default' => get_option( 'ecwid_chameleon_colors_link' )
+				'default' => get_option( 'ecwid_chameleon_colors_link' ),
+				'is_storefront_api' => true
 			),
 
 			'chameleon_color_background' => array(
 				'name' => 'chameleon_color_background',
 				'title' => __( 'Background color', 'ecwid-shopping-cart' ),
-				'default' => get_option( 'ecwid_chameleon_colors_background' )
+				'default' => get_option( 'ecwid_chameleon_colors_background' ),
+				'is_storefront_api' => true
 			),
 
 			'product_filters_position_search_page' => array(

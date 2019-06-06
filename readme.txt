@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.1
-Stable tag: 6.5.2
+Tested up to: 5.2
+Stable tag: 6.7.3
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -48,6 +48,9 @@ With Ecwid, you can include your ecommerce shop on multiple websites, blogs, soc
 
 Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
 
+= Hundreds of extensions and powerful API =
+
+There is a lot of in-house and third party extensions built on the Ecwid Ecommerce APIs. You can find a ready made plugin extending features of your online storefront the way you want or build a custom addon yourself. The existing family of third party plugins include tax automation apps like TaxJar, fulfilment services like ShipStation, customer support tools like LiveChat and many others.
 
 = Your Favorite Free Plugin =
 
@@ -150,8 +153,39 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.7.4 - Jun 6, 2019 =
+- *Fixed the "Random products" sidebar widget layout issues*. Some users might notice that the random product widget didn't look good on e-commerce sites with a narrow sidebar. We fixed it so the widget work fine in narrow spaces.
+- *Fixed slow loading issue for the site admin*. After the latest Ecwid Ecommerce plugin update you might notice the store page loaded a bit longer. That was a bug. It didn't affect how the site loaded for your customers, but it did slow it down for you, the site administrator. We fixed it.
+- Small fixes and improvements.
+
+= 6.7.3 - May 29, 2019 =
+- Fixed compatibility with WordPress versions older 5.0
+- Fixed a PHP error message ("Can't use function return value in write context ") for PHP versions older 5.5
+- Minor fixes and improvements.
+
+= 6.7.2 - May 28, 2019 =
+- **SEO improvement: new ld+json and improved [schema.org](https://schema.org/) markup on product pages**. Ecwid adds product ecommerce data to product pages in a SEO-friendly microdata format so that search engines can index your store pages and better display them in search results. In this update, we enhanced the structured products data on store pages to make it meet the latest Google recommendations. Also, the plugin now adds the same product data in ld+json format in your storefront, which is an alternative way to expose your e-commerce information to search engines. This should increase chances the Google bot will crawl and index your product catalog well.
+- **Improved compatibility with WPML (part 3): hreflang tags for SEO**. WPML is a popular plugin to build multilingual sites. As we mentioned before, Ecwid now supports full-featured multilingual storefronts, too. In this update, we further improved WPML support in Ecwid. Now, if you have enabled the multilingual mode in your ecommerce store and are using WPML on your WordPress site, your shop pages will have links to the alternative language versions so that search engines will know which version to display to customer. Those alternative links are specified in hreflang tags in your storefront — special HTML elements aimed to link language versions of the same page between each other.
+- **Several fixes and improvements for the “Import from WooCommerce” tool**. If you import your products from WooCommerce to Ecwid, the import process now should be more stable and friendly.
+- **A few fixes for the “Integrate with the site search” tool**. You can find that tool on the Ecwid Advanced setting page — it’s used to display your products in site search results.
+- Minor fixes and improvements.
+
+= 6.7.1 - May 8, 2019 =
+- Minor fixes and improvements.
+
+= 6.7 - May 8, 2019 =
+- **Improved compatibility with WPML (part 2)**. WPML is a popular plugin for multilingual sites. Ecwid now supports full-featured multilingual storefronts, too. So, in this update, we added a few more improvements for WPML support. Now, if you have enabled the multilingual mode in your ecommerce store and are using WPML on your WordPress site, your shop pages will be displayed in the language selected by a visitor in a language selector. Read more about setting up a multilingual e-commerce store in Ecwid in the Ecwid blog: [https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html](https://www.ecwid.com/blog/sell-around-the-globe-with-a-fully-multilingual-storefront.html)
+- **A few fixes for compatibility with Divi builder**. If you use Divi builder to edit your WordPress site content, you might notice that the Ecwid buttons "Add store" and "Add product" didn't work well in the editor lately. We fixed that, now it should work fine.
+
+= 6.6 - Apr 29, 2019 =
+- **Improved loading time for the Ecwid plugin in WordPress admin backend**. We noticed that the Ecwid plugin affected the loading time of the pages editor in the WordPress admin backend. We improved a few things in the plugin to make it load faster.
+- **Improved compatibility with WPML**. WPML is a popular plugin for multilingual sites. We got a few reports that it didn’t work well with Ecwid. We talked to the WPML team and tracked down the issue. It’s now fixed and your site should work fine if you use both WPML and Ecwid. In future versions, we will add a full support for WPML — you will be able to translate your Ecwid catalog to multiple languages and display your store content in your visitor language.
+- **Added Russian translations for Gutenberg blocks**. The Ecwid ecommerce plugin now has 10 Gutenberg e-commerce blocks, which help you build your online store pages in more convenient drag-n-drop manner. In this update, we translated those blocks to Russian to make it more friendly for Ecwid users from Russia.
+- Various fixes and improvements.
+
+
 = 6.5.3 - Apr 11, 2019 =
-- **Compatibility fixes for KingComposer Editor.** There were some problems in how Ecwid e-commerce plugin works with KingComposer editor. Fixed it — the plugins should work fine together now.
+- **Compatibility fixes for KingComposer Editor.** There was a problem in how Ecwid e-commerce plugin works with KingComposer editor. We've fixed it.
 - Minor fixes and improvements.
 
 = 6.5.2 - Apr 3, 2019 =

@@ -15,6 +15,7 @@ class EcwidPlatform {
 	const CATEGORIES_CACHE_VALID_FROM = 'categories_cache_valid_from';
 	const PRODUCTS_CACHE_VALID_FROM = 'products_cache_valid_from';
 	const PROFILE_CACHE_VALID_FROM = 'profile_cache_valid_from';
+	const CATALOG_CACHE_VALID_FROM = 'catalog_valid_from';
 	
 	const OPTION_LOG_CACHE = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
@@ -468,8 +469,8 @@ class EcwidPlatform {
 				'valid_from' => $valid_from
 			)
 		);
-		
-		if ( $result['time'] > $valid_from ) {
+
+		if ( EcwidPlatform::get( self::CATALOG_CACHE_VALID_FROM ) > $valid_from ) {
 			return $result['data'];
 		}
 
@@ -521,6 +522,11 @@ class EcwidPlatform {
 	static public function invalidate_profile_cache_from( $time = null )
 	{
 		self::_invalidate_cache_from( self::PROFILE_CACHE_VALID_FROM, $time );
+	}
+	
+	static public function invalidate_catalog_cache_from( $time = null )
+	{
+		self::_invalidate_cache_from( self::CATALOG_CACHE_VALID_FROM, $time );
 	}
 	
 	static public function force_catalog_cache_reset( $time = null )
