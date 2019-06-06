@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.7.3
+Version: 6.7.4
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -56,6 +56,7 @@ if ( is_admin() ) {
 	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_settings_styles' );
+	add_action( 'admin_enqueue_scripts', 'ecwid_enqueue_cache_control' );
 
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
@@ -99,7 +100,7 @@ if ( is_admin() ) {
 	add_filter( 'widget_meta_poweredby', 'ecwid_add_credits' );
 	add_filter( 'body_class', 'ecwid_body_class' );
 	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
-	
+
 	$ecwid_seo_title = '';
 }
 
@@ -186,7 +187,8 @@ function ecwid_init_integrations()
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
 		'bb-plugin/fl-builder.php' => 'beaver-builder',
 		'elementor/elementor.php' => 'elementor',
-		'sitepress-multilingual-cms/sitepress.php' => 'wpml'
+		'sitepress-multilingual-cms/sitepress.php' => 'wpml',
+		'pwa/pwa.php' => 'pwa',
 	);
 
 
@@ -937,6 +939,15 @@ function ecwid_check_api_cache() {
 	}
 }
 
+
+function ecwid_enqueue_cache_control() {
+	wp_enqueue_script('ecwid-cache-control-js', ECWID_PLUGIN_URL . 'js/cache-control.js', array(), get_option('ecwid_plugin_version'));
+
+	wp_localize_script( 'ecwid-cache-control-js', 'ecwidCacheControlParams', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' )
+	));
+}
+
 function ecwid_admin_check_api_cache()
 {
 	$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] == 'check_api_cache';
@@ -999,6 +1010,9 @@ function ecwid_full_cache_reset()
 	EcwidPlatform::cache_reset( 'all_categories' );
 	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
+	$p = new Ecwid_Products();
+	$p->reset_dates();
+	
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
 

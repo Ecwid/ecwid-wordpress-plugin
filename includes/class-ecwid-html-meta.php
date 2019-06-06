@@ -43,8 +43,17 @@ abstract class Ecwid_HTML_Meta
 		return true;
 	}
 
-	protected function _print_dns_prefetch_control() {
-		echo '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
+	protected function _get_html_prefetch_control_tags() {
+		$html = '';
+
+		$html .= '<meta http-equiv="x-dns-prefetch-control" content="on">' . PHP_EOL;
+		$html .= '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+		$html .= '<link href="https://ecomm.events" rel="preconnect" crossorigin />' . PHP_EOL;
+		$html .= '<link href="https://d1q3axnfhmyveb.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		$html .= '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
+		$html .= '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
+
+		return $html;
 	}
 
 	protected function _print_prefetch() {
@@ -53,12 +62,23 @@ abstract class Ecwid_HTML_Meta
 			return;
 		}
 
+		echo $this->_get_html_prefetch_control_tags();
+
 		$store_id = get_ecwid_store_id();
         $params = ecwid_get_scriptjs_params();
 
-        $this->_print_dns_prefetch_control();
 		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
-			. $store_id . $params . '" as="script">' . PHP_EOL;
+			. $store_id . $params . '" as="script" crossorigin>' . PHP_EOL;
+
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
+			$css_files = Ecwid_Static_Page::get_css_files();
+
+			if( $css_files && is_array( $css_files ) ) {
+				foreach ( $css_files as $item ) {
+					echo sprintf( '<link rel="preload" href="%s" as="style">', $item ) . PHP_EOL;
+				}
+			}
+		}
 	}
 
 	// static only while ecwid_trim_description exists and meta functionality is not moved into this class
@@ -204,18 +224,9 @@ class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
 			return;
 		}
 		
-		$this->_print_dns_prefetch_control();
-
-		echo '<link href="https://d201eyh6wia12q.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://d3fi9i0jj23cau.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://dqzrr9k4bjpzk.cloudfront.net" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://ecwid-static-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://ecwid-images-ru.gcdn.co" rel="preconnect" crossorigin />' . PHP_EOL;
-		echo '<link href="https://app.ecwid.com" rel="preconnect" crossorigin />' . PHP_EOL;
+		echo $this->_get_html_prefetch_control_tags();
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
-			echo '<link href="https://d3j0zfs7paavns.cloudfront.net" rel="preconnect" crossorigin>' . PHP_EOL;
-			
 			$css_files = Ecwid_Static_Page::get_css_files();
 
 			if( $css_files && is_array( $css_files ) ) {

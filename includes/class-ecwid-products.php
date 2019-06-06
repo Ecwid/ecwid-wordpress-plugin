@@ -24,7 +24,7 @@ class Ecwid_Products {
         $this->_status = new Ecwid_Products_Sync_Status();
         $this->_status->load();
 
-		add_action( 'ecwid_update_store_id', array( $this, 'on_update_store_id' ) );
+		add_action( 'ecwid_update_store_id', array( $this, 'reset_dates' ) );
 
 		if ( ! self::is_enabled() ) {
 			return;
@@ -159,7 +159,7 @@ class Ecwid_Products {
 	}
 
 
-	public function on_update_store_id() {
+	public function reset_dates() {
 		$this->_status->reset_dates();
 	}
 

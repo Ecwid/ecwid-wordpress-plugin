@@ -7,8 +7,6 @@ class Ecwid_Static_Page {
 	const OPTION_VALUE_ENABLED = 'Y';
 	const OPTION_VALUE_DISABLED = 'N';
 	const OPTION_VALUE_AUTO = '';
-
-	const PARAM_VALID_FROM = 'static_page_valid_from';
 	
 	const HANDLE_STATIC_PAGE = 'static-page';
 	const API_URL = 'https://storefront.ecwid.com/';
@@ -40,7 +38,7 @@ class Ecwid_Static_Page {
 
 		if( $css_files && is_array( $css_files ) ) {
 			foreach ( $css_files as $index => $item ) {
-				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item );
+				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item, array(), null );
 			}
 		}
 	}
@@ -54,7 +52,7 @@ class Ecwid_Static_Page {
 	public static function get_data_for_current_page()
 	{
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
-			EcwidPlatform::force_catalog_cache_reset();
+			add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_cache_control', 100 );
 		}
 		
 		$data = self::_maybe_fetch_data();
@@ -157,7 +155,7 @@ class Ecwid_Static_Page {
 		if ( $cached_data ) {
 			return $cached_data;
 		}
-		
+
 		$fetched_data = null;
 
 		$fetched_data = EcwidPlatform::fetch_url( 
@@ -173,6 +171,8 @@ class Ecwid_Static_Page {
 		if ( $fetched_data && @$fetched_data['data'] ) {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
+
+			EcwidPlatform::invalidate_catalog_cache_from( substr($fetched_data->lastUpdated, 0, -3) );
 
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
