@@ -153,6 +153,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.7.4 - Jun 6, 2019 =
+- *Fixed the "Random products" sidebar widget layout issues*. Some users might notice that the random product widget didn't look good on e-commerce sites with a narrow sidebar. We fixed it so the widget work fine in narrow spaces.
+- *Fixed slow loading issue for the site admin*. After the latest Ecwid Ecommerce plugin update you might notice the store page loaded a bit longer. That was a bug. It didn't affect how the site loaded for your customers, but it did slow it down for you, the site administrator. We fixed it.
+- Small fixes and improvements.
+
 = 6.7.3 - May 29, 2019 =
 - Fixed compatibility with WordPress versions older 5.0
 - Fixed a PHP error message ("Can't use function return value in write context ") for PHP versions older 5.5
