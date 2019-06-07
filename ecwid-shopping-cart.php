@@ -1753,9 +1753,7 @@ function ecwid_store_deactivate() {
 			update_option('ecwid_store_page_id', '');	
 		}
 	}
-
-	Ecwid_Message_Manager::reset_hidden_messages();
-
+	
 	$p = new Ecwid_Products();
 	$p->disable_all_products();
 }
