@@ -1761,29 +1761,30 @@ function ecwid_store_deactivate() {
 }
 
 function ecwid_uninstall() {
-    delete_option("ecwid_store_page_id_auto");
-    delete_option("ecwid_store_id");
-    delete_option("ecwid_enable_minicart");
-    delete_option("ecwid_show_categories");
-    delete_option("ecwid_show_search_box");
-    delete_option("ecwid_pb_categoriesperrow");
-    delete_option("ecwid_pb_productspercolumn_grid");
-    delete_option("ecwid_pb_productsperrow_grid");
-    delete_option("ecwid_pb_productsperpage_list");
-    delete_option("ecwid_pb_productsperpage_table");
-    delete_option("ecwid_pb_defaultview");
-    delete_option("ecwid_pb_searchview");
-    delete_option("ecwid_mobile_catalog_link");
-    delete_option("ecwid_default_category_id");
-    delete_option('ecwid_is_api_enabled');
-    delete_option('ecwid_api_check_time');
-    delete_option('ecwid_show_vote_message');
-    delete_option("ecwid_sso_secret_key");
-    delete_option("ecwid_installation_date");
-    delete_option('ecwid_hide_appearance_menu');
-
+	delete_option("ecwid_store_page_id_auto");
+	delete_option("ecwid_store_id");
+	delete_option("ecwid_enable_minicart");
+	delete_option("ecwid_show_categories");
+	delete_option("ecwid_show_search_box");
+	delete_option("ecwid_pb_categoriesperrow");
+	delete_option("ecwid_pb_productspercolumn_grid");
+	delete_option("ecwid_pb_productsperrow_grid");
+	delete_option("ecwid_pb_productsperpage_list");
+	delete_option("ecwid_pb_productsperpage_table");
+	delete_option("ecwid_pb_defaultview");
+	delete_option("ecwid_pb_searchview");
+	delete_option("ecwid_mobile_catalog_link");
+	delete_option("ecwid_default_category_id");
+	delete_option('ecwid_is_api_enabled');
+	delete_option('ecwid_api_check_time');
+	delete_option('ecwid_show_vote_message');
+	delete_option("ecwid_sso_secret_key");
+	delete_option("ecwid_installation_date");
+	delete_option('ecwid_hide_appearance_menu');
+	
 	delete_option("ecwid_plugin_version");
 	delete_option("ecwid_use_chameleon");
+	delete_option(Ecwid_Api_V3::TOKEN_OPTION_NAME);
 }
 
 function ecwid_abs_intval($value) {
