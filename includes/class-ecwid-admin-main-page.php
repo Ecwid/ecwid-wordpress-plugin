@@ -119,8 +119,8 @@ class Ecwid_Admin_Main_Page
 		$iframe_src = ecwid_get_iframe_src($time, $page);
 
 		if( !$iframe_src ) {
-			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-			die();
+			$this->_do_simple_connect_page();
+			return;
 		}
 
 		$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));

@@ -2256,7 +2256,7 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 
 	$oauth = new Ecwid_Oauth();
 
-	if ( !Ecwid_Api_V3::get_token() || !$oauth->has_scope( 'allow_sso' ) ) {
+	if ( !Ecwid_Api_V3::get_token() ) {
 		return false;
 	}
 

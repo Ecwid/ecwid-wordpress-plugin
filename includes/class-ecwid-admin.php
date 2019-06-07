@@ -70,7 +70,8 @@ class Ecwid_Admin {
 		}
 		
 		global $ecwid_oauth;
-		if (!$is_newbie && $ecwid_oauth->has_scope('allow_sso') && Ecwid_Api_V3::is_available() ) {
+
+		if (!$is_newbie && Ecwid_Api_V3::is_available() ) {
 			
 			if ( !self::are_auto_menus_enabled() ) {
 				add_submenu_page(
