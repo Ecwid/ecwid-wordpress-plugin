@@ -44,8 +44,13 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 			$code = <<<HTML
 <script>
-document.documentElement.id = 'ecwid_html';
-document.body.id = 'ecwid_body';
+if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
+	document.documentElement.id = 'ecwid_html';
+}
+
+if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
+	document.body.id = 'ecwid_body';
+}
 </script>
 HTML;
 		}
