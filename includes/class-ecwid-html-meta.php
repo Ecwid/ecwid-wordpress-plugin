@@ -161,9 +161,10 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta
 		$og_tags_html = Ecwid_Static_Page::get_og_tags_html();
 
 		$site_name = $this->_get_site_name();
+
 		$og_tags_html = preg_replace(
 			'/(<meta property="og:site_name" content=").*?(" \/>)/', 
-			'$1'.$site_name.'$2',
+			'${1}'.$site_name.'${2}',
 			$og_tags_html 
 		);
 
