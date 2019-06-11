@@ -280,10 +280,6 @@ class Ecwid_Static_Page {
 			return true;
 		}
 		
-		if ( !self::is_feature_available() ) {
-			return false;
-		}
-		
 		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_DISABLED ) {
 			return false;
 		}
@@ -293,14 +289,6 @@ class Ecwid_Static_Page {
 		}
 		
 		return false;
-	}
-
-	public static function is_feature_available()
-	{
-		$api = new Ecwid_Api_V3();
-		
-		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_STATIC_HOME_PAGE )
-		       && $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
 
 }

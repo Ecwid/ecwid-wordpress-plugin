@@ -2065,6 +2065,10 @@ function ecwid_settings_api_init() {
 		if ($_POST['settings_section'] == 'advanced' && isset( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] ) && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
 			Ecwid_Store_Page::update_main_store_page_id( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] );
 		}
+		
+		if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Static_Page::OPTION_IS_ENABLED])) {
+			update_option( Ecwid_Static_Page::OPTION_IS_ENABLED, $_POST[Ecwid_Static_Page::OPTION_IS_ENABLED] );
+		}
 	}
 
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
