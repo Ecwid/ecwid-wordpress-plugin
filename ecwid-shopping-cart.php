@@ -1578,7 +1578,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id="0"]
+	[$shortcode widgets="productbrowser" default_category_id=""]
 EOT;
 	
 	$content = <<<EOT
