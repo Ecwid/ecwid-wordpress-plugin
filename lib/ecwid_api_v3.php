@@ -19,7 +19,6 @@ class Ecwid_Api_V3
 	const API_STATUS_ERROR_TOKEN = 'fail_token';
 
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
-	const FEATURE_STATIC_HOME_PAGE = 'STATIC_HOME_PAGE';
 	const FEATURE_PRODUCT_FILTERS = 'PRODUCT_FILTERS';
 	
 	public static function get_api_status_list()
