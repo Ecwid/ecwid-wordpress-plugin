@@ -44,13 +44,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 			$code = <<<HTML
 <script>
-document.documentElement.id = 'ecwid_html';
-document.body.id = 'ecwid_body';
+if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
+	document.documentElement.id = 'ecwid_html';
+}
+
+if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
+	document.body.id = 'ecwid_body';
+}
 </script>
 HTML;
 		}
 
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
 		} else {
 			$code .= self::_get_js_hide_static('#static-ec-store');

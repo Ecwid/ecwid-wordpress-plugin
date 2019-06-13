@@ -365,9 +365,13 @@ HTML
 					&& ecwid_is_recent_installation();
 				
 			case 'please_vote':
-
+				
 				if ( Ecwid_Config::is_wl() ) return false;
 
+				if ( strpos( $admin_page, Ecwid_Admin::ADMIN_SLUG ) === false ) {
+					return false;
+				}
+				
 				$install_date = get_option('ecwid_installation_date');
 
 				$result = false;

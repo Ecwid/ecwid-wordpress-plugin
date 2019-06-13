@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.7.3
+Stable tag: 6.7.4
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -154,8 +154,8 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 = 6.7.4 - Jun 6, 2019 =
-- *Fixed the "Random products" sidebar widget layout issues*. Some users might notice that the random product widget didn't look good on e-commerce sites with a narrow sidebar. We fixed it so the widget work fine in narrow spaces.
-- *Fixed slow loading issue for the site admin*. After the latest Ecwid Ecommerce plugin update you might notice the store page loaded a bit longer. That was a bug. It didn't affect how the site loaded for your customers, but it did slow it down for you, the site administrator. We fixed it.
+- **Fixed the "Random products" sidebar widget layout issues**. Some users might notice that the random product widget didn't look good on e-commerce sites with a narrow sidebar. We fixed it so the widget work fine in narrow spaces.
+- **Fixed slow loading issue for the site admin**. After the latest Ecwid Ecommerce plugin update you might notice the store page loaded a bit longer. That was a bug. It didn't affect how the site loaded for your customers, but it did slow it down for you, the site administrator. We fixed it.
 - Small fixes and improvements.
 
 = 6.7.3 - May 29, 2019 =
