@@ -8,7 +8,7 @@ class Ecwid_Integration_Polylang
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		
 		add_filter( 'pll_rel_hreflang_attributes', array( $this, 'filter_hreflangs' ), 1, 1 );
-		add_action( 'wp_head', array( $this, 'add_inline_js_config' ) );
+		add_action( 'wp_head', array( $this, 'print_hreflang_js_config' ) );
 	}
 
 	public function force_scriptjs_lang( $lang ) {
@@ -18,6 +18,10 @@ class Ecwid_Integration_Polylang
 
 	public function set_hreflangs( $hreflangs ) {
 		$this->hreflang_items = $hreflangs;
+	}
+	
+	public function get_hreflangs( $hreflangs ) {
+		return $this->hreflang_items;
 	}
 
 	public function filter_hreflangs( $hreflangs ) {
@@ -31,7 +35,7 @@ class Ecwid_Integration_Polylang
 			$ecwid_hreflang_html = Ecwid_Static_Page::get_href_lang_html();
 
 			if( $ecwid_hreflang_html ) {
-				$ecwid_hreflangs = $this->get_hreflangs_array_from_html( $ecwid_hreflang_html );
+				$ecwid_hreflangs = $this->parse_hreflang_html_to_array( $ecwid_hreflang_html );
 				
 				if( $ecwid_hreflangs ) {
 					return $ecwid_hreflangs;
@@ -42,7 +46,7 @@ class Ecwid_Integration_Polylang
 		return $hreflangs;
 	}
 
-	public function get_hreflangs_array_from_html( $string ) {
+	public function parse_hreflang_html_to_array( $string ) {
 		$pattern = "/<link rel='alternate' hreflang='(.*?)' href='(.*?)' \/>/i";
 
 		preg_match_all( $pattern, $string, $matches );
@@ -54,11 +58,7 @@ class Ecwid_Integration_Polylang
 		return false;
 	}
 
-	public function get_hreflangs( $hreflangs ) {
-		return $this->hreflang_items;
-	}
-
-	public function add_inline_js_config() {
+	public function print_hreflang_js_config() {
 
 		if( !is_array( $this->hreflang_items ) ) {
 			return;
