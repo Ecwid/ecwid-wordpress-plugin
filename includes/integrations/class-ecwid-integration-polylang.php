@@ -7,8 +7,8 @@ class Ecwid_Integration_Polylang
 	public function __construct() {
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		
-		add_filter( 'pll_rel_hreflang_attributes', array( $this, 'set_hreflangs' ), 1, 1 );
-		add_action( 'wp_head', array( $this, 'add_inline_js_config' ), 10, 1);
+		add_filter( 'pll_rel_hreflang_attributes', array( $this, 'filter_hreflangs' ), 1, 1 );
+		add_action( 'wp_head', array( $this, 'add_inline_js_config' ) );
 	}
 
 	public function force_scriptjs_lang( $lang ) {
@@ -18,7 +18,13 @@ class Ecwid_Integration_Polylang
 
 	public function set_hreflangs( $hreflangs ) {
 		$this->hreflang_items = $hreflangs;
-		add_filter( 'ecwid_hreflangs', array( $this, 'get_hreflangs' ), 99, 1 );
+	}
+
+	public function filter_hreflangs( $hreflangs ) {
+		
+		$this->set_hreflangs( $hreflangs );
+
+		add_filter( 'ecwid_hreflangs', array( $this, 'get_hreflangs' ), 1000 );
 
 		if( class_exists( 'Ecwid_Static_Page' ) && Ecwid_Static_Page::is_data_available() ) {
 			
