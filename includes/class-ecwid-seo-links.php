@@ -406,7 +406,6 @@ JS;
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 
 		if ( is_array( $pages ) ) {
-
 			foreach ( $pages as $page_id ) {
 				
 				if ( !isset( $base_urls[$page_id] ) ) {
@@ -416,27 +415,6 @@ JS;
 				$link = urldecode( self::_get_relative_permalink( $page_id, true ) );
 
 				$base_urls[$page_id][] = $link;
-			}
-
-			if (
-				is_plugin_active('polylang/polylang.php')
-				&& function_exists( 'PLL' )
-				&& function_exists('pll_get_post_language')
-			) {
-				
-				if ( PLL()->options['force_lang'] == 1 ) {
-					$patterns = self::get_seo_links_patterns();
-					foreach ( $pages as $page_id ) {
-						$link = urldecode( self::_get_relative_permalink( $page_id ) );
-						$language = pll_get_post_language( $page_id );
-
-						if ( !isset( $base_urls[$page_id] ) ) {
-							$base_urls[$page_id] = array();
-						}
-						
-						$base_urls[$page_id][] = $language . '/' . $link;
-					}
-				}
 			}
 		}
 		

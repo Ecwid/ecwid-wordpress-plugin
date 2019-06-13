@@ -189,6 +189,7 @@ function ecwid_init_integrations()
 		'elementor/elementor.php' => 'elementor',
 		'sitepress-multilingual-cms/sitepress.php' => 'wpml',
 		'pwa/pwa.php' => 'pwa',
+		'polylang/polylang.php' => 'polylang',
 	);
 
 
