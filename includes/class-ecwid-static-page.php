@@ -294,8 +294,7 @@ class Ecwid_Static_Page {
 	public static function is_feature_available() {
 		$api = new Ecwid_Api_V3();
 		
-		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_STATIC_HOME_PAGE )
-		       && $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
+		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
 
 }
