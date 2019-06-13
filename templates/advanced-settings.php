@@ -191,17 +191,31 @@
                         id="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
                         name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
                         type="checkbox"
+
                         <?php if ( get_option( Ecwid_Static_Page::OPTION_IS_ENABLED ) == Ecwid_Static_Page::OPTION_VALUE_ENABLED ): ?>
                             checked="checked"
                         <?php endif; ?>
+
+                        <?php if ( !Ecwid_Static_Page::is_feature_available() ): ?>
+                            disabled="disabled"
+                        <?php endif; ?>
+
                         value="Y"
                     />
                     <?php _e('Cache and speed up the store home page <sup>new</sup>', 'ecwid-shopping-cart'); ?>
                 </label>
 
-                <div class="note">
-                    <?php echo __( 'This caches your store home page on your site to make it load way faster for your customers.', 'ecwid-shopping-cart' ); ?>
-                </div>
+                <?php if ( Ecwid_Static_Page::is_feature_available() ): ?>
+                    <div class="note">
+                        <?php echo __( 'This caches your store home page on your site to make it load way faster for your customers.', 'ecwid-shopping-cart' ); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="note">
+                        <?php printf( 
+                            __( 'To use this functionality, please enable the "Next-gen look and feel of the product list on the storefront" option in your store dashboard ("<a%s>Settings → What\'s New</a>").', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'admin.php?page=ec-store&ec-store-page=whatsnew' ) . '"' ); ?>
+                    </div>
+                <?php endif; ?>
+
             </div>
         </div>
 

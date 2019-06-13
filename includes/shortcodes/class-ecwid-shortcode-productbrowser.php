@@ -50,7 +50,7 @@ document.body.id = 'ecwid_body';
 HTML;
 		}
 
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
 		} else {
 			$code .= self::_get_js_hide_static('#static-ec-store');
