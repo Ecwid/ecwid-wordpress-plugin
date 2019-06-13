@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.8
+Stable tag: 6.8.1
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.1 - Jun 13, 2019 =
+- **Enabled the “Cache and speed up the store page” feature for the old Ecwid accounts**. The feature appeared in the previously released version (6.8), but it was disabled for the part of old Ecwid accounts. It’s now available for everyone. You can turn it on on the “Ecwid/Advanced” page in your WordPress admin backend.
+
 = 6.8 - Jun 13, 2019 =
 - **New cool feature — cache and speed up your store page**. Available on the Ecwid/Advanced settings page inside your WordPress admin backend. Tick the new checkbox there to make it cache and speed up the store home page on your ecommerce site. When it’s enabled, you and your customer will see your store page load way faster than before.
 - **Compatibility with more multilingual plugins**. As we mentioned before, Ecwid now supports full-featured multilingual storefronts. Previously, we made it compatible with the WPML plugin. In this update, we are adding support for more multilingual plugins: Polylang, TranslatePress, WPGlobus, WP Multilang, Multisite Language Switcher, MultilingualPress, Multilanguage by BestWebSoft, Transposh WordPress Translation and more. In general, if some plugin or a custom code switches locale on your site, Ecwid should be compatible with it and change the storefront language accordingly. So, if you have enabled the multilingual mode in your ecommerce store and are supporting several languages on your WordPress site, your shop pages will be displayed in the language selected by a visitor.
