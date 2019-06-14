@@ -62,14 +62,14 @@ HTML;
 		}
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
-		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>';
+		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if( !empty( $js_code ) ) {
-			$code .= sprintf('<script>%s</script>', $js_code);
+			$code .= sprintf('<script>%s</script>', $js_code) . PHP_EOL;
 		}
 
-		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>';
+		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>' . PHP_EOL;
 
 
 		return $code;
