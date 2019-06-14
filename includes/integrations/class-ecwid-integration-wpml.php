@@ -11,12 +11,25 @@ class Ecwid_Integration_WPML
 		}
 
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
-		add_filter( 'wpml_hreflangs', array( $this, 'set_hreflangs' ), 10, 1 );
-		add_filter( 'wpml_hreflangs_html', array( $this, 'set_hreflangs_html'), 10, 1 );
+		add_filter( 'wpml_hreflangs', array( $this, 'filter_hreflangs' ), 10, 1 );
+		add_filter( 'wpml_hreflangs_html', array( $this, 'filter_hreflangs_html'), 10, 1 );
+	}
+	
+	public function force_scriptjs_lang( $lang ) {
+		$current_language_code = apply_filters( 'wpml_current_language', null );
+		return $current_language_code;
 	}
 
 	public function set_hreflangs( $hreflang_items ) {
 		$this->hreflang_items = $hreflang_items;
+	}
+
+	public function get_hreflangs() {
+		return $this->hreflang_items;
+	}
+
+	public function filter_hreflangs( $hreflang_items ) {
+		$this->set_hreflangs( $hreflang_items );
 
 		add_filter( 'ecwid_hreflangs', array( $this, 'get_hreflangs' ), 10, 1);
 		add_filter( 'ecwid_inline_js_config', array( $this, 'add_inline_js_config' ), 10, 1);
@@ -24,11 +37,7 @@ class Ecwid_Integration_WPML
 		return $hreflang_items;
 	}
 
-	public function get_hreflangs() {
-		return $this->hreflang_items;
-	}
-
-	public function set_hreflangs_html( $hreflang ) {
+	public function filter_hreflangs_html( $hreflang ) {
 		if( class_exists( 'Ecwid_Static_Page' ) && Ecwid_Static_Page::is_data_available() ) {
 			$ecwid_hreflang = Ecwid_Static_Page::get_href_lang_html();
 			if( $ecwid_hreflang ) {
@@ -52,11 +61,6 @@ class Ecwid_Integration_WPML
 		}
 
 		return $js;
-	}
-
-	public function force_scriptjs_lang( $lang ) {
-		$current_language_code = apply_filters( 'wpml_current_language', null );
-		return $current_language_code;
 	}
 
 	public function mod_relative_permalink( $default_link, $item_id ) {
