@@ -127,6 +127,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kliken.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -1886,6 +1887,10 @@ function ecwid_get_update_params_options() {
 				'',
 				'Y'
 			)
+		),
+		
+		Ecwid_Kliken::OPTION_KLIKEN_CODE => array(
+			'type' => 'html'
 		)
 	);
 
@@ -1921,7 +1926,11 @@ function ecwid_update_plugin_params()
 	$options4update = array();
 	
 	foreach ( $options as $key => $option ) {
-		$options4update[$key] = @$_POST['option'][$key];
+		if ( $option['type'] == 'html' ) {
+			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
+		} else {
+			$options4update[$key] = @$_POST['option'][$key];
+		}
 	}
 	
 	foreach ($options4update as $name => $value) {
