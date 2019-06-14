@@ -33,12 +33,6 @@ class Ecwid_OAuth {
 		$this->api = new Ecwid_Api_V3();
 	}
 
-	public function show_reconnect()
-	{
-		$ecwid_oauth = $this;
-		require_once(ECWID_PLUGIN_DIR . 'templates/reconnect.php');
-	}
-
 	public function test_post()
 	{
 		$return = EcwidPlatform::http_post_request($this->get_test_post_url());

@@ -2210,53 +2210,6 @@ function ecwid_create_store() {
 	}
 }
 
-function ecwid_general_settings_do_page() {
-	
-	return;
-	$store_id = get_option( 'ecwid_store_id' );
-
-	$connection_error = isset( $_GET['connection_error'] );
-
-	if ( ecwid_is_demo_store() && !Ecwid_Config::overrides_token() ) {
-		$no_oauth = @$_GET['oauth'] == 'no';
-
-		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
-
-		$no_reg_wl = Ecwid_Config::is_no_reg_wl();
-
-		global $current_user;
-		$api = new Ecwid_Api_V3();
-
-		if ( $there_was_oauth_error || $no_reg_wl || $api->does_store_exist( $current_user->user_email ) ) {
-			require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
-		} else {
-			$register = ! $connection_error && ! isset( $_GET['connect'] );
-			
-			require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
-		}
-	} else {
-		global $ecwid_oauth;
-
-		
-		if ( Ecwid_Admin::disable_dashboard() ) {
-			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
-		} else if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
-			if ( ecwid_test_oauth(true) ) {
-				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-			} else {
-				require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
-			}
-		} else {
-			if ($connection_error || isset($_GET['reconnect'])) {
-				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-			} else {
-				ecwid_admin_do_page( 'dashboard' );
-			}
-		}
-	}
-}
-
-
 add_action('admin_post_ecwid-do-sso', 'ecwid_do_sso_redirect');
 function ecwid_do_sso_redirect() {
 	
