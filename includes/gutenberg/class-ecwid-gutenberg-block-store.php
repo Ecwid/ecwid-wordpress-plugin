@@ -66,7 +66,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$result .= ']';
 		
 		$result .= <<<HTML
-<script type="text/javascript">
+<script data-cfasync="false" type="text/javascript">
 		window.ec = window.ec || Object();
 		window.ec.storefront = window.ec.storefront || Object();
 HTML;
