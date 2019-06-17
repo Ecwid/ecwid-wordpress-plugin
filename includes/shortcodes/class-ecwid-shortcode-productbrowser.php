@@ -78,7 +78,7 @@ HTML;
 	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id )
 	{
 		return <<<HTML
-			<script language="JavaScript">
+			<script data-cfasync="false" type="text/javascript">
 				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
 
 				ec.storefront.staticPages.staticStorefrontEnabled = true;
@@ -92,7 +92,7 @@ HTML;
 	protected function _get_js_hide_static( $html_selector )
 	{
 		return <<<HTML
-			<script>
+			<script data-cfasync="false" type="text/javascript">
 				function createClass(name,rules){
 					var style = document.createElement('style');
 					style.type = 'text/css';
