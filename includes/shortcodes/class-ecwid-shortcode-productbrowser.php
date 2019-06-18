@@ -197,23 +197,26 @@ HTML;
 			$search_view = 'list';
 		}
 
-		$input_params = array(
-			'categoryView' => $default_view,
-			'searchView' => $search_view,
-			'id' => "ecwid-store-$store_id"
-		);
+		$input_params = array();		
 
 		if ( ecwid_is_legacy_appearance_used() ) {
-			$input_params['categoriesPerRow'] = $cats_per_row;
-		
-			$input_params['views'] = "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)";
+			$legacy_input_params = array(
+				'categoriesPerRow' => $cats_per_row,
+				'views' => "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)",
+				'categoryView' => $default_view,
+				'searchView' => $search_view,
+			);
+
+			$input_params = array_merge($input_params, $legacy_input_params);
 		}
+
+		$input_params['id'] = "ecwid-store-$store_id";
 
 		if ($ecwid_default_category_id) {
 			$input_params['defaultCategoryId'] = $ecwid_default_category_id;
 		}
 
-		if (isset($shortcode_params['default_product_id'])) {
+		if ( !isset($shortcode_params['default_product_id']) && $shortcode_params['default_product_id'] > 0 ) {
 			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
 		}
 
