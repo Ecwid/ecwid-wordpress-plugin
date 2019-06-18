@@ -35,6 +35,7 @@ class Ecwid_Kliken {
 			"<meta name='google-site-verification' content='(.*)' />\s*" .
 			"<!--Kliken Google Site Verification Token Tag-->)%s";
 		
+		
 		$matches = [];
 		if ( preg_match( $pattern, $info->customHeaderHtmlCode, $matches ) ) {
 			update_option( self::OPTION_KLIKEN_CODE, $matches[1] );
@@ -44,7 +45,7 @@ class Ecwid_Kliken {
 	protected function _need_to_try_fetching_code() {
 		return
 			strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Site-Verification' )
-			&& get_option( self::OPTION_KLIKEN_CODE, false );
+			&& !get_option( self::OPTION_KLIKEN_CODE, false );
 	}
 }
 
