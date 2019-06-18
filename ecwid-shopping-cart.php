@@ -117,6 +117,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
+require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
@@ -127,7 +128,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-kliken.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -1905,10 +1905,6 @@ function ecwid_get_update_params_options() {
 				'Y'
 			)
 		),
-		
-		Ecwid_Kliken::OPTION_KLIKEN_CODE => array(
-			'type' => 'html'
-		)
 	);
 
 	return $options;
