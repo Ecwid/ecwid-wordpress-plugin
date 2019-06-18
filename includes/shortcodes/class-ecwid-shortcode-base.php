@@ -149,6 +149,8 @@ HTML;
 			$params = $this->_params;
 		}
 
+		unset( $params['noHTMLCatalog'] );
+
 		$pieces = array();
 		if ( !empty ( $params ) ) {
 			foreach ( $params as $key => $value ) {

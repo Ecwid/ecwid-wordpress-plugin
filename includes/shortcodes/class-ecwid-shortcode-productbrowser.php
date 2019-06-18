@@ -216,11 +216,11 @@ HTML;
 			$input_params['defaultCategoryId'] = $ecwid_default_category_id;
 		}
 
-		if ( !isset($shortcode_params['default_product_id']) && $shortcode_params['default_product_id'] > 0 ) {
+		if ( isset($shortcode_params['default_product_id']) && $shortcode_params['default_product_id'] > 0 ) {
 			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
 		}
 
-		if (isset($shortcode_params['no_html_catalog'])) {
+		if ( isset($shortcode_params['no_html_catalog']) ) {
 			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
 		}
 
