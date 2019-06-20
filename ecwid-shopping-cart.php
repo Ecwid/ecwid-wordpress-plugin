@@ -193,8 +193,12 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 	);
 
+	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
+	$old_php = version_compare( phpversion(), '5.4', '<' );
 
-	if (version_compare( phpversion(), '5.4', '>=' ) ) {
+	// that integration did not work well with older php
+	// and it is not needed for newer wordpress since blocks are a part of its core
+	if ( !$old_php && $old_wordpress ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
