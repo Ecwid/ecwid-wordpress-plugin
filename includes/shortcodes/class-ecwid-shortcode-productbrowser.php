@@ -62,14 +62,14 @@ HTML;
 		}
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
-		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>';
+		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if( !empty( $js_code ) ) {
-			$code .= sprintf('<script>%s</script>', $js_code);
+			$code .= sprintf('<script>%s</script>', $js_code) . PHP_EOL;
 		}
 
-		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>';
+		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>' . PHP_EOL;
 
 
 		return $code;
@@ -197,23 +197,30 @@ HTML;
 			$search_view = 'list';
 		}
 
-		$input_params = array(
-			'categoriesPerRow' => $cats_per_row,
-			'views' => "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)",
-			'categoryView' => $default_view,
-			'searchView' => $search_view,
-			'id' => "ecwid-store-$store_id"
-		);
+		$input_params = array();		
+
+		if ( ecwid_is_legacy_appearance_used() ) {
+			$legacy_input_params = array(
+				'categoriesPerRow' => $cats_per_row,
+				'views' => "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)",
+				'categoryView' => $default_view,
+				'searchView' => $search_view,
+			);
+
+			$input_params = array_merge($input_params, $legacy_input_params);
+		}
+
+		$input_params['id'] = "ecwid-store-$store_id";
 
 		if ($ecwid_default_category_id) {
 			$input_params['defaultCategoryId'] = $ecwid_default_category_id;
 		}
 
-		if (isset($shortcode_params['default_product_id'])) {
+		if ( isset($shortcode_params['default_product_id']) && $shortcode_params['default_product_id'] > 0 ) {
 			$input_params['defaultProductId'] = $shortcode_params['default_product_id'];
 		}
 
-		if (isset($shortcode_params['no_html_catalog'])) {
+		if ( isset($shortcode_params['no_html_catalog']) ) {
 			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
 		}
 
