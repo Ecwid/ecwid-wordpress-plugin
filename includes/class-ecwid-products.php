@@ -355,30 +355,30 @@ class Ecwid_Products {
 	public function disable_all_products() {
 		global $wpdb;
 
-		$result = $wpdb->get_col( $wpdb->prepare(
+		$post_ids = $wpdb->get_col( $wpdb->prepare(
 			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '%s'", 'ecwid_id'
 		));
 
-		foreach ($result as $post_id) {
-			wp_update_post(array(
-				'ID' => $post_id,
-				'post_status' => 'draft'
-			));
+		if( !empty( $post_ids ) ) {
+			$wpdb->query( 
+				"UPDATE $wpdb->posts SET post_status = 'draft' 
+				WHERE ID IN (". implode(',', array_map('intval', $post_ids) ) .")"
+			);
 		}
 	}
 
 	public function enable_all_products() {
 		global $wpdb;
 
-		$result = $wpdb->get_col( $wpdb->prepare(
+		$post_ids = $wpdb->get_col( $wpdb->prepare(
 			"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '%s'", 'ecwid_id'
 		));
 
-		foreach ($result as $post_id) {
-			wp_update_post(array(
-				'ID' => $post_id,
-				'post_status' => 'publish'
-			));
+		if( !empty( $post_ids ) ) {
+			$wpdb->query( 
+				"UPDATE $wpdb->posts SET post_status = 'publish' 
+				WHERE ID IN (". implode(',', array_map('intval', $post_ids) ) .")"
+			);
 		}
 	}
 
