@@ -49,6 +49,21 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 		return 'xMinicart';
 	}
 
+	public function render() {
+
+		$default_render = parent::render();
+
+		if ( !isset($this->_params['layout']) || $this->_params['layout'] != 'MiniAttachToProductBrowser' ) {
+			return $default_render;
+		}
+
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
+			$default_render .= '<style>#static-ec-store { padding-top: 40px; }</style>';
+		}
+
+		return $default_render;
+	}
+
 	public function build_params_string($params = null) {
 		if (!is_null($params) && array_key_exists('id', $params) && isset($params['layout']) && $params['layout'] == 'MiniAttachToProductBrowser') {
 			unset($params['id']);
