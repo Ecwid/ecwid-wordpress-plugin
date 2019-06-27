@@ -38,7 +38,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		}
 
 
-		$code = '';
+		$code = '' . PHP_EOL;
 		global $ecwid_current_theme;
 		if ( $ecwid_current_theme ) {
 
@@ -55,7 +55,7 @@ if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
 HTML;
 		}
 
-		$classname = '' . PHP_EOL;
+		$classname = '';
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
