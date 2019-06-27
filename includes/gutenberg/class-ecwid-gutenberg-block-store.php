@@ -89,28 +89,36 @@ HTML;
 			}
 
 			if ( $name == 'show_description_under_image' ) {
-				$attribute['is_storefront_api'] = true;
-				$value = isset( $params[$name] ) ? !$params[$name] : true;
 
 				$layout = ( isset($params['product_details_layout']) ) ? $params['product_details_layout'] : null;
 				if ( is_null( $layout ) ) {
 					$layout = $attributes['product_details_layout']['default'];
 				}
 
-				if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT' ) {
-					$name = 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar';
-				} else if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
-					$name = 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar';
-				} else {
-					unset( $attribute['is_storefront_api'] );
+				$applicableLayouts = array( 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT', 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' );
+				if ( in_array( $layout, $applicableLayouts ) ) {
+					if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT' ) {
+						$name = 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar';
+					} else if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
+						$name = 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar';
+					}
+
+					$attribute['is_storefront_api'] = true;
+
+					$api = new Ecwid_Api_V3();
+					$settings = $api->get_store_profile()->designSettings;
+					$value = isset( $params['show_description_under_image'] ) ? !$params['show_description_under_image'] : $settings->$name;
+					$attribute['profile_default'] = $settings->$name;
 				}
 			}
+			
 
 			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] ) {
 
 				if ( is_null( $value ) ) {
 					$value = $attribute['default'];
 				}
+				
 				$profile_default = isset( $attribute['profile_default'] ) 
 					? $attribute['profile_default'] 
 					: $attribute['default'];
