@@ -438,7 +438,7 @@ function ecwid_enqueue_frontend() {
 
 function ecwid_print_inline_js_config() {
 	
-	echo '<script type="text/javascript">';
+	echo '<script data-cfasync="false" type="text/javascript">';
 	
 	$js = <<<HTML
 window.ec = window.ec || Object();

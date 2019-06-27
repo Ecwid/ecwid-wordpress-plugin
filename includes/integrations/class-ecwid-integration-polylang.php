@@ -64,7 +64,7 @@ class Ecwid_Integration_Polylang
 			return;
 		}
 
-		$js = '<script type="text/javascript">';
+		$js = '<script data-cfasync="false" type="text/javascript">';
 	
 		$js .= 'window.ec = window.ec || Object();';
 		$js .= 'window.ec.config = window.ec.config || Object();';
