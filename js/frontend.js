@@ -41,7 +41,10 @@ jQuery(document).ready(function() {
 
     if ( typeof Ecwid != 'undefined' ) {
         Ecwid.OnAPILoaded.add(function() {
-            var font = window.ec.config.chameleonDefaults.font['font-family'] || '';
+            
+            var font = window.ec.config.chameleonDefaults
+                && window.ec.config.chameleonDefaults.font
+                && window.ec.config.chameleonDefaults.font['font-family'] || '';
             document.cookie = "ec_store_chameleon_font=" + font;
         });
     }
