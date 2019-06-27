@@ -38,7 +38,6 @@ jQuery(document).ready(function() {
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 
-
     if ( typeof Ecwid != 'undefined' ) {
         Ecwid.OnAPILoaded.add(function() {
             
@@ -46,6 +45,27 @@ jQuery(document).ready(function() {
                 && window.ec.config.chameleonDefaults.font
                 && window.ec.config.chameleonDefaults.font['font-family'] || '';
             document.cookie = "ec_store_chameleon_font=" + font;
+
+
+            var tracker = window['eca'];
+
+            if (tracker) {
+                var noTracking = false;
+                var noTrackingWidgets = ['ProductBrowser', 'Product', 'SingleProduct'];
+                var initializedWidgets = Ecwid.getInitializedWidgets();
+                for (var i = 0; i < noTrackingWidgets.length; i++) {
+                    if (initializedWidgets.indexOf(noTrackingWidgets[i]) != -1) {
+                        noTracking = true;
+                        break;
+                    }
+                }
+
+                if (!noTracking) {
+                    tracker('send', {'eventName': 'PAGE_VIEW', entityType: 'PAGE', 'storeId': Ecwid.getOwnerId()});
+                    console.log('tracked');
+                }
+            }
         });
     }
+    
 });
