@@ -85,6 +85,7 @@ HTML;
 				ec.storefront.staticPages.staticStorefrontEnabled = true;
 				ec.storefront.staticPages.staticContainerID = '$static_container_id';
 				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
+				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
 			</script>
 
 HTML;
