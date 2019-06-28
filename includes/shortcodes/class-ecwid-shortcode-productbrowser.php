@@ -55,11 +55,17 @@ if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
 HTML;
 		}
 
+		$classname = '';
+
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
+			$classname = 'hide-ec-dynamic-placeholder';
 		} else {
 			$code .= self::_get_js_hide_static('#static-ec-store');
 		}
+
+
+		$code .= '<div id="dynamic-ec-store" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
 		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
@@ -69,28 +75,23 @@ HTML;
 			$code .= sprintf('<script>%s</script>', $js_code) . PHP_EOL;
 		}
 
-		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>' . PHP_EOL;
-
-
 		return $code;
 	}
 
-	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id )
-	{
+	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
 		return <<<HTML
 			<script data-cfasync="false" type="text/javascript">
 				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
-
 				ec.storefront.staticPages.staticStorefrontEnabled = true;
 				ec.storefront.staticPages.staticContainerID = '$static_container_id';
 				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
 				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
 			</script>
+
 HTML;
 	}
 
-	protected function _get_js_hide_static( $html_selector )
-	{
+	protected function _get_js_hide_static( $html_selector ) {
 		return <<<HTML
 			<script data-cfasync="false" type="text/javascript">
 				function createClass(name,rules){
@@ -104,6 +105,7 @@ HTML;
 				}
 				createClass('$html_selector','display:none;');
 			</script>
+
 HTML;
 	}
 
