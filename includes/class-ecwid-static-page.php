@@ -277,6 +277,10 @@ class Ecwid_Static_Page {
 			return true;
 		}
 
+		if ( array_key_exists( 'offset', $_GET ) ) {
+			return false;
+		}
+
 		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
 			return false;
 		}

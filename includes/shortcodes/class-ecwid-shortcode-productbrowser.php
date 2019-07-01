@@ -55,11 +55,17 @@ if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
 HTML;
 		}
 
+		$classname = '';
+
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
+			$classname = 'hide-ec-dynamic-placeholder';
 		} else {
 			$code .= self::_get_js_hide_static('#static-ec-store');
 		}
+
+
+		$code .= '<div id="dynamic-ec-store" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
 		$code .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
@@ -69,28 +75,23 @@ HTML;
 			$code .= sprintf('<script>%s</script>', $js_code) . PHP_EOL;
 		}
 
-		$code .= '<div id="dynamic-ec-store">' . $default_render . '</div>' . PHP_EOL;
-
-
 		return $code;
 	}
 
-	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id )
-	{
+	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
 		return <<<HTML
 			<script data-cfasync="false" type="text/javascript">
 				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
-
 				ec.storefront.staticPages.staticStorefrontEnabled = true;
 				ec.storefront.staticPages.staticContainerID = '$static_container_id';
 				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
 				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
 			</script>
+
 HTML;
 	}
 
-	protected function _get_js_hide_static( $html_selector )
-	{
+	protected function _get_js_hide_static( $html_selector ) {
 		return <<<HTML
 			<script data-cfasync="false" type="text/javascript">
 				function createClass(name,rules){
@@ -104,6 +105,7 @@ HTML;
 				}
 				createClass('$html_selector','display:none;');
 			</script>
+
 HTML;
 	}
 
@@ -197,20 +199,20 @@ HTML;
 			$search_view = 'list';
 		}
 
-		$input_params = array();		
+		$input_params = array(
+			'id' => "ecwid-store-$store_id",
+			'views' => "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)"
+		);
 
 		if ( ecwid_is_legacy_appearance_used() ) {
 			$legacy_input_params = array(
 				'categoriesPerRow' => $cats_per_row,
-				'views' => "grid($products_per_column_in_grid,$products_per_row_in_grid) list($products_in_list) table($products_in_table)",
 				'categoryView' => $default_view,
 				'searchView' => $search_view,
 			);
 
 			$input_params = array_merge($input_params, $legacy_input_params);
 		}
-
-		$input_params['id'] = "ecwid-store-$store_id";
 
 		if ($ecwid_default_category_id) {
 			$input_params['defaultCategoryId'] = $ecwid_default_category_id;
