@@ -3019,7 +3019,7 @@ function ecwid_should_display_escaped_fragment_catalog()
 
 function ecwid_get_default_pb_size() {
 	return array(
-		'grid_rows' =>    10,
+		'grid_rows' =>    20,
 		'grid_columns' => 3,
 		'list_rows' =>    60,
 		'table_rows' =>   60
