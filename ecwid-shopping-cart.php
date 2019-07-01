@@ -1353,28 +1353,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	$store_id = get_ecwid_store_id();
 	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
-	if ( Ecwid_Products::is_enabled() ) {
-		$params .= '&data_sync_products=1';
-	}
-	
-	if (is_active_widget(false, false, 'ecwidrandomproduct')) {
-		$params .= '&data_rpw=1';
-	}
-	
-	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_TLS ) {
-		$params .= '&data_api_disabled_tls=1';
-	}
-
-
-	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
-		$params .= '&data_api_disabled=1';
-	}
-	if (version_compare( phpversion(), '5.6', '>=' ) ) {
-		require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
-		if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
-			$params .= '&data_imported=1';
-		}
-	}
 		
 	if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 		$params .= '&data_static_home=1';
