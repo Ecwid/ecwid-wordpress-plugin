@@ -72,7 +72,7 @@ HTML;
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if( !empty( $js_code ) ) {
-			$code .= sprintf('<script>%s</script>', $js_code) . PHP_EOL;
+			$code .= sprintf('<script data-cfasync="false" type="text/javascript">%s</script>', $js_code) . PHP_EOL;
 		}
 
 		return $code;
