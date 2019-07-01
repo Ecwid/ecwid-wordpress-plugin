@@ -20,7 +20,9 @@
 		</select>
 	<?php elseif ( @$option['type'] == 'string'): ?>
 		<input type="text" name="option[<?php echo $key; ?>]" value="<?php echo get_option( $key ); ?>">
-	<?php elseif ( @$option['values'] ): ?>
+	<?php elseif ( @$option['type'] == 'html'): ?>
+        <textarea name="option[<?php echo $key; ?>]" style="width:500px"><?php echo htmlentities( get_option( $key ) ); ?></textarea>
+    <?php elseif ( @$option['values'] ): ?>
 		<select name="option[<?php echo $key; ?>]">
 		<?php foreach ( @$option['values'] as $value ): ?>
 			<option value="<?php echo $value; ?>"<?php if ( $value == get_option($key)): ?> selected="selected"<?php endif; ?>><?php echo $value; ?></option>

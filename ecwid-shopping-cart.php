@@ -117,6 +117,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
+require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
@@ -192,8 +193,12 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 	);
 
+	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
+	$old_php = version_compare( phpversion(), '5.4', '<' );
 
-	if (version_compare( phpversion(), '5.4', '>=' ) ) {
+	// that integration did not work well with older php
+	// and it is not needed for newer wordpress since blocks are a part of its core
+	if ( !$old_php && $old_wordpress ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
@@ -1881,7 +1886,7 @@ function ecwid_get_update_params_options() {
 				'',
 				'Y'
 			)
-		)
+		),
 	);
 
 	return $options;
@@ -1916,7 +1921,11 @@ function ecwid_update_plugin_params()
 	$options4update = array();
 	
 	foreach ( $options as $key => $option ) {
-		$options4update[$key] = @$_POST['option'][$key];
+		if ( $option['type'] == 'html' ) {
+			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
+		} else {
+			$options4update[$key] = @$_POST['option'][$key];
+		}
 	}
 	
 	foreach ($options4update as $name => $value) {
