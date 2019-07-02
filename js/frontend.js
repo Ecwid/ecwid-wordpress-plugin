@@ -38,33 +38,63 @@ jQuery(document).ready(function() {
     
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 
+
+
+
     if ( typeof Ecwid != 'undefined' ) {
-        Ecwid.OnAPILoaded.add(function() {
-            
+        Ecwid.OnAPILoaded.add(function () {
+
             var font = window.ec.config.chameleonDefaults
                 && window.ec.config.chameleonDefaults.font
                 && window.ec.config.chameleonDefaults.font['font-family'] || '';
             document.cookie = "ec_store_chameleon_font=" + font;
+        })
+    };
 
-            var tracker = window['eca'];
+    if ( ecwidParams.isPublicPage ) {
+        if ( typeof Ecwid != 'undefined' ) {
+            Ecwid.OnAPILoaded.add(function () {
 
-            if (tracker) {
-                var noTracking = false;
-                var noTrackingWidgets = ['ProductBrowser', 'Product', 'SingleProduct'];
-                var initializedWidgets = Ecwid.getInitializedWidgets();
-                for (var i = 0; i < noTrackingWidgets.length; i++) {
-                    if (initializedWidgets.indexOf(noTrackingWidgets[i]) != -1) {
-                        noTracking = true;
-                        break;
+                var tracker = window['eca'];
+
+                if (tracker) {
+                    var noTracking = false;
+                    var noTrackingWidgets = ['ProductBrowser', 'Product', 'SingleProduct'];
+                    var initializedWidgets = Ecwid.getInitializedWidgets();
+                    for (var i = 0; i < noTrackingWidgets.length; i++) {
+                        if (initializedWidgets.indexOf(noTrackingWidgets[i]) != -1) {
+                            noTracking = true;
+                            break;
+                        }
+                    }
+
+                    if (!noTracking) {
+                        tracker('send', {'eventName': 'PAGE_VIEW', entityType: 'PAGE', 'storeId': Ecwid.getOwnerId()});
+                        console.log('tracked');
                     }
                 }
+            });
+        } else {
+            (function(w, d, analyticsJsUrl, trackerName) {
+                w['HeapAnalyticsObject'] = trackerName;
+                w[trackerName] = w[trackerName] || function() {
+                        (w[trackerName].q = w[trackerName].q || []).push(arguments)
+                    }, w[trackerName].l = 1 * new Date();
+                var analyticsScript = d.createElement('script');
+                analyticsScript.async = true;
+                analyticsScript.src = analyticsJsUrl;
 
-                if (!noTracking) {
-                    tracker('send', {'eventName': 'PAGE_VIEW', entityType: 'PAGE', 'storeId': Ecwid.getOwnerId()});
-                    console.log('tracked');
-                }
-            }
-        });
-    }
+                var firstScript = d.getElementsByTagName('script')[0];
+                var maxAttempts = 50
+                var interval = setInterval(function() {
+                    if (/loaded|complete/.test(d.readyState) || (0 === maxAttempts--)) {
+                        firstScript.parentNode.insertBefore(analyticsScript, firstScript);
+                        clearInterval(interval)
+                    }
+                }, 100);
+            })(window, document, 'https://ecomm.events/i.js', "eca"); //eca это имя трэкера
+            eca('send', {'eventName': 'PAGE_VIEW', entityType: 'HOME_PAGE', 'storeId': 2});
+        }
+    } 
     
 });
