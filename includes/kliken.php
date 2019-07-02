@@ -17,7 +17,7 @@ if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Site-Verification' ) ) {
 		           "<!--Kliken Google Site Verification Token Tag-->)%s";
 	
 	
-		$matches = [];
+		$matches = array[];
 		if ( preg_match( $pattern, $info->customHeaderHtmlCode, $matches ) ) {
 			echo $matches[1];
 		}
