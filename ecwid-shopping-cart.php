@@ -368,10 +368,13 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
+	$need_tracking = get_post()->post_status == 'publish' && get_post()->post_password == '' && !ecwid_is_demo_store();
+	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
-		'isPublicPage' => get_post()->post_status == 'publish' && get_post()->post_password == ''
+		'trackPublicPage' => $need_tracking,
+		'storeId' => get_ecwid_store_id()
 	));
 	
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {

@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
         })
     };
 
-    if ( ecwidParams.isPublicPage ) {
+    if ( ecwidParams.trackPublicPage ) {
         if ( typeof Ecwid != 'undefined' ) {
             Ecwid.OnAPILoaded.add(function () {
 
@@ -70,7 +70,6 @@ jQuery(document).ready(function() {
 
                     if (!noTracking) {
                         tracker('send', {'eventName': 'PAGE_VIEW', entityType: 'PAGE', 'storeId': Ecwid.getOwnerId()});
-                        console.log('tracked');
                     }
                 }
             });
@@ -85,15 +84,15 @@ jQuery(document).ready(function() {
                 analyticsScript.src = analyticsJsUrl;
 
                 var firstScript = d.getElementsByTagName('script')[0];
-                var maxAttempts = 50
+                var maxAttempts = 50;
                 var interval = setInterval(function() {
                     if (/loaded|complete/.test(d.readyState) || (0 === maxAttempts--)) {
                         firstScript.parentNode.insertBefore(analyticsScript, firstScript);
                         clearInterval(interval)
                     }
                 }, 100);
-            })(window, document, 'https://ecomm.events/i.js', "eca"); //eca это имя трэкера
-            eca('send', {'eventName': 'PAGE_VIEW', entityType: 'HOME_PAGE', 'storeId': 2});
+            })(window, document, 'https://ecomm.events/i.js', "eca");
+            eca('send', {'eventName': 'PAGE_VIEW', entityType: 'PAGE', 'storeId': ecwidParams.storeId});
         }
     } 
     
