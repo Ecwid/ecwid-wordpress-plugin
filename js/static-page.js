@@ -99,6 +99,8 @@
 
             function setupAfterEcwidLoaded() {
 
+                // если магазин не закрыт для клиента, то в storeClosed не будет true
+                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
                 Ecwid.OnAPILoaded.add(function () {
                     var storeClosed = window.ecwid_initial_data.data.storeClosed;
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
@@ -120,7 +122,8 @@
                     if (openedPage.type === "CART"
                         || openedPage.type === "ORDERS"
                         || openedPage.type === "FAVORITES"
-                        || openedPage.type === "SIGN_IN") {
+                        || openedPage.type === "SIGN_IN"
+                        || openedPage.type === "RESET_PASSWORD") {
                         // static links from bottom of the page should be processed before page load event finishes,
                         // so self pre-opening scroll didn't make the page jump
                         switchToDynamicMode();
@@ -172,7 +175,10 @@
 
     function addStaticPageHandlers() {
         function addClickHandlers(selector, elementProcessor) {
-            document.querySelectorAll(selector).forEach(elementProcessor);
+            var elements = document.querySelectorAll(selector);
+            for (var i = 0; i < elements.length; i++) {
+                elementProcessor(elements[i]);
+            }
         }
 
         addClickHandlers('#' + staticId + ' .ec-breadcrumbs a', function (element) {
@@ -346,7 +352,9 @@
             showStorefront();
             hideStaticHtml();
             var staticEl = find('#' + staticId);
-            staticEl.remove();
+            if (staticEl && staticEl.parentNode) {
+                staticEl.parentNode.removeChild(staticEl);
+            }
             var switchToDynamicCallback = window.ec.storefront.staticPages.switchToDynamicCallback;
             if (!autoSwitchStaticToDynamicWhenReady && switchToDynamicCallback) {
                 switchToDynamicCallback();
