@@ -102,6 +102,10 @@ class Ecwid_Static_Page {
 			$params['base_url'] = get_permalink();
 		}
 
+		if ( array_key_exists( 'offset', $_GET ) ) {
+			$params['offset'] = intval( $_GET['offset'] );
+		}
+
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
@@ -265,10 +269,6 @@ class Ecwid_Static_Page {
 
 		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) {
 			return true;
-		}
-
-		if ( array_key_exists( 'offset', $_GET ) ) {
-			return false;
 		}
 
 		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
