@@ -120,6 +120,10 @@ jQuery(document).ready(function() {
 	if (document.location.hash == 'mobile') {
 		ecwidOpenAdminPage('mobile');
 	}
+
+	jQuery(document).on( 'mouseout', '#ecwid-frame', function(){
+		ecwidCheckApiCache();
+	});
 	
 });
 
