@@ -106,7 +106,7 @@ class Ecwid_Static_Page {
 			$params['offset'] = intval( $_GET['offset'] );
 		}
 
-		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		$accept_language = apply_filters( 'ecwid_lang', @$_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
 		foreach ( $pb_attribures as $attribute ) {
