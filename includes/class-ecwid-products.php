@@ -37,7 +37,6 @@ class Ecwid_Products {
 		add_filter( 'post_thumbnail_html', array( $this, 'thumbnail' ) );
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_ajax_nopriv_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
 		add_action( 'ecwid_on_plugin_update', array( $this, 'on_plugin_update' ) );
@@ -59,14 +58,7 @@ class Ecwid_Products {
 	public function enqueue_admin() {
 		EcwidPlatform::enqueue_style( 'sync.css' );
 	}
-	
-	public function enqueue_frontend() {
-		wp_enqueue_script('ecwid-product-page', ECWID_PLUGIN_URL . 'js/product.js', array('jquery'), get_option('ecwid_plugin_version'));
-		wp_localize_script('ecwid-product-page', 'ecwidProduct', array(
-			'ajaxurl' => admin_url('admin-ajax.php')
-		));
-	}
-	
+
 	public function replace_product_page_url_on_search( $url, $post, $leavename = false ) {
 		if ( $post->post_type == self::POST_TYPE_PRODUCT ) {
 			$new_url = $this->_get_post_link( $post->ID );
