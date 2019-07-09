@@ -298,16 +298,15 @@ class EcwidPlatform {
 	{
 		$result = null;
 
-		$args =array();
+		$args = array();
 
-		if (!empty($params)) {
+		if ( !empty( $params ) ) {
 			$args = $params;
 		}
 
 		$args['body'] = $data;
 
-		if (get_option('ecwid_http_use_stream', false) !== true) {
-
+		if ( get_option('ecwid_http_use_stream', false) !== true) {
 			$result = wp_remote_post( $url, $args );
 		}
 
