@@ -102,6 +102,10 @@ class Ecwid_Static_Page {
 			$params['base_url'] = get_permalink();
 		}
 
+		if ( array_key_exists( 'offset', $_GET ) ) {
+			$params['offset'] = intval( $_GET['offset'] );
+		}
+
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
@@ -146,7 +150,7 @@ class Ecwid_Static_Page {
 
 		$url = substr( $url, 0, -1 );
 
-		$cache_key = self::_build_cache_name( $url );
+		$cache_key = $url;
 		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
 		if ( $cached_data ) {
@@ -169,7 +173,13 @@ class Ecwid_Static_Page {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
 
-			EcwidPlatform::invalidate_catalog_cache_from( substr($fetched_data->lastUpdated, 0, -3) );
+			if( isset( $fetched_data->lastUpdated ) ) {
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
+			} else {
+				$last_update = time();
+			}
+
+			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
 
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
@@ -177,16 +187,6 @@ class Ecwid_Static_Page {
 		}
 
 		return null;
-	}
-
-	protected static function _build_cache_name( $key ) {
-		$cache_suffix = max( 
-			EcwidPlatform::get( EcwidPlatform::CATEGORIES_CACHE_VALID_FROM ), 
-			EcwidPlatform::get( EcwidPlatform::PRODUCTS_CACHE_VALID_FROM ),
-			EcwidPlatform::get( EcwidPlatform::PROFILE_CACHE_VALID_FROM )
-		);
-
-		return $key . $cache_suffix;
 	}
 
 	public static function _get_data_field( $field ) {
@@ -275,10 +275,6 @@ class Ecwid_Static_Page {
 
 		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) {
 			return true;
-		}
-
-		if ( array_key_exists( 'offset', $_GET ) ) {
-			return false;
 		}
 
 		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
