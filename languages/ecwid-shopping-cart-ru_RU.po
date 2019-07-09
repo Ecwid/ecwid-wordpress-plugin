@@ -1690,8 +1690,11 @@ msgstr "Тема моего сайта: %s"
 msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Settings → What’s New</a>)."
 msgstr "Чтобы обновить дизайн страницы товара и управлять настройками вида в редакторе, включите опцию “Обновленный внешний вид страницы товара” в панели управления магазина (<a href=\"admin.php?page=ec-store-admin-whatsnew\">Настройки → Обновления</a>)"
 
-msgid "To use this functionality, please enable the "Next-gen look and feel of the product list on the storefront" option in your store dashboard ("<a%s>Settings → What's New</a>")."
-msgstr "Чтобы использовать этот функционал, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина ("<a%s>Настройки → Обновления</a>")"
+msgid "To use this functionality, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (<a%s>Settings → What's New</a>)."
+msgstr "Чтобы использовать этот функционал, включите опцию “Обновленный внешний вид каталога товаров на витрине” в панели управления магазина (<a%s>Настройки → Обновления</a>)"
+
+msgid "%s Store Page"
+msgstr "Страница %s-магазина"
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme

@@ -25,6 +25,7 @@ class Ecwid_Products {
         $this->_status->load();
 
 		add_action( 'ecwid_update_store_id', array( $this, 'reset_dates' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin' ) );
 
 		if ( ! self::is_enabled() ) {
 			return;
@@ -37,7 +38,6 @@ class Ecwid_Products {
 		add_action( 'wp_ajax_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_ajax_nopriv_ecwid_get_post_link', array($this, 'ajax_get_post_link' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin' ) );
 		add_filter( 'post_type_link', array( $this, 'replace_product_page_url_on_search' ), 10, 3 );
 		add_action( 'template_redirect', array( $this, 'redirect_to_store_page' ) );
 		add_action( 'ecwid_on_plugin_update', array( $this, 'on_plugin_update' ) );

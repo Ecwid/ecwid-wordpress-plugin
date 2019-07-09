@@ -102,6 +102,10 @@ class Ecwid_Static_Page {
 			$params['base_url'] = get_permalink();
 		}
 
+		if ( array_key_exists( 'offset', $_GET ) ) {
+			$params['offset'] = intval( $_GET['offset'] );
+		}
+
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
@@ -169,7 +173,13 @@ class Ecwid_Static_Page {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
 
-			EcwidPlatform::invalidate_catalog_cache_from( substr($fetched_data->lastUpdated, 0, -3) );
+			if( isset( $fetched_data->lastUpdated ) ) {
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
+			} else {
+				$last_update = time();
+			}
+
+			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
 
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
@@ -178,7 +188,6 @@ class Ecwid_Static_Page {
 
 		return null;
 	}
-
 
 	public static function _get_data_field( $field ) {
 		$data = self::get_data_for_current_page();

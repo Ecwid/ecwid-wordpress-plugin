@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.8.1
+Version: 6.8.4
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -117,6 +117,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
+require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
@@ -192,8 +193,12 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 	);
 
+	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
+	$old_php = version_compare( phpversion(), '5.4', '<' );
 
-	if (version_compare( phpversion(), '5.4', '>=' ) ) {
+	// that integration did not work well with older php
+	// and it is not needed for newer wordpress since blocks are a part of its core
+	if ( !$old_php && $old_wordpress ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
@@ -368,9 +373,13 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
+	$need_tracking = get_post()->post_status == 'publish' && get_post()->post_password == '' && !ecwid_is_demo_store();
+	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
-		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu()
+		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
+		'trackPublicPage' => $need_tracking,
+		'storeId' => get_ecwid_store_id()
 	));
 	
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
@@ -438,7 +447,7 @@ function ecwid_enqueue_frontend() {
 
 function ecwid_print_inline_js_config() {
 	
-	echo '<script type="text/javascript">';
+	echo '<script data-cfasync="false" type="text/javascript">';
 	
 	$js = <<<HTML
 window.ec = window.ec || Object();
@@ -1353,28 +1362,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	$store_id = get_ecwid_store_id();
 	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
-	if ( Ecwid_Products::is_enabled() ) {
-		$params .= '&data_sync_products=1';
-	}
-	
-	if (is_active_widget(false, false, 'ecwidrandomproduct')) {
-		$params .= '&data_rpw=1';
-	}
-	
-	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_TLS ) {
-		$params .= '&data_api_disabled_tls=1';
-	}
-
-
-	if ( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER ) {
-		$params .= '&data_api_disabled=1';
-	}
-	if (version_compare( phpversion(), '5.6', '>=' ) ) {
-		require_once ECWID_PLUGIN_DIR . '/includes/importer/importer.php';
-		if ( class_exists( 'Ecwid_Importer' ) && get_option( Ecwid_Importer::OPTION_WOO_CATALOG_IMPORTED ) ) {
-			$params .= '&data_imported=1';
-		}
-	}
 		
 	if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 		$params .= '&data_static_home=1';
@@ -1595,7 +1582,7 @@ function ecwid_store_activate() {
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
 	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id=""]
+	[$shortcode widgets="productbrowser" default_category_id="0"]
 EOT;
 	
 	$content = <<<EOT
@@ -1903,7 +1890,7 @@ function ecwid_get_update_params_options() {
 				'',
 				'Y'
 			)
-		)
+		),
 	);
 
 	return $options;
@@ -1938,7 +1925,11 @@ function ecwid_update_plugin_params()
 	$options4update = array();
 	
 	foreach ( $options as $key => $option ) {
-		$options4update[$key] = @$_POST['option'][$key];
+		if ( $option['type'] == 'html' ) {
+			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
+		} else {
+			$options4update[$key] = @$_POST['option'][$key];
+		}
 	}
 	
 	foreach ($options4update as $name => $value) {
@@ -2226,53 +2217,6 @@ function ecwid_create_store() {
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 	}
 }
-
-function ecwid_general_settings_do_page() {
-	
-	return;
-	$store_id = get_option( 'ecwid_store_id' );
-
-	$connection_error = isset( $_GET['connection_error'] );
-
-	if ( ecwid_is_demo_store() && !Ecwid_Config::overrides_token() ) {
-		$no_oauth = @$_GET['oauth'] == 'no';
-
-		$there_was_oauth_error = isset( $connection_error ) && $no_oauth;
-
-		$no_reg_wl = Ecwid_Config::is_no_reg_wl();
-
-		global $current_user;
-		$api = new Ecwid_Api_V3();
-
-		if ( $there_was_oauth_error || $no_reg_wl || $api->does_store_exist( $current_user->user_email ) ) {
-			require_once ECWID_PLUGIN_DIR . 'templates/connect.php';
-		} else {
-			$register = ! $connection_error && ! isset( $_GET['connect'] );
-			
-			require_once( ECWID_PLUGIN_DIR . '/templates/landing.php' );
-		}
-	} else {
-		global $ecwid_oauth;
-
-		
-		if ( Ecwid_Admin::disable_dashboard() ) {
-			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
-		} else if ( !$ecwid_oauth->has_scope( 'allow_sso' ) && !isset($_GET['reconnect']) ) {
-			if ( ecwid_test_oauth(true) ) {
-				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-			} else {
-				require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
-			}
-		} else {
-			if ($connection_error || isset($_GET['reconnect'])) {
-				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-			} else {
-				ecwid_admin_do_page( 'dashboard' );
-			}
-		}
-	}
-}
-
 
 add_action('admin_post_ecwid-do-sso', 'ecwid_do_sso_redirect');
 function ecwid_do_sso_redirect() {
@@ -3066,7 +3010,7 @@ function ecwid_should_display_escaped_fragment_catalog()
 
 function ecwid_get_default_pb_size() {
 	return array(
-		'grid_rows' =>    10,
+		'grid_rows' =>    20,
 		'grid_columns' => 3,
 		'list_rows' =>    60,
 		'table_rows' =>   60

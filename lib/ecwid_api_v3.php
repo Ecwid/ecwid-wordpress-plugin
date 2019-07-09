@@ -39,15 +39,23 @@ class Ecwid_Api_V3
 	
 	protected static $profile = null;
 	
+	protected $_api_url;
+	protected $_stores_api_url;
+	protected $_categories_api_url;
+	protected $_products_api_url;
+	protected $_profile_api_url;
+	protected $_starter_site_api_url;
+
 	public function __construct() {
 
 		$this->store_id = EcwidPlatform::get_store_id();
 		$this->_api_url = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
 		$this->_stores_api_url = $this->_api_url . 'stores';
-
+		
 		$this->_categories_api_url = $this->_api_url . $this->store_id . '/categories';
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 		$this->_profile_api_url = $this->_api_url . $this->store_id . '/profile';
+		$this->_starter_site_api_url = $this->_api_url . $this->store_id . '/startersite';
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -552,8 +560,7 @@ class Ecwid_Api_V3
 
 		return $profile;
 	}
-
-
+	
 	public function update_store_profile( $params ) {
 		$request_params =  array(
 			'token'
@@ -881,6 +888,25 @@ class Ecwid_Api_V3
 		$result = $this->_do_post( $url, $params['data'], true );
 
 		return $result;
+	}
+	
+	public function get_starter_site_info() {
+		$request_params =  array(
+			'token'
+		);
+		
+		$url = $this->build_request_url( $this->_starter_site_api_url, $request_params );
+	
+		$result = EcwidPlatform::fetch_url( $url );
+		
+		if ( !isset( $result['data'] ) ) {
+			return null;
+		}
+
+		$data = json_decode( $result['data'] );
+
+		return $data;
+	
 	}
 	
 	protected function _do_post( $url, $data, $raw = false ) {

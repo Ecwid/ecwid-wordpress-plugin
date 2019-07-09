@@ -446,6 +446,15 @@ class Ecwid_Store_Page {
 		
 		return $title;
 	}
+	
+	static public function display_post_states( $states, $post ) 
+	{
+		if ( in_array( $post->ID, self::get_store_pages_array() ) ) {
+			$states[] = sprintf( __( '%s Store Page', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );	
+		}
+		
+		return $states;
+	}
 
 
 	static public function set_store_url()
@@ -495,6 +504,7 @@ add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
 add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
 add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_flush_rewrites' ) );
+add_action( 'display_post_states', array( 'Ecwid_Store_Page', 'display_post_states'), 10, 2 );
 
 add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
 add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
