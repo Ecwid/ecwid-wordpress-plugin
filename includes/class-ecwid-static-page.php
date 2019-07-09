@@ -169,7 +169,13 @@ class Ecwid_Static_Page {
 			
 			$fetched_data = @json_decode( $fetched_data['data'] );
 
-			EcwidPlatform::invalidate_catalog_cache_from( substr($fetched_data->lastUpdated, 0, -3) );
+			if( isset( $fetched_data->lastUpdated ) ) {
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
+			} else {
+				$last_update = time();
+			}
+
+			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
 
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
 			
