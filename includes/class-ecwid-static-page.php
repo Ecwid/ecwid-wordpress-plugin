@@ -146,7 +146,7 @@ class Ecwid_Static_Page {
 
 		$url = substr( $url, 0, -1 );
 
-		$cache_key = self::_build_cache_name( $url );
+		$cache_key = $url;
 		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
 		if ( $cached_data ) {
@@ -177,16 +177,6 @@ class Ecwid_Static_Page {
 		}
 
 		return null;
-	}
-
-	protected static function _build_cache_name( $key ) {
-		$cache_suffix = max( 
-			EcwidPlatform::get( EcwidPlatform::CATEGORIES_CACHE_VALID_FROM ), 
-			EcwidPlatform::get( EcwidPlatform::PRODUCTS_CACHE_VALID_FROM ),
-			EcwidPlatform::get( EcwidPlatform::PROFILE_CACHE_VALID_FROM )
-		);
-
-		return $key . $cache_suffix;
 	}
 
 	public static function _get_data_field( $field ) {
