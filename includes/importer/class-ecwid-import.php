@@ -55,7 +55,7 @@ class Ecwid_Import
 		$ecwid_categories = $api->get_categories(array('limit' => 1));
 		$result['ecwid_total_categories'] = $ecwid_categories->total;
 
-		$result['allow_delete_demo'] = count( Ecwid_Importer::get_ecwid_demo_products() > 0 );
+		$result['allow_delete_demo'] = count( Ecwid_Importer::get_ecwid_demo_products() ) > 0;
 		
 		$count = wp_count_posts( 'product' );
 
