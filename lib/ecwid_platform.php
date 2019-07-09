@@ -250,11 +250,12 @@ class EcwidPlatform {
 		if (get_option('ecwid_http_use_stream', false)) {
 			self::$http_use_streams = true;
 		}
+
 		$result = wp_remote_get( $url, array_merge(
-				$options,
 				array(
 					'timeout' => get_option( 'ecwid_remote_get_timeout', $default_timeout )
-				)
+				),
+				$options
 			)
 		);
 
