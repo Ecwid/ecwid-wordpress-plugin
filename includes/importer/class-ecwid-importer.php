@@ -58,7 +58,7 @@ class Ecwid_Importer
 			$current_task = $this->_get_current_task();
 
 			$task_data = $this->_tasks[$current_task];
-			
+
 			if ( !isset( $status['plan_limit'] )
 	             || !is_array( $status['plan_limit'] ) 
 	             || !array_key_exists( $task_data['type'], $status['plan_limit'] ) 
@@ -81,11 +81,17 @@ class Ecwid_Importer
 					if ( is_wp_error( $error_data ) ) {
 						$message = var_export( $result['data']->get_error_message(), true );
 					} elseif ( is_array( $error_data ) ) {
+
 						$message = @$error_data['response']['code'];
-						if ( $error_data['http_message'] ) {
+
+						if ( $error_data['response']['message'] ) {
+							$message .= ' ' . $error_data['response']['message'];
+						}
+
+						if ( @$error_data['http_message'] ) {
 							$message .= ' ' . $error_data['http_message'];
 						}
-						
+
 						if ( @$error_data['api_message'] ) {
 							$message .= ':' . $error_data['api_message'];
 						}
@@ -93,6 +99,7 @@ class Ecwid_Importer
 						if ( @$error_data['api_code'] ) {
 							$message .= '(' . $error_data['api_code'] . ')';
 						}
+
 					} elseif ( @$error_data == 'skipped' ) {
 						$message = $result['message'];
 					}
