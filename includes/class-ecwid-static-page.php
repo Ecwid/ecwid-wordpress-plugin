@@ -106,6 +106,10 @@ class Ecwid_Static_Page {
 			$params['offset'] = intval( $_GET['offset'] );
 		}
 
+		if( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+			$params['default_category_id'] = $store_page_params['default_category_id'];
+		}
+
 		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 		$params['lang'] = $accept_language;
 
@@ -140,7 +144,6 @@ class Ecwid_Static_Page {
 				$params['international_pages[' . $lang . ']'] = $link;
 			}
 		}
-
 
 		$url = self::_get_endpoint_url( $endpoint_params );
 
@@ -263,13 +266,13 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page() {
 		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-		$is_home_page = empty( $html_catalog_params );
-		if( !$is_home_page ) {
+		$is_valid_page = empty( $html_catalog_params ) || isset( $html_catalog_params['mode'] );
+		if( !$is_valid_page ) {
 			return false;
 		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
-		if ( @$store_page_params['default_category_id'] || @$store_page_params['default_product_id'] ) {
+		if ( @$store_page_params['default_product_id'] ) {
 			return false;
 		}
 
