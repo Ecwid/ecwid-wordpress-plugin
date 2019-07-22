@@ -106,7 +106,7 @@ class Ecwid_Static_Page {
 			$params['offset'] = intval( $_GET['offset'] );
 		}
 
-		if( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+		if( !array_key_exists( 'category', $_GET) && isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
@@ -266,7 +266,7 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page() {
 		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-		$is_valid_page = empty( $html_catalog_params ) || isset( $html_catalog_params['mode'] );
+		$is_valid_page = empty( $html_catalog_params );
 		if( !$is_valid_page ) {
 			return false;
 		}
