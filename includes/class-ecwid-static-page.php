@@ -266,8 +266,8 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page() {
 		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-		$is_valid_page = empty( $html_catalog_params );
-		if( !$is_valid_page ) {
+		$is_home_page = empty( $html_catalog_params );
+		if( !$is_home_page ) {
 			return false;
 		}
 
