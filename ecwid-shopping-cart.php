@@ -1328,13 +1328,9 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 
 function ecwid_get_scriptjs_code( $force_lang = null ) {
 	static $code = '';
-	
-	if( is_null( $force_lang ) ) {
-		$force_lang = apply_filters( 'ecwid_lang', $force_lang );
-	}
 
 	$store_id = get_ecwid_store_id();
-	$params = ecwid_get_scriptjs_params( $force_lang );
+	$params = ecwid_get_scriptjs_params();
 
 	$code =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
 	$code .= ecwid_sso();
@@ -1358,6 +1354,10 @@ function ecwid_get_default_language( $lang ) {
 
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {
+
+	if( is_null( $force_lang ) ) {
+		$force_lang = apply_filters( 'ecwid_lang', $force_lang );
+	}
 
 	$store_id = get_ecwid_store_id();
 	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
