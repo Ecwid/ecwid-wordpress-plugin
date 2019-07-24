@@ -9,7 +9,7 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 	public function execute( Ecwid_Importer $exporter, array $product_data ) {
 		
 		$this->_woo_product_id = $product_data['woo_id'];
-		
+
 		$product = wc_get_product( $this->_woo_product_id );
 
 		$data = array(
@@ -59,7 +59,13 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 		$api = new Ecwid_Api_V3();
 
 		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
-			$products = $api->get_products( array( 'sku' => $data['sku'] ) );
+			
+			if( isset( $data['sku'] ) ) {
+				$filter = array( 'sku' => $data['sku'] );
+			} else {
+				$filter = array( 'id' => $this->_woo_product_id );
+			}
+			$products = $api->get_products( $filter );
 
 			if ( $products->total > 0 ) {
 				$ecwid_id = $products->items[0]->id;
