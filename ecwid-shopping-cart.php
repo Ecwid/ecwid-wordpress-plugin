@@ -373,7 +373,7 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
-	$need_tracking = get_post()->post_status == 'publish' && get_post()->post_password == '' && !ecwid_is_demo_store();
+	$need_tracking = !empty(get_post()) && get_post()->post_status == 'publish' && get_post()->post_password == '' && !ecwid_is_demo_store();
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
