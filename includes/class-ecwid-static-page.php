@@ -110,7 +110,8 @@ class Ecwid_Static_Page {
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
-		$accept_language = apply_filters( 'ecwid_lang', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		$accept_language = apply_filters( 'ecwid_lang', @$_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+
 		$params['lang'] = $accept_language;
 
 		foreach ( $pb_attribures as $attribute ) {
@@ -296,7 +297,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( 0 && get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
+		if ( get_option( self::OPTION_IS_ENABLED ) == '' && get_ecwid_store_id() % 5 == 0 ) {
 			return true;
 		}
 		
