@@ -293,7 +293,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( 0 && get_ecwid_store_id() > 15182050 && get_ecwid_store_id() % 2 == 0 ) {
+		if ( get_option( self::OPTION_IS_ENABLED ) == '' && get_ecwid_store_id() % 5 == 0 ) {
 			return true;
 		}
 		
