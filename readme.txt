@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.8.3
+Stable tag: 6.8.4
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.4 - Jul 9, 2019 =
+- **Several fixes and improvements for the recently released “Store page speedup” feature.** In particular, the changes improve the caching mechanism to avoid high database usage and fix layout issues in Internet Exporer browser. If you haven’t tried the store speedup tool yet, please feel free to do so on the Ecwid/Advanced setting page in your WordPress admin backend.
+- **Fixed a warning on the sites with old PHP versions**. If your ecommerce site is running on an outdated PHP version, this update might fix a warning message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
+
 = 6.8.3 - Jul 1, 2019 =
 - **Fixed scroll issues.** Ecwid adjusts the browser scroll when someone navigates to product and category pages in your shop. This is to make sure a visitor will see the product pages aligned well on the page. This didn't work well on some sites — we fixed that. 
 - A few bug fixes in the Ecwid ecommerce blocks in Gutenberg.

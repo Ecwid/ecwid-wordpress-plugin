@@ -192,7 +192,7 @@
                         name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
                         type="checkbox"
 
-                        <?php if ( get_option( Ecwid_Static_Page::OPTION_IS_ENABLED ) == Ecwid_Static_Page::OPTION_VALUE_ENABLED ): ?>
+                        <?php if ( in_array( get_option( Ecwid_Static_Page::OPTION_IS_ENABLED ), array('', Ecwid_Static_Page::OPTION_VALUE_ENABLED) ) ): ?>
                             checked="checked"
                         <?php endif; ?>
 
