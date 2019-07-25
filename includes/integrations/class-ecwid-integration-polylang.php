@@ -12,7 +12,9 @@ class Ecwid_Integration_Polylang
 	}
 
 	public function force_scriptjs_lang( $lang ) {
-		$lang = pll_current_language();
+		if( function_exists('pll_current_language') ) {
+			$lang = pll_current_language();
+		}
 		return $lang;
 	}
 

@@ -270,6 +270,8 @@ class Ecwid_Api_V3
 
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['cleanUrls'] = 'true';
+		} else {
+			$params['cleanUrls'] = 'false';
 		}
 
 		$url = $this->build_request_url(

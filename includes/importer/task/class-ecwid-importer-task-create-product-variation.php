@@ -46,7 +46,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task_P
 
 			$variation_data['price'] = $var['display_price'];
 			if ($var['weight']) {
-				$variation_data['weight'] = $var['weight'];
+				$variation_data['weight'] = (float)$var['weight'];
 			}
 			if ($var['max_qty']) {
 				$variation_data['quantity'] = $var['max_qty'];
