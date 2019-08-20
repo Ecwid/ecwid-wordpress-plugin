@@ -278,7 +278,7 @@ HTML
 						<<<HTML
 <b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that as your server blocks those requests for some reason.
 <br /><br />
-<b>How to fix:</b> This is likely caused by your server misconfiguration and can be fixed by your hosting provider. In particular, the CURL module can be disabled in your PHP config or a firewall might block requests to our servers. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
+<b>How to fix:</b> Reload this page after a few minutes, if this message does not disappear, then the problem is likely caused by your server misconfiguration and can be fixed by your hosting provider. In particular, the CURL module can be disabled in your PHP config or a firewall might block requests to our servers. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
 HTML
 					, 'ecwid-shopping-cart' ),
 					Ecwid_Config::get_brand(),
