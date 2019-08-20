@@ -971,7 +971,12 @@ function ecwid_admin_check_api_cache()
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
 
-	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
+	if( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_OK )
+		$check_time_period = 5 * MINUTE_IN_SECONDS;
+	else
+		$check_time_period = MINUTE_IN_SECONDS;
+
+	if ( time() - $last_cache > $check_time_period ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
 
