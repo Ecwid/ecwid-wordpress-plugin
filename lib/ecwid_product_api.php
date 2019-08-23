@@ -1,7 +1,8 @@
 <?php
 /*
-* This file is deprecated. It cannot be directly connected in your plugins. To work with the Ecwid store, use the official API: https://developers.ecwid.com/api-documentation
-* With the help of Ecwid API, you can create an application that will extend Ecwid functionality in various ways.
+* This API is deprecated. Please use the official Ecwid API to extend your plugin functionality:
+* https://developers.ecwid.com/api-documentation
+* If you have any feedback on the Ecwid WordPress plugin or the Ecwid API, please contact us at plugins-feedback@ecwid.com
 */
 
 _deprecated_file( basename( __FILE__ ), '6.8.1', 'the official API (https://developers.ecwid.com/api-documentation)' );
