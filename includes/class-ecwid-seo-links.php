@@ -210,6 +210,11 @@ class Ecwid_Seo_Links {
 
 		$url = esc_js( get_permalink( $page_id ) );
 
+
+		if( parse_url($url, PHP_URL_SCHEME) == 'https' && parse_url($url, PHP_URL_PORT) == '443' ) {
+			$url = str_replace( ':443', '', $url );
+		}
+
 		$result = <<<JS
 			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 			window.ec.config.storefrontUrls.cleanUrls = true;
