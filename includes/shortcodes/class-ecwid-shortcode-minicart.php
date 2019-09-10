@@ -57,7 +57,8 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 			return $default_render;
 		}
 
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
+		$has_minicart = (strpos($default_render, 'xMinicart') !== false);
+		if ( $has_minicart && Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$default_render .= '<style>#static-ec-store { padding-top: 40px; }</style>';
 		}
 
