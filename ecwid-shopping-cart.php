@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.8.4
+Version: 6.8.5
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -373,7 +373,8 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
-	$need_tracking = !empty(get_post()) && get_post()->post_status == 'publish' && get_post()->post_password == '' && !ecwid_is_demo_store();
+	$current_post = get_post();
+	$need_tracking = !empty( $current_post ) && $current_post->post_status == 'publish' && $current_post->post_password == '' && !ecwid_is_demo_store();
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
@@ -970,7 +971,12 @@ function ecwid_admin_check_api_cache()
 
 	$last_cache = get_option( 'ecwid_last_api_cache_check' );
 
-	if ( time() - $last_cache > MINUTE_IN_SECONDS * 5 ) {
+	if( Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_OK )
+		$check_time_period = 5 * MINUTE_IN_SECONDS;
+	else
+		$check_time_period = MINUTE_IN_SECONDS;
+
+	if ( time() - $last_cache > $check_time_period ) {
 		Ecwid_Api_V3::reset_api_status();
 	}
 

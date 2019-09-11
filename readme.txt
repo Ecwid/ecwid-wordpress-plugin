@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.8.4
+Stable tag: 6.8.5
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,12 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.5 - Jul 25, 2019 =
+- **Improvements for the "Store page speedup" feature.** If you haven’t tried the store speedup tool yet, please feel free to do so on the Ecwid/Advanced setting page in your WordPress admin backend.
+- **Several fixes and improvements for the "Import from WooCommerce" tool.**
+- **Fixed a "Call to undefined function pll_current_language()" error message** to improve compatibility with the Polylang plugin.
+- Minor fixes and improvements.
+
 = 6.8.4 - Jul 9, 2019 =
 - **Several fixes and improvements for the recently released “Store page speedup” feature.** In particular, the changes improve the caching mechanism to avoid high database usage and fix layout issues in Internet Exporer browser. If you haven’t tried the store speedup tool yet, please feel free to do so on the Ecwid/Advanced setting page in your WordPress admin backend.
 - **Fixed a warning on the sites with old PHP versions**. If your ecommerce site is running on an outdated PHP version, this update might fix a warning message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
