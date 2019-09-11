@@ -12,6 +12,7 @@ include_once "widgets/class-ecwid-widget-vertical-categories-list.php";
 include_once "widgets/class-ecwid-widget-random-product.php";
 
 include_once "widgets/class-ecwid-widget-nsf-minicart.php";
+include_once "widgets/class-ecwid-widget-product-browser.php";
 
 
 if (ecwid_migrations_is_original_plugin_version_older_than('4.3')) {
