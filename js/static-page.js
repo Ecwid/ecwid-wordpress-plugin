@@ -8,6 +8,7 @@
     var autoSwitchStaticToDynamicWhenReadyDefault = false;
     var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;";
     var mainCategoryId = 0;
+    var initialCategoryOffset = 0;
 
     function find(selector) {
         return document.querySelector(selector);
@@ -78,6 +79,10 @@
                 autoSwitchStaticToDynamicWhenReady = autoSwitchStaticToDynamicWhenReadyDefault;
             }
 
+            if (ec.storefront.staticPages.initialCategoryOffset) {
+                initialCategoryOffset = ec.storefront.staticPages.initialCategoryOffset;
+            }
+
             hideStorefront();
             showStaticHtml();
 
@@ -99,8 +104,8 @@
 
             function setupAfterEcwidLoaded() {
 
-                // если магазин не закрыт для клиента, то в storeClosed не будет true
-                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
+                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°, Ñ‚Ð¾ Ð² storeClosed Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ true
+                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð° Ð¸ Ð¼Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ð»Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ÑƒÑŽ Ð¿Ð»Ð°ÑˆÐºÑƒ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ð¼ ÑÑ‚Ð¾ Ð² Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐµ
                 Ecwid.OnAPILoaded.add(function () {
                     var storeClosed = window.ecwid_initial_data.data.storeClosed;
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
@@ -137,14 +142,14 @@
                     }
 
                     if (autoSwitchStaticToDynamicWhenReady) {
-                        switchToDynamicMode();
+                        switchToDynamicWhenReadyWithRetries(10);
                         return;
                     }
 
                     if (!ecwidPageOpened
                         && openedPage.type === "CATEGORY"
                         && openedPage.categoryId === mainCategoryId
-                        && openedPage.offset === 0) {
+                        && openedPage.offset === initialCategoryOffset) {
 
                         // we don't need to dispatch root category loading,
                         // since our static contents covers it for the first time
@@ -154,6 +159,44 @@
                     // because static view contains only root category page
                     switchToDynamicMode();
                 });
+            }
+
+            function switchToDynamicWhenReadyWithRetries(retry) {
+                if (retry <= 0) {
+                    switchToDynamicMode();
+                    return;
+                }
+
+                var allImagesLoaded = allImagesLoadedInDynamicMarkup();
+                if (!allImagesLoaded) {
+                    setTimeout(function () {
+                        switchToDynamicWhenReadyWithRetries(retry - 1);
+                    }, 100);
+                    return
+                }
+
+                switchToDynamicMode();
+            }
+
+            function allImagesLoadedInDynamicMarkup() {
+                if (!dynamicId) {
+                    return true;
+                }
+
+                try {
+                    var firstNotLoadedCategory = document.querySelector('#' + dynamicId + ' .grid-category--loading');
+                    if (firstNotLoadedCategory != null) {
+                        return false;
+                    }
+
+                    var firstNotLoadedProduct = document.querySelector('#' + dynamicId + ' .grid-product--loading');
+                    if (firstNotLoadedProduct != null) {
+                        return false;
+                    }
+                } catch (e) {
+                }
+
+                return true;
             }
 
             function ecwidLoaded() {
@@ -247,9 +290,10 @@
         });
 
         addClickHandlers('#' + staticId + ' .pager__button', function (element) {
+            var pageNumber = element.getAttribute('data-page-number') || 2;
             addStaticClickEvent(element, openEcwidPage('category', {
                 'id': mainCategoryId,
-                'page': 2
+                'page': pageNumber
             }));
         });
 
