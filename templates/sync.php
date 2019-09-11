@@ -32,6 +32,7 @@ function process_no_sse_sync(data) {
 	var processed_deletes = data.deleted + data.skipped_deleted;
 
 	if ( processed_updates + processed_deletes == 0 ) {
+		jQuery('#sync-date').text( data.last_update );
 		return do_no_sse_over();
 	}
 

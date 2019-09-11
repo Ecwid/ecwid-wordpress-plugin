@@ -106,9 +106,13 @@ HTML;
 					$attribute['is_storefront_api'] = true;
 
 					$api = new Ecwid_Api_V3();
-					$settings = $api->get_store_profile()->designSettings;
-					$value = isset( $params['show_description_under_image'] ) ? !$params['show_description_under_image'] : $settings->$name;
-					$attribute['profile_default'] = $settings->$name;
+					$settings = $api->get_store_profile();
+
+					if( $settings ){
+						$design_settings = $settings->designSettings;
+						$value = isset( $params['show_description_under_image'] ) ? !$params['show_description_under_image'] : $design_settings->$name;
+						$attribute['profile_default'] = $design_settings->$name;
+					}
 				}
 			}
 			
