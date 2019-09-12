@@ -89,6 +89,10 @@ update_option('ecwid_cache_log', $cache );
 
 $cache = get_option('ecwid_cache_log');
 
+if( !$cache ){
+	$cache = array();
+}
+
 foreach ($cache as $item) {
 	echo '<div class="cache_log">';
 	$ts = strftime( '%H:%M:%S %D', $item['timestamp'] );
