@@ -48,11 +48,16 @@
 	<div><?php echo $theme->get('ThemeURI'); ?></div>
 </div>
 
-<h2>Remote get test</h2>
-<div><?php var_export(@$remote_get_results); ?></div>
-
 <h2>Api V3 profile test</h2>
-<div><?php var_export($api_v3_profile_results); ?></div>
+<div>
+	<?php 
+		if( is_wp_error($api_v3_profile_results) ) {
+			echo 'WP_Error: ' . $api_v3_profile_results->get_error_message();
+		} else {
+			echo 'Response status: ' . implode(' ', $api_v3_profile_results['response']);
+		}
+	?>
+</div>
 
 <h2>Error log</h2>
 <div>

@@ -1931,7 +1931,7 @@ function ecwid_update_plugin_params()
 	$options4update = array();
 	
 	foreach ( $options as $key => $option ) {
-		if ( $option['type'] == 'html' ) {
+		if ( isset($option['type']) && $option['type'] == 'html' ) {
 			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
 		} else {
 			$options4update[$key] = @$_POST['option'][$key];
