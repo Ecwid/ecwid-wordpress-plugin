@@ -176,9 +176,11 @@ window.ec.config.chameleon.colors = $chameleon[colors];
 JS;
 		}
 		$result .= <<<HTML
-		Ecwid.OnAPILoaded.add(function() {
-			Ecwid.refreshConfig();
-		});
+		if ( typeof Ecwid != 'undefined' ) {
+			Ecwid.OnAPILoaded.add(function() {
+				Ecwid.refreshConfig();
+			});
+		}
 		</script>
 HTML;
 
