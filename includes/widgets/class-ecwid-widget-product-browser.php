@@ -9,7 +9,7 @@ class Ecwid_Widget_Product_Browser extends Ecwid_Widget_Base {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_ecwid_product_browser', 'description' => __("Your store will be shown here", 'ecwid-shopping-cart') );
-		parent::__construct('ecwidproductbrowser', __('Product browser', 'ecwid-shopping-cart'), $widget_ops);
+		parent::__construct('ecwidproductbrowser', __('Online store', 'ecwid-shopping-cart'), $widget_ops);
 
 	}
 
