@@ -466,6 +466,10 @@ class Ecwid_Store_Page {
 		$api = new Ecwid_Api_V3();
 		$profile = $api->get_store_profile();
 
+		if ( empty($profile) ) {
+			return;
+		}
+
 		if ( ecwid_is_demo_store() ) {
 			return; 
 		}

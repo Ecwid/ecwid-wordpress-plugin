@@ -578,7 +578,7 @@ class Ecwid_Api_V3
 
 		$result = $this->_do_put( $url, $params );
 
-		if ( @$result['response']['code'] == '200' ) {
+		if( !is_wp_error($result) && @$result['response']['code'] == '200' ) {
 			return $result;
 		}
 		
