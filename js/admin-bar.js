@@ -21,7 +21,11 @@ jQuery(document).ready(function() {
             is_subcategory = ( page.type == 'CATEGORY' && page.categoryId > 0 ),
             new_url = url;
 
-         if( typeof text != 'undefined' ) new_text = text;
+        if( page.entryPage ) {
+            is_subcategory = false;
+        }
+
+        if( typeof text != 'undefined' ) new_text = text;
 
         if( is_product || is_subcategory ) {
             if( typeof $bar != 'undefined' ) {
