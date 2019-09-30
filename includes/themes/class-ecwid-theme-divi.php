@@ -22,6 +22,8 @@ class Ecwid_Divi extends Ecwid_Theme_Base
 		if( isset( $_REQUEST['page_id'] ) && $this->is_visual_view() ) {
 			add_action( 'wp_footer', array( $this, 'add_scriptjs_code' ) );
 		}
+
+		add_filter( 'single_post_title', array( $this, 'single_post_title' ) , 10000, 2 );
 	}
 
 	public function is_wireframe_view() {
@@ -34,6 +36,15 @@ class Ecwid_Divi extends Ecwid_Theme_Base
 
 	public function add_scriptjs_code() {
 		echo ecwid_get_scriptjs_code();
+	}
+
+	public function single_post_title( $post_title, $post ) {
+		$ecwid_title = _ecwid_get_seo_title();
+		if( !empty( $ecwid_title ) ) {
+			return $ecwid_title;
+		}
+
+		return $post_title;
 	}
 }
 
