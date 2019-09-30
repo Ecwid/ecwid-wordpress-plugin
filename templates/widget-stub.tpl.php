@@ -1,4 +1,4 @@
-<div class="ecwid-widget-stub">
+<div class="ecwid-widget-stub <?php echo $classname;?>">
 	<div class="ecwid-widget-stub-header"><svg aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" class="dashicon" width="20" height="20" viewBox="0 0 20 20"><path d="M15.32,15.58c-0.37,0-0.66,0.3-0.66,0.67c0,0.37,0.3,0.67,0.66,0.67c0.37,0,0.67-0.3,0.67-0.67
     C15.98,15.88,15.69,15.58,15.32,15.58z M15.45,0H4.55C2.04,0,0,2.04,0,4.55v10.91C0,17.97,2.04,20,4.55,20h10.91c2.51,0,4.55-2.04,4.55-4.55V4.55
     C20,2.04,17.96,0,15.45,0z M12.97,4.94C13.54,4.94,14,5.4,14,5.96s-0.46,1.03-1.03,1.03c-0.57,0-1.03-0.46-1.03-1.03

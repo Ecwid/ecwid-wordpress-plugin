@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.8.5
+Stable tag: 6.8.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.6 - Sep 11, 2019 =
+- Improvements for the "Store page speedup" feature.
+- Fixed update date synchronization of goods for the "Integrate with the site search" tool.
+- Minor fixes and improvements.
+
 = 6.8.5 - Jul 25, 2019 =
 - **Improvements for the "Store page speedup" feature.** If you haven’t tried the store speedup tool yet, please feel free to do so on the Ecwid/Advanced setting page in your WordPress admin backend.
 - **Several fixes and improvements for the "Import from WooCommerce" tool.**

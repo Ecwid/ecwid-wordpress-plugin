@@ -53,7 +53,14 @@ abstract class Ecwid_Stub_Renderer {
 		if ( is_array( $args ) ) {
 			ob_start();
 
-			$message = $widget->name;
+			if ( $widget instanceof Ecwid_Widget_Product_Browser ) {
+				$message = $widget->widget_options['description'];
+			} else {
+				$message = $widget->name;
+			}
+
+			$classname = $widget->widget_options['classname'];
+
 			require ECWID_TEMPLATES_DIR . '/widget-stub.tpl.php';
 
 			$contents = ob_get_contents();

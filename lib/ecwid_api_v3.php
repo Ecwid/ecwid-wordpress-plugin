@@ -10,6 +10,7 @@ class Ecwid_Api_V3
 	const TOKEN_OPTION_NAME = 'ecwid_oauth_token';
 	
 	const PROFILE_CACHE_NAME = 'apiv3_store_profile';
+	const UPDATE_STATS_CACHE_NAME = 'apiv3_store_latest_stats';
 	
 	const OPTION_API_STATUS = 'ecwid_api_status';
 	const API_STATUS_OK = 'ok';
@@ -64,9 +65,9 @@ class Ecwid_Api_V3
 	{
 		$status = self::get_api_status();
 		
-		if ( $status == self::API_STATUS_UNDEFINED ) {
+		// if ( $status == self::API_STATUS_UNDEFINED ) {
 			return self::check_api_status();
-		}
+		// }
 		
 		return $status == self::API_STATUS_OK;
 	}
@@ -107,11 +108,16 @@ class Ecwid_Api_V3
 			return self::set_api_status( self::API_STATUS_ERROR_TOKEN );
 		}
 		
-		$profile = $api->get_store_profile();
-		
-		if ( $profile ) {
+		$update_stats = EcwidPlatform::cache_get( self::UPDATE_STATS_CACHE_NAME );
+
+		if( !$update_stats ) {
+			$update_stats = $api->get_store_update_stats();
+			EcwidPlatform::cache_set( self::UPDATE_STATS_CACHE_NAME, $update_stats, 60 * 5 );
+		}
+
+		if ( $update_stats ) {
 			return self::set_api_status( self::API_STATUS_OK );
-		} 
+		}
 		
 		$transports = stream_get_transports();
 		
@@ -572,7 +578,7 @@ class Ecwid_Api_V3
 
 		$result = $this->_do_put( $url, $params );
 
-		if ( @$result['response']['code'] == '200' ) {
+		if( !is_wp_error($result) && @$result['response']['code'] == '200' ) {
 			return $result;
 		}
 		
