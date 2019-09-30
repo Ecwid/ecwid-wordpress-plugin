@@ -2901,8 +2901,11 @@ function ecwid_add_headers() {
 }
 
 function ecwid_sso() {
+	global $ecwid_sso_script;
 
-	if (!ecwid_is_sso_enabled()) return;
+	if ( !ecwid_is_sso_enabled() ) return;
+
+	if ( !empty($ecwid_sso_script) ) return;
 
     $current_user = wp_get_current_user();
 
@@ -2957,7 +2960,7 @@ JS;
     }
 
 
-	return <<<HTML
+	$ecwid_sso_script = <<<HTML
 <script data-cfasync="false" type="text/javascript">
 
 	var ecwid_sso_profile='$ecwid_sso_profile';
@@ -2975,6 +2978,8 @@ JS;
 );
 </script>
 HTML;
+
+	return $ecwid_sso_script;
 }
 
 // from: http://www.php.net/manual/en/function.sha1.php#39492
