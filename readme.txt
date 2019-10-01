@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.2
-Stable tag: 6.8.6
+Stable tag: 6.8.7
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,12 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.7 - Sep 30, 2019 =
+- **New "Online store" widget in the Elementor page builder.** Ecwid works fine with all popular page builders in WordPress: Gutenberg, Elementor, Divi, Beaver builder and others. We constantly improve and add the compatibility features. In this update, we added a new "Online store" widget to Elementor editor toolbox. It allows you to add storefront to your ecommerce website pages easier in Elementor.
+- Meta tags improvement for products and categories ecommerce pages created with Divi builder.
+- Fix for the "Cannot use object of type WP_Error as array" PHP warning message appearing on some sites.
+- Minor fixes and improvements.
+
 = 6.8.6 - Sep 11, 2019 =
 - Improvements for the "Store page speedup" feature.
 - Fixed update date synchronization of goods for the "Integrate with the site search" tool.

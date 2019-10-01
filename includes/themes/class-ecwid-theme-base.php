@@ -42,27 +42,27 @@ class Ecwid_Theme_Base {
 			$theme->create_scroller( $props );
 		}
 
-		if ( in_array( 'js', $props ) ) {
+		if ( in_array( 'js', $props, true ) ) {
 			$theme->add_js();
 		}
 
-		if ( in_array( 'css', $props ) ) {
+		if ( in_array( 'css', $props, true ) ) {
 			$theme->add_css();
 		}
 
-		if ( in_array( 'css-no-parent', $props ) ) {
+		if ( in_array( 'css-no-parent', $props, true ) ) {
 			$theme->add_css( '' );
 		}
 
-		if (in_array( 'historyjs_html4mode', $props ) ) {
+		if (in_array( 'historyjs_html4mode', $props, true ) ) {
 			$theme->historyjs_html4mode = true;
 		}
 
-		if (in_array( self::PROP_USE_JS_API_FOR_CATS_NAV_MENU, $props ) ) {
+		if (in_array( self::PROP_USE_JS_API_FOR_CATS_NAV_MENU, $props, true ) ) {
 			add_filter( Ecwid_Nav_Menus::FILTER_USE_JS_API_FOR_CATS_MENU, array( $theme, 'filter_use_js_api_for_cats_menu' ) );
 		}
 		
-		if ( in_array( self::PROP_AJAX_DEFER_RENDERING, $props ) ) {
+		if ( in_array( self::PROP_AJAX_DEFER_RENDERING, $props, true ) ) {
 			add_filter( Ecwid_Ajax_Defer_Renderer::FILTER_ENABLED, '__return_true' );
 		}
 
