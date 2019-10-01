@@ -78,7 +78,7 @@ class Ecwid_Products {
 			$url = $this->_get_post_link($post->ID);
 
 			if ($url) {
-				wp_redirect($url, 301);
+				wp_safe_redirect($url, 301);
 				exit();
 			}
 		}
