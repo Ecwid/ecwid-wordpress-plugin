@@ -271,6 +271,10 @@ class Ecwid_Static_Page {
 		if( !$is_home_page ) {
 			return false;
 		}
+		
+		if( Ecwid_Seo_Links::is_noindex_page() ) {
+			return false;	
+		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
 		if ( @$store_page_params['default_product_id'] ) {
