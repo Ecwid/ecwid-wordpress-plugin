@@ -157,6 +157,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.8 - Oct 31, 2019 =
+- WordPress 5.3 and Twenty Twenty theme compatibility. The new WordPress version with the 2020 theme is coming soon. The Ecwid ecommerce shopping cart plugin is ready for the upcoming changes — everything will work well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.3 as soon as it's released and try a new theme. 
+- Minor fixes and improvements.
+
 = 6.8.7 - Sep 30, 2019 =
 - **New "Online store" widget in the Elementor page builder.** Ecwid works fine with all popular page builders in WordPress: Gutenberg, Elementor, Divi, Beaver builder and others. We constantly improve and add the compatibility features. In this update, we added a new "Online store" widget to Elementor editor toolbox. It allows you to add storefront to your ecommerce website pages easier in Elementor.
 - Meta tags improvement for products and categories ecommerce pages created with Divi builder.
