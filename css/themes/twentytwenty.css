@@ -1,0 +1,4 @@
+html#ecwid_html body#ecwid_body .section-inner.thin,
+html#ecwid_html body#ecwid_body .entry-content {
+	max-width: 120rem;
+}
