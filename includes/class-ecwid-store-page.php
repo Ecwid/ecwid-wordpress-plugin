@@ -211,6 +211,10 @@ class Ecwid_Store_Page {
 			return;
 		}
 
+		if( wp_is_post_revision( $page_id ) ) {
+			return;
+		}
+
 		$pages[] = $page_id;
 
 		if ( count( $pages ) == 1 || !get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
