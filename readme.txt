@@ -2,7 +2,7 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: 6.8.7
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
@@ -62,10 +62,14 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 * [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
 * [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create a free Ecwid account)
 * [Showcase](https://ecwid.to/ecwid-wp-site)
+
 = Ecwid Site =
 
 * [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
+= International Keywords =
+
+магазин, catalogo de productos, katalog produktów, wtyczka ecommerce, plugin ecommerce, plugin de comercio electrónico, le catalogue des produits, productcatalogus, витрина, produktkatalog, каталог продукции, sklep, boutique, tienda, winkel, Geschäft
 
 
 == Installation ==
@@ -153,6 +157,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.8 - Oct 31, 2019 =
+- WordPress 5.3 and Twenty Twenty theme compatibility. The new WordPress version with the 2020 theme is coming soon. The Ecwid ecommerce shopping cart plugin is ready for the upcoming changes — everything will work well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.3 as soon as it's released and try a new theme. 
+- Minor fixes and improvements.
+
 = 6.8.7 - Sep 30, 2019 =
 - **New "Online store" widget in the Elementor page builder.** Ecwid works fine with all popular page builders in WordPress: Gutenberg, Elementor, Divi, Beaver builder and others. We constantly improve and add the compatibility features. In this update, we added a new "Online store" widget to Elementor editor toolbox. It allows you to add storefront to your ecommerce website pages easier in Elementor.
 - Meta tags improvement for products and categories ecommerce pages created with Divi builder.
