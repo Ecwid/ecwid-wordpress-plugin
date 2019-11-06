@@ -87,7 +87,7 @@
 			<?php echo $key; ?>
 		</div>
 		<div>
-			<?php echo $option; ?>
+			<?php echo htmlspecialchars($option); ?>
 		</div>
 	</div>
 <?php endif; ?>
