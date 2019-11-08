@@ -4,9 +4,10 @@ class Ecwid_Well_Know {
 
 	public function __construct()
 	{
-		add_filter('query_vars', array($this, 'query_vars'));
-		add_action('parse_request', array($this, 'delegate_request'), 1000);
-		add_action('generate_rewrite_rules', array($this, 'rewrite_rules'), 1000);
+		add_filter( 'query_vars', array($this, 'query_vars') );
+		add_action( 'parse_request', array($this, 'delegate_request'), 1000 );
+		add_action( 'generate_rewrite_rules', array($this, 'rewrite_rules'), 1000 );
+		add_action( 'permalink_structure_changed', array($this, 'save_mod_rewrite_rules'), 2, 1000 );
 	}
 
 	public function query_vars($vars) {
@@ -24,14 +25,33 @@ class Ecwid_Well_Know {
 	}
 
 	public function delegate_request($wp) {
-		if (array_key_exists('well-known', $wp->query_vars)) {
-			$id = $wp->query_vars['well-known'];
+		if( array_key_exists('well-known', $wp->query_vars) ) {
+			$id = str_replace( '/', '', $wp->query_vars['well-known'] );
 
-			do_action("well-known", $wp->query_vars);
-			do_action("well_known_{$id}", $wp->query_vars);
+			do_action( "well-known", $wp->query_vars );
+			do_action( "well_known_{$id}", $wp->query_vars );
 		}
 	}
 
+	public function save_mod_rewrite_rules( $old_permalink_structure, $permalink_structure ) {
+
+		if( !Ecwid_Seo_Links::is_feature_available() ) {
+			error_log( 'save_mod_rewrite_rules' );
+
+			$home_path     = get_home_path();
+			$htaccess_file = $home_path . '.htaccess';
+
+			$rules = array();
+			$rules[] = '<IfModule mod_rewrite.c>';
+			$rules[] = 'RewriteEngine On';
+			$rules[] = 'RewriteRule ^\.well-known/(.+)$ index.php?well-known=$1 [L]';
+			$rules[] = '</IfModule>';
+
+			// $brand = Ecwid_Config::get_brand();
+			// insert_with_markers( $htaccess_file, $brand . ' - ApplePay Verification', $rules );
+			insert_with_markers( $htaccess_file, 'WordPress', $rules );
+		}
+	}
 }
 
 $ecwid_well_know = new Ecwid_Well_Know();
