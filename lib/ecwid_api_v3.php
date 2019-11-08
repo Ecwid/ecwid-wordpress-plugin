@@ -525,7 +525,7 @@ class Ecwid_Api_V3
 		return $stats;
 	}
 
-	public function get_store_profile() {
+	public function get_store_profile( $disable_cache = false ) {
 		
 		if( ecwid_is_demo_store() ) {
 			return false;
@@ -533,7 +533,7 @@ class Ecwid_Api_V3
 
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 		
-		if ( $profile ) {
+		if ( $profile && !$disable_cache ) {
 			return $profile;
 		}
 
