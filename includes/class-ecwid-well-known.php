@@ -90,10 +90,21 @@ class Ecwid_Well_Known {
 
 			if( !empty( $body ) ) {
 				echo $body;
+			} else {
+				$this->show_404();
 			}
 
 			exit();
 		}
+	}
+
+	public function show_404() {
+		global $wp_query;
+
+		$wp_query->set_404();
+		status_header( 404 );
+		
+		exit();
 	}
 
 }
