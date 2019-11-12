@@ -5,21 +5,14 @@ class Ecwid_Well_Known {
 	public function __construct()
 	{
 		// rule for .well-known/* path
-		add_filter( 'query_vars', array($this, 'query_vars') );
-		add_action( 'parse_request', array($this, 'delegate_request'), 1000 );
-		add_action( 'generate_rewrite_rules', array($this, 'rewrite_rules'), 1000 );
+		add_filter( 'query_vars', array( $this, 'query_vars' ) );
+		add_action( 'parse_request', array( $this, 'delegate_request' ), 1000 );
+		add_action( 'generate_rewrite_rules', array( $this, 'rewrite_rules' ), 1000 );
 
-		add_action( 'permalink_structure_changed', array($this, 'save_mod_rewrite_rules') );
+		add_action( 'permalink_structure_changed', array( $this, 'save_mod_rewrite_rules' ) );
 
 		if( !Ecwid_Seo_Links::is_feature_available() ) {
-
-			$need_add_rewrite = EcwidPlatform::cache_get('need_add_rewrite', null);
-			if ( is_null($need_add_rewrite) ) {
-
-				$this->save_mod_rewrite_rules();
-
-				EcwidPlatform::cache_set('need_add_rewrite', '1', MONTH_IN_SECONDS);
-			}
+			add_action( 'wp', array( $this, 'check_add_rewrite_rules' ) );
 		}
 
 		// Well-Known URIs
@@ -47,7 +40,6 @@ class Ecwid_Well_Known {
 		}
 	}
 
-
 	public function save_mod_rewrite_rules() {
 
 		$brand = Ecwid_Config::get_brand();
@@ -63,6 +55,15 @@ class Ecwid_Well_Known {
 		}
 
 		insert_with_markers( $htaccess_file, $brand, $rules );
+	}
+
+	public function check_add_rewrite_rules(){
+		$need_add_rewrite = EcwidPlatform::cache_get( 'need_add_rewrite', null );
+
+		if ( is_null($need_add_rewrite) ) {
+			$this->save_mod_rewrite_rules();
+			EcwidPlatform::cache_set('need_add_rewrite', '1', MONTH_IN_SECONDS);
+		}
 	}
 
 	public function apple_pay_verification( $query_vars ) {
