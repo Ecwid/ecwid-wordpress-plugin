@@ -68,13 +68,12 @@ class Ecwid_Well_Known {
 	}
 
 	public function check_add_rewrite_rules(){
-		error_log( 'check_add_rewrite_rules' );
-		// $need_add_rewrite = EcwidPlatform::cache_get( 'need_add_rewrite', null );
+		$need_add_rewrite = EcwidPlatform::cache_get( 'need_add_rewrite', null );
 
-		// if ( is_null($need_add_rewrite) ) {
+		if ( is_null($need_add_rewrite) ) {
 			$this->save_mod_rewrite_rules();
-			// EcwidPlatform::cache_set('need_add_rewrite', '1', MONTH_IN_SECONDS);
-		// }
+			EcwidPlatform::cache_set('need_add_rewrite', '1', WEEK_IN_SECONDS);
+		}
 	}
 
 	public function apple_pay_verification( $query_vars ) {
