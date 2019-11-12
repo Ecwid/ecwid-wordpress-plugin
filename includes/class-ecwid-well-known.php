@@ -42,6 +42,14 @@ class Ecwid_Well_Known {
 
 	public function save_mod_rewrite_rules() {
 
+		if( !function_exists('get_home_path') ) {
+			require_once ( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+
+		if( !function_exists('insert_with_markers') ) {
+			require_once ( ABSPATH . 'wp-admin/includes/misc.php' );
+		}
+
 		$brand = Ecwid_Config::get_brand();
 		$rules = array();
 		$home_path = get_home_path();
