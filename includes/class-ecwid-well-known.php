@@ -12,7 +12,14 @@ class Ecwid_Well_Known {
 		add_action( 'permalink_structure_changed', array($this, 'save_mod_rewrite_rules') );
 
 		if( !Ecwid_Seo_Links::is_feature_available() ) {
-			error_log( 'xxx' );
+
+			$need_add_rewrite = EcwidPlatform::cache_get('need_add_rewrite', null);
+			if ( is_null($need_add_rewrite) ) {
+
+				$this->save_mod_rewrite_rules();
+
+				EcwidPlatform::cache_set('need_add_rewrite', '1', MONTH_IN_SECONDS);
+			}
 		}
 
 		// Well-Known URIs
