@@ -9,10 +9,12 @@ class Ecwid_Well_Known {
 		add_action( 'parse_request', array($this, 'delegate_request'), 1000 );
 		add_action( 'generate_rewrite_rules', array($this, 'rewrite_rules'), 1000 );
 
-		// if permalinks are disabled
 		add_action( 'permalink_structure_changed', array($this, 'save_mod_rewrite_rules') );
-		add_action( 'ecwid_plugin_installed', array($this, 'save_mod_rewrite_rules') );
-		add_action( 'ecwid_on_plugin_upgrade', array($this, 'save_mod_rewrite_rules') );
+
+		// if( !Ecwid_Seo_Links::is_feature_available() ) {
+		// 	add_action( 'ecwid_plugin_installed', array($this, 'save_mod_rewrite_rules') );
+		// 	add_action( 'ecwid_on_plugin_upgrade', array($this, 'save_mod_rewrite_rules') );
+		// }
 
 		// Well-Known URIs
 		add_action( "ec_well_known_apple-developer-merchantid-domain-association", array($this, "apple_pay_verification" ) );
@@ -41,32 +43,21 @@ class Ecwid_Well_Known {
 
 
 	public function save_mod_rewrite_rules() {
-		error_log( 'save_mod_rewrite_rules - start' );
-		if( !Ecwid_Seo_Links::is_feature_available() ) {
-			error_log( 'save_mod_rewrite_rules - disabled permalinks' );
-			$home_path = get_home_path();
-			$htaccess_file = $home_path . '.htaccess';
 
-			$rules = array();
+		$brand = Ecwid_Config::get_brand();
+		$rules = array();
+		$home_path = get_home_path();
+		$htaccess_file = $home_path . '.htaccess';
+
+		if( !Ecwid_Seo_Links::is_feature_available() ) {
 			$rules[] = '<IfModule mod_rewrite.c>';
 			$rules[] = 'RewriteEngine On';
 			$rules[] = 'RewriteRule ^\.well-known/(.+)$ index.php?ec-well-known=$1 [L]';
 			$rules[] = '</IfModule>';
-
-			$brand = Ecwid_Config::get_brand();
-			insert_with_markers( $htaccess_file, $brand, $rules );
 		}
+
+		insert_with_markers( $htaccess_file, $brand, $rules );
 	}
-
-	// public function hook_permalink_structure_changed( $plugin, $network_wide ) {
-	// 	$this->save_mod_rewrite_rules();
-	// }
-
-	// public function hook_activated_plugin( $old_value, $value, $option ) {
-
-	// 	error_log( 'well-known: activate plugin' );
-	// 	$this->save_mod_rewrite_rules();
-	// }
 
 	public function apple_pay_verification( $query_vars ) {
 		$api = new Ecwid_Api_V3();
