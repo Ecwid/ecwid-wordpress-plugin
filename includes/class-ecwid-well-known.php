@@ -60,19 +60,22 @@ class Ecwid_Well_Known {
 	}
 
 	public function hook_upgrade_process_complete( $plugin, $network_wide ) {
+
+		error_log( 'well-known: upgrate plugin' );
+
 		$current_plugin_path_name = plugin_basename( __FILE__ );
 
-		if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
-			foreach($options['plugins'] as $each_plugin){
-				if ($each_plugin == $current_plugin_path_name) {
+		// if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
+		// 	foreach($options['plugins'] as $each_plugin){
+		// 		if ($each_plugin == $current_plugin_path_name) {
 
-					error_log( 'each_plugin: ' . $each_plugin );
-					error_log( 'current_plugin_path_name: ' . $current_plugin_path_name );
+		// 			error_log( 'each_plugin: ' . $each_plugin );
+		// 			error_log( 'current_plugin_path_name: ' . $current_plugin_path_name );
 
 					$this->save_mod_rewrite_rules();
-				}
-			}
-		}
+		// 		}
+		// 	}
+		// }
 	}
 
 	public function apple_pay_verification( $query_vars ) {
@@ -97,6 +100,8 @@ class Ecwid_Well_Known {
 			}
 
 			exit();
+		} else {
+			$this->show_404();
 		}
 	}
 
