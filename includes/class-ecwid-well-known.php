@@ -11,7 +11,7 @@ class Ecwid_Well_Known {
 
 		// if permalinks are disabled
 		add_action( 'permalink_structure_changed', array($this, 'hook_permalink_structure_changed'), 10, 2 );
-		add_action( 'upgrader_process_complete', array($this, 'hook_upgrade_process_complete'),10, 2);
+		// add_action( 'upgrader_process_complete', array($this, 'hook_upgrade_process_complete'),10, 2);
 
 		// Well-Known URIs
 		add_action( "ec_well_known_apple-developer-merchantid-domain-association", array($this, "apple_pay_verification" ) );
