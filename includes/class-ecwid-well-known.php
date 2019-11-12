@@ -11,10 +11,9 @@ class Ecwid_Well_Known {
 
 		add_action( 'permalink_structure_changed', array($this, 'save_mod_rewrite_rules') );
 
-		// if( !Ecwid_Seo_Links::is_feature_available() ) {
-		// 	add_action( 'ecwid_plugin_installed', array($this, 'save_mod_rewrite_rules') );
-		// 	add_action( 'ecwid_on_plugin_upgrade', array($this, 'save_mod_rewrite_rules') );
-		// }
+		if( !Ecwid_Seo_Links::is_feature_available() ) {
+			error_log( 'xxx' );
+		}
 
 		// Well-Known URIs
 		add_action( "ec_well_known_apple-developer-merchantid-domain-association", array($this, "apple_pay_verification" ) );

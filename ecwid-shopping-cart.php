@@ -128,7 +128,6 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-config.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
-require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
@@ -147,6 +146,8 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
+
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
 
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
