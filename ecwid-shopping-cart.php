@@ -1580,7 +1580,7 @@ function ecwid_ajax_get_product_info() {
 }
 
 function ecwid_store_activate() {
-error_log( 'plugin activate' );
+
 	Ecwid_Config::load_from_ini();
 	
 	$my_post = array();
