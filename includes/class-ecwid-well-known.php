@@ -11,7 +11,7 @@ class Ecwid_Well_Known {
 
 		// if permalinks are disabled
 		add_action( 'permalink_structure_changed', array($this, 'hook_permalink_structure_changed'), 10, 2 );
-		add_action( 'activated_plugin', array($this, 'hook_activated_plugin'),10, 2);
+		add_action( 'update_option_active_plugins', array($this, 'hook_activated_plugin'), 10, 3);
 
 		// Well-Known URIs
 		add_action( "ec_well_known_apple-developer-merchantid-domain-association", array($this, "apple_pay_verification" ) );
@@ -59,19 +59,10 @@ class Ecwid_Well_Known {
 		$this->save_mod_rewrite_rules();
 	}
 
-	public function hook_activated_plugin( $plugin, $network_wide ) {
+	public function hook_activated_plugin( $old_value, $value, $option ) {
 
 		error_log( 'well-known: activate plugin' );
 		$this->save_mod_rewrite_rules();
-
-		// $current_plugin_path_name = plugin_basename( __FILE__ );
-		// if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
-		// 	foreach($options['plugins'] as $each_plugin){
-		// 		if ($each_plugin == $current_plugin_path_name) {
-					// $this->save_mod_rewrite_rules();
-		// 		}
-		// 	}
-		// }
 	}
 
 	public function apple_pay_verification( $query_vars ) {
