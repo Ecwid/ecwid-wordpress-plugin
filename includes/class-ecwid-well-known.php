@@ -68,7 +68,7 @@ class Ecwid_Well_Known {
 	}
 
 	public function check_add_rewrite_rules(){
-		error_log( 'check_add_rewrite_rules' )
+		error_log( 'check_add_rewrite_rules' );
 		// $need_add_rewrite = EcwidPlatform::cache_get( 'need_add_rewrite', null );
 
 		// if ( is_null($need_add_rewrite) ) {
