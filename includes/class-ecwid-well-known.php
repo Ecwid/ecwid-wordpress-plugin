@@ -11,7 +11,7 @@ class Ecwid_Well_Known {
 
 		// if permalinks are disabled
 		add_action( 'permalink_structure_changed', array($this, 'hook_permalink_structure_changed'), 10, 2 );
-		// add_action( 'upgrader_process_complete', array($this, 'hook_upgrade_process_complete'),10, 2);
+		add_action( 'activated_plugin', array($this, 'hook_activated_plugin'),10, 2);
 
 		// Well-Known URIs
 		add_action( "ec_well_known_apple-developer-merchantid-domain-association", array($this, "apple_pay_verification" ) );
@@ -59,20 +59,16 @@ class Ecwid_Well_Known {
 		$this->save_mod_rewrite_rules();
 	}
 
-	public function hook_upgrade_process_complete( $plugin, $network_wide ) {
+	public function hook_activated_plugin( $plugin, $network_wide ) {
 
-		error_log( 'well-known: upgrate plugin' );
+		error_log( 'well-known: activate plugin' );
+		$this->save_mod_rewrite_rules();
 
-		$current_plugin_path_name = plugin_basename( __FILE__ );
-
+		// $current_plugin_path_name = plugin_basename( __FILE__ );
 		// if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
 		// 	foreach($options['plugins'] as $each_plugin){
 		// 		if ($each_plugin == $current_plugin_path_name) {
-
-		// 			error_log( 'each_plugin: ' . $each_plugin );
-		// 			error_log( 'current_plugin_path_name: ' . $current_plugin_path_name );
-
-					$this->save_mod_rewrite_rules();
+					// $this->save_mod_rewrite_rules();
 		// 		}
 		// 	}
 		// }
