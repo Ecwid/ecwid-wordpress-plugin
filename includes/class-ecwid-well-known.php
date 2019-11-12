@@ -52,6 +52,8 @@ class Ecwid_Well_Known {
 			$rules[] = 'RewriteEngine On';
 			$rules[] = 'RewriteRule ^\.well-known/(.+)$ index.php?ec-well-known=$1 [L]';
 			$rules[] = '</IfModule>';
+		} else {
+			EcwidPlatform::cache_reset('need_add_rewrite');
 		}
 
 		insert_with_markers( $htaccess_file, $brand, $rules );

@@ -1795,6 +1795,8 @@ function ecwid_uninstall() {
 	delete_option("ecwid_plugin_version");
 	delete_option("ecwid_use_chameleon");
 	delete_option(Ecwid_Api_V3::TOKEN_OPTION_NAME);
+
+	EcwidPlatform::cache_reset('need_add_rewrite');
 }
 
 function ecwid_abs_intval($value) {
