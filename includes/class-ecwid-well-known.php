@@ -42,6 +42,7 @@ class Ecwid_Well_Known {
 
 	public function save_mod_rewrite_rules() {
 		if( !Ecwid_Seo_Links::is_feature_available() ) {
+			error_log( 'save_mod_rewrite_rules' );
 			$home_path = get_home_path();
 			$htaccess_file = $home_path . '.htaccess';
 
