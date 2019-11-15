@@ -38,6 +38,13 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 		}
 
 		$data['price'] = floatval( $data['price'] );
+
+
+		$sale_price = $product->get_sale_price();
+		if( !empty( $sale_price ) ) {
+			$data['compareToPrice'] = $data['price'];
+			$data['price'] = floatval( $sale_price );
+		}
 		
 		$categories = get_the_terms( $this->_woo_product_id, 'product_cat' );
 
