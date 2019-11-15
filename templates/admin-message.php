@@ -30,6 +30,7 @@
 			<a
 				class="button<?php if ( $secondary_hide ): ?> ecwid-message-hide<?php endif; ?>"
 				href="<?php echo esc_attr( $secondary_url ); ?>"
+				name="<?php echo $name; ?>"
 				<?php if ( $secondary_blank ): ?>
 				target="_blank"
 				<?php endif; ?>

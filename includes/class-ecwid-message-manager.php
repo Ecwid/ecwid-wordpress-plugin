@@ -98,6 +98,11 @@ TXT
 	public static function disable_message($name)
 	{
 		$messages = get_option('ecwid_disabled_messages');
+
+		if( !is_array($messages) ) {
+			$messages = array();
+		}
+
 		$messages[$name] = true;
 
 		update_option('ecwid_disabled_messages', $messages);
@@ -106,8 +111,9 @@ TXT
 	public static function enable_message($name)
 	{
 		$messages = get_option('ecwid_disabled_messages');
-		if (isset($messages['name']))
+		if (isset($messages['name'])) {
 			unset($messages['name']);
+		}
 
 		update_option('ecwid_disabled_messages', $messages);
 	}
@@ -143,7 +149,7 @@ TXT
 
 		$hidden_messages = get_option('ecwid_disabled_messages');
 
-		if ( !empty( $hidden_messages ) ) {
+		if ( !empty( $hidden_messages ) && is_array( $hidden_messages ) ) {
 			foreach ($hidden_messages as $name => $message) {
 				unset ($this->messages[$name]);
 			}
@@ -353,10 +359,11 @@ HTML
 				if ( !class_exists( 'Ecwid_Importer' ) ) {
 					require_once ECWID_PLUGIN_DIR . 'includes/importer/class-ecwid-importer.php';
 				}
-				
+
 				return 
 					is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
+					&& $_GET['import'] != 'ec-store-import'
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
 					&& !ecwid_is_demo_store()
