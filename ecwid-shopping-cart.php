@@ -2214,7 +2214,7 @@ function ecwid_create_store() {
 		ecwid_update_store_id($data->id);
 
 		$api->save_token( $data->token );
-		update_option( 'ecwid_oauth_scope', 'read_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG . ' allow_sso create_customers public_storefront' );
+		update_option( 'ecwid_oauth_scope', 'read_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG . ' create_catalog update_catalog allow_sso create_customers public_storefront' );
 
 		header( 'HTTP/1.1 200 OK' );
 
