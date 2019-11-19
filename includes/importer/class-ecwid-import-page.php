@@ -128,7 +128,7 @@ class Ecwid_Import_Page
 			return;
 		}
 		
-		$url = $this->_get_woo_url() . '#start';
+		$url = $this->_get_woo_url();
 		
 		$params = array(
 			'delete-demo',
