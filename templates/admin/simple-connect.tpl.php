@@ -3,10 +3,6 @@
     $connection_error = isset( $_GET['connection_error'] );
 
     $connect_url = 'admin-post.php?action=ec_connect';
-
-	if( array_key_exists( 'return-url', $_GET ) ) {
-		$connect_url .= '&return-url=' . urlencode( $_GET['return-url'] );
-	}
 ?>
 
 <div class="wrap ecwid-admin ecwid-connect<?php if ($no_oauth): ?> no-oauth<?php else: ?> with-oauth<?php endif; ?>">

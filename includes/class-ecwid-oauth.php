@@ -55,12 +55,6 @@ class Ecwid_OAuth {
 
 		$redirect_uri = 'admin-post.php?action=' . $action;
 
-
-		if( array_key_exists( 'return-url', $_GET ) ) {
-			$query['return_url'] = esc_url( $_GET['return-url'] );
-			$redirect_uri .= '&' . build_query( $query );
-		}
-
 		return $this->api->get_oauth_dialog_url(
 			admin_url( $redirect_uri ),
 			implode(' ', $this->_get_scope() )
@@ -100,10 +94,6 @@ class Ecwid_OAuth {
 
 		$base_admin_url = 'admin-post.php?action=ec_oauth' . ($reconnect ? '_reconnect' : '');
 
-		if( !empty( $this->get_return_url() ) ) {
-			$base_admin_url .= '&return_url=' . $this->get_return_url();
-		}
-
 		$params['code'] = $_REQUEST['code'];
 		$params['client_id'] = Ecwid_Config::get_oauth_appid();
 		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
@@ -142,18 +132,8 @@ class Ecwid_OAuth {
 		ecwid_invalidate_cache( true );
 		Ecwid_Api_V3::reset_api_status();
 		
-		if( !empty( $this->get_return_url() ) ) {
-			$return_url = admin_url( $this->get_return_url() );
-
-			if( strpos( $return_url, Ecwid_Import_Page::PAGE_SLUG_WOO ) !== false ) {
-				$return_url .= '#start';
-			}
-
-			wp_redirect( $return_url );
-			exit;
-		}
-
 		$this->api->save_token($result->access_token);
+
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
 			wp_redirect( admin_url( $this->state->return_url ) );
 		} else {
@@ -399,15 +379,6 @@ class Ecwid_OAuth {
 	
 	protected function _is_reconnect() {
 		return @$this->state->mode == self::MODE_RECONNECT;
-	}
-
-	public function get_return_url()
-	{
-		if( array_key_exists( 'return_url', $_GET ) ) {
-			return esc_url_raw( $_GET['return_url'] );
-		}
-		
-		return false;
 	}
 }
 
