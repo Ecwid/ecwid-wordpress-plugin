@@ -57,6 +57,7 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 		$this->_profile_api_url = $this->_api_url . $this->store_id . '/profile';
 		$this->_starter_site_api_url = $this->_api_url . $this->store_id . '/startersite';
+		$this->_batch_requests_api_url = $this->_api_url . $this->store_id . '/batch';
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -994,5 +995,33 @@ class Ecwid_Api_V3
 				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', '');
 			}
 		}
+	}
+
+	public function create_batch( $params )
+	{
+		$request_params =  array(
+			'token'
+		);
+		$url = $this->build_request_url( $this->_batch_requests_api_url, $request_params );
+		
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function get_batch_status( $params )
+	{	
+		$params = array(
+			'token' => self::get_token()
+		);
+
+		$url = $this->build_request_url($this->_batch_requests_api_url, $params);
+		$result = EcwidPlatform::fetch_url($url);
+
+		if ( @$result['code'] != '200' ) {
+			return false;
+		}
+
+		$batch_request = json_decode($result['data']);
 	}
 }
