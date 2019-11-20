@@ -130,21 +130,9 @@ class Ecwid_Import_Page
 		
 		$url = $this->_get_woo_url();
 		
-		$params = array(
-			'delete-demo',
-			'update-by-sku'
-		);
-		
-		foreach ( $params as $param ) {
-			if ( isset( $_GET[$param] ) ) {
-				$url .= '&' . $param . '=true';
-			}
-		}
-		
 		wp_redirect(
 			'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG 
-			. '&reconnect&return-url=' . urlencode( $url ) 
-			. '&scope=create_catalog+update_catalog&do_reconnect=1'
+			. '&reconnect&return-url=' . urlencode( $url )
 		);
 	}
 	

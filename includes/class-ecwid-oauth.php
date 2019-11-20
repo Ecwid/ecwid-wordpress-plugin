@@ -144,6 +144,11 @@ class Ecwid_OAuth {
 		
 		if( !empty( $this->get_return_url() ) ) {
 			$return_url = admin_url( $this->get_return_url() );
+
+			if( strpos( $return_url, Ecwid_Import_Page::PAGE_SLUG_WOO ) !== false ) {
+				$return_url .= '#start';
+			}
+
 			wp_redirect( $return_url );
 			exit;
 		}
