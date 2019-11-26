@@ -49,7 +49,7 @@ class Ecwid_Import
 
 		$api = new Ecwid_Api_V3();
 
-		$ecwid_products = $api->get_products( array( 'limit' => '1' ) );
+		$ecwid_products = $api->get_products( array( 'limit' => 1 ) );
 		$result['ecwid_total_products'] = $ecwid_products->total;
 		
 		$ecwid_categories = $api->get_categories(array('limit' => 1));

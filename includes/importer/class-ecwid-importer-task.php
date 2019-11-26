@@ -50,7 +50,8 @@ abstract class Ecwid_Importer_Task
 			'Import_Woo_Products',
 			'Import_Woo_Products_Batch',
 			'Import_Woo_Categories',
-			'Import_Woo_Product'
+			'Import_Woo_Product',
+			'Batch_Request'
 		);
 		
 		foreach ( $names as $name ) {

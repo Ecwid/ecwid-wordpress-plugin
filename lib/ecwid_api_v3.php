@@ -764,7 +764,7 @@ class Ecwid_Api_V3
 
 		return $result;
 	}
-	
+
 	protected function _sanitize_product_data( $data ) {
 
 		$int_fields = array( 'quantity', 'defaultCategoryId', 'showOnFrontPage' );
@@ -1009,10 +1009,11 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
-	public function get_batch_status( $params )
-	{	
+	public function get_batch_status( $ticket )
+	{
 		$params = array(
-			'token' => self::get_token()
+			'token' => self::get_token(),
+			'ticket' => $ticket
 		);
 
 		$url = $this->build_request_url($this->_batch_requests_api_url, $params);
@@ -1022,6 +1023,46 @@ class Ecwid_Api_V3
 			return false;
 		}
 
-		$batch_request = json_decode($result['data']);
+		// $batch_request = json_decode($result['data']);
+		return $result;
+	}
+
+	public function get_batch_item( $path, $method = 'GET', $body = false, $id = false ) {
+		$result = array(
+			'path' => $path,
+			'method' => $method
+		);
+
+		if( !empty( $body ) ) {
+			$result['body'] = $body;
+		}
+
+		if( !empty( $id ) ) {
+			$result['id'] = $id;
+		}
+
+		return $result;
+	}
+
+	public function batch_create_product( $params ) {
+		$request_params =  array(
+			'token'
+		);
+		$path = $this->build_request_url( '/products', $request_params );
+		$body = $this->_sanitize_product_data( $params );
+		$method = 'POST';
+
+		return $this->get_batch_item( $path, $method, $body );
+	}
+
+	public function batch_update_product( $params, $product_id ) {
+		$request_params =  array(
+			'token'
+		);
+		$path = $this->build_request_url( '/products/' . $product_id, $request_params );
+		$body = $this->_sanitize_product_data( $params );
+		$method = 'PUT';
+
+		return $this->get_batch_item( $path, $method, $body );
 	}
 }

@@ -23,6 +23,7 @@ class Ecwid_Importer
 	
 	protected $_tasks;
 	protected $_start_time;
+	protected $_batch;
 	
 	public function initiate( $settings = array() )
 	{
@@ -54,11 +55,13 @@ class Ecwid_Importer
 		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
 
+		$this->_batch = array();
+
 		do {
 			$current_task = $this->_get_current_task();
 
 			$task_data = $this->_tasks[$current_task];
-
+error_log( serialize($task_data) );
 			if ( !isset( $status['plan_limit'] )
 	             || !is_array( $status['plan_limit'] ) 
 	             || !array_key_exists( $task_data['type'], $status['plan_limit'] ) 
@@ -66,8 +69,16 @@ class Ecwid_Importer
 				
 				$task = Ecwid_Importer_Task::load_task($task_data['type']);
 
-				$result = $task->execute($this, $task_data);
+				if ( $task instanceof Ecwid_Importer_Task_Create_Product ) {
+					
+					$task_type = $task_data['type'];
+					$this->_batch[$task_type][] = $task->get_batch_request_item($this, $task_data);
+
+				} else {
+					$result = $task->execute($this, $task_data);
+				}
 				
+				/*
 				if ( $result['status'] == 'error' ) {
 					$progress['error'][] = $task_data['type'];
 					
@@ -127,15 +138,15 @@ class Ecwid_Importer
 						
 						if ( $task instanceof Ecwid_Importer_Task_Create_Product_Variation || $task instanceof Ecwid_Importer_Task_Upload_Product_Variation_Image ) {
 						  $error_data['variation_id'] = $task_data['variation_id'];
-            }
+            			}
 					} else {
 						$error_data = $task_data;
 					}
 					
 					$progress['error_messages'][$task_data['type']][$message][] = $error_data;
-				} else {
+				} else { */
 					$progress['success'][] = $task_data['type'];
-				}
+				//}
 
 				update_option( self::OPTION_STATUS, $status );
 			} else {
@@ -158,12 +169,28 @@ class Ecwid_Importer
 			$this->_set_tasks( $this->_tasks );
 			
 			if ( $start + self::TICK_LENGTH <= time() ) {
+
+				// Batch requests
+				if( count($this->_batch) ) {
+					$this->send_batch_request();
+				}
+
 				$progress['status'] = 'in_progress';
 				$progress['tasks'] = $this->_tasks;
 				
 				return $progress;
 			}
 		} while ( 1 );
+
+		// Batch requests
+		if( count($this->_batch) ) {
+			$this->send_batch_request();
+
+			$progress['status'] = 'in_progress';
+			$progress['tasks'] = $this->_tasks;
+			
+			return $progress;
+		}
 
 		$this->_set_tasks( null );
 		
@@ -172,6 +199,25 @@ class Ecwid_Importer
 		update_option( self::OPTION_WOO_CATALOG_IMPORTED, 'true' );
 		
 		return $progress;
+	}
+
+	public function send_batch_request() {
+		$api = new Ecwid_Api_V3();
+		$result = $api->create_batch( $this->_batch );
+		$data = json_decode( $result['body'] );
+
+		if( isset($data->ticket) ) {
+			$this->append_task(
+				Ecwid_Importer_Task_Batch_Request::build(
+					array(
+						'ticket' => $data->ticket
+					)
+				)
+			);
+			$this->_set_tasks( $this->_tasks );
+
+			$this->_batch = array();
+		}
 	}
 	
 	public function append_task( $task ) {
