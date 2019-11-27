@@ -31,15 +31,32 @@ class Ecwid_Importer_Task_Upload_Product_Variation_Image extends Ecwid_Importer_
 			);
 		}
 
-		$data = array(
-			'productId' => $this->_ecwid_product_id,
-			'variationId' => $variation_id,
-			'data' => file_get_contents( $file )
-		);
+		if ( Ecwid_Importer::is_localhost() ) {
 
-		$result = $api->upload_product_variation_image( $data );
+			$data = array(
+				'productId' => $this->_ecwid_product_id,
+				'variationId' => $variation_id,
+				'data' => file_get_contents( $file )
+			);
 
-		return self::_process_api_result( $result, $data );
+			$result = $api->upload_product_variation_image( $data );
+
+			return self::_process_api_result( $result, $data );
+		} else {
+
+			$batch_item_id = self::$type . '|' . $this->_ecwid_product_id;
+
+			$file_url = wp_get_attachment_url( get_post_thumbnail_id( $data['variation_id'] ) );
+			$data = array(
+				'externalUrl' => $file_url
+			);
+
+			$batch_item = $api->batch_upload_product_variation_image( $data, $this->_ecwid_product_id, $data['variation_id'], $batch_item_id );
+			$exporter->append_batch( $batch_item );
+
+			return $this->_result_success();
+
+		}
 	}
 
 	public static function build( array $data ) {

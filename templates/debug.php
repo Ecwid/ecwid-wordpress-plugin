@@ -1,36 +1,5 @@
 <div class="ecwid-debug">
 <?php
-
-
-$product = wc_get_product( 1761 );
-
-$data = array(
-	'name' => $product->get_title(),
-	'price' => $product->get_regular_price(),
-	'description' => $product->get_description(),
-	'isShippingRequired' => !$product->get_virtual(),
-	'categoryIds' => array(),
-	'showOnFrontpage' => (int) $product->get_featured()
-);
-
-
-$data['price'] = floatval( $data['price'] );
-
-$api = new Ecwid_Api_V3();
-$batch[] = $api->batch_create_product( $data );
-
-echo '<pre>';
-// var_dump( $batch );
-// die();
-
-// $result = $api->create_batch( $batch );
-$result = $api->get_batch_status( 'da6713e4-da27-447c-b3ed-98bbdbc352e9' );
-
-$data = json_decode( $result['data'] );
-print_r( $data );
-// var_dump( $data = json_decode( $result['body'] ); );
-
-die();
 	$all_plugins = get_plugins();
 
 	$active_plugins = get_option('active_plugins');

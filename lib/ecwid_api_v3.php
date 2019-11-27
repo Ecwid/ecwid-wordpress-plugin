@@ -1027,7 +1027,8 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
-	public function get_batch_item( $path, $method = 'GET', $body = false, $id = false ) {
+	// TO-DO maybe create special class for batch utils method
+	public function compose_batch_item( $path, $method = 'GET', $body = false, $batch_id = false ) {
 		$result = array(
 			'path' => $path,
 			'method' => $method
@@ -1037,32 +1038,70 @@ class Ecwid_Api_V3
 			$result['body'] = $body;
 		}
 
-		if( !empty( $id ) ) {
-			$result['id'] = $id;
+		if( !empty( $batch_id ) ) {
+			$result['id'] = $batch_id;
 		}
 
 		return $result;
 	}
 
-	public function batch_create_product( $params ) {
-		$request_params =  array(
-			'token'
+	public function batch_create_product( $params, $batch_id = false ) {
+		return $this->compose_batch_item( 
+			'/products',
+			'POST',
+			$this->_sanitize_product_data( $params ),
+			$batch_id
 		);
-		$path = $this->build_request_url( '/products', $request_params );
-		$body = $this->_sanitize_product_data( $params );
-		$method = 'POST';
-
-		return $this->get_batch_item( $path, $method, $body );
 	}
 
-	public function batch_update_product( $params, $product_id ) {
-		$request_params =  array(
-			'token'
+	public function batch_update_product( $params, $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id,
+			'PUT',
+			$this->_sanitize_product_data( $params ),
+			$batch_id
 		);
-		$path = $this->build_request_url( '/products/' . $product_id, $request_params );
-		$body = $this->_sanitize_product_data( $params );
-		$method = 'PUT';
+	}
 
-		return $this->get_batch_item( $path, $method, $body );
+	public function batch_upload_product_image( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_upload_product_gallery_image( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/gallery', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+	
+	public function batch_upload_product_variation_image( $params, $product_id, $variation_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/combinations/' . $variation_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_create_product_variation( $params, $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id . '/combinations',
+			'POST',
+			$params,
+			$batch_id
+		);
 	}
 }
