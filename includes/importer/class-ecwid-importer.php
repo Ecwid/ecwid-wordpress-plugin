@@ -224,12 +224,7 @@ class Ecwid_Importer
 		return count( $this->_tasks ) - 1;
 		//array_splice( $this->_tasks, (int)$this->_get_current_task() + 1, 0, array( $task ) );
 	}
-	/**
-	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
-	 * and appends $task after all its siblings
-	 * 
-	 * @param $task 
-	 */
+
 	/**
 	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
 	 * and appends $task after all its siblings

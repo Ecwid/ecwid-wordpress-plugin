@@ -64,7 +64,6 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 
 			}
 
-			// TO-DO создать новые задачи на добавление к товару картинок и прочего
 			// TO-DO добавить обработку ошибок и подсчет статистики
 		}
 

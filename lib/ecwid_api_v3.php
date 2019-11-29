@@ -1063,6 +1063,17 @@ class Ecwid_Api_V3
 		);
 	}
 
+	public function batch_upload_category_image( $params, $category_id, $batch_id = false ) {
+		$url = $this->build_request_url('/categories/' . $product_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
 	public function batch_upload_product_image( $params, $product_id, $batch_id = false ) {
 		$url = $this->build_request_url('/products/' . $product_id . '/image', $params);
 
