@@ -4,7 +4,7 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 {
 	public static $type = 'create_category';
 
-	public function get_batch_data( Ecwid_Importer $exporter, array $category_data ) {
+	public function execute( Ecwid_Importer $exporter, array $category_data ) {
 		$api = new Ecwid_Api_V3();
 
 		$category = get_term_by( 'id', $category_data['woo_id'], 'product_cat' );
@@ -45,10 +45,6 @@ class Ecwid_Importer_Task_Create_Category extends Ecwid_Importer_Task
 		}
 
 		return $return;
-	}
-
-	public function execute( Ecwid_Importer $exporter, array $product_data ) {
-		return $this->_result_success();
 	}
 
 	public static function build( array $data ) {
