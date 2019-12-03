@@ -103,8 +103,6 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 			}
 
 			update_option( Ecwid_Importer::OPTION_STATUS, $status );
-
-			// TO-DO добавить обработку ошибок и подсчет статистики
 		}
 
 		if( isset( $task_data['timeout'] ) && $task_data['timeout'] > 0 ) {

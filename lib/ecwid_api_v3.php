@@ -1027,7 +1027,7 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
-	// TO-DO maybe create special class for batch utils method
+	// TO-DO create class for batch methods
 	public function compose_batch_item( $path, $method = 'GET', $body = false, $batch_id = false ) {
 		$result = array(
 			'path' => $path,
