@@ -1,4 +1,4 @@
-=== Ecwid Ecommerce Shopping Cart ===
+=== Ecwid Ecommerce Shopping Cart === 
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
