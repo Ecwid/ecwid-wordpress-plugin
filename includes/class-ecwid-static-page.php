@@ -313,7 +313,19 @@ class Ecwid_Static_Page {
 		
 		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
+	
+	public static function clear_all_cache() {
+	    global $wpdb;
 
+	    $sql = "
+	        DELETE 
+	        FROM {$wpdb->options}
+	        WHERE option_name like '\_transient\_ecwid\_catalog\_%'
+	        OR option_name like '\_transient\_timeout\_ecwid\_catalog\_%'
+	    ";
+
+	    $wpdb->query($sql);
+	}
 }
 
 $__ecwid_static_page = new Ecwid_Static_Page();

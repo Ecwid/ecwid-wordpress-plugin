@@ -1026,6 +1026,8 @@ function ecwid_full_cache_reset()
 	EcwidPlatform::cache_reset( 'all_categories' );
 	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
+	Ecwid_Static_Page::clear_all_cache();
+
 	$p = new Ecwid_Products();
 	$p->reset_dates();
 	
