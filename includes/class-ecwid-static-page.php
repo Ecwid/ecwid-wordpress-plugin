@@ -313,7 +313,7 @@ class Ecwid_Static_Page {
 		
 		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
-	
+
 	public static function clear_all_cache() {
 	    global $wpdb;
 
