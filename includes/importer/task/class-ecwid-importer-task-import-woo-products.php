@@ -4,7 +4,7 @@ class Ecwid_Importer_Task_Import_Woo_Products extends Ecwid_Importer_Task {
 
 	public static $type = 'import-woo-products';
 
-	const BATCH_SIZE = 50;
+	const BATCH_SIZE = 100;
 
 	public function execute( Ecwid_Importer $importer, array $data ) {
 		

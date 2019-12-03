@@ -1000,7 +1000,8 @@ class Ecwid_Api_V3
 	public function create_batch( $params )
 	{
 		$request_params =  array(
-			'token'
+			'token',
+			'stopOnFirstFailure' => 'false'
 		);
 		$url = $this->build_request_url( $this->_batch_requests_api_url, $request_params );
 		
@@ -1023,7 +1024,6 @@ class Ecwid_Api_V3
 			return false;
 		}
 
-		// $batch_request = json_decode($result['data']);
 		return $result;
 	}
 

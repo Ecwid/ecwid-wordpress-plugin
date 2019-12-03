@@ -29,19 +29,13 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 
 				$batch_item_id = Ecwid_Importer_Task_Create_Product::$type . '|' . $id;
 
-				if ( $importer->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
-					
-					if( isset( $data['sku'] ) ) {
-						$filter = array( 'sku' => $data['sku'] );
-					} else {
-						$filter = array( 'id' => $this->_woo_product_id );
-					}
+				if ( $importer->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) && isset( $data['sku'] ) ) {
 
-					// TO-DO: replace to batch requests
-					$products = $api->get_products( $filter );
+					$filter = array( 'sku' => $data['sku'] );
+					$ecwid_products = $api->get_products( $filter );
 
-					if ( $products->total > 0 ) {
-						$ecwid_id = $products->items[0]->id;
+					if ( $ecwid_products->total > 0 ) {
+						$ecwid_id = $ecwid_products->items[0]->id;
 						$batch_item = $api->batch_update_product( $data, $ecwid_id, $batch_item_id );
 					}
 				}

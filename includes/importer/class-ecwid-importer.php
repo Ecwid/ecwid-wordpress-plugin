@@ -22,6 +22,7 @@ class Ecwid_Importer
 	protected $_start_time;
 
 	public $_batch;
+	public $_batch_progress;
 	
 	public function initiate( $settings = array() )
 	{
@@ -151,6 +152,22 @@ class Ecwid_Importer
 			if( $this->execute_batch() ) {
 				$this->_set_tasks( $this->_tasks );
 				$progress['status'] = 'in_progress';
+			}
+		}
+
+		if( is_array( $this->_batch_progress ) ) {
+			if( isset($this->_batch_progress['success']) ) {
+				$progress['success'] = array_merge( $progress['success'], $this->_batch_progress['success'] );
+			}
+			if( isset($this->_batch_progress['error']) ) {
+				$progress['error'] = array_merge( $progress['error'], $this->_batch_progress['error'] );
+			}
+			if( isset($this->_batch_progress['error_messages']) ) {
+				if( !isset($progress['error_messages']) ) {
+					$progress['error_messages'] = $this->_batch_progress['error_messages'];
+				} else {
+					$progress['error_messages'] = array_merge( $progress['error_messages'], $this->_batch_progress['error_messages'] );
+				}
 			}
 		}
 
