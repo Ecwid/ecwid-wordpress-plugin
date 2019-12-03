@@ -11,7 +11,6 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 
 		// get the thumbnail id using the queried category term_id
 		$thumbnail_id = get_term_meta( $woo_id, 'thumbnail_id', true );
-		$file = get_attached_file ( $thumbnail_id );
 
 		$category_id = $exporter->get_ecwid_category_id( $woo_id );
 		if ( !$category_id ) {
@@ -22,12 +21,31 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 			);
 		}
 
-		$data = array(
-			'categoryId' => $category_id,
-			'data' => file_get_contents( $file )
-		);
+		if ( Ecwid_Importer::is_localhost() ) {
 
-		$result = $api->upload_category_image( $data );
+			$file = get_attached_file ( $thumbnail_id );
+
+			$data = array(
+				'categoryId' => $category_id,
+				'data' => file_get_contents( $file )
+			);
+
+			$result = $api->upload_category_image( $data );
+		} else {
+
+			$batch_item_id = self::$type . '|' . $category_id;
+
+			$file_url = wp_get_attachment_url( $thumbnail_id );
+			$data = array(
+				'externalUrl' => $file_url
+			);
+
+			$batch_item = $api->batch_upload_category_image( $data, $category_id, $batch_item_id );
+			$exporter->append_batch( $batch_item );
+
+			return $this->_result_success();
+
+		}
 
 		return self::_process_api_result( $result, $data );
 	}

@@ -57,6 +57,7 @@ class Ecwid_Api_V3
 		$this->_products_api_url = $this->_api_url . $this->store_id . '/products';
 		$this->_profile_api_url = $this->_api_url . $this->store_id . '/profile';
 		$this->_starter_site_api_url = $this->_api_url . $this->store_id . '/startersite';
+		$this->_batch_requests_api_url = $this->_api_url . $this->store_id . '/batch';
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -759,7 +760,7 @@ class Ecwid_Api_V3
 
 		return $result;
 	}
-	
+
 	protected function _sanitize_product_data( $data ) {
 
 		$int_fields = array( 'quantity', 'defaultCategoryId', 'showOnFrontPage' );
@@ -990,5 +991,124 @@ class Ecwid_Api_V3
 				EcwidPlatform::store_in_products_cache('ecwid_all_products_request', '');
 			}
 		}
+	}
+
+	public function create_batch( $params )
+	{
+		$request_params =  array(
+			'token',
+			'stopOnFirstFailure' => 'false'
+		);
+		$url = $this->build_request_url( $this->_batch_requests_api_url, $request_params );
+		
+		$result = $this->_do_post( $url, $params );
+
+		return $result;
+	}
+
+	public function get_batch_status( $ticket )
+	{
+		$params = array(
+			'token' => self::get_token(),
+			'ticket' => $ticket
+		);
+
+		$url = $this->build_request_url($this->_batch_requests_api_url, $params);
+		$result = EcwidPlatform::fetch_url($url);
+
+		if ( @$result['code'] != '200' ) {
+			return false;
+		}
+
+		return $result;
+	}
+
+	// TO-DO create class for batch methods
+	public function compose_batch_item( $path, $method = 'GET', $body = false, $batch_id = false ) {
+		$result = array(
+			'path' => $path,
+			'method' => $method
+		);
+
+		if( !empty( $body ) ) {
+			$result['body'] = $body;
+		}
+
+		if( !empty( $batch_id ) ) {
+			$result['id'] = $batch_id;
+		}
+
+		return $result;
+	}
+
+	public function batch_create_product( $params, $batch_id = false ) {
+		return $this->compose_batch_item( 
+			'/products',
+			'POST',
+			$this->_sanitize_product_data( $params ),
+			$batch_id
+		);
+	}
+
+	public function batch_update_product( $params, $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id,
+			'PUT',
+			$this->_sanitize_product_data( $params ),
+			$batch_id
+		);
+	}
+
+	public function batch_upload_category_image( $params, $category_id, $batch_id = false ) {
+		$url = $this->build_request_url('/categories/' . $product_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_upload_product_image( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_upload_product_gallery_image( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/gallery', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+	
+	public function batch_upload_product_variation_image( $params, $product_id, $variation_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/combinations/' . $variation_id . '/image', $params);
+
+		return $this->compose_batch_item(
+			$url,
+			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_create_product_variation( $params, $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id . '/combinations',
+			'POST',
+			$params,
+			$batch_id
+		);
 	}
 }

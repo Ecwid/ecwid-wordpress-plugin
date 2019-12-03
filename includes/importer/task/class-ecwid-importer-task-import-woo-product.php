@@ -15,14 +15,6 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task_Product
 
 		$this->_woo_product_id = $product['woo_id'];
 		
-		$importer->append_task(
-			Ecwid_Importer_Task_Create_Product::build(
-				array(
-					'woo_id' => $product['woo_id']
-				)
-			)
-		);
-		
 		if ( get_post_thumbnail_id( $product['woo_id'] ) ) {
 			$importer->append_task(
 				Ecwid_Importer_Task_Upload_Product_Image::build(
@@ -32,6 +24,7 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task_Product
 				)
 			);
 		}
+		
 		
 		$p = wc_get_product( $product['woo_id'] );
 		
@@ -62,6 +55,7 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task_Product
 				}
 			}
 		}
+
 
 		if ( $p->get_gallery_image_ids() ) {
 			foreach ( $p->get_gallery_image_ids() as $image ) {
