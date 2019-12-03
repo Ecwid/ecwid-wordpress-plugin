@@ -26,6 +26,10 @@ class Ecwid_Static_Page {
 		if ( !self::is_enabled_static_home_page() ) {
 			return null;
 		}
+
+		if ( !Ecwid_Store_page::is_store_page() ) {
+			return null;
+		}
 		
 		if( !self::is_data_available() ) {
 			return null;
