@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.3
-Stable tag: 6.8.7
+Stable tag: 6.8.8
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -157,6 +157,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid eCommerce Forums](https://www.ecwid.com/forums/forumdisplay.php?f=19)
 
 == Changelog == 
+= 6.8.9 - Dec 3, 2019 =
+- **Several fixes and improvements for the "Import from WooCommerce" tool.** If you import your products from WooCommerce to Ecwid, the import process now should work faster. We also added import of product sale prices from WooCommerce import "Sale Price". In the storefront, this price will be struck out to demonstrate the discount and the ON SALE label will appear on the product.
+- Avada, Twenty Twenty themes improved compatibility. Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes.
+- Minor fixes and improvements.
+
 = 6.8.8 - Oct 31, 2019 =
 - WordPress 5.3 and Twenty Twenty theme compatibility. The new WordPress version with the 2020 theme is coming soon. The Ecwid ecommerce shopping cart plugin is ready for the upcoming changes — everything will work well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.3 as soon as it's released and try a new theme. 
 - Minor fixes and improvements.
