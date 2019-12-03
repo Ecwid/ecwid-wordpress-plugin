@@ -147,6 +147,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
+
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
@@ -1795,6 +1797,8 @@ function ecwid_uninstall() {
 	delete_option("ecwid_plugin_version");
 	delete_option("ecwid_use_chameleon");
 	delete_option(Ecwid_Api_V3::TOKEN_OPTION_NAME);
+
+	EcwidPlatform::cache_reset('need_add_rewrite');
 }
 
 function ecwid_abs_intval($value) {
