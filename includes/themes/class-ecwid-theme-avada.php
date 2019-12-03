@@ -25,7 +25,7 @@ Ecwid.OnPageLoaded.add( function() {
 		niceScrollReInit();
 	}
 
-	if (typeof jQuery("html").getNiceScroll() == 'object') {
+	if (typeof jQuery("html").getNiceScroll == 'object') {
 		jQuery("html").getNiceScroll().resize();
 	}
 }
