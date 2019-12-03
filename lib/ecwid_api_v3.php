@@ -64,12 +64,8 @@ class Ecwid_Api_V3
 	public static function is_available()
 	{
 		$status = self::get_api_status();
-		
-		// if ( $status == self::API_STATUS_UNDEFINED ) {
-			return self::check_api_status();
-		// }
-		
-		return $status == self::API_STATUS_OK;
+
+		return self::check_api_status();
 	}
 	
 	public static function connection_fails()
