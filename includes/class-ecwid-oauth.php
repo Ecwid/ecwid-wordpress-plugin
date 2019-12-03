@@ -133,7 +133,7 @@ class Ecwid_OAuth {
 		Ecwid_Api_V3::reset_api_status();
 		
 		$this->api->save_token($result->access_token);
-		
+
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
 			wp_redirect( admin_url( $this->state->return_url ) );
 		} else {

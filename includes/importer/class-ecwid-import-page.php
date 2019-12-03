@@ -143,7 +143,7 @@ class Ecwid_Import_Page
 		
 		wp_redirect(
 			'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG 
-			. '&reconnect&return-url=' . urlencode( $url ) 
+			. '&reconnect&return-url=' . urlencode( $url )
 			. '&scope=create_catalog+update_catalog&do_reconnect=1'
 		);
 	}
