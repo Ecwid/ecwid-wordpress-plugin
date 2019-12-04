@@ -84,6 +84,11 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 				$ecwid_id = $response->httpBody->id;
 
 				if ($type == 'create_product' ) {
+
+					if( isset($response->httpBody->updateCount) ) {
+						$ecwid_id = $params[2];
+					}
+
 					update_post_meta( $woo_id, '_ecwid_product_id', $ecwid_id );
 					$exporter->save_ecwid_product_id( $woo_id, $ecwid_id );
 

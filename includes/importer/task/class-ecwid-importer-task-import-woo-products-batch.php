@@ -36,6 +36,9 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 
 					if ( $ecwid_products->total > 0 ) {
 						$ecwid_id = $ecwid_products->items[0]->id;
+
+						$batch_item_id .= '|' . $ecwid_id; 
+
 						$batch_item = $api->batch_update_product( $data, $ecwid_id, $batch_item_id );
 					}
 				}
