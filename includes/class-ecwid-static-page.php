@@ -26,6 +26,10 @@ class Ecwid_Static_Page {
 		if ( !self::is_enabled_static_home_page() ) {
 			return null;
 		}
+
+		if ( !Ecwid_Store_page::is_store_page() ) {
+			return null;
+		}
 		
 		if( !self::is_data_available() ) {
 			return null;
@@ -314,6 +318,18 @@ class Ecwid_Static_Page {
 		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
 
+	public static function clear_all_cache() {
+	    global $wpdb;
+
+	    $sql = "
+	        DELETE 
+	        FROM {$wpdb->options}
+	        WHERE option_name like '\_transient\_ecwid\_catalog\_%'
+	        OR option_name like '\_transient\_timeout\_ecwid\_catalog\_%'
+	    ";
+
+	    $wpdb->query($sql);
+	}
 }
 
 $__ecwid_static_page = new Ecwid_Static_Page();

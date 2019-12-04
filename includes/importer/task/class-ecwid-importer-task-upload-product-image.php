@@ -16,19 +16,35 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task_Produ
 				'message' => 'Parent product was not imported for product #' . $product_data['woo_id']
 			);
 		}
-		
+
 		$api = new Ecwid_Api_V3();
 
-		$file = get_attached_file ( get_post_thumbnail_id( $product_data['woo_id'] ) );
+		if ( Ecwid_Importer::is_localhost() ) {
 
-		$data = array(
-			'productId' => $this->_ecwid_product_id,
-			'data' => file_get_contents( $file )
-		);
+			$file = get_attached_file ( get_post_thumbnail_id( $product_data['woo_id'] ) );
 
-		$result = $api->upload_product_image( $data );
+			$data = array(
+				'productId' => $this->_ecwid_product_id,
+				'data' => file_get_contents( $file )
+			);
 
-		return self::_process_api_result( $result, $data );
+			$result = $api->upload_product_image( $data );
+			return self::_process_api_result( $result, $data );
+
+		} else {
+
+			$batch_item_id = self::$type . '|' . $this->_ecwid_product_id;
+
+			$file_url = wp_get_attachment_url( get_post_thumbnail_id( $product_data['woo_id'] ) );
+			$data = array(
+				'externalUrl' => $file_url
+			);
+
+			$batch_item = $api->batch_upload_product_image( $data, $this->_ecwid_product_id, $batch_item_id );
+			$exporter->append_batch( $batch_item );
+
+			return $this->_result_success();
+		}
 	}
 
 	public static function build( array $data ) {

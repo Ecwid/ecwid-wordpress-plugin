@@ -140,10 +140,10 @@ class Ecwid_Import_Page
 				$url .= '&' . $param . '=true';
 			}
 		}
-		
-		wp_redirect(
+
+		wp_safe_redirect(
 			'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG 
-			. '&reconnect&return-url=' . urlencode( $url ) 
+			. '&reconnect&return-url=' . urlencode( $url )
 			. '&scope=create_catalog+update_catalog&do_reconnect=1'
 		);
 	}

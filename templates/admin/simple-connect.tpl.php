@@ -1,6 +1,8 @@
 <?php
     $no_oauth = @$_GET['oauth'] == 'no';
     $connection_error = isset( $_GET['connection_error'] );
+
+    $connect_url = 'admin-post.php?action=ec_connect';
 ?>
 
 <div class="wrap ecwid-admin ecwid-connect<?php if ($no_oauth): ?> no-oauth<?php else: ?> with-oauth<?php endif; ?>">
@@ -19,7 +21,8 @@
 			<input type="text" id="ecwid-store-id" placeholder="<?php _e('Enter your Store ID', 'ecwid-shopping-cart'); ?>" />
 		</div>
 		<div class="connect-button">
-			<a href="admin-post.php?action=ec_connect" class="with-oauth"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
+
+			<a href="<?php echo $connect_url; ?>" class="with-oauth"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
 			<a id="ecwid-connect-no-oauth" href="admin-post.php?action=ec_connect" class="no-oauth" style="white-space: nowrap; width:auto"><?php _e( 'Save and connect', 'ecwid-shopping-cart' ); ?></a>
 		</div>
 

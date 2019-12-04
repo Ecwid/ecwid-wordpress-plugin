@@ -92,12 +92,48 @@ TXT
 
 		$do_not_show_again = true == $params['hideable'];
 
+
+		//TO-DO: delete this block
+		$debug = EcwidPlatform::cache_get( 'temporary_debug', null );
+		if( $name == 'api_failed_other' && is_null($debug) ) {
+
+			$api_url = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
+			$api_profile_url = $api_url . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token();
+
+			$api_v3_profile_results = wp_remote_get(
+				$api_profile_url,
+				array('timeout' => 5)
+			);
+
+			if( is_wp_error($api_v3_profile_results) ) {
+				$error = $api_v3_profile_results->get_error_message();
+
+				preg_match( '/cURL error ([0-9]+):/i', $error, $m );
+
+				$script_js = sprintf(
+					'<script src="https://%s/script.js?%s&data_platform=wporg&data_wp_error=%s"></script>',
+					Ecwid_Config::get_scriptjs_domain(),
+					get_ecwid_store_id(),
+					$m[1]
+				);
+
+				$message .= $script_js;
+
+				EcwidPlatform::cache_set( 'temporary_debug', 1, WEEK_IN_SECONDS );
+			}
+		}
+
 		include ECWID_PLUGIN_DIR . 'templates/admin-message.php';
 	}
 
 	public static function disable_message($name)
 	{
 		$messages = get_option('ecwid_disabled_messages');
+
+		if( !is_array($messages) ) {
+			$messages = array();
+		}
+
 		$messages[$name] = true;
 
 		update_option('ecwid_disabled_messages', $messages);
@@ -106,8 +142,9 @@ TXT
 	public static function enable_message($name)
 	{
 		$messages = get_option('ecwid_disabled_messages');
-		if (isset($messages['name']))
+		if (isset($messages['name'])) {
 			unset($messages['name']);
+		}
 
 		update_option('ecwid_disabled_messages', $messages);
 	}
@@ -143,7 +180,7 @@ TXT
 
 		$hidden_messages = get_option('ecwid_disabled_messages');
 
-		if ( !empty( $hidden_messages ) ) {
+		if ( !empty( $hidden_messages ) && is_array( $hidden_messages ) ) {
 			foreach ($hidden_messages as $name => $message) {
 				unset ($this->messages[$name]);
 			}
@@ -353,10 +390,11 @@ HTML
 				if ( !class_exists( 'Ecwid_Importer' ) ) {
 					require_once ECWID_PLUGIN_DIR . 'includes/importer/class-ecwid-importer.php';
 				}
-				
+
 				return 
 					is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
+					&& $_GET['import'] != 'ec-store-import'
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
 					&& !ecwid_is_demo_store()

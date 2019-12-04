@@ -62,7 +62,7 @@
 <h2>Error log</h2>
 <div>
 	<?php foreach (json_decode($all_options['ecwid_error_log'], true) as $key => $item): ?>
-	<div class="section"><?php echo $item['message']; ?></div>
+	<div class="section"><?php echo htmlspecialchars($item['message']); ?><br><br></div>
 	<?php endforeach; ?>
 </div>
 
@@ -87,7 +87,7 @@
 			<?php echo $key; ?>
 		</div>
 		<div>
-			<?php echo $option; ?>
+			<?php echo htmlspecialchars($option); ?>
 		</div>
 	</div>
 <?php endif; ?>

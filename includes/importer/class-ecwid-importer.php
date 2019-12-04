@@ -1,7 +1,5 @@
 <?php
-
 require_once dirname(__FILE__) . '/class-ecwid-importer-task.php';
-
 class Ecwid_Importer
 {
 	const OPTION_TASKS = 'ecwid_importer_tasks';
@@ -17,12 +15,14 @@ class Ecwid_Importer
 	
 	const SETTING_UPDATE_BY_SKU = 'update-by-sku';
 	const SETTING_DELETE_DEMO = 'delete-demo';
-
 	const DEMO_CREATE_FROM = 1469707991;
 	const DEMO_CREATE_TO = 1469710442;
 	
 	protected $_tasks;
 	protected $_start_time;
+
+	public $_batch;
+	public $_batch_progress;
 	
 	public function initiate( $settings = array() )
 	{
@@ -30,11 +30,9 @@ class Ecwid_Importer
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
 		update_option( self::OPTION_STATUS, array() );
-
 		$this->_start();
 		
 		$api = new Ecwid_Api_V3();
-
 		$this->_set_settings( $settings );
 		$this->_maybe_set_forced_settings();
 		$this->_set_tasks(array());
@@ -51,21 +49,16 @@ class Ecwid_Importer
 		$start = time();
 		
 		$status = get_option( self::OPTION_STATUS, array( 'plan_limit' => array() ) );
-		$count = 0;
 		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
-
 		do {
 			$current_task = $this->_get_current_task();
-
 			$task_data = $this->_tasks[$current_task];
-
 			if ( !isset( $status['plan_limit'] )
 	             || !is_array( $status['plan_limit'] ) 
 	             || !array_key_exists( $task_data['type'], $status['plan_limit'] ) 
 			) {
 				
 				$task = Ecwid_Importer_Task::load_task($task_data['type']);
-
 				$result = $task->execute($this, $task_data);
 				
 				if ( $result['status'] == 'error' ) {
@@ -81,17 +74,13 @@ class Ecwid_Importer
 					if ( is_wp_error( $error_data ) ) {
 						$message = var_export( $result['data']->get_error_message(), true );
 					} elseif ( is_array( $error_data ) ) {
-
 						$message = @$error_data['response']['code'];
-
 						if ( $error_data['response']['message'] ) {
 							$message .= ' ' . $error_data['response']['message'];
 						}
-
 						if ( @$error_data['http_message'] ) {
 							$message .= ' ' . $error_data['http_message'];
 						}
-
 						if ( @$error_data['api_message'] ) {
 							$message .= ':' . $error_data['api_message'];
 						}
@@ -99,17 +88,14 @@ class Ecwid_Importer
 						if ( @$error_data['api_code'] ) {
 							$message .= '(' . $error_data['api_code'] . ')';
 						}
-
 					} elseif ( @$error_data == 'skipped' ) {
 						$message = $result['message'];
 					}
 					
 					$this->_tasks[$current_task]['error'] = $message;
-
 					if ( !isset( $progress['error_messages'][$task_data['type']] ) ) {
 						$progress['error_messages'][$task_data['type']] = array();
 					}
-
 					if ( !isset( $progress['error_messages'][$task_data['type']][$message] ) ) {
 						$progress['error_messages'][$task_data['type']][$message] = [];
 					}
@@ -127,7 +113,7 @@ class Ecwid_Importer
 						
 						if ( $task instanceof Ecwid_Importer_Task_Create_Product_Variation || $task instanceof Ecwid_Importer_Task_Upload_Product_Variation_Image ) {
 						  $error_data['variation_id'] = $task_data['variation_id'];
-            }
+           				}
 					} else {
 						$error_data = $task_data;
 					}
@@ -136,7 +122,6 @@ class Ecwid_Importer
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}
-
 				update_option( self::OPTION_STATUS, $status );
 			} else {
 				$progress['error'][] = $task_data['type'];
@@ -150,7 +135,6 @@ class Ecwid_Importer
 			}
 			
 			$this->_set_current_task( $current_task );
-			$count++;
 			
 			$progress['current'] = $current_task;
 			$progress['total'] = count( $this->_tasks );
@@ -158,12 +142,39 @@ class Ecwid_Importer
 			$this->_set_tasks( $this->_tasks );
 			
 			if ( $start + self::TICK_LENGTH <= time() ) {
+
 				$progress['status'] = 'in_progress';
-				$progress['tasks'] = $this->_tasks;
-				
-				return $progress;
+				break;
 			}
 		} while ( 1 );
+
+		if( count($this->get_batch()) ) {
+			if( $this->execute_batch() ) {
+				$this->_set_tasks( $this->_tasks );
+				$progress['status'] = 'in_progress';
+			}
+		}
+
+		if( is_array( $this->_batch_progress ) ) {
+			if( isset($this->_batch_progress['success']) ) {
+				$progress['success'] = array_merge( $progress['success'], $this->_batch_progress['success'] );
+			}
+			if( isset($this->_batch_progress['error']) ) {
+				$progress['error'] = array_merge( $progress['error'], $this->_batch_progress['error'] );
+			}
+			if( isset($this->_batch_progress['error_messages']) ) {
+				if( !isset($progress['error_messages']) ) {
+					$progress['error_messages'] = $this->_batch_progress['error_messages'];
+				} else {
+					$progress['error_messages'] = array_merge( $progress['error_messages'], $this->_batch_progress['error_messages'] );
+				}
+			}
+		}
+
+		if(	$progress['status'] == 'in_progress' ) {
+			$progress['tasks'] = $this->_tasks;
+			return $progress;
+		}
 
 		$this->_set_tasks( null );
 		
@@ -174,8 +185,57 @@ class Ecwid_Importer
 		return $progress;
 	}
 	
-	public function append_task( $task ) {
 
+	public function append_batch( $batch_item ) {
+		$this->_batch[] = $batch_item;
+
+		return count( $this->_batch ) - 1;
+	}
+
+	public function get_batch() {
+
+		if( !is_array($this->_batch) ) {
+			$this->clear_batch();
+		}
+
+		return $this->_batch;
+	}
+
+	public function clear_batch() {
+		$this->_batch = array();
+	}
+
+	public function execute_batch() {
+		
+		$batch = $this->get_batch();
+
+		$api = new Ecwid_Api_V3();
+		$result = $api->create_batch( $batch );
+
+		if( $result['response']['code'] == '200' ) {
+
+			$data = json_decode( $result['body'] );
+			$ticket = $data->ticket;
+
+			$this->append_task(
+				Ecwid_Importer_Task_Batch_Status::build(
+					array( 'ticket' => $ticket )
+				)
+			);
+
+			$this->clear_batch();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public static function is_localhost() {
+		return in_array( $_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1') );
+	}
+
+	public function append_task( $task ) {
 		$this->_tasks[] = $task;
 		
 		return count( $this->_tasks ) - 1;
@@ -185,31 +245,20 @@ class Ecwid_Importer
 	/**
 	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
 	 * and appends $task after all its siblings
-	 * 
-	 * @param $task 
-	 */
-	/**
-	 * Appends $task as a child of current task. It skips current task, skips all task with the same type
-	 * and appends $task after all its siblings
 	 *
 	 * @param $task
 	 */
 	public function append_child( $task ) {
 		$ind = $this->_get_current_task();
-
 		$this_task = $this->_tasks[$ind];
-
 		$ind++;
 		while ( isset( $this->_tasks[$ind] ) && ( $this->_tasks[$ind]['type'] == $task['type'] || $this->_tasks[$ind]['type'] == $this_task['type'] ) ) {
 			$ind++;
 		}
-
 		return $this->append_after( $task, $ind - 1 );
 	}
-
 	public function append_after( $task, $index ) {
 		array_splice( $this->_tasks, $index + 1, 0, array( $task ) );
-
 		return $index + 1;
 	}
 	
@@ -251,7 +300,6 @@ class Ecwid_Importer
 	public function save_ecwid_category( $woo_category_id, $ecwid_category_id )
 	{
 		$categories = get_option( self::OPTION_CATEGORIES, array() );
-
 		$categories[$woo_category_id] = $ecwid_category_id;
 		
 		update_option(self::OPTION_CATEGORIES, $categories );
@@ -259,16 +307,12 @@ class Ecwid_Importer
 	
 	public function get_ecwid_product_id( $woo_product_id ) {
 		$products = get_option( self::OPTION_PRODUCTS, array() );
-
 		return @$products[$woo_product_id];
 	}
-
 	public function save_ecwid_product_id( $woo_product_id, $ecwid_product_id )
 	{
 		$products = get_option( self::OPTION_PRODUCTS, array() );
-
 		$products[$woo_product_id] = $ecwid_product_id;
-
 		update_option(self::OPTION_PRODUCTS, $products );
 	}
 	
@@ -309,7 +353,6 @@ class Ecwid_Importer
 	
 	public function get_setting( $name ) {
 		$settings = get_option( self::OPTION_SETTINGS, array() );
-
 		return @$settings[$name];
 	}
 	
@@ -380,14 +423,12 @@ class Ecwid_Importer
 	public static function count_woo_products()
 	{
 		$count = wp_count_posts( 'product' );
-
 		return $count->publish;
 	}
 	
 	public static function count_ecwid_products()
 	{
 		$api = new Ecwid_Api_V3();
-
 		$max = 100;
 		$ecwid_products = $api->get_products( array( 'limit' => $max ) );
 		
@@ -408,7 +449,6 @@ class Ecwid_Importer
 	public static function count_ecwid_categories()
 	{
 		$api = new Ecwid_Api_V3();
-
 		$ecwid_categories = $api->get_categories( array( 'limit' => 1 ) );
 		return $ecwid_categories->total;
 	}
@@ -460,7 +500,6 @@ class Ecwid_Importer
 				);
 			}
 		}
-
 		return $result;
 	}
 	

@@ -88,7 +88,7 @@ class Ecwid_OAuth {
 				$this->update_state(array('mode' => self::MODE_CONNECT, 'error' => 'cancelled'));
 			}
 
-			wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ($reconnect ? '&reconnect' : ''));
+			wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ($reconnect ? '&reconnect' : ''));
 			exit;
 		}
 
@@ -133,9 +133,9 @@ class Ecwid_OAuth {
 		Ecwid_Api_V3::reset_api_status();
 		
 		$this->api->save_token($result->access_token);
-		
+
 		if ( isset( $this->state->return_url ) && !empty( $this->state->return_url ) ) {
-			wp_redirect( admin_url( $this->state->return_url ) );
+			wp_safe_redirect( admin_url( $this->state->return_url ) );
 		} else {
 			$url = '';
 			if ($reconnect) {
@@ -143,7 +143,7 @@ class Ecwid_OAuth {
 			} else {
 				$url = Ecwid_Admin::get_dashboard_url();
 			}
-			wp_redirect( $url );
+			wp_safe_redirect( $url );
 		}
 		exit;
 	}
@@ -155,7 +155,7 @@ class Ecwid_OAuth {
 		update_option( 'ecwid_is_api_enabled', 'off' );
 		update_option( 'ecwid_api_check_time', 0 );
 
-		wp_redirect( Ecwid_Admin::get_dashboard_url() );
+		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit;
 	}
 
@@ -245,8 +245,8 @@ class Ecwid_OAuth {
 			EcwidPlatform::report_error($last_error);
 		}
 
-		wp_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $mode == self::MODE_RECONNECT ? '&reconnect' : '' ) );
-		exit;
+		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $mode == self::MODE_RECONNECT ? '&reconnect' : '' ) );
+		exit();
 	}
 
 	protected function _get_scope() {

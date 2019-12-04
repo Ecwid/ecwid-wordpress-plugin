@@ -363,7 +363,7 @@ class Ecwid_Admin {
 
 		$page = str_replace('admin_page_ecwid', Ecwid_Admin::ADMIN_SLUG, $base );
 
-		wp_redirect( admin_url('admin.php?page=' . $page ), 301 );
+		wp_safe_redirect( admin_url('admin.php?page=' . $page ), 301 );
 		exit();
 	}
 

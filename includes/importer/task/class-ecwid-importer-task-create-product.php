@@ -6,9 +6,9 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 
 	const WC_PRODUCT_TYPE_VARIABLE = 'variable';
 
-	public function execute( Ecwid_Importer $exporter, array $product_data ) {
+	public function get_batch_data( Ecwid_Importer $exporter, $woo_product_id ) {
 		
-		$this->_woo_product_id = $product_data['woo_id'];
+		$this->_woo_product_id = $woo_product_id;
 
 		$product = wc_get_product( $this->_woo_product_id );
 
@@ -38,6 +38,13 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 		}
 
 		$data['price'] = floatval( $data['price'] );
+
+
+		$sale_price = $product->get_sale_price();
+		if( !empty( $sale_price ) ) {
+			$data['compareToPrice'] = $data['price'];
+			$data['price'] = floatval( $sale_price );
+		}
 		
 		$categories = get_the_terms( $this->_woo_product_id, 'product_cat' );
 
@@ -51,55 +58,20 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 		if ( empty( $data['categoryIds'] ) ) {
 			unset( $data['categoryIds'] );
 		}
-		
-		$ecwid_product_id = null;
-		$result = null;
-		$ecwid_id = null;
 
-		$api = new Ecwid_Api_V3();
-
-		if ( $exporter->get_setting( Ecwid_Importer::SETTING_UPDATE_BY_SKU ) ) {
-			
-			if( isset( $data['sku'] ) ) {
-				$filter = array( 'sku' => $data['sku'] );
-			} else {
-				$filter = array( 'id' => $this->_woo_product_id );
-			}
-			$products = $api->get_products( $filter );
-
-			if ( $products->total > 0 ) {
-				$ecwid_id = $products->items[0]->id;
-				$result = $api->update_product( $data, $ecwid_id );
-				$exporter->save_ecwid_product_id( $this->get_woo_id(), $ecwid_id );
-			}
-		}
-
-		if ( !$result ) {
-			$result = $api->create_product( $data );
-			
-			if ( !$this->_is_api_result_error($result) ) {
-				$result_object = json_decode( $result['body'] );
-				$ecwid_id = $result_object->id;
-			}
-		}
-
-		$return = $this->_process_api_result( $result, $data );
-
-		if ( $return['status'] == self::STATUS_SUCCESS ) {
-			$result_object = json_decode( $result['body'] );
-			
-			$this->_ecwid_product_id = $ecwid_id;
-
-			update_post_meta( $this->get_woo_id(), '_ecwid_product_id', $ecwid_id );
-			$exporter->save_ecwid_product_id( $this->get_woo_id(), $ecwid_id ? $ecwid_id : $result_object->id );
-		}
-
-		return $return;
+		return $data;
 	}
 
-	public function _get_variable_product_data( )
+	public function execute( Ecwid_Importer $exporter, array $product_data ) {
+
+		return $this->_result_success();
+	}
+
+	public function _get_variable_product_data( $id = false )
 	{
-		$id = $this->get_woo_id();
+		if( !$id ) {
+			$id = $this->get_woo_id();
+		}
 		$result = array();
 
 		$product = new WC_Product_Variable( $id );

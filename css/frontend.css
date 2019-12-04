@@ -79,6 +79,9 @@ html#ecwid_html body#ecwid_body .ecwid.ecwid-SingleProduct-v2.ecwid-random-produ
 	min-height: 42px;
 }
 
+#dynamic-ec-store {
+	width: 100%;
+}
 .hide-ec-dynamic-placeholder .ecwid-shopping-cart-product-browser {
 	display: none;
 }

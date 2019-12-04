@@ -19,7 +19,7 @@ class Ecwid_Importer_Task_Import_Woo_Categories extends Ecwid_Importer_Task {
 
 		foreach ( @$categories as $category ) {
 			if ( $category['has_image'] ) {
-				$importer->append_after(
+				$importer->append_task(
 					Ecwid_Importer_Task_Upload_Category_Image::build( $category ),
 					$index++
 				);

@@ -58,24 +58,17 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task_P
 
 			if ( !isset( $variation_data['sku']) ) {
 			  unset( $variation_data['quantity'] );
-      }
+      		}
 			
 			break;
 		}
 
-		$result = $api->create_product_variation(
-			$variation_data
-		);
+		$batch_item_id = self::$type . '|' . $this->_woo_product_id;
 
-		$return = self::_process_api_result( $result, $data );
-
-		if ( $return['status'] == self::STATUS_SUCCESS ) {
-			$result_object = json_decode( $result['body'] );
-
-			update_post_meta( $data['variation_id'], '_ecwid_variation_id', $result_object->id );
-		}
-
-		return $return;
+		$batch_item = $api->batch_create_product_variation( $variation_data, $this->_ecwid_product_id, $batch_item_id );
+		$exporter->append_batch( $batch_item );
+		
+		return $this->_result_success();
 	}
 
 	public static function build( array $data ) {
