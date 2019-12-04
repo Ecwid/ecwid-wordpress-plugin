@@ -71,7 +71,7 @@ if ( is_admin() ) {
 	
 	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
 	add_action( 'get_footer', 'ecwid_admin_get_footer' );
-	add_action( 'template_redirect', 'ecwid_process_oauth_params' );
+	add_action( 'admin_init', 'ecwid_process_oauth_params' );
 	add_action( 'admin_notices', 'ecwid_show_admin_messages' );
 	add_filter( 'plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions' );
 	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
