@@ -13,6 +13,10 @@ jQuery(document).ready(function() {
 
             var page = jQuery(this).data('ecwid-page');
             if (page == '/') {
+                if (!ecwidParams.useJsApiToOpenStoreCategoriesPages) {
+                    return;
+                }
+                
                 var id = jQuery('[data-ecwid-default-category-id]').data('ecwid-default-category-id');
                 if (id) {
                     Ecwid.openPage('category', {id:id});
