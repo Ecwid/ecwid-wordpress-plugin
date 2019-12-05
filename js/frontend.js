@@ -19,7 +19,7 @@ jQuery(document).ready(function() {
                 } else {
                     Ecwid.openPage('category', 0);
                 }
-            } if (page == 'category' ) {
+            } else if (page == 'category' ) {
                 if (ecwidParams.useJsApiToOpenStoreCategoriesPages) {
                     Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
                     jQuery(this).hide().blur().show();
