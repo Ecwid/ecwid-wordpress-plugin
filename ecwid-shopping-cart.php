@@ -2023,6 +2023,13 @@ function ecwid_register_admin_styles($hook_suffix) {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
 		}
+
+		$pages_with_ecwid_app_ui = array(
+			'ec-store-import-woocommerce'
+		);
+		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
+			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
+		}
 	}
 }
 
