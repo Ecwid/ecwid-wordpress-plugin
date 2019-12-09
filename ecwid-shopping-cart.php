@@ -2029,6 +2029,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 		);
 		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
 			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
+			wp_enqueue_script('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.min.js', array(), get_option('ecwid_plugin_version'), 'in_footer');
 		}
 	}
 }

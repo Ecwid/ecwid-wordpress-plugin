@@ -269,27 +269,6 @@
 						</div>
 					</div>
 
-					<div class="a-card a-card--compact a-card--error">
-						<div class="a-card__paddings">
-							<div class="iconable-block iconable-block--hide-in-mobile iconable-block--error">
-								<div class="iconable-block__infographics">
-									<span class="iconable-block__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" focusable="false"><path d="M34.5 67C16.58 67 2 52.42 2 34.5S16.58 2 34.5 2 67 16.58 67 34.5 52.42 67 34.5 67zm0-62C18.23 5 5 18.23 5 34.5S18.23 64 34.5 64 64 50.77 64 34.5 50.77 5 34.5 5z"></path><path d="M34.5 49c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM35.5 38.57h-2l-1-14c0-1.17.89-2.07 2-2.07s2 .9 2 2l-1 14.07z"></path></svg></span>
-								</div>
-								<div class="iconable-block__content">
-									<div class="cta-block">
-										<div class="cta-block__central">
-											<div class="cta-block__title">Reached the product count limit </div>
-											<div class="cta-block__content"><?php echo sprintf( __ ( 'Not all products have been copied to %1$s because you reached the product count limit on your pricing plan in %1$s. If you want to import more products, please consider <a %2$s>upgrading your %1$s plan</a>.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand(), 'href="' . $this->_get_billing_page_url() .'"' ); ?></div>
-										</div>
-									</div>
-									<span class="alert-close-mark">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<div class="a-card a-card--compact a-card--success">
 						<div class="a-card__paddings">
 							<div class="iconable-block iconable-block--hide-in-mobile iconable-block--error">
@@ -320,6 +299,45 @@
 									<span class="alert-close-mark">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
 									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					
+					<div class="a-card a-card--compact a-card--error">
+						<div class="a-card__paddings">
+							<div class="iconable-block iconable-block--hide-in-mobile iconable-block--error">
+								<div class="iconable-block__infographics">
+									<span class="iconable-block__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" focusable="false"><path d="M34.5 67C16.58 67 2 52.42 2 34.5S16.58 2 34.5 2 67 16.58 67 34.5 52.42 67 34.5 67zm0-62C18.23 5 5 18.23 5 34.5S18.23 64 34.5 64 64 50.77 64 34.5 50.77 5 34.5 5z"></path><path d="M34.5 49c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM35.5 38.57h-2l-1-14c0-1.17.89-2.07 2-2.07s2 .9 2 2l-1 14.07z"></path></svg></span>
+								</div>
+								<div class="iconable-block__content">
+									<div class="cta-block">
+										<div class="cta-block__central">
+											<div class="cta-block__title">Reached the product count limit </div>
+											<div class="cta-block__content"><?php echo sprintf( __ ( 'Not all products have been copied to %1$s because you reached the product count limit on your pricing plan in %1$s. If you want to import more products, please consider <a %2$s>upgrading your %1$s plan</a>.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand(), 'href="' . $this->_get_billing_page_url() .'"' ); ?></div>
+										</div>
+									</div>
+									<span class="alert-close-mark">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M15.6 15.5c-.53.53-1.38.53-1.91 0L8.05 9.87 2.31 15.6c-.53.53-1.38.53-1.91 0s-.53-1.38 0-1.9l5.65-5.64L.4 2.4C-.13 1.87-.13 1.02.4.49s1.38-.53 1.91 0l5.64 5.63L13.69.39c.53-.53 1.38-.53 1.91 0s.53 1.38 0 1.91L9.94 7.94l5.66 5.65c.52.53.52 1.38 0 1.91z"></path></svg>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="a-card a-card--compact a-card--error">
+						<div class="a-card__paddings">
+							<div class="collapsible">
+								<div class="collapsible__header"><?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?></div>
+								<div class="collapsible__body">
+
+									<div class="errors">
+									    <a class="btn-details"><?php _e( 'Details...', 'ecwid-shopping-cart' ); ?></a>
+									    <div class="details" id="fancy-errors"></div>
+									    <pre class="details"></pre>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -393,56 +411,3 @@
 
 	</div>
 </div>
-
-<?php
-/*
-<div class="a-card a-card--normal">
-	<div class="a-card__paddings">
-		<div class="cta-block">
-			<div class="cta-block__central">
-				<div class="cta-block__title"><?php _e( 'Import summary', 'ecwid-shopping-cart' ); ?></div>
-				<div class="cta-block__content">
-
-				    <div>
-				    	<?php
-						_e( 'Your WooCommerce store has ', 'ecwid-shopping-cart' );
-			            echo $this->_get_products_categories_message(
-			                Ecwid_Importer::count_woo_products(),
-			                Ecwid_Importer::count_woo_categories()
-			            );
-						?>
-					</div>
-				
-					<div>
-						<?php
-						printf(
-							__( 'Your %s store has ', 'ecwid-shopping-cart' ),
-							Ecwid_Config::get_brand()
-						);
-						echo $this->_get_products_categories_message(
-							Ecwid_Importer::count_ecwid_products(),
-							Ecwid_Importer::count_ecwid_categories()
-				        );		
-						?>
-				    </div>
-
-					<div>
-						<?php
-						echo sprintf(
-							__( 'After import, your %s store will have ', 'ecwid-shopping-cart' ),
-							Ecwid_Config::get_brand()
-						);
-						echo $this->_get_products_categories_message(
-							Ecwid_Importer::count_ecwid_products() + Ecwid_Importer::count_woo_products(),
-							Ecwid_Importer::count_ecwid_categories() + Ecwid_Importer::count_woo_categories()
-						);
-						?>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-*/
-?>
