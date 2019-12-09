@@ -27,6 +27,7 @@ class Ecwid_Integration_Autoptimize
 		
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 			$code .= ", " . Ecwid_Static_Page::HANDLE_STATIC_PAGE . ".js";
+			$code .= ", EcStaticPageUtils";
 		}
 		
 		return $exclude . ", $code";
