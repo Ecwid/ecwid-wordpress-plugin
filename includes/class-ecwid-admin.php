@@ -123,6 +123,20 @@ class Ecwid_Admin {
 							'',
 							array( $this, 'do_admin_page' )
 						);
+
+						if( $item['title'] == 'Configuration' ) {
+							if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-storefront-settings' ) ) {
+								add_submenu_page(
+									self::ADMIN_SLUG,
+									__('Storefront', 'ecwid-shopping-cart'),
+									__('Storefront', 'ecwid-shopping-cart'),
+									self::get_capability(),
+									'ec-storefront-settings',
+									'ecwid_storefront_settings_do_page'
+								);
+							}
+						}
+
 					}
 				}
 			}

@@ -60,7 +60,7 @@ if ( is_admin() ) {
 
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
-	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' );
+	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' ); // TO-DO метода ecwid_ajax_save_widget не существует - удалить
 	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
 	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
 	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
@@ -2023,6 +2023,15 @@ function ecwid_register_admin_styles($hook_suffix) {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
 		}
+
+		$pages_with_ecwid_app_ui = array(
+			'ec-store-import-woocommerce',
+			'ec-storefront-settings'
+		);
+		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
+			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
+			wp_enqueue_script('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.min.js', array(), get_option('ecwid_plugin_version'), 'in_footer');
+		}
 	}
 }
 
@@ -2574,6 +2583,25 @@ function ecwid_advanced_settings_do_page() {
 	
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
+
+// TO-DO storefront
+// TO-DO вынести в отдельый класс
+function ecwid_storefront_settings_do_page() {
+	$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+	$page_link = get_permalink( $page_id );
+	$page_edit_link = get_edit_post_link( $page_id );
+	$page_status = get_post_status($page_id);
+
+
+	require_once ECWID_PLUGIN_DIR . 'templates/storefront-settings/main.tpl.php';
+}
+
+function ecwid_ajax_storefront_settings() {
+	
+	wp_send_json(array('status' => 'success'));
+}
+add_action( 'wp_ajax_ecwid_storefront_settings', 'ecwid_ajax_storefront_settings' );
+// TO-DO end storefront
 
 function get_reconnect_link() {
 	return admin_url('admin-post.php?action=ec_connect&reconnect&api_v3_sso');
