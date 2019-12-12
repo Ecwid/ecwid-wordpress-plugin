@@ -124,11 +124,29 @@
 												<?php if ( !Ecwid_Config::is_wl() ): ?>
 											    <p><?php echo sprintf( __( '<b>Important note:</b> import creates new products. Please mind the maximum number of products and categories you can add to your store. This import tool will automatically stop when you reach the limit. To learn the current store limit or increase it, please see the <nobr><a %s>"Billing & Plans"</a></nobr> page in your store control panel. ', 'ecwid-shopping-cart' ), 'href="admin.php?page=ec-store-admin-billing"' ); ?></p>
 											    <?php endif; ?>
+
+											    <p>
+											    	<div class="titled-item__title"><?php _e( 'Copying products and categories', 'ecwid-shopping-cart' ); ?></div>
+									<div class="titled-item__content">
+										<?php echo sprintf( 
+									            __( 'Importing %s of %s items', 'ecwid-shopping-cart' ), 
+									            '<span id="import-progress-current">0</span>', 
+									            '<span id="import-progress-total">' . (Ecwid_Importer::count_woo_products() + Ecwid_Importer::count_woo_categories()) . '</span>' ); 
+									    ?>
+									</div>
+											    </p>
 											</div>
 
 											<!-- No scope -->
 											<div class="feature-element__action">
 												<a class="btn btn-primary btn-medium" id="reconnect-button" href="admin.php?page=<?php echo self::PAGE_SLUG_WOO; ?>&action=reconnect"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></a>
+											</div>
+
+											<!-- Import in default -->
+											<div class="feature-element__action">
+												<button type="button" class="btn btn-primary btn-medium" id="ecwid-importer-woo-go">
+													<span><?php _e( 'Get started', 'ecwid-shopping-cart' ); ?></span>
+												</button>
 											</div>
 
 											<!-- Import in default -->
@@ -406,6 +424,100 @@
 						</ul>
 					</div>
 				</div>
+			</div>
+		</div>
+
+
+		<!-- Statistics -->
+		<div class="named-area">
+			<div class="named-area__header">
+				<div class="named-area__titles">
+					<div class="named-area__title"><?php _e( 'Import summary', 'ecwid-shopping-cart' ); ?></div>
+					<div class="named-area__subtitle"></div>
+				</div>
+			</div>
+			<div class="named-area__body">
+
+				<style type="text/css">
+					.custom-row {
+						display: flex;
+						flex-wrap: wrap;
+					}
+
+					.custom-row .custom-row__column {
+						flex-grow: 1;
+						width: 33%;
+					}
+					.custom-row .custom-row__column:not(:first-child) {
+						padding-left: 16px;
+					}
+				</style>
+				<div class="custom-row">
+					<div class="custom-row__column">
+						<div class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="smart-row">
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Woo Categories</div>
+											<div class="titled-value__value">3</div>
+										</div>
+									</div>
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Woo Products</div>
+											<div class="titled-value__value">25</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="custom-row__column">
+						<div class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="smart-row">
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Ecwid Categories</div>
+											<div class="titled-value__value">3</div>
+										</div>
+									</div>
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Ecwid Products</div>
+											<div class="titled-value__value">25</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="custom-row__column">
+						<div class="a-card a-card--normal">
+							<div class="a-card__paddings">
+								<div class="smart-row">
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Ecwid Categories after import</div>
+											<div class="titled-value__value">3</div>
+										</div>
+									</div>
+									<div class="smart-row__column">
+										<div class="titled-value">
+											<div class="titled-value__title">Ecwid Products after import</div>
+											<div class="titled-value__value">325</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				
 			</div>
 		</div>
 
