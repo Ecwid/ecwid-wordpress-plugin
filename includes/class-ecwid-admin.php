@@ -154,7 +154,7 @@ class Ecwid_Admin {
 				__('Storefront', 'ecwid-shopping-cart'),
 				self::get_capability(),
 				'ec-storefront-settings',
-				'ecwid_storefront_settings_do_page'
+				'Ecwid_Admin_Storefront_Page::do_page'
 			);
 		}
 		
@@ -325,7 +325,7 @@ class Ecwid_Admin {
 					'title' => __('Storefront', 'ecwid-shopping-cart'),
 					'slug' => 'ec-storefront-settings',
 					'url' => 'admin.php?page=ec-storefront-settings',
-					'function' => 'ecwid_storefront_settings_do_page'
+					'function' => 'Ecwid_Admin_Storefront_Page::do_page'
 				);
 
 				$result[] = $menu_storefront;

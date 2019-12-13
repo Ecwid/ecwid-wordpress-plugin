@@ -148,6 +148,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
 
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
@@ -2583,52 +2584,6 @@ function ecwid_advanced_settings_do_page() {
 	
 	require_once ECWID_PLUGIN_DIR . 'templates/advanced-settings.php';
 }
-
-
-
-// TO-DO storefront
-// TO-DO вынести в отдельый класс
-function ecwid_storefront_settings_do_page() {
-	$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
-
-	if( $page_id ) {
-		$page_link = get_permalink( $page_id );
-		$page_edit_link = get_edit_post_link( $page_id );
-		$page_status = get_post_status($page_id);
-	}
-
-	require_once ECWID_PLUGIN_DIR . 'templates/storefront-settings/main.tpl.php';
-}
-
-function ecwid_ajax_storefront_set_status() {
-
-	$page_statuses = array(
-		0 => 'draft',
-		1 => 'publish'
-	);
-
-	if( !isset( $_GET['status'] ) ) {
-		return false;
-	}
-
-	$status = intval( $_GET['status'] );
-	if( !array_key_exists( $status, $page_statuses ) ) {
-		return false;
-	}
-
-	$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
-
-	wp_update_post(array(
-		'ID' => $page_id,
-		'post_status' => $page_statuses[ $status ]
-	));
-
-	wp_send_json(array('status' => 'success'));
-}
-add_action( 'wp_ajax_ecwid_storefront_set_status', 'ecwid_ajax_storefront_set_status' );
-// TO-DO end storefront
-
-
 
 function get_reconnect_link() {
 	return admin_url('admin-post.php?action=ec_connect&reconnect&api_v3_sso');
