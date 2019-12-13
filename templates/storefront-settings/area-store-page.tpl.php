@@ -11,11 +11,17 @@
 				<div class="feature-element has-picture has-icon">
 					<div class="feature-element__core">
 						<div class="feature-element__data">
+
 							<div class="feature-element__title"><?php _e('Your store page', 'ecwid-shopping-cart'); ?></div>
 							<div class="feature-element__status">
-								<span class="feature-element__status-title"><?php _e('Status', 'ecwid-shopping-cart'); ?>:</span>
+								<?php
+								$status_class = 'success';
+								if( $page_status == 'draft' ) {
+									$status_class = 'error';
+								}
+								?>
+								<span class="feature-element__status-title <?php echo $status_class;?>"><?php _e('Status', 'ecwid-shopping-cart'); ?>:</span>
 								<div class="feature-element__status-dropdown-container">
-
 									<div class="btn-group linklike-dropdown">
 										<button type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
 										<div class="btn btn-default btn-dropdown list-dropdown-no-general-text">
@@ -27,27 +33,38 @@
 												<li><a href="<?php echo $page_edit_link;?>" target="_blank"><?php _e('Open page in the editor', 'ecwid-shopping-cart'); ?></a></li>
 												
 												<?php if( $page_status == 'publish' ) {?>
-													<li><a><?php _e('Switch to draft and hide from the site', 'ecwid-shopping-cart'); ?></a></li>
+													<li><a data-storefront-status="0"><?php _e('Switch to draft and hide from the site', 'ecwid-shopping-cart'); ?></a></li>
 												<?php }?>
 
 												<?php if( $page_status == 'draft' ) {?>
-													<li><a><?php _e('Publish', 'ecwid-shopping-cart'); ?></a></li>
+													<li><a data-storefront-status="1"><?php _e('Publish', 'ecwid-shopping-cart'); ?></a></li>
 												<?php }?>
 											</ul>
 										</div>
 									</div>
-
 								</div>
 							</div>
+
 							<div class="feature-element__content">
+								
+								<!-- TO-DO сделать подключение микрошаблонов по шаблону <include tpl-$page-status.php>  -->
 								<?php if( $page_status == 'publish' ) {?>
 									<div class="feature-element__text">
-										<p><?php _e('Your storefront page is published and displayed on your site at www.mysite.com/store', 'ecwid-shopping-cart'); ?></p>
+										<p>
+											<?php
+											echo sprintf( 
+												__('Your storefront page is published and displayed on your site at %s', 'ecwid-shopping-cart'),
+												$page_link
+											);
+											?>
+										</p>
 									</div>
 									<div class="feature-element__action">
-										<a href="<?php echo $page_link;?>" class="feature-element__button btn btn-default btn-medium" href="https://merchants.google.com" target="_blank" data-storefront-status="0"><?php _e('Open store page', 'ecwid-shopping-cart'); ?></a>
+										<a href="<?php echo $page_link;?>" class="feature-element__button btn btn-default btn-medium" target="_blank"><?php _e('Open store page', 'ecwid-shopping-cart'); ?></a>
 									</div>
-								<?php } else {?>
+								<?php }?>
+
+								<?php if( $page_status == 'draft' ) {?>
 									<div class="feature-element__text">
 										<p><?php _e("Your storefront page is in draft. Publish it when you're ready so your customers will see your storefront", 'ecwid-shopping-cart'); ?></p>
 									</div>
@@ -55,6 +72,7 @@
 										<a class="feature-element__button btn btn-primary btn-medium" data-storefront-status="1"><?php _e('Publish store page', 'ecwid-shopping-cart'); ?></a>
 									</div>
 								<?php }?>
+
 							</div>
 						</div>
 						<div class="feature-element__icon">

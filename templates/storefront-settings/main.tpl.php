@@ -16,21 +16,17 @@
     	jQuery(document).on( 'click', '[data-storefront-status]', function(){
     		
     		var el = jQuery(this),
-    			is_button = el.hasClass('btn');
+    			new_status = el.data('storefrontStatus');
 
-    		if( is_button ) {
-    			el.addClass('btn-loading');
-    		}
+    		el.closest('.a-card').find('.btn').addClass('btn-loading');
 
     		jQuery.getJSON(
 				'admin-ajax.php',
 				{
-					action: 'ecwid_storefront_settings',
-					message: '1'
+					action: 'ecwid_storefront_set_status',
+					status: new_status
 				},
 				function(data) {
-					alert('ajax complete!');
-					// jQuery(a).closest('.ecwid-message').fadeOut();
 					location.reload();
 				}
 			);

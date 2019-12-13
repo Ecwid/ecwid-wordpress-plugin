@@ -94,7 +94,16 @@ class Ecwid_Admin {
 				$menu = $this->_get_menus();
 				
 				foreach ( $menu as $item ) {
-					if ( isset( $item['slug'] ) ) {
+					if ( isset( $item['function'] ) ) {
+						add_submenu_page(
+							self::ADMIN_SLUG,
+							$item['title'],
+							$item['title'],
+							self::get_capability(),
+							$item['slug'],
+							$item['function']
+						);
+					} else if ( isset( $item['slug'] ) ) {
 						add_submenu_page(
 							self::ADMIN_SLUG,
 							$item['title'],
@@ -123,20 +132,6 @@ class Ecwid_Admin {
 							'',
 							array( $this, 'do_admin_page' )
 						);
-
-						if( $item['title'] == 'Configuration' ) {
-							if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-storefront-settings' ) ) {
-								add_submenu_page(
-									self::ADMIN_SLUG,
-									__('Storefront', 'ecwid-shopping-cart'),
-									__('Storefront', 'ecwid-shopping-cart'),
-									self::get_capability(),
-									'ec-storefront-settings',
-									'ecwid_storefront_settings_do_page'
-								);
-							}
-						}
-
 					}
 				}
 			}
@@ -150,6 +145,17 @@ class Ecwid_Admin {
 					'admin.php?page=ec-store-admin-appmarket'
 				); 
 			}
+		}
+
+		if (!$is_newbie && !Ecwid_Api_V3::is_available() ) {
+			add_submenu_page(
+				self::ADMIN_SLUG,
+				__('Storefront', 'ecwid-shopping-cart'),
+				__('Storefront', 'ecwid-shopping-cart'),
+				self::get_capability(),
+				'ec-storefront-settings',
+				'ecwid_storefront_settings_do_page'
+			);
 		}
 		
 		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
@@ -313,6 +319,17 @@ class Ecwid_Admin {
 			}
 			
 			$result[] = $menu_item;
+
+			if( $menu_item['type'] == 'separator' && $menu_item['title'] == 'Configuration' ) {
+				$menu_storefront = array(
+					'title' => __('Storefront', 'ecwid-shopping-cart'),
+					'slug' => 'ec-storefront-settings',
+					'url' => 'admin.php?page=ec-storefront-settings',
+					'function' => 'ecwid_storefront_settings_do_page'
+				);
+
+				$result[] = $menu_storefront;
+			}
 		}
 		
 		return $result;
