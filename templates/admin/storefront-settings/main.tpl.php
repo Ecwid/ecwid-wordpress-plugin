@@ -73,6 +73,8 @@
 
 		<?php require __DIR__ . '/area-store-page.tpl.php'; ?>
 
+		<?php require __DIR__ . '/area-design.tpl.php'; ?>
+
 	</div>
 
 </div>
