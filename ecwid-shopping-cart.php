@@ -60,7 +60,7 @@ if ( is_admin() ) {
 
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
-	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' );
+	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' ); // TO-DO метода ecwid_ajax_save_widget не существует - удалить
 	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
 	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
 	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
@@ -148,6 +148,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
 
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
@@ -2022,6 +2023,15 @@ function ecwid_register_admin_styles($hook_suffix) {
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
+		}
+
+		$pages_with_ecwid_app_ui = array(
+			'ec-store-import-woocommerce',
+			'ec-storefront-settings'
+		);
+		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
+			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
+			wp_enqueue_script('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.min.js', array(), get_option('ecwid_plugin_version'), 'in_footer');
 		}
 	}
 }

@@ -382,7 +382,7 @@ class Ecwid_Store_Page {
 
 	protected static function _get_allowed_post_statuses()
 	{
-		return array('publish', 'private');
+		return array('publish', 'private', 'draft');
 	}
 
 	public static function warmup_store() 
