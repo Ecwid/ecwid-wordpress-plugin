@@ -29,10 +29,18 @@
 										</div>
 										<div class="list-dropdown list-dropdown-medium list-dropdown--left">
 											<ul>
-												<li><a href="<?php echo $page_link;?>" target="_blank"><?php _e('View page on the site', 'ecwid-shopping-cart'); ?></a></li>
+												<?php if( $page_status == 'publish' ) {?>
+													<li><a href="<?php echo $page_link;?>" target="_blank"><?php _e('View page on the site', 'ecwid-shopping-cart'); ?></a></li>
+												<?php }?>
+
+												<?php if( $page_status == 'draft' ) {?>
+													<li><a href="<?php echo $page_link;?>" target="_blank"><?php _e('Preview page on the site', 'ecwid-shopping-cart'); ?></a></li>
+												<?php }?>
+												
 												<li><a href="<?php echo $page_edit_link;?>" target="_blank"><?php _e('Open page in the editor', 'ecwid-shopping-cart'); ?></a></li>
 												
 												<?php if( $page_status == 'publish' ) {?>
+													<li class="list-dropdown__separator"></li>
 													<li><a data-storefront-status="0"><?php _e('Switch to draft and hide from the site', 'ecwid-shopping-cart'); ?></a></li>
 												<?php }?>
 
@@ -52,10 +60,9 @@
 									<div class="feature-element__text">
 										<p>
 											<?php
-											echo sprintf( 
-												__('Your storefront page is published and displayed on your site at %s', 'ecwid-shopping-cart'),
-												$page_link
-											);
+											_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
+												
+											echo sprintf('<a href="%s" target="_blank">%s</a>', $page_link, $page_link);
 											?>
 										</p>
 									</div>

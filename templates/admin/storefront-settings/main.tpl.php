@@ -18,7 +18,11 @@
     		var el = jQuery(this),
     			new_status = el.data('storefrontStatus');
 
-    		el.closest('.a-card').find('.btn').addClass('btn-loading');
+    		if( el.hasClass('btn') ) {
+    			el.addClass('btn-loading');
+    		} else {
+    			el.closest('.btn-group').find('.btn').addClass('btn-loading');
+    		}
 
     		jQuery.getJSON(
 				'admin-ajax.php',
