@@ -19,12 +19,18 @@
 						<div class="cta-block">
 							<div class="cta-block__central">
 								<div class="cta-block__title"><?php _e( 'Store appearance', 'ecwid-shopping-cart'); ?></div>
-								<div class="cta-block__content"><?php _e( 'Adjust your store design to fit your business better', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content">
+									<?php
+									if( Ecwid_Admin_Storefront_Page::is_used_gutenberg() ) {
+										_e( 'Used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
+									} else {
+										_e( 'Not used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
+									}
+									?>
+								</div>
 							</div>
 							<div class="cta-block__cta">
-								<button type="button" class="btn btn-default btn-medium">
-									<span><?php _e( 'Edit', 'ecwid-shopping-cart'); ?></span>
-								</button>
+								<a href="<?php echo $design_edit_link;?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Edit', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -50,7 +56,7 @@
 							</div>
 							<div class="cta-block__cta">
 								<a href="<?php echo $page_edit_link; ?>" class="btn btn-default btn-medium">
-									<span><?php _e( 'Edit', 'ecwid-shopping-cart'); ?></span>
+									<?php _e( 'Edit', 'ecwid-shopping-cart'); ?>
 								</a>
 							</div>
 						</div>

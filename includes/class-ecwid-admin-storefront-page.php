@@ -15,6 +15,23 @@ class Ecwid_Admin_Storefront_Page
 			$page_link = get_permalink( $page_id );
 			$page_edit_link = get_edit_post_link( $page_id );
 			$page_status = get_post_status($page_id);
+
+
+			if( self::is_used_gutenberg() ) {
+				$design_edit_link = get_edit_post_link( $page_id );
+			} else {
+				
+				$page = Ecwid_Admin_Main_Page::PAGE_HASH_DASHBOARD;
+				$time = time() - get_option('ecwid_time_correction', 0);
+				$iframe_src = ecwid_get_iframe_src($time, $page);
+				
+				if( !$iframe_src ) {
+					//TO-DO какая ссылка для WL
+					$design_edit_link = 'https://' . Ecwid_Config::get_cpanel_domain() . '/#design';
+				} else {
+					$design_edit_link = get_admin_url( null, 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-admin-design' );
+				}
+			}
 		}
 
 		require_once self::TEMPLATES_DIR . 'main.tpl.php';
@@ -44,7 +61,35 @@ class Ecwid_Admin_Storefront_Page
 		));
 
 		wp_send_json(array('status' => 'success'));
-	}	
+	}
+
+	public static function is_used_gutenberg() {
+		$version = get_bloginfo('version');
+
+		if ( version_compare( $version, '5.0' ) < 0 ) {
+			
+			if( is_plugin_active('gutenberg/gutenberg.php') ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		$plugins_disabling_gutenberg = array(
+			'classic-editor/classic-editor.php',
+			'elementor/elementor.php',
+			'divi-builder/divi-builder.php',
+			'beaver-builder-lite-version/fl-builder.php'
+		);
+
+		foreach ( $plugins_disabling_gutenberg as $plugin ) {
+			if ( is_plugin_active( $plugin ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
 
 $_ecwid_admin_storefront_page = new Ecwid_Admin_Storefront_Page();
