@@ -79,6 +79,8 @@
 
 		<?php require __DIR__ . '/area-design.tpl.php'; ?>
 
+		<?php require __DIR__ . '/area-navigation.tpl.php'; ?>
+
 	</div>
 
 </div>
