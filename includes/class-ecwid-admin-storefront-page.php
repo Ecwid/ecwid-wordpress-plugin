@@ -6,6 +6,8 @@ class Ecwid_Admin_Storefront_Page
 	public function __construct() {
 
 		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, '_ajax_set_page_status' ) );
+
+		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_show_inline_script' ) );
 	}
 
 	public static function do_page() {
@@ -18,7 +20,7 @@ class Ecwid_Admin_Storefront_Page
 
 
 			if( self::is_used_gutenberg() ) {
-				$design_edit_link = get_edit_post_link( $page_id );
+				$design_edit_link = get_edit_post_link( $page_id ) . '&ec-show-store-settings';
 			} else {
 				
 				$page = Ecwid_Admin_Main_Page::PAGE_HASH_DASHBOARD;
@@ -89,6 +91,43 @@ class Ecwid_Admin_Storefront_Page
 		}
 
 		return true;
+	}
+
+
+	public function gutenberg_show_inline_script() {
+		
+		if( !array_key_exists( 'ec-show-store-settings', $_GET ) ) {
+			return;
+		}
+
+		$script = "
+			var ec_selected_store_block = false;
+			wp.data.subscribe(function () {
+				if( ec_selected_store_block ) {
+					return false;
+				}
+
+				var blocks = wp.data.select( 'core/block-editor' ).getBlocks();
+				if( blocks.length > 0 ) {
+
+					var block = blocks.find(obj => {
+							return obj.name === 'ecwid/store-block'
+						});
+
+					if( typeof block != 'undefined' ) {
+						ec_selected_store_block = true;
+
+						var client_id = block.clientId;
+						wp.data.dispatch( 'core/block-editor' ).selectBlock( client_id );
+						wp.data.dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' );
+					}
+				}
+			});
+		";
+
+		wp_register_script( 'ec-blockeditor-inline-js', '', [], '', true );
+		wp_enqueue_script( 'ec-blockeditor-inline-js'  );
+		wp_add_inline_script( 'ec-blockeditor-inline-js', $script );
 	}
 }
 
