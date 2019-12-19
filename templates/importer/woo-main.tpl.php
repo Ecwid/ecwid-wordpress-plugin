@@ -254,7 +254,6 @@ if( isset($_GET['step']) ) {
 								<div class="cta-block__central">
 									<div class="cta-block__title"><?php _e( 'Import complete', 'ecwid-shopping-cart' ); ?></div>
 									<div class="cta-block__content">
-										<div>
 										<?php 
 										echo sprintf( __( 'Imported <b>%s</b> products', 'ecwid-shopping-cart' ), '<span id="import-results-products">0</span>' );
 										if ( ecwid_is_paid_account() ) {
@@ -262,12 +261,24 @@ if( isset($_GET['step']) ) {
 											echo sprintf( __( '<b>%s</b> categories', 'ecwid-shopping-cart' ), '<span id="import-results-categories">0</span>' );
 										}
 										?>
+									</div>
+
+									<?php if( isset($_GET['warning']) ) { ?>
+										<div class="cta-block__content">
+											<?php _e( 'Some of the items could not be imported', 'ecwid-shopping-cart' ); ?>
+
+											<?php if( isset($_GET['limit']) ) {
+												_e( ' &mdash; <b>reached the product count limit.</b>', 'ecwid-shopping-cart' );
+												echo sprintf( __ ( ' Not all products have been copied to %1$s because you reached the product count limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan</a></nobr>', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand(), 'href="' . $this->_get_billing_page_url() .'"' );
+											}
+											?>
 										</div>
 
-										<?php if( isset($_GET['warning']) ) { ?>
-											<div><?php _e( 'Some of the items could not be imported, <a href="%s">download the import log</a>.', 'ecwid-shopping-cart' ); ?></div>
-										<?php } ?>
-									</div>
+										<div class="cta-block__content">
+											<?php _e( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ); ?>
+										</div>
+									<?php } ?>
+
 								</div>
 								<div class="cta-block__cta">
 									<a class="btn btn-primary btn-medium" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>-admin-products">
@@ -279,28 +290,6 @@ if( isset($_GET['step']) ) {
 					</div>
 				</div>
 			</div>
-
-			<?php if( isset($_GET['warning']) ) { ?>
-			<div class="a-card a-card--compact a-card--warning">
-				<div class="a-card__paddings">
-					<div class="iconable-block iconable-block--hide-in-mobile iconable-block--warning">
-						<div class="iconable-block__infographics">
-							<span class="iconable-block__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" focusable="false"><path d="M34.5 67C16.58 67 2 52.42 2 34.5S16.58 2 34.5 2 67 16.58 67 34.5 52.42 67 34.5 67zm0-62C18.23 5 5 18.23 5 34.5S18.23 64 34.5 64 64 50.77 64 34.5 50.77 5 34.5 5z"></path><path d="M34.5 49c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM35.5 38.57h-2l-1-14c0-1.17.89-2.07 2-2.07s2 .9 2 2l-1 14.07z"></path></svg></span>
-						</div>
-						<div class="iconable-block__content">
-							<div class="cta-block">
-								<div class="cta-block__central">
-									<div class="cta-block__title"><?php _e( 'Reached the product count limit', 'ecwid-shopping-cart' ); ?></div>
-									<div class="cta-block__content">
-										<?php echo sprintf( __ ( 'Not all products have been copied to %1$s because you reached the product count limit on your pricing plan in %1$s. If you want to import more products, please consider <a %2$s>upgrading your %1$s plan</a>.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand(), 'href="' . $this->_get_billing_page_url() .'"' ); ?>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php } ?>
 		<?php } ?>
 
 		<div class="named-area">
@@ -354,6 +343,10 @@ if( isset($_GET['step']) ) {
 											<div class="feature-element__title"><?php _e( 'Import is in Progress', 'ecwid-shopping-cart' ); ?></div>
 
 											<div class="feature-element__status">
+
+												<?php if( isset( $_GET['results'] ) ){?>
+													<span class="feature-element__status-title success">Импорт завершен. <a href="#">Запустить снова.</a></span>
+												<?php } else {?>
 												<div class="canonical-status canonical-status--has-icon canonical-status--loading canonical-status--prepend-icon canonical-status--warning">
 													<div class="canonical-status__text">
 														<?php _e( 'Copying products and categories.', 'ecwid-shopping-cart' ); ?>
@@ -372,6 +365,8 @@ if( isset($_GET['step']) ) {
 														</span>
 													</div>
 												</div>
+												<?php }?>
+
 											</div>
 
 											<div class="feature-element__content">
@@ -394,7 +389,7 @@ if( isset($_GET['step']) ) {
 					</div>
 
 
-					<?php if( $step != 'no_scope' ) {?>
+					<?php if( $step != 'no_scope' && $step != 'process' ) {?>
 					<div class="a-card a-card--normal">
 						<div class="a-card__paddings">
 							
