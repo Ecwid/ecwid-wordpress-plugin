@@ -152,7 +152,6 @@ jQuery(document).ready(function() {
 
             if (status.planLimitHit) {
                 showWooImportAlert( 'limit' );
-                return;
             } else if ( Object.keys( status.error ).length > 0 ) {
                 showWooImportAlert( 'warning' );
             } else {
@@ -170,7 +169,6 @@ jQuery(document).ready(function() {
     // jQuery('.ecwid-importer .errors .btn-details').click(function() {
     //     jQuery('.ecwid-importer .errors .details').each(function(idx, el) {if (jQuery(el).text().length) jQuery(el).toggle() });
     // });
-    
 
     // Autostart import
     if (window.location.hash.indexOf('start') != -1) {

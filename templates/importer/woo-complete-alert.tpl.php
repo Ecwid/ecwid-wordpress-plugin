@@ -35,7 +35,12 @@
 						</div>
 
 						<div class="cta-block__content">
-							<?php _e( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ); ?>
+							<?php 
+							echo sprintf(
+								__( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ),
+								'admin-post.php?action=' . Ecwid_Import_Page::ACTION_GET_WOO_IMPORT_LOG
+							);
+							?>
 						</div>
 
 					</div>

@@ -9,7 +9,7 @@ class Ecwid_Import_Page
 	
 	const AJAX_ACTION_CHECK_IMPORT = 'ec-store-check-import';
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
-	const ACTION_DO_RECONNECT = 'ec-store-do-reconnect';
+	const ACTION_GET_WOO_IMPORT_LOG = 'ec-store-get-woo-import-log';
 	
 	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
 	
@@ -21,6 +21,18 @@ class Ecwid_Import_Page
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import') );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import') );
 		add_action( 'current_screen', array( $this, 'do_reconnect') );
+		add_action( 'admin_post_' . self::ACTION_GET_WOO_IMPORT_LOG, array( $this, 'get_woo_import_log') );
+	}
+
+	public function get_woo_import_log() {
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+error_log(1);
+		header('Content-Disposition: attachment;filename=ec-woo-import-log.html');
+
+		// ecwid_debug_do_page();
+		wp_die();
 	}
 	
 	public function process_woo_onboarding_redirect() 
