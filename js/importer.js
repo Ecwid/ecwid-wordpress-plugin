@@ -140,34 +140,6 @@ jQuery(document).ready(function() {
 
         return false;
     });
-   
-
-    jQuery('#ec-importer-woo').click(function() {
-
-        window.location.hash="woo";
-
-        jQuery.getJSON(ajaxurl, { action: ecwid_importer.check_token_action }, function(data) {
-            if (data.has_good_token == false) {
-                $wrapper.removeClass('state-landing').addClass('state-no-token');
-            } else {
-                $wrapper.removeClass('state-landing').addClass('state-woo');
-                jQuery('.ecwid-total-products', '.state-woo').text(data.ecwid_total_products);
-                jQuery('.ecwid-total-categories', '.state-woo').text(data.ecwid_total_categories);
-                jQuery('.woo-total-products', '.state-woo').text(data.woo_total_products);
-                jQuery('.woo-total-categories', '.state-woo').text(data.woo_total_categories);
-            }
-            console.log(data);
-        })
-        .done(function() {
-            console.log( "second success" );
-        })
-        .fail(function() {
-            console.log( "error" );
-        })
-        .always(function() {
-            console.log( "complete" );
-        });
-    });
 
     switchWooImportState = function( state ) {
         jQuery('[data-ec-importer-state]').hide();
