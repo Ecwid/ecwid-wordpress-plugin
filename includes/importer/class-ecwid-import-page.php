@@ -170,7 +170,6 @@ class Ecwid_Import_Page
 		require_once ECWID_IMPORTER_TEMPLATES_DIR . '/woo-main.tpl.php';
 	}
 	
-	// TO-DO удалить
 	protected function _get_products_categories_message( $products, $categories ) {
 		if ( ecwid_is_paid_account() ) {
 			return sprintf( 

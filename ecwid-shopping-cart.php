@@ -2025,7 +2025,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 		}
 
 		$pages_with_ecwid_app_ui = array(
-			'ec-store-import-woocommerce'
+			Ecwid_Import_Page::PAGE_SLUG_WOO,
 		);
 		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
 			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
