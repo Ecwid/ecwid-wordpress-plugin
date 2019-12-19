@@ -367,13 +367,13 @@ class Ecwid_Importer
 	protected function _set_settings( $settings ) {
 		$saved_settings = array();
 		
-		if ( $settings[self::SETTING_UPDATE_BY_SKU] ) {
+		// if ( $settings[self::SETTING_UPDATE_BY_SKU] ) {
 			$saved_settings[self::SETTING_UPDATE_BY_SKU] = true;
-		}
+		// }
 		
-		if ( @$settings[self::SETTING_DELETE_DEMO] ) {
+		// if ( @$settings[self::SETTING_DELETE_DEMO] ) {
 			$saved_settings[self::SETTING_DELETE_DEMO] = true;
-		}
+		// }
 		
 		update_option( self::OPTION_SETTINGS, $saved_settings );
 	}

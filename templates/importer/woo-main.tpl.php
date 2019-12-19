@@ -214,7 +214,7 @@
 												</div>
 
 												<div class="feature-element__action" data-ec-importer-state="default">
-													<button type="button" class="btn btn-primary btn-medium" id="ecwid-importer-woo-go">
+													<button type="button" class="btn btn-primary btn-medium" id="ec-importer-woo-go">
 														<span><?php _e( 'Start import', 'ecwid-shopping-cart' ); ?></span>
 													</button>
 												</div>
