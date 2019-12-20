@@ -20,17 +20,17 @@ jQuery(document).ready(function() {
 
     showWooImportAlert = function( alert_type ) {
         var block = jQuery('#ec-importer-alert'),
-            status = 'success';
+            block_status = 'success';
 
         if( alert_type == 'warning' || alert_type == 'limit' ) {
-            status = 'warning';
+            block_status = 'warning';
         }
 
         block.find('[data-ec-importer-alert]').hide();
-        block.find('[data-ec-importer-alert=' + status +']').show();
+        block.find('[data-ec-importer-alert=' + block_status +']').show();
 
-        block.addClass( 'a-card--' + status );
-        block.find('.iconable-block').addClass( 'iconable-block--' + status );
+        block.addClass( 'a-card--' + block_status );
+        block.find('.iconable-block').addClass( 'iconable-block--' + block_status );
 
         if( alert_type == 'limit' ) {
             block.find('[data-ec-importer-alert=limit]').show();
@@ -40,7 +40,6 @@ jQuery(document).ready(function() {
     }
 
     startWooImport = function() {
-        //TO-DO убрать
         var settings = {};
 
         do_import = function (start = null) {
@@ -57,13 +56,12 @@ jQuery(document).ready(function() {
                 'success': function(json) {
                     try {
                         data = jQuery.parseJSON(json);
+                        processImportProgress(data);
                     } catch(e) {
                         status.errorMessages['json_failed'] = [];
                         status.errorMessages['json_failed'][json] = 1;
                         doImportComplete(status);
                     }
-
-                    processImportProgress(data);
                 },
                 'error': function(jqXHR, textStatus, errorThrown) {
                     status.errorMessages[textStatus] = [];
@@ -117,42 +115,20 @@ jQuery(document).ready(function() {
             jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
 
             if (data.status == 'complete') {
-                doImportComplete(data, status);
+                doImportComplete(status);
             } else {
                 do_import();
             }
         }
 
-        doImportComplete = function( data, status ) {
+        doImportComplete = function( status ) {
+
             jQuery('#import-results-products').text(status.success.create_product || 0);
             jQuery('#import-results-categories').text(status.success.create_category || 0);
 
-            /*var log = buildImportLog(data);
-            jQuery('#fancy-errors').append(renderImportLog(log));
-
-            for(var type in log) {
-                delete status.errorMessages[type];
-            }
-
-            var errorContent = '';
-            for (var importType in status.errorMessages) {
-                errorContent += importType + "\n";
-                for (var message in status.errorMessages[importType]) {
-                   errorContent += '  ' + message + ':' + status.errorMessages[importType][message] + "\n";
-                }
-            }
-
-            if (errorContent.length > 0) {
-                jQuery('.ecwid-importer .errors').find('pre').text(errorContent).show();
-            }
-
-            if ( jQuery('pre.details').text().length || jQuery('#fancy-errors').text().length) {
-                jQuery('.ecwid-importer .errors').show();
-            }*/
-
             if (status.planLimitHit) {
                 showWooImportAlert( 'limit' );
-            } else if ( Object.keys( status.error ).length > 0 ) {
+            } else if ( Object.keys( status.error ).length > 0 || Object.keys( status.errorMessages ).length > 0 ) {
                 showWooImportAlert( 'warning' );
             } else {
                 showWooImportAlert( 'success' );
@@ -166,122 +142,9 @@ jQuery(document).ready(function() {
         startWooImport();
     });
 
-    // jQuery('.ecwid-importer .errors .btn-details').click(function() {
-    //     jQuery('.ecwid-importer .errors .details').each(function(idx, el) {if (jQuery(el).text().length) jQuery(el).toggle() });
-    // });
-
     // Autostart import
     if (window.location.hash.indexOf('start') != -1) {
         window.location.hash = '';
         startWooImport();
     }
 });
-
-
-function renderImportLog(log) {
-    var logContainer = jQuery('<div>');
-    for ( var type in log ) {
-
-        var entryTypeContainer = jQuery('<div>').append('<h4>' + type + '</h4>').appendTo(logContainer);
-        entryTypeContainer.append(
-            renderImportLogEntryType(type, log[type])
-        ).appendTo(logContainer);
-    }
-
-    return logContainer;
-}
-
-function renderImportLogEntryType(type, data) {
-    
-    var items = [];
-    for ( var error in data ) {
-        var item = jQuery('<div class="log-entry">');
-        var code = error.substr(0, error.indexOf(':'));
-        var errorText = error.substr(error.indexOf(':') + 1);
-        item.append('<div class="hidden">' + code + '</div>').append(errorText);
-        item.append(' ');
-        jQuery('<a href="#">')
-            .append('(' + Object.keys(data[error]).length + " total)" )
-            .click(function() {jQuery(this).closest('.log-entry').toggleClass('expanded'); return false;})
-            .appendTo(item);
-
-        item.append( renderProductLogEntries(data[error]) );
-
-        items[items.length] = item;
-    }
-    return items;
-}
-
-function renderProductLogEntries(data) {
-    var products = [];
-    for ( var i in data ) {
-        var entry = data[i];
-        var productContainer = jQuery('<div class="log-entry-product">');
-
-        var woo_link = jQuery('<a>').attr('href', entry.woo_link).append(entry.name).appendTo(productContainer);
-
-        if (entry.ecwid_link) {
-            var ecwid_link = jQuery('<a>').attr('href', entry.ecwid_link).append("Product at Ecwid");
-            productContainer.append(' (').append(ecwid_link).append( ' )');
-        }
-        
-        if ( typeof entry.variations == 'array' && entry.variations.length > 0 ) {
-            productContainer.append(" Variations ");
-            for ( var j = 0; j < entry.variations.length; j++ ) {
-                productContainer.append('#' + entry.variations[j]);
-                
-                if ( j + 1 < entry.variations.length ) {
-                    productContainer.append(', ');
-                }
-            }
-        }        
-        products[products.length] = productContainer;
-    }
-    
-    return products;
-}
-
-function buildImportLog(data) {
-    
-    var log = {};
-    
-    for ( var type in data.error_messages) {
-        if ( typeof log[type] == 'undefined' ) {
-            log[type] = {};
-        }
-        
-        for ( var message in data.error_messages[type] ) {
-            if ( typeof log[type][message] == 'undefined' ) {
-                log[type][message] = [];
-            }
-            log[type][message].concat( buildProductErrorLog( log[type][message], data.error_messages[type][message] ) );
-        }
-    }
-    
-    return log;
-}
-
-function buildProductErrorLog(log, items) {
-    
-    for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        if (!log[item.woo_id]) {
-            var entry = {
-                name: item.name,
-                type: 'variation',
-                woo_link: item.woo_link,
-                ecwid_link: item.ecwid_link,
-                variations: []
-            };
-        } else {
-            entry = log[item.woo_id];
-        }
-        
-        if ( item.variation_id ) {
-            entry.variations[entry.variations.length] = item.variation_id;
-        }
-        log[item.woo_id] = entry;
-    }
-    
-    return log;
-}

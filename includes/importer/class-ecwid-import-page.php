@@ -23,17 +23,6 @@ class Ecwid_Import_Page
 		add_action( 'current_screen', array( $this, 'do_reconnect') );
 		add_action( 'admin_post_' . self::ACTION_GET_WOO_IMPORT_LOG, array( $this, 'get_woo_import_log') );
 	}
-
-	public function get_woo_import_log() {
-		if (!current_user_can('manage_options')) {
-			return;
-		}
-error_log(1);
-		header('Content-Disposition: attachment;filename=ec-woo-import-log.html');
-
-		// ecwid_debug_do_page();
-		wp_die();
-	}
 	
 	public function process_woo_onboarding_redirect() 
 	{
@@ -195,5 +184,33 @@ error_log(1);
 				$products
 			);
 		}
+	}
+
+	public function get_woo_import_log() {
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		header("Content-Disposition: attachment; filename=ec-woo-import-log.txt");
+
+		$error_log = get_option( Ecwid_Importer::OPTION_ERROR_LOG, false );
+
+		if( !$error_log ) {
+			die();
+		}
+
+		foreach ($error_log as $type => $messages) {
+			echo sprintf( "ERROR TYPE: %s\r\n", $type );
+
+			foreach ($messages as $message => $data) {
+				echo "*** \r\n";
+				echo $message . "\r\n";
+				echo 'Data: ' . var_export($data, true) . "\r\n";
+			}
+
+			echo "\r\n";
+		}
+
+		die();
 	}
 }

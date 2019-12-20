@@ -34,7 +34,7 @@
 							</span>
 						</div>
 
-						<div class="cta-block__content">
+						<div class="cta-block__content" data-ec-importer-alert="warning">
 							<?php 
 							echo sprintf(
 								__( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ),

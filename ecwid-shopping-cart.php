@@ -2611,7 +2611,7 @@ function ecwid_get_debug_file() {
 
 
 	ecwid_debug_do_page();
-	wp_die();
+	die();
 }
 
 function get_ecwid_store_id() {
