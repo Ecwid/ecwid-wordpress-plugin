@@ -23,7 +23,14 @@
 									<span class="status-block__edit">Edit</span>
 								</div>
 								<div class="status-block__content">
-									<p><?php _e( 'Feature your store page on the website home page to maket it more prominent. You can also tweak the site home page settings on the <a href="%s">WP Settings -> Reading</a>', 'ecwid-shopping-cart'); ?></p>
+									<p>
+									<?php
+									echo sprintf(
+										__( 'Feature your store page on the website home page to maket it more prominent. You can also tweak the site home page settings on the <a href="%s" target="_blank">WP Settings -> Reading</a>', 'ecwid-shopping-cart'),
+										admin_url( 'options-permalink.php' )
+									);
+									?>
+									</p>
 								</div>
 							</div>
 							<div class="status-block__actions-dropdown"></div>
@@ -43,7 +50,7 @@
 			</div>
 		</div>
 
-
+		<?php if( Ecwid_Seo_Links::is_feature_available() ) {?>
 		<div class="a-card a-card--compact">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
@@ -58,7 +65,7 @@
 						<div class="status-block">
 							<div class="status-block__central">
 								<div class="status-block__header">
-									<span class="status-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?>/span>
+									<span class="status-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></span>
 									<span class="status-block__edit">Edit</span>
 								</div>
 								<div class="status-block__content">
@@ -87,6 +94,7 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 
 
 		<div class="a-card a-card--compact">
@@ -145,7 +153,7 @@
 							</div>
 							<div class="status-block__actions-dropdown"></div>
 							<div class="status-block__primary-action">
-								<a href="#" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url( 'widgets.php' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
 							</div>
 
 						</div>
