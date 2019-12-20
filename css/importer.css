@@ -1,50 +1,125 @@
-.ecwid-importer .importer-state {
+.settings-page input[type=checkbox]:disabled:before {
+    content: '';
+}
+
+.ec-importer-alert-warning, .ec-importer-alert-warning {
     display: none;
 }
 
-.ecwid-importer.state-no-token .importer-state-no-token,
-.ecwid-importer.state-woo-initial .importer-state-woo-initial,
-.ecwid-importer.state-woo-in-progress .importer-state-woo-in-progress,
-.ecwid-importer.state-woo-complete .importer-state-woo-complete
-{
+[data-ec-importer-state] {
+    display: none;
+}
+
+[data-ec-importer-state="default"] {
     display: block;
 }
 
-.ecwid-importer .readonly {
-    color: lightgray;
-}
-
-.ecwid-importer .readonly input {
-    background-color: lightgray;
-}
-
-.ecwid-importer .errors {
-    display: none;
-}
-.ecwid-importer .errors .btn-details {
-    cursor: pointer;
-}
-
-.ecwid-importer .errors .details {
-    display: none;
-    border: 1px solid gray;
-    background: rgba(255,255,255,.5);
-    padding: 5px;
-}
-
-.plan-limit-message {
-    display: none;
-}
-
-.log-entry, .log-entry-product {
-    margin-left: 20px;
-    margin-bottom: 10px;
-}
-
-.log-entry .log-entry-product {
-    display: none;
-}
-
-.log-entry.expanded .log-entry-product {
+/* TO-DO remove this after updating css framework*/
+.canonical-status {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    white-space: nowrap;
     display: block;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    color: #262a2e;
+    font-weight: 600;
+}
+
+.canonical-status .canonical-status__text {
+    display: inline-block;
+    white-space: normal
+}
+
+.canonical-status .canonical-status__icon {
+    display: inline-block;
+    box-sizing: content-box;
+    height: 1em;
+    margin: -2px 0 0 0;
+    padding: 0 0 0 .35em;
+    font-size: 1.2em;
+    line-height: 1em;
+    vertical-align: middle
+}
+
+.canonical-status .canonical-status__icon svg {
+    width: auto;
+    height: 100%;
+    fill: currentColor
+}
+
+.canonical-status--prepend-icon {
+    padding-left: 1.8em
+}
+
+.canonical-status--prepend-icon .canonical-status__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1em;
+    margin: 0;
+    padding: .125em 0
+}
+
+.canonical-status--prepend-icon .canonical-status__icon svg {
+    width: 100%
+}
+
+.canonical-status--prepend-icon .canonical-status__icon--emoji {
+    padding: 0;
+    line-height: 1.5
+}
+
+.canonical-status--large-icon .canonical-status__icon {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 1.5em
+}
+
+.canonical-status--large-icon.canonical-status--prepend-icon {
+    padding-left: 2.1em
+}
+
+.canonical-status--success {
+    color: #37ba32
+}
+
+.canonical-status--warning {
+    color: #de9d1c
+}
+
+.canonical-status--error {
+    color: #fd3826
+}
+
+.canonical-status .canonical-status__icon,.canonical-status .canonical-status__action {
+    display: none
+}
+
+.canonical-status--has-icon .canonical-status__icon {
+    display: inline-block
+}
+
+.canonical-status--has-action .canonical-status__action {
+    display: inline-block
+}
+
+.canonical-status--has-action .canonical-status__action .dropdown-menu {
+    margin: 0
+}
+
+.canonical-status--has-action .canonical-status__text {
+    margin-right: 8px
+}
+
+.canonical-status--loading .canonical-status__icon svg {
+    width: 1em;
+    height: 1em;
+    margin: 0
+}
+
+.canonical-status--loading .canonical-status__icon svg path {
+    transform-origin: center center;
+    animation: spinright .6s infinite linear
 }
