@@ -4,10 +4,11 @@ class Ecwid_Admin_Storefront_Page
 	const TEMPLATES_DIR = ECWID_PLUGIN_DIR . '/templates/admin/storefront-settings/';
 	
 	public function __construct() {
-
-		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, '_ajax_set_page_status' ) );
-
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_show_inline_script' ) );
+
+		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, 'ajax_set_page_status' ) );
+		add_action( 'wp_ajax_ecwid_storefront_set_store_on_front', array( $this, 'ajax_set_store_on_front' ) );
+		add_action( 'wp_ajax_ecwid_storefront_set_display_cart_icon', array( $this, 'ajax_set_display_cart_icon' ) );
 	}
 
 	public static function do_page() {
@@ -33,12 +34,21 @@ class Ecwid_Admin_Storefront_Page
 					$design_edit_link = get_admin_url( null, 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-admin-design' );
 				}
 			}
+
+			$store_on_front = Ecwid_Seo_Links::is_store_on_home_page();
+
+			if( class_exists( 'Ecwid_Floating_Minicart' ) ) {
+				$minicart_hide = get_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY ) == Ecwid_Floating_Minicart::DISPLAY_NONE;
+
+				$customizer_minicart_link = admin_url('customize.php') . '?autofocus[section]=ec-store-minicart&url=' . urlencode($page_link);
+			}
 		}
 
 		require_once self::TEMPLATES_DIR . 'main.tpl.php';
 	}
 
-	public function _ajax_set_page_status() {
+
+	public function ajax_set_page_status() {
 
 		$page_statuses = array(
 			0 => 'draft',
@@ -62,6 +72,64 @@ class Ecwid_Admin_Storefront_Page
 		));
 
 		wp_send_json(array('status' => 'success'));
+	}
+
+	public function ajax_set_store_on_front() {
+		$status = intval( $_GET['status'] );
+
+		if( $status ) {
+
+			$this->_set_previous_frontpage_settings();
+
+			$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+			$type = 'page';
+		} else {			
+			$saved_settings = $this->_get_previous_frontpage_settings();
+
+			$page_id = $saved_settings['page_on_front'];
+			$type = $saved_settings['show_on_front'];
+		}
+
+		update_option( 'page_on_front', $page_id );
+		update_option( 'show_on_front', $type );
+
+		wp_send_json(array('status' => 'success'));
+	}
+
+	public function ajax_set_display_cart_icon() {
+		$status = intval( $_GET['status'] );
+
+		if( $status ) {
+			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_ALL );
+			update_option( Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, 1 );
+		} else {			
+			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_NONE );
+		}
+
+		wp_send_json(array('status' => 'success'));
+	}
+
+
+	private function _set_previous_frontpage_settings() {
+		$settings = array(
+			'page_on_front' => get_option( 'page_on_front' ),
+			'show_on_front' => get_option( 'show_on_front' )
+		);
+
+		update_option( 'ecwid_frontpage_settings', $settings );
+	}
+
+	private function _get_previous_frontpage_settings() {
+		$settings = get_option( 'ecwid_frontpage_settings', false );
+
+		if( !$settings ) {
+			$settings = array(
+				'page_on_front' => 0,
+				'show_on_front' => 'posts'
+			);
+		}
+
+		return $settings;
 	}
 
 	public static function is_used_gutenberg() {
@@ -91,7 +159,6 @@ class Ecwid_Admin_Storefront_Page
 
 		return true;
 	}
-
 
 	public function gutenberg_show_inline_script() {
 		

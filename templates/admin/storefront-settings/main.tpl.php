@@ -44,10 +44,28 @@
 
     	jQuery(document).on( 'change', '[data-storefront-checkbox]', function(){
     		var setting = jQuery(this).data('storefrontCheckbox'),
-    			is_checked = jQuery(this).is(':checked');
+    			is_checked = jQuery(this).is(':checked'),
+    			status = 0;
 
-    		console.log( setting );
-    		console.log( is_checked );
+    		if( is_checked ) {
+    			status = 1;
+    		}
+
+    		var data = {
+				action: 'ecwid_storefront_set_' + setting,
+				status: status
+			};
+
+    		jQuery.getJSON(
+				'admin-ajax.php',
+				data,
+				function(data) {
+
+					if( typeof data.reload != 'undefined' ) {
+						location.reload();
+					}
+				}
+			);
     		return false;
     	});
 
@@ -60,6 +78,7 @@
 <style type="text/css">
 	.settings-page input[type=checkbox]:disabled:before { content: ''; }
 </style>
+
 
 <div class="settings-page">
 	<div class="settings-page__header">

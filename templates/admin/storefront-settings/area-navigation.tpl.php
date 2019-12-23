@@ -27,7 +27,7 @@
 									<?php
 									echo sprintf(
 										__( 'Feature your store page on the website home page to maket it more prominent. You can also tweak the site home page settings on the <a href="%s" target="_blank">WP Settings -> Reading</a>', 'ecwid-shopping-cart'),
-										admin_url( 'options-permalink.php' )
+										admin_url( 'options-reading.php' )
 									);
 									?>
 									</p>
@@ -36,7 +36,7 @@
 							<div class="status-block__actions-dropdown"></div>
 							<div class="status-block__primary-action">
 								<label class="checkbox big">
-									<input name="" type="checkbox" checked="" data-storefront-checkbox="store_on_front">
+									<input name="" type="checkbox" <?php if($store_on_front){?>checked=""<?php }?> data-storefront-checkbox="store_on_front">
 									<div data-on="enabled" data-off="disabled">
 										<div></div>
 									</div>
@@ -162,7 +162,7 @@
 			</div>
 		</div>
 
-
+		<?php if( class_exists( 'Ecwid_Floating_Minicart' ) ) {?>
 		<div class="a-card a-card--compact">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
@@ -181,13 +181,18 @@
 									<span class="status-block__edit">Edit</span>
 								</div>
 								<div class="status-block__content">
-									<p><?php _e( 'The shopping cart icon helps your customers find their shopping cart and proceed to checkout. Additionaly, you can <a href="%s">adjust the icon appearance</a>.', 'ecwid-shopping-cart'); ?></p>
+									<p><?php 
+									echo sprintf(
+										__( 'The shopping cart icon helps your customers find their shopping cart and proceed to checkout. Additionaly, you can <a href="%s" target="_blank">adjust the icon appearance</a>.', 'ecwid-shopping-cart'),
+										$customizer_minicart_link
+									);
+									?></p>
 								</div>
 							</div>
 							<div class="status-block__actions-dropdown"></div>
 							<div class="status-block__primary-action">
 								<label class="checkbox big">
-									<input name="" type="checkbox" checked="">
+									<input name="" type="checkbox" <?php if(!$minicart_hide) {?>checked=""<?php } ?> data-storefront-checkbox="display_cart_icon">
 									<div data-on="enabled" data-off="disabled">
 										<div></div>
 									</div>
@@ -200,6 +205,7 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 
 	</div>
 </div>
