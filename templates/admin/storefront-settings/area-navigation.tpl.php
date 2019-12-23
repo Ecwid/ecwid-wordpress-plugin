@@ -5,7 +5,7 @@
 	</div>
 	<div class="named-area__body">
 
-		<div class="a-card a-card--compact">
+		<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
 					<div class="iconable-block__infographics">
@@ -23,6 +23,13 @@
 									<span class="status-block__edit">Edit</span>
 								</div>
 								<div class="status-block__content">
+
+									<?php
+									if( $page_status == 'draft' ) {
+										require __DIR__ . '/draft-message.tpl.php';
+									}
+									?>
+
 									<p>
 									<?php
 									echo sprintf(
@@ -77,7 +84,7 @@
 				</div>
 			</div>
 
-			<div class="a-card a-card--compact" data-storefront-card="change-link">
+			<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact" data-storefront-card="change-link">
 				<div class="a-card__paddings">
 					<div class="iconable-block iconable-block--hide-in-mobile">
 						<div class="iconable-block__infographics">
@@ -95,6 +102,13 @@
 										<span class="status-block__edit">Edit</span>
 									</div>
 									<div class="status-block__content">
+
+										<?php
+										if( $page_status == 'draft' ) {
+											require __DIR__ . '/draft-message.tpl.php';
+										} else {
+										?>
+
 										<p><b>
 											<?php echo sprintf(
 												__( 'Current store link: %s', 'ecwid-shopping-cart' ),
@@ -102,6 +116,7 @@
 											);
 											?>
 										</b></p>
+										<?php } ?>
 
 										<p>
 										<?php
@@ -123,7 +138,7 @@
 		<?php } ?>
 
 
-		<div class="a-card a-card--compact">
+		<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
 					<div class="iconable-block__infographics">
@@ -141,6 +156,12 @@
 									<span class="status-block__edit">Edit</span>
 								</div>
 								<div class="status-block__content">
+									<?php
+									if( $page_status == 'draft' ) {
+										require __DIR__ . '/draft-message.tpl.php';
+									}
+									?>
+									
 									<p><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></p>
 								</div>
 							</div>

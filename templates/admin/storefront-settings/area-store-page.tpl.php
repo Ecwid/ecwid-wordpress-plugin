@@ -23,7 +23,7 @@
 								<span class="feature-element__status-title <?php echo $status_class;?>"><?php _e('Status', 'ecwid-shopping-cart'); ?>:</span>
 								<div class="feature-element__status-dropdown-container">
 
-									<div class="dropdown-menu utilites__item utilites__item--dropdown text-default">
+									<div class="dropdown-menu text-default">
 										<div class="dropdown-menu__link">
 											<a class="iconable-link">
 												<div class="iconable-link__text"><?php echo ucfirst($page_status); ?></div>

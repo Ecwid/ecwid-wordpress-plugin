@@ -11,6 +11,7 @@
     	'background-color': 'rgb(240, 242, 244)'
     });
 
+    // TO-DO remove after update js framework to 1.3.7
     jQuery(document).on('click', '.dropdown-menu__link', function(){
     	jQuery(this).closest('.dropdown-menu').find('.list-dropdown').toggle();
     });
@@ -102,6 +103,15 @@
     		var card = jQuery(this).data('storefrontShowCard');
     		ecwid_show_storefront_card( jQuery(this), card );
     		return false;
+    	});
+
+    	jQuery('[data-storefront-disabled-card]').each(function(){
+    		var card = jQuery(this); 
+
+    		card.find('.iconable-block').addClass('iconable-block--disabled');
+    		card.find('.status-block').addClass('status-block--disabled');
+    		card.find('input').attr('disabled', true);
+    		card.find('.btn').attr('disabled', true);
     	});
 
     });
