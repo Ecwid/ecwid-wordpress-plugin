@@ -11,6 +11,10 @@
     	'background-color': 'rgb(240, 242, 244)'
     });
 
+    jQuery(document).on('click', '.dropdown-menu__link', function(){
+    	jQuery(this).closest('.dropdown-menu').find('.list-dropdown').toggle();
+    });
+
     jQuery(document).ready(function(){
 
     	jQuery(document).on( 'click', '[data-storefront-status]', function(){
@@ -21,7 +25,8 @@
     		if( el.hasClass('btn') ) {
     			el.addClass('btn-loading');
     		} else {
-    			el.closest('.btn-group').find('.btn').addClass('btn-loading');
+    			el.closest('.feature-element__status').find('.dropdown-menu').hide();
+    			el.closest('.feature-element__status').find('.iconable-link').show();
     		}
 
     		jQuery.getJSON(
