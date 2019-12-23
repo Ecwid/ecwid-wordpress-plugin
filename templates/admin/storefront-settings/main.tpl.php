@@ -28,12 +28,14 @@
     			el.closest('.feature-element__status').find('.iconable-link').show();
     		}
 
+    		var data = {
+				action: 'ecwid_storefront_set_status',
+				status: new_status
+			};
+
     		jQuery.getJSON(
 				'admin-ajax.php',
-				{
-					action: 'ecwid_storefront_set_status',
-					status: new_status
-				},
+				data,
 				function(data) {
 					location.reload();
 				}
@@ -45,11 +47,7 @@
     	jQuery(document).on( 'change', '[data-storefront-checkbox]', function(){
     		var setting = jQuery(this).data('storefrontCheckbox'),
     			is_checked = jQuery(this).is(':checked'),
-    			status = 0;
-
-    		if( is_checked ) {
-    			status = 1;
-    		}
+    			status = (is_checked) ? 1 : 0;
 
     		var data = {
 				action: 'ecwid_storefront_set_' + setting,
@@ -60,7 +58,6 @@
 				'admin-ajax.php',
 				data,
 				function(data) {
-
 					if( typeof data.reload != 'undefined' ) {
 						location.reload();
 					}
@@ -69,7 +66,50 @@
     		return false;
     	});
 
+    	jQuery(document).on( 'click', '[data-storefront-save-slug]', function(){
+    		var slug = jQuery('[name=post_name]').val(),
+    			button = jQuery(this),
+    			card = jQuery(this).closest('.a-card');
+
+    		button.addClass('btn-loading');
+
+    		var data = {
+				action: 'ecwid_storefront_set_page_slug',
+				slug: slug
+			};
+
+    		jQuery.getJSON(
+				'admin-ajax.php',
+				data,
+				function(data) {
+					var fieldset = jQuery('[name=post_name]').closest('.fieldset');
+
+					if( data.status == 'success' ) {
+						location.reload();
+					}
+
+					if( data.status == 'error' ) {
+						fieldset.addClass('has-error');
+						fieldset.find('.field__error').text(data.message);
+						button.removeClass('btn-loading');
+					}
+				}
+			);
+    		return false;
+    	});
+
+    	jQuery(document).on( 'click', '[data-storefront-show-card]', function(){
+    		var card = jQuery(this).data('storefrontShowCard');
+    		ecwid_show_storefront_card( jQuery(this), card );
+    		return false;
+    	});
+
     });
+
+    function ecwid_show_storefront_card( el, need_show_card ) {
+    	el.closest('.a-card').hide();
+    	jQuery('[data-storefront-card="' + need_show_card + '"]').show();
+    }
 //]]>
 </script>
 <?php
@@ -77,6 +117,16 @@
 ?>
 <style type="text/css">
 	.settings-page input[type=checkbox]:disabled:before { content: ''; }
+	.settings-page input[type=text] {
+		min-height: unset;
+	}
+	.settings-page input[type=text]:focus {
+	    border-color: unset;
+	    box-shadow: unset;
+	    outline: unset;
+	}
+	.settings-page .field__error { display: none; }
+	.settings-page .has-error .field__error { display: block; }
 </style>
 
 
