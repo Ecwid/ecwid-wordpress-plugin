@@ -36,7 +36,7 @@
 							<div class="status-block__actions-dropdown"></div>
 							<div class="status-block__primary-action">
 								<label class="checkbox big">
-									<input name="" type="checkbox" checked="">
+									<input name="" type="checkbox" checked="" data-storefront-checkbox="store_on_front">
 									<div data-on="enabled" data-off="disabled">
 										<div></div>
 									</div>

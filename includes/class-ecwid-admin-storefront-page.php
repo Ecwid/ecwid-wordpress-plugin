@@ -28,7 +28,6 @@ class Ecwid_Admin_Storefront_Page
 				$iframe_src = ecwid_get_iframe_src($time, $page);
 				
 				if( !$iframe_src ) {
-					//TO-DO какая ссылка для WL
 					$design_edit_link = 'https://' . Ecwid_Config::get_cpanel_domain() . '/#design';
 				} else {
 					$design_edit_link = get_admin_url( null, 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-admin-design' );

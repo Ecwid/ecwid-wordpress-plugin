@@ -18,7 +18,6 @@
     jQuery(document).ready(function(){
 
     	jQuery(document).on( 'click', '[data-storefront-status]', function(){
-    		
     		var el = jQuery(this),
     			new_status = el.data('storefrontStatus');
 
@@ -40,6 +39,15 @@
 				}
 			);
 
+    		return false;
+    	});
+
+    	jQuery(document).on( 'change', '[data-storefront-checkbox]', function(){
+    		var setting = jQuery(this).data('storefrontCheckbox'),
+    			is_checked = jQuery(this).is(':checked');
+
+    		console.log( setting );
+    		console.log( is_checked );
     		return false;
     	});
 
