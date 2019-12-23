@@ -60,8 +60,8 @@ class Ecwid_Import_Page
 	
 	public function enqueue_scripts()
 	{
-		wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . '/css/importer.css' );
-		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . '/js/importer.js' );
+		wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . 'css/importer.css' );
+		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . 'js/importer.js' );
 		wp_localize_script( 'ecwid-importer', 'ecwid_importer', array(
 			'check_token_action' => self::AJAX_ACTION_CHECK_IMPORT,
 			'do_woo_import_action' => self::AJAX_ACTION_DO_WOO_IMPORT

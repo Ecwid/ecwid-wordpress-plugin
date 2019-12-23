@@ -106,7 +106,7 @@
 
 									</div>
 									<div class="feature-element__picture">
-										<?php require __DIR__ . '/import-picture-feature.svg'; ?>
+										<img src="<?php echo( esc_attr( ECWID_PLUGIN_URL )); ?>templates/importer/import-picture-feature.png" alt="" />
 									</div>
 								</div>
 							</div>
