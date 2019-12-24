@@ -173,6 +173,8 @@
 
 		<?php require __DIR__ . '/area-navigation.tpl.php'; ?>
 
+		<?php require __DIR__ . '/area-additional.tpl.php'; ?>
+
 	</div>
 
 </div>

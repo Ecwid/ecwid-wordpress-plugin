@@ -71,13 +71,11 @@
 								<!-- TO-DO сделать подключение микрошаблонов по шаблону <include tpl-$page-status.php>  -->
 								<?php if( $page_status == 'publish' ) {?>
 									<div class="feature-element__text">
-										<p>
-											<?php
-											_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
-												
-											echo sprintf('<a href="%s" target="_blank">%s</a>', $page_link, $page_link);
-											?>
-										</p>
+										<?php
+										_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
+											
+										echo sprintf('<a href="%s" target="_blank">%s</a>', $page_link, $page_link);
+										?>
 									</div>
 									<div class="feature-element__action">
 										<a href="<?php echo $page_link;?>" class="feature-element__button btn btn-default btn-medium" target="_blank"><?php _e('Open store page', 'ecwid-shopping-cart'); ?></a>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
+  <path d="M3 16h50v30.4a3.6 3.6 0 01-3.6 3.6H6.6A3.6 3.6 0 013 46.4V16z" fill="#fff"/>
+  <path d="M49 51H7c-2.76 0-5-1.84-5-4.09V15h52v31.91c0 2.25-2.24 4.09-5 4.09zM4 16v30.52A2.78 2.78 0 007 49h42a2.78 2.78 0 003-2.48V16z" fill="#7e94aa"/>
+  <path d="M7 5h42a4 4 0 014 4v7H3V9a4 4 0 014-4z" fill="#fbd88e"/>
+  <path d="M54 17H2V9a5 5 0 015-5h42a5 5 0 015 5zM4 15h48V9a3 3 0 00-3-3H7a3 3 0 00-3 3z" fill="#7e94aa"/>
+  <path fill="#7e94aa" d="M7 9h3v3H7zM13 9h3v3h-3zM19 9h3v3h-3z"/>
+  <path d="M23 45H13a4 4 0 01-4-4V27h18v14a4 4 0 01-4 4z" fill="#bcdbf2"/>
+  <path d="M23 46H13a5 5 0 01-5-5V27a1 1 0 011-1h18a1 1 0 011 1v14a5 5 0 01-5 5zM10 28v13a3 3 0 003 3h10a3 3 0 003-3V28z" fill="#7c90a4"/>
+  <path d="M23 30h-2v-5a3 3 0 00-6 0v5h-2v-5a5 5 0 0110 0z" fill="#7f93a8"/>
+  <path fill="#7e94aa" d="M32 26h16v2H32zM32 33h16v2H32zM32 41h16v2H32z"/>
+</svg>

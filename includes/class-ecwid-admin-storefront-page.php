@@ -42,10 +42,6 @@ class Ecwid_Admin_Storefront_Page
 				$minicart_hide = get_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY ) == Ecwid_Floating_Minicart::DISPLAY_NONE;
 				$customizer_minicart_link = admin_url('customize.php') . '?autofocus[section]=ec-store-minicart&url=' . urlencode($page_link);
 			}
-
-			// echo '<pre>';
-			// var_dump( get_registered_nav_menus() );
-			// echo '</pre>';
 		}
 
 		require_once self::TEMPLATES_DIR . 'main.tpl.php';

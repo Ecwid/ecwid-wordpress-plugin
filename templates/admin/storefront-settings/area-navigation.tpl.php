@@ -16,32 +16,25 @@
 						</span>
 					</div>
 					<div class="iconable-block__content">
-						<div class="status-block">
-							<div class="status-block__central">
-								<div class="status-block__header">
-									<span class="status-block__title"><?php _e( 'Show your store on the home page', 'ecwid-shopping-cart'); ?></span>
-									<span class="status-block__edit">Edit</span>
-								</div>
-								<div class="status-block__content">
-
+						<div class="cta-block">
+							<div class="cta-block__central">
+								<div class="cta-block__title"><?php _e( 'Show your store on the home page', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content">
 									<?php
 									if( $page_status == 'draft' ) {
 										require __DIR__ . '/draft-message.tpl.php';
 									}
 									?>
 
-									<p>
-									<?php
+									<div><?php
 									echo sprintf(
 										__( 'Feature your store page on the website home page to maket it more prominent. You can also tweak the site home page settings on the <a href="%s" target="_blank">WP Settings -> Reading</a>', 'ecwid-shopping-cart'),
 										admin_url( 'options-reading.php' )
 									);
-									?>
-									</p>
+									?></div>
 								</div>
 							</div>
-							<div class="status-block__actions-dropdown"></div>
-							<div class="status-block__primary-action">
+							<div class="cta-block__cta">
 								<label class="checkbox big">
 									<input name="" type="checkbox" <?php if($store_on_front){?>checked=""<?php }?> data-storefront-checkbox="store_on_front">
 									<div data-on="enabled" data-off="disabled">
@@ -95,41 +88,34 @@
 							</span>
 						</div>
 						<div class="iconable-block__content">
-							<div class="status-block">
-								<div class="status-block__central">
-									<div class="status-block__header">
-										<span class="status-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></span>
-										<span class="status-block__edit">Edit</span>
-									</div>
-									<div class="status-block__content">
+							<div class="cta-block">
+								<div class="cta-block__central">
+									<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
 
-										<?php
-										if( $page_status == 'draft' ) {
-											require __DIR__ . '/draft-message.tpl.php';
-										} else {
-										?>
-
-										<p><b>
-											<?php echo sprintf(
+									<?php if( $page_status != 'draft' ) { ?>
+										<div class="cta-block__content">
+											<b><?php echo sprintf(
 												__( 'Current store link: %s', 'ecwid-shopping-cart' ),
 												$page_link
 											);
-											?>
-										</b></p>
-										<?php } ?>
+											?></b>
+										</div>
+									<?php } ?>
 
-										<p>
+									<div class="cta-block__content">
+										<?php
+										if( $page_status == 'draft' ) {
+											require __DIR__ . '/draft-message.tpl.php';
+										}
+										?>
 										<?php
 											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products". You can adjust it in the page editor in the Permalink section.', 'ecwid-shopping-cart');
 										?>
-										</p>
 									</div>
 								</div>
-								<div class="status-block__actions-dropdown"></div>
-								<div class="status-block__primary-action">
+								<div class="cta-block__cta">
 									<a href="<?php echo $page_edit_link; ?>" target="_blank" class="btn btn-default btn-medium" data-storefront-show-card="change-link-form"><?php _e( 'Change link', 'ecwid-shopping-cart'); ?></a>
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -149,27 +135,22 @@
 						</span>
 					</div>
 					<div class="iconable-block__content">
-						<div class="status-block">
-							<div class="status-block__central">
-								<div class="status-block__header">
-									<span class="status-block__title"><?php _e( 'Add store page to the site menu', 'ecwid-shopping-cart'); ?></span>
-									<span class="status-block__edit">Edit</span>
-								</div>
-								<div class="status-block__content">
+						<div class="cta-block">
+							<div class="cta-block__central">
+								<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content">
 									<?php
 									if( $page_status == 'draft' ) {
 										require __DIR__ . '/draft-message.tpl.php';
 									}
 									?>
 									
-									<p><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></p>
+									<div><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>
 								</div>
 							</div>
-							<div class="status-block__actions-dropdown"></div>
-							<div class="status-block__primary-action">
+							<div class="cta-block__cta">
 								<a href="<?php echo admin_url('nav-menus.php'); ?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Add store page to the menu', 'ecwid-shopping-cart'); ?></a>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -188,21 +169,16 @@
 						</span>
 					</div>
 					<div class="iconable-block__content">
-						<div class="status-block">
-							<div class="status-block__central">
-								<div class="status-block__header">
-									<span class="status-block__title"><?php _e( 'Feature your products in sidebar', 'ecwid-shopping-cart'); ?></span>
-									<span class="status-block__edit">Edit</span>
-								</div>
-								<div class="status-block__content">
-									<p><?php _e( 'Highlight best sellers or new products in the sidebar', 'ecwid-shopping-cart'); ?></p>
+						<div class="cta-block">
+							<div class="cta-block__central">
+								<div class="cta-block__title"><?php _e( 'Feature your products in sidebar', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content">
+									<?php _e( 'Highlight best sellers or new products in the sidebar', 'ecwid-shopping-cart'); ?>
 								</div>
 							</div>
-							<div class="status-block__actions-dropdown"></div>
-							<div class="status-block__primary-action">
+							<div class="cta-block__cta">
 								<a href="<?php echo admin_url( 'widgets.php' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -221,23 +197,19 @@
 						</span>
 					</div>
 					<div class="iconable-block__content">
-						<div class="status-block">
-							<div class="status-block__central">
-								<div class="status-block__header">
-									<span class="status-block__title"><?php _e( 'Display shopping cart icon on the site pages', 'ecwid-shopping-cart'); ?></span>
-									<span class="status-block__edit">Edit</span>
-								</div>
-								<div class="status-block__content">
-									<p><?php 
+						<div class="cta-block">
+							<div class="cta-block__central">
+								<div class="cta-block__title"><?php _e( 'Display shopping cart icon on the site pages', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content">
+									<?php 
 									echo sprintf(
 										__( 'The shopping cart icon helps your customers find their shopping cart and proceed to checkout. Additionaly, you can <a href="%s" target="_blank">adjust the icon appearance</a>.', 'ecwid-shopping-cart'),
 										$customizer_minicart_link
 									);
-									?></p>
+									?>
 								</div>
 							</div>
-							<div class="status-block__actions-dropdown"></div>
-							<div class="status-block__primary-action">
+							<div class="cta-block__cta">
 								<label class="checkbox big">
 									<input name="" type="checkbox" <?php if(!$minicart_hide) {?>checked=""<?php } ?> data-storefront-checkbox="display_cart_icon">
 									<div data-on="enabled" data-off="disabled">
