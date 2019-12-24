@@ -23,6 +23,7 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 
 				$api = new Ecwid_Api_V3();
 				$batch_item = null;
+				$batch_item_gallery = null;
 				
 				$task_create_product = new Ecwid_Importer_Task_Create_Product();
 				$data = $task_create_product->get_batch_data( $importer, $id );
@@ -36,7 +37,15 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 
 					if ( $ecwid_products->total > 0 ) {
 						$ecwid_id = $ecwid_products->items[0]->id;
+
+						$batch_item_id .= '|' . $ecwid_id;
+
 						$batch_item = $api->batch_update_product( $data, $ecwid_id, $batch_item_id );
+
+						if( count($ecwid_products->items[0]->galleryImages) > 0 ) {
+							$batch_item_gallery_id = 'delete_all_gallery_image|' . $ecwid_id; 
+							$batch_item_gallery = $api->batch_delete_all_gallery_image( $ecwid_id, $batch_item_gallery_id );
+						}
 					}
 				}
 
@@ -45,6 +54,10 @@ class Ecwid_Importer_Task_Import_Woo_Products_Batch extends Ecwid_Importer_Task 
 				}
 
 				$importer->append_batch( $batch_item );
+
+				if ( $batch_item_gallery ) {
+					$importer->append_batch( $batch_item_gallery );					
+				}
 			}
 
 			$batch = $importer->get_batch();
