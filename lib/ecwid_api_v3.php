@@ -1059,6 +1059,15 @@ class Ecwid_Api_V3
 		);
 	}
 
+	public function batch_delete_product( $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id,
+			'DELETE',
+			false,
+			$batch_id
+		);
+	}
+
 	public function batch_upload_category_image( $params, $category_id, $batch_id = false ) {
 		$url = $this->build_request_url('/categories/' . $product_id . '/image', $params);
 

@@ -63,7 +63,7 @@ class Ecwid_Importer_Task_Create_Product_Variation extends Ecwid_Importer_Task_P
 			break;
 		}
 
-		$batch_item_id = self::$type . '|' . $this->_woo_product_id;
+		$batch_item_id = self::$type . '|' . $this->_woo_product_id . '|' . $data['variation_id'];
 
 		$batch_item = $api->batch_create_product_variation( $variation_data, $this->_ecwid_product_id, $batch_item_id );
 		$exporter->append_batch( $batch_item );

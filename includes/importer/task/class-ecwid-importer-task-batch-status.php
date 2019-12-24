@@ -102,7 +102,35 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 				}
 
 				if ($type == 'create_variation' ) {
-					update_post_meta( $woo_id, '_ecwid_variation_id', $ecwid_id );
+
+					$variation_id = $params[2];
+
+					$p = wc_get_product( $woo_id );
+					if ( $p instanceof WC_Product_Variable ) {
+
+						$vars = $p->get_available_variations();
+
+						foreach ( $vars as $var ) {
+							if( $variation_id != $var['variation_id'] ) {
+								continue;
+							}
+
+							if ( $var['image_id'] && $var['image_id'] != $p->get_image_id() ) {
+								
+								$exporter->append_task(
+									Ecwid_Importer_Task_Upload_Product_Variation_Image::build(
+										array(
+											'product_id' => $woo_id,
+											'variation_id' => $var['variation_id']
+										)
+									)
+								);
+							}
+
+							update_post_meta( $var['variation_id'], '_ecwid_variation_id', $ecwid_id );
+						}
+					}
+
 				}
 
 			}
