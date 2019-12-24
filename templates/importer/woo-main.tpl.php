@@ -35,8 +35,11 @@
 			__( 'After import, your %s store will have ', 'ecwid-shopping-cart' ),
 			Ecwid_Config::get_brand()
 		);
+
+		$count_ecwid_products = Ecwid_Importer::count_ecwid_products() - Ecwid_Importer::count_ecwid_demo_products();
+
 		echo $this->_get_products_categories_message(
-			Ecwid_Importer::count_ecwid_products() + Ecwid_Importer::count_woo_products(),
+			$count_ecwid_products + Ecwid_Importer::count_woo_products(),
 			Ecwid_Importer::count_ecwid_categories() + Ecwid_Importer::count_woo_categories()
 		);
 		?>
