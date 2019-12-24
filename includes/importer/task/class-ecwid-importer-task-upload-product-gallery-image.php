@@ -14,7 +14,7 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 			return array(
 				'status' => 'error',
 				'data'   => 'skipped',
-				'message' => 'Parent product was not imported'
+				'message' => 'Parent product was not imported #' . $this->_woo_product_id
 			);
 		}
 

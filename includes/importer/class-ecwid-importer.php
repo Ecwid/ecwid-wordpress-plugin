@@ -10,6 +10,7 @@ class Ecwid_Importer
 	const OPTION_WOO_CATALOG_IMPORTED = 'ecwid_imported_from_woo';
 	const OPTION_SETTINGS = 'ecwid_importer_settings';
 	const OPTION_DEMO_PRODUCTS = 'woo_importer_demo_products';
+	const OPTION_ERROR_LOG = 'ecwid_importer_error_log';
 	
 	const TICK_LENGTH = 20;
 	
@@ -30,10 +31,17 @@ class Ecwid_Importer
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
 		update_option( self::OPTION_STATUS, array() );
+		update_option( self::OPTION_ERROR_LOG, array() );
 		$this->_start();
 		
 		$api = new Ecwid_Api_V3();
+
+		$settings = array(
+			self::SETTING_UPDATE_BY_SKU => true,
+			self::SETTING_DELETE_DEMO => true
+		);
 		$this->_set_settings( $settings );
+
 		$this->_maybe_set_forced_settings();
 		$this->_set_tasks(array());
 		
@@ -181,6 +189,10 @@ class Ecwid_Importer
 		$progress['status'] = 'complete';
 		
 		update_option( self::OPTION_WOO_CATALOG_IMPORTED, 'true' );
+
+		if( isset( $progress['error_messages'] ) ) {
+			update_option( self::OPTION_ERROR_LOG, $progress['error_messages'] );
+		}
 		
 		return $progress;
 	}
