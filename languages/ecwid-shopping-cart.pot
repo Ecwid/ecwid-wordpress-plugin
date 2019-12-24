@@ -897,10 +897,6 @@ msgid "Still have questions about Ecwid? Let us know!"
 msgstr ""
 
 #: templates/help.php:211
-msgid "https://www.ecwid.com/forums"
-msgstr ""
-
-#: templates/help.php:211
 msgid "Forums"
 msgstr ""
 
