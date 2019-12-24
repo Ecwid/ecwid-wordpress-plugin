@@ -24,7 +24,7 @@
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Create cart page', 'ecwid-shopping-cart'); ?></a>
+								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="cart"><?php _e( 'Create cart page', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -51,7 +51,7 @@
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Create search page', 'ecwid-shopping-cart'); ?></a>
+								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="search"><?php _e( 'Create search page', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -74,11 +74,41 @@
 							<div class="cta-block__central">
 								<div class="cta-block__title"><?php _e( 'Add a category page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'You can feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart'); ?>
+									<?php
+									if( $categories && count($categories) > 0 && count($categories) <= 100 ) {
+										_e( 'You can feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
+									} else {
+										_e( 'More 100 categories. You can feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
+									}
+									?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Pick a category', 'ecwid-shopping-cart'); ?></a>
+
+								<?php if( $categories && count($categories) > 0 && count($categories) <= 100 ) { ?>
+									<div class="btn-group dropdown-toggle drop-left">
+										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
+										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
+											<span class="btn-dropdown-container">
+												<span class="actions"><?php _e( 'Pick a category', 'ecwid-shopping-cart'); ?></span>
+											</span>
+											<span class="icon-arr-down"></span>
+										</div>
+										<div class="list-dropdown list-dropdown-medium">
+											<ul>
+											<?php foreach( $categories as $category ) {?>
+												<li 
+													data-storefront-create-page="category"
+													data-storefront-item-id="<?php echo $category->id?>"
+												><a><?php echo $category->name?></a></li>
+											<?php } ?>
+											</ul>
+										</div>
+									</div>
+								<?php } else {?>
+									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="category"><?php _e( 'Create category page', 'ecwid-shopping-cart'); ?></a>
+								<?php } ?>
+
 							</div>
 						</div>
 					</div>
@@ -101,11 +131,41 @@
 							<div class="cta-block__central">
 								<div class="cta-block__title"><?php _e( 'Add a product page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'Create a landing page featuring one of your products', 'ecwid-shopping-cart'); ?>
+									<?php
+									if( $products_total > 0 && $products_total <= 100 ) {
+										_e( 'Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+									} else {
+										_e( 'More 100 products. Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+									}
+									?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Pick a product', 'ecwid-shopping-cart'); ?></a>
+
+								<?php if( $products_total > 0 && $products_total <= 100 ) { ?>
+									<div class="btn-group dropdown-toggle drop-left">
+										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
+										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
+											<span class="btn-dropdown-container">
+												<span class="actions"><?php _e( 'Pick a product', 'ecwid-shopping-cart'); ?></span>
+											</span>
+											<span class="icon-arr-down"></span>
+										</div>
+										<div class="list-dropdown list-dropdown-medium">
+											<ul>
+											<?php foreach( $products as $product ) {?>
+												<li 
+													data-storefront-create-page="product"
+													data-storefront-item-id="<?php echo $product->id?>"
+												><a><?php echo $product->name?></a></li>
+											<?php } ?>
+											</ul>
+										</div>
+									</div>
+								<?php } else {?>
+									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="product"><?php _e( 'Create product page', 'ecwid-shopping-cart'); ?></a>
+								<?php } ?>
+
 							</div>
 						</div>
 					</div>
@@ -145,6 +205,7 @@
 			</div>
 		</div>
 
+		<?php if( $store_pages ) { ?>
 		<div class="a-card a-card--compact">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
@@ -164,20 +225,19 @@
 								</div>
 								<div class="cta-block__content">
 									
-									<div class="btn-group dropdown-toggle drop-left">
-										<button type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
-										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
-											<span class="btn-dropdown-container">
-												<span class="actions">Actions</span>
-											</span>
-											<span class="icon-arr-down"></span>
-										</div>
-										<div class="list-dropdown list-dropdown-medium">
-											<ul>
-												<li><a>Edit</a></li>
-												<li><a>Sort</a></li>
-												<li><a>Remove</a></li>
-											</ul>
+									<div class="fieldset fieldset--select fieldset--no-label">
+										<div class="field field--medium field--filled">
+											<select class="field__select" data-storefront-save-main-page="1">
+												<?php foreach ( $store_pages as $id ): ?>
+						                            <option
+						                                    value="<?php echo $id; ?>"
+						                                <?php if ( $id == $page_id ): ?>
+						                                    selected="selected"
+						                                <?php endif; ?>
+						                            ><?php esc_html_e( get_post( $id )->post_title ); ?></option>
+						                        <?php endforeach; ?>
+											</select>
+											<span class="field__arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" focusable="false"><path d="M7.85 10l5.02 4.9 5.27-4.9c.65-.66 1.71-.66 2.36 0 .65.67.65 1.74 0 2.4l-6.45 6.1c-.33.33-.76.5-1.18.5-.43 0-.86-.17-1.18-.5l-6.21-6.1c-.65-.66-.65-1.74 0-2.41.66-.65 1.72-.65 2.37.01z"></path></svg></span>
 										</div>
 									</div>
 
@@ -189,7 +249,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<?php } ?>
 
 	</div>
 </div>

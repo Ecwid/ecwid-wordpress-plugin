@@ -1,4 +1,3 @@
-
 <?php
 // TO-DO вынести в js файл
 ?>
@@ -42,6 +41,26 @@
 				}
 			);
 
+    		return false;
+    	});
+
+    	jQuery(document).on( 'change', '[data-storefront-save-main-page]', function(){
+    		var page = jQuery(this).val();
+
+    		var data = {
+				action: 'ecwid_storefront_set_mainpage',
+				page: page
+			};
+
+    		jQuery.getJSON(
+				'admin-ajax.php',
+				data,
+				function(data) {
+					if( typeof data.reload != 'undefined' ) {
+						location.reload();
+					}
+				}
+			);
     		return false;
     	});
 
@@ -99,6 +118,42 @@
     		return false;
     	});
 
+    	jQuery(document).on( 'click', '[data-storefront-create-page]', function(){
+    		var button = jQuery(this),
+    			type = button.data('storefrontCreatePage'),
+    			item_id = false;
+
+    		if( typeof button.data('storefrontItemId') != 'undefined' ) {
+    			item_id = button.data('storefrontItemId');
+    		}
+
+    		if( !button.hasClass('btn') ) {
+    			button = button.closest('.btn-group').find('.btn');
+    		}
+
+    		button.addClass('btn-loading');
+
+    		var data = {
+				action: 'ecwid_storefront_create_page',
+				type: type,
+				item_id: item_id
+			};
+
+    		jQuery.getJSON(
+				'admin-ajax.php',
+				data,
+				function(data) {
+					button.removeClass('btn-loading');
+
+					if( data.status == 'success' ) {
+						var win = window.open(data.url, '_blank');
+	  					win.focus();
+					}
+				}
+			);
+    		return false;
+    	});
+
     	jQuery(document).on( 'click', '[data-storefront-show-card]', function(){
     		var card = jQuery(this).data('storefrontShowCard');
     		ecwid_show_storefront_card( jQuery(this), card );
@@ -130,7 +185,7 @@
 	.settings-page input[type=text] {
 		min-height: unset;
 	}
-	.settings-page input[type=text]:focus {
+	.settings-page input[type=text]:focus, .settings-page select:focus, .settings-page a:focus {
 	    border-color: unset;
 	    box-shadow: unset;
 	    outline: unset;
