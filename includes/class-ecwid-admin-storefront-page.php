@@ -138,6 +138,9 @@ class Ecwid_Admin_Storefront_Page
 				'ID' => $page_id,
 				'post_name' => $slug
 			));
+
+			Ecwid_Store_Page::set_store_url();
+			
 			wp_send_json(array('status' => 'success'));
 		} else {
 			wp_send_json(
@@ -155,7 +158,9 @@ class Ecwid_Admin_Storefront_Page
 		if( !Ecwid_Store_Page::is_store_page( $page ) ) {
 			wp_send_json(array('status' => 'error'));
 		}
+		
 		Ecwid_Store_Page::update_main_store_page_id( $page );
+		Ecwid_Store_Page::set_store_url();
 
 		wp_send_json(array('status' => 'success', 'reload' => 1));
 	}

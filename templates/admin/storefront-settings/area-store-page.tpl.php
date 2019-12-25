@@ -19,6 +19,12 @@
 								if( $page_status == 'draft' ) {
 									$status_class = 'error';
 								}
+
+								if( $page_status == 'publish' ) {
+									$page_status_title = __( 'Published', 'ecwid-shopping-cart' );
+								} else {
+									$page_status_title = __( ucfirst($page_status), 'ecwid-shopping-cart' );
+								}
 								?>
 								<span class="feature-element__status-title <?php echo $status_class;?>"><?php _e('Status', 'ecwid-shopping-cart'); ?>:</span>
 								<div class="feature-element__status-dropdown-container">
@@ -26,7 +32,7 @@
 									<div class="dropdown-menu text-default">
 										<div class="dropdown-menu__link">
 											<a class="iconable-link">
-												<div class="iconable-link__text"><?php echo ucfirst($page_status); ?></div>
+												<div class="iconable-link__text"><?php echo $page_status_title; ?></div>
 												&zwj;
 												<span class="iconable-link__icon">
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 28" focusable="false"><path d="M3.3 9.5l5.6 5.1 6-5.1c.8-.7 1.9-.7 2.6 0 .8.7.8 1.8 0 2.5l-7.2 6.4c-.5.4-1 .6-1.4.6s-1-.2-1.3-.5L.7 12.1c-.8-.7-.8-1.8 0-2.5.6-.8 1.9-.8 2.6-.1z"></path></svg>

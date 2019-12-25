@@ -57,7 +57,11 @@
 					<div class="form-area">
 						<div class="form-area__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
 						<div class="form-area__content">
-							<p><?php _e( 'Set the slug of the page. This address is displayed on customer-facing invoices and emails.', 'ecwid-shopping-cart' ); ?></p>
+							<div class="fieldsets-batch">
+							<?php
+								_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
+							?>
+							</div>
 							<div class="fieldsets-batch">
 								<div class="fieldset">
 									<div class="field field--medium">
@@ -95,8 +99,8 @@
 									<?php if( $page_status != 'draft' ) { ?>
 										<div class="cta-block__content">
 											<b><?php echo sprintf(
-												__( 'Current store link: %s', 'ecwid-shopping-cart' ),
-												$page_link
+												__( 'Current store link: /%s', 'ecwid-shopping-cart' ),
+												$page_slug
 											);
 											?></b>
 										</div>
@@ -109,7 +113,7 @@
 										}
 										?>
 										<?php
-											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products". You can adjust it in the page editor in the Permalink section.', 'ecwid-shopping-cart');
+											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
 										?>
 									</div>
 								</div>
@@ -137,7 +141,7 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Add store page to the site menu', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
 									if( $page_status == 'draft' ) {
@@ -177,7 +181,7 @@
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo admin_url( 'widgets.php' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url( 'widgets.php?from-ecwid=1' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
