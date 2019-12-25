@@ -14,7 +14,7 @@
 <div class="settings-page">
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
-			<h1 class="settings-page__title"><?php echo sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h1>
+			<h1 class="settings-page__title"><?php echo sprintf( __( 'Import Your Products From Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h1>
 			<div class="settings-page__subtitle"></div>
 		</div>
 
@@ -28,13 +28,13 @@
 		<div class="named-area">
 			<div class="named-area__header">
 				<div class="named-area__titles">
-					<div class="named-area__title"><?php _e( 'Update your Catalog', 'ecwid-shopping-cart' ); ?></div>
+					<div class="named-area__title"><?php _e( 'Update your catalog', 'ecwid-shopping-cart' ); ?></div>
 					<div class="named-area__subtitle"><?php echo sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
 				</div>
 			</div>
 			<div class="named-area__body">
 
-				<div class="a-card-stack">
+				<div class="a-card-stack" data-ec-importer-card-stack>
 					
 					<div class="a-card a-card--normal">
 						<div class="a-card__paddings">
@@ -42,7 +42,7 @@
 								<div class="feature-element__core">
 									<div class="feature-element__data">
 
-										<div class="feature-element__title" data-ec-importer-state="default"><?php echo sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
+										<div class="feature-element__title" data-ec-importer-state="default"><?php echo sprintf( __( 'Import your products from Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
 
 										<div class="feature-element__title" data-ec-importer-state="process"><?php _e( 'Import is in Progress', 'ecwid-shopping-cart' ); ?></div>
 
@@ -97,7 +97,7 @@
 
 												<div class="feature-element__action" data-ec-importer-state="default">
 													<button type="button" class="btn btn-primary btn-medium" id="ec-importer-woo-go">
-														<span><?php _e( 'Start import', 'ecwid-shopping-cart' ); ?></span>
+														<span><?php _e( 'Start Import', 'ecwid-shopping-cart' ); ?></span>
 													</button>
 												</div>
 											</div>

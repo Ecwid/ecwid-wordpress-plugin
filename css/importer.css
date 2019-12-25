@@ -6,6 +6,10 @@
     display: none;
 }
 
+.a-card-stack[data-ec-importer-card-stack], [data-ec-importer-card-stack] .a-card { 
+	transition: none; 
+}
+
 [data-ec-importer-state] {
     display: none;
 }

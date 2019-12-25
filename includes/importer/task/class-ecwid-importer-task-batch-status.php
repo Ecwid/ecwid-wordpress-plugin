@@ -31,9 +31,7 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 		}
 
 		if ( $batch->status == self::STATUS_COMPLETED ) {
-
-			$status = get_option( Ecwid_Importer::OPTION_STATUS, array( 'plan_limit' => array() ) );
-
+			
 			foreach($batch->responses as $response) {
 				
 				$params = explode( '|', $response->id );
@@ -72,6 +70,8 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 
 					if ( $response->httpStatusCode == 402 ) {
 						$status['plan_limit'][$type] = true;
+						update_option( Ecwid_Importer::OPTION_STATUS, $status );
+						// $exporter->_batch_progress['plan_limit_hit'][] = $type;
 					}
 
 					continue;
@@ -134,8 +134,6 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 				}
 
 			}
-
-			update_option( Ecwid_Importer::OPTION_STATUS, $status );
 		}
 
 		if( isset( $task_data['timeout'] ) && $task_data['timeout'] > 0 ) {

@@ -11,6 +11,14 @@ jQuery(document).ready(function() {
     switchWooImportState = function( state ) {
         jQuery('[data-ec-importer-state]').hide();
         jQuery('[data-ec-importer-state=' + state +']').show();
+
+        jQuery('[data-ec-importer-card-stack]').each(function(){
+            if( jQuery(this).find('.a-card:visible').length > 1 ) {
+                jQuery(this).addClass('a-card-stack');
+            } else {
+                jQuery(this).removeClass('a-card-stack');
+            }
+        });
     }
 
     showWooImportAlert = function( alert_type ) {

@@ -12,7 +12,7 @@
 			<div class="iconable-block__content">
 				<div class="cta-block">
 					<div class="cta-block__central">
-						<div class="cta-block__title"><?php _e( 'Import complete', 'ecwid-shopping-cart' ); ?></div>
+						<div class="cta-block__title"><?php _e( 'Import completed', 'ecwid-shopping-cart' ); ?></div>
 						<div class="cta-block__content">
 							<?php 
 							echo sprintf( __( 'Imported <b>%s</b> products', 'ecwid-shopping-cart' ), '<span id="import-results-products">0</span>' );
@@ -46,7 +46,7 @@
 					</div>
 					<div class="cta-block__cta">
 						<a class="btn btn-primary btn-medium" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>-admin-products">
-							<?php echo sprintf( __('Go to your %s Products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+							<?php echo sprintf( __('Go to Your %s Products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
 						</a>
 					</div>
 				</div>
