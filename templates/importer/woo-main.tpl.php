@@ -90,9 +90,19 @@
 
 											<div class="feature-element__content">
 												<div class="feature-element__text">
-													<?php if ( !Ecwid_Config::is_wl() ): ?>
-													<p><?php echo sprintf( __( 'Import creates new products. Please mind the maximum number of products and categories you can add to your store. This import tool will automatically stop when you reach the limit. To learn the current store limit or increase it, please see the <nobr><a %s target="_blank">"Billing & Plans"</a></nobr> page in your store control panel. ', 'ecwid-shopping-cart' ), 'href="admin.php?page=ec-store-admin-billing"' ); ?></p>
-													<?php endif;?>
+													<p>
+													<?php
+													_e( 'Import creates new products and update the existing products with matching SKUs.', 'ecwid-shopping-cart' );
+													?>
+
+													<?php
+													if ( !Ecwid_Config::is_wl() ) {
+														echo sprintf( __( 'Please mind the maximum number of products and categories you can have in your Ecwid store. This import tool will automatically stop when the store products limit is reached. To check the current store limit or increase it, please see the <nobr><a %s target="_blank">"Billing & Plans"</a></nobr> page in your Ecwid store control panel.', 'ecwid-shopping-cart'),
+															'href="admin.php?page=ec-store-admin-billing"'
+														);
+													}
+													?>
+													</p>
 												</div>
 
 												<div class="feature-element__action" data-ec-importer-state="default">

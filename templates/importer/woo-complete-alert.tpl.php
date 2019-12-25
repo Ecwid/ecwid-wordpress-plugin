@@ -24,12 +24,15 @@
 						</div>
 
 						<div class="cta-block__content" data-ec-importer-alert="warning">
-							<?php _e( 'Some of the items could not be imported', 'ecwid-shopping-cart' ); ?>
+							<?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?>
 
 							<span data-ec-importer-alert="limit">
 							<?php
-								_e( ' &mdash; <b>reached the product count limit.</b>', 'ecwid-shopping-cart' );
-								echo sprintf( __ ( ' Not all products have been copied to %1$s because you reached the product count limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan</a></nobr>', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand(), 'href="' . $this->_get_billing_page_url() .'"' );
+								echo sprintf( 
+									__( 'Part of the products have not been copied to %1$s, because you reached the products limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan.</a></nobr>', 'ecwid-shopping-cart' ),
+									Ecwid_Config::get_brand(), 
+									'href="' . $this->_get_billing_page_url() .'"'
+								);
 							?>
 							</span>
 						</div>
