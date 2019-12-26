@@ -1023,7 +1023,6 @@ class Ecwid_Api_V3
 		return $result;
 	}
 
-	// TO-DO create class for batch methods
 	public function compose_batch_item( $path, $method = 'GET', $body = false, $batch_id = false ) {
 		$result = array(
 			'path' => $path,
@@ -1059,6 +1058,15 @@ class Ecwid_Api_V3
 		);
 	}
 
+	public function batch_delete_product( $product_id, $batch_id = false ) {
+		return $this->compose_batch_item(
+			'/products/' . $product_id,
+			'DELETE',
+			false,
+			$batch_id
+		);
+	}
+
 	public function batch_upload_category_image( $params, $category_id, $batch_id = false ) {
 		$url = $this->build_request_url('/categories/' . $product_id . '/image', $params);
 
@@ -1087,6 +1095,16 @@ class Ecwid_Api_V3
 		return $this->compose_batch_item(
 			$url,
 			'POST',
+			false,
+			$batch_id
+		);
+	}
+
+	public function batch_delete_all_gallery_image( $product_id, $batch_id = false ) {
+
+		return $this->compose_batch_item(
+			'/products/' . $product_id . '/gallery',
+			'DELETE',
 			false,
 			$batch_id
 		);

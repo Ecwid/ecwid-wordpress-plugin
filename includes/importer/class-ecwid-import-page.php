@@ -9,7 +9,7 @@ class Ecwid_Import_Page
 	
 	const AJAX_ACTION_CHECK_IMPORT = 'ec-store-check-import';
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
-	const ACTION_DO_RECONNECT = 'ec-store-do-reconnect';
+	const ACTION_GET_WOO_IMPORT_LOG = 'ec-store-get-woo-import-log';
 	
 	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
 	
@@ -21,6 +21,7 @@ class Ecwid_Import_Page
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import') );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import') );
 		add_action( 'current_screen', array( $this, 'do_reconnect') );
+		add_action( 'admin_post_' . self::ACTION_GET_WOO_IMPORT_LOG, array( $this, 'get_woo_import_log') );
 	}
 	
 	public function process_woo_onboarding_redirect() 
@@ -59,8 +60,8 @@ class Ecwid_Import_Page
 	
 	public function enqueue_scripts()
 	{
-		wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . '/css/importer.css' );
-		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . '/js/importer.js' );
+		wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . 'css/importer.css' );
+		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . 'js/importer.js' );
 		wp_localize_script( 'ecwid-importer', 'ecwid_importer', array(
 			'check_token_action' => self::AJAX_ACTION_CHECK_IMPORT,
 			'do_woo_import_action' => self::AJAX_ACTION_DO_WOO_IMPORT
@@ -183,5 +184,33 @@ class Ecwid_Import_Page
 				$products
 			);
 		}
+	}
+
+	public function get_woo_import_log() {
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		header("Content-Disposition: attachment; filename=ec-woo-import-log.txt");
+
+		$error_log = get_option( Ecwid_Importer::OPTION_ERROR_LOG, false );
+
+		if( !$error_log ) {
+			die();
+		}
+
+		foreach ($error_log as $type => $messages) {
+			echo sprintf( "ERROR TYPE: %s\r\n", $type );
+
+			foreach ($messages as $message => $data) {
+				echo "*** \r\n";
+				echo $message . "\r\n";
+				echo 'Data: ' . var_export($data, true) . "\r\n";
+			}
+
+			echo "\r\n";
+		}
+
+		die();
 	}
 }

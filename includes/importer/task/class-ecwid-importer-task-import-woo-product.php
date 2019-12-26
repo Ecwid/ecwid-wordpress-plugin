@@ -42,17 +42,6 @@ class Ecwid_Importer_Task_Import_Woo_Product extends Ecwid_Importer_Task_Product
 						)
 					)
 				);
-
-				if ( $var['image_id'] && $var['image_id'] != $p->get_image_id() ) {
-					$importer->append_task(
-						Ecwid_Importer_Task_Upload_Product_Variation_Image::build(
-							array(
-								'product_id' => $product['woo_id'],
-								'variation_id' => $var['variation_id']
-							)
-						)
-					);
-				}
 			}
 		}
 
