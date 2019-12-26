@@ -23,11 +23,13 @@ class Ecwid_Integration_Autoptimize
 	}
 
 	public function hook_js_exclude($exclude) {
-		$code = ecwid_get_search_js_code();
+		$code= ecwid_get_search_js_code();
 		
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
-			$code .= ", " . Ecwid_Static_Page::HANDLE_STATIC_PAGE . ".js";
-		}
+		$code .= ', ecwid_html, ecwid_body';
+
+		$code .= ", " . Ecwid_Static_Page::HANDLE_STATIC_PAGE . ".js";
+		$code .= ", EcStaticPageUtils";
+		$code .= ", createClass";
 		
 		return $exclude . ", $code";
 	}

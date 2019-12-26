@@ -193,6 +193,7 @@ function ecwid_init_integrations()
 		'sitepress-multilingual-cms/sitepress.php' => 'wpml',
 		'pwa/pwa.php' => 'pwa',
 		'polylang/polylang.php' => 'polylang',
+		'wp-rocket/wp-rocket.php' => 'wprocket',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
