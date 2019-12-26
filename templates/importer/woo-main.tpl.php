@@ -1,5 +1,3 @@
-
-<!-- TO-DO вынести в отдельный файл типа fix-css-framework-js.php -->
 <script type='text/javascript'>//<![CDATA[
     jQuery(document.body).addClass('ecwid-no-padding');
     jQuery(document.body).css({
