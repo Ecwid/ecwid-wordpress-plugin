@@ -181,7 +181,7 @@
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo admin_url( 'widgets.php?from-ecwid=1' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url( 'widgets.php?highlight-ec-widgets=1' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>

@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 
 	if (location.href.match(/wp-admin\/widgets.php/) || location.href.match(/wp-admin\/customize.php/)) {
 		jQuery('div[id^="widget-"]').filter('div[id*="_ecwid"]').each(function(idx, el) {
-			if (location.href.match(/wp-admin\/widgets.php\?from-ecwid=/) && el.id.match(/__i__/)) {
+			if (location.href.match(/wp-admin\/widgets.php\?highlight-ec-widgets=/) && el.id.match(/__i__/)) {
 				if (jQuery('.ecwid-widget').length > 0) {
 					jQuery(el).insertAfter(jQuery('.ecwid-widget:last'));
 				} else {
