@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.3
-Stable tag: 6.8.10
+Stable tag: 6.8.11
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -156,6 +156,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
 
 == Changelog == 
+= 6.8.11 - Dec 30, 2019 =
+- Fixed a PHP error message (“Class 'Ecwid_Import_Page' not found“) for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
+
 = 6.8.10 - Dec 26, 2019 =
 - **Several fixes and improvements for the "Import from WooCommerce" tool.** The import tool now works faster and has a neat interface. 
 - **Improved compatibility with popular WordPress cache plugins**. The Ecwid ecommerce plugin now works better on sites with WP Super Cache, Autoptimize and WP-Rocket. If you have one of those plugins installed and noticed any issue, it should be fixed now. If you still see a problem, please let us know. 
