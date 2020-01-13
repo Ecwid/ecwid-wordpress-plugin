@@ -130,7 +130,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-main-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 
 if ( is_admin() ) {
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
 }
 
@@ -2023,15 +2023,6 @@ function ecwid_register_admin_styles($hook_suffix) {
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
-		}
-
-		$pages_with_ecwid_app_ui = array(
-			'ec-store-import-woocommerce',
-			'ec-storefront-settings'
-		);
-		if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
-			wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.7/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
-			wp_enqueue_script('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.min.js', array(), get_option('ecwid_plugin_version'), 'in_footer');
 		}
 	}
 }

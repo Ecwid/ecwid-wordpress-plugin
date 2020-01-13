@@ -5,7 +5,7 @@
 	</div>
 	<div class="named-area__body">
 
-		<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact">
+		<div class="a-card a-card--compact" data-ec-storefront-disabled-card="draft">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
 					<div class="iconable-block__infographics">
@@ -21,9 +21,7 @@
 								<div class="cta-block__title"><?php _e( 'Show your store on the home page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									if( $page_status == 'draft' ) {
-										require __DIR__ . '/draft-message.tpl.php';
-									}
+									require __DIR__ . '/draft-message.tpl.php';
 									?>
 
 									<div><?php
@@ -66,7 +64,7 @@
 								<div class="fieldset">
 									<div class="field field--medium">
 										<label class="field__label"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></label>
-										<input type="text" class="field__input" maxlength="64" name="post_name" value="<?php echo $page_slug; ?>">
+										<input type="text" class="field__input" maxlength="64" name="post_name" value="<?php echo $page_slug; ?>" data-ec-store-slug-input="1">
 										<div class="field__placeholder"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></div>
 									</div>
 									<div class="field__error"></div>
@@ -81,7 +79,7 @@
 				</div>
 			</div>
 
-			<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact" data-storefront-card="change-link">
+			<div class="a-card a-card--compact" data-storefront-card="change-link" data-ec-storefront-disabled-card="draft">
 				<div class="a-card__paddings">
 					<div class="iconable-block iconable-block--hide-in-mobile">
 						<div class="iconable-block__infographics">
@@ -96,21 +94,17 @@
 								<div class="cta-block__central">
 									<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
 
-									<?php if( $page_status != 'draft' ) { ?>
-										<div class="cta-block__content">
-											<b><?php echo sprintf(
-												__( 'Current store link: /%s', 'ecwid-shopping-cart' ),
-												$page_slug
-											);
-											?></b>
-										</div>
-									<?php } ?>
+									<div class="cta-block__content" data-ec-storefront="publish">
+										<b><?php echo sprintf(
+											__( 'Current store link: /<span data-ec-store-slug>%s</span>', 'ecwid-shopping-cart' ),
+											$page_slug
+										);
+										?></b>
+									</div>
 
 									<div class="cta-block__content">
 										<?php
-										if( $page_status == 'draft' ) {
-											require __DIR__ . '/draft-message.tpl.php';
-										}
+										require __DIR__ . '/draft-message.tpl.php';
 										?>
 										<?php
 											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
@@ -128,7 +122,7 @@
 		<?php } ?>
 
 
-		<div <?php Ecwid_Admin_Storefront_Page::show_draft_attribute( $page_status );?> class="a-card a-card--compact">
+		<div class="a-card a-card--compact" data-ec-storefront-disabled-card="draft">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
 					<div class="iconable-block__infographics">
@@ -144,9 +138,7 @@
 								<div class="cta-block__title"><?php _e( 'Add store page to the site menu', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									if( $page_status == 'draft' ) {
-										require __DIR__ . '/draft-message.tpl.php';
-									}
+									require __DIR__ . '/draft-message.tpl.php';
 									?>
 									
 									<div><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>

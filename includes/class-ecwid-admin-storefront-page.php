@@ -1,12 +1,12 @@
 <?php
 class Ecwid_Admin_Storefront_Page
 {
-	const TEMPLATES_DIR = ECWID_PLUGIN_DIR . '/templates/admin/storefront-settings/';
+	const TEMPLATES_DIR = ECWID_PLUGIN_DIR . '/templates/admin/storefront/';
 	
 	public function __construct() {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_show_inline_script' ) );
 
-		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, 'ajax_set_page_status' ) );
+		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, 'ajax_set_status' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_store_on_front', array( $this, 'ajax_set_store_on_front' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_display_cart_icon', array( $this, 'ajax_set_display_cart_icon' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_page_slug', array( $this, 'ajax_set_page_slug' ) );
@@ -20,10 +20,8 @@ class Ecwid_Admin_Storefront_Page
 
 		if( $page_id ) {
 			
-			$page_link = get_permalink( $page_id );
-			$page_edit_link = get_edit_post_link( $page_id );
-			$page_status = get_post_status( $page_id );
-			$page_slug = get_post_field( 'post_name', $page_id );
+            $page_data = self::get_page_data( $page_id );
+            extract( $page_data, EXTR_PREFIX_ALL, 'page' );
 
 			$store_on_front = Ecwid_Seo_Links::is_store_on_home_page();
 
@@ -61,11 +59,23 @@ class Ecwid_Admin_Storefront_Page
 
 		}
 
+        wp_enqueue_script('ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option('ecwid_plugin_version'));
+
 		require_once self::TEMPLATES_DIR . 'main.tpl.php';
 	}
 
+    public function get_page_data( $page_id ) {
+        $page = array(
+            'link' => get_permalink( $page_id ),
+            'edit_link' => get_edit_post_link( $page_id ),
+            'slug' => get_post_field( 'post_name', $page_id ),
+            'status' => get_post_status( $page_id )
+        );
 
-	public function ajax_set_page_status() {
+        return $page;
+    }
+
+	public function ajax_set_status() {
 		$page_statuses = array(
 			0 => 'draft',
 			1 => 'publish'
@@ -81,31 +91,74 @@ class Ecwid_Admin_Storefront_Page
 		}
 
 		$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+        $new_status = $page_statuses[ $status ];
+
 		wp_update_post(array(
 			'ID' => $page_id,
-			'post_status' => $page_statuses[ $status ]
+			'post_status' => $new_status
 		));
 
-		wp_send_json(array('status' => 'success'));
+		$page_data = self::get_page_data( $page_id );
+        wp_send_json(
+            array(
+                'status' => 'success',
+                'storepage' => $page_data
+            )
+        );
 	}
 
 	public function ajax_set_store_on_front() {
 		$status = intval( $_GET['status'] );
 
+        $store_page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+
 		if( $status ) {
 			$this->_set_previous_frontpage_settings();
-			$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+			$page_id = $store_page_id;
 			$type = 'page';
 		} else {			
 			$saved_settings = $this->_get_previous_frontpage_settings();
 			$page_id = $saved_settings['page_on_front'];
 			$type = $saved_settings['show_on_front'];
 		}
+
 		update_option( 'page_on_front', $page_id );
 		update_option( 'show_on_front', $type );
 
-		wp_send_json(array('status' => 'success'));
+        $page_data = self::get_page_data( $store_page_id );
+		wp_send_json(
+            array(
+                'status' => 'success',
+                'storepage' => $page_data
+            )
+        );
 	}
+
+    public function ajax_set_mainpage() {
+        $page_id = intval( $_GET['page'] );
+
+        if( !Ecwid_Store_Page::is_store_page( $page_id ) ) {
+            wp_send_json(array('status' => 'error'));
+        }
+
+        if( get_option( 'show_on_front' ) == 'page' ) {
+            $front_page_id = get_option( 'page_on_front' );
+            if( Ecwid_Store_Page::is_store_page($front_page_id) ) {
+                update_option( 'page_on_front', $page_id );
+            }
+        }
+        
+        Ecwid_Store_Page::update_main_store_page_id( $page_id );
+        Ecwid_Store_Page::set_store_url();
+
+        $page_data = self::get_page_data( $page_id );
+        wp_send_json(
+            array(
+                'status' => 'success',
+                'storepage' => $page_data
+            )
+        );
+    }
 
 	public function ajax_set_display_cart_icon() {
 		$status = intval( $_GET['status'] );
@@ -113,7 +166,7 @@ class Ecwid_Admin_Storefront_Page
 		if( $status ) {
 			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_ALL );
 			update_option( Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, 1 );
-		} else {			
+		} else {
 			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_NONE );
 		}
 
@@ -141,7 +194,13 @@ class Ecwid_Admin_Storefront_Page
 
 			Ecwid_Store_Page::set_store_url();
 			
-			wp_send_json(array('status' => 'success'));
+			$page_data = self::get_page_data( $page_id );
+            wp_send_json(
+                array(
+                    'status' => 'success',
+                    'storepage' => $page_data
+                )
+            );
 		} else {
 			wp_send_json(
 				array(
@@ -150,19 +209,6 @@ class Ecwid_Admin_Storefront_Page
 				)
 			);
 		}
-	}
-
-	public function ajax_set_mainpage() {
-		$page = intval( $_GET['page'] );
-
-		if( !Ecwid_Store_Page::is_store_page( $page ) ) {
-			wp_send_json(array('status' => 'error'));
-		}
-		
-		Ecwid_Store_Page::update_main_store_page_id( $page );
-		Ecwid_Store_Page::set_store_url();
-
-		wp_send_json(array('status' => 'success', 'reload' => 1));
 	}
 
 	public function ajax_create_page() {
@@ -296,11 +342,90 @@ class Ecwid_Admin_Storefront_Page
 		wp_add_inline_script( 'ec-blockeditor-inline-js', $script );
 	}
 
-	public static function show_draft_attribute( $page_status ) {
-		if( $page_status == 'draft' ) {
-			echo 'data-storefront-disabled-card';
-		}
-	}
+    public static function print_html_list_items( $items ) {
+        if( !is_array($items) ) {
+            return false;
+        }
+
+        foreach ($items as $key => $item) {
+            $attributes = '';
+            $text = '';
+
+            if( $item['is_separator'] ) {
+                echo '<li class="list-dropdown__separator"></li>';
+                continue;
+            }
+
+            if( isset($item['attributes']) && is_array($item['attributes']) ) {
+                foreach ($item['attributes'] as $attribute => $attribute_value) {
+                    $attributes .= sprintf(' %s="%s"', $attribute, $attribute_value);
+                }
+            }
+
+            if( isset($item['text']) ) {
+                $text = $item['text'];
+            }
+
+            echo sprintf('<li><a%s>%s</a></li>', $attributes, $text);
+        }
+    }
+
+    public static function get_feature_dropdown_items( $status ) {
+        $items['publish'] = array(
+            array(
+                'text' => __('View page on the site', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'href' => $page_link,
+                    'target' => '_blank'
+                )
+            ),
+            array(
+                'text' => __('Open page in the editor', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'href' => $page_edit_link,
+                    'target' => '_blank'
+                )
+            ),
+            array(
+                'is_separator' => 1
+            ),
+            array(
+                'text' => __('Switch to draft and hide from the site', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'data-storefront-status' => '0'
+                )
+            )
+        );
+
+        $items['draft'] = array(
+            array(
+                'text' => __('Preview page on the site', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'href' => $page_link,
+                    'target' => '_blank'
+                )
+            ),
+            array(
+                'text' => __('Open page in the editor', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'href' => $page_edit_link,
+                    'target' => '_blank'
+                )
+            ),
+            array(
+                'text' => __('Publish', 'ecwid-shopping-cart'),
+                'attributes' => array(
+                    'data-storefront-status' => '1'
+                )
+            )
+        );
+
+        if( isset($items[$status])) {
+            return $items[$status];
+        }
+
+        return false;
+    }
 }
 
 $_ecwid_admin_storefront_page = new Ecwid_Admin_Storefront_Page();
