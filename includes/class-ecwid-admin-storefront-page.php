@@ -218,29 +218,62 @@ class Ecwid_Admin_Storefront_Page
 			$item_id = intval( $_GET['item_id'] );
 		}
 
-		$shortcode = 'ecwid';
-
+		$title = __('Store', 'ecwid-shopping-cart');
 		$content = '';
+
+		// self::is_used_gutenberg();
+		// $shortcode = 'ecwid';
+		// [ecwid widgets="productbrowser" default_category_id=""]
+
+		$block = '';
+		$block_params = '';
+		$shortcode = '';
 
 		if( $type == 'category' ) {
 			if( isset($item_id) ) {
-				$default_category_id = $item_id;
-			} else {
-				$default_category_id = 0;
+				$block_params = array("default_category_id" => $item_id);
 			}
 
-			$content = $this->_get_gutenberg_block_code(
-				Ecwid_Gutenberg::CATEGORY_PAGE_BLOCK,
-				sprintf( '{"default_category_id":"%s"}', $default_category_id )
-			);
+			$title = __('Category', 'ecwid-shopping-cart');
+			$block = 'ec-store/category-page';
+			$shortcode = sprintf( '[ecwid widgets="productbrowser" default_category_id="%s"]', $item_id );
+		}
+
+		if( $type == 'product' ) {
+			$title = __('Product', 'ecwid-shopping-cart');
+			$block = 'ec-store/product-page';
+
+			if( isset($item_id) ) {
+				$block_params = array("default_product_id" => $item_id);
+			}
+			$shortcode = sprintf( '[ecwid widgets="productbrowser" default_product_id="%s"]', $item_id );
+		}
+
+		if( $type == 'cart' ) {
+			$title = __('Cart', 'ecwid-shopping-cart');
+			$block = 'ec-store/cart-page';
+		}
+		
+		if( $type == 'search' ) {
+			$title = __('Search products', 'ecwid-shopping-cart');
+			$block = 'ec-store/filters-page';
+		}
+
+		if( self::is_used_gutenberg() ) {
+			if( is_array( $block_params ) ) {
+				$block_params = json_encode( $block_params );
+			}
+			$content = sprintf( '<!-- wp:%1$s %2$s -->%3$s<!-- /wp:%1$s -->', $block, $block_params, $shortcode );
+		} else {
+			$content = $shortcode;
 		}
 
 		$page = array(
-			'post_title' => __('Store', 'ecwid-shopping-cart'),
-			'post_content' => $content,
-			'post_status' => 'draft',
-			'post_author' => 1,
-			'post_type' => 'page',
+			'post_title' 	=> $title,
+			'post_content' 	=> $content,
+			'post_status' 	=> 'draft',
+			'post_author' 	=> 1,
+			'post_type' 	=> 'page',
 			'comment_status' => 'closed'
 		);
 		
@@ -249,12 +282,6 @@ class Ecwid_Admin_Storefront_Page
 
 		wp_send_json(array('status' => 'success', 'url' => $url));
 	}
-
-	private function _get_gutenberg_block_code( $block, $params = '' ) {
-
-		return sprintf(	'<!-- wp:%s %s /-->', $block, $params );
-	}
-
 
 	private function _set_previous_frontpage_settings() {
 		$settings = array(

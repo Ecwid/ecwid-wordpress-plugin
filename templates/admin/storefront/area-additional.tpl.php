@@ -133,9 +133,9 @@
 								<div class="cta-block__content">
 									<?php
 									if( $products_total > 0 && $products_total <= 100 ) {
-										_e( 'Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+										_e( 'Less 100 products. Create a landing page featuring one of your products', 'ecwid-shopping-cart');
 									} else {
-										_e( 'More 100 products. Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+										_e( 'Create a landing page featuring one of your products', 'ecwid-shopping-cart');
 									}
 									?>
 								</div>
