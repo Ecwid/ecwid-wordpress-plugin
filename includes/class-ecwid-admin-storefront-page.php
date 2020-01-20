@@ -214,62 +214,79 @@ class Ecwid_Admin_Storefront_Page
 	public function ajax_create_page() {
 		$type = sanitize_title( $_GET['type'] );
 
-		if( isset($_GET['item_id'])  ) {
+		if( isset($_GET['item_id']) ) {
 			$item_id = intval( $_GET['item_id'] );
+		} else {
+			$item_id = '';
 		}
 
-		$title = __('Store', 'ecwid-shopping-cart');
-		$content = '';
+		$pages = array(
+			'store' => array(
+				'title' => __('Store', 'ecwid-shopping-cart'),
+				'block' => 'ecwid/store-block',
+				'block_add_shortcode' => true
+			),
+			'category' => array(
+				'title' => __('Category', 'ecwid-shopping-cart'),
+				'block' => 'ec-store/category-page',
+				'params' => array(
+					'default_category_id' => $item_id
+				)
+			),
+			'product' => array(
+				'title' => __('Product', 'ecwid-shopping-cart'),
+				'block' => 'ec-store/product-page',
+				'params' => array(
+					'default_product_id' => $item_id
+				)
+			),
+			'cart' => array(
+				'title' => __('Cart', 'ecwid-shopping-cart'),
+				'block' => 'ec-store/cart-page',
+				'params' => array(
+					'page' => 'cart'
+				)
+			),
+			'search' => array(
+				'title' => __('Search products', 'ecwid-shopping-cart'),
+				'block' => 'ec-store/filters-page',
+				'params' => array(
+					'page' => 'search'
+				)
+			)
+		);
 
-		// self::is_used_gutenberg();
-		// $shortcode = 'ecwid';
-		// [ecwid widgets="productbrowser" default_category_id=""]
-
-		$block = '';
-		$block_params = '';
-		$shortcode = '';
-
-		if( $type == 'category' ) {
-			if( isset($item_id) ) {
-				$block_params = array("default_category_id" => $item_id);
-			}
-
-			$title = __('Category', 'ecwid-shopping-cart');
-			$block = 'ec-store/category-page';
-			$shortcode = sprintf( '[ecwid widgets="productbrowser" default_category_id="%s"]', $item_id );
+		if( !isset( $pages[$type] ) ) {
+			wp_send_json(array('status' => 'error'));
 		}
 
-		if( $type == 'product' ) {
-			$title = __('Product', 'ecwid-shopping-cart');
-			$block = 'ec-store/product-page';
+		$page = $pages[$type];
 
-			if( isset($item_id) ) {
-				$block_params = array("default_product_id" => $item_id);
-			}
-			$shortcode = sprintf( '[ecwid widgets="productbrowser" default_product_id="%s"]', $item_id );
+		if( !isset( $page['params'] ) ) {
+			$page['params'] = array();
 		}
 
-		if( $type == 'cart' ) {
-			$title = __('Cart', 'ecwid-shopping-cart');
-			$block = 'ec-store/cart-page';
+		$shortcode_params = '';
+		foreach( $page['params'] as $key => $value ) {
+			$shortcode_params .= sprintf( '%s="%s"', $key, $value );
 		}
-		
-		if( $type == 'search' ) {
-			$title = __('Search products', 'ecwid-shopping-cart');
-			$block = 'ec-store/filters-page';
-		}
+
+		$shortcode = sprintf( '[ecwid widgets="productbrowser" %s]', $shortcode_params );
 
 		if( self::is_used_gutenberg() ) {
-			if( is_array( $block_params ) ) {
-				$block_params = json_encode( $block_params );
+			$block_params = json_encode( $page['params'] );
+
+			if( $page['block_add_shortcode'] ) {
+				$content = sprintf( '<!-- wp:%1$s %2$s -->%3$s<!-- /wp:%1$s -->', $page['block'], $block_params, $shortcode );
+			} else {
+				$content = sprintf( '<!-- wp:%1$s %2$s /-->', $page['block'], $block_params );
 			}
-			$content = sprintf( '<!-- wp:%1$s %2$s -->%3$s<!-- /wp:%1$s -->', $block, $block_params, $shortcode );
 		} else {
 			$content = $shortcode;
 		}
 
-		$page = array(
-			'post_title' 	=> $title,
+		$post = array(
+			'post_title' 	=> $page['title'],
 			'post_content' 	=> $content,
 			'post_status' 	=> 'draft',
 			'post_author' 	=> 1,
@@ -277,7 +294,7 @@ class Ecwid_Admin_Storefront_Page
 			'comment_status' => 'closed'
 		);
 		
-		$id = wp_insert_post( $page );
+		$id = wp_insert_post( $post );
 		$url = get_edit_post_link( $id, 'context' );
 
 		wp_send_json(array('status' => 'success', 'url' => $url));

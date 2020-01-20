@@ -1502,7 +1502,8 @@ function ecwid_shortcode($attributes)
 			'default_category_id' => 0,
 			'default_product_id' => 0,
 			'lang' => '',
-			'no_html_catalog' => 0
+			'no_html_catalog' => 0,
+			'page' => ''
 		)
 		, $attributes
 	);
@@ -1521,6 +1522,11 @@ function ecwid_shortcode($attributes)
 
 	$attributes['layout'] = $attributes['minicart_layout'];
 	$attributes['is_ecwid_shortcode'] = true;
+
+
+	if( !empty($attributes['page']) ) {
+		$attributes['no_html_catalog'] = 1;
+	}
 
 	$result = '';
 

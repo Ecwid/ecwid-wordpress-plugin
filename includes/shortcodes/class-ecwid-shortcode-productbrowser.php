@@ -34,7 +34,14 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$option_print_html_catalog = get_option('ecwid_print_html_catalog', 'Y');
 
 		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
-			return '<div id="dynamic-ec-store">' . $default_render . '</div>';
+			$result = '<div id="dynamic-ec-store">' . $default_render . '</div>';
+
+error_log( serialize($this->_params['page']) );
+			if( !empty( $this->_params['page'] ) ) {
+				$result .= $this->get_js_for_open_page( $this->_params['page'] );
+			}
+
+			return $result;
 		}
 
 
@@ -226,6 +233,10 @@ HTML;
 			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
 		}
 
+		if ( isset($shortcode_params['page']) ) {
+			$input_params['page'] = $shortcode_params['page'];
+		}
+
 		$this->_params = $input_params;
 	}
 
@@ -241,5 +252,26 @@ HTML;
 				: get_option( 'ecwid_default_category_id' );
 
 		return $ecwid_default_category_id;
+	}
+
+	public function get_js_for_open_page( $page = '' ) {
+		$allowed_pages = array( 'cart', 'search' );
+
+		if( !in_array( $page, $allowed_pages ) ) {
+			return false;
+		}
+
+		$result .= <<<HTML
+<script>
+Ecwid.OnAPILoaded.add(function() {
+    Ecwid.OnPageLoad.add(function(page) {
+        if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
+            Ecwid.openPage("$page");
+        }
+    })
+});
+</script>
+HTML;
+		return $result;
 	}
 }
