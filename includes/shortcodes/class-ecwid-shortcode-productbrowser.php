@@ -36,9 +36,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		if ( !Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
 			$result = '<div id="dynamic-ec-store">' . $default_render . '</div>';
 
-error_log( serialize($this->_params['page']) );
-			if( !empty( $this->_params['page'] ) ) {
-				$result .= $this->get_js_for_open_page( $this->_params['page'] );
+			if( !empty( $this->_params['default_page'] ) ) {
+				$result .= $this->get_js_for_open_page( $this->_params['default_page'] );
 			}
 
 			return $result;
@@ -233,8 +232,8 @@ HTML;
 			$input_params['noHTMLCatalog'] = $shortcode_params['no_html_catalog'];
 		}
 
-		if ( isset($shortcode_params['page']) ) {
-			$input_params['page'] = $shortcode_params['page'];
+		if ( isset($shortcode_params['default_page']) ) {
+			$input_params['default_page'] = $shortcode_params['default_page'];
 		}
 
 		$this->_params = $input_params;
@@ -255,7 +254,10 @@ HTML;
 	}
 
 	public function get_js_for_open_page( $page = '' ) {
-		$allowed_pages = array( 'cart', 'search' );
+		$allowed_pages = array( 
+			'cart',
+			'search'
+		);
 
 		if( !in_array( $page, $allowed_pages ) ) {
 			return false;

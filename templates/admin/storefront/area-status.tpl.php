@@ -39,11 +39,11 @@
 										
 										<div class="list-dropdown list-dropdown-medium" style="display: none;" aria-hidden="true">
 											<ul data-ec-storefront="publish">
-												<?php self::print_html_list_items( self::get_feature_dropdown_items('publish') ); ?>
+												<?php self::render_dropdown_list_items( self::get_dropdown_items('publish') ); ?>
 											</ul>
 
 											<ul data-ec-storefront="draft">
-												<?php self::print_html_list_items( self::get_feature_dropdown_items('draft') ); ?>
+												<?php self::render_dropdown_list_items( self::get_dropdown_items('draft') ); ?>
 											</ul>
 										</div>
 									</div>

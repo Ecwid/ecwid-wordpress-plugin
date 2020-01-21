@@ -57,13 +57,13 @@
 			</div>
 		</div>
 
-		<?php require __DIR__ . '/area-status.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-status.tpl.php'; ?>
 
-		<?php require __DIR__ . '/area-design.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-design.tpl.php'; ?>
 
-		<?php require __DIR__ . '/area-navigation.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-navigation.tpl.php'; ?>
 
-		<?php require __DIR__ . '/area-additional.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-additional.tpl.php'; ?>
 
 	</div>
 

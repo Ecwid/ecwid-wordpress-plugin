@@ -1503,7 +1503,7 @@ function ecwid_shortcode($attributes)
 			'default_product_id' => 0,
 			'lang' => '',
 			'no_html_catalog' => 0,
-			'page' => ''
+			'default_page' => ''
 		)
 		, $attributes
 	);
@@ -1524,7 +1524,7 @@ function ecwid_shortcode($attributes)
 	$attributes['is_ecwid_shortcode'] = true;
 
 
-	if( !empty($attributes['page']) ) {
+	if( !empty($attributes['default_page']) ) {
 		$attributes['no_html_catalog'] = 1;
 	}
 

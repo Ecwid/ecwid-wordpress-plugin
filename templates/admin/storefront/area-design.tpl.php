@@ -21,7 +21,7 @@
 								<div class="cta-block__title"><?php _e( 'Store appearance', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									if( Ecwid_Admin_Storefront_Page::is_used_gutenberg() ) {
+									if( self::is_gutenberg_active() ) {
 										_e( 'Used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
 									} else {
 										_e( 'Not used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
