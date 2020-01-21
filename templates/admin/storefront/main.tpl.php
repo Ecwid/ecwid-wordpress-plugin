@@ -44,6 +44,9 @@
 			<div class="settings-page__subtitle"></div>
 		</div>
 
+		<?php
+		if( $need_show_draft_warning ) {
+		?>
 		<div class="a-card a-card--compact a-card--warning" data-ec-storefront="draft">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile iconable-block--warning">
@@ -61,6 +64,9 @@
 				</div>
 			</div>
 		</div>
+		<?php
+		}
+		?>
 
 		<?php require self::TEMPLATES_DIR . '/area-status.tpl.php'; ?>
 

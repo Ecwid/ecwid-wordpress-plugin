@@ -57,6 +57,7 @@ class Ecwid_Admin_Storefront_Page
 				$products_total = $res->total;
 			}
 
+			$need_show_draft_warning = time() - get_option( 'ecwid_installation_date' ) > 3 * DAY_IN_SECONDS;
 		}
 
         wp_enqueue_script('ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option('ecwid_plugin_version'));
