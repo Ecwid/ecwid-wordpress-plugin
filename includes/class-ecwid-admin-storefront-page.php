@@ -18,6 +18,8 @@ class Ecwid_Admin_Storefront_Page
 		$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
 		$store_pages = false;
 
+		// $is_demo = ecwid_is_demo_store();
+
 		if( $page_id ) {
 			
             $page_data = self::get_page_data( $page_id );
@@ -272,7 +274,7 @@ class Ecwid_Admin_Storefront_Page
 			$shortcode_params .= sprintf( '%s="%s"', $key, $value );
 		}
 
-		$shortcode = sprintf( '[ecwid widgets="productbrowser" %s]', $shortcode_params );
+		$shortcode = sprintf( '[ec_store widgets="productbrowser" %s]', $shortcode_params );
 
 		if( self::is_gutenberg_active() ) {
 			$block_params = json_encode( $page['params'] );
