@@ -86,7 +86,7 @@
 							<div class="cta-block__cta">
 
 								<?php if( $categories && count($categories) > 0 && count($categories) <= 100 ) { ?>
-									<div class="btn-group dropdown-toggle drop-left">
+									<div class="btn-group dropdown-toggle drop-right">
 										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
 										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
 											<span class="btn-dropdown-container">
@@ -94,7 +94,7 @@
 											</span>
 											<span class="icon-arr-down"></span>
 										</div>
-										<div class="list-dropdown list-dropdown-medium">
+										<div class="list-dropdown list-dropdown-medium list-dropdown-scroll">
 											<ul>
 											<?php foreach( $categories as $category ) {?>
 												<li 
@@ -143,7 +143,7 @@
 							<div class="cta-block__cta">
 
 								<?php if( $products_total > 0 && $products_total <= 100 ) { ?>
-									<div class="btn-group dropdown-toggle drop-left">
+									<div class="btn-group dropdown-toggle drop-right">
 										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
 										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
 											<span class="btn-dropdown-container">
@@ -151,7 +151,7 @@
 											</span>
 											<span class="icon-arr-down"></span>
 										</div>
-										<div class="list-dropdown list-dropdown-medium">
+										<div class="list-dropdown list-dropdown-medium list-dropdown-scroll">
 											<ul>
 											<?php foreach( $products as $product ) {?>
 												<li 

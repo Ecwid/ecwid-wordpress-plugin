@@ -27,6 +27,11 @@
 	.settings-page .field__error { display: none; }
 	.settings-page .has-error .field__error { display: block; }
 
+	.settings-page .list-dropdown-scroll { 
+		overflow-y: scroll;
+    	max-height: 400px;
+    }
+
 	.settings-page[data-ec-storefront-status="publish"] [data-ec-storefront]:not([data-ec-storefront="publish"]) { display: none; }
 	.settings-page[data-ec-storefront-status="draft"] [data-ec-storefront]:not([data-ec-storefront="draft"]) { display: none; }
 </style>
