@@ -2278,9 +2278,15 @@ function ecwid_get_iframe_src($time, $page)
 	$url = ecwid_get_admin_sso_url($time, $page);
 	if ($url) {
 		$url .= '&inline&min-height=700';
+
 		if ( Ecwid_Admin::are_auto_menus_enabled() ) {
 			$url .= '&hide_vertical_navigation_menu=true';
 		}
+
+		$url .= '&hide_dashboard_background_image=true';
+		$url .= '&hide_staff_accounts_header_menu=true';
+		$url .= '&storefront_manage_url=' . Ecwid_Store_Page::get_store_url();
+
 		return $url;
 	} else {
 		return false;
