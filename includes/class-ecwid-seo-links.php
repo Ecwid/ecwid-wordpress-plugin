@@ -330,6 +330,8 @@ JS;
 			foreach ( $links as $link ) {
 				$link = trim( $link, '/' );
 
+				$link = apply_filters( 'ecwid_rewrite_rules_relative_link', $link, $page_id );
+
 				if (strpos($link, 'index.php') !== 0) {
 					$link = '^' . preg_quote( $link );
 				}

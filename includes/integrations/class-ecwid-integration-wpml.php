@@ -8,6 +8,7 @@ class Ecwid_Integration_WPML
 		
 		if ( version_compare( $ver, '3.2', '>=' ) ) {
 			add_filter( 'ecwid_relative_permalink', array( $this, 'mod_relative_permalink' ), 10, 2 );
+			add_filter( 'ecwid_rewrite_rules_relative_link', array( $this, 'mod_rewrite_rules' ), 10, 2 );
 		}
 
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
@@ -15,6 +16,13 @@ class Ecwid_Integration_WPML
 		add_filter( 'wpml_hreflangs_html', array( $this, 'filter_hreflangs_html'), 10, 1 );
 	}
 	
+
+	public function mod_rewrite_rules( $link, $page_id ) {
+		$post_slug = get_post_field( 'post_name', get_post( $page_id ) );
+
+		return $post_slug;
+	}
+
 	public function force_scriptjs_lang( $lang ) {
 		$current_language_code = apply_filters( 'wpml_current_language', null );
 		return $current_language_code;
