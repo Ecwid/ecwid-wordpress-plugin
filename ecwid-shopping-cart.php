@@ -2285,7 +2285,8 @@ function ecwid_get_iframe_src($time, $page)
 
 		$url .= '&hide_dashboard_background_image=true';
 		$url .= '&hide_staff_accounts_header_menu=true';
-		$url .= '&storefront_manage_url=' . Ecwid_Store_Page::get_store_url();
+		$url .= '&dashboard_website_section_type=wp';
+		$url .= '&website_manage_url=' . Ecwid_Store_Page::get_store_url();
 
 		return $url;
 	} else {
