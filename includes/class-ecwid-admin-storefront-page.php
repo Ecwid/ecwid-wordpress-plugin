@@ -71,7 +71,7 @@ class Ecwid_Admin_Storefront_Page
         $page = array(
             'link' => get_permalink( $page_id ),
             'edit_link' => get_edit_post_link( $page_id ),
-            'slug' => get_post_field( 'post_name', $page_id ),
+            'slug' => urldecode( get_post_field( 'post_name', $page_id ) ),
             'status' => get_post_status( $page_id )
         );
 
@@ -152,7 +152,6 @@ class Ecwid_Admin_Storefront_Page
         }
         
         Ecwid_Store_Page::update_main_store_page_id( $page_id );
-        Ecwid_Store_Page::set_store_url();
 
         $page_data = self::get_page_data( $page_id );
         wp_send_json(
@@ -194,8 +193,6 @@ class Ecwid_Admin_Storefront_Page
 				'ID' => $page_id,
 				'post_name' => $slug
 			));
-
-			Ecwid_Store_Page::set_store_url();
 			
 			$page_data = self::get_page_data( $page_id );
             wp_send_json(

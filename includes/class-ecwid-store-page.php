@@ -478,10 +478,6 @@ class Ecwid_Store_Page {
 			return; 
 		}
 
-		if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
-			return;
-		}
-
 		if ( $profile->generalInfo->storeUrl == $store_url ) {
 			return;
 		}
@@ -489,6 +485,12 @@ class Ecwid_Store_Page {
 		$is_empty = in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') );
 		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
 		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
+
+
+		$is_dev_to_prod = self::is_localhost( $profile->generalInfo->storeUrl ) && !self::is_localhost( $store_url );
+		if( $is_dev_to_prod ) {
+			$is_same_domain = true;
+		}
 
 		if ( !$is_empty && !$is_generated_url && !$is_same_domain ) {
 		    return;
@@ -505,6 +507,18 @@ class Ecwid_Store_Page {
 		if ( $result ) {
 			EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 		}
+	}
+
+	static public function is_localhost( $url ) {
+
+		$hostname = wp_parse_url($url, PHP_URL_HOST);
+		$ip = gethostbyname( $hostname );
+
+		if( $ip ) {
+			return in_array( $ip, array('127.0.0.1', '::1') );
+		}
+
+		return false;
 	}
 }
 
