@@ -192,6 +192,7 @@ function ecwid_disable_cards( status ) {
 
 function ecwid_update_storepage_link( storepage ) {
     var old_link = jQuery('[data-ec-store-link]').eq(0).attr('href');
+
     jQuery('[data-ec-store-slug]').html(storepage.slug);
     jQuery('[data-ec-store-slug-input]').val(storepage.slug);
 
@@ -200,8 +201,9 @@ function ecwid_update_storepage_link( storepage ) {
             if( jQuery(this).attr('href') == old_link ) {
                 jQuery(this).attr('href', storepage.link);
             }
-            if( jQuery(this).html() == old_link ) {
-                jQuery(this).html(storepage.link);
+
+            if( jQuery(this).html() == decodeURI(old_link) ) {
+                jQuery(this).html( decodeURI(storepage.link) );
             }
         }
     });

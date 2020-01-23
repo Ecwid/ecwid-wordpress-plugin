@@ -72,7 +72,7 @@
 									<?php
 									_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
 										
-									echo sprintf('<a href="%s" target="_blank" data-ec-store-link="1">%s</a>', $page_link, $page_link);
+									echo sprintf( '<a href="%s" target="_blank" data-ec-store-link="1">%s</a>', $page_link, urldecode($page_link) );
 									?>
 								</div>
 								<div class="feature-element__action">
