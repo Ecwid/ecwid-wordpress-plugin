@@ -76,6 +76,8 @@
 
 		<?php require self::TEMPLATES_DIR . '/area-additional.tpl.php'; ?>
 
+		<?php require self::TEMPLATES_DIR . '/area-promo.tpl.php'; ?>
+
 	</div>
 
 </div>

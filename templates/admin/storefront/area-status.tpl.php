@@ -13,13 +13,17 @@
 						<div class="feature-element__data">
 
 							<div class="feature-element__title"><?php _e('Your store page', 'ecwid-shopping-cart'); ?></div>
+
+							<div class="feature-element__title" data-ec-storefront="demo"><?php _e('Demo store page', 'ecwid-shopping-cart'); ?></div>
+
+							<div class="feature-element__title" data-ec-storefront="no-pages"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></div>
 							
-							<!-- <div class="feature-element__status">
-								<a class="iconable-link iconable-link--append">
+							<div class="feature-element__status">
+								<a class="iconable-link iconable-link--append" href="<?php echo $page_link; ?>" target="_blank">
 									<span class="iconable-link__text"><?php _e( 'View demo store page', 'ecwid-shopping-cart' ); ?></span>
 									<span class="iconable-link__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><path d="M25.5 15.39c-.83 0-1.5.67-1.5 1.5v4.41c0 1.49-1.21 2.71-2.71 2.71H6.71A2.72 2.72 0 0 1 4 21.29V6.71C4 5.21 5.21 4 6.71 4h4.45c.83 0 1.5-.67 1.5-1.5S11.99 1 11.16 1H6.71C3.56 1 1 3.56 1 6.71v14.58C1 24.44 3.56 27 6.71 27h14.58c3.15 0 5.71-2.56 5.71-5.71v-4.41c0-.82-.67-1.49-1.5-1.49z"></path><path d="M25.05 1h-7.37c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h4.2l-9.94 9.94a1.49 1.49 0 0 0 0 2.12c.29.29.68.44 1.06.44s.77-.15 1.06-.44L24 6.12v4.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V2.95C27 1.87 26.13 1 25.05 1z"></path></svg></span>
 								</a>
-							</div> -->
+							</div>
 
 
 							<div class="feature-element__status">
@@ -94,7 +98,7 @@
 									<p><?php _e('The demo store page. It will be filled with your products and published when you set up your store', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo admin_url('admin.php?page=ec-store');?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 						</div>
