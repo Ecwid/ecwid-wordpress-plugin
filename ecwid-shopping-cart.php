@@ -1102,13 +1102,17 @@ TEXT;
 		);
 	} else {
 
-		$wp_admin_bar->add_menu(array(
-				"id" => "ecwid-go-to-page",
-				"title" => __("Visit storefront", 'ecwid-shopping-cart'),
-				"parent" => "ecwid-main",
-				'href' => Ecwid_Store_Page::get_store_url()
-			)
-		);
+		$pages = Ecwid_Store_Page::get_store_pages_array();
+
+		if( count($pages) ) {
+			$wp_admin_bar->add_menu(array(
+					"id" => "ecwid-go-to-page",
+					"title" => __("Visit storefront", 'ecwid-shopping-cart'),
+					"parent" => "ecwid-main",
+					'href' => Ecwid_Store_Page::get_store_url()
+				)
+			);
+		}
 	
 		$wp_admin_bar->add_menu(array(
 				"id" => "ecwid-control-panel",
@@ -1120,7 +1124,7 @@ TEXT;
 
 		$wp_admin_bar->add_menu(array(
 				"id" => "ecwid-customize-storefront",
-				"title" => __("Customize design", 'ecwid-shopping-cart'),
+				"title" => count($pages) ? __("Customize design", 'ecwid-shopping-cart') : __("Manage storefront", 'ecwid-shopping-cart'),
 				"parent" => "ecwid-main",
 				'href' =>  Ecwid_Admin_Storefront_Page::get_page_url()
 			)
