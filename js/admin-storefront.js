@@ -130,7 +130,7 @@ jQuery(document).ready(function(){
 			function(data) {
 				button.removeClass('btn-loading');
 
-				if( data.status == 'success' ) {
+				if( data.status == 'success' && data.open_page ) {
 					var win = window.open(data.url, '_blank');
   					win.focus();
 				}

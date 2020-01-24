@@ -324,7 +324,8 @@ class Ecwid_Admin_Storefront_Page
             array(
                 'status' => 'success',
                 'url' => $url,
-                'storepage' => $page_data
+                'storepage' => $page_data,
+                'open_page' => ($type != 'store')
             )
         );
 	}
