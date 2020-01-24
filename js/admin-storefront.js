@@ -21,10 +21,8 @@ jQuery(document).ready(function(){
 			'admin-ajax.php',
 			data,
 			function(data) {
-				jQuery('[data-ec-storefront-status]').attr('data-ec-storefront-status', data.storepage.status);
-                
+				ecwid_set_storefront_state( data.storepage.status );
                 ecwid_toggle_loading_status( el, true );
-                ecwid_disable_cards( data.storepage.status );
 			}
 		);
 
@@ -136,6 +134,8 @@ jQuery(document).ready(function(){
 					var win = window.open(data.url, '_blank');
   					win.focus();
 				}
+
+				ecwid_set_storefront_state( data.storepage.status );
 			}
 		);
 		return false;
@@ -149,7 +149,12 @@ jQuery(document).ready(function(){
 
 	ecwid_disable_cards( jQuery('.settings-page').data('ecStorefrontStatus') );
 });
-    
+
+function ecwid_set_storefront_state( state ) {
+    jQuery('[data-ec-storefront-status]').attr('data-ec-storefront-status', state);
+    ecwid_disable_cards( state );
+}
+
 function ecwid_show_storefront_card( el, need_show_card ) {
     el.closest('.a-card').hide();
     jQuery('[data-storefront-card="' + need_show_card + '"]').show();

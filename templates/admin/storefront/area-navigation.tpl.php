@@ -1,4 +1,4 @@
-<div class="named-area">
+<div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Navigation', 'ecwid-shopping-cart'); ?></div></div>
 		<div class="named-area__description"><?php _e( 'Site menu, extra widgets, store page link and other navigation tools.', 'ecwid-shopping-cart'); ?></div>
@@ -94,7 +94,7 @@
 								<div class="cta-block__central">
 									<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
 
-									<div class="cta-block__content" data-ec-storefront="publish">
+									<div class="cta-block__content" data-ec-state="publish">
 										<b><?php echo sprintf(
 											__( 'Current store link: /<span data-ec-store-slug>%s</span>', 'ecwid-shopping-cart' ),
 											$page_slug

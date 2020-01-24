@@ -1,4 +1,4 @@
-<div class="named-area">
+<div class="named-area" data-ec-state="demo no-pages">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( "What's next?" , 'ecwid-shopping-cart'); ?></div></div>
 		<div class="named-area__description"><?php _e( 'Create store page on your website to get the access to these features.', 'ecwid-shopping-cart'); ?></div>

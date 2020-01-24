@@ -18,9 +18,13 @@ class Ecwid_Admin_Storefront_Page
 		$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
 		$store_pages = false;
 
-		// $is_demo = ecwid_is_demo_store();
+		if( ecwid_is_demo_store() ) {
+			$page_status = 'demo';
+		} elseif( !$page_id ) {
+			$page_status = 'no-pages';
+		}
 
-		if( $page_id ) {
+		if( $page_id && !isset( $page_status ) ) {
 			
             $page_data = self::get_page_data( $page_id );
             extract( $page_data, EXTR_PREFIX_ALL, 'page' );
@@ -68,11 +72,21 @@ class Ecwid_Admin_Storefront_Page
 	}
 
     public function get_page_data( $page_id ) {
+    	$status = get_post_status( $page_id );
+
+    	if( !$status ) {
+    		$status = 'no-pages';
+    	}
+
+    	if( $status == 'trash' ) {
+    		$status = 'draft';
+    	}
+
         $page = array(
             'link' => get_permalink( $page_id ),
             'edit_link' => get_edit_post_link( $page_id ),
             'slug' => urldecode( get_post_field( 'post_name', $page_id ) ),
-            'status' => get_post_status( $page_id )
+            'status' => $status
         );
 
         return $page;
@@ -224,7 +238,10 @@ class Ecwid_Admin_Storefront_Page
 			'store' => array(
 				'title' => __('Store', 'ecwid-shopping-cart'),
 				'block' => 'ecwid/store-block',
-				'block_add_shortcode' => true
+				'block_add_shortcode' => true,
+				'params' => array(
+					'default_category_id' => ''
+				)
 			),
 			'category' => array(
 				'title' => __('Category', 'ecwid-shopping-cart'),
@@ -274,9 +291,14 @@ class Ecwid_Admin_Storefront_Page
 		$shortcode = sprintf( '[ec_store widgets="productbrowser" %s]', $shortcode_params );
 
 		if( self::is_gutenberg_active() ) {
-			$block_params = json_encode( $page['params'] );
+			if( count($page['params']) ) {
+				$block_params = json_encode( $page['params'] );
+			} else {
+				$block_params = '';
+			}
 
 			if( $page['block_add_shortcode'] ) {
+				$shortcode = str_replace('ec_store', 'ecwid', $shortcode);
 				$content = sprintf( '<!-- wp:%1$s %2$s -->%3$s<!-- /wp:%1$s -->', $page['block'], $block_params, $shortcode );
 			} else {
 				$content = sprintf( '<!-- wp:%1$s %2$s /-->', $page['block'], $block_params );
@@ -294,10 +316,17 @@ class Ecwid_Admin_Storefront_Page
 			'comment_status' => 'closed'
 		);
 		
-		$id = wp_insert_post( $post );
-		$url = get_edit_post_link( $id, 'context' );
+		$page_id = wp_insert_post( $post );
+		$url = get_edit_post_link( $page_id, 'context' );
 
-		wp_send_json(array('status' => 'success', 'url' => $url));
+		$page_data = self::get_page_data( $page_id );
+        wp_send_json(
+            array(
+                'status' => 'success',
+                'url' => $url,
+                'storepage' => $page_data
+            )
+        );
 	}
 
 	private function _set_previous_frontpage_settings() {

@@ -1,4 +1,4 @@
-<div class="named-area">
+<div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Design', 'ecwid-shopping-cart'); ?></div></div>
 		<div class="named-area__description"><?php _e( 'Personalize your storefront appearance', 'ecwid-shopping-cart'); ?></div>

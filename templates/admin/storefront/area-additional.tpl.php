@@ -1,4 +1,4 @@
-<div class="named-area">
+<div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Additional store pages', 'ecwid-shopping-cart'); ?></div></div>
 		<div class="named-area__description"><?php _e( 'Your customers can search products, add them to the cart and go to checkout right from your store page. But you may consider adding separate pages and linking to them from the site menu to highlight cart and checkout, particular category or search/filters.', 'ecwid-shopping-cart'); ?></div>

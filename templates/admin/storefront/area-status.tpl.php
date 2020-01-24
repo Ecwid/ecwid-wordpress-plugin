@@ -1,8 +1,8 @@
 <div class="named-area">
 	<div class="named-area__header">
 		<div class="named-area__titles">
-			<div class="named-area__title"><?php _e('Store page', 'ecwid-shopping-cart'); ?></div>
-			<div class="named-area__subtitle"><?php _e('Here is an explanation: how cool to use this platform to launch a site', 'ecwid-shopping-cart'); ?></div>
+			<div class="named-area__title"><?php _e('Store page on your site', 'ecwid-shopping-cart'); ?></div>
+			<div class="named-area__subtitle"><?php _e('Store page status and overview', 'ecwid-shopping-cart'); ?></div>
 		</div>
 	</div>
 	<div class="named-area__body">
@@ -12,26 +12,15 @@
 					<div class="feature-element__core">
 						<div class="feature-element__data">
 
-							<div class="feature-element__title"><?php _e('Your store page', 'ecwid-shopping-cart'); ?></div>
+							<div class="feature-element__title" data-ec-state="publish draft"><?php _e('Your store page', 'ecwid-shopping-cart'); ?></div>
+							<div class="feature-element__title" data-ec-state="demo"><?php _e('Demo store page', 'ecwid-shopping-cart'); ?></div>
+							<div class="feature-element__title" data-ec-state="no-pages"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></div>
 
-							<div class="feature-element__title" data-ec-storefront="demo"><?php _e('Demo store page', 'ecwid-shopping-cart'); ?></div>
-
-							<div class="feature-element__title" data-ec-storefront="no-pages"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></div>
-							
-							<div class="feature-element__status">
-								<a class="iconable-link iconable-link--append" href="<?php echo $page_link; ?>" target="_blank">
-									<span class="iconable-link__text"><?php _e( 'View demo store page', 'ecwid-shopping-cart' ); ?></span>
-									<span class="iconable-link__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><path d="M25.5 15.39c-.83 0-1.5.67-1.5 1.5v4.41c0 1.49-1.21 2.71-2.71 2.71H6.71A2.72 2.72 0 0 1 4 21.29V6.71C4 5.21 5.21 4 6.71 4h4.45c.83 0 1.5-.67 1.5-1.5S11.99 1 11.16 1H6.71C3.56 1 1 3.56 1 6.71v14.58C1 24.44 3.56 27 6.71 27h14.58c3.15 0 5.71-2.56 5.71-5.71v-4.41c0-.82-.67-1.49-1.5-1.49z"></path><path d="M25.05 1h-7.37c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h4.2l-9.94 9.94a1.49 1.49 0 0 0 0 2.12c.29.29.68.44 1.06.44s.77-.15 1.06-.44L24 6.12v4.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V2.95C27 1.87 26.13 1 25.05 1z"></path></svg></span>
-								</a>
-							</div>
-
-
-							<div class="feature-element__status">
-
-								<span class="feature-element__status-title success" data-ec-storefront="publish">
+							<div class="feature-element__status" data-ec-state="publish draft">
+								<span class="feature-element__status-title success" data-ec-state="publish">
 									<?php _e('Status', 'ecwid-shopping-cart'); ?>:
 								</span>
-								<span class="feature-element__status-title error" data-ec-storefront="draft">
+								<span class="feature-element__status-title error" data-ec-state="draft">
 									<?php _e('Status', 'ecwid-shopping-cart'); ?>:
 								</span>
 
@@ -41,8 +30,8 @@
 
 										<div class="dropdown-menu__link">
 											<a class="iconable-link">
-												<div class="iconable-link__text" data-ec-storefront="publish"><?php _e( 'Published', 'ecwid-shopping-cart' ); ?></div>
-												<div class="iconable-link__text" data-ec-storefront="draft"><?php _e( 'Draft', 'ecwid-shopping-cart' ); ?></div>
+												<div class="iconable-link__text" data-ec-state="publish"><?php _e( 'Published', 'ecwid-shopping-cart' ); ?></div>
+												<div class="iconable-link__text" data-ec-state="draft"><?php _e( 'Draft', 'ecwid-shopping-cart' ); ?></div>
 												&zwj;
 												<span class="iconable-link__icon">
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 28" focusable="false"><path d="M3.3 9.5l5.6 5.1 6-5.1c.8-.7 1.9-.7 2.6 0 .8.7.8 1.8 0 2.5l-7.2 6.4c-.5.4-1 .6-1.4.6s-1-.2-1.3-.5L.7 12.1c-.8-.7-.8-1.8 0-2.5.6-.8 1.9-.8 2.6-.1z"></path></svg>
@@ -51,11 +40,11 @@
 										</div>
 										
 										<div class="list-dropdown list-dropdown-medium" style="display: none;" aria-hidden="true">
-											<ul data-ec-storefront="publish">
+											<ul data-ec-state="publish">
 												<?php self::render_dropdown_list_items( self::get_dropdown_items('publish') ); ?>
 											</ul>
 
-											<ul data-ec-storefront="draft">
+											<ul data-ec-state="draft">
 												<?php self::render_dropdown_list_items( self::get_dropdown_items('draft') ); ?>
 											</ul>
 										</div>
@@ -71,7 +60,15 @@
 								</div>
 							</div>
 
-							<div class="feature-element__content" data-ec-storefront="publish">
+							<div class="feature-element__status" data-ec-state="demo">
+								<a class="iconable-link iconable-link--append" href="<?php echo $page_link; ?>" target="_blank">
+									<span class="iconable-link__text"><?php _e( 'View demo store page', 'ecwid-shopping-cart' ); ?></span>
+									<span class="iconable-link__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><path d="M25.5 15.39c-.83 0-1.5.67-1.5 1.5v4.41c0 1.49-1.21 2.71-2.71 2.71H6.71A2.72 2.72 0 0 1 4 21.29V6.71C4 5.21 5.21 4 6.71 4h4.45c.83 0 1.5-.67 1.5-1.5S11.99 1 11.16 1H6.71C3.56 1 1 3.56 1 6.71v14.58C1 24.44 3.56 27 6.71 27h14.58c3.15 0 5.71-2.56 5.71-5.71v-4.41c0-.82-.67-1.49-1.5-1.49z"></path><path d="M25.05 1h-7.37c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h4.2l-9.94 9.94a1.49 1.49 0 0 0 0 2.12c.29.29.68.44 1.06.44s.77-.15 1.06-.44L24 6.12v4.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V2.95C27 1.87 26.13 1 25.05 1z"></path></svg></span>
+								</a>
+							</div>
+
+
+							<div class="feature-element__content" data-ec-state="publish">
 								<div class="feature-element__text">
 									<?php
 									_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
@@ -84,7 +81,7 @@
 								</div>
 							</div>
 
-							<div class="feature-element__content" data-ec-storefront="draft">
+							<div class="feature-element__content" data-ec-state="draft">
 								<div class="feature-element__text">
 									<p><?php _e("Your storefront page is in draft. Publish it when you're ready so your customers will see your storefront", 'ecwid-shopping-cart'); ?></p>
 								</div>
@@ -93,18 +90,29 @@
 								</div>
 							</div>
 
-							<div class="feature-element__content" data-ec-storefront="demo">
+							<div class="feature-element__content" data-ec-state="demo">
 								<div class="feature-element__text">
 									<p><?php _e('The demo store page. It will be filled with your products and published when you set up your store', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a href="<?php echo admin_url('admin.php?page=ec-store');?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode('admin.php?page=ec-storefront-settings');?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
+								</div>
+							</div>
+
+							<div class="feature-element__content" data-ec-state="no-pages">
+								<div class="feature-element__text">
+									<p><?php _e('Storefront page lists your products and categories and help your customers find the product they want. It will also help Google index your products and display them in the search results.', 'ecwid-shopping-cart'); ?></p>
+								</div>
+								<div class="feature-element__action">
+									<a class="feature-element__button btn btn-primary btn-medium" data-storefront-create-page="store"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 						</div>
+
 						<div class="feature-element__picture">
-							<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/admin-storefront/store-default.png" data-ec-storefront="publish"/>
-							<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/admin-storefront/store-draft.png" data-ec-storefront="draft"/>
+							<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/admin-storefront/store-default.png" data-ec-state="publish"/>
+							<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/admin-storefront/store-draft.png" data-ec-state="draft"/>
+							<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/admin-storefront/store-create.png" data-ec-state="demo no-pages"/>
 						</div>
 					</div>
 				</div>

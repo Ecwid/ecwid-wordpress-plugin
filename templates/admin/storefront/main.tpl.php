@@ -32,8 +32,10 @@
     	max-height: 400px;
     }
 
-	.settings-page[data-ec-storefront-status="publish"] [data-ec-storefront]:not([data-ec-storefront="publish"]) { display: none; }
-	.settings-page[data-ec-storefront-status="draft"] [data-ec-storefront]:not([data-ec-storefront="draft"]) { display: none; }
+	.settings-page[data-ec-storefront-status="publish"] [data-ec-state]:not([data-ec-state*="publish"]) { display: none; }
+	.settings-page[data-ec-storefront-status="draft"] [data-ec-state]:not([data-ec-state*="draft"]) { display: none; }
+	.settings-page[data-ec-storefront-status="demo"] [data-ec-state]:not([data-ec-state*="demo"]) { display: none; }
+	.settings-page[data-ec-storefront-status="no-pages"] [data-ec-state]:not([data-ec-state*="no-pages"]) { display: none; }
 </style>
 
 
@@ -47,7 +49,7 @@
 		<?php
 		if( $need_show_draft_warning ) {
 		?>
-		<div class="a-card a-card--compact a-card--warning" data-ec-storefront="draft">
+		<div class="a-card a-card--compact a-card--warning" data-ec-state="draft">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile iconable-block--warning">
 					<div class="iconable-block__infographics">

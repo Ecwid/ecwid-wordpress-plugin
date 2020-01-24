@@ -360,7 +360,10 @@ HTML
 		
 		switch ($name) {
 			case 'on_activate':
-				return !$this->should_display_on_no_storeid_on_setup_pages() && $admin_page != 'toplevel_page_ec-store' && ecwid_is_demo_store();
+				return !$this->should_display_on_no_storeid_on_setup_pages()
+					&& $admin_page != 'toplevel_page_ec-store'
+					&& ecwid_is_demo_store()
+					&& $admin_page != 'ecwid_page_ec-storefront-settings';
 
 			case 'on_storeid_set':
 				return !ecwid_is_demo_store() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
