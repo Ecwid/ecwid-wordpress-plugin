@@ -498,7 +498,8 @@ class Ecwid_Store_Page {
 
 		$params = array(
 			'generalInfo' => array(
-				'storeUrl' => $store_url
+				'storeUrl' => $store_url,
+				'websitePlatform' => 'wordpress'
 			)
 		);
 

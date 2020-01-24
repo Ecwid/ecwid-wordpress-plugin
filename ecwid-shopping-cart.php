@@ -2013,6 +2013,11 @@ function ecwid_register_admin_styles($hook_suffix) {
 	wp_enqueue_style('ecwid-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300', array(), get_option('ecwid_plugin_version'));
 	
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
+
+		// TO-DO remove 'if' after release new welcome page
+		if( $_GET['page'] == 'ec-storefront-settings' ) {
+			return false;
+		}
 		
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
 		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) ) {
@@ -2285,7 +2290,7 @@ function ecwid_get_iframe_src($time, $page)
 
 		$url .= '&hide_dashboard_background_image=true';
 		$url .= '&hide_staff_accounts_header_menu=true';
-		$url .= '&dashboard_website_section_type=wp';
+		$url .= '&dashboard_website_section_type=wordpress';
 		$url .= '&website_manage_url=' . Ecwid_Store_Page::get_store_url();
 
 		return $url;
