@@ -1090,42 +1090,52 @@ TEXT;
 		'href' => Ecwid_Admin::get_dashboard_url(),
 	));
 
-	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-go-to-page",
-			"title" => __("Visit storefront", 'ecwid-shopping-cart'),
-			"parent" => "ecwid-main",
-			'href' => Ecwid_Store_Page::get_store_url()
-		)
-	);
+	if( ecwid_is_demo_store() 
+		|| (isset($_GET['page']) && $_GET['page'] == Ecwid_Admin::ADMIN_SLUG && isset($_GET['reconnect']))
+	) {
+		$wp_admin_bar->add_menu(array(
+				"id" => "ecwid-control-panel",
+				"title" => __("Set up your store", 'ecwid-shopping-cart'),
+				"parent" => "ecwid-main",
+				'href' => Ecwid_Admin::get_dashboard_url()
+			)
+		);
+	} else {
 
-	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-control-panel",
-			"title" => __("Manage my store", 'ecwid-shopping-cart'),
-			"parent" => "ecwid-main",
-			'href' =>  Ecwid_Admin::get_dashboard_url()
-		)
-	);
+		$wp_admin_bar->add_menu(array(
+				"id" => "ecwid-go-to-page",
+				"title" => __("Visit storefront", 'ecwid-shopping-cart'),
+				"parent" => "ecwid-main",
+				'href' => Ecwid_Store_Page::get_store_url()
+			)
+		);
+	
+		$wp_admin_bar->add_menu(array(
+				"id" => "ecwid-control-panel",
+				"title" => __("Manage store", 'ecwid-shopping-cart'),
+				"parent" => "ecwid-main",
+				'href' =>  Ecwid_Admin::get_dashboard_url()
+			)
+		);
 
-	$wp_admin_bar->add_menu(array(
-			"id" => "ecwid-faq",
-			"title" => __("Read FAQ", 'ecwid-shopping-cart'),
-			"parent" => "ecwid-main",
-			'href' =>  __('https://support.ecwid.com/hc/en-us/articles/360000635709-Customizing-design-of-your-Ecwid-store-on-a-Wordpress-site', 'ecwid-shopping-cart'),
+		$wp_admin_bar->add_menu(array(
+				"id" => "ecwid-customize-storefront",
+				"title" => __("Customize design", 'ecwid-shopping-cart'),
+				"parent" => "ecwid-main",
+				'href' =>  Ecwid_Admin_Storefront_Page::get_page_url()
+			)
+		);
+
+		$wp_admin_bar->add_menu(array(
+			'id' => 'ecwid-report-problem',
+			'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
+			'parent' => 'ecwid-main',
+			'href' => 'mailto:wordpress@ecwid.com?subject=' . rawurlencode($subject) . '&body=' . rawurlencode($body),
 			'meta' => array(
 				'target' => '_blank'
 			)
-		)
-	);
-
-	$wp_admin_bar->add_menu(array(
-		'id' => 'ecwid-report-problem',
-		'title' => __( 'Report a problem with the store', 'ecwid-shopping-cart' ),
-		'parent' => 'ecwid-main',
-		'href' => 'mailto:wordpress@ecwid.com?subject=' . rawurlencode($subject) . '&body=' . rawurlencode($body),
-		'meta' => array(
-			'target' => '_blank'
-		)
-	));
+		));
+	}
 }
 
 function ecwid_content_has_productbrowser( $content ) {
@@ -2015,7 +2025,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 
 		// TO-DO remove 'if' after release new welcome page
-		if( $_GET['page'] == 'ec-storefront-settings' ) {
+		if( $_GET['page'] == Ecwid_Admin_Storefront_Page::ADMIN_SLUG ) {
 			return false;
 		}
 		

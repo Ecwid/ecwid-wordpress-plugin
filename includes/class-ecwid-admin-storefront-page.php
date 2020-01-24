@@ -1,6 +1,7 @@
 <?php
 class Ecwid_Admin_Storefront_Page
 {
+	const ADMIN_SLUG = 'ec-storefront-settings';
 	const TEMPLATES_DIR = ECWID_PLUGIN_DIR . '/templates/admin/storefront/';
 	
 	public function __construct() {
@@ -500,6 +501,14 @@ class Ecwid_Admin_Storefront_Page
 
         return false;
     }
+
+    static public function get_page_url() {
+		return admin_url( self::get_relative_page_url() );
+	}
+
+	static public function get_relative_page_url() {
+		return 'admin.php?page=' . self::ADMIN_SLUG;
+	}
 }
 
 $_ecwid_admin_storefront_page = new Ecwid_Admin_Storefront_Page();

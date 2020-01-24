@@ -95,7 +95,7 @@
 									<p><?php _e('The demo store page. It will be filled with your products and published when you set up your store', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode('admin.php?page=ec-storefront-settings');?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode(self::get_relative_page_url());?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 

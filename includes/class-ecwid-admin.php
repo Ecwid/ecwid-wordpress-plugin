@@ -153,7 +153,7 @@ class Ecwid_Admin {
 				__('Storefront', 'ecwid-shopping-cart'),
 				__('Storefront', 'ecwid-shopping-cart'),
 				self::get_capability(),
-				'ec-storefront-settings',
+				Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
 				'Ecwid_Admin_Storefront_Page::do_page'
 			);
 		}
@@ -323,8 +323,8 @@ class Ecwid_Admin {
 			if( $menu_item['type'] == 'separator' && $menu_item['title'] == 'Configuration' ) {
 				$menu_storefront = array(
 					'title' => __('Storefront', 'ecwid-shopping-cart'),
-					'slug' => 'ec-storefront-settings',
-					'url' => 'admin.php?page=ec-storefront-settings',
+					'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
+					'url' => Ecwid_Admin_Storefront_Page::get_relative_page_url(),
 					'function' => 'Ecwid_Admin_Storefront_Page::do_page'
 				);
 

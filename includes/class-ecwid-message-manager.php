@@ -363,7 +363,7 @@ HTML
 				return !$this->should_display_on_no_storeid_on_setup_pages()
 					&& $admin_page != 'toplevel_page_ec-store'
 					&& ecwid_is_demo_store()
-					&& $admin_page != 'ecwid_page_ec-storefront-settings';
+					&& $admin_page != 'ecwid_page_' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG;
 
 			case 'on_storeid_set':
 				return !ecwid_is_demo_store() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
