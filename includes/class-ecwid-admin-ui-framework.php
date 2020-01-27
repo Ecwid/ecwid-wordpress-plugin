@@ -4,7 +4,7 @@ class Ecwid_Admin_UI_Framework
 {
     public function __construct()
     {
-        if( self::is_need_assets() ) {
+        if( $this->is_need_include_assets() ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ) );
         }
     }
@@ -19,18 +19,22 @@ class Ecwid_Admin_UI_Framework
             get_option('ecwid_plugin_version'), 'in_footer');
     }
 
-    public static function is_need_assets()
+    public function is_need_include_assets()
     {
-        $pages = array(
-            'ec-store-import-woocommerce',
-            'ec-storefront-settings'
-        );
+        $pages = $this->get_pages_using_framework();
 
         if ( isset($_GET['page']) && in_array($_GET['page'], $pages) ) {
             return true;
         }
 
         return false;
+    }
+
+    public function get_pages_using_framework() {
+        return array(
+            'ec-store-import-woocommerce',
+            'ec-storefront-settings'
+        );
     }
 }
 

@@ -1144,12 +1144,11 @@ TEXT;
 
 function ecwid_content_has_productbrowser( $content ) {
 
-	$result = has_shortcode( $content, 'ecwid_productbrowser' );
-
 	if ( class_exists( 'Ecwid_Gutenberg' ) && Ecwid_Gutenberg::content_has_productbrowser( $content ) !== false ) {
 		return true;
 	} 
-	
+
+	$result = has_shortcode( $content, 'ecwid_productbrowser' );	
 	if ($result) {
 		return $result;
 	}

@@ -41,11 +41,11 @@
 										
 										<div class="list-dropdown list-dropdown-medium" style="display: none;" aria-hidden="true">
 											<ul data-ec-state="publish">
-												<?php self::render_dropdown_list_items( self::get_dropdown_items('publish') ); ?>
+												<?php self::render_dropdown_list_items( self::get_dropdown_items('publish', $page_data) ); ?>
 											</ul>
 
 											<ul data-ec-state="draft">
-												<?php self::render_dropdown_list_items( self::get_dropdown_items('draft') ); ?>
+												<?php self::render_dropdown_list_items( self::get_dropdown_items('draft', $page_data) ); ?>
 											</ul>
 										</div>
 									</div>

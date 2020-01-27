@@ -318,9 +318,10 @@ class Ecwid_Admin_Storefront_Page
 		);
 		
 		$page_id = wp_insert_post( $post );
-		$url = get_edit_post_link( $page_id, 'context' );
 
+		$url = get_edit_post_link( $page_id, 'context' );
 		$page_data = self::get_page_data( $page_id );
+
         wp_send_json(
             array(
                 'status' => 'success',
@@ -445,7 +446,10 @@ class Ecwid_Admin_Storefront_Page
         }
     }
 
-    public static function get_dropdown_items( $status ) {
+    public static function get_dropdown_items( $status, $page_data ) {
+
+    	extract( $page_data, EXTR_PREFIX_ALL, 'page' );
+
         $items['publish'] = array(
             array(
                 'text' => __('View page on the site', 'ecwid-shopping-cart'),
