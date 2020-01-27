@@ -297,6 +297,10 @@ class Ecwid_Static_Page {
 			return true;
 		}
 
+		if( ecwid_is_demo_store() ) {
+			return true;
+		}
+
 		if ( !self::is_feature_available() ) {
 			return false;
 		}
@@ -313,6 +317,10 @@ class Ecwid_Static_Page {
 	}
 
 	public static function is_feature_available() {
+		if( ecwid_is_demo_store() ) {
+			return true;
+		}
+
 		$api = new Ecwid_Api_V3();
 		
 		return $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );

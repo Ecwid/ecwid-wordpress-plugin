@@ -446,6 +446,10 @@ class Ecwid_Store_Page {
 	{
 		if ( ! self::is_store_page() || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
 	
+		if( ecwid_is_demo_store() ) {
+			$title .= ' &mdash; Demo';
+		}
+
 		self::$main_page_title = $title;
 		
 		return $title;
@@ -521,6 +525,20 @@ class Ecwid_Store_Page {
 
 		return false;
 	}
+
+	static public function show_notice_for_demo( $content ) {
+
+		if( ecwid_is_demo_store() && self::is_store_page() ) {
+			$content .= sprintf(
+				'<div class="ec-demo-notice"><div>%s</div><a class="btn btn-primary" href="%s">%s</a></div>',
+				__( 'This is a demo store for testing purposes', 'ecwid-shopping-cart' ),
+				admin_url( 'admin.php?page=ec-store' ),
+				__( 'Set up your store', 'ecwid-shopping-cart' )
+			);
+		}
+
+		return $content;
+	}
 }
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
@@ -531,3 +549,4 @@ add_action( 'display_post_states', array( 'Ecwid_Store_Page', 'display_post_stat
 
 add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
 add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
+add_filter( 'the_content', array( 'Ecwid_Store_Page', 'show_notice_for_demo' ) );

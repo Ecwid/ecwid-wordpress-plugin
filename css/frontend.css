@@ -85,3 +85,56 @@ html#ecwid_html body#ecwid_body .ecwid.ecwid-SingleProduct-v2.ecwid-random-produ
 .hide-ec-dynamic-placeholder .ecwid-shopping-cart-product-browser {
 	display: none;
 }
+
+.ec-demo-notice {
+	font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 8px;
+    font-weight: 600;
+	position: relative;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    padding: 0;
+    border: 1px solid #fcf5e8;
+    border-radius: 5px;
+    transition: box-shadow .2s linear, border-color .2s linear, background-color .2s linear;
+    padding: 20px 24px;
+    background-color: #fcf5e8;
+    box-shadow: 0 0 0 rgba(0,0,0,0), 0 0 0 1px #de9d1c inset;
+    text-align: center;
+}
+
+.ec-demo-notice div {
+	margin-bottom: 8px;
+}
+
+.ec-demo-notice .btn {
+	display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid transparent;
+    outline: 0;
+    box-shadow: transparent;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: color .1s linear, background-color .1s linear, border-color .1s linear, box-shadow .1s linear;
+    cursor: pointer;
+    min-width: 7.385em;
+    height: 32px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    line-height: 1.45;
+    border-color: rgba(0,0,0,0);
+    background-color: #eef0f3;
+    color: #262a2e;
+}
+
+.ec-demo-notice .btn-primary, .ec-demo-notice a.btn-primary {
+	border-color: rgba(0,0,0,0);
+    background-color: #068eef;
+    color: #fff;
+}
