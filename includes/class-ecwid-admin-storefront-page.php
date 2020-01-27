@@ -21,6 +21,7 @@ class Ecwid_Admin_Storefront_Page
 
 		if( ecwid_is_demo_store() ) {
 			$page_status = 'demo';
+			$page_link = get_permalink( $page_id );
 		} elseif( !$page_id ) {
 			$page_status = 'no-pages';
 		}
