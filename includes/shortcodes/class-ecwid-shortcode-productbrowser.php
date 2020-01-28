@@ -62,10 +62,7 @@ HTML;
 		}
 
 		$classname = '';
-
-		$enabled_future = Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available();
-
-		if ( ecwid_is_demo_store() || $enabled_future ) {
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$code .= self::_get_js_switch_dynamic('static-ec-store', 'dynamic-ec-store');
 			$classname = 'hide-ec-dynamic-placeholder';
 		} else {

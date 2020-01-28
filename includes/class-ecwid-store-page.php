@@ -528,13 +528,27 @@ class Ecwid_Store_Page {
 
 	static public function show_notice_for_demo( $content ) {
 
-		if( ecwid_is_demo_store() && self::is_store_page() ) {
-			$content .= sprintf(
-				'<div class="ec-demo-notice"><div>%s</div><a class="btn btn-primary" href="%s">%s</a></div>',
-				__( 'This is a demo store for testing purposes', 'ecwid-shopping-cart' ),
+		if( ecwid_is_demo_store() && current_user_can('manage_options') && self::is_store_page() ) {
+
+			$demo_notice = <<<HTML
+<script>
+jQuery(document).ready(function(){
+	if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
+	    Ecwid.OnPageLoaded.add(function(page){
+	        jQuery('.ec-store__content-wrapper').eq(0).append( '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>' );
+	    });
+	}
+});
+</script>
+HTML;
+			$demo_notice = sprintf( 
+				$demo_notice,
+				__( 'This is a demo store. Create your store to see your store products here.', 'ecwid-shopping-cart' ),
 				admin_url( 'admin.php?page=ec-store' ),
 				__( 'Set up your store', 'ecwid-shopping-cart' )
 			);
+			
+			$content .= $demo_notice;
 		}
 
 		return $content;

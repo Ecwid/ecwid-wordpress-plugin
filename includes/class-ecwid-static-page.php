@@ -101,7 +101,7 @@ class Ecwid_Static_Page {
 
 		$params = array();
 		
-		if ( Ecwid_Seo_Links::is_enabled() ) {
+		if ( Ecwid_Seo_Links::is_enabled() || ecwid_is_demo_store() ) {
 			$params['clean_links'] = 'true';
 			$params['base_url'] = get_permalink();
 		}
