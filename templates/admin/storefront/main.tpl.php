@@ -70,15 +70,15 @@
 		}
 		?>
 
-		<?php require self::TEMPLATES_DIR . '/area-status.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-status.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-design.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-design.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-navigation.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-navigation.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-additional.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-additional.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-promo.tpl.php'; ?>
+		<?php require self::TEMPLATES_DIR . '/area-promo.php'; ?>
 
 	</div>
 

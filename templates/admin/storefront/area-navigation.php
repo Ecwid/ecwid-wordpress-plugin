@@ -21,7 +21,7 @@
 								<div class="cta-block__title"><?php _e( 'Show your store on the home page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									require __DIR__ . '/draft-message.tpl.php';
+									require __DIR__ . '/draft-message.php';
 									?>
 
 									<div><?php
@@ -104,7 +104,7 @@
 
 									<div class="cta-block__content">
 										<?php
-										require __DIR__ . '/draft-message.tpl.php';
+										require __DIR__ . '/draft-message.php';
 										?>
 										<?php
 											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
@@ -138,7 +138,7 @@
 								<div class="cta-block__title"><?php _e( 'Add store page to the site menu', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									require __DIR__ . '/draft-message.tpl.php';
+									require __DIR__ . '/draft-message.php';
 									?>
 									
 									<div><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>
