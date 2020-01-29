@@ -2043,6 +2043,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 				)
 			);
 
+			// TODO maybe remove it
 			wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing

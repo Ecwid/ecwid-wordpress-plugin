@@ -137,6 +137,10 @@ class Ecwid_Api_V3
 			return self::set_api_status( self::API_STATUS_ERROR_TLS );
 		}
 		
+		if( ecwid_is_demo_store() ) {
+			return self::set_api_status( self::API_STATUS_OK );
+		}
+
 		return self::set_api_status( self::API_STATUS_ERROR_OTHER );
 	}
 

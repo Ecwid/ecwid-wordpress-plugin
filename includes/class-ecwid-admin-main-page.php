@@ -188,6 +188,17 @@ class Ecwid_Admin_Main_Page
 		return 'billing:feature=sso&plan=ecwid_venture';
 	}
 	
+	protected function _do_welcome_page( $state )
+	{
+		// $state = 'connect';
+		// $state = 'reconnect';
+		// $state = 'create';
+		// $state = 'legacy';
+
+		wp_enqueue_style('welcome-page', ECWID_PLUGIN_URL . '/css/welcome-page.css');
+		require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-page.php';
+	}
+	
 	protected function _do_simple_dashboard_page()
 	{
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-dashboard.php';	
@@ -196,17 +207,20 @@ class Ecwid_Admin_Main_Page
 	protected function _do_simple_connect_page()
 	{
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-connect.tpl.php';
+		// $this->_do_welcome_page( 'connect' );
 	}
 
 	protected function _do_simple_reconnect_page()
 	{
 		
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-reconnect.tpl.php';
+		// $this->_do_welcome_page( 'connect' );
 	}
 
 	protected function _do_fancy_connect_page()
 	{
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/landing.tpl.php';
+		// $this->_do_welcome_page( 'create' );
 	}
 	
 	protected function _do_legacy_connect_page()
