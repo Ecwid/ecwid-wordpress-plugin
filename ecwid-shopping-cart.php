@@ -1923,6 +1923,14 @@ function ecwid_get_update_params_options() {
 				'Y'
 			)
 		),
+
+		Ecwid_Products::OPTION_ENABLED => array(
+			'values' => array(
+				'',
+				'1'
+			)
+		),
+
 	);
 
 	return $options;
@@ -2097,25 +2105,8 @@ function ecwid_settings_api_init() {
             Ecwid_Products::disable();
         }
 
-
-        if (Ecwid_Seo_Links::should_display_option()) {
-			if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && !Ecwid_Seo_Links::is_enabled()) {
-				Ecwid_Seo_Links::enable();
-			} else if ($_POST['settings_section'] == 'advanced' && !isset($_POST[Ecwid_Seo_Links::OPTION_ENABLED]) && Ecwid_Seo_Links::is_enabled()) {
-				Ecwid_Seo_Links::disable();
-			}
-        }
-
 		if ($_POST['settings_section'] == 'advanced' && !@$_POST['ecwid_is_sso_enabled']) {
 			update_option('ecwid_sso_secret_key', '');
-		}
-		
-		if ($_POST['settings_section'] == 'advanced' && isset( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] ) && in_array( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID], Ecwid_Store_Page::get_store_pages_array() ) ) {
-			Ecwid_Store_Page::update_main_store_page_id( $_POST[Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID] );
-		}
-		
-		if ($_POST['settings_section'] == 'advanced' && isset($_POST[Ecwid_Static_Page::OPTION_IS_ENABLED])) {
-			update_option( Ecwid_Static_Page::OPTION_IS_ENABLED, $_POST[Ecwid_Static_Page::OPTION_IS_ENABLED] );
 		}
 	}
 
