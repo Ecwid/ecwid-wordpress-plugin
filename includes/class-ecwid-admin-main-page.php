@@ -190,12 +190,13 @@ class Ecwid_Admin_Main_Page
 	
 	protected function _do_welcome_page( $state )
 	{
-		// $state = 'connect';
-		// $state = 'reconnect';
-		// $state = 'create';
-		// $state = 'legacy';
+		if( isset($_GET['oauth']) && $_GET['oauth'] == 'no' ) {
+			$state = 'no_oauth';
+		}
 
-		wp_enqueue_style('welcome-page', ECWID_PLUGIN_URL . '/css/welcome-page.css');
+	    $connection_error = isset( $_GET['connection_error'] );
+	    $connect_url = 'admin-post.php?action=ec_connect';
+
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-page.php';
 	}
 	
@@ -206,8 +207,7 @@ class Ecwid_Admin_Main_Page
 	
 	protected function _do_simple_connect_page()
 	{
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-connect.tpl.php';
-		// $this->_do_welcome_page( 'connect' );
+		$this->_do_welcome_page( 'connect' );
 	}
 
 	protected function _do_simple_reconnect_page()
@@ -219,8 +219,7 @@ class Ecwid_Admin_Main_Page
 
 	protected function _do_fancy_connect_page()
 	{
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/landing.tpl.php';
-		// $this->_do_welcome_page( 'create' );
+		$this->_do_welcome_page( 'create' );
 	}
 	
 	protected function _do_legacy_connect_page()
@@ -244,7 +243,7 @@ class Ecwid_Admin_Main_Page
 	}
 	
 	protected function _is_current_user_email_registered_at_ecwid()
-	{	
+	{
 		$api = new Ecwid_Api_V3();
 		$current_user = wp_get_current_user();
 		

@@ -2036,24 +2036,19 @@ function ecwid_register_admin_styles($hook_suffix) {
 	
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 
-		// TO-DO remove 'if' after release new welcome page
-		if( $_GET['page'] == Ecwid_Admin_Storefront_Page::ADMIN_SLUG ) {
-			return false;
-		}
-		
+		$is_reconnect = isset($_GET['page']) && $_GET['page'] == Ecwid_Admin::ADMIN_SLUG && isset($_GET['reconnect']);
+
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
-		if ( ecwid_is_demo_store( get_option('ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) ) {
-			
-			// Open dashboard for the first time, ecwid store id is set to demo => need landing styles/scripts
-			wp_enqueue_script('ecwid-landing-js', ECWID_PLUGIN_URL . 'js/landing.js', array(), get_option('ecwid_plugin_version'));
-			wp_localize_script('ecwid-landing-js', 'ecwidParams', array(
+		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect ) {
+
+			wp_enqueue_script('ecwid-welcome-page-js', ECWID_PLUGIN_URL . 'js/welcome-page.js', array(), get_option('ecwid_plugin_version'));
+			wp_localize_script('ecwid-welcome-page-js', 'ecwidParams', array(
 				'registerLink' => ecwid_get_register_link(),
 				'isWL' => Ecwid_Config::is_wl()
 				)
 			);
 
-			// TODO maybe remove it
-			wp_enqueue_style('ecwid-landing-css', ECWID_PLUGIN_URL . 'css/landing.css', array(), get_option('ecwid_plugin_version'), 'all');
+			wp_enqueue_style('ecwid-welcome-page-css', ECWID_PLUGIN_URL . 'css/welcome-page.css', array(), get_option('ecwid_plugin_version'), 'all');
 		} else {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
@@ -2294,7 +2289,6 @@ function ecwid_get_iframe_src($time, $page)
 			$url .= '&hide_vertical_navigation_menu=true';
 		}
 
-		$url .= '&hide_dashboard_background_image=true';
 		$url .= '&hide_staff_accounts_header_menu=true';
 		$url .= '&dashboard_website_section_type=wordpress';
 		$url .= '&website_manage_url=' . Ecwid_Store_Page::get_store_url();

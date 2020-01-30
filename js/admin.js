@@ -106,7 +106,8 @@ jQuery(document).ready(function() {
 
 	jQuery('#ecwid-connect-no-oauth').click(function() {
 		if (jQuery('#ecwid-store-id').val()) {
-			location.href = this.href + '&force_store_id=' + jQuery('#ecwid-store-id').val();
+			var link = jQuery(this).data('href');
+			location.href = link + '&force_store_id=' + jQuery('#ecwid-store-id').val();
 		}
 		return false;
 	});

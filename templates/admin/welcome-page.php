@@ -1,11 +1,3 @@
-<?php
-    $no_oauth = @$_GET['oauth'] == 'no';
-    $connection_error = isset( $_GET['connection_error'] );
-
-    $connect_url = 'admin-post.php?action=ec_connect';
-?>
-
-
 <div class="ec-page ec-page--welcome calypso-page">
 	<div class="ec-page__body">
 		<div class="ec-content">
@@ -38,8 +30,11 @@
 			?>
 
 		</div>
+
+		<?php if( !Ecwid_Config::is_wl() ) { ?>
 		<div class="ec-poweredby">
 			Сервис предоставлен <a href="https://www.ecwid.ru" target="_blank">ecwid.ru</a>
 		</div>
+		<?php } ?>
 	</div>
 </div>
