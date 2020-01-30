@@ -1819,6 +1819,7 @@ function ecwid_uninstall() {
 	delete_option(Ecwid_Api_V3::TOKEN_OPTION_NAME);
 
 	EcwidPlatform::cache_reset('need_add_rewrite');
+	Ecwid_Store_Page::delete_page_from_nav_menus();
 }
 
 function ecwid_abs_intval($value) {

@@ -531,7 +531,7 @@ class Ecwid_Store_Page {
 		if( ecwid_is_demo_store() && current_user_can('manage_options') && self::is_store_page() ) {
 
 			$demo_notice = <<<HTML
-<script>
+<script data-cfasync="false" type="text/javascript">
 jQuery(document).ready(function(){
 	if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
 	    Ecwid.OnPageLoaded.add(function(page){
@@ -552,6 +552,23 @@ HTML;
 		}
 
 		return $content;
+	}
+
+	static public function delete_page_from_nav_menus() {
+		$page_id = get_option( self::OPTION_LAST_STORE_PAGE_ID );
+
+		$args = array(
+			'post_type' => 'nav_menu_item'
+		);
+		$menu_items = get_posts( $args );
+
+		if( count($menu_items) ) {
+			foreach ($menu_items as $item) {
+				if( $page_id == get_post_meta( $item->ID, '_menu_item_object_id', true ) ) {
+					wp_delete_post( $item->ID, true );
+				}
+			}
+		}
 	}
 }
 
