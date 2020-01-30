@@ -557,6 +557,10 @@ HTML;
 	static public function delete_page_from_nav_menus() {
 		$page_id = get_option( self::OPTION_LAST_STORE_PAGE_ID );
 
+		if( empty( $page_id ) || intval($page_id) <= 0 ) {
+			return false;
+		}
+
 		$args = array(
 			'post_type' => 'nav_menu_item'
 		);
