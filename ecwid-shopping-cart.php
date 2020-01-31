@@ -508,7 +508,7 @@ function ecwid_add_chameleon( $js ) {
 
 	$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors, 'font' => $font ) );
 
-	if ( !is_array($chameleon ) ) {
+	if ( !is_array($chameleon) ) {
 		$chameleon = array(
 			'colors' => $colors,
 			'font'   => $font
@@ -2037,9 +2037,10 @@ function ecwid_register_admin_styles($hook_suffix) {
 	if (isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0) {
 
 		$is_reconnect = isset($_GET['page']) && $_GET['page'] == Ecwid_Admin::ADMIN_SLUG && isset($_GET['reconnect']);
+		$is_connection_error = Ecwid_Admin_Main_Page::is_connection_error();
 
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
-		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect ) {
+		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error ) {
 
 			wp_enqueue_script('ecwid-welcome-page-js', ECWID_PLUGIN_URL . 'js/welcome-page.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-welcome-page-js', 'ecwidParams', array(

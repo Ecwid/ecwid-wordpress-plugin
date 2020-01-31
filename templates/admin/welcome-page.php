@@ -3,7 +3,9 @@
 		<div class="ec-content">
 			<div class="ec-logo">
 				<?php
-				ecwid_embed_svg( 'ec-logo' );
+				if( !Ecwid_Config::is_wl() ) {
+					ecwid_embed_svg( 'ec-logo' );
+				}
 				?>
 			</div>
 			<h2>

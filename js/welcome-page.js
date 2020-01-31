@@ -1,9 +1,9 @@
 jQuery(document).ready(function(){
 
-	jQuery('.create-store-button').click(function() {
-		var hide_on_loading = '.create-store-button, .create-store-note',
-			show_on_loading = '.create-store-loading, .create-store-loading-note',
-			show_on_success = '.create-store-success, .create-store-success-note';
+	jQuery('.ec-create-store-button').click(function() {
+		var hide_on_loading = '.ec-create-store-button, .ec-create-store-note',
+			show_on_loading = '.ec-create-store-loading, .ec-create-store-loading-note',
+			show_on_success = '.ec-create-store-success, .ec-create-store-success-note';
 
 
 	    if (ecwidParams.isWL) {
