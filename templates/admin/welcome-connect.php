@@ -1,18 +1,23 @@
 <div class="ec-form">
 	<div class="ec-button">
 		<form action="<?php echo $connect_url; ?>" method="post">
-			<button type="submit" class="btn btn--medium btn--orange">Подключить существующий магазин</button>
+			<button type="submit" class="btn btn--medium btn--orange"><?php _e( 'Connect Your Store', 'ecwid-shopping-cart' ); ?></button>
 		</form>
 	</div>
 	<?php if ( !Ecwid_Config::is_no_reg_wl() ) { ?>
-	<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>">Создать магазин&nbsp;&rsaquo;</a>
+	<a target="_blank" href="<?php echo esc_attr(ecwid_get_register_link()); ?>"><?php _e( 'Create store', 'ecwid-shopping-cart' ); ?>&nbsp;&rsaquo;</a>
 	<?php } ?>
 </div>
 
 <?php
 if( !$connection_error ) {
 
-	echo $this->get_welcome_page_note( 'Нажатие кнопки откроет диалог авторизации в Эквид-магазин. Чтобы добавить магазин на сайт, подтвердите выдачу прав.' );
+	$note = sprintf(
+		__( 'To display your store on this site, you need to allow WordPress to access your %1$s products. Please press connect to provide permission.', 'ecwid-shopping-cart' ),
+		Ecwid_Config::get_brand()
+	);
+
+	echo $this->get_welcome_page_note( $note );
 
 } else {
 

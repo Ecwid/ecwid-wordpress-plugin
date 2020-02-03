@@ -14,6 +14,8 @@ jQuery(document).ready(function(){
         jQuery(hide_on_loading).hide();
         jQuery(show_on_loading).show();
 
+        jQuery('.ec-connect-store').addClass('disabled');
+
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
 				success: function(result) {

@@ -9,11 +9,14 @@
 				?>
 			</div>
 			<h2>
-				Добавьте магазин на сайт
+				<?php _e( 'Add online store to your website', 'ecwid-shopping-cart' ); ?>
 			</h2>
 			<div class="ec-subheading">
 				<p>
-					Создайте новый магазин или подключите существующий, если у вас уже есть аккаунт в Ecwid. Мы подскажем, как добавить товары, настроить оплату и опубликовать магазин.
+					<?php echo sprintf(
+						__( 'Create a new store or connect your existing store, if you have %s account. We will help you how to add products, to set up shipping and to show your store on this site.', 'ecwid-shopping-cart' ),
+						Ecwid_Config::get_brand()
+					); ?>
 				</p>
 			</div>
 
@@ -35,7 +38,11 @@
 
 		<?php if( !Ecwid_Config::is_wl() ) { ?>
 		<div class="ec-poweredby">
-			Сервис предоставлен <a href="https://www.ecwid.ru" target="_blank">ecwid.ru</a>
+			<?php echo sprintf(
+				__( 'Service provided by <a %s>%s</a>', 'ecwid-shopping-cart' ),
+				'href="https://www.ecwid.com?source=wporg" target="_blank"',
+				'ecwid.com'
+			); ?>
 		</div>
 		<?php } ?>
 	</div>
