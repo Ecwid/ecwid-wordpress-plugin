@@ -17,8 +17,6 @@ define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
 
 define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
 
-define ( 'ECWID_VERSION_BUILTIN_CHAMELEON', '4.4.2.1' );
-
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
@@ -682,8 +680,6 @@ function ecwid_check_version()
 
 		do_action('ecwid_plugin_installed', $current_version);
 		add_option('ecwid_plugin_version', $current_version);
-
-		add_option('ecwid_use_chameleon', false);
 		
 		// Called in Ecwid_Seo_Links->on_fresh_install
 		do_action( 'ecwid_on_fresh_install' );
@@ -711,11 +707,6 @@ function ecwid_check_version()
 
 		add_option( Ecwid_Products::OPTION_ENABLED, Ecwid_Products::is_enabled() );
 
-		add_option('ecwid_chameleon_colors_foreground', '');
-        add_option('ecwid_chameleon_colors_background', '');
-        add_option('ecwid_chameleon_colors_link', '');
-        add_option('ecwid_chameleon_colors_button', '');
-        add_option('ecwid_chameleon_colors_price', '');
 		add_option('ecwid_disable_pb_url', false );
 		add_option('ecwid_historyjs_html4mode', false);
 
@@ -2091,7 +2082,6 @@ function ecwid_settings_api_init() {
 			case 'advanced':
 				register_setting( 'ecwid_options_page', 'ecwid_default_category_id', 'ecwid_abs_intval' );
 				register_setting( 'ecwid_options_page', 'ecwid_sso_secret_key' );
-				register_setting( 'ecwid_options_page', 'ecwid_use_chameleon' );
 				register_setting( 'ecwid_options_page', 'ecwid_is_sso_enabled' );
 				break;
 		}
