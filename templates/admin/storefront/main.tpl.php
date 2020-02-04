@@ -28,8 +28,8 @@
 	.settings-page .has-error .field__error { display: block; }
 
 	.settings-page .list-dropdown-scroll { 
-		overflow-y: scroll;
-    	max-height: 400px;
+		overflow-y: auto;
+    	max-height: 250px;
     }
 
 	.settings-page[data-ec-storefront-status="publish"] [data-ec-state]:not([data-ec-state*="publish"]) { display: none; }
