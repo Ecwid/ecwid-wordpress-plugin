@@ -316,6 +316,7 @@ function ecwid_ie8_fonts_inclusion()
 HTML;
 
 }
+
 add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
 function ecwid_maybe_remove_emoji() {
 
@@ -448,15 +449,11 @@ function ecwid_enqueue_frontend() {
 }
 
 function ecwid_print_inline_js_config() {
-	
-	echo '<script data-cfasync="false" type="text/javascript">';
-	
-	$js = <<<HTML
-window.ec = window.ec || Object();
-window.ec.config = window.ec.config || Object();
-window.ec.config.enable_canonical_urls = true;
 
-HTML;
+	$js =  PHP_EOL;
+	$js .= 'window.ec = window.ec || Object()' . PHP_EOL;
+	$js .= 'window.ec.config = window.ec.config || Object();' . PHP_EOL;
+	$js .= 'window.ec.config.enable_canonical_urls = true;' . PHP_EOL;
 
 	$plugins_disabling_interactive = array(	
 		'shiftnav-pro/shiftnav.php',
@@ -465,24 +462,17 @@ HTML;
 
 	foreach ( $plugins_disabling_interactive as $plugin ) {
 		if ( is_plugin_active( $plugin ) ) {
-			$js = ecwid_disable_interactive( $js );
+			$js .= "window.ec.config.interactive = false;" . PHP_EOL;
 			break;
 		}
 	}
 
 	$js = apply_filters( 'ecwid_inline_js_config', $js );
 	
-	echo $js;
-	
-	echo '</script>';
-}
-
-function ecwid_disable_interactive( $js ) {
-	return $js . "\nwindow.ec.config.interactive = false;\n";
+	echo sprintf( '<script data-cfasync="false" type="text/javascript">%s</script>', $js );
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
-
 function ecwid_add_chameleon( $js ) {
 
 	$colors = array();
@@ -521,11 +511,9 @@ function ecwid_add_chameleon( $js ) {
 		$chameleon['font'] = $font;
 	}
 
-	$js .= <<<JS
-window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.chameleon.font = $chameleon[font];
-window.ec.config.chameleon.colors = $chameleon[colors];
-JS;
+	$js .= 'window.ec.config.chameleon = window.ec.config.chameleon || Object();' . PHP_EOL;
+	$js .= sprintf( 'window.ec.config.chameleon.font = %s;', $chameleon['font'] ) . PHP_EOL;
+	$js .= sprintf( 'window.ec.config.chameleon.colors = %s;', $chameleon['colors'] ) . PHP_EOL;
 
 	return $js;
 }
