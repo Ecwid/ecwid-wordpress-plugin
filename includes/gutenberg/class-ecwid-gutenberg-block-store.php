@@ -43,6 +43,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 	public function render_callback( $params ) {
 		
+		$print_js_refresh_config = false;
 		$is_wp_customize = isset( $_REQUEST['wp_customize'] ) && $_REQUEST['wp_customize'] == 'on';
 
 		if ( $_SERVER['REQUEST_METHOD'] != 'GET' && !$is_wp_customize ) {
@@ -65,11 +66,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		$result .= ']';
 		
-		$result .= <<<HTML
-<script data-cfasync="false" type="text/javascript">
-		window.ec = window.ec || Object();
-		window.ec.storefront = window.ec.storefront || Object();
-HTML;
+		$config_js = array();
 
 		$attributes = $this->get_attributes_for_editor();
 
@@ -117,7 +114,7 @@ HTML;
 			}
 			
 
-			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] ) {
+			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] && strpos( $name, 'chameleon') === false ) {
 
 				if ( is_null( $value ) ) {
 					$value = $attribute['default'];
@@ -130,9 +127,9 @@ HTML;
 				
 				if ( !$is_profile_default ) {
 					if ( @$attribute['type'] == 'boolean') {
-						$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
+						$config_js[] = 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";";
 					} else {
-						$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
+						$config_js[] = 'window.ec.storefront.' . $name . "='" . $value . "';";
 					}
 					$store_page_data[$name] = $value;
 				}
@@ -169,24 +166,28 @@ HTML;
 
 		Ecwid_Store_Page::save_store_page_params( $store_page_data );
 
-		if ( $chameleon['colors'] != 'auto' ) {
-			$result .= <<<JS
-window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.chameleon.colors = $chameleon[colors];
-JS;
+		$chameleon_config_js = '';
+		if ( $chameleon['colors'] != '"auto"' ) {
+			$chameleon_config_js .= 'window.ec.config.chameleon = window.ec.config.chameleon || Object();' . PHP_EOL;
+			$chameleon_config_js .= 'window.ec.config.chameleon.colors = ' . $chameleon['colors'] . ';' . PHP_EOL;
 		}
-		$result .= <<<HTML
-		if ( typeof Ecwid != 'undefined' ) {
-			Ecwid.OnAPILoaded.add(function() {
-				Ecwid.refreshConfig();
-			});
+
+		if( count($config_js) || !empty($chameleon_config_js) ) {
+			$result .= '<script data-cfasync="false" type="text/javascript">' . PHP_EOL;
+			$result .= 'window.ec = window.ec || Object();' . PHP_EOL;
+			
+			if( count($config_js) ) {
+				$result .= 'window.ec.storefront = window.ec.storefront || Object();' . PHP_EOL;
+				$result .= implode(PHP_EOL, $config_js) . PHP_EOL;	
+			}
+			
+			$result .= $chameleon_config_js;
+			$result .= '</script>' . PHP_EOL;
 		}
-		</script>
-HTML;
 
 		return $result;
 	}
-	
+
 	public function get_attributes_for_editor() {
 		$api = new Ecwid_Api_V3();
 
