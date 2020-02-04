@@ -450,7 +450,7 @@ function ecwid_enqueue_frontend() {
 
 function ecwid_print_inline_js_config() {
 
-	$js =  PHP_EOL;
+	$js = PHP_EOL;
 	$js .= 'window.ec = window.ec || Object()' . PHP_EOL;
 	$js .= 'window.ec.config = window.ec.config || Object();' . PHP_EOL;
 	$js .= 'window.ec.config.enable_canonical_urls = true;' . PHP_EOL;
