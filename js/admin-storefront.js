@@ -1,9 +1,3 @@
-
-// TO-DO remove after update js framework to 1.3.7
-jQuery(document).on('click', '.dropdown-menu__link', function(){
-	jQuery(this).closest('.dropdown-menu').find('.list-dropdown').toggle();
-});
-
 jQuery(document).ready(function(){
 
 	jQuery(document).on( 'click', '[data-storefront-status]', function(){

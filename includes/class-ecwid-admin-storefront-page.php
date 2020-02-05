@@ -70,7 +70,8 @@ class Ecwid_Admin_Storefront_Page
 
         wp_enqueue_script('ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option('ecwid_plugin_version'));
 
-		require_once self::TEMPLATES_DIR . 'main.tpl.php';
+        echo Ecwid_Admin_UI_Framework::print_fix_js();
+		require_once self::TEMPLATES_DIR . 'main.php';
 	}
 
     public function get_page_data( $page_id ) {

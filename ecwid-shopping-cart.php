@@ -58,7 +58,6 @@ if ( is_admin() ) {
 
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
-	add_action( 'wp_ajax_save-widget', 'ecwid_ajax_save_widget' ); // TO-DO метода ecwid_ajax_save_widget не существует - удалить
 	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
 	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
 	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
