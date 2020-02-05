@@ -19,7 +19,6 @@ jQuery(document).ready(function(){
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
 				success: function(result) {
-					jQuery(show_on_loading).hide();
         			jQuery(show_on_success).show();
 					
 					setTimeout(function() {
