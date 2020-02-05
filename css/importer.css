@@ -1,50 +1,19 @@
-.ecwid-importer .importer-state {
+.settings-page input[type=checkbox]:disabled:before {
+    content: '';
+}
+
+.ec-importer-alert-warning, .ec-importer-alert-warning {
     display: none;
 }
 
-.ecwid-importer.state-no-token .importer-state-no-token,
-.ecwid-importer.state-woo-initial .importer-state-woo-initial,
-.ecwid-importer.state-woo-in-progress .importer-state-woo-in-progress,
-.ecwid-importer.state-woo-complete .importer-state-woo-complete
-{
-    display: block;
+.a-card-stack[data-ec-importer-card-stack], [data-ec-importer-card-stack] .a-card { 
+	transition: none; 
 }
 
-.ecwid-importer .readonly {
-    color: lightgray;
-}
-
-.ecwid-importer .readonly input {
-    background-color: lightgray;
-}
-
-.ecwid-importer .errors {
-    display: none;
-}
-.ecwid-importer .errors .btn-details {
-    cursor: pointer;
-}
-
-.ecwid-importer .errors .details {
-    display: none;
-    border: 1px solid gray;
-    background: rgba(255,255,255,.5);
-    padding: 5px;
-}
-
-.plan-limit-message {
+[data-ec-importer-state] {
     display: none;
 }
 
-.log-entry, .log-entry-product {
-    margin-left: 20px;
-    margin-bottom: 10px;
-}
-
-.log-entry .log-entry-product {
-    display: none;
-}
-
-.log-entry.expanded .log-entry-product {
+[data-ec-importer-state="default"] {
     display: block;
 }

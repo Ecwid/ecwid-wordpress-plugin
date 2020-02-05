@@ -861,10 +861,6 @@ msgid "Still have questions about Ecwid? Let us know!"
 msgstr "Есть вопросы? Свяжитесь с нами, мы будем рады вам помочь."
 
 #: templates/help.php:211
-msgid "https://www.ecwid.com/forums"
-msgstr "https://www.ecwid.com/forums/forumdisplay.php?f=10"
-
-#: templates/help.php:211
 msgid "Forums"
 msgstr "Форум"
 

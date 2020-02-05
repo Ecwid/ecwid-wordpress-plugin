@@ -10,6 +10,7 @@ class Ecwid_Importer
 	const OPTION_WOO_CATALOG_IMPORTED = 'ecwid_imported_from_woo';
 	const OPTION_SETTINGS = 'ecwid_importer_settings';
 	const OPTION_DEMO_PRODUCTS = 'woo_importer_demo_products';
+	const OPTION_ERROR_LOG = 'ecwid_importer_error_log';
 	
 	const TICK_LENGTH = 20;
 	
@@ -30,10 +31,17 @@ class Ecwid_Importer
 		update_option( self::OPTION_PRODUCTS, array() );
 		update_option( self::OPTION_TASKS, array() );
 		update_option( self::OPTION_STATUS, array() );
+		update_option( self::OPTION_ERROR_LOG, array() );
 		$this->_start();
 		
 		$api = new Ecwid_Api_V3();
+
+		$settings = array(
+			self::SETTING_UPDATE_BY_SKU => true,
+			self::SETTING_DELETE_DEMO => true
+		);
 		$this->_set_settings( $settings );
+
 		$this->_maybe_set_forced_settings();
 		$this->_set_tasks(array());
 		
@@ -122,7 +130,10 @@ class Ecwid_Importer
 				} else {
 					$progress['success'][] = $task_data['type'];
 				}
-				update_option( self::OPTION_STATUS, $status );
+
+				if( is_array($status['plan_limit']) && count($status['plan_limit']) ) {
+					update_option( self::OPTION_STATUS, $status );
+				}
 			} else {
 				$progress['error'][] = $task_data['type'];
 				$progress['plan_limit_hit'][] = $task_data['type'];
@@ -171,6 +182,15 @@ class Ecwid_Importer
 			}
 		}
 
+		if( isset( $progress['error_messages'] ) ) {
+			$error_log = get_option( self::OPTION_ERROR_LOG, array() );
+
+			if( count($error_log) ) {
+				$progress['error_messages'] = array_merge( $progress['error_messages'], $error_log );
+			}
+			update_option( self::OPTION_ERROR_LOG, $progress['error_messages'] );
+		}
+
 		if(	$progress['status'] == 'in_progress' ) {
 			$progress['tasks'] = $this->_tasks;
 			return $progress;
@@ -178,13 +198,19 @@ class Ecwid_Importer
 
 		$this->_set_tasks( null );
 		
+		$status = get_option( self::OPTION_STATUS, array() );
+		if( isset($status['plan_limit']) ) {
+			$progress['plan_limit_hit'] = $status['plan_limit'];
+		}
+
+		$progress['error_messages'] = get_option( self::OPTION_ERROR_LOG, array() );
 		$progress['status'] = 'complete';
 		
 		update_option( self::OPTION_WOO_CATALOG_IMPORTED, 'true' );
 		
 		return $progress;
 	}
-	
+
 
 	public function append_batch( $batch_item ) {
 		$this->_batch[] = $batch_item;

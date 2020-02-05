@@ -177,12 +177,6 @@
 						<p><?php _e( 'Still have questions about Ecwid? Let us know!', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
-				<li>
-					<div class="block-help-item">
-						<a href="<?php _e( 'https://www.ecwid.com/forums', 'ecwid-shopping-cart'); ?>" target="_blank"><?php _e( 'Forums', 'ecwid-shopping-cart' ); ?>	</a>
-						<p><?php _e( 'Join the Ecwid community. Discuss support topics and store ideas with other Ecwid users.', 'ecwid-shopping-cart' ); ?>	</p>
-					</div>
-				</li>
 			</ul>
 		</div>
 	</div>

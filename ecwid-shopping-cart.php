@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?source=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.8.9
+Version: 6.8.11
 Author URI: https://ecwid.to/ecwid-site
 */
 
@@ -68,7 +68,7 @@ if ( is_admin() ) {
 	
 	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
 	add_action( 'get_footer', 'ecwid_admin_get_footer' );
-	add_action( 'template_redirect', 'ecwid_process_oauth_params' );
+	add_action( 'admin_init', 'ecwid_process_oauth_params' );
 	add_action( 'admin_notices', 'ecwid_show_admin_messages' );
 	add_filter( 'plugin_action_links_' . ECWID_PLUGIN_BASENAME, 'ecwid_plugin_actions' );
 	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
@@ -191,6 +191,7 @@ function ecwid_init_integrations()
 		'sitepress-multilingual-cms/sitepress.php' => 'wpml',
 		'pwa/pwa.php' => 'pwa',
 		'polylang/polylang.php' => 'polylang',
+		'wp-rocket/wp-rocket.php' => 'wprocket',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
@@ -2032,6 +2033,16 @@ function ecwid_register_admin_styles($hook_suffix) {
 			// We already connected and disconnected the store, no need for fancy landing
 			wp_enqueue_script('ecwid-connect-js', ECWID_PLUGIN_URL . 'js/dashboard.js', array(), get_option('ecwid_plugin_version'));
 		}
+
+		if (version_compare( phpversion(), '5.6', '>=' ) ) {
+			$pages_with_ecwid_app_ui = array(
+				Ecwid_Import_Page::PAGE_SLUG_WOO,
+			);
+			if( in_array( $_GET['page'], $pages_with_ecwid_app_ui ) ) {
+				wp_enqueue_style('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.7/ecwid-app-ui.css', array(), get_option('ecwid_plugin_version'));
+				wp_enqueue_script('ecwid-app-ui', 'https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.6/ecwid-app-ui.min.js', array(), get_option('ecwid_plugin_version'), 'in_footer');
+			}
+		}
 	}
 }
 
@@ -2600,7 +2611,7 @@ function ecwid_get_debug_file() {
 
 
 	ecwid_debug_do_page();
-	wp_die();
+	die();
 }
 
 function get_ecwid_store_id() {

@@ -13,13 +13,17 @@ jQuery(document).ready(function() {
 
             var page = jQuery(this).data('ecwid-page');
             if (page == '/') {
+                if (!ecwidParams.useJsApiToOpenStoreCategoriesPages) {
+                    return;
+                }
+                
                 var id = jQuery('[data-ecwid-default-category-id]').data('ecwid-default-category-id');
                 if (id) {
                     Ecwid.openPage('category', {id:id});
                 } else {
                     Ecwid.openPage('category', 0);
                 }
-            } if (page == 'category' ) {
+            } else if (page == 'category' ) {
                 if (ecwidParams.useJsApiToOpenStoreCategoriesPages) {
                     Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
                     jQuery(this).hide().blur().show();
