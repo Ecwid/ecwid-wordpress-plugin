@@ -147,7 +147,7 @@ class Ecwid_Admin {
 			}
 		}
 
-		if (!$is_newbie && !Ecwid_Api_V3::is_available() || ecwid_is_demo_store() ) {
+		if ( !$is_newbie && !Ecwid_Api_V3::is_available() || ecwid_is_demo_store() || isset($_GET['reconnect']) ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Storefront', 'ecwid-shopping-cart'),
