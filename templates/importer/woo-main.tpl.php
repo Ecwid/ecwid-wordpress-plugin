@@ -1,14 +1,3 @@
-<script type='text/javascript'>//<![CDATA[
-    jQuery(document.body).addClass('ecwid-no-padding');
-    jQuery(document.body).css({
-    	'font-size': '13px'
-    });
-    jQuery('#wpbody').css({
-    	'background-color': 'rgb(240, 242, 244)'
-    });
-//]]>
-</script>
-
 <div class="settings-page">
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">

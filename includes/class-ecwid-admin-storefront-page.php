@@ -450,6 +450,10 @@ class Ecwid_Admin_Storefront_Page
 
     public static function get_dropdown_items( $status, $page_data ) {
 
+    	if( empty($page_data) ) {
+    		return;
+    	}
+
     	extract( $page_data, EXTR_PREFIX_ALL, 'page' );
 
         $items['publish'] = array(
