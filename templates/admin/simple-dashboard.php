@@ -52,7 +52,7 @@
                        <?php if ( Ecwid_Api_V3::is_available() && ecwid_get_admin_sso_url(time(), '') ): ?>
                        href="admin-post.php?action=ecwid-do-sso"
                        <?php else: ?>
-                       href="//<?php echo Ecwid_Config::get_cpanel_domain(); ?>/cp?source=wporg"
+                       href="//<?php echo Ecwid_Config::get_cpanel_domain(); ?>/cp"
                        <?php endif; ?>
                     
                     ><?php _e('Open control panel', 'ecwid-shopping-cart'); ?></a>

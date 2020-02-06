@@ -153,7 +153,7 @@ You can add the store categories menu to your site menu to help your customers e
 You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
 
 
-* [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
+* [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
 = 6.8.11 - Dec 30, 2019 =
