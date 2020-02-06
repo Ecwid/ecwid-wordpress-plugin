@@ -1,9 +1,10 @@
 jQuery(document).ready(function(){
 
 	jQuery('.ec-create-store-button').click(function() {
-		var hide_on_loading = '.ec-create-store-button, .ec-create-store-note',
-			show_on_loading = '.ec-create-store-loading, .ec-create-store-loading-note',
-			show_on_success = '.ec-create-store-success, .ec-create-store-success-note';
+		var hide_on_loading = '.ec-create-store-button',
+			show_on_loading = '.ec-create-store-loading',
+			show_on_success = '.ec-create-store-success-note';
+			hide_on_success = '.ec-create-store-note';
 
 
 	    if (ecwidParams.isWL) {
@@ -19,6 +20,7 @@ jQuery(document).ready(function(){
 		jQuery.ajax(ajaxurl + '?action=ecwid_create_store',
 			{
 				success: function(result) {
+        			jQuery(hide_on_success).hide();
         			jQuery(show_on_success).show();
 					
 					setTimeout(function() {

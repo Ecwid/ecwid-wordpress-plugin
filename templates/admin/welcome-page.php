@@ -59,7 +59,7 @@
 		<div class="ec-poweredby">
 			<?php echo sprintf(
 				__( 'Provided by <a %s>%s</a>', 'ecwid-shopping-cart' ),
-				'href="https://www.ecwid.com?source=wporg" target="_blank"',
+				'href="https://www.ecwid.com?partner=wporg" target="_blank"',
 				'ecwid.com'
 			); ?>
 		</div>
