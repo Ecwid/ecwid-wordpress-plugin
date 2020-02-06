@@ -2354,7 +2354,7 @@ function ecwid_admin_do_page( $page ) {
 		if (ecwid_test_oauth(true)) {
 			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 		} else {
-			require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
+			require_once ECWID_PLUGIN_DIR . 'templates/simple-dashboard.php';
 		}
 	} else {
 		$show_reconnect = true;
