@@ -128,6 +128,7 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
 }
 
@@ -2115,7 +2116,8 @@ function ecwid_common_admin_scripts() {
 		'store_shortcodes' => Ecwid_Shortcode_Base::get_store_shortcode_names(),
 		'store_shortcode'  => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 		'product_shortcode' => Ecwid_Shortcode_Product::get_shortcode_name(),
-		'legacy_appearance' => ecwid_is_legacy_appearance_used()
+		'legacy_appearance' => ecwid_is_legacy_appearance_used(),
+		'is_demo_store' => ecwid_is_demo_store() || is_admin() && isset($_GET['reconnect'])
 	));
 }
 

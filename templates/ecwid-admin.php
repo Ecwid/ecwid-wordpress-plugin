@@ -12,6 +12,20 @@
 	//]]>
 </script>
 
+<style type="text/css">
+	<?php if( isset($_GET['page']) && $_GET['page'] == 'ec-storefront-settings' ) {?>
+		#ecwid-frame { display: none; }
+	<?php } else { ?>
+		#ec-storefront-settings { display: none; }
+	<?php } ?>
+</style>
+
+<?php
+
+Ecwid_Admin_Storefront_Page::do_page();
+
+?>
+
 <iframe seamless id="ecwid-frame" frameborder="0" width="100%" height="700" scrolling="no"></iframe>
 
 <?php require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php'; ?>

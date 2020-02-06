@@ -39,20 +39,30 @@ class Ecwid_Admin_UI_Framework
 
     public function is_need_include_assets()
     {
-        $pages = $this->get_pages_using_framework();
+        $ignore_pages = $this->get_pages_exclude_framework();
 
-        if ( isset($_GET['page']) && in_array($_GET['page'], $pages) ) {
+        if( isset($_GET['page']) && in_array($_GET['page'], $ignore_pages) ) {
+            return false;
+        }
+
+        if ( isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0 ) {
             return true;
         }
 
         return false;
     }
 
-    public function get_pages_using_framework() {
-        return array(
-            'ec-store-import-woocommerce',
-            'ec-storefront-settings'
+    public function get_pages_exclude_framework() {
+        $pages = array(
+            'ec-store-advanced',
+            'ec-store-help'
         );
+
+        if( ecwid_is_demo_store() || isset($_GET['reconnect']) ) {
+            $pages[] = 'ec-store';
+        }
+
+        return $pages;
     }
 }
 

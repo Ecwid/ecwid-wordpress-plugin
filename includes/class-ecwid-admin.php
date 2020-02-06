@@ -343,8 +343,7 @@ class Ecwid_Admin {
 				$menu_storefront = array(
 					'title' => __('Storefront', 'ecwid-shopping-cart'),
 					'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
-					'url' => Ecwid_Admin_Storefront_Page::get_relative_page_url(),
-					'function' => 'Ecwid_Admin_Storefront_Page::do_page'
+					'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG
 				);
 
 				$result[] = $menu_storefront;
