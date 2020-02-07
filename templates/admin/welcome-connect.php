@@ -1,7 +1,7 @@
 <div class="ec-form">
 	<div class="ec-button">
 		<form action="<?php echo $connect_url; ?>" method="post">
-			<button type="submit" class="btn btn--medium btn--orange"><?php _e( 'Connect Your Store', 'ecwid-shopping-cart' ); ?></button>
+			<button type="submit" class="btn btn--large btn--orange"><?php _e( 'Connect Your Store', 'ecwid-shopping-cart' ); ?></button>
 		</form>
 	</div>
 	<?php if ( !Ecwid_Config::is_no_reg_wl() ) { ?>
