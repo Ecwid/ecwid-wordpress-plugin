@@ -2,4 +2,4 @@
 .ec-create-store-success, .ec-create-store-success-note, .ec-create-store-loading { display: none; }
 .ec-connection-error { color: #c71585; }
 a.ec-connect-store.disabled { pointer-events: none; cursor: default; opacity: .5; }
-.ec-page--welcome button { cursor: pointer; }
+.ec-button .btn { cursor: pointer; font-size: 14px; }
