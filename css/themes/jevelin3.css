@@ -1,0 +1,6 @@
+html#ecwid_html body#ecwid_body .ecwid-responsive .ecwid-productBrowser-innerTable { 
+	display: none; 
+}
+html#ecwid_html body#ecwid_body .entry-content {
+	color: #3f3f3f;
+} 
