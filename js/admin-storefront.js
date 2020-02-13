@@ -15,6 +15,7 @@ jQuery(document).ready(function(){
 			'admin-ajax.php',
 			data,
 			function(data) {
+				ecwid_update_storepage_link( data.storepage );
 				ecwid_set_storefront_state( data.storepage.status );
                 ecwid_toggle_loading_status( el, true );
 			}
