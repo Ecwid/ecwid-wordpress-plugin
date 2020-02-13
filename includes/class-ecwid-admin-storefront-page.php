@@ -320,8 +320,11 @@ class Ecwid_Admin_Storefront_Page
 		);
 		
 		$page_id = wp_insert_post( $post );
-
 		$url = get_edit_post_link( $page_id, 'context' );
+
+		if( $type != 'store' ) {
+			$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
+		}
 		$page_data = self::get_page_data( $page_id );
 
         wp_send_json(
