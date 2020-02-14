@@ -304,6 +304,16 @@ class Ecwid_Admin {
 
 			$menu_item = array();
 			
+			if( $item['type'] == 'menuItem' && $item['path'] == 'design' ) {
+				$menu_storefront = array(
+					'title' => __('Storefront', 'ecwid-shopping-cart'),
+					'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
+					'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG
+				);
+
+				$result[] = $menu_storefront;
+			}
+
 			if( $this->maybe_hide_menu_item( $item ) ) {
 				unset( $menu[$item['path']] );
 				continue;	
@@ -338,16 +348,6 @@ class Ecwid_Admin {
 			}
 			
 			$result[] = $menu_item;
-
-			if( $menu_item['type'] == 'separator' && $menu_item['title'] == 'Configuration' ) {
-				$menu_storefront = array(
-					'title' => __('Storefront', 'ecwid-shopping-cart'),
-					'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
-					'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG
-				);
-
-				$result[] = $menu_storefront;
-			}
 		}
 		
 		return $result;
