@@ -69,6 +69,7 @@ function ecwid_apply_theme($theme_name = null)
 		'bridge'	    		=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'Parallax-One'			=> array( 'css' ),
 		'twentytwenty'			=> array( 'css' ),
+		'jevelin3'				=> array( 'css-no-parent' ),
 		'newstore'				=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
