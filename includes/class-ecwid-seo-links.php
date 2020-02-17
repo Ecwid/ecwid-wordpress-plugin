@@ -330,12 +330,15 @@ JS;
 			foreach ( $links as $link ) {
 				$link = trim( $link, '/' );
 
+				$link = apply_filters( 'ecwid_rewrite_rules_relative_link', $link, $page_id );
+				$link_page_id = apply_filters( 'ecwid_rewrite_rules_page_id', $page_id, $link );
+
 				if (strpos($link, 'index.php') !== 0) {
 					$link = '^' . preg_quote( $link );
 				}
 				
 				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $page_id, 'top' );
+					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $link_page_id, 'top' );
 				}
 			}
 		}
