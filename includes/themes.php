@@ -68,8 +68,7 @@ function ecwid_apply_theme($theme_name = null)
 		'themify-music'			=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'bridge'	    		=> array( Ecwid_Theme_Base::PROP_AJAX_DEFER_RENDERING ),
 		'Parallax-One'			=> array( 'css' ),
-		'twentytwenty'			=> array( 'css' ),
-		'newstore'				=> array( 'css' )
+		'twentytwenty'			=> array( 'css' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
