@@ -2,16 +2,12 @@
 	<div class="named-area__header">
 		<div class="named-area__titles">
 			<div class="named-area__title"><?php _e('Store page on your site', 'ecwid-shopping-cart'); ?></div>
-			<div class="named-area__subtitle">
-				<?php 
-				if( $page_status == 'demo' ) {
-					_e( 'While your store is not connected, a demo store displays on your site. Check it to get the idea of how your store may look on the site.', 'ecwid-shopping-cart' );
-				}
-
-				if( $page_status == 'no-pages' ) {
-					_e( 'To start selling, add a page to your site where the storefront will display.', 'ecwid-shopping-cart' );
-				}
-				?>
+			
+			<div class="named-area__subtitle" data-ec-state="demo">
+				<?php _e( 'While your store is not connected, a demo store displays on your site. Check it to get the idea of how your store may look on the site.', 'ecwid-shopping-cart' ); ?>
+			</div>
+			<div class="named-area__subtitle" data-ec-state="no-pages">
+				<?php _e( 'To start selling, add a page to your site where the storefront will display.', 'ecwid-shopping-cart' ); ?>
 			</div>
 		</div>
 	</div>
