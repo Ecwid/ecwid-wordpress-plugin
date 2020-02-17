@@ -22,7 +22,6 @@ class Ecwid_OAuth {
 		add_action('admin_post_ec_oauth', array($this, 'process_authorization'));
 		add_action('admin_post_ec_oauth_reconnect', array($this, 'process_authorization'));
 		add_action('admin_post_ec_disconnect', array($this, 'disconnect_store'));
-		add_action('admin_post_ec_show_reconnect', array($this, 'show_reconnect'));
 
 		if ( get_option( self::OPTION_JUST_CONNECTED ) ) {
 			add_action( 'shutdown', array( $this, 'reset_just_connected' ) );

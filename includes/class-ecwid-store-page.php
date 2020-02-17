@@ -218,7 +218,7 @@ class Ecwid_Store_Page {
 		$pages[] = $page_id;
 
 		if ( count( $pages ) == 1 || !get_option( self::OPTION_MAIN_STORE_PAGE_ID ) ) {
-			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $page_id );
+			self::update_main_store_page_id( $page_id );
 		}
 
 		self::_set_store_pages( $pages );
@@ -382,7 +382,7 @@ class Ecwid_Store_Page {
 
 	protected static function _get_allowed_post_statuses()
 	{
-		return array('publish', 'private');
+		return array('publish', 'private', 'draft');
 	}
 
 	public static function warmup_store() 
@@ -446,6 +446,10 @@ class Ecwid_Store_Page {
 	{
 		if ( ! self::is_store_page() || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
 	
+		if( ecwid_is_demo_store() ) {
+			$title .= ' &mdash; Demo';
+		}
+
 		self::$main_page_title = $title;
 		
 		return $title;
@@ -478,10 +482,6 @@ class Ecwid_Store_Page {
 			return; 
 		}
 
-		if ( in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
-			return;
-		}
-
 		if ( $profile->generalInfo->storeUrl == $store_url ) {
 			return;
 		}
@@ -490,13 +490,20 @@ class Ecwid_Store_Page {
 		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
 		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
 
+
+		$is_dev_to_prod = self::is_localhost( $profile->generalInfo->storeUrl ) && !self::is_localhost( $store_url );
+		if( $is_dev_to_prod ) {
+			$is_same_domain = true;
+		}
+
 		if ( !$is_empty && !$is_generated_url && !$is_same_domain ) {
 		    return;
 		}
 
 		$params = array(
 			'generalInfo' => array(
-				'storeUrl' => $store_url
+				'storeUrl' => $store_url,
+				'websitePlatform' => 'wordpress'
 			)
 		);
 
@@ -504,6 +511,67 @@ class Ecwid_Store_Page {
 
 		if ( $result ) {
 			EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+		}
+	}
+
+	static public function is_localhost( $url ) {
+
+		$hostname = wp_parse_url($url, PHP_URL_HOST);
+		$ip = gethostbyname( $hostname );
+
+		if( $ip ) {
+			return in_array( $ip, array('127.0.0.1', '::1') );
+		}
+
+		return false;
+	}
+
+	static public function show_notice_for_demo( $content ) {
+
+		if( ecwid_is_demo_store() && current_user_can('manage_options') && self::is_store_page() ) {
+
+			$demo_notice = <<<HTML
+<script data-cfasync="false" type="text/javascript">
+jQuery(document).ready(function(){
+	if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
+	    Ecwid.OnPageLoaded.add(function(page){
+	        jQuery('.ec-store__content-wrapper').eq(0).append( '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>' );
+	    });
+	}
+});
+</script>
+HTML;
+			$demo_notice = sprintf( 
+				$demo_notice,
+				__( 'This is a demo store. Create your store to see your store products here.', 'ecwid-shopping-cart' ),
+				admin_url( 'admin.php?page=ec-store' ),
+				__( 'Set up your store', 'ecwid-shopping-cart' )
+			);
+			
+			$content .= $demo_notice;
+		}
+
+		return $content;
+	}
+
+	static public function delete_page_from_nav_menus() {
+		$page_id = get_option( self::OPTION_LAST_STORE_PAGE_ID );
+
+		if( empty( $page_id ) || intval($page_id) <= 0 ) {
+			return false;
+		}
+
+		$args = array(
+			'post_type' => 'nav_menu_item'
+		);
+		$menu_items = get_posts( $args );
+
+		if( count($menu_items) ) {
+			foreach ($menu_items as $item) {
+				if( $page_id == get_post_meta( $item->ID, '_menu_item_object_id', true ) ) {
+					wp_delete_post( $item->ID, true );
+				}
+			}
 		}
 	}
 }
@@ -516,3 +584,4 @@ add_action( 'display_post_states', array( 'Ecwid_Store_Page', 'display_post_stat
 
 add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
 add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
+add_filter( 'the_content', array( 'Ecwid_Store_Page', 'show_notice_for_demo' ) );

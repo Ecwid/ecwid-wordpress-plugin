@@ -31,7 +31,7 @@ $faqs = array(
 'You can add product search box, cart widget and more on the <a href="%s">"Appearance / Widgets page"</a> here in your site admin. <a target="_blank" href="https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#sidebarwidgets">More details.</a>'
 			, 'ecwid-shopping-cart'
 			),
-			admin_url("widgets.php?from-ecwid=true")
+			admin_url("widgets.php?highlight-ec-widgets=true")
 		)
 	),
 	array(

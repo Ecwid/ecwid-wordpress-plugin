@@ -73,8 +73,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		);
 
 		if ($result) {
-			header('200 OK');
-			
+			header('HTTP/1.1 200 OK');
 			die();
 		} else {
 			header('500 Send mail failed');

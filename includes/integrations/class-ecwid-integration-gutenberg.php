@@ -278,8 +278,6 @@ HTML;
 			$color = @$params['chameleon_color_' . $kind];
 			if ( $color ) {
 				$colors['color-' . $kind] = $color;
-			} else {
-				//$colors['color-' . $kind] = 'auto';
 			}
 		}
 		

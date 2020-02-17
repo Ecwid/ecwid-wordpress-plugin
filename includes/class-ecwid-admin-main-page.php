@@ -47,7 +47,7 @@ class Ecwid_Admin_Main_Page
 
 		if ( !$is_demo ) {
 			
-			if ( $this->_is_connect_error() ) {
+			if ( self::is_connection_error() ) {
 
 				$this->_do_simple_reconnect_page();
 				return;
@@ -73,7 +73,7 @@ class Ecwid_Admin_Main_Page
 		
 		return 
 			!ecwid_is_demo_store()
-			&& !$page->_is_connect_error()
+			&& !Ecwid_Admin_Main_Page::is_connection_error()
 			&& !Ecwid_Api_V3::connection_fails()
 			&& !Ecwid_Admin::disable_dashboard();
 	}
@@ -171,7 +171,7 @@ class Ecwid_Admin_Main_Page
 			if (ecwid_test_oauth(true)) {
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
-				require_once ECWID_PLUGIN_DIR . 'templates/dashboard.php';
+				require_once ECWID_PLUGIN_DIR . 'templates/simple-dashboard.php';
 			}
 		} else {
 			require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
@@ -188,27 +188,44 @@ class Ecwid_Admin_Main_Page
 		return 'billing:feature=sso&plan=ecwid_venture';
 	}
 	
-	protected function _do_simple_dashboard_page()
+	protected function _do_welcome_page( $state )
 	{
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-dashboard.php';	
+		global $ecwid_oauth;
+
+		if( isset($_GET['oauth']) && $_GET['oauth'] == 'no' ) {
+			$state = 'no_oauth';
+		}
+
+	    $connection_error = self::is_connection_error();
+	    $connect_url = 'admin-post.php?action=ec_connect';
+
+		require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-page.php';
+	}
+
+	public function get_welcome_page_note( $text, $additional_classes = '' ) {
+		return sprintf( '<div class="ec-note %s">%s</div>', $additional_classes, $text );
 	}
 	
 	protected function _do_simple_connect_page()
 	{
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-connect.tpl.php';
+		$this->_do_welcome_page( 'connect' );
 	}
 
 	protected function _do_simple_reconnect_page()
 	{
-		
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-reconnect.tpl.php';
+		$this->_do_welcome_page( 'connect' );
 	}
 
 	protected function _do_fancy_connect_page()
 	{
-		require_once ECWID_ADMIN_TEMPLATES_DIR . '/landing.tpl.php';
+		$this->_do_welcome_page( 'create' );
 	}
-	
+
+	protected function _do_simple_dashboard_page()
+	{
+		require_once ECWID_ADMIN_TEMPLATES_DIR . '/simple-dashboard.php';	
+	}
+
 	protected function _do_legacy_connect_page()
 	{
 		wp_enqueue_style('legacy-connect', ECWID_PLUGIN_URL . '/css/legacy-connect.css');
@@ -230,14 +247,14 @@ class Ecwid_Admin_Main_Page
 	}
 	
 	protected function _is_current_user_email_registered_at_ecwid()
-	{	
+	{
 		$api = new Ecwid_Api_V3();
 		$current_user = wp_get_current_user();
 		
 		return $api->does_store_exist( $current_user->user_email );
 	}
 	
-	protected function _is_connect_error()
+	static public function is_connection_error()
 	{
 		return isset( $_GET['connection_error'] );
 	}

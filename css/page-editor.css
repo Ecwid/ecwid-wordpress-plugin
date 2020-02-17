@@ -1,60 +1,58 @@
 .mce-content-body img.ecwid-store-editor,
 .mceContentBody img.ecwid-store-editor
 {
-	padding-top: 30px;
-	background: #F1F1F1;
-	border: 1px solid #E7E7E7;
-	height: 200px;
-	width: 100%;
-	display: block;
+	padding-top: 30px !important;
+	background: #F1F1F1 !important;
+	border: 1px solid #E7E7E7 !important;
+	height: 200px !important;
+	width: 100% !important;
+	display: block !important;
 }
 
 .mce-content-body .ecwid-store-editor[data-ecwid-store-select="1"],
 .mceContentBody .ecwid-store-editor[data-ecwid-store-select="1"]
 {
-	outline: 1px solid #777;
+	outline: 1px solid #777 !important;
 }
 
 #ecwid-store-toolbar {
-	position: absolute;
+	position: absolute !important;
 }
 
 #ecwid-store-toolbar div {
-	margin-top: 7px;
-	margin-left: 7px;
-	padding: 2px;
-	width: 30px;
-	height: 30px;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-	background-color: #000;
-	background-color: rgba(0, 0, 0, 0.9);
-	cursor: pointer;
-	color: #FFF;
-	font-size: 30px;
-	line-height: 1;
+	margin-top: 7px !important;
+	margin-left: 7px !important;
+	padding: 2px !important;
+	width: 30px !important;
+	height: 30px !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+	background-color: #000 !important;
+	background-color: rgba(0, 0, 0, 0.9) !important;
+	cursor: pointer !important;
+	color: #FFF !important;
+	font-size: 30px !important;
+	line-height: 1 !important;
 }
 
 
 
 #ecwid-edit-store-button {
-	padding: 0 12px 2px;
-	height: 30px;
-	line-height: 28px;
-
-	font-size: 14px;
-	font-family: "Open Sans", helvetica, arial, sans-serif;
-
-	background: #2EA2CC;
-	color: #FFF;
-
-	border: 1px solid #0074A2;
-	border-radius: 3px;
-	box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5), 0 1px 0 rgba(0, 0, 0, 0.15);
-
-	cursor: pointer;
+	padding: 0 12px 2px !important;
+	height: 30px !important;
+	line-height: 28px !important;
+	font-size: 14px !important;
+	font-family: "Open Sans", helvetica, arial, sans-serif !important;
+	background: #2EA2CC !important;
+	color: #FFF !important;
+	border: 1px solid #0074A2 !important;
+	border-radius: 3px !important;
+	box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5), 0 1px 0 rgba(0, 0, 0, 0.15) !important;
+	cursor: pointer !important;
+	text-transform: capitalize !important;
+	text-decoration: none !important;
 }
 
 
 #ecwid-edit-store-button:hover {
-	background: #1E8CBE;
+	background: #1E8CBE !important;
 }

@@ -8,42 +8,6 @@
 	<input type="hidden" name="settings_section" value="advanced" />
 
 	<fieldset>
-
-		<?php if ( Ecwid_Seo_Links::should_display_option() ): ?>
-            <div class="pure-control-group checkbox">
-            <div class="label">
-                <label for="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>">
-
-                    <input
-                            id="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>"
-                            name="<?php echo Ecwid_Seo_Links::OPTION_ENABLED; ?>"
-                            type="checkbox"
-                        <?php if ( Ecwid_Seo_Links::is_enabled() ): ?>
-                            checked="checked"
-                        <?php endif; ?>
-                            value="Y"
-                        <?php if ( !Ecwid_Seo_Links::is_feature_available() ): ?>
-                            disabled="disabled"
-                        <?php endif; ?>
-                    />
-                    <?php _e('SEO friendly clean URLs', 'ecwid-shopping-cart'); ?>
-                </label>
-
-                <?php if ( Ecwid_Seo_Links::is_feature_available() ): ?>
-                    <div class="note">
-                        <?php _e( 'This enables new clean URLs format in your store. The new urls do not contain hash sign (\'#\'), so they look nicer and are better indexed by Google.', 'ecwid-shopping-cart' ); ?>
-                    </div>
-                <?php else: ?>
-                    <div class="note">
-                        <?php printf( __( 'To enable clean URLs in your store, you will need to enable pretty permalinks in your WordPress site settings. Navigate to <a%s>Settings->Permalink</a> and enable the "Post name" permalink type.', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'options-permalink.php' ) . '"'); ?>
-                    </div>
-                <?php endif; ?>
-                
-            </div>
-        </div>
-
-        <hr />
-        <?php endif; ?>
         
 		<div class="pure-control-group checkbox">
 			<div class="label">
@@ -93,131 +57,37 @@
 			</div>
 		</div>
 
-		<?php if ( get_option( 'ecwid_use_chameleon' ) ): ?>
-
-		<hr />
-
-		<div class="pure-control-group checkbox">
-			<div class="label">
-				<label for="ecwid_use_chameleon">
-
-					<input
-						id="ecwid_use_chameleon"
-						name="ecwid_use_chameleon"
-						type="checkbox"
-						<?php if (get_option('ecwid_use_chameleon')): ?>
-							checked="checked"
-						<?php endif; ?>
-						/>
-					<?php _e('Chameleon skin', 'ecwid-shopping-cart'); ?>
-				</label>
-
-				<div class="note">
-					<?php printf( __( 'Automatic adjustment of your store design to your WordPress theme. Whatever WordPress theme you use, %s will detect predominant colors and font and use them in your product catalog.', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ); ?>
-				</div>
-				<div class="note grayed-links">
-<?php echo sprintf(__( 'Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>.', 'ecwid-shopping-cart'), ' target="_blank" href="' . esc_html__( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ) . '"' ); ?>
-				</div>
-		</div>
-        <?php endif; ?>
         <hr />
 
-        <?php if ( count ( Ecwid_Store_Page::get_store_pages_array_for_selector() ) > 1 ): ?>
-            <div class="pure-control-group">
+        <?php if ( Ecwid_Products::is_enabled() ): ?>
+            <div class="pure-control-group checkbox">
                 <div class="label">
-                    <label for="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
-                        <?php _e('Main storefront page', 'ecwid-shopping-cart'); ?>
+                    <label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
+
+                        <input
+                            id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+                            name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
+                            type="checkbox"
+                            <?php if ( Ecwid_Products::is_enabled() ): ?>
+                                checked="checked"
+                            <?php endif; ?>
+                            value="Y"
+                            <?php if ( !Ecwid_Products::is_feature_available() ): ?>
+                                disabled="disabled"
+                            <?php endif; ?>
+                        />
+                        <?php _e('Integration with search on your site', 'ecwid-shopping-cart'); ?>
                     </label>
-                    <select id="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>" name="<?php echo Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID; ?>">
-                        <?php foreach ( Ecwid_Store_Page::get_store_pages_array_for_selector() as $id ): ?>
-                            <option
-                                    value="<?php echo $id; ?>"
-                                <?php if ( $id == Ecwid_Store_Page::get_current_store_page_id() ): ?>
-                                    selected="selected"
-                                <?php endif; ?>
-                            ><?php esc_html_e( get_post( $id )->post_title ); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+
+                    <div class="note">
+                        <?php echo sprintf( __( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+                    </div>
+                </div>
+            </div>
                 
+            <?php ecwid_sync_do_page(); ?>
 
-                    <div class="note">
-                        <?php _e( 'You have your storefront added to several pages on your site. You can choose the main storefront page here — the store navigation menus and sidebar widgets will open it.', 'ecwid-shopping-cart' ); ?>
-                    </div>
-                </div>
-            </div>
-            <hr />
-
-        <?php endif; ?>
-
-
-        <div class="pure-control-group checkbox">
-            <div class="label">
-                <label for="<?php echo Ecwid_Products::OPTION_ENABLED; ?>">
-
-                    <input
-                        id="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
-                        name="<?php echo Ecwid_Products::OPTION_ENABLED; ?>"
-                        type="checkbox"
-                        <?php if ( Ecwid_Products::is_enabled() ): ?>
-                            checked="checked"
-                        <?php endif; ?>
-                        value="Y"
-                        <?php if ( !Ecwid_Products::is_feature_available() ): ?>
-                            disabled="disabled"
-                        <?php endif; ?>
-                    />
-                    <?php _e('Integration with search on your site', 'ecwid-shopping-cart'); ?>
-                </label>
-
-                <div class="note">
-                    <?php echo sprintf( __( '%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that\'s why the site search doesn\'t find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
-                </div>
-            </div>
-        </div>
-            
-        <?php ecwid_sync_do_page(); ?>
-
-        <hr />
-
-
-        <div class="pure-control-group checkbox">
-            <div class="label">
-
-                <input type="hidden" name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>" value="<?php echo Ecwid_Static_Page::OPTION_VALUE_DISABLED; ?>" />
-
-                <label for="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>">
-
-                    <input
-                        id="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
-                        name="<?php echo Ecwid_Static_Page::OPTION_IS_ENABLED; ?>"
-                        type="checkbox"
-
-                        <?php if ( get_option( Ecwid_Static_Page::OPTION_IS_ENABLED ) == Ecwid_Static_Page::OPTION_VALUE_ENABLED || Ecwid_Static_Page::is_enabled_static_home_page() ): ?>
-                            checked="checked"
-                        <?php endif; ?>
-
-                        <?php if ( !Ecwid_Static_Page::is_feature_available() ): ?>
-                            disabled="disabled"
-                        <?php endif; ?>
-
-                        value="Y"
-                    />
-                    <?php _e('Cache and speed up the store home page <sup>new</sup>', 'ecwid-shopping-cart'); ?>
-                </label>
-
-                <?php if ( Ecwid_Static_Page::is_feature_available() ): ?>
-                    <div class="note">
-                        <?php echo __( 'This caches your store home page on your site to make it load way faster for your customers.', 'ecwid-shopping-cart' ); ?>
-                    </div>
-                <?php else: ?>
-                    <div class="note">
-                        <?php printf( 
-                            __( 'To use this functionality, please enable the "Next-gen look and feel of the product list on the storefront" option in your store dashboard ("<a%s>Settings → What\'s New</a>").', 'ecwid-shopping-cart' ), ' href="' . admin_url( 'admin.php?page=ec-store&ec-store-page=whatsnew' ) . '"' ); ?>
-                    </div>
-                <?php endif; ?>
-
-            </div>
-        </div>
+        <?php endif;?>
 
 	</fieldset>
 

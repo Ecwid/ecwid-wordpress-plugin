@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 
 	if (location.href.match(/wp-admin\/widgets.php/) || location.href.match(/wp-admin\/customize.php/)) {
 		jQuery('div[id^="widget-"]').filter('div[id*="_ecwid"]').each(function(idx, el) {
-			if (location.href.match(/wp-admin\/widgets.php\?from-ecwid=/) && el.id.match(/__i__/)) {
+			if (location.href.match(/wp-admin\/widgets.php\?highlight-ec-widgets=/) && el.id.match(/__i__/)) {
 				if (jQuery('.ecwid-widget').length > 0) {
 					jQuery(el).insertAfter(jQuery('.ecwid-widget:last'));
 				} else {
@@ -106,7 +106,8 @@ jQuery(document).ready(function() {
 
 	jQuery('#ecwid-connect-no-oauth').click(function() {
 		if (jQuery('#ecwid-store-id').val()) {
-			location.href = this.href + '&force_store_id=' + jQuery('#ecwid-store-id').val();
+			var link = jQuery(this).data('href');
+			location.href = link + '&force_store_id=' + jQuery('#ecwid-store-id').val();
 		}
 		return false;
 	});

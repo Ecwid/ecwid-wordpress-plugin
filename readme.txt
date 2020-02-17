@@ -153,7 +153,7 @@ You can add the store categories menu to your site menu to help your customers e
 You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
 
 
-* [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
+* [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
 = 6.8.11 - Dec 30, 2019 =
@@ -258,7 +258,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 - **Added compatibility with the Enfold theme page builder (Avia Layout Builder)**. We learned that Ecwid didn't work well with the Avia page builder which is a part of the Enfold theme. Enfold users might notice it was difficult to add Ecwid blocks to a page. We fixed that — now Ecwid should work fine with Enfold theme.
 - **Added Mega Menu plugin compatibility**. Added fixes and layout improvements to make the Ecwid e-commerce plugin compatible with the Mega Menu WordPress plugin. If you use the Mega Menu plugin, you might notice layout issues on your store page. We fixed that. If you find any trouble in how Ecwid works with your theme or plugin, please let us know.
 - Minor fixes for the "Import products from WooCommerce to Ecwid" import tool.
-- Ecwid is constantly updated with new features and tools which are of course available to WordPress users. One of the recent major updates is Dynamic AMP emails: we’ve collaborated with Google/Gmail to launch dynamic email for e-commerce merchants. It's available for the Ecwid plugin users now and you will be able to use it without dealing with custom code or any external plugin. Check it out in our [blog](https://www.ecwid.com/blog/e-commerce-email). 
+- Ecwid is constantly updated with new features and tools which are of course available to WordPress users. One of the recent major updates is Dynamic AMP emails: we’ve collaborated with Google/Gmail to launch dynamic email for e-commerce merchants. It's available for the Ecwid plugin users now and you will be able to use it without dealing with custom code or any external plugin. Check it out in our [blog](https://www.ecwid.com/blog/e-commerce-email.html). 
 
 = 6.4.15 - Mar 19, 2019 =
 - Fixed generation of sitemap for Yoast SEO plugin
