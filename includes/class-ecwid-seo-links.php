@@ -88,7 +88,7 @@ class Ecwid_Seo_Links {
 
 	public function redirect_canonical( $redir, $req ) {
 
-		if ($this->is_store_on_home_page() && get_queried_object_id() == get_option('page_on_front')) {
+		if (self::is_store_on_home_page() && get_queried_object_id() == get_option('page_on_front')) {
 			return false;
 		}
 
@@ -126,7 +126,7 @@ class Ecwid_Seo_Links {
 
 	public function is_post_slug_bad( $value, $slug, $type = '', $parent = '' ) {
 
-		if ( !$this->is_store_on_home_page() ) {
+		if ( !self::is_store_on_home_page() ) {
 			return $value;
 		}
 
@@ -179,7 +179,7 @@ class Ecwid_Seo_Links {
 		);
 	}
 
-	public function is_store_on_home_page() {
+	public static function is_store_on_home_page() {
 		$front_page = get_option( 'page_on_front' );
 		
 		if ( !$front_page ) {
@@ -340,14 +340,14 @@ JS;
 			}
 		}
 
-		if ( $this->is_store_on_home_page() ) {
+		if ( self::is_store_on_home_page() ) {
 			$patterns = self::get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
 				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
 			}
 		}
 
-		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => $this->is_store_on_home_page() ) ) );
+		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => self::is_store_on_home_page() ) ) );
 	}
 	
 	public function are_base_urls_ok() {
@@ -402,7 +402,7 @@ JS;
 		
 		$are_the_same = array_diff( $flattened, $flattened_saved );
 		
-		return empty( $are_the_same ) && $saved_home == $this->is_store_on_home_page();
+		return empty( $are_the_same ) && $saved_home == self::is_store_on_home_page();
 	}
 	
 	protected function _build_all_base_urls()
@@ -496,10 +496,6 @@ JS;
 		$permalink = get_option( 'permalink_structure' );
 
 		return $permalink != '';
-	}
-
-	public static function should_display_option() {
-		return ecwid_migrations_is_original_plugin_version_older_than( '5.2' ) || !self::is_enabled();
 	}
 
 }

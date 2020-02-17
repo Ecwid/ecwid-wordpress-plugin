@@ -17,7 +17,7 @@ function ecwidRefreshEcwidMenuItemSelection(slug)
         selector = 'a[data-ecwid-menu-slug="' + decodeURI(slug) + '"]';
     }
     
-    
+
     jQuery('.current', parent).removeClass('current');
     jQuery('.wp-has-current-submenu3', parent).removeClass('wp-has-current-submenu3');
     
@@ -63,32 +63,52 @@ function ecwidGetCurrentMenuSlug()
 
 
 function ecwidApplyIframeAdminMenu($link, menu) {
+
     $link
-        .data('ecwid-menu', menu)
-        .attr('data-ecwid-menu-slug', menu.slug)
-        .click(function () {
-            if ( jQuery(this).hasClass('current') ) {
-                return false;
-            }
-            var ecwidMenu = jQuery(this).data('ecwid-menu');
-
-            var link = jQuery(this).closest('li');
-            var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
-            
-            var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
-            
-            ecwidOpenAdminPage(ecwidMenu.hash);
-            history.pushState({}, null, ecwidMenu.url);
-
-            ecwidRefreshEcwidMenuItemSelection();
-
-            jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
-            jQuery(this).parents('.opensub').removeClass('opensub');
-
-            if ( !isOpen ) return true;
-            
+    .data('ecwid-menu', menu)
+    .attr('data-ecwid-menu-slug', menu.slug)
+    .click(function () {
+        if ( jQuery(this).hasClass('current') ) {
             return false;
-        });
+        }
+
+        if( ecwid_params.is_demo_store ) {
+            location.href = jQuery(this).attr('href');
+            return false;
+        }
+
+        var ecwidMenu = jQuery(this).data('ecwid-menu');
+
+        var link = jQuery(this).closest('li');
+        var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
+        
+        var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
+        
+        var slug = jQuery(this).data('ecwid-menu-slug');
+
+        if( slug == 'ec-storefront-settings' ) {
+            jQuery('#ec-storefront-settings').show();
+            jQuery('#ecwid-frame').hide();
+
+            jQuery(document).scrollTop(0);
+        } else {
+            jQuery('#ecwid-frame').show();
+            jQuery('#ec-storefront-settings').hide();
+
+            ecwidOpenAdminPage(ecwidMenu.hash);
+        }
+
+        history.pushState({}, null, ecwidMenu.url);
+
+        ecwidRefreshEcwidMenuItemSelection();
+
+        jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
+        jQuery(this).parents('.opensub').removeClass('opensub');
+
+        if ( !isOpen ) return true;
+        
+        return false;
+    });
 }
 
 function ecwidAddSubmenu(items, parent) {

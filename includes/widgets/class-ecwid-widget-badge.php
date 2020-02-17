@@ -92,7 +92,7 @@ class Ecwid_Widget_Badge extends Ecwid_Widget_Base {
 
 		return <<<HTML
 <div>
-	<a target="_blank" rel="nofollow" href="http://www.ecwid.com?source=wporg-badge">
+	<a target="_blank" rel="nofollow" href="http://www.ecwid.com">
 		<img src="$url" width="$badge[width]" height="$badge[height]" alt="$badge[alt]" />
 	</a>
 </div>

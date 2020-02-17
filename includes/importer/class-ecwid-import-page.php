@@ -167,7 +167,8 @@ class Ecwid_Import_Page
 	public function do_woo_page()
 	{
 		$import_data = Ecwid_Import::gather_import_data();
-
+		echo Ecwid_Admin_UI_Framework::print_fix_js();
+		
 		require_once ECWID_IMPORTER_TEMPLATES_DIR . '/woo-main.tpl.php';
 	}
 	
