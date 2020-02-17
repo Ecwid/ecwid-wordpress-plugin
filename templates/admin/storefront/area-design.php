@@ -1,7 +1,7 @@
 <div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
-		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Design', 'ecwid-shopping-cart'); ?></div></div>
-		<div class="named-area__description"><?php _e( 'Personalize your storefront appearance', 'ecwid-shopping-cart'); ?></div>
+		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Design and content', 'ecwid-shopping-cart'); ?></div></div>
+		<div class="named-area__description"><?php _e( 'Personalize your storefront\'s appearance and edit the content on the store page to reflect your brand and stay connected with your customers.', 'ecwid-shopping-cart'); ?></div>
 	</div>
 	<div class="named-area__body">
 
@@ -22,9 +22,9 @@
 								<div class="cta-block__content">
 									<?php
 									if( self::is_gutenberg_active() ) {
-										_e( 'Used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
+										_e( 'Adjust your store design to fit your business needs.', 'ecwid-shopping-cart');
 									} else {
-										_e( 'Not used Gutenberg. Adjust your store design to fit your business better', 'ecwid-shopping-cart');
+										_e( 'Adjust your store design to fit your business needs.', 'ecwid-shopping-cart');
 									}
 									?>
 								</div>
@@ -52,7 +52,7 @@
 						<div class="cta-block">
 							<div class="cta-block__central">
 								<div class="cta-block__title"><?php _e( 'Store page content', 'ecwid-shopping-cart'); ?></div>
-								<div class="cta-block__content"><?php _e( 'By default, your store page displays your store products and categories. As with other WordPress pages, you can add extra text or widgets to it.', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content"><?php _e( 'Along with the store catalog, you can add other widgets and texts to the store page.', 'ecwid-shopping-cart'); ?></div>
 							</div>
 							<div class="cta-block__cta">
 								<a href="<?php echo $design_edit_link; ?>" target="_blank" class="btn btn-default btn-medium">

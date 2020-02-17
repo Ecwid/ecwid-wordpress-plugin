@@ -461,14 +461,14 @@ class Ecwid_Admin_Storefront_Page
 
         $items['publish'] = array(
             array(
-                'text' => __('View page on the site', 'ecwid-shopping-cart'),
+                'text' => __('View store page', 'ecwid-shopping-cart'),
                 'attributes' => array(
                     'href' => $page_link,
                     'target' => '_blank'
                 )
             ),
             array(
-                'text' => __('Open page in the editor', 'ecwid-shopping-cart'),
+                'text' => __('Edit page', 'ecwid-shopping-cart'),
                 'attributes' => array(
                     'href' => $page_edit_link,
                     'target' => '_blank'
@@ -478,7 +478,7 @@ class Ecwid_Admin_Storefront_Page
                 'is_separator' => 1
             ),
             array(
-                'text' => __('Switch to draft and hide from the site', 'ecwid-shopping-cart'),
+                'text' => __('Switch to draft', 'ecwid-shopping-cart'),
                 'attributes' => array(
                     'data-storefront-status' => '0'
                 )
@@ -487,14 +487,14 @@ class Ecwid_Admin_Storefront_Page
 
         $items['draft'] = array(
             array(
-                'text' => __('Preview page on the site', 'ecwid-shopping-cart'),
+                'text' => __('Preview', 'ecwid-shopping-cart'),
                 'attributes' => array(
                     'href' => $page_link,
                     'target' => '_blank'
                 )
             ),
             array(
-                'text' => __('Open page in the editor', 'ecwid-shopping-cart'),
+                'text' => __('Edit', 'ecwid-shopping-cart'),
                 'attributes' => array(
                     'href' => $page_edit_link,
                     'target' => '_blank'

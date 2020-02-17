@@ -1,7 +1,7 @@
 <div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Additional store pages', 'ecwid-shopping-cart'); ?></div></div>
-		<div class="named-area__description"><?php _e( 'Your customers can search products, add them to the cart and go to checkout right from your store page. But you may consider adding separate pages and linking to them from the site menu to highlight cart and checkout, particular category or search/filters.', 'ecwid-shopping-cart'); ?></div>
+		<div class="named-area__description"><?php _e( 'Highlight products, categories, and other store pages by adding them to separate website pages.', 'ecwid-shopping-cart'); ?></div>
 	</div>
 	<div class="named-area__body">
 
@@ -20,11 +20,11 @@
 							<div class="cta-block__central">
 								<div class="cta-block__title"><?php _e( 'Add cart and checkout page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'Cart page displays customer cart and invite them to check out', 'ecwid-shopping-cart'); ?>
+									<?php _e( 'Customers go to the cart page to review products they’ve added to the cart and proceed to the checkout.', 'ecwid-shopping-cart'); ?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="cart"><?php _e( 'Create cart page', 'ecwid-shopping-cart'); ?></a>
+								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="cart"><?php _e( 'Create Cart Page', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -45,13 +45,13 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Add search and filters page', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Add a search and filters page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'Search/filters page allows your customers find the products they want quicker', 'ecwid-shopping-cart'); ?>
+									<?php _e( 'Show customers that they can use a search and filters to find desired products faster.', 'ecwid-shopping-cart'); ?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="search"><?php _e( 'Create search page', 'ecwid-shopping-cart'); ?></a>
+								<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="search"><?php _e( 'Create Search Page', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -76,9 +76,9 @@
 								<div class="cta-block__content">
 									<?php
 									if( $categories && count($categories) > 0 && count($categories) <= 100 ) {
-										_e( 'You can feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
+										_e( 'Feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
 									} else {
-										_e( 'More 100 categories. You can feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
+										_e( 'Feature a specific store category on a separate page of your site.', 'ecwid-shopping-cart');
 									}
 									?>
 								</div>
@@ -90,7 +90,7 @@
 										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
 										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
 											<span class="btn-dropdown-container">
-												<span class="actions"><?php _e( 'Pick a category', 'ecwid-shopping-cart'); ?></span>
+												<span class="actions"><?php _e( 'Pick Category', 'ecwid-shopping-cart'); ?></span>
 											</span>
 											<span class="icon-arr-down"></span>
 										</div>
@@ -106,7 +106,7 @@
 										</div>
 									</div>
 								<?php } else {?>
-									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="category"><?php _e( 'Create category page', 'ecwid-shopping-cart'); ?></a>
+									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="category"><?php _e( 'Create Category Page', 'ecwid-shopping-cart'); ?></a>
 								<?php } ?>
 
 							</div>
@@ -133,9 +133,9 @@
 								<div class="cta-block__content">
 									<?php
 									if( $products_total > 0 && $products_total <= 100 ) {
-										_e( 'Less 100 products. Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+										_e( 'Create a landing page featuring one of your products.', 'ecwid-shopping-cart');
 									} else {
-										_e( 'Create a landing page featuring one of your products', 'ecwid-shopping-cart');
+										_e( 'Create a landing page featuring one of your products.', 'ecwid-shopping-cart');
 									}
 									?>
 								</div>
@@ -147,7 +147,7 @@
 										<button data-storefront-create-page="category" type="button" class="btn btn-default btn-medium" aria-hidden="true" style="display: none;"></button>
 										<div class="btn btn-default btn-dropdown btn-medium list-dropdown-no-general-text">
 											<span class="btn-dropdown-container">
-												<span class="actions"><?php _e( 'Pick a product', 'ecwid-shopping-cart'); ?></span>
+												<span class="actions"><?php _e( 'Pick Product', 'ecwid-shopping-cart'); ?></span>
 											</span>
 											<span class="icon-arr-down"></span>
 										</div>
@@ -163,7 +163,7 @@
 										</div>
 									</div>
 								<?php } else {?>
-									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="product"><?php _e( 'Create product page', 'ecwid-shopping-cart'); ?></a>
+									<a href="#" class="btn btn-default btn-medium" data-storefront-create-page="product"><?php _e( 'Create Product Page', 'ecwid-shopping-cart'); ?></a>
 								<?php } ?>
 
 							</div>
@@ -186,18 +186,18 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Add store content to existing pages', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Add your store to other site pages', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
 									echo sprintf( 
-										__( 'You can add storefront, single categories, products or buy now buttons to other pages on your site. Open a page in the editor and use one of the %s blocks to add store content to the page', 'ecwid-shopping-cart'),
+										__( 'You can add the entire storefront, categories, products, or "Buy now" buttons to other pages on your site. To do that, open a page in the editor and add an appropriate %s block.', 'ecwid-shopping-cart'),
 										Ecwid_Config::get_brand()
 									);
 									?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo admin_url( 'edit.php?post_type=page' ); ?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Go to pages', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url( 'edit.php?post_type=page' ); ?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Go to Pages', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -219,9 +219,9 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Choose main store page', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Choose the main store page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'You have your storefront added to several pages on your site. You can choose the main storefront page here &mdash; the store navigation menus and sidebar widgets will open it.', 'ecwid-shopping-cart'); ?>
+									<?php _e( 'Your store is added to several pages on the site. Choose the main page. Customers are directed to the main store page when they click on the cart icon, store links in the site menu, and products in the sidebar.', 'ecwid-shopping-cart'); ?>
 								</div>
 								<div class="cta-block__content">
 									

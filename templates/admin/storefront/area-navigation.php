@@ -1,7 +1,7 @@
 <div class="named-area" data-ec-state="publish draft">
 	<div class="named-area__header">
 		<div class="named-area__titles"><div class="named-area__title"><?php _e( 'Navigation', 'ecwid-shopping-cart'); ?></div></div>
-		<div class="named-area__description"><?php _e( 'Site menu, extra widgets, store page link and other navigation tools.', 'ecwid-shopping-cart'); ?></div>
+		<div class="named-area__description"><?php _e( 'Help customers find your store on the website.', 'ecwid-shopping-cart'); ?></div>
 	</div>
 	<div class="named-area__body">
 
@@ -26,7 +26,7 @@
 
 									<div><?php
 									echo sprintf(
-										__( 'Feature your store page on the website home page to maket it more prominent. You can also tweak the site home page settings on the <a href="%s" target="_blank">WP Settings -> Reading</a>', 'ecwid-shopping-cart'),
+										__( 'Add your storefront to the website home page to make it more prominent. You can also tweak the site home page settings in <a href="%s" target="_blank">WordPress Settings > Reading</a>', 'ecwid-shopping-cart'),
 										admin_url( 'options-reading.php' )
 									);
 									?></div>
@@ -53,21 +53,24 @@
 			<div class="a-card a-card--normal" data-storefront-card="change-link-form" style="display: none;">
 				<div class="a-card__paddings">
 					<div class="form-area">
-						<div class="form-area__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
+						<div class="form-area__title"><?php _e( 'Customize store page address', 'ecwid-shopping-cart'); ?></div>
 						<div class="form-area__content">
 							<div class="fieldsets-batch">
 							<?php
-								_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
+								_e( 'A slug is the last part of a URL. You can create a custom slug for your store page. It’s better to keep it short since customers and search engines prefer short URLs. For example, use "/shop" or "/products".', 'ecwid-shopping-cart');
 							?>
 							</div>
 							<div class="fieldsets-batch">
-								<div class="fieldset">
-									<div class="field field--medium">
-										<label class="field__label"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></label>
-										<input type="text" class="field__input" maxlength="64" name="post_name" value="<?php echo $page_slug; ?>" data-ec-store-slug-input="1">
-										<div class="field__placeholder"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></div>
+								<div class="fieldset fieldset--with-prefix">
+									<div class="fieldset__field-wrapper">
+										<div class="field field--medium">
+											<label class="field__label"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></label>
+											<input type="text" class="field__input" maxlength="64" name="post_name" value="<?php echo $page_slug; ?>" data-ec-store-slug-input="1">
+											<div class="field__placeholder"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></div>
+										</div>
+										<div class="fieldset__field-prefix"><?php echo get_site_url();?>/</div>
 									</div>
-									<div class="field__error"></div>
+									<div class="field__error" aria-hidden="true" style="display: none;"></div>
 								</div>
 							</div>
 						</div>
@@ -92,11 +95,11 @@
 						<div class="iconable-block__content">
 							<div class="cta-block">
 								<div class="cta-block__central">
-									<div class="cta-block__title"><?php _e( 'Customize store page link', 'ecwid-shopping-cart'); ?></div>
+									<div class="cta-block__title"><?php _e( 'Customize store page address', 'ecwid-shopping-cart'); ?></div>
 
 									<div class="cta-block__content" data-ec-state="publish">
 										<b><?php echo sprintf(
-											__( 'Current store link: /<span data-ec-store-slug>%s</span>', 'ecwid-shopping-cart' ),
+											__( 'Current URL slug: /<span data-ec-store-slug>%s</span>', 'ecwid-shopping-cart' ),
 											$page_slug
 										);
 										?></b>
@@ -107,12 +110,12 @@
 										require __DIR__ . '/draft-message.php';
 										?>
 										<?php
-											_e( 'Make your store URL short and readable so your customers and search engines can remember it. For example: "/shop" or "/products".', 'ecwid-shopping-cart');
+											_e( 'A slug is the last part of a URL. You can create a custom slug for your store page. It’s better to keep it short since customers and search engines prefer short URLs. For example, use "/shop" or "/products".', 'ecwid-shopping-cart');
 										?>
 									</div>
 								</div>
 								<div class="cta-block__cta">
-									<a href="<?php echo $page_edit_link; ?>" target="_blank" class="btn btn-default btn-medium" data-storefront-show-card="change-link-form"><?php _e( 'Change link', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo $page_edit_link; ?>" target="_blank" class="btn btn-default btn-medium" data-storefront-show-card="change-link-form"><?php _e( 'Edit URL Slug', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 						</div>
@@ -141,11 +144,11 @@
 									require __DIR__ . '/draft-message.php';
 									?>
 									
-									<div><?php _e( 'Make sure your store is accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>
+									<div><?php _e( 'Make your store accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo admin_url('nav-menus.php'); ?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Add store page to the menu', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url('nav-menus.php'); ?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Add Store Page to Menu', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -167,13 +170,13 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Feature your products in sidebar', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Feature your products in the sidebar', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
-									<?php _e( 'Highlight best sellers or new products in the sidebar', 'ecwid-shopping-cart'); ?>
+									<?php _e( 'Highlight your best sellers or new products in the website sidebar.', 'ecwid-shopping-cart'); ?>
 								</div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo admin_url( 'widgets.php?highlight-ec-widgets=1' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage sidebar widgets', 'ecwid-shopping-cart'); ?></a>
+								<a href="<?php echo admin_url( 'widgets.php?highlight-ec-widgets=1' );?>" target="_blank" class="btn btn-default btn-medium"><?php _e( 'Manage Sidebar', 'ecwid-shopping-cart'); ?></a>
 							</div>
 						</div>
 					</div>
@@ -195,11 +198,11 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e( 'Display shopping cart icon on the site pages', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php _e( 'Display the shopping cart icon on site pages', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php 
 									echo sprintf(
-										__( 'The shopping cart icon helps your customers find their shopping cart and proceed to checkout. Additionaly, you can <a href="%s" target="_blank">adjust the icon appearance</a>.', 'ecwid-shopping-cart'),
+										__( 'The shopping cart icon shows the number of items in the cart and helps customers proceed to the checkout. Additionally, you can <a href="%s" target="_blank">adjust the cart icon appearance</a>.', 'ecwid-shopping-cart'),
 										$customizer_minicart_link
 									);
 									?>

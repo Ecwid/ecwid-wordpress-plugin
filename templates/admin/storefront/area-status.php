@@ -2,7 +2,17 @@
 	<div class="named-area__header">
 		<div class="named-area__titles">
 			<div class="named-area__title"><?php _e('Store page on your site', 'ecwid-shopping-cart'); ?></div>
-			<div class="named-area__subtitle"><?php _e('Store page status and overview', 'ecwid-shopping-cart'); ?></div>
+			<div class="named-area__subtitle">
+				<?php 
+				if( $page_status == 'demo' ) {
+					_e( 'While your store is not connected, a demo store displays on your site. Check it to get the idea of how your store may look on the site.', 'ecwid-shopping-cart' );
+				}
+
+				if( $page_status == 'no-pages' ) {
+					_e( 'To start selling, add a page to your site where the storefront will display.', 'ecwid-shopping-cart' );
+				}
+				?>
+			</div>
 		</div>
 	</div>
 	<div class="named-area__body">
@@ -13,8 +23,14 @@
 						<div class="feature-element__data">
 
 							<div class="feature-element__title" data-ec-state="publish draft"><?php _e('Your store page', 'ecwid-shopping-cart'); ?></div>
-							<div class="feature-element__title" data-ec-state="demo"><?php _e('Demo store page', 'ecwid-shopping-cart'); ?></div>
-							<div class="feature-element__title" data-ec-state="no-pages"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></div>
+							<div class="feature-element__title" data-ec-state="demo">
+								<?php echo sprintf(
+									__('Connect your %s store', 'ecwid-shopping-cart'),
+									Ecwid_Config::get_brand()
+								);
+								?>
+							</div>
+							<div class="feature-element__title" data-ec-state="no-pages"><?php _e('Add a store page', 'ecwid-shopping-cart'); ?></div>
 
 							<div class="feature-element__status" data-ec-state="publish draft">
 								<span class="feature-element__status-title success" data-ec-state="publish">
@@ -71,40 +87,40 @@
 							<div class="feature-element__content" data-ec-state="publish">
 								<div class="feature-element__text">
 									<?php
-									_e('Your storefront page is published and displayed on your site at ', 'ecwid-shopping-cart');
+									_e('Your store page is published. Customers can browse your store at ', 'ecwid-shopping-cart');
 										
 									echo sprintf( '<a href="%s" target="_blank" data-ec-store-link="1">%s</a>', $page_link, urldecode($page_link) );
 									?>
 								</div>
 								<div class="feature-element__action">
-									<a href="<?php echo $page_link;?>" class="feature-element__button btn btn-default btn-medium" target="_blank"><?php _e('Open store page', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo $page_link;?>" class="feature-element__button btn btn-default btn-medium" target="_blank"><?php _e('View Store Page', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 
 							<div class="feature-element__content" data-ec-state="draft">
 								<div class="feature-element__text">
-									<p><?php _e("Your storefront page is in draft. Publish it when you're ready so your customers will see your storefront", 'ecwid-shopping-cart'); ?></p>
+									<p><?php _e('Your store page is currently in draft. Once you are ready, publish it to let customers browse the store and place orders.', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a class="feature-element__button btn btn-primary btn-medium" data-storefront-status="1"><?php _e('Publish store page', 'ecwid-shopping-cart'); ?></a>
+									<a class="feature-element__button btn btn-primary btn-medium" data-storefront-status="1"><?php _e('Publish Store Page', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 
 							<div class="feature-element__content" data-ec-state="demo">
 								<div class="feature-element__text">
-									<p><?php _e('The demo store page. It will be filled with your products and published when you set up your store', 'ecwid-shopping-cart'); ?></p>
+									<p><?php _e('To show your storefront instead of the demo store, connect your existing Ecwid account or create a new one.', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode(self::get_relative_page_url());?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set up your store', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode(self::get_relative_page_url());?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Log In or Sign Up', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 
 							<div class="feature-element__content" data-ec-state="no-pages">
 								<div class="feature-element__text">
-									<p><?php _e('Storefront page lists your products and categories and help your customers find the product they want. It will also help Google index your products and display them in the search results.', 'ecwid-shopping-cart'); ?></p>
+									<p><?php _e('Your store is not added to any page on your site. To let customers browse your store and place orders, create a page where the store will display.', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a class="feature-element__button btn btn-primary btn-medium" data-storefront-create-page="store"><?php _e('Create store page', 'ecwid-shopping-cart'); ?></a>
+									<a class="feature-element__button btn btn-primary btn-medium" data-storefront-create-page="store"><?php _e('Create Store Page', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 						</div>

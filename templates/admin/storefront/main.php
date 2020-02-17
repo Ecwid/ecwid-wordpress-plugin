@@ -1,7 +1,7 @@
 <div id="ec-storefront-settings" class="settings-page" data-ec-storefront-status="<?php echo $page_status; ?>" >
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
-			<h1 class="settings-page__title"><?php _e('Your storefront', 'ecwid-shopping-cart'); ?></h1>
+			<h1 class="settings-page__title"><?php _e('Your Storefront', 'ecwid-shopping-cart'); ?></h1>
 			<div class="settings-page__subtitle"></div>
 		</div>
 
@@ -17,8 +17,8 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title">Store is not accessible on your site.</div>
-								<div class="cta-block__content">The store page is in draft. Publish it to make your storefront available for your customers.</div>
+								<div class="cta-block__title"><?php _e('The store is not visible on your site', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__content"><?php _e('Customers can’t see your store page because it’s in draft. Publish the page to make it available for your customers.', 'ecwid-shopping-cart'); ?></div>
 							</div>
 						</div>
 					</div>

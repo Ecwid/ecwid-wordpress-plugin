@@ -2022,6 +2022,10 @@ function ecwid_register_admin_styles($hook_suffix) {
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
 		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error ) {
 
+			if( class_exists('Ecwid_Admin') && isset($_GET['page']) && $_GET['page'] != Ecwid_Admin::ADMIN_SLUG ) {
+				return;
+			}
+
 			wp_enqueue_script('ecwid-welcome-page-js', ECWID_PLUGIN_URL . 'js/welcome-page.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-welcome-page-js', 'ecwidParams', array(
 				'registerLink' => ecwid_get_register_link(),
