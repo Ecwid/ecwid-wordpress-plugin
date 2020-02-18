@@ -107,7 +107,7 @@
 									<p><?php _e('To show your storefront instead of the demo store, connect your existing Ecwid account or create a new one.', 'ecwid-shopping-cart'); ?></p>
 								</div>
 								<div class="feature-element__action">
-									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode(self::get_relative_page_url());?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Log In or Sign Up', 'ecwid-shopping-cart'); ?></a>
+									<a href="<?php echo admin_url('admin.php?page=ec-store&return-url=') . urlencode(self::get_relative_page_url());?>" class="feature-element__button btn btn-primary btn-medium"><?php _e('Set Up Your Store', 'ecwid-shopping-cart'); ?></a>
 								</div>
 							</div>
 
