@@ -799,6 +799,7 @@ body[class*="_page_ecwid"] .ecwid-message {
 
 .settings-page input[type=text] {
 	min-height: unset;
+	box-shadow: unset;
 }
 
 .settings-page input[type=text]:focus, .settings-page select:focus, .settings-page a:focus {

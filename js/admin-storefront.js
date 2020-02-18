@@ -56,7 +56,9 @@ jQuery(document).ready(function(){
 			'admin-ajax.php',
 			data,
 			function(data) {
-                ecwid_update_storepage_link( data.storepage );
+				if( typeof data.storepage != 'undefined' ) {
+                	ecwid_update_storepage_link( data.storepage );
+				}
 			}
 		);
 		return false;

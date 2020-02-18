@@ -22,8 +22,10 @@ if( !$connection_error ) {
 } else {
 
 	$error_note = __( 'Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again.', 'ecwid-shopping-cart' );
+	
+	$oauth_error = $ecwid_oauth->get_error();
 
-	if( !empty($ecwid_oauth->get_error()) ) {
+	if( !empty($oauth_error) ) {
 		if ($ecwid_oauth->get_error()  == 'other') {
 
 			$error_note = sprintf( __( 'Looks like your site does not support remote POST requests that are required for %s API to work. Please, contact your hosting provider to enable cURL.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );

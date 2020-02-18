@@ -2,7 +2,7 @@
 class Ecwid_Admin_Storefront_Page
 {
 	const ADMIN_SLUG = 'ec-storefront-settings';
-	const TEMPLATES_DIR = ECWID_PLUGIN_DIR . '/templates/admin/storefront/';
+	public static $templates_dir;
 	
 	public function __construct() {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'register_script_for_select_block' ) );
@@ -16,6 +16,9 @@ class Ecwid_Admin_Storefront_Page
 	}
 
 	public static function do_page() {
+
+		self::$templates_dir = ECWID_PLUGIN_DIR . '/templates/admin/storefront/';
+
 		$page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
 		$store_pages = false;
 
@@ -71,7 +74,7 @@ class Ecwid_Admin_Storefront_Page
         wp_enqueue_script('ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option('ecwid_plugin_version'));
 
         echo Ecwid_Admin_UI_Framework::print_fix_js();
-		require_once self::TEMPLATES_DIR . 'main.php';
+		require_once self::$templates_dir . 'main.php';
 	}
 
     public function get_page_data( $page_id ) {
@@ -188,7 +191,7 @@ class Ecwid_Admin_Storefront_Page
 		} else {
 			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_NONE );
 		}
-
+		
 		wp_send_json(array('status' => 'success'));
 	}
 
@@ -418,7 +421,7 @@ class Ecwid_Admin_Storefront_Page
 			});
 		";
 
-		wp_register_script( 'ec-blockeditor-inline-js', '', [], '', true );
+		wp_register_script( 'ec-blockeditor-inline-js', '', array(), '', true );
 		wp_enqueue_script( 'ec-blockeditor-inline-js'  );
 		wp_add_inline_script( 'ec-blockeditor-inline-js', $script );
 	}

@@ -29,15 +29,15 @@
 		}
 		?>
 
-		<?php require self::TEMPLATES_DIR . '/area-status.php'; ?>
+		<?php require self::$templates_dir . '/area-status.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-design.php'; ?>
+		<?php require self::$templates_dir . '/area-design.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-navigation.php'; ?>
+		<?php require self::$templates_dir . '/area-navigation.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-additional.php'; ?>
+		<?php require self::$templates_dir . '/area-additional.php'; ?>
 
-		<?php require self::TEMPLATES_DIR . '/area-promo.php'; ?>
+		<?php require self::$templates_dir . '/area-promo.php'; ?>
 
 	</div>
 
