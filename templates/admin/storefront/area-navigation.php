@@ -61,10 +61,10 @@
 							?>
 							</div>
 							<div class="fieldsets-batch">
-								<div class="fieldset fieldset--with-prefix">
+								<div class="fieldset fieldset--no-label fieldset--with-prefix">
 									<div class="fieldset__field-wrapper">
 										<div class="field field--medium">
-											<label class="field__label"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></label>
+											<label class="field__label"></label>
 											<input type="text" class="field__input" maxlength="64" name="post_name" value="<?php echo $page_slug; ?>" data-ec-store-slug-input="1">
 											<div class="field__placeholder"><?php _e( 'URL Slug', 'ecwid-shopping-cart' ); ?></div>
 										</div>
