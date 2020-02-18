@@ -92,7 +92,7 @@ function ecwidApplyIframeAdminMenu($link, menu) {
 
             jQuery(document).scrollTop(0);
         } else {
-            jQuery('#ecwid-frame').show();
+            jQuery('#ecwid-frame').css('height', '700px').show();
             jQuery('#ec-storefront-settings').hide();
 
             ecwidOpenAdminPage(ecwidMenu.hash);
