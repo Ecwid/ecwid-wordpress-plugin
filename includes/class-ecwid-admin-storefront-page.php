@@ -285,6 +285,24 @@ class Ecwid_Admin_Storefront_Page
 
 		$page = $pages[$type];
 
+		if( $type == 'product' && $item_id > 0 ) {
+			$api = new Ecwid_Api_V3();
+			$product = $api->get_product( $item_id );
+
+			if( $product ) {
+				$page['title'] = $product->name;
+			}
+		}
+
+		if( $type == 'category' && $item_id > 0 ) {
+			$api = new Ecwid_Api_V3();
+			$product = $api->get_category( $item_id );
+
+			if( $product ) {
+				$page['title'] = $product->name;
+			}
+		}
+
 		if( !isset( $page['params'] ) ) {
 			$page['params'] = array();
 		}
