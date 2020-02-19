@@ -61,6 +61,8 @@ function ecwidGetCurrentMenuSlug()
     return slug;
 }
 
+var ec_admin_prev_slug = '',
+    ec_admin_wait_page_load = false;
 
 function ecwidApplyIframeAdminMenu($link, menu) {
 
@@ -92,10 +94,18 @@ function ecwidApplyIframeAdminMenu($link, menu) {
 
             jQuery(document).scrollTop(0);
         } else {
-            jQuery('#ecwid-frame').css('height', '700px').show();
-            jQuery('#ec-storefront-settings').hide();
+
+            if( ec_admin_prev_slug == '' || ec_admin_prev_slug == slug ) {
+                jQuery('#ecwid-frame').show();
+                jQuery('#ec-storefront-settings').hide();
+
+                jQuery(document).scrollTop(48);
+            } else {
+                ec_admin_wait_page_load = true;
+            }
 
             ecwidOpenAdminPage(ecwidMenu.hash);
+            ec_admin_prev_slug = slug;
         }
 
         history.pushState({}, null, ecwidMenu.url);
@@ -182,7 +192,7 @@ jQuery(document).ready(function() {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
 
-        if (typeof e.data.height != 'undefined') {
+        if (typeof e.data.height != 'undefined' && e.data.height > 0) {
             jQuery('#ecwid-frame').css('height', e.data.height + 'px');
         } 
 
@@ -191,6 +201,11 @@ jQuery(document).ready(function() {
             if ( e.data.action == 'pageLoad' ) {
                 var adminpage = e.currentTarget.adminpage;
                 var page = e.data.data.page.path;
+
+                if( ec_admin_wait_page_load ) {
+                    jQuery('#ecwid-frame').show();
+                    jQuery('#ec-storefront-settings').hide();
+                }
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
 
