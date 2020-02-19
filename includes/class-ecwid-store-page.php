@@ -442,9 +442,9 @@ class Ecwid_Store_Page {
 		) );
 	}   
 	
-	static public function the_title( $title )
+	static public function the_title( $title, $post_id )
 	{
-		if ( ! self::is_store_page() || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
+		if ( ! self::is_store_page( $post_id ) || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
 	
 		if( ecwid_is_demo_store() ) {
 			$title .= ' &mdash; Demo';
@@ -583,5 +583,5 @@ add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_
 add_action( 'display_post_states', array( 'Ecwid_Store_Page', 'display_post_states'), 10, 2 );
 
 add_action( 'wp_enqueue_scripts', array( 'Ecwid_Store_Page', 'enqueue_original_page_title' ) );
-add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ) );
+add_filter( 'the_title', array( 'Ecwid_Store_Page', 'the_title' ), 10, 2 );
 add_filter( 'the_content', array( 'Ecwid_Store_Page', 'show_notice_for_demo' ) );
