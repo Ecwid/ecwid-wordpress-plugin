@@ -235,6 +235,8 @@ class Ecwid_Admin {
 		
 		$menu = $this->_get_menus();
 		
+		$hash = '';
+
 		foreach ($menu as $item) {
 			if ( isset($item['slug']) && $item['slug'] == $slug ) {
 				$hash = $item['hash'];
