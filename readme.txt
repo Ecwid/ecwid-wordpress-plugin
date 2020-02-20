@@ -157,7 +157,16 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 = 6.9 - Feb 20, 2020 =
-— 
+- **New Storefront Settings page in the WordPress admin panel (WordPress admin > Ecwid > Storefront)**. The storefront page on your site is what your customers see when they want to visit your shop. That's the home of your ecommerce store. In this major update, we made it easier for you to manage that page — the new "Storefront" section in your dashboard has everything you need to do that. Navigate to the WordPress admin > Ecwid > Storefront and manage store navigation, adjust the store URL (slug), add store widgets, create additional ecommerce pages, adjust appearance and more. Read below to find more features introduced on the new Storefront settings page.
+- **New Storefront Settings Page: Design and content.** personalize your storefront appearance and edit the content of the store page to better reflect your brand and stay connected with your customers.
+- **New Storefront Settings Page: Navigation.** Help customers find your products on your ecommerce site with the new Navigation section on the Storefront settings page. Show your store on the site home page. Customize store page address. Add store page to the site menu. Feature your products in the sidebar. Display the shopping cart icon on site pages.
+- **New Storefront Settings Page: Additional store pages.** Create additional ecommerce pages on your site to feature specific products and categories, highlight product filters, add your store to other site pages and more.
+- **Revamped signup/connect page design.** The plugin welcome page is displayed for the new users. We refreshed the design of that page to make it easier for beginners to start selling online.
+- **A few fixes for compatibility with WPML.** WPML is a popular plugin for multilingual sites. Ecwid supports full-featured multilingual online stores. In this update, we fixed a problem where a direct link to an online store page didn't open in a non-default language in WPML.
+- **Improvements of the store appearance in Jevelin, Bridge and New Shop eCommerce themes.** Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That's why we are always monitoring how Ecwid pages look and behave in WordPress e-commerce themes.
+- **Fixes for Gutenberg's "Store home page" block.** Ecwid adds ten ecommerce blocks to Gutenberg. One of the blocks — the store home page — had an issue with the default settings when being added to a new page. We fixed it.
+- Minor fix for the shortcode button styles in the page editor in Twenty Twenty theme.
+- Minor fixes and improvements.
 
 = 6.8.11 - Dec 30, 2019 =
 - Fixed a PHP error message (“Class 'Ecwid_Import_Page' not found“) for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
