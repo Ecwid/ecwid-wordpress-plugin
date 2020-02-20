@@ -156,6 +156,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+= 6.9 - Feb 20, 2020 =
+— 
+
 = 6.8.11 - Dec 30, 2019 =
 - Fixed a PHP error message (“Class 'Ecwid_Import_Page' not found“) for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
 
