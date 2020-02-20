@@ -791,3 +791,37 @@ body[class*="_page_ecwid"] .ecwid-message {
 	0% {transform:rotate(0deg);}
 	100% {transform:rotate(360deg);}
 }
+
+/* Storefront page */
+.settings-page input[type=checkbox]:disabled:before {
+	content: '';
+}
+
+.settings-page input[type=text] {
+	min-height: unset;
+	box-shadow: unset;
+}
+
+.settings-page input[type=text]:focus, .settings-page select:focus, .settings-page a:focus {
+    border-color: unset;
+    box-shadow: unset;
+    outline: unset;
+}
+
+.settings-page .field__error {
+	display: none;
+}
+
+.settings-page .has-error .field__error {
+	display: block;
+}
+
+.settings-page .list-dropdown-scroll { 
+	overflow-y: auto;
+	max-height: 250px;
+}
+
+.settings-page[data-ec-storefront-status="publish"] [data-ec-state]:not([data-ec-state*="publish"]) { display: none; }
+.settings-page[data-ec-storefront-status="draft"] [data-ec-state]:not([data-ec-state*="draft"]) { display: none; }
+.settings-page[data-ec-storefront-status="demo"] [data-ec-state]:not([data-ec-state*="demo"]) { display: none; }
+.settings-page[data-ec-storefront-status="no-pages"] [data-ec-state]:not([data-ec-state*="no-pages"]) { display: none; }

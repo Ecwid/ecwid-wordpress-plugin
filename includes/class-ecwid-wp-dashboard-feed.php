@@ -16,6 +16,11 @@ class Ecwid_WP_Dashboard_Feed {
 	}
 	
 	public function dashboard_setup() {
+
+		if( !current_user_can( 'administrator' ) && !current_user_can( 'editor' )) {
+			return;
+		}
+
 		$url = 'https://www.ecwid.com/wp-json/wp/v2/posts?per_page=3&categories=1';
 		$media_url = 'https://www.ecwid.com/wp-json/wp/v2/media/';
 		$images_cdn = 'https://web-cdn.ecwid.com/wp-content/uploads/';

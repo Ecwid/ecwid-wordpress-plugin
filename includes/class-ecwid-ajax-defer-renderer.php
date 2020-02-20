@@ -93,6 +93,9 @@ ecwid_shortcodes = [];
 HTML;
 		
 		$app_ecwid_com = Ecwid_Config::get_scriptjs_domain();
+
+		$lang = ecwid_get_current_user_locale();
+		$lang = apply_filters( 'ecwid_lang', $lang );
 		
 		$after = <<<HTML
 <script>
@@ -108,8 +111,9 @@ HTML;
 				var script = document.createElement('script');
 				script.charset = 'utf-8';
 				script.type = 'text/javascript';
-				script.src = 'https://$app_ecwid_com/script.js?$ecwid_store_id';
-				script.id = 'ecwid-script'
+				script.src = 'https://$app_ecwid_com/script.js?$ecwid_store_id&lang=$lang';
+				script.id = 'ecwid-script';
+				script.setAttribute('data-cfasync', 'false');
 		
 				document.body.appendChild(script);
 				var el = document.getElementById('ecwid-html-catalog-$ecwid_store_id');

@@ -17,7 +17,7 @@ function ecwidRefreshEcwidMenuItemSelection(slug)
         selector = 'a[data-ecwid-menu-slug="' + decodeURI(slug) + '"]';
     }
     
-    
+
     jQuery('.current', parent).removeClass('current');
     jQuery('.wp-has-current-submenu3', parent).removeClass('wp-has-current-submenu3');
     
@@ -61,34 +61,64 @@ function ecwidGetCurrentMenuSlug()
     return slug;
 }
 
+var ec_admin_prev_slug = '',
+    ec_admin_wait_page_load = false;
 
 function ecwidApplyIframeAdminMenu($link, menu) {
+
     $link
-        .data('ecwid-menu', menu)
-        .attr('data-ecwid-menu-slug', menu.slug)
-        .click(function () {
-            if ( jQuery(this).hasClass('current') ) {
-                return false;
-            }
-            var ecwidMenu = jQuery(this).data('ecwid-menu');
-
-            var link = jQuery(this).closest('li');
-            var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
-            
-            var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
-            
-            ecwidOpenAdminPage(ecwidMenu.hash);
-            history.pushState({}, null, ecwidMenu.url);
-
-            ecwidRefreshEcwidMenuItemSelection();
-
-            jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
-            jQuery(this).parents('.opensub').removeClass('opensub');
-
-            if ( !isOpen ) return true;
-            
+    .data('ecwid-menu', menu)
+    .attr('data-ecwid-menu-slug', menu.slug)
+    .click(function () {
+        if ( jQuery(this).hasClass('current') ) {
             return false;
-        });
+        }
+
+        if( ecwid_params.is_demo_store ) {
+            location.href = jQuery(this).attr('href');
+            return false;
+        }
+
+        var ecwidMenu = jQuery(this).data('ecwid-menu');
+
+        var link = jQuery(this).closest('li');
+        var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
+        
+        var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
+        
+        var slug = jQuery(this).data('ecwid-menu-slug');
+
+        if( slug == 'ec-storefront-settings' ) {
+            jQuery('#ec-storefront-settings').show();
+            jQuery('#ecwid-frame').hide();
+
+            jQuery(document).scrollTop(0);
+        } else {
+
+            if( ec_admin_prev_slug == '' || ec_admin_prev_slug == slug ) {
+                jQuery('#ecwid-frame').show();
+                jQuery('#ec-storefront-settings').hide();
+
+                jQuery(document).scrollTop(48);
+            } else {
+                ec_admin_wait_page_load = true;
+            }
+
+            ecwidOpenAdminPage(ecwidMenu.hash);
+            ec_admin_prev_slug = slug;
+        }
+
+        history.pushState({}, null, ecwidMenu.url);
+
+        ecwidRefreshEcwidMenuItemSelection();
+
+        jQuery('#wpwrap.wp-responsive-open').removeClass('wp-responsive-open');
+        jQuery(this).parents('.opensub').removeClass('opensub');
+
+        if ( !isOpen ) return true;
+        
+        return false;
+    });
 }
 
 function ecwidAddSubmenu(items, parent) {
@@ -162,7 +192,7 @@ jQuery(document).ready(function() {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
 
-        if (typeof e.data.height != 'undefined') {
+        if (typeof e.data.height != 'undefined' && e.data.height > 0) {
             jQuery('#ecwid-frame').css('height', e.data.height + 'px');
         } 
 
@@ -171,6 +201,11 @@ jQuery(document).ready(function() {
             if ( e.data.action == 'pageLoad' ) {
                 var adminpage = e.currentTarget.adminpage;
                 var page = e.data.data.page.path;
+
+                if( ec_admin_wait_page_load ) {
+                    jQuery('#ecwid-frame').show();
+                    jQuery('#ec-storefront-settings').hide();
+                }
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
 

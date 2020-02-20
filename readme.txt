@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.3
-Stable tag: 6.8.11
+Stable tag: 6.9
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,9 +153,21 @@ You can add the store categories menu to your site menu to help your customers e
 You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
 
 
-* [Ecwid Help Center](http://help.ecwid.com/?source=wporg-plugin-site "Ecwid Help")
+* [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+= 6.9 - Feb 20, 2020 =
+- **New Storefront Settings page in the WordPress admin panel (WordPress admin > Ecwid > Storefront)**. The storefront page on your site is what your customers see when they want to visit your shop. That's the home of your ecommerce store. In this major update, we made it easier for you to manage that page — the new "Storefront" section in your dashboard has everything you need to do that. Navigate to the WordPress admin > Ecwid > Storefront and manage store navigation, adjust the store URL (slug), add store widgets, create additional ecommerce pages, adjust appearance and more. Read below to find more features introduced on the new Storefront settings page.
+- **New Storefront Settings Page: Design and content.** personalize your storefront appearance and edit the content of the store page to better reflect your brand and stay connected with your customers.
+- **New Storefront Settings Page: Navigation.** Help customers find your products on your ecommerce site with the new Navigation section on the Storefront settings page. Show your store on the site home page. Customize store page address. Add store page to the site menu. Feature your products in the sidebar. Display the shopping cart icon on site pages.
+- **New Storefront Settings Page: Additional store pages.** Create additional ecommerce pages on your site to feature specific products and categories, highlight product filters, add your store to other site pages and more.
+- **Revamped signup/connect page design.** The plugin welcome page is displayed for the new users. We refreshed the design of that page to make it easier for beginners to start selling online.
+- **A few fixes for compatibility with WPML.** WPML is a popular plugin for multilingual sites. Ecwid supports full-featured multilingual online stores. In this update, we fixed a problem where a direct link to an online store page didn't open in a non-default language in WPML.
+- **Improvements of the store appearance in Jevelin, Bridge and New Shop eCommerce themes.** Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That's why we are always monitoring how Ecwid pages look and behave in WordPress e-commerce themes.
+- **Fixes for Gutenberg's "Store home page" block.** Ecwid adds ten ecommerce blocks to Gutenberg. One of the blocks — the store home page — had an issue with the default settings when being added to a new page. We fixed it.
+- Minor fix for the shortcode button styles in the page editor in Twenty Twenty theme.
+- Minor fixes and improvements.
+
 = 6.8.11 - Dec 30, 2019 =
 - Fixed a PHP error message (“Class 'Ecwid_Import_Page' not found“) for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
 
@@ -258,7 +270,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 - **Added compatibility with the Enfold theme page builder (Avia Layout Builder)**. We learned that Ecwid didn't work well with the Avia page builder which is a part of the Enfold theme. Enfold users might notice it was difficult to add Ecwid blocks to a page. We fixed that — now Ecwid should work fine with Enfold theme.
 - **Added Mega Menu plugin compatibility**. Added fixes and layout improvements to make the Ecwid e-commerce plugin compatible with the Mega Menu WordPress plugin. If you use the Mega Menu plugin, you might notice layout issues on your store page. We fixed that. If you find any trouble in how Ecwid works with your theme or plugin, please let us know.
 - Minor fixes for the "Import products from WooCommerce to Ecwid" import tool.
-- Ecwid is constantly updated with new features and tools which are of course available to WordPress users. One of the recent major updates is Dynamic AMP emails: we’ve collaborated with Google/Gmail to launch dynamic email for e-commerce merchants. It's available for the Ecwid plugin users now and you will be able to use it without dealing with custom code or any external plugin. Check it out in our [blog](https://www.ecwid.com/blog/e-commerce-email). 
+- Ecwid is constantly updated with new features and tools which are of course available to WordPress users. One of the recent major updates is Dynamic AMP emails: we’ve collaborated with Google/Gmail to launch dynamic email for e-commerce merchants. It's available for the Ecwid plugin users now and you will be able to use it without dealing with custom code or any external plugin. Check it out in our [blog](https://www.ecwid.com/blog/e-commerce-email.html). 
 
 = 6.4.15 - Mar 19, 2019 =
 - Fixed generation of sitemap for Yoast SEO plugin
