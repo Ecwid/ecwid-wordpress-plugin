@@ -91,8 +91,25 @@ HTML;
 				ec.storefront.staticPages.staticContainerID = '$static_container_id';
 				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
 				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
-			</script>
 
+
+				window.ec.storefront.enable_page_transitions = false;
+
+				jQuery(document).ready(function(){
+					var need_refresh_config = true;
+					if ( typeof Ecwid != 'undefined' ) {
+						Ecwid.OnPageLoaded.add(function(page){
+
+							if( need_refresh_config && page.hasPrevious ) {
+								window.ec.storefront.enable_page_transitions = true;
+	  							Ecwid.refreshConfig();
+
+	  							need_refresh_config = false;
+							}
+						});
+  					}
+				});
+			</script>
 HTML;
 	}
 
