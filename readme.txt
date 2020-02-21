@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.3
-Stable tag: 6.9
+Stable tag: 6.9.1
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -156,6 +156,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+= 6.9.1 - Feb 21, 2020 =
+- Fixed a PHP error message ("Fatal error: Uncaught ArgumentCountError ..."). This error is reproduced when the hook "apply_filters ('the_title', string $title, int $id)" with one parameter is called in the code. According to the documentation, for this hook you need to pass two parameters. We added an additional check to eliminate the error.
+
+
 = 6.9 - Feb 20, 2020 =
 - **New Storefront Settings page in the WordPress admin panel (WordPress admin > Ecwid > Storefront)**. The storefront page on your site is what your customers see when they want to visit your shop. That's the home of your ecommerce store. In this major update, we made it easier for you to manage that page — the new "Storefront" section in your dashboard has everything you need to do that. Navigate to the WordPress admin > Ecwid > Storefront and manage store navigation, adjust the store URL (slug), add store widgets, create additional ecommerce pages, adjust appearance and more. Read below to find more features introduced on the new Storefront settings page.
 - **New Storefront Settings Page: Design and content.** personalize your storefront appearance and edit the content of the store page to better reflect your brand and stay connected with your customers.
