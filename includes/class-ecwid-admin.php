@@ -280,7 +280,8 @@ class Ecwid_Admin {
 
 		$hidden_items_path = array(
 			'dashboard',
-			'starter-site'
+			'starter-site',
+			'website'
 		);
 
 		if( class_exists('Ecwid_Admin_Storefront_Page') && Ecwid_Admin_Storefront_Page::is_gutenberg_active() ) {
@@ -489,7 +490,7 @@ class Ecwid_Admin {
 			array(
 				'title' => __( 'Website', 'ecwid-shopping-cart' ),
 				'type' => 'menuItem',
-				'path' => 'starter-site'
+				'path' => 'website'
 			),
 			array(
 				'title' => __( 'All Sales Channels', 'ecwid-shopping-cart' ),
