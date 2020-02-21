@@ -442,7 +442,7 @@ class Ecwid_Store_Page {
 		) );
 	}   
 	
-	static public function the_title( $title, $post_id )
+	static public function the_title( $title, $post_id = 0 )
 	{
 		if ( ! self::is_store_page( $post_id ) || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
 	
