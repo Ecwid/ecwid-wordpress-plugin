@@ -104,8 +104,8 @@
 
             function setupAfterEcwidLoaded() {
 
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°, Ñ‚Ð¾ Ð² storeClosed Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ true
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð° Ð¸ Ð¼Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ð»Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ÑƒÑŽ Ð¿Ð»Ð°ÑˆÐºÑƒ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ð¼ ÑÑ‚Ð¾ Ð² Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐµ
+                // если магазин не закрыт для клиента, то в storeClosed не будет true
+                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
                 Ecwid.OnAPILoaded.add(function () {
                     var storeClosed = window.ecwid_initial_data.data.storeClosed;
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
@@ -374,7 +374,7 @@
         dynamicEl.style.minHeight = "";
         dynamicEl.style.overflowY = "";
         dynamicEl.style.display = "block";
-        
+
         if( autoSwitchStaticToDynamicWhenReady ) {
             dynamicEl.querySelector('.ec-wrapper').classList.remove('ec-wrapper--animated-transitions');
         }
