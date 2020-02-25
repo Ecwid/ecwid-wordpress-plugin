@@ -374,6 +374,10 @@
         dynamicEl.style.minHeight = "";
         dynamicEl.style.overflowY = "";
         dynamicEl.style.display = "block";
+        
+        if( autoSwitchStaticToDynamicWhenReady ) {
+            dynamicEl.querySelector('.ec-wrapper').classList.remove('ec-wrapper--animated-transitions');
+        }
     }
 
     function hideStaticHtml() {
