@@ -193,6 +193,7 @@ function ecwid_init_integrations()
 		'pwa/pwa.php' => 'pwa',
 		'polylang/polylang.php' => 'polylang',
 		'wp-rocket/wp-rocket.php' => 'wprocket',
+		'urbango-core/main.php' => 'urbango',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
