@@ -5,7 +5,8 @@ class Ecwid_Integration_Rank_Math
 	protected $sitemap = array();
 
 	public function __construct() {
-		add_action( 'wp', array( $this, 'filter_meta_tags' ) );
+		add_action( 'wp', array( $this, 'filter_meta_tags' ), 1000 );
+		add_action( 'wp_head', array( $this, 'title' ), 1000 );
 
 		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ) );
@@ -19,29 +20,18 @@ class Ecwid_Integration_Rank_Math
 			$is_home_page = empty( $html_catalog_params );
 			
 			if( !$is_home_page ) {
-				add_filter( 'rank_math/frontend/title', '__return_false', 1000 );
-				add_filter( 'rank_math/frontend/canonical', '__return_false', 1000 );
-				add_filter( 'rank_math/frontend/description', '__return_false', 1000 );
-				
-				add_filter( 'rank_math/json_ld', '__return_false', 1000 );
-
-				add_filter( 'rank_math/opengraph/type', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/facebook/og_site_name', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/facebook/article_publisher', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/facebook/article_author', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/facebook/article_published_time', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/facebook/article_modified_time', '__return_false', 1000 );
-				add_filter( 'rank_math/opengraph/twitter/twitter_card', '__return_false', 1000 );
+				remove_all_actions( 'rank_math/head' );
+				add_action( 'wp_head', array( $this, 'render_title_tag'), 1 );
 			}
 		}
 	}
 
-	public function init() {
-		add_rewrite_rule( 'ecwid-sitemap\.xml$', 'index.php?sitemap=ecwid', 'top' );
+	public function render_title_tag() {
+		$title = _ecwid_get_seo_title();
+		echo '<title>' . $title . '</title>' . "\n";
 	}
 
-	public function sitemap_index()
-	{
+	public function sitemap_index() {
 		$now = date('c', time());;
 		$sitemap_url = RankMath\Sitemap\Router::get_base_url( 'ecwid-sitemap.xml' );
 
@@ -53,8 +43,8 @@ class Ecwid_Integration_Rank_Math
 XML;
 	}
 
-	public function sitemap_content( $content )
-	{
+	public function sitemap_content( $content ) {
+
 		$this->sitemap = <<<XML
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 XML;
@@ -69,8 +59,7 @@ XML;
 		return $sitemap;
 	}
 
-	public function sitemap_callback($url, $priority, $frequency, $obj)
-	{
+	public function sitemap_callback($url, $priority, $frequency, $obj) {
 		$url = htmlspecialchars($url);
 		$imageCode = '';
 		$image = @$obj->originalImageUrl;
