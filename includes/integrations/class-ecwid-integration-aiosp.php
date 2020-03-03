@@ -36,22 +36,30 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_if_needed()
 	{
+		global $aioseop_options;
+
 		if (! Ecwid_Store_Page::is_store_page() ) {
 			return;
 		}
 
 		$is_escaped_fragment = array_key_exists('_escaped_fragment_', $_GET);
 		$is_seo_links_store_page = Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url();
+
+		$page_params = Ecwid_Store_Page::get_store_page_params();
+		$is_default_category_page = isset($page_params['default_category_id']) && $page_params['default_category_id'] > 0;
 		
+		if( $is_default_category_page ) {
+			add_filter( 'ecwid_static_page_field_canonicalurl', '__return_false' );
+		}
+
 		if ( !$is_escaped_fragment && !$is_seo_links_store_page ) {
 			return;
 		}
 
-		global $aioseop_options;
-
 		$aioseop_options['aiosp_can'] = false;
 		add_filter( 'aioseop_title', '__return_null' );
 		add_filter( 'aioseop_description', '__return_null' );
+		add_filter( 'aioseop_disable_schema', '__return_true' );
 	}
 
 	// Hook that new sitemap type to aiosp sitemap
