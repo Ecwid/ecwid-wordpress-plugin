@@ -12,10 +12,16 @@ class Ecwid_Importer_Task_Create_Product extends Ecwid_Importer_Task_Product_Bas
 
 		$product = wc_get_product( $this->_woo_product_id );
 
+		$description = $product->get_description();
+		
+		if( empty($description) ) {
+			$description = $product->get_short_description();
+		}
+
 		$data = array(
 			'name' => $product->get_title(),
 			'price' => $product->get_regular_price(),
-			'description' => $product->get_description(),
+			'description' => $description,
 			'isShippingRequired' => !$product->get_virtual(),
 			'categoryIds' => array(),
 			'showOnFrontpage' => (int) $product->get_featured()
