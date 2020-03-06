@@ -11,6 +11,8 @@ class Ecwid_Importer
 	const OPTION_SETTINGS = 'ecwid_importer_settings';
 	const OPTION_DEMO_PRODUCTS = 'woo_importer_demo_products';
 	const OPTION_ERROR_LOG = 'ecwid_importer_error_log';
+
+	const OPTIONS_SEPARATE_LOADING = 'ecwid_woo_import_separate_loading';
 	
 	const TICK_LENGTH = 20;
 	
@@ -258,6 +260,11 @@ class Ecwid_Importer
 	}
 
 	public static function is_localhost() {
+
+		if( get_option( self::OPTIONS_SEPARATE_LOADING, false ) ) {
+			return true;
+		}
+
 		return in_array( $_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1') );
 	}
 
