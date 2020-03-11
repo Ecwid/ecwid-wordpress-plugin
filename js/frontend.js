@@ -91,6 +91,9 @@ jQuery(document).ready(function() {
                 var maxAttempts = 50;
                 var interval = setInterval(function() {
                     if (/loaded|complete/.test(d.readyState) || (0 === maxAttempts--)) {
+                        if (firstScript.parentNode === null) {
+                            firstScript = d.getElementsByTagName('script')[0];
+                        }
                         firstScript.parentNode.insertBefore(analyticsScript, firstScript);
                         clearInterval(interval)
                     }
