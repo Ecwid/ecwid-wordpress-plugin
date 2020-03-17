@@ -11,7 +11,17 @@ class Ecwid_Integration_Rank_Math
 		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ) );
 			add_filter( 'rank_math/sitemap/ecwid/content', array( $this, 'sitemap_content' ) );
+			add_filter( 'rank_math/sitemap/exclude_post_type', array( $this, 'exclude_post_type' ), 10, 2 );
 		}
+	}
+
+	public function exclude_post_type( $bool, $post_type ) {
+
+		if ( $post_type == 'ec-product') {
+			return true;
+		}
+
+		return $bool;
 	}
 
 	public function filter_meta_tags() {
