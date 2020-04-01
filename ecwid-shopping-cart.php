@@ -1918,6 +1918,16 @@ function ecwid_get_update_params_options() {
 
 	);
 
+
+	if( class_exists('woocommerce') && class_exists('Ecwid_Importer') )  {
+		$options[ Ecwid_Importer::OPTIONS_SEPARATE_IMAGE_LOADING ] = array(
+			'values' => array(
+				'',
+				'Y'
+			)
+		);
+	}
+
 	return $options;
 }
 
