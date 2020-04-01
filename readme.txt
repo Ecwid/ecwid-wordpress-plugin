@@ -2,7 +2,7 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 6.9.1
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
