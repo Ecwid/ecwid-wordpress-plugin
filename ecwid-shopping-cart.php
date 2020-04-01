@@ -194,6 +194,7 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 		'wp-rocket/wp-rocket.php' => 'wprocket',
 		'urbango-core/main.php' => 'urbango',
+		'seo-by-rank-math/rank-math.php' => 'rank-math'
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );

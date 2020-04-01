@@ -55,7 +55,7 @@
 								<div class="cta-block__content"><?php _e( 'Along with the store catalog, you can add other widgets and texts to the store page.', 'ecwid-shopping-cart'); ?></div>
 							</div>
 							<div class="cta-block__cta">
-								<a href="<?php echo $design_edit_link; ?>" target="_blank" class="btn btn-default btn-medium">
+								<a href="<?php echo $page_edit_link; ?>" target="_blank" class="btn btn-default btn-medium">
 									<?php _e( 'Edit', 'ecwid-shopping-cart'); ?>
 								</a>
 							</div>
