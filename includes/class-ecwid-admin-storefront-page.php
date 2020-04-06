@@ -77,7 +77,7 @@ class Ecwid_Admin_Storefront_Page
 		require_once self::$templates_dir . 'main.php';
 	}
 
-    public function get_page_data( $page_id ) {
+    public static function get_page_data( $page_id ) {
     	$status = get_post_status( $page_id );
 
     	if( !$status ) {
@@ -396,7 +396,8 @@ class Ecwid_Admin_Storefront_Page
 			'classic-editor/classic-editor.php',
 			'elementor/elementor.php',
 			'divi-builder/divi-builder.php',
-			'beaver-builder-lite-version/fl-builder.php'
+			'beaver-builder-lite-version/fl-builder.php',
+			'disable-gutenberg/disable-gutenberg.php'
 		);
 
 		foreach ( $plugins_disabling_gutenberg as $plugin ) {
@@ -453,7 +454,7 @@ class Ecwid_Admin_Storefront_Page
             $attributes = '';
             $text = '';
 
-            if( $item['is_separator'] ) {
+            if( isset($item['is_separator']) && $item['is_separator'] ) {
                 echo '<li class="list-dropdown__separator"></li>';
                 continue;
             }

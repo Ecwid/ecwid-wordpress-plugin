@@ -148,7 +148,7 @@ class Ecwid_Seo_Links {
 		return preg_match($pattern, $slug);
  	}
 
- 	protected static function get_seo_links_patterns() {
+ 	public static function get_seo_links_patterns() {
 		return array(
 			'.*-p([0-9]+)(\/.*|\?.*)?',
 			'.*-c([0-9]+)(\/.*|\?.*)?',

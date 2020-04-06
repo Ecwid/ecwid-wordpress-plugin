@@ -28,6 +28,17 @@ class vcInfoBox extends WPBakeryShortCode {
 	function __construct() {
 		add_action( 'init', array( $this, 'vc_infobox_mapping' ) );
 		add_shortcode( 'vc_ecwid_store', array( $this, 'vc_ecwid_store' ) );
+
+		add_filter( 'ecwid_page_has_product_browser', array( $this, 'vc_page_has_product_browser' ), 10, 2 );
+	}
+
+	public function vc_page_has_product_browser($result, $content) {
+		
+		if( has_shortcode( $content, 'vc_ecwid_store' ) ) {
+			return true;
+		}
+		
+		return $result;
 	}
 
 	// Element Mapping

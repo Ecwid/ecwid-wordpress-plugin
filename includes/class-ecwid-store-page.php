@@ -339,7 +339,7 @@ class Ecwid_Store_Page {
 			$post_content = get_post( $post_id )->post_content;
 
 			$result = ecwid_content_has_productbrowser( $post_content );
-			$result = apply_filters( 'ecwid_page_has_product_browser', $result );
+			$result = apply_filters( 'ecwid_page_has_product_browser', $result, $post_content );
 		}
 
 		return $result;
@@ -442,7 +442,7 @@ class Ecwid_Store_Page {
 		) );
 	}   
 	
-	static public function the_title( $title, $post_id )
+	static public function the_title( $title, $post_id = 0 )
 	{
 		if ( ! self::is_store_page( $post_id ) || !get_option( self::OPTION_REPLACE_TITLE, false ) ) return $title;
 	
