@@ -6,7 +6,6 @@ class Ecwid_Integration_Rank_Math
 
 	public function __construct() {
 		add_action( 'wp', array( $this, 'filter_meta_tags' ), 1000 );
-		add_action( 'wp_head', array( $this, 'title' ), 1000 );
 
 		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
 			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ) );
