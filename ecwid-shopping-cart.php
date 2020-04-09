@@ -379,12 +379,10 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
 	$current_post = get_post();
-	$need_tracking = !empty( $current_post ) && $current_post->post_status == 'publish' && $current_post->post_password == '' && !ecwid_is_demo_store();
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
-		'trackPublicPage' => $need_tracking,
 		'storeId' => get_ecwid_store_id()
 	));
 	
@@ -1370,27 +1368,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	$store_id = get_ecwid_store_id();
 	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
-		
-	if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
-		$params .= '&data_static_home=1';
-	}
-	
-	if ( class_exists( 'Ecwid_Gutenberg') ) {
-		
-		$all_blocks = Ecwid_Gutenberg::get_block_names();
-		$page_blocks = Ecwid_Gutenberg::get_blocks_on_page();
-		
-		$mask = "";
-		foreach ( $all_blocks as $name ) {
-			if ( array_key_exists( $name, $page_blocks ) ) {
-				$mask .= '1';
-			} else {
-				$mask .= '0';
-			}
-		}
-		
-		$params .= '&data_g=' . $mask;
-	}
 
 	return $params;
 }

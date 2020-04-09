@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
-Stable tag: 6.9.1
+Stable tag: 6.9.2
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -67,9 +67,12 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 
 * [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
-= International Keywords =
+### Terms of usage
 
-магазин, catalogo de productos, katalog produktów, wtyczka ecommerce, plugin ecommerce, plugin de comercio electrónico, le catalogue des produits, productcatalogus, витрина, produktkatalog, каталог продукции, sklep, boutique, tienda, winkel, Geschäft
+The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store data is securely hosted with Ecwid under the terms and conditions listed here: 
+
+* [Term of Service](https://www.ecwid.com/terms-of-service)
+* [Privacy Policy](https://www.ecwid.com/privacy-policy)
 
 
 == Installation ==
