@@ -7,6 +7,7 @@ Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
 Version: 6.9.2
 Author URI: https://ecwid.to/ecwid-site
+License: GPLv2 or later
 */
 
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
