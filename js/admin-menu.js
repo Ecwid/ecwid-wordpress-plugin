@@ -69,7 +69,15 @@ function ecwidApplyIframeAdminMenu($link, menu) {
     $link
     .data('ecwid-menu', menu)
     .attr('data-ecwid-menu-slug', menu.slug)
-    .click(function () {
+    .click(function (e) {
+
+        if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            if( !!jQuery(this).attr('href') ) {
+                window.open( jQuery(this).attr('href'), '_blank' );
+            }
+            return false;
+        }
+
         if ( jQuery(this).hasClass('current') ) {
             return false;
         }
@@ -147,6 +155,9 @@ function ecwidAddSubmenu(items, parent) {
         var link = jQuery(this);
 
         if (!link.hasClass('opensub') && link.hasClass('wp-has-submenu3')) {
+
+            jQuery(this).closest('ul').find('li').removeClass('opensub');
+
             link.addClass('opensub');
             e.preventDefault();
             return false;

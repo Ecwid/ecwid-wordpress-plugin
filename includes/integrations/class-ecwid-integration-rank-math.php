@@ -6,13 +6,14 @@ class Ecwid_Integration_Rank_Math
 
 	public function __construct() {
 		add_action( 'wp', array( $this, 'filter_meta_tags' ), 1000 );
-		add_action( 'wp_head', array( $this, 'title' ), 1000 );
 
-		if ( ecwid_is_paid_account() && ecwid_is_store_page_available()) {
+		if ( ecwid_is_store_page_available()) {
 			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ) );
 			add_filter( 'rank_math/sitemap/ecwid/content', array( $this, 'sitemap_content' ) );
 			add_filter( 'rank_math/sitemap/exclude_post_type', array( $this, 'exclude_post_type' ), 10, 2 );
+			add_filter( 'rank_math/excluded_post_types', array( $this, 'excluded_post_types' ), 10, 1 );
 		}
+
 	}
 
 	public function exclude_post_type( $bool, $post_type ) {
@@ -22,6 +23,15 @@ class Ecwid_Integration_Rank_Math
 		}
 
 		return $bool;
+	}
+
+	public function excluded_post_types( $accessible_post_types ) {
+
+		if ( isset($accessible_post_types['ec-product']) ) {
+			unset( $accessible_post_types['ec-product'] );
+		}
+
+		return $accessible_post_types;
 	}
 
 	public function filter_meta_tags() {

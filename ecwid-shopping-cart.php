@@ -5,8 +5,9 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.9.2
+Version: 6.9.3
 Author URI: https://ecwid.to/ecwid-site
+License: GPLv2 or later
 */
 
 register_activation_hook( __FILE__, 'ecwid_store_activate' );
@@ -379,12 +380,10 @@ function ecwid_enqueue_frontend() {
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
 	$current_post = get_post();
-	$need_tracking = !empty( $current_post ) && $current_post->post_status == 'publish' && $current_post->post_password == '' && !ecwid_is_demo_store();
 	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
-		'trackPublicPage' => $need_tracking,
 		'storeId' => get_ecwid_store_id()
 	));
 	
@@ -1370,27 +1369,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 	$store_id = get_ecwid_store_id();
 	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
-		
-	if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
-		$params .= '&data_static_home=1';
-	}
-	
-	if ( class_exists( 'Ecwid_Gutenberg') ) {
-		
-		$all_blocks = Ecwid_Gutenberg::get_block_names();
-		$page_blocks = Ecwid_Gutenberg::get_blocks_on_page();
-		
-		$mask = "";
-		foreach ( $all_blocks as $name ) {
-			if ( array_key_exists( $name, $page_blocks ) ) {
-				$mask .= '1';
-			} else {
-				$mask .= '0';
-			}
-		}
-		
-		$params .= '&data_g=' . $mask;
-	}
 
 	return $params;
 }

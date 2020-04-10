@@ -66,3 +66,7 @@
     padding: 10px 12px;
     color: #ddd;
 }
+
+.ecwid-blog-footer a {
+    text-decoration-line: none;
+}
