@@ -161,6 +161,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+
 = 6.9.3 - Apr 10, 2020 =
 - Improvements for the integration with the RankMath SEO plugin. We fixed a PHP warning message ("call_user_func_array() expects parameter 1 to be a valid callback"), which appeared on some sites.
 - Several changes in the plugin code to comply with the WordPress plugin marketplace requirements.
@@ -171,4 +172,4 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 - Improved compatibility with WPBakery editor and UrbanGo Listing theme.
 - Improvements for the "Import from WooCommerce" tool.
 
-[See changelog for all versions](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
+[See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
