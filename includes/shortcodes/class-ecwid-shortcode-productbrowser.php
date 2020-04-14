@@ -49,7 +49,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		if ( $ecwid_current_theme ) {
 
 			$code = <<<HTML
-<script>
+<script data-cfasync="false" >
 if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
 	document.documentElement.id = 'ecwid_html';
 }
@@ -86,7 +86,9 @@ HTML;
 	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
 		return <<<HTML
 			<script data-cfasync="false" type="text/javascript">
+				window.ec.storefront = window.ec.storefront || {};
 				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
+				
 				ec.storefront.staticPages.staticStorefrontEnabled = true;
 				ec.storefront.staticPages.staticContainerID = '$static_container_id';
 				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
