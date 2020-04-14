@@ -60,12 +60,12 @@ class Ecwid_Config {
 	}
 	
 	public static function get_oauth_appid() {
-		return EcwidPlatform::get( self::OAUTH_APPID, Ecwid_Api_V3::CLIENT_ID );
+		return EcwidPlatform::get( self::OAUTH_APPID, Ecwid_Api_V3::EC_APP_ID );
 	}
 
 	public static function get_oauth_appsecret() {
 
-		return EcwidPlatform::get( self::OAUTH_APPSECRET, Ecwid_Api_V3::CLIENT_SECRET );
+		return EcwidPlatform::get( self::OAUTH_APPSECRET, Ecwid_Api_V3::EC_APP_PUBLIC_KEY );
 	}
 	
 	public static function get_store_id() {
