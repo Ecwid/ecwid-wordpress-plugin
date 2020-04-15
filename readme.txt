@@ -153,9 +153,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
-= 6.9.3 - Apr 10, 2020 =
-- Improvements for the integration with the RankMath SEO plugin. We fixed a PHP warning message ("call_user_func_array() expects parameter 1 to be a valid callback"), which appeared on some sites.
-- Several changes in the plugin code to comply with the WordPress plugin marketplace requirements.
-- Minor fixes and improvements.
+
+= 6.9.4 - Apr 15, 2020 =
+
+- Improvements for the integration with the All in SEO plugin. There was a minor SEO issue with  duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
+- Minor changes in the plugin code to comply with the WordPress plugin marketplace recommendations.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
