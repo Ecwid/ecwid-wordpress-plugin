@@ -52,7 +52,7 @@ class Ecwid_Integration_Rank_Math
 	}
 
 	public function sitemap_index() {
-		$now = date('c', time());;
+		$now = date('c', time());
 		$sitemap_url = RankMath\Sitemap\Router::get_base_url( 'ecwid-sitemap.xml' );
 
 		return <<<XML

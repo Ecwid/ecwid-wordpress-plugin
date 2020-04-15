@@ -4,8 +4,6 @@ Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
 Stable tag: 6.9.3
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -58,7 +56,6 @@ There is a lot of in-house and third party extensions built on the Ecwid Ecommer
 
 Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
 
-
 ### See Ecwid In Action
 
 * [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
@@ -76,7 +73,6 @@ The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store d
 * [Term of Service](https://www.ecwid.com/terms-of-service)
 * [Privacy Policy](https://www.ecwid.com/privacy-policy)
 
-
 == Installation ==
 
 ### Automatic installation (the easiest way)
@@ -86,7 +82,6 @@ The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store d
 1. In the search results find the *Ecwid Ecommerce Shopping Cart* plugin and click *Install now* to install it
 1. When plugin is installed click *Activate Plugin* link
 1. Navigate to *Ecwid Store → General* page in your Wordpress admin backend and follow the instruction provided there
-
 
 ### Alternative ways
 
@@ -122,7 +117,7 @@ http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
 Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard for e-commerce solutions worldwide. This helps your online store meet the security requirements of the bank you do business with. [More details](https://help.ecwid.com/customer/portal/articles/1085017-wordpress-downloadable#secureplugin)
 
- = How much does Ecwid cost? =
+= How much does Ecwid cost? =
 
 Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support.
 * Free - Up to 10 products
@@ -131,45 +126,37 @@ Ecwid shopping cart plans vary by number of products, types of ecommerce functio
 * Unlimited - $99/month
 Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://ecwid.to/ecwid-pricing).
 
-
- = How can I manage my online shop from a mobile device? =
+= How can I manage my online shop from a mobile device? =
 
 Ecwid shopping cart provides mobile applications for iOS and Android to manage your online store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. [More details on Ecwid mobile apps](https://www.ecwid.com/ecwid-mobile).
 
- = How do I set up a storefront on Facebook with Ecwid shopping cart? =
+= How do I set up a storefront on Facebook with Ecwid shopping cart? =
 
 You can add your online shop to any web presence, including your Facebook business page. Ecwid plugin will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. [More details](https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#addtoFacebook).
 
- = How can I add a shopping cart widget to my site sidebar? =
+= How can I add a shopping cart widget to my site sidebar? =
 
 You can add a product search box, shopping cart widget and other tools on the Appearance/Widgets page here in your site admin. [Read more about Ecwid sidebar widgets](https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#Sidebarwidgets).
 
- = How do I add my store products to a sitemap? =
+= How do I add my store products to a sitemap? =
 
 To create a sitemap for your WordPress shop, we recommend using the fully compatible [Google XML Sitemaps](https://wordpress.org/plugins/google-sitemap-generator/) or [Yoast WordPress SEO](https://wordpress.org/plugins/wordpress-seo/) plugins. Generating a sitemap that contains links to store categories and product pages will help index your pages faster. Please note that the store sitemap option is only available to paid Ecwid users.
 
-
- = How do I add store categories to the site menu? =
+= How do I add store categories to the site menu? =
 
 You can add the store categories menu to your site menu to help your customers easily navigate your online shop. Just open "Appearance > Menus" in your WordPress control panel and add the "Store with Categories Menu" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site.
 
- = How do I migrate my shop from Shopify, WooCommerce, BigCommerce, Selz or Easy Digital Downloads? =
+= How do I migrate my shop from Shopify, WooCommerce, BigCommerce, Selz or Easy Digital Downloads? =
 
 You can use Ecwid’s built-in import tools to copy your store products from any other shopping cart to Ecwid. Find more details in the [Import-Export article in the Ecwid shopping cart help center](  https://support.ecwid.com/hc/en-us/articles/360000049040-Migrating-to-Ecwid-from-WooCommerce).
-
 
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
 
-= 6.9.3 - Apr 10, 2020 =
-- Improvements for the integration with the RankMath SEO plugin. We fixed a PHP warning message ("call_user_func_array() expects parameter 1 to be a valid callback"), which appeared on some sites.
-- Several changes in the plugin code to comply with the WordPress plugin marketplace requirements.
-- Minor fixes and improvements.
+= 6.9.4 - Apr 15, 2020 =
 
-= 6.9.2 - Apr 06, 2020 =
-- **Integration with the RankMath SEO plugin.** The “RankMath” plugin is a tool to set SEO meta tags on site pages and to generate a sitemaps. It conflicted with the Ecwid SEO functions: SEO tags and sitemaps generated by Ecwid did not work well with those generated by RankMath. It’s now fixed so if you use the plugin, everything should work fine and Google will index your products pages properly.
-- Improved compatibility with WPBakery editor and UrbanGo Listing theme.
-- Improvements for the "Import from WooCommerce" tool.
+- Improvements for the integration with the All in SEO plugin. There was a minor SEO issue with  duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
+- Minor changes in the plugin code to comply with the WordPress plugin marketplace recommendations.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
