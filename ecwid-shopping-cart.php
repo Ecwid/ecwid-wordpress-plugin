@@ -1668,9 +1668,15 @@ EOT;
 
 add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
 function ecwid_plugin_activation_redirect( $plugin ) {
+	
+	$is_bulk_activation = isset($_POST['action'])
+		&& $_POST['action'] == 'activate-selected' 
+		&& isset($_POST['checked'])
+		&& count($_POST['checked']) > 1;
+
 	$is_newbie = ecwid_is_demo_store();
 
-    if( $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         exit( wp_safe_redirect( Ecwid_Admin::get_dashboard_url() ) );
     }
 }
