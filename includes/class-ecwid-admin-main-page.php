@@ -24,7 +24,6 @@ class Ecwid_Admin_Main_Page
 			if (
 				$this->_is_whitelabel_mode_with_no_registration()
 				|| $this->_is_oauth_error()
-				|| $this->_is_current_user_email_registered_at_ecwid()
 				|| self::is_forced_reconnect()
 			) {
 
