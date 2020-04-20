@@ -43,3 +43,8 @@ if( $ecwid_oauth->get_reconnect_message() ) {
 }
 
 ?>
+
+
+<?php
+require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-terms-privacy.php';
+?>

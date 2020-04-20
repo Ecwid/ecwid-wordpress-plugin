@@ -2132,6 +2132,7 @@ function ecwid_get_register_link()
 		. Ecwid_Config::get_channel_id()
 		. '%s#register';
 
+	/*
 	$current_user = wp_get_current_user();
 
 	$user_data = '';
@@ -2151,6 +2152,7 @@ function ecwid_get_register_link()
 		}
 		$user_data = '&' . build_query($data);
 	}
+	*/
 
 	$link = sprintf($link, $user_data);
 
@@ -2211,6 +2213,7 @@ function ecwid_create_store() {
 	} else {
 
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
+		die();
 	}
 }
 

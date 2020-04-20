@@ -6,6 +6,7 @@
 		<button id="ecwid-connect-no-oauth" data-href="admin-post.php?action=ec_connect" class="btn btn--orange btn--medium btn--no-animate form-block__btn form-block__element" type="button"><?php _e( 'Connect', 'ecwid-shopping-cart' ); ?></button>
 	</div>
 </div>
+
 <div class="ec-note">
 	<?php echo sprintf(
 		__( 'Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel on the <a %2$s>Dashboard page</a>.', 'ecwid-shopping-cart' ),
@@ -13,3 +14,7 @@
 		'href="https://' . Ecwid_Config::get_cpanel_domain() . '/cp/CP.html?partner=wporg#dashboard" target="_blank"'
 	); ?>
 </div>
+
+<?php
+require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-terms-privacy.php';
+?>
