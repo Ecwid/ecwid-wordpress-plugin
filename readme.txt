@@ -154,9 +154,8 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.9.4 - Apr 15, 2020 =
+= 6.9.5 - Apr 21, 2020 =
 
-- Improvements for the integration with the All in SEO plugin. There was a minor SEO issue with  duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
 - Minor changes in the plugin code to comply with the WordPress plugin marketplace recommendations.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
