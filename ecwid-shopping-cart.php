@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.9.4
+Version: 6.9.5
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -351,20 +351,6 @@ function ecwid_redirect_canonical2($redir, $req) {
 	return $redir;
 }
 
-add_action( 'current_screen', 'ecwid_add_deactivation_popup' );
-
-function ecwid_add_deactivation_popup()
-{
-	if ( get_current_screen()->id == 'plugins' ) {
-		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
-		
-		$popup = new Ecwid_Popup_Deactivate();
-		
-		if ( !$popup->is_disabled() ) {
-			Ecwid_Popup::add_popup( $popup );
-		}
-	}
-}
 
 function ecwid_enqueue_frontend() {
 	global $ecwid_current_theme;
@@ -1682,9 +1668,15 @@ EOT;
 
 add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
 function ecwid_plugin_activation_redirect( $plugin ) {
+	
+	$is_bulk_activation = isset($_POST['action'])
+		&& $_POST['action'] == 'activate-selected' 
+		&& isset($_POST['checked'])
+		&& count($_POST['checked']) > 1;
+
 	$is_newbie = ecwid_is_demo_store();
 
-    if( $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         exit( wp_safe_redirect( Ecwid_Admin::get_dashboard_url() ) );
     }
 }
@@ -2140,6 +2132,7 @@ function ecwid_get_register_link()
 		. Ecwid_Config::get_channel_id()
 		. '%s#register';
 
+	/*
 	$current_user = wp_get_current_user();
 
 	$user_data = '';
@@ -2159,6 +2152,7 @@ function ecwid_get_register_link()
 		}
 		$user_data = '&' . build_query($data);
 	}
+	*/
 
 	$link = sprintf($link, $user_data);
 
@@ -2219,6 +2213,7 @@ function ecwid_create_store() {
 	} else {
 
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
+		die();
 	}
 }
 

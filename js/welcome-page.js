@@ -20,8 +20,12 @@ jQuery(document).ready(function(){
 						location.href="admin.php?page=ec-store";
 					}, 1000);
 				},
-				error: function() {
-					window.location.href = ecwidParams.registerLink;
+				error: function(error) {
+					if( error.status == '409' ) {
+						location.href = 'admin-post.php?action=ec_connect';
+					} else {
+						location.href = ecwidParams.registerLink;
+					}
 				}
 			}
 		);
