@@ -118,6 +118,14 @@ class Ecwid_OAuth {
 			|| !isset( $result->access_token )
 			|| ( $result->token_type != 'Bearer' )
 		) {
+
+			// detect cURL problem
+			if( $request->is_error ) {
+				if( strstr($request->error->get_error_message(), 'cURL error') !== false ){
+					$reconnect = 'true';
+				}
+			}
+
 			return $this->trigger_auth_error($reconnect ? 'reconnect' : 'default');
 		}
 
