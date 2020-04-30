@@ -66,6 +66,10 @@ class Ecwid_Theme_Base {
 			add_filter( Ecwid_Ajax_Defer_Renderer::FILTER_ENABLED, '__return_true' );
 		}
 
+		if ( in_array( 'title', $props, true ) ) {
+			add_filter( 'option_' . Ecwid_Store_Page::OPTION_REPLACE_TITLE, '__return_false' );
+		}
+
 		return $theme;
 	}
 
