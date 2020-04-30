@@ -271,6 +271,13 @@ class Ecwid_Static_Page {
 	
 	public static function is_enabled_static_home_page() {
 
+		$api = new Ecwid_Api_V3();
+		$profile = $api->get_store_profile();
+
+		if( $profile->settings->closed ) {
+			return false;
+		}
+		
 		if( is_preview() ) {
 			return false;
 		}
