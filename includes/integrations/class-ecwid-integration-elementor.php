@@ -8,6 +8,8 @@ class Ecwid_Integration_Elementor extends Ecwid_Stub_Renderer {
 		parent::__construct();
 
 		$__ecwid_integration_elementor_widgets = new Ecwid_Integration_Elementor_Widgets();
+
+		wp_enqueue_style('ec-elementor', ECWID_PLUGIN_URL . 'css/integrations/elementor.css', array(), get_option('ecwid_plugin_version'));
 	}
 
 	protected function _should_apply() {
