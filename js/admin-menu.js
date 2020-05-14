@@ -69,7 +69,15 @@ function ecwidApplyIframeAdminMenu($link, menu) {
     $link
     .data('ecwid-menu', menu)
     .attr('data-ecwid-menu-slug', menu.slug)
-    .click(function () {
+    .click(function (e) {
+
+        if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            if( !!jQuery(this).attr('href') ) {
+                window.open( jQuery(this).attr('href'), '_blank' );
+            }
+            return false;
+        }
+
         if ( jQuery(this).hasClass('current') ) {
             return false;
         }
@@ -89,6 +97,11 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         var slug = jQuery(this).data('ecwid-menu-slug');
 
         if( slug == 'ec-storefront-settings' ) {
+            
+            if( !jQuery('#ecwid-frame').length ) {
+                location.href = jQuery(this).attr('href');
+            }
+
             jQuery('#ec-storefront-settings').show();
             jQuery('#ecwid-frame').hide();
 
@@ -96,6 +109,11 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         } else {
 
             if( ec_admin_prev_slug == '' || ec_admin_prev_slug == slug ) {
+
+                if( !jQuery('#ecwid-frame').length ) {
+                    location.href = jQuery(this).attr('href');
+                }
+
                 jQuery('#ecwid-frame').show();
                 jQuery('#ec-storefront-settings').hide();
 
@@ -147,6 +165,9 @@ function ecwidAddSubmenu(items, parent) {
         var link = jQuery(this);
 
         if (!link.hasClass('opensub') && link.hasClass('wp-has-submenu3')) {
+
+            jQuery(this).closest('ul').find('li').removeClass('opensub');
+
             link.addClass('opensub');
             e.preventDefault();
             return false;

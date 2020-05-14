@@ -5,7 +5,6 @@ abstract class Ecwid_Http {
 	protected $name = '';
 	protected $url = '';
 	protected $policies;
-	protected $is_error = false;
 	protected $error_message = '';
 	protected $raw_result;
 	protected $processed_data;
@@ -14,7 +13,9 @@ abstract class Ecwid_Http {
 	protected $code;
 	protected $message;
 	protected $headers;
-	protected $error;
+	
+	public $is_error = false;
+	public $error;
 
 	const TRANSPORT_CHECK_EXPIRATION = 86400;
 

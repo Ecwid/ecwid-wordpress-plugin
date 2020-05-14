@@ -42,6 +42,10 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 			return;
 		}
 
+		if ( Ecwid_Store_Page::is_store_page_with_default_category() ) {
+			add_filter( 'aioseop_canonical_url', '__return_null' );
+		}
+
 		$is_escaped_fragment = array_key_exists('_escaped_fragment_', $_GET);
 		$is_seo_links_store_page = Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url();
 

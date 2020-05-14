@@ -24,7 +24,6 @@ class Ecwid_Admin_Main_Page
 			if (
 				$this->_is_whitelabel_mode_with_no_registration()
 				|| $this->_is_oauth_error()
-				|| $this->_is_current_user_email_registered_at_ecwid()
 				|| self::is_forced_reconnect()
 			) {
 
@@ -86,17 +85,23 @@ class Ecwid_Admin_Main_Page
 	
 	public function _do_integrated_admin_page( $page = self::PAGE_HASH_DASHBOARD )
 	{
+		global $ecwid_oauth;
+
 		if (isset($_GET['show_timeout']) && $_GET['show_timeout'] == '1') {
 			require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
 			die();
 		}
 
-		if (Ecwid_Api_V3::get_token() == false) {
-			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
+		if ( Ecwid_Api_V3::get_token() == false ) {
+
+			if( !$ecwid_oauth->has_scope( 'allow_sso' ) ) {
+				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
+			} else {
+				require_once ECWID_PLUGIN_DIR . 'templates/admin/simple-dashboard.php';
+			}
+
 			die();
 		}
-
-		global $ecwid_oauth;
 
 		if (isset($_GET['ec-page']) && $_GET['ec-page']) {
 			$page = $_GET['ec-page'];
@@ -171,7 +176,7 @@ class Ecwid_Admin_Main_Page
 			if (ecwid_test_oauth(true)) {
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
-				require_once ECWID_PLUGIN_DIR . 'templates/simple-dashboard.php';
+				require_once ECWID_PLUGIN_DIR . 'templates/admin/simple-dashboard.php';
 			}
 		} else {
 			require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';

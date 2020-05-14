@@ -7,10 +7,14 @@
 	<a href="<?php echo $connect_url; ?>" class="ec-connect-store"><?php _e( 'Connect your store', 'ecwid-shopping-cart' ); ?>&nbsp;&rsaquo;</a>
 </div>
 
-<div class="ec-note ec-create-store-note">
-	&nbsp;
-</div>
-
 <div class="ec-note ec-create-store-success-note">
 	<?php _e('Your store has been created. Preparing your store dashboard ...', 'ecwid-shopping-cart'); ?>
 </div>
+
+<?php
+require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-connection-message.php';
+?>
+
+<?php
+require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-terms-privacy.php';
+?>

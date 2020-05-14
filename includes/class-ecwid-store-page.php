@@ -204,6 +204,21 @@ class Ecwid_Store_Page {
 		return in_array( $page_id, $pages );
 	}
 
+	public static function is_store_page_with_default_category() {
+
+		if( !self::is_store_page() ) {
+			return false;
+		}
+
+		$store_page_params = self::get_store_page_params();
+
+		if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static function add_store_page( $page_id = 0 ) {
 
 		$pages = self::get_store_pages_array();
@@ -339,7 +354,7 @@ class Ecwid_Store_Page {
 			$post_content = get_post( $post_id )->post_content;
 
 			$result = ecwid_content_has_productbrowser( $post_content );
-			$result = apply_filters( 'ecwid_page_has_product_browser', $result );
+			$result = apply_filters( 'ecwid_page_has_product_browser', $result, $post_content );
 		}
 
 		return $result;
