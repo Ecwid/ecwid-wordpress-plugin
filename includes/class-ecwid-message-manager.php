@@ -460,6 +460,7 @@ HTML
 				return
 					!ecwid_is_demo_store()
 					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
+					&& get_current_screen()->base != 'ecwid_page_ec-storefront-settings'
 					&& Ecwid_Api_V3::get_token() == false
 					&& $ecwid_oauth->has_scope( 'allow_sso' );
 		}
