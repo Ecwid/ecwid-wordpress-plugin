@@ -468,7 +468,8 @@ class Ecwid_Api_V3
 		$query['redirect_uri']  = $redirect_uri;
 		$query['response_type'] = 'code';
 		$query['scope']         = $scope;
-		if ( Ecwid_Config::get_channel_id() ) {
+
+		if ( Ecwid_Config::get_channel_id() && !Ecwid_Config::is_wl() ) {
 			$query['partner'] = Ecwid_Config::get_channel_id();
 		}
 
