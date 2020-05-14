@@ -89,6 +89,7 @@ if ( is_admin() ) {
 	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
 	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
 	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
+	add_action( 'wp_head', 'ec_add_mailchimp_js' );
 
 	add_action( 'send_headers', 'ecwid_503_on_store_closed' );
 	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
@@ -506,6 +507,20 @@ function ecwid_add_chameleon( $js ) {
 	$js .= sprintf( 'window.ec.config.chameleon.colors = %s;', $chameleon['colors'] ) . PHP_EOL;
 
 	return $js;
+}
+
+function ec_add_mailchimp_js() {
+	
+	if( !is_front_page() && !Ecwid_Store_Page::is_store_page() ) {
+		return;
+	}
+
+	$api = new Ecwid_Api_V3();
+	$profile = $api->get_store_profile();
+
+	if( isset($profile->mailchimpSettings) && isset($profile->mailchimpSettings->script) ) {
+		echo PHP_EOL . $profile->mailchimpSettings->script . PHP_EOL;
+	}
 }
 
 function ecwid_load_textdomain() {
