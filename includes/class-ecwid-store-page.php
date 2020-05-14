@@ -482,7 +482,12 @@ class Ecwid_Store_Page {
 
 	static public function set_store_url()
 	{
-		$store_url = Ecwid_Store_Page::get_store_url();
+		$store_page_id = self::get_current_store_page_id();
+		if ( !$store_page_id ) {
+			return;
+		}
+
+		$store_url = self::get_store_url();
 
 		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 

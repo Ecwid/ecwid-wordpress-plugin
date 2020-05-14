@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.9.5
+Version: 6.9.6
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -89,6 +89,7 @@ if ( is_admin() ) {
 	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
 	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
 	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
+	add_action( 'wp_head', 'ec_add_mailchimp_js' );
 
 	add_action( 'send_headers', 'ecwid_503_on_store_closed' );
 	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
@@ -506,6 +507,20 @@ function ecwid_add_chameleon( $js ) {
 	$js .= sprintf( 'window.ec.config.chameleon.colors = %s;', $chameleon['colors'] ) . PHP_EOL;
 
 	return $js;
+}
+
+function ec_add_mailchimp_js() {
+	
+	if( !is_front_page() && !Ecwid_Store_Page::is_store_page() ) {
+		return;
+	}
+
+	$api = new Ecwid_Api_V3();
+	$profile = $api->get_store_profile();
+
+	if( isset($profile->mailchimpSettings) && isset($profile->mailchimpSettings->script) ) {
+		echo PHP_EOL . $profile->mailchimpSettings->script . PHP_EOL;
+	}
 }
 
 function ecwid_load_textdomain() {
@@ -2004,7 +2019,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 		$is_connection_error = Ecwid_Admin_Main_Page::is_connection_error();
 
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
-		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error ) {
+		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error || Ecwid_Api_V3::get_token() == false ) {
 
 			if( class_exists('Ecwid_Admin') && isset($_GET['page']) && $_GET['page'] != Ecwid_Admin::ADMIN_SLUG ) {
 				return;
@@ -2211,6 +2226,11 @@ function ecwid_create_store() {
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
+
+		if( is_wp_error( $result ) ) {
+			header( 'HTTP/1.1 409 Error' );
+			die();
+		}
 
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		die();

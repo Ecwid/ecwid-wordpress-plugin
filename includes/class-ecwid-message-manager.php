@@ -29,18 +29,24 @@ class Ecwid_Message_Manager
 		if (!$wp_remote_post_error) {
 			$message = sprintf(
 				__( <<<TXT
-Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the Ecwid server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
+Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the %s server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
 <br /><br />
-Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to app.ecwid.com and my.ecwid.com are blocked.".
+Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to %s and %s are blocked.".
 <br /><br />
-Please also feel free to contact us at <a %s>wordpress@ecwid.com</a> and we will help you handle it with your hosting.
+Please also feel free to contact us at <a %s">%s</a> and we will help you handle it with your hosting.
 <br /><br />
-Meanwhile, to manage your store, you can use the Ecwid Web Control Panel at <a %s>my.ecwid.com</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.
+Meanwhile, to manage your store, you can use the %s Control Panel at <a %s>%s</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.
 TXT
 
-		),
-				'href="mailto:wordpress@ecwid.com"',
-				'target="_blank" href="http://my.ecwid.com"',
+				),
+				Ecwid_Config::get_brand(),
+				Ecwid_Config::get_api_domain(),
+				Ecwid_Config::get_cpanel_domain(),
+				'href="https://'. Ecwid_Config::get_contact_us_url() .'" target="_blank"',
+				Ecwid_Config::get_contact_us_url(),
+				Ecwid_Config::get_brand(),
+				'href="https://'. Ecwid_Config::get_cpanel_domain() .'" target="_blank"',
+				Ecwid_Config::get_cpanel_domain(),
 				'href="' . Ecwid_Store_Page::get_store_url() . '" target="_blank"',
 				Ecwid_Store_Page::get_store_url()
 			);
@@ -269,7 +275,10 @@ TXT
 			),
 
 			'no_oauth' => array(
-
+				'title' => __( 
+					'Warning: some of your online store features are disabled. Please contact your hosting provider to resolve.', 
+					'ecwid-shopping-cart' 
+				),
 				'message' => Ecwid_Message_Manager::get_oauth_message(),
 				'hideable' => false,
 				'type' => 'error'
@@ -377,10 +386,11 @@ HTML
 			case 'no_token':
 				$no_token = Ecwid_Api_V3::get_token() == false;
 				$is_not_demo = !ecwid_is_demo_store();
+
 				return 
 					$no_token 
 					&& $is_not_demo 
-					&& !$is_ecwid_menu 
+					&& !$is_ecwid_menu
 					&& in_array( 
 						Ecwid_Api_V3::get_api_status(), 
 						array( 
@@ -438,11 +448,21 @@ HTML
 					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
 				
 			case 'api_failed_other':
-				return
+				return 
 					!ecwid_is_demo_store()
 					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
 					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER
 					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
+
+			case 'no_oauth':
+				global $ecwid_oauth;
+
+				return
+					!ecwid_is_demo_store()
+					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
+					&& get_current_screen()->base != 'ecwid_page_ec-storefront-settings'
+					&& Ecwid_Api_V3::get_token() == false
+					&& $ecwid_oauth->has_scope( 'allow_sso' );
 		}
 	}
 

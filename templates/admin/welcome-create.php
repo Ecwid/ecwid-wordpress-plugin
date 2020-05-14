@@ -12,5 +12,9 @@
 </div>
 
 <?php
+require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-connection-message.php';
+?>
+
+<?php
 require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-terms-privacy.php';
 ?>

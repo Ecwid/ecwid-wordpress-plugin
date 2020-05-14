@@ -72,6 +72,7 @@ div.ecwid-message {
 	margin-bottom: 15px;
 	padding: 27px 29px 20px 30px;
 	display: block;
+	color: inherit;
 }
 
 .ecwid-message a {

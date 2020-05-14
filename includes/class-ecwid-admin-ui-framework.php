@@ -58,7 +58,7 @@ class Ecwid_Admin_UI_Framework
             'ec-store-help'
         );
 
-        if( ecwid_is_demo_store() || isset($_GET['reconnect']) ) {
+        if( ecwid_is_demo_store() || isset($_GET['reconnect']) || Ecwid_Api_V3::get_token() == false ) {
             $pages[] = 'ec-store';
         }
 

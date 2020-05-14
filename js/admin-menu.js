@@ -97,6 +97,11 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         var slug = jQuery(this).data('ecwid-menu-slug');
 
         if( slug == 'ec-storefront-settings' ) {
+            
+            if( !jQuery('#ecwid-frame').length ) {
+                location.href = jQuery(this).attr('href');
+            }
+
             jQuery('#ec-storefront-settings').show();
             jQuery('#ecwid-frame').hide();
 
@@ -104,6 +109,11 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         } else {
 
             if( ec_admin_prev_slug == '' || ec_admin_prev_slug == slug ) {
+
+                if( !jQuery('#ecwid-frame').length ) {
+                    location.href = jQuery(this).attr('href');
+                }
+
                 jQuery('#ecwid-frame').show();
                 jQuery('#ec-storefront-settings').hide();
 
