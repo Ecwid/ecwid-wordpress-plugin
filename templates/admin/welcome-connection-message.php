@@ -24,6 +24,8 @@ if( !$connection_error ) {
 
 			$error_note = sprintf( __( 'To sell using %1$s, you must allow WordPress to access the %1$s plugin. The connect button will direct you to your %1$s account where you can provide permission.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 		}
+	} else if( !ecwid_test_oauth() ) {
+		$error_note = sprintf( __( 'Looks like your site does not support remote POST requests that are required for %s API to work. Please, contact your hosting provider to enable cURL.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 	}
 
 	echo $this->get_welcome_page_note( $error_note, 'ec-connection-error' );

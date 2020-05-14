@@ -2004,7 +2004,7 @@ function ecwid_register_admin_styles($hook_suffix) {
 		$is_connection_error = Ecwid_Admin_Main_Page::is_connection_error();
 
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
-		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error ) {
+		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error || Ecwid_Api_V3::get_token() == false ) {
 
 			if( class_exists('Ecwid_Admin') && isset($_GET['page']) && $_GET['page'] != Ecwid_Admin::ADMIN_SLUG ) {
 				return;
@@ -2211,6 +2211,11 @@ function ecwid_create_store() {
 		header( 'HTTP/1.1 200 OK' );
 
 	} else {
+
+		if( is_wp_error( $result ) ) {
+			header( 'HTTP/1.1 409 Error' );
+			die();
+		}
 
 		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		die();
