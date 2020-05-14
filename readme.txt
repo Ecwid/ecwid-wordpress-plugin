@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
-Stable tag: 6.9.5
+Stable tag: 6.9.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -154,8 +154,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.9.5 - Apr 21, 2020 =
+= 6.9.6 - May 14, 2020 =
 
-- Minor changes in the plugin code to comply with the WordPress plugin marketplace recommendations.
+- Improve compatibility with the Elementor page builder plugin. Ecwid storefronts on Elementor-powered websites loaded slowly on devices with an old iOS version (less than 13.3.1). We fixed it and now stores should work well. 
+- Better warning messages for the site administrator about the hosting connection issues. Some hosting do not allow WordPress plugins connect external services and APIs in their code. That might be because of a hosting server misconfiguration or a tricky firewall setup. Good news is that the Ecwid plugin would work well even in such environment — you can add a store to your ecommerce site pages and sell. But some of the plugin feature would be disabled. For example, SEO tools wouldn't work and the embedded store control panel wouldn't show. We added extra warning messages and fallbacks to the plugin code to better handle such situations. If you face such a problem, we recommend contacting your hosting provider to make sure your server can connect the Ecwid API. 
+- Minor improvements for Twenty Twenty and NewShop themes.
+- Minor fixes and improvements.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
