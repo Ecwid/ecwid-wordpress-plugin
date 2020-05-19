@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
-Stable tag: 6.9.6
+Stable tag: 6.9.7
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -156,6 +156,6 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 = 6.9.7 - May 19, 2020 =
 - Improvements for the integration with the Yoast SEO plugin. There was a minor SEO issue with duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
-- After the last release, some merchants might have lost the Storefront Settings page menu item from the Ecwid admin menu. We fixed it.
+- After the last release, the Storefront menu item did not display in the plugin settings in the WP admin. That didn’t affect the store functionality, all the storefront settings and data stayed intact. We fixed the Storefront menu item — you can navigate to the WordPress admin > Ecwid > Storefront and manage your store appearance as usual.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)

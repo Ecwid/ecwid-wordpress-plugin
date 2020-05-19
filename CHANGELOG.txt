@@ -2,7 +2,7 @@
 
 = 6.9.7 - May 19, 2020 =
 - Improvements for the integration with the Yoast SEO plugin. There was a minor SEO issue with duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
-- After the last release, some merchants might have lost the Storefront Settings page menu item from the Ecwid admin menu. We fixed it.
+- After the last release, the Storefront menu item did not display in the plugin settings in the WP admin. That didn’t affect the store functionality, all the storefront settings and data stayed intact. We fixed the Storefront menu item — you can navigate to the WordPress admin > Ecwid > Storefront and manage your store appearance as usual.
 
 = 6.9.6 - May 14, 2020 =
 - Improve compatibility with the Elementor page builder plugin. Ecwid storefronts on Elementor-powered websites loaded slowly on devices with an old iOS version (less than 13.3.1). We fixed it and now stores should work well. 
