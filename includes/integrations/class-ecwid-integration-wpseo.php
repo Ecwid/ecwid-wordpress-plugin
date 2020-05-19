@@ -99,6 +99,8 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment()
 	{
+		add_filter( 'wpseo_canonical', array($this, 'clear_canonical') );
+
 		$is_store_page = Ecwid_Store_Page::is_store_page();
 		$is_escaped_fragment = array_key_exists('_escaped_fragment_', $_GET);
 		$is_seo_pb_url = Ecwid_Seo_Links::is_product_browser_url();
@@ -118,6 +120,22 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		remove_action( 'wpseo_head', array( $wpseo_front, 'canonical' ), 20 );
 		// Description
 		remove_action( 'wpseo_head', array( $wpseo_front, 'metadesc' ), 10 );
+	}
+
+	public function clear_canonical( $canonical ) {
+
+		if ( Ecwid_Store_Page::is_store_page() ) {
+			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+			$is_home_page = empty( $html_catalog_params );
+
+			$is_store_page_with_default_category = Ecwid_Store_Page::is_store_page_with_default_category();
+
+			if( !$is_home_page || $is_store_page_with_default_category ) {
+				return false;
+			}
+		}
+
+		return $canonical;
 	}
 
 	public function disable_rewrite_titles()
