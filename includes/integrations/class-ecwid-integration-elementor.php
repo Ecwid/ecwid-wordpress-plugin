@@ -9,11 +9,11 @@ class Ecwid_Integration_Elementor {
 	public function __construct() {
 
 		if (version_compare( phpversion(), '5.6', '>=' ) ) {
-			add_action( 'init', array( $this, 'custom_widgets_init') );
+			add_action( 'init', array( $this, 'init_custom_widgets') );
 		}
 
 		if( $this->_should_apply() ) {
-			add_action( 'widgets_init', array( $this, 'sidebar_widgets_init') );
+			add_action( 'widgets_init', array( $this, 'init_sidebar_widgets') );
 		}
 
 		wp_enqueue_style('ec-elementor', ECWID_PLUGIN_URL . 'css/integrations/elementor.css', array(), get_option('ecwid_plugin_version'));
@@ -24,20 +24,35 @@ class Ecwid_Integration_Elementor {
 		return !(is_admin() && $pagenow == 'widgets.php');
 	}
 
-	public function sidebar_widgets_init() {
+	public function init_sidebar_widgets() {
 		if( class_exists( 'Ecwid_Widget_Product_Browser' ) ) {
 			register_widget('Ecwid_Widget_Product_Browser');
 		}
 	}
 
-	private function include_widgets_files() {
+	private function include_custom_widgets_files() {
 		require_once self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-store.php';
+		require_once self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-buynow.php';
 	}
 
-	public function custom_widgets_init() {
-		$this->include_widgets_files();
+	public function init_custom_widgets() {
+		
+		add_action( 'elementor/elements/categories_registered', array( $this, 'add_custom_widget_categories' ) );
+
+		$this->include_custom_widgets_files();
 
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Ec_Elementor_Widget_Store() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Ec_Elementor_Widget_Buynow() );
+	}
+
+	public function add_custom_widget_categories( $elements_manager ) {
+		$elements_manager->add_category(
+			'ec-store',
+			array(
+				'title' => __( 'Ec Store', 'ecwid-shopping-cart' ), //get_brand()
+				'icon' => 'fa fa-plug',
+			)
+		);
 	}
 }
 
