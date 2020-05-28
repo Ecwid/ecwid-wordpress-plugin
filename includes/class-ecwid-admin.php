@@ -281,7 +281,9 @@ class Ecwid_Admin {
 		$hidden_items_path = array(
 			'dashboard',
 			'starter-site',
-			'website'
+			'website',
+			'website-overview',
+			'website-design',
 		);
 
 		if( class_exists('Ecwid_Admin_Storefront_Page') && Ecwid_Admin_Storefront_Page::is_gutenberg_active() ) {
