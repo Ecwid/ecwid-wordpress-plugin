@@ -2282,7 +2282,7 @@ function ecwid_get_iframe_src($time, $page)
 		}
 
 		$url .= '&hide_staff_accounts_header_menu=true';
-		$url .= '&dashboard_website_section_type=wordpress';
+		$url .= '&set_dashboard_website_section_type=wordpress';
 		$url .= '&website_manage_url=' . Ecwid_Store_Page::get_store_url();
 
 		return $url;
