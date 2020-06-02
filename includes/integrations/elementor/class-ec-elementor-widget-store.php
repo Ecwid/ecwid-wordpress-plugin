@@ -31,7 +31,7 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
 			'default_category_id',
 			array(
 				'label' => __( 'Default category ID', 'ecwid-shopping-cart' ),
-				'type' => Elementor\Controls_Manager::SELECT,
+				'type' => Elementor\Controls_Manager::SELECT2,
 				'default' => 0,
 				'options' => $this->_get_categories_for_selector()
 			)
@@ -65,11 +65,11 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
         return $result;
     }
 
-    protected function _content_template() {
+    /*protected function _content_template() {
 
     	echo '<h1>123</h1>';
     	echo Ecwid_Static_Page::get_html_code();
 
-	}
+	}*/
 
 }
