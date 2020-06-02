@@ -36,6 +36,20 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
 				'options' => $this->_get_categories_for_selector()
 			)
 		);
+
+        $design_edit_link = get_admin_url( null, 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-admin-design' );
+        $this->add_control(
+            'design',
+            array(
+                'label' => __( 'Design', 'ecwid-shopping-cart' ),
+                'type' => Elementor\Controls_Manager::RAW_HTML,
+                'raw' => sprintf(
+                    __("You can control how your store looks and feels by clicking on the <a %s>Design</a> menu in your %s admin.", 'ecwid-shopping-cart'),
+                    'href="' . $design_edit_link . '" target="_blank"',
+                    Ecwid_Config::get_brand()
+                )
+            )
+        );
 	 
 	    $this->end_controls_section();
     }

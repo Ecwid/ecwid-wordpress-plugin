@@ -1,3 +1,7 @@
 #dynamic-ec-store, #static-ec-store {
 	max-width: 120rem;
 }
+
+#ecwid_body .entry-content > [data-elementor-type] {
+	max-width: 120rem !important;
+}
