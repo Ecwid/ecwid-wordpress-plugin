@@ -46,10 +46,14 @@ class Ecwid_Integration_Elementor {
 	}
 
 	public function add_custom_widget_categories( $elements_manager ) {
+
 		$elements_manager->add_category(
 			'ec-store',
 			array(
-				'title' => __( 'Ec Store', 'ecwid-shopping-cart' ), //get_brand()
+				'title' => sprintf(
+					__( '%s Store', 'ecwid-shopping-cart'),
+					Ecwid_Config::get_brand()
+				),
 				'icon' => 'fa fa-plug',
 			)
 		);
