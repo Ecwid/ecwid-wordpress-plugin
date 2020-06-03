@@ -160,4 +160,8 @@ HTML;
 
 		return '"' . implode('","', $pieces) . '"';
 	}
+
+	public function get_params() {
+		return $this->_params;
+	}
 }

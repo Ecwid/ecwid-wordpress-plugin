@@ -69,7 +69,10 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        $shortcode = sprintf( '[ecwid_product id="%s" show_price_on_button="%s" center_align="%s" version="2"]',
+        $shortcode_name = Ecwid_Shortcode_Product::get_shortcode_name();
+
+        $shortcode = sprintf( '[%s id="%s" display="price addtobag" show_border="" show_price_on_button="%s" center_align="%s" version="2"]',
+            $shortcode_name,
             $settings['product_id'],
             $settings['show_price_on_button'],
             $settings['center_align']
@@ -78,11 +81,14 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
         echo do_shortcode( $shortcode );
     }
 
-
     protected function _get_products_for_selector() {
 
         $api = new Ecwid_Api_V3();
         $products = $api->get_products( array() );
+
+        if( !$products ) {
+            return array();
+        }
 
         $result[] = __( 'Choose product', 'ecwid-shopping-cart' );
 
