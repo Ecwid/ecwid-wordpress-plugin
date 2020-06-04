@@ -407,7 +407,7 @@ HTML
 				return 
 					is_plugin_active( 'woocommerce/woocommerce.php' ) 
 					&& strpos( $admin_page, Ecwid_Import::PAGE_SLUG ) === false 
-					&& $_GET['import'] != 'ec-store-import'
+					&& (isset($_GET['import']) && $_GET['import'] != 'ec-store-import')
 					&& !$this->need_to_show_message( 'on_activate' ) 
 					&& Ecwid_Api_V3::is_available()
 					&& !ecwid_is_demo_store()

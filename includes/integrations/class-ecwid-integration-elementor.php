@@ -16,7 +16,7 @@ class Ecwid_Integration_Elementor {
 			add_action( 'widgets_init', array( $this, 'init_sidebar_widgets') );
 		}
 
-		wp_enqueue_style('ec-elementor', ECWID_PLUGIN_URL . 'css/integrations/elementor.css', array(), get_option('ecwid_plugin_version'));
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	protected function _should_apply() {
@@ -57,6 +57,10 @@ class Ecwid_Integration_Elementor {
 				'icon' => 'fa fa-plug',
 			)
 		);
+	}
+
+	public function enqueue_scripts() {
+		wp_enqueue_style('ec-elementor', ECWID_PLUGIN_URL . 'css/integrations/elementor.css', array(), get_option('ecwid_plugin_version'));
 	}
 }
 
