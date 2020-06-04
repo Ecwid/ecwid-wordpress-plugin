@@ -78,6 +78,10 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
     protected function render() {
     	$settings = $this->get_settings_for_display();
 
+        if( !isset($settings['default_category_id']) ) {
+            $settings['default_category_id'] = '';
+        }
+
         $shortcode_name = Ecwid_Shortcode_Base::get_shortcode_name();
 
     	$shortcode = sprintf( '[%s widgets="productbrowser" default_category_id="%s"]',

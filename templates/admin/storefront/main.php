@@ -6,7 +6,7 @@
 		</div>
 
 		<?php
-		if( $need_show_draft_warning ) {
+		if( isset($need_show_draft_warning) && $need_show_draft_warning ) {
 		?>
 		<div class="a-card a-card--compact a-card--warning" data-ec-state="draft">
 			<div class="a-card__paddings">

@@ -4,11 +4,14 @@ require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-stub-renderer.php';
 
 class Ecwid_Integration_Elementor {
 	
-	const EC_WIDGETS_PATH = ECWID_PLUGIN_DIR . '/includes/integrations/elementor';
+	const EC_WIDGETS_PATH = '/includes/integrations/elementor';
 
 	public function __construct() {
 
-		if (version_compare( phpversion(), '5.6', '>=' ) ) {
+		$is_needed_php_version = version_compare( phpversion(), '5.6', '>=' );
+		$is_needed_wp_version = version_compare( get_bloginfo('version'), '5.4.1', '>=' );
+
+		if ( $is_needed_php_version && $is_needed_wp_version ) {
 			add_action( 'init', array( $this, 'init_custom_widgets') );
 		}
 
@@ -31,18 +34,25 @@ class Ecwid_Integration_Elementor {
 	}
 
 	private function include_custom_widgets_files() {
-		require_once self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-store.php';
-		require_once self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-buynow.php';
+		require_once ECWID_PLUGIN_DIR . self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-store.php';
+		require_once ECWID_PLUGIN_DIR . self::EC_WIDGETS_PATH . '/class-ec-elementor-widget-buynow.php';
 	}
 
 	public function init_custom_widgets() {
+
+		if( !class_exists('\Elementor\Plugin') || !class_exists('\Elementor\Widget_Base') ) {
+			return;
+		}
 		
 		add_action( 'elementor/elements/categories_registered', array( $this, 'add_custom_widget_categories' ) );
 
 		$this->include_custom_widgets_files();
 
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Ec_Elementor_Widget_Store() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Ec_Elementor_Widget_Buynow() );
+
+		if( !ecwid_is_demo_store() ) {
+			\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Ec_Elementor_Widget_Buynow() );
+		}
 	}
 
 	public function add_custom_widget_categories( $elements_manager ) {
