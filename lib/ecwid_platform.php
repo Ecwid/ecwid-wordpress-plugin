@@ -440,8 +440,8 @@ class EcwidPlatform {
 				'valid_from' => EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM )
 			)
 		);
-		
-		if ( $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
+
+		if ( $result && $result['time'] > EcwidPlatform::get( self::PRODUCTS_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
 
@@ -470,7 +470,7 @@ class EcwidPlatform {
 			)
 		);
 
-		if ( EcwidPlatform::get( self::CATALOG_CACHE_VALID_FROM ) > $valid_from ) {
+		if ( $result && EcwidPlatform::get( self::CATALOG_CACHE_VALID_FROM ) > $valid_from ) {
 			return $result['data'];
 		}
 
