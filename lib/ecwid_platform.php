@@ -419,7 +419,7 @@ class EcwidPlatform {
 			) 
 		);
 		
-		if ( $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
+		if ( $result && $result['time'] > EcwidPlatform::get( self::CATEGORIES_CACHE_VALID_FROM ) ) {
 			return $result['data'];
 		}
 

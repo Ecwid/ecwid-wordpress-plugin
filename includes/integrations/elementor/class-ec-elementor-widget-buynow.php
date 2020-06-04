@@ -29,7 +29,7 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
             'product_id',
             array(
                 'label' => __( 'Choose product', 'ecwid-shopping-cart' ),
-                'type' => Elementor\Controls_Manager::SELECT2,
+                'type' => Elementor\Controls_Manager::SELECT,
                 'default' => 0,
                 'options' => $this->_get_products_for_selector()
             )
@@ -40,7 +40,10 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
 
         $this->start_controls_section(
             'section_appearance',
-            array( 'label' => __( 'Appearance', 'ecwid-shopping-cart' ) )
+            array(
+                'label' => __( 'Appearance', 'ecwid-shopping-cart' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE
+            )
         );
 
         $this->add_control(

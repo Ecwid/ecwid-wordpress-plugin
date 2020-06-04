@@ -21,38 +21,63 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
     protected function _register_controls() {
 
         $categories = $this->_get_categories_for_selector();
+        $dashboard_link = admin_url( 'admin.php?page=ec-store' );
 
-        if( !count($categories) && ecwid_is_demo_store() ) {
-            return;
-        }
+        $this->start_controls_section(
+            'content_section',
+            array(
+                'label' => __( 'Online Store', 'ecwid-shopping-cart' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT
+            )
+        );
 
-        if( count($categories) > 0 ) {
-
-          $this->start_controls_section(
-                'section_content',
+        if( count($categories) ) {
+            $this->add_control(
+                'default_category_id',
                 array(
-                    'label' => __( 'Store Front Page', 'ecwid-shopping-cart' ),
+                    'label' => __( 'Default category', 'ecwid-shopping-cart' ),
+                    'description' => __( 'The category that is shown by default on the Store Front Page', 'ecwid-shopping-cart' ),
+                    'type' => Elementor\Controls_Manager::SELECT,
+                    'default' => 0,
+                    'options' => $categories
                 )
             );
-
-    		$this->add_control(
-    			'default_category_id',
-    			array(
-    				'label' => __( 'Default category', 'ecwid-shopping-cart' ),
-                    'description' => __( 'The category that is shown by default on the Store Front Page', 'ecwid-shopping-cart' ),
-    				'type' => Elementor\Controls_Manager::SELECT2,
-    				'default' => 0,
-    				'options' => $categories
-    			)
-    		);
-
-            $this->end_controls_section();
         }
 
+        if( ecwid_is_demo_store() ) {
+            $html_raw = sprintf(
+                '<a href="%s" target="_blank" class="elementor-button elementor-button-default elementor-button-success elementor-input-style" style="text-align: center;">%s</a>',
+                $dashboard_link,
+                __( 'Set up your store', 'ecwid-shopping-cart' )
+            );
+        } else {
+            $html_raw = sprintf(
+                __( 'To manage your store, go to <a %s>the Store Dashboard page</a>', 'ecwid-shopping-cart' ),
+                'href="' . $dashboard_link . '" target="_blank"'
+            );
+        }
+
+		$this->add_control(
+            'content',
+            array(
+                'label' => __( 'Store', 'ecwid-shopping-cart' ),
+                'show_label' => false,
+                'type' => Elementor\Controls_Manager::RAW_HTML,
+                'raw' => $html_raw
+            )
+        );
+
+        $this->end_controls_section();
+
+
         if( !ecwid_is_demo_store() ) {
+
             $this->start_controls_section(
                 'section_appearance',
-                array( 'label' => __( 'Appearance', 'ecwid-shopping-cart' ) )
+                array(
+                    'label' => __( 'Appearance', 'ecwid-shopping-cart' ),
+                    'tab' => \Elementor\Controls_Manager::TAB_STYLE
+                )
             );
 
             $design_edit_link = get_admin_url( null, 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '-admin-design' );
@@ -64,9 +89,8 @@ class Ec_Elementor_Widget_Store extends \Elementor\Widget_Base {
                     'show_label' => false,
                     'type' => Elementor\Controls_Manager::RAW_HTML,
                     'raw' => sprintf(
-                        __("You can control how your store looks and feels by clicking on the <a %s>Design</a> menu in your %s admin.", 'ecwid-shopping-cart'),
-                        'href="' . $design_edit_link . '" target="_blank"',
-                        Ecwid_Config::get_brand()
+                        __("You can control your store look and feel on the <a %s>Design settings page</a> in your store control panel.", 'ecwid-shopping-cart'),
+                        'href="' . $design_edit_link . '" target="_blank"'
                     )
                 )
             );
