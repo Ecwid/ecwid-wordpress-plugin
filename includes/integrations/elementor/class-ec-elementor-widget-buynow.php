@@ -30,7 +30,7 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
             array(
                 'label' => __( 'Choose product', 'ecwid-shopping-cart' ),
                 'type' => Elementor\Controls_Manager::SELECT,
-                'default' => 0,
+                'default' => 1,
                 'options' => $this->_get_products_for_selector()
             )
         );
@@ -72,6 +72,11 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
+        $is_editor_page = @$_REQUEST['action'] == 'elementor_ajax' || @$_REQUEST['action'] == 'elementor';
+        if( !$is_editor_page && intval($settings['product_id']) <= 1 ) {
+            return;
+        }
+
         $shortcode_name = Ecwid_Shortcode_Product::get_shortcode_name();
 
         $shortcode = sprintf( '[%s id="%s" display="price addtobag" show_border="" show_price_on_button="%s" center_align="%s" version="2"]',
@@ -93,7 +98,7 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
             return array();
         }
 
-        $result[] = __( 'Choose product', 'ecwid-shopping-cart' );
+        $result[1] = __( 'Choose product', 'ecwid-shopping-cart' );
 
         if( count( $products->items ) ) {
             foreach ($products->items as $product) {
