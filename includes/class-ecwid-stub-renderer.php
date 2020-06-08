@@ -25,8 +25,22 @@ abstract class Ecwid_Stub_Renderer {
 			ob_start();
 
 			$message = __( 'Product', 'ecwid-shopping-cart' );
+			$template_file = 'shortcode-stub.tpl.php';
 
-			require ECWID_TEMPLATES_DIR . '/shortcode-stub.tpl.php';
+			// detect Buy Now
+			$params = $args->get_params();
+			if( isset($params['display']) ) {
+				
+				$display_items = explode( ' ', $params['display'] );
+				$display_buynow = array('addtobag', 'price');
+
+				if( !array_diff( $display_items, $display_buynow ) ) {
+					$message = __( 'Buy Now', 'ecwid-shopping-cart' );
+					$template_file = 'shortcode-stub-buynow.tpl.php';
+				}
+			}
+
+			require ECWID_TEMPLATES_DIR . '/' . $template_file;
 
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -35,9 +49,7 @@ abstract class Ecwid_Stub_Renderer {
 		} else if ( is_array( $args ) ) {
 			ob_start();
 
-			$message = __( 'Your store will be shown here', 'ecwid-shopping-cart' );
-
-			require ECWID_TEMPLATES_DIR . '/shortcode-stub.tpl.php';
+			require ECWID_TEMPLATES_DIR . '/shortcode-stub-store.tpl.php';
 
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -75,6 +87,7 @@ abstract class Ecwid_Stub_Renderer {
 	abstract protected function _should_apply();
 
 	public function enqueue_scripts() {
+		wp_enqueue_style( 'ec-shortcode-stub', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
 		EcwidPlatform::enqueue_style( 'shortcode-stub' );
 		EcwidPlatform::enqueue_style( 'widget-stub' );
 	}

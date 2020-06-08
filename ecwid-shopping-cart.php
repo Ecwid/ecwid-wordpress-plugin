@@ -2147,10 +2147,10 @@ function ecwid_get_register_link()
 		. Ecwid_Config::get_channel_id()
 		. '%s#register';
 
+	$user_data = '';
 	/*
 	$current_user = wp_get_current_user();
-
-	$user_data = '';
+	
 	if ($current_user->ID && function_exists('get_user_meta')) {
 		$meta = get_user_meta($current_user->ID);
 
