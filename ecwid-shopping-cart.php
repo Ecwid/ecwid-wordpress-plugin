@@ -2283,7 +2283,7 @@ function ecwid_get_iframe_src($time, $page)
 
 		$url .= '&hide_staff_accounts_header_menu=true';
 		$url .= '&set_dashboard_website_section_type=wordpress';
-		$url .= '&website_manage_url=' . Ecwid_Store_Page::get_store_url();
+		$url .= '&website_manage_url=' . admin_url( 'admin.php?page=ec-storefront-settings' );
 
 		return $url;
 	} else {
