@@ -1,7 +1,7 @@
 == Changelog ==
 
-= 6.9.8 - Jun 08, 2020 =
-- **Added 2 ecommerce widgets in the Elementor page builder.** The Ecwid plugin now provides 2 ecommerce blocks for Elementor for adding online store functionality to your site pages. It allows you to add a storefront to your ecommerce website pages easier in Elementor. The widgets include: the store home page to display the whole storefront, the buy now button to add buttons to blog posts. To try the new widgets, open the Elementor editor in your WordPress admin backend and find the "Ecwid Store" widgets set there.
+= 6.10 - Jun 08, 2020 =
+- **Integration with the Elementor page builder.** Elementor is one of the most popular page builders. We added Elementor support to Ecwid, so you can add online store functionality to your site pages in Elementor. We added two ecommerce widgets to the Elementor toolbar: the store home page to display the whole storefront and the buy now button to add buy buttons to pages and posts. To try the new widgets, open the Elementor editor in your WordPress admin backend and find the "Ecwid Store" section there.
 - Minor fixes and improvements.
 
 = 6.9.7 - May 19, 2020 =
