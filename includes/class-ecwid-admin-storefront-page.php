@@ -69,6 +69,18 @@ class Ecwid_Admin_Storefront_Page
 			}
 
 			$need_show_draft_warning = time() - get_option( 'ecwid_installation_date' ) > 3 * DAY_IN_SECONDS;
+		} else {
+			$store_on_front = false;
+			$page_edit_link = false;
+			$page_data = false;
+			$design_edit_link = false;
+			$page_slug = false;
+			$minicart_hide = false;
+			$categories = false;
+			$products_total = false;
+			$customizer_minicart_link = false;
+
+			if( !isset($page_link) ) $page_link = false;
 		}
 
         wp_enqueue_script('ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option('ecwid_plugin_version'));

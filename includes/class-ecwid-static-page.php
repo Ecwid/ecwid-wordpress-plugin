@@ -274,7 +274,7 @@ class Ecwid_Static_Page {
 		$api = new Ecwid_Api_V3();
 		$profile = $api->get_store_profile();
 
-		if( $profile->settings->closed ) {
+		if( isset($profile->settings->closed) && $profile->settings->closed ) {
 			return false;
 		}
 		

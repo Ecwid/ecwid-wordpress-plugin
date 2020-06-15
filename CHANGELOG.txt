@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.10 - Jun 08, 2020 =
+- **Integration with the Elementor page builder.** Elementor is one of the most popular page builders. We added Elementor support to Ecwid, so you can add online store functionality to your site pages in Elementor. We added two ecommerce widgets to the Elementor toolbar: the store home page to display the whole storefront and the buy now button to add buy buttons to pages and posts. To try the new widgets, open the Elementor editor in your WordPress admin backend and find the "Ecwid Store" section there.
+- Minor fixes and improvements.
+
 = 6.9.7 - May 19, 2020 =
 - Improvements for the integration with the Yoast SEO plugin. There was a minor SEO issue with duplicates of the canonical tag on ecommerce store pages. The issue has been fixed and everything should work fine now.
 - After the last release, the Storefront menu item did not display in the plugin settings in the WP admin. That didn’t affect the store functionality, all the storefront settings and data stayed intact. We fixed the Storefront menu item — you can navigate to the WordPress admin > Ecwid > Storefront and manage your store appearance as usual.

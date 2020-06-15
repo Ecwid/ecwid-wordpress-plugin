@@ -34,11 +34,9 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			return;
 		}
 
-
 		if ($attributes['link'] == 'yes' && !ecwid_is_store_page_available()) {
 			$attributes['link'] = 'no';
 		}
-
 
 		$version = $attributes['version'];
 		if (!in_array($version, array('1', '2'))) {
