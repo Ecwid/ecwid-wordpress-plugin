@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
-Stable tag: 6.10
+Stable tag: 6.10.1
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -154,8 +154,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10 - Jun 08, 2020 =
-- **Integration with the Elementor page builder.** Elementor is one of the most popular page builders. We added Elementor support to Ecwid, so you can add online store functionality to your site pages in Elementor. We added two ecommerce widgets to the Elementor toolbar: the store home page to display the whole storefront and the buy now button to add buy buttons to pages and posts. To try the new widgets, open the Elementor editor in your WordPress admin backend and find the "Ecwid Store" section there.
-- Minor fixes and improvements.
+= 6.10.1 - Jun 15, 2020 =
+- Minor improvements for the store dashboard menu items in the WordPress admin backend.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
