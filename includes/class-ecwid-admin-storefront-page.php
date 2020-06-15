@@ -409,7 +409,8 @@ class Ecwid_Admin_Storefront_Page
 			'elementor/elementor.php',
 			'divi-builder/divi-builder.php',
 			'beaver-builder-lite-version/fl-builder.php',
-			'disable-gutenberg/disable-gutenberg.php'
+			'disable-gutenberg/disable-gutenberg.php',
+			'js_composer/js_composer.php'
 		);
 
 		foreach ( $plugins_disabling_gutenberg as $plugin ) {
