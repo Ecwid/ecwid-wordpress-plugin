@@ -101,19 +101,16 @@
 
             addStaticPageHandlers();
 
-
             function setupAfterEcwidLoaded() {
 
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°, Ñ‚Ð¾ Ð² storeClosed Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ true
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð° Ð¸ Ð¼Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ð»Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ÑƒÑŽ Ð¿Ð»Ð°ÑˆÐºÑƒ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ð¼ ÑÑ‚Ð¾ Ð² Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐµ
+                // если магазин не закрыт для клиента, то в storeClosed не будет true
+                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
                 Ecwid.OnAPILoaded.add(function () {
                     var storeClosed = window.ecwid_initial_data.data.storeClosed;
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
-                    var storeClosedAndWrapperNotExists = storeClosed && storeClosedWrapper.length === 0;
                     var storeNotClosedAndWrapperExists = !storeClosed && storeClosedWrapper.length > 0;
 
-                    if (!isDynamicMode()
-                        && (storeNotClosedAndWrapperExists || storeClosedAndWrapperNotExists)) {
+                    if (!isDynamicMode() && (storeClosed || storeNotClosedAndWrapperExists)) {
                         switchToDynamicMode();
                     }
                 });
@@ -135,7 +132,7 @@
                     }
                 });
 
-                Ecwid.OnPageLoaded.add(function (openedPage) {
+                addOnPageLoadedCallback(function (openedPage) {
                     if (isDynamicMode()) {
                         // if we've already switched to dynamic, we don't need to dispatch this event anymore
                         return;
@@ -158,7 +155,7 @@
                     // other than self we must show opened page in dynamic view,
                     // because static view contains only root category page
                     switchToDynamicMode();
-                });
+                }, 0);
             }
 
             function switchToDynamicWhenReadyWithRetries(retry) {
@@ -243,13 +240,13 @@
 
         addClickHandlers('#' + staticId + ' .grid__sort .grid-sort__item--filter', function (element) {
             addStaticClickEvent(element, function () {
-                Ecwid.OnPageLoaded.add(function () {
+                addOnPageLoadedCallback(function () {
                     if (isDynamicMode()) {
                         return;
                     }
                     switchToDynamicMode();
                     Ecwid.showProductFilters();
-                });
+                }, 0);
             });
         });
 
@@ -346,7 +343,7 @@
         return function (e) {
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
-            Ecwid.OnPageLoaded.add(function () {
+            addOnPageLoadedCallback(function () {
                 if (isDynamicMode()) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
@@ -357,7 +354,24 @@
                 }
                 ecwidPageOpened = true;
                 Ecwid.openPage(page, params);
-            });
+            }, 0);
+        }
+    }
+
+    function addOnPageLoadedCallback(callback, attempt) {
+        if (attempt >= 20) {
+            if (!!console) {
+                console.warn("failed to add Ecwid.OnPageLoaded callback");
+            }
+            return;
+        }
+
+        if (typeof(Ecwid) == 'object' && typeof(Ecwid.OnPageLoaded) == 'object') {
+            Ecwid.OnPageLoaded.add(callback);
+        } else {
+            setTimeout(function () {
+                addOnPageLoadedCallback(callback, attempt + 1);
+            }, 10);
         }
     }
 
