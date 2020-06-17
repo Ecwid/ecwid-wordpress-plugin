@@ -255,10 +255,20 @@
             addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
         });
 
-        addClickHandlers('#' + staticId + ' .grid-product a', function (element) {
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) a', function (element) {
             var productId = element.getAttribute('data-product-id');
             addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
         });
+
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-product--view-all a' , function (element) {
+            var categoryId = element.getAttribute('data-category-id');
+            addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+        })
 
         addClickHandlers('#' + staticId + ' .grid-product__buy-now', function (element) {
             var productId = element.getAttribute('data-product-id');
@@ -353,13 +363,25 @@
                     onClickCallback();
                 }
                 ecwidPageOpened = true;
+                var element = find('#' + staticId + " .ec-wrapper");
+                if (!!element) {
+                    elementsClassListAction([element], function(list) {
+                        list.add("ec-wrapper--transition");
+                    });
+                }
                 Ecwid.openPage(page, params);
             }, 0);
         }
     }
 
     function addOnPageLoadedCallback(callback, attempt) {
-        if (attempt >= 20) {
+        // Иногда при загрузке витрины (статической версии) на странице еще не определен Ecwid.OnPageLoaded.
+        // Надо подождать пока он появится, отложенно отработать клик пользователя (например открыть детали товара).
+        // Время ретраев - 2 секунды. 50 ms * 40 попыток = 2000 ms.
+        // Время выбрано по времени загрузки script.js https://graphweb.ecwid.com:3000/d/000000007/ecwid-performance-metrics
+        // 99 перцентиль иногда поднимается до 1.5 секунд. Сделал небольшой запас
+
+        if (attempt >= 40) {
             if (!!console) {
                 console.warn("failed to add Ecwid.OnPageLoaded callback");
             }
@@ -371,13 +393,15 @@
         } else {
             setTimeout(function () {
                 addOnPageLoadedCallback(callback, attempt + 1);
-            }, 10);
+            }, 50);
         }
     }
 
     function hideStorefront() {
         var dynamicEl = find('#' + dynamicId);
-        dynamicEl.setAttribute("style", dynamicEl.getAttribute("style") + invisibleDynamicContainerStyle);
+        var currentStyleAttribute = dynamicEl.getAttribute("style") || "";
+
+        dynamicEl.setAttribute("style", currentStyleAttribute + invisibleDynamicContainerStyle);
     }
 
     function showStorefront() {
@@ -407,19 +431,50 @@
 
     function switchToDynamicMode() {
         requestAnimationFrame(function () {
+            removeClassAnimationForAutoSwitchToDynamic();
             showStorefront();
             hideStaticHtml();
+
             var staticEl = find('#' + staticId);
             if (staticEl && staticEl.parentNode) {
                 staticEl.parentNode.removeChild(staticEl);
             }
             var switchToDynamicCallback = window.ec.storefront.staticPages.switchToDynamicCallback;
+
+            var element = find('#' + staticId + " .ec-wrapper");
+            if (!!element) {
+                elementsClassListAction([element], function(list) {
+                    list.remove("ec-wrapper--transition");
+                });
+            }
             if (!autoSwitchStaticToDynamicWhenReady && switchToDynamicCallback) {
                 switchToDynamicCallback();
             }
         });
     }
 
+    function removeClassAnimationForAutoSwitchToDynamic() {
+        if (!autoSwitchStaticToDynamicWhenReady) {
+            return;
+        }
+        var wrapers = document.querySelectorAll('.ec-wrapper--animated-transitions');
+        var arrWrapers = Array.prototype.slice.call(wrapers);
+        elementsClassListAction(arrWrapers, function(list) {
+            list.remove('ec-wrapper--animated-transitions');
+        });
+    }
+
+    function elementsClassListAction(elements, callback) {
+        if (!(Array.isArray(elements))) {
+            return;
+        }
+        for (var key in elements) {
+            var list = elements[key].classList;
+            if (typeof list != "undefined") {
+                callback(list);
+            }
+        }
+    }
 
     processStaticHomePage();
 
