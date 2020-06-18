@@ -209,7 +209,11 @@ class Ecwid_Seo_Links {
 			return $config;
 		}
 
-		$url = esc_js( get_permalink( $page_id ) );
+		if ( Ecwid_Ajax_Defer_Renderer::is_enabled() ) {
+			$url = esc_js( Ecwid_Store_Page::get_store_url() );
+		} else {
+			$url = esc_js( get_permalink( $page_id ) );
+		}
 
 
 		if( parse_url($url, PHP_URL_SCHEME) == 'https' && parse_url($url, PHP_URL_PORT) == '443' ) {
