@@ -539,6 +539,11 @@ class Ecwid_Api_V3
 			return $profile;
 		}
 
+		if( !self::get_token() ) {
+			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+			return false;
+		}
+
 		$params = array(
 			'token' => self::get_token()
 		);

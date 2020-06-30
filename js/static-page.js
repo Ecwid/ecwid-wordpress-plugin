@@ -101,19 +101,16 @@
 
             addStaticPageHandlers();
 
-
             function setupAfterEcwidLoaded() {
 
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°, Ñ‚Ð¾ Ð² storeClosed Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ true
-                // ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð° Ð¸ Ð¼Ñ‹ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ð»Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ñ‚ÑƒÑŽ Ð¿Ð»Ð°ÑˆÐºÑƒ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ð¼ ÑÑ‚Ð¾ Ð² Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐµ
+                // если магазин не закрыт для клиента, то в storeClosed не будет true
+                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
                 Ecwid.OnAPILoaded.add(function () {
                     var storeClosed = window.ecwid_initial_data.data.storeClosed;
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
-                    var storeClosedAndWrapperNotExists = storeClosed && storeClosedWrapper.length === 0;
                     var storeNotClosedAndWrapperExists = !storeClosed && storeClosedWrapper.length > 0;
 
-                    if (!isDynamicMode()
-                        && (storeNotClosedAndWrapperExists || storeClosedAndWrapperNotExists)) {
+                    if (!isDynamicMode() && (storeClosed || storeNotClosedAndWrapperExists)) {
                         switchToDynamicMode();
                     }
                 });
@@ -135,7 +132,7 @@
                     }
                 });
 
-                Ecwid.OnPageLoaded.add(function (openedPage) {
+                addOnPageLoadedCallback(function (openedPage) {
                     if (isDynamicMode()) {
                         // if we've already switched to dynamic, we don't need to dispatch this event anymore
                         return;
@@ -158,7 +155,7 @@
                     // other than self we must show opened page in dynamic view,
                     // because static view contains only root category page
                     switchToDynamicMode();
-                });
+                }, 0);
             }
 
             function switchToDynamicWhenReadyWithRetries(retry) {
@@ -243,13 +240,13 @@
 
         addClickHandlers('#' + staticId + ' .grid__sort .grid-sort__item--filter', function (element) {
             addStaticClickEvent(element, function () {
-                Ecwid.OnPageLoaded.add(function () {
+                addOnPageLoadedCallback(function () {
                     if (isDynamicMode()) {
                         return;
                     }
                     switchToDynamicMode();
                     Ecwid.showProductFilters();
-                });
+                }, 0);
             });
         });
 
@@ -258,10 +255,20 @@
             addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
         });
 
-        addClickHandlers('#' + staticId + ' .grid-product a', function (element) {
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) a', function (element) {
             var productId = element.getAttribute('data-product-id');
             addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
         });
+
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-product--view-all a' , function (element) {
+            var categoryId = element.getAttribute('data-category-id');
+            addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+        })
 
         addClickHandlers('#' + staticId + ' .grid-product__buy-now', function (element) {
             var productId = element.getAttribute('data-product-id');
@@ -346,7 +353,7 @@
         return function (e) {
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
-            Ecwid.OnPageLoaded.add(function () {
+            addOnPageLoadedCallback(function () {
                 if (isDynamicMode()) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
@@ -356,14 +363,45 @@
                     onClickCallback();
                 }
                 ecwidPageOpened = true;
+                var element = find('#' + staticId + " .ec-wrapper");
+                if (!!element) {
+                    elementsClassListAction([element], function(list) {
+                        list.add("ec-wrapper--transition");
+                    });
+                }
                 Ecwid.openPage(page, params);
-            });
+            }, 0);
+        }
+    }
+
+    function addOnPageLoadedCallback(callback, attempt) {
+        // Иногда при загрузке витрины (статической версии) на странице еще не определен Ecwid.OnPageLoaded.
+        // Надо подождать пока он появится, отложенно отработать клик пользователя (например открыть детали товара).
+        // Время ретраев - 2 секунды. 50 ms * 40 попыток = 2000 ms.
+        // Время выбрано по времени загрузки script.js https://graphweb.ecwid.com:3000/d/000000007/ecwid-performance-metrics
+        // 99 перцентиль иногда поднимается до 1.5 секунд. Сделал небольшой запас
+
+        if (attempt >= 40) {
+            if (!!console) {
+                console.warn("failed to add Ecwid.OnPageLoaded callback");
+            }
+            return;
+        }
+
+        if (typeof(Ecwid) == 'object' && typeof(Ecwid.OnPageLoaded) == 'object') {
+            Ecwid.OnPageLoaded.add(callback);
+        } else {
+            setTimeout(function () {
+                addOnPageLoadedCallback(callback, attempt + 1);
+            }, 50);
         }
     }
 
     function hideStorefront() {
         var dynamicEl = find('#' + dynamicId);
-        dynamicEl.setAttribute("style", dynamicEl.getAttribute("style") + invisibleDynamicContainerStyle);
+        var currentStyleAttribute = dynamicEl.getAttribute("style") || "";
+
+        dynamicEl.setAttribute("style", currentStyleAttribute + invisibleDynamicContainerStyle);
     }
 
     function showStorefront() {
@@ -393,19 +431,50 @@
 
     function switchToDynamicMode() {
         requestAnimationFrame(function () {
+            removeClassAnimationForAutoSwitchToDynamic();
             showStorefront();
             hideStaticHtml();
+
             var staticEl = find('#' + staticId);
             if (staticEl && staticEl.parentNode) {
                 staticEl.parentNode.removeChild(staticEl);
             }
             var switchToDynamicCallback = window.ec.storefront.staticPages.switchToDynamicCallback;
+
+            var element = find('#' + staticId + " .ec-wrapper");
+            if (!!element) {
+                elementsClassListAction([element], function(list) {
+                    list.remove("ec-wrapper--transition");
+                });
+            }
             if (!autoSwitchStaticToDynamicWhenReady && switchToDynamicCallback) {
                 switchToDynamicCallback();
             }
         });
     }
 
+    function removeClassAnimationForAutoSwitchToDynamic() {
+        if (!autoSwitchStaticToDynamicWhenReady) {
+            return;
+        }
+        var wrapers = document.querySelectorAll('.ec-wrapper--animated-transitions');
+        var arrWrapers = Array.prototype.slice.call(wrapers);
+        elementsClassListAction(arrWrapers, function(list) {
+            list.remove('ec-wrapper--animated-transitions');
+        });
+    }
+
+    function elementsClassListAction(elements, callback) {
+        if (!(Array.isArray(elements))) {
+            return;
+        }
+        for (var key in elements) {
+            var list = elements[key].classList;
+            if (typeof list != "undefined") {
+                callback(list);
+            }
+        }
+    }
 
     processStaticHomePage();
 

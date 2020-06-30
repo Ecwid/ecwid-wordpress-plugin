@@ -21,7 +21,7 @@
 								<div class="cta-block__title"><?php _e( 'Show your store on the home page', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									require __DIR__ . '/draft-message.php';
+									require self::$templates_dir . '/draft-message.php';
 									?>
 
 									<div><?php
@@ -107,7 +107,7 @@
 
 									<div class="cta-block__content">
 										<?php
-										require __DIR__ . '/draft-message.php';
+										require self::$templates_dir . '/draft-message.php';
 										?>
 										<?php
 											_e( 'A slug is the last part of a URL. You can create a custom slug for your store page. It’s better to keep it short since customers and search engines prefer short URLs. For example, use "/shop" or "/products".', 'ecwid-shopping-cart');
@@ -141,7 +141,7 @@
 								<div class="cta-block__title"><?php _e( 'Add store page to the site menu', 'ecwid-shopping-cart'); ?></div>
 								<div class="cta-block__content">
 									<?php
-									require __DIR__ . '/draft-message.php';
+									require self::$templates_dir . '/draft-message.php';
 									?>
 									
 									<div><?php _e( 'Make your store accessible from the site menu so your customers can easily find it.', 'ecwid-shopping-cart'); ?></div>
