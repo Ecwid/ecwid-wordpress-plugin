@@ -38,7 +38,7 @@ class Ecwid_Product_Popup {
 		}
 
 		if (Ecwid_Api_V3::get_token()) {
-            add_action('media_buttons_context', array($this, 'add_editor_button'));
+            add_action('media_buttons', array($this, 'add_editor_button'));
             add_action('admin_enqueue_scripts', array($this, 'add_scripts'));
             add_action('in_admin_header', array($this, 'add_popup'));
         }
@@ -102,7 +102,7 @@ class Ecwid_Product_Popup {
         wp_die();
     }
 
-    public function add_editor_button($context) {
+    public function add_editor_button($editor_id) {
 
         $title = __( 'Add Product', 'ecwid-shopping-cart' );
         $button = <<<HTML
@@ -111,7 +111,7 @@ class Ecwid_Product_Popup {
 	</button>
 HTML;
 
-        return $context . $button;
+        echo $button;
     }
 
     public function add_scripts() {
