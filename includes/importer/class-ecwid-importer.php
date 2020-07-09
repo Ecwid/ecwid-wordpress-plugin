@@ -240,7 +240,7 @@ class Ecwid_Importer
 		$api = new Ecwid_Api_V3();
 		$result = $api->create_batch( $batch );
 
-		if( $result['response']['code'] == '200' ) {
+		if( !is_wp_error($result) && $result['response']['code'] == '200' ) {
 
 			$data = json_decode( $result['body'] );
 			$ticket = $data->ticket;

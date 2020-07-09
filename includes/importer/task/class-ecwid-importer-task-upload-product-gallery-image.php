@@ -41,14 +41,19 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 			return self::_process_api_result( $result, $data );
 		} else {
 
-			$batch_item_id = self::$type . '|' . $this->_ecwid_product_id;
-
 			$file_url = wp_get_attachment_url( $product_data['image_id'] );
+			$file_meta = wp_get_attachment_metadata( $product_data['image_id'] );
+
 			$data = array(
-				'externalUrl' => $file_url
+				'url' => $file_url,
+				'width' => $file_meta['width'],
+				'height' => $file_meta['height']
 			);
 
-			$batch_item = $api->batch_upload_product_gallery_image( $data, $this->_ecwid_product_id, $batch_item_id );
+			$batch_item_id = self::$type . '|' . $this->_ecwid_product_id;
+
+			$batch_item = $api->batch_upload_product_gallery_image_async( $data, $this->_ecwid_product_id, $batch_item_id );
+
 			$exporter->append_batch( $batch_item );
 
 			return $this->_result_success();
