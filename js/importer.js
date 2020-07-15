@@ -5,7 +5,8 @@ jQuery(document).ready(function() {
         'success' : [],
         'error': [],
         'errorMessages': {},
-        'planLimitHit': false
+        'planLimitHit': false,
+        'imagesTotal': 0
     };
 
     switchWooImportState = function( state ) {
@@ -116,6 +117,17 @@ jQuery(document).ready(function() {
             }
 
             jQuery('#import-progress-current').text((status.success.create_category || 0) + (status.success.create_product || 0));
+
+
+            status.imagesTotal += data.imagesProcessed;
+            if( status.imagesTotal > 0 ) {
+                jQuery('[data-ec-importer-process-images]').show();
+                jQuery('#import-images-progress-total').text( status.imagesTotal );
+            }
+
+            var imagesUploaded = (status.success.upload_category_image || 0) + (status.success.upload_product_image || 0) + (status.success.upload_product_gallery_image || 0);
+            jQuery('#import-images-progress-current').text( imagesUploaded );
+
 
             if (data.status == 'complete') {
                 doImportComplete(status);

@@ -59,7 +59,8 @@ class Ecwid_Importer
 		$start = time();
 		
 		$status = get_option( self::OPTION_STATUS, array( 'plan_limit' => array() ) );
-		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks) );
+		$progress = array( 'success' => array(), 'error' => array(), 'total' => count($this->_tasks), 'imagesProcessed' => 0 );
+
 		do {
 			$current_task = $this->_get_current_task();
 			$task_data = $this->_tasks[$current_task];
@@ -71,12 +72,19 @@ class Ecwid_Importer
 				$task = Ecwid_Importer_Task::load_task($task_data['type']);
 				$result = $task->execute($this, $task_data);
 				
+				if( $task instanceof Ecwid_Importer_Task_Upload_Product_Image
+					|| $task instanceof Ecwid_Importer_Task_Upload_Product_Gallery_Image
+					|| $task instanceof Ecwid_Importer_Task_Upload_Category_Image
+				) {
+					++$progress['imagesProcessed'];
+				}
+
 				if ( $result['status'] == 'error' ) {
 					$progress['error'][] = $task_data['type'];
 					
 					$error_data = $result['data'];
 					
-					if ( @$error_data['response']['code'] == 402 ) {
+					if ( !is_wp_error( $error_data ) && @$error_data['response']['code'] == 402 ) {
 						$status['plan_limit'][$task_data['type']] = true;
 					}
 					
@@ -129,7 +137,7 @@ class Ecwid_Importer
 					}
 					
 					$progress['error_messages'][$task_data['type']][$message][] = $error_data;
-				} else {
+				} elseif ( isset($result['status']) ) {
 					$progress['success'][] = $task_data['type'];
 				}
 
@@ -260,7 +268,7 @@ class Ecwid_Importer
 	}
 
 	public static function is_localhost() {
-
+return false;
 		if( get_option( self::OPTIONS_SEPARATE_IMAGE_LOADING, false ) ) {
 			return true;
 		}

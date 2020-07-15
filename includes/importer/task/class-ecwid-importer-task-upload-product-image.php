@@ -49,7 +49,7 @@ class Ecwid_Importer_Task_Upload_Product_Image extends Ecwid_Importer_Task_Produ
 			$batch_item = $api->batch_upload_product_image_async( $data, $this->_ecwid_product_id, $batch_item_id );
 			$exporter->append_batch( $batch_item );
 
-			return $this->_result_success();
+			return $this->_result_nothing();
 		}
 	}
 

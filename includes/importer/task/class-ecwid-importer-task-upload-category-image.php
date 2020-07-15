@@ -47,7 +47,7 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 			$batch_item = $api->batch_upload_category_image_async( $data, $category_id, $batch_item_id );
 			$exporter->append_batch( $batch_item );
 
-			return $this->_result_success();
+			return $this->_result_nothing();
 
 		}
 

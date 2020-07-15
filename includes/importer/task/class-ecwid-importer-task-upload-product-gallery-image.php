@@ -56,7 +56,7 @@ class Ecwid_Importer_Task_Upload_Product_Gallery_Image extends Ecwid_Importer_Ta
 
 			$exporter->append_batch( $batch_item );
 
-			return $this->_result_success();
+			return $this->_result_nothing();
 
 		}
 	}
