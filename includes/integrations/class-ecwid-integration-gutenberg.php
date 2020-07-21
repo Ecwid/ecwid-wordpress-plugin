@@ -9,6 +9,11 @@ class Ecwid_Integration_Gutenberg {
 	
 	public function __construct() {
 
+		$version = get_bloginfo('version');
+		if ( version_compare( $version, '5.0' ) < 0 ) {
+			return;
+		}
+
 		if ( isset( $_GET['classic-editor'] ) ) return;
 		
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );

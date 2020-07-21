@@ -361,6 +361,36 @@ class Ecwid_Product_Browser
 				'is_storefront_api' => true
 			),
 
+			'storefront_view' => array(
+				'name' => 'storefront_view',
+				'title' => __( 'Catalog on one page', 'ecwid-shopping-cart' ),
+				'values' => array(
+					array(
+						'value' => 'COLLAPSE_CATEGORIES',
+						'title' => __( 'Collapse categories', 'ecwid-shopping-cart' ),
+						'config_name' => 'enable_catalog_on_one_page',
+						'config_value' => false
+					),
+					array(
+						'value' => 'EXPAND_CATEGORIES',
+						'title' => __( 'Expand categories', 'ecwid-shopping-cart' ),
+						'config_name' => 'enable_catalog_on_one_page',
+						'config_value' => true
+					),
+					array(
+						'value' => 'SHOW_ROOT_CATEGORIES',
+						'title' => __( 'Only featured products', 'ecwid-shopping-cart' ),
+						'config_name' => 'show_root_categories',
+						'config_value' => false
+					),
+					array(
+						'value' => 'FILTERS_PAGE',
+						'title' => __( 'Products with filter', 'ecwid-shopping-cart' ),
+					)
+				),
+				'default' => 'COLLAPSE_CATEGORIES'
+			),
+
 		);
 
 	}

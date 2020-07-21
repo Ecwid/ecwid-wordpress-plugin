@@ -65,7 +65,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		}
 
 		$result .= ']';
-		
+
 		$config_js = array();
 
 		$attributes = $this->get_attributes_for_editor();
@@ -80,7 +80,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			} 
 			
 			$value = null;
-			
+
 			if ( isset( $params[$name] ) ) {
 				$value = $params[$name];
 			}
@@ -112,7 +112,28 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 					}
 				}
 			}
-			
+
+			if( $name == 'storefront_view' && !$params['default_category_id'] ) {
+
+				if( $value !== 'FILTERS_PAGE' ) {
+					$attribute['type'] = 'boolean';
+					$attribute['is_storefront_api'] = true;
+
+					foreach ($attribute['values'] as $item) {
+						if( $item['value'] == $value ) {
+							$selected_attribute = $item;
+							
+							$name = $selected_attribute['config_name'];
+							$value = $selected_attribute['config_value'];
+
+							break;
+						}
+					}
+				} else {
+					$is_need_open_filter_page = true;
+					$config_js[] = 'window.ec.storefront.show_breadcrumbs=false';
+				}
+			}
 
 			if ( isset($attribute['is_storefront_api']) && $attribute['is_storefront_api'] && strpos( $name, 'chameleon') === false ) {
 
@@ -123,11 +144,11 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				$profile_default = isset( $attribute['profile_default'] ) 
 					? $attribute['profile_default'] 
 					: $attribute['default'];
-				$is_profile_default = $profile_default == $value;
-				
+				$is_profile_default = $profile_default === $value;
+
 				if ( !$is_profile_default ) {
 					if ( @$attribute['type'] == 'boolean') {
-						$config_js[] = 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";";
+						$config_js[] = 'window.ec.storefront.' . $name . "=" . ( $value === true ? 'true' : 'false' ) . ";";
 					} else {
 						$config_js[] = 'window.ec.storefront.' . $name . "='" . $value . "';";
 					}
@@ -183,6 +204,10 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			
 			$result .= $chameleon_config_js;
 			$result .= '</script>' . PHP_EOL;
+		}
+
+		if( isset($is_need_open_filter_page) && class_exists('Ecwid_Gutenberg_Block_Filters_Page') ) {
+			$result .= Ecwid_Gutenberg_Block_Filters_Page::get_script_for_open_filters_page();
 		}
 
 		return $result;
