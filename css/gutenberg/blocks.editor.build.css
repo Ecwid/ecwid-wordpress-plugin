@@ -8,3 +8,6 @@
 .ec-store-block-product-page .image{background:url("../../images/gutenberg/product-page-preview.png") 50% 50% no-repeat;background-size:216px 140px;position:absolute;left:0;top:0;right:0;bottom:0}.ec-store-block-product-page .image.no-product{bottom:45px}.ec-store-block-product-page .button-container{position:absolute;bottom:20px}
 .ec-store-block-filters-page{min-height:330px}.ec-store-block-filters-page .image{background:url("../../images/gutenberg/filter-preview.png") 50% 50% no-repeat;background-size:432px 280px;position:absolute;left:0;top:0;right:0;bottom:0}
 .ec-store-block-cart-page .image{background:url("../../images/gutenberg/cart-page-preview.png") 50% 50% no-repeat;background-size:216px 80px;position:absolute;left:0;top:0;right:0;bottom:0}
+
+.ec-store-radio-button span { font-weight: 600; }
+.ec-store-radio-button p { margin-left: 28px; }

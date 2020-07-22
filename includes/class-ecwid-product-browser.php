@@ -368,25 +368,36 @@ class Ecwid_Product_Browser
 					array(
 						'value' => 'COLLAPSE_CATEGORIES',
 						'title' => __( 'Collapse categories', 'ecwid-shopping-cart' ),
+						'description' => __('Display products from root categories on respective category pages only.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => false
 					),
 					array(
 						'value' => 'EXPAND_CATEGORIES',
 						'title' => __( 'Expand categories', 'ecwid-shopping-cart' ),
+						'description' => __('Unfold root categories and display products these categories contain right on the store’s front page.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => true
 					),
 					array(
 						'value' => 'SHOW_ROOT_CATEGORIES',
 						'title' => __( 'Only featured products', 'ecwid-shopping-cart' ),
+						'description' => __('Hide the block with root categories on the main page.', 'ecwid-shopping-cart'),
 						'config_name' => 'show_root_categories',
 						'config_value' => false
 					),
 					array(
 						'value' => 'FILTERS_PAGE',
 						'title' => __( 'Product Search and filters', 'ecwid-shopping-cart' ),
-					)
+						'description' => __('Display search page with filters on a side.', 'ecwid-shopping-cart'),
+					),
+					array( //добавить проверку на наличие категорий
+						'value' => 'CATEGORY_PAGE',
+						'title' => __( 'Show category', 'ecwid-shopping-cart' ),
+						'description' => __('Display the category of the first level.', 'ecwid-shopping-cart'),
+						'config_name' => 'default_category_id',
+						'config_value' => '0'
+					),
 				),
 				'default' => 'COLLAPSE_CATEGORIES'
 			),
