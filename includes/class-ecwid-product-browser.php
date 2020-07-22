@@ -363,7 +363,7 @@ class Ecwid_Product_Browser
 
 			'storefront_view' => array(
 				'name' => 'storefront_view',
-				'title' => __( 'Catalog on one page', 'ecwid-shopping-cart' ),
+				'title' => __( 'Storefront view', 'ecwid-shopping-cart' ),
 				'values' => array(
 					array(
 						'value' => 'COLLAPSE_CATEGORIES',
@@ -385,7 +385,7 @@ class Ecwid_Product_Browser
 					),
 					array(
 						'value' => 'FILTERS_PAGE',
-						'title' => __( 'Products with filter', 'ecwid-shopping-cart' ),
+						'title' => __( 'Product Search and filters', 'ecwid-shopping-cart' ),
 					)
 				),
 				'default' => 'COLLAPSE_CATEGORIES'

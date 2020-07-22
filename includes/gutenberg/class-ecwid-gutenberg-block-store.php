@@ -29,8 +29,17 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 					'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
 					),
 					Ecwid_Config::get_brand()
-				)
-
+				),
+			'customizeStorefrontViewText' => 
+				implode(
+					'<br>',
+					array(
+						__('<b>Collapse categories</b> &mdash; display products from root categories on respective category pages only.', 'ecwid-shopping-cart'),
+						__('<b>Expand categories</b> &mdash; unfold root categories and display products these categories contain right on the store’s front page.', 'ecwid-shopping-cart'),
+						__('<b>Only featured products</b> &mdash; hide the block with root categories on the main page.', 'ecwid-shopping-cart'),
+						__('<b>Product Search and filters</b> &mdash; display search page with filters on a side.', 'ecwid-shopping-cart'),
+					)
+				),
 		);
 		
 		$params = array_merge(
