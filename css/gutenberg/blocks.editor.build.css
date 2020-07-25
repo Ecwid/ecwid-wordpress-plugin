@@ -9,5 +9,8 @@
 .ec-store-block-filters-page{min-height:330px}.ec-store-block-filters-page .image{background:url("../../images/gutenberg/filter-preview.png") 50% 50% no-repeat;background-size:432px 280px;position:absolute;left:0;top:0;right:0;bottom:0}
 .ec-store-block-cart-page .image{background:url("../../images/gutenberg/cart-page-preview.png") 50% 50% no-repeat;background-size:216px 80px;position:absolute;left:0;top:0;right:0;bottom:0}
 
-.ec-store-radio-button span { font-weight: 600; }
-.ec-store-radio-button p { margin-left: 28px; }
+.ec-store-inspector-radio .components-radio-control__option,
+.ec-store-inspector-radio .components-radio-control__option input,
+.ec-store-inspector-radio .components-radio-control__option label { display: flex; }
+.ec-store-inspector-radio .components-radio-control__option label { margin-top: -2px; }
+.ec-store-inspector-radio__title { font-weight: 600; }

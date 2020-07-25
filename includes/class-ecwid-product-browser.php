@@ -199,7 +199,8 @@ class Ecwid_Product_Browser
 
 			'default_category_id' => array(
 				'name' => 'default_category_id',
-				'title' => __( 'Default category ID', 'ecwid-shopping-cart' ),
+				// 'title' => __( 'Choose default category', 'ecwid-shopping-cart' ),
+				'title' => '',
 				'type' => 'default_category_id',
 				'default' => 0
 			),
@@ -363,18 +364,18 @@ class Ecwid_Product_Browser
 
 			'storefront_view' => array(
 				'name' => 'storefront_view',
-				'title' => __( 'Storefront view', 'ecwid-shopping-cart' ),
+				'title' => '',
 				'values' => array(
 					array(
 						'value' => 'COLLAPSE_CATEGORIES',
-						'title' => __( 'Collapse categories', 'ecwid-shopping-cart' ),
-						'description' => __('Display products from root categories on respective category pages only.', 'ecwid-shopping-cart'),
+						'title' => __( 'Category list and featured products', 'ecwid-shopping-cart' ),
+						'description' => __('Display categories list of the first level and featured products.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => false
 					),
 					array(
 						'value' => 'EXPAND_CATEGORIES',
-						'title' => __( 'Expand categories', 'ecwid-shopping-cart' ),
+						'title' => __( 'Expand categories (Menu Mode)', 'ecwid-shopping-cart' ),
 						'description' => __('Unfold root categories and display products these categories contain right on the store’s front page.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => true
@@ -388,15 +389,15 @@ class Ecwid_Product_Browser
 					),
 					array(
 						'value' => 'FILTERS_PAGE',
-						'title' => __( 'Product Search and filters', 'ecwid-shopping-cart' ),
+						'title' => __( 'All products with search/filters', 'ecwid-shopping-cart' ),
 						'description' => __('Display search page with filters on a side.', 'ecwid-shopping-cart'),
 					),
-					array( //добавить проверку на наличие категорий
-						'value' => 'CATEGORY_PAGE',
-						'title' => __( 'Show category', 'ecwid-shopping-cart' ),
-						'description' => __('Display the category of the first level.', 'ecwid-shopping-cart'),
-						'config_name' => 'default_category_id',
-						'config_value' => '0'
+					array(
+						'value' => 'DEFAULT_CATEGORY_ID',
+						'title' => __( 'Specific category page', 'ecwid-shopping-cart' ), // Collapse categories
+						'description' => __('Category page displayed to first-time visitors.', 'ecwid-shopping-cart'),
+						'config_name' => '',
+						'config_value' => false
 					),
 				),
 				'default' => 'COLLAPSE_CATEGORIES'
