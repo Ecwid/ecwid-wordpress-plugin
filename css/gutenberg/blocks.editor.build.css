@@ -14,3 +14,9 @@
 .ec-store-inspector-radio .components-radio-control__option label { display: flex; }
 .ec-store-inspector-radio .components-radio-control__option label { margin-top: -2px; }
 .ec-store-inspector-radio__title { font-weight: 600; }
+
+.ec-store-categories { background-size: contain; }
+.ec-store-categories-category1{ background:url("../../images/gutenberg/categories1.png") }
+.ec-store-categories-category2{ background:url("../../images/gutenberg/categories2.png") }
+.ec-store-categories-category3{ background:url("../../images/gutenberg/categories3.png") }
+.ec-store-categories-category4{ background:url("../../images/gutenberg/categories4.png") }

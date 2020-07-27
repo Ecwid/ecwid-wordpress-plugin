@@ -199,7 +199,6 @@ class Ecwid_Product_Browser
 
 			'default_category_id' => array(
 				'name' => 'default_category_id',
-				// 'title' => __( 'Choose default category', 'ecwid-shopping-cart' ),
 				'title' => '',
 				'type' => 'default_category_id',
 				'default' => 0

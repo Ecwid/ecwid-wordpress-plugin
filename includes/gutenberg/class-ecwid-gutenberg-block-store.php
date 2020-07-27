@@ -266,12 +266,12 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$categories = ecwid_get_categories_for_selector();
 
 		if ( $categories ) {
-			// $attributes['default_category_id']['values'] = array(
-			// 	array(
-			// 		'value' => '0',
-			// 		'title' => __( 'Store root category', 'ecwid-shopping-cart' )
-			// 	)
-			// );
+			$attributes['default_category_id']['values'] = array(
+				array(
+					'value' => '0',
+					'title' => __( 'Store root category', 'ecwid-shopping-cart' )
+				)
+			);
 			foreach ( $categories as $category ) {
 				$attributes['default_category_id']['values'][] = array(
 					'value' => $category->id,
