@@ -246,6 +246,10 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				$default = $settings->$name;
 			}
 
+			if( $name == 'storefront_view' && $settings->enable_catalog_on_one_page ) {
+				$default = 'EXPAND_CATEGORIES';
+			}
+
 			$prop_to_default_exceptions = array(
 				'product_list_category_image_aspect_ratio' => 'product_list_image_aspect_ratio',
 				'product_list_category_image_size'         => 'product_list_image_size'
