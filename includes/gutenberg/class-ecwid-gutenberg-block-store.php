@@ -246,7 +246,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				$default = $settings->$name;
 			}
 
-			if( $name == 'storefront_view' && $settings->enable_catalog_on_one_page ) {
+			if( $name == 'storefront_view' && isset($settings->enable_catalog_on_one_page) && $settings->enable_catalog_on_one_page ) {
 				$default = 'EXPAND_CATEGORIES';
 			}
 
