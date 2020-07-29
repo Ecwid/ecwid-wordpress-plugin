@@ -623,6 +623,21 @@ class Ecwid_Api_V3
 
 		return false;
 	}
+
+	public function is_store_feature_available( $feature_name ) {
+		$profile = $this->get_store_profile();
+
+		if( $profile
+			&& property_exists( $profile, 'account')
+			&& property_exists( $profile->account, 'availableFeatures' )
+			&& is_array( $profile->account->availableFeatures )
+			&& in_array( $feature_name, $profile->account->availableFeatures )
+		) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public function create_store()
 	{

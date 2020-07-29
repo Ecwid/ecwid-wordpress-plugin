@@ -4,7 +4,7 @@ class Ecwid_Product_Browser
 {
 	public static function get_attributes()
 	{
-		return array(   
+		$attributes = array(   
 			'product_list_show_product_images' => array(
 				'name' => 'product_list_show_product_images',
 				'title' => __( 'Show product thumbnails', 'ecwid-shopping-cart' ),
@@ -363,38 +363,33 @@ class Ecwid_Product_Browser
 
 			'storefront_view' => array(
 				'name' => 'storefront_view',
-				'title' => '',
+				'title' => __('What to display on the store front page:', 'ecwid-shopping-cart'),
 				'values' => array(
 					array(
 						'value' => 'COLLAPSE_CATEGORIES',
-						'title' => __( 'Category list and featured products', 'ecwid-shopping-cart' ),
-						'description' => __('Display categories list of the first level and featured products.', 'ecwid-shopping-cart'),
+						'title' => __( 'Categories list and featured products', 'ecwid-shopping-cart' ),
+						'description' => __('Display root categories and featured products. Good for showing all categories and highlighting some products. Recommended for most stores.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => false
 					),
 					array(
 						'value' => 'EXPAND_CATEGORIES',
-						'title' => __( 'Expand categories (Menu Mode)', 'ecwid-shopping-cart' ),
-						'description' => __('Unfold root categories and display products these categories contain right on the store’s front page.', 'ecwid-shopping-cart'),
+						'title' => __( 'Expanded categories', 'ecwid-shopping-cart' ),
+						'description' => __('Display all categories along with their products. Good for restaurants and shops with a fewer number of products.', 'ecwid-shopping-cart'),
 						'config_name' => 'enable_catalog_on_one_page',
 						'config_value' => true
 					),
 					array(
 						'value' => 'SHOW_ROOT_CATEGORIES',
 						'title' => __( 'Only featured products', 'ecwid-shopping-cart' ),
-						'description' => __('Hide the block with root categories on the main page.', 'ecwid-shopping-cart'),
+						'description' => __('Display featured products without categories list. Good when categories are already shown in the site menu.', 'ecwid-shopping-cart'),
 						'config_name' => 'show_root_categories',
 						'config_value' => false
 					),
 					array(
-						'value' => 'FILTERS_PAGE',
-						'title' => __( 'All products with search/filters', 'ecwid-shopping-cart' ),
-						'description' => __('Display search page with filters on a side.', 'ecwid-shopping-cart'),
-					),
-					array(
 						'value' => 'DEFAULT_CATEGORY_ID',
-						'title' => __( 'Specific category page', 'ecwid-shopping-cart' ), // Collapse categories
-						'description' => __('Category page displayed to first-time visitors.', 'ecwid-shopping-cart'),
+						'title' => __( 'Category page', 'ecwid-shopping-cart' ),
+						'description' => __('Display a category page. Good for featuring a certain category, for example new products or bestsellers.', 'ecwid-shopping-cart'),
 						'config_name' => '',
 						'config_value' => false
 					),
@@ -403,6 +398,18 @@ class Ecwid_Product_Browser
 			),
 
 		);
+
+		$api = new Ecwid_Api_V3();
+
+		if( $api->is_store_feature_available(Ecwid_Api_V3::FEATURE_PRODUCT_FILTERS) ) {
+			$attributes['storefront_view']['values'][] = array(
+				'value' => 'FILTERS_PAGE',
+				'title' => __( 'All products with filters', 'ecwid-shopping-cart' ),
+				'description' => __('Display all products and product filters. Good for a large product catalog with similar products.', 'ecwid-shopping-cart'),
+			);
+		}
+
+		return $attributes;
 
 	}
 	

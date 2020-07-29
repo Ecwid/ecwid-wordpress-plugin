@@ -3071,13 +3071,7 @@ function ecwid_is_paid_account()
 
 		$profile = $api->get_store_profile();
 
-		return $profile
-		       && property_exists( $profile, 'account')
-		       && property_exists( $profile->account, 'availableFeatures' )
-		       && is_array( $profile->account->availableFeatures )
-		       && in_array(
-			       'PREMIUM', $profile->account->availableFeatures
-		       );
+		return $api->is_store_feature_available('PREMIUM');
 	}
 	return false;
 }
