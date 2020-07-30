@@ -30,7 +30,7 @@ class Ecwid_Store_Editor {
 		}		
 		
 		add_filter( 'mce_external_plugins',  array( $this, 'add_mce_plugin' ) );
-		add_action( 'media_buttons_context', array( $this, 'add_editor_button' ) );
+		add_action( 'media_buttons', array( $this, 'add_editor_button' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'in_admin_header',       array( $this, 'add_popup' ) );
 	}
@@ -45,7 +45,7 @@ class Ecwid_Store_Editor {
 		return array_merge($plugins, $plugins_array);
 	}
 
-	public function add_editor_button($context) {
+	public function add_editor_button($editor_id) {
 
 		$image_code = file_get_contents( ECWID_PLUGIN_DIR . 'images/store.svg' );
 
@@ -65,7 +65,7 @@ HTML;
 	</button>
 HTML;
 
-		return $context . $button;
+		echo $button;
 	}
 
 	public function add_scripts() {

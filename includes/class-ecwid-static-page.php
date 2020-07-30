@@ -118,6 +118,20 @@ class Ecwid_Static_Page {
 
 		$params['lang'] = $accept_language;
 
+
+		$storefront_view_params = array( 'show_root_categories', 'enable_catalog_on_one_page' );
+		foreach ($storefront_view_params as $param) {
+			if( isset( $store_page_params[$param] ) ) {
+				$pb_attribures[$param] = array(
+					'name' => $param,
+					'is_storefront_api' => true,
+					'type' => true
+				);
+			}
+		}
+		unset( $pb_attribures['storefront_view'] );
+
+
 		foreach ( $pb_attribures as $attribute ) {
 			$name = $attribute['name'];
 			if ( @$attribute['is_storefront_api'] && isset( $store_page_params[$name] ) ) {
@@ -293,7 +307,11 @@ class Ecwid_Static_Page {
 		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
-		if ( @$store_page_params['default_product_id'] ) {
+		if ( isset($store_page_params['default_product_id']) && $store_page_params['default_product_id'] > 0 ) {
+			return false;
+		}
+
+		if( isset($store_page_params['enable_catalog_on_one_page']) && $store_page_params['enable_catalog_on_one_page'] ) {
 			return false;
 		}
 

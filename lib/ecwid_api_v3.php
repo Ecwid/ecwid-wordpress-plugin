@@ -623,6 +623,21 @@ class Ecwid_Api_V3
 
 		return false;
 	}
+
+	public function is_store_feature_available( $feature_name ) {
+		$profile = $this->get_store_profile();
+
+		if( $profile
+			&& property_exists( $profile, 'account')
+			&& property_exists( $profile->account, 'availableFeatures' )
+			&& is_array( $profile->account->availableFeatures )
+			&& in_array( $feature_name, $profile->account->availableFeatures )
+		) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public function create_store()
 	{
@@ -1080,35 +1095,35 @@ class Ecwid_Api_V3
 		);
 	}
 
-	public function batch_upload_category_image( $params, $category_id, $batch_id = false ) {
-		$url = $this->build_request_url('/categories/' . $product_id . '/image', $params);
+	public function batch_upload_category_image_async( $params, $category_id, $batch_id = false ) {
+		$url = $this->build_request_url('/categories/' . $category_id . '/image/async', array());
 
 		return $this->compose_batch_item(
 			$url,
 			'POST',
-			false,
+			$params,
 			$batch_id
 		);
 	}
 
-	public function batch_upload_product_image( $params, $product_id, $batch_id = false ) {
-		$url = $this->build_request_url('/products/' . $product_id . '/image', $params);
+	public function batch_upload_product_image_async( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/image/async', array());
 
 		return $this->compose_batch_item(
 			$url,
 			'POST',
-			false,
+			$params,
 			$batch_id
 		);
 	}
 
-	public function batch_upload_product_gallery_image( $params, $product_id, $batch_id = false ) {
-		$url = $this->build_request_url('/products/' . $product_id . '/gallery', $params);
+	public function batch_upload_product_gallery_image_async( $params, $product_id, $batch_id = false ) {
+		$url = $this->build_request_url('/products/' . $product_id . '/gallery/async', array());
 
 		return $this->compose_batch_item(
 			$url,
 			'POST',
-			false,
+			$params,
 			$batch_id
 		);
 	}

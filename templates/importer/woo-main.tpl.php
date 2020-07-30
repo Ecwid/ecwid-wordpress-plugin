@@ -64,6 +64,16 @@
 											            '<span id="import-progress-total">' . (Ecwid_Importer::count_woo_products() + Ecwid_Importer::count_woo_categories()) . '</span>' ); 
 														?>
 													</div>
+
+													<div class="canonical-status__text" data-ec-importer-process-images style="display: none;">
+														<?php _e( 'Copying images.', 'ecwid-shopping-cart' ); ?>
+														<?php echo sprintf( 
+											            __( 'Importing %s of %s items', 'ecwid-shopping-cart' ), 
+											            '<span id="import-images-progress-current">0</span>', 
+											            '<span id="import-images-progress-total">0</span>' ); 
+														?>
+													</div>
+
 													<div class="canonical-status__icon">
 														<span>
 															<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28"

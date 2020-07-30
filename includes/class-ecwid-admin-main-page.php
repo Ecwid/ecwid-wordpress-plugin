@@ -9,6 +9,7 @@ class Ecwid_Admin_Main_Page
 	const PAGE_HASH_ORDERS = 'orders';
 	const PAGE_HASH_MOBILE = 'mobile';
 	const PAGE_HASH_UPGRADE = 'billing:feature=sso&plan=ecwid_venture';
+	const PAGE_HASH_COMPLETE_REGISTRATION = 'complete-registration';
 	
 	public function do_page()
 	{
@@ -115,7 +116,7 @@ class Ecwid_Admin_Main_Page
 			update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
 		}
 
-		if ( $page == self::PAGE_HASH_DASHBOARD ) {
+		if ( $page == self::PAGE_HASH_DASHBOARD || $page == self::PAGE_HASH_COMPLETE_REGISTRATION ) {
 			$show_reconnect = true;
 		}
 

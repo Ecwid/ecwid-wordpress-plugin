@@ -14,6 +14,6 @@
     display: none;
 }
 
-[data-ec-importer-state="default"] {
+[data-ec-importer-state="default"], .canonical-status .canonical-status__text[data-ec-importer-process-images] {
     display: block;
 }

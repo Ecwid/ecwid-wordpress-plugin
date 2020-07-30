@@ -41,7 +41,13 @@ class Ecwid_Gutenberg_Block_Filters_Page extends Ecwid_Gutenberg_Block_Store {
 		
 		$result = parent::render_callback( $params );
 		
-		$result .= <<<HTML
+		$result .= self::get_script_for_open_filters_page();
+
+		return $result;
+	}
+
+	public static function get_script_for_open_filters_page() {
+		return <<<HTML
 <script>
 Ecwid.OnAPILoaded.add(function() {
     Ecwid.OnPageLoad.add(function(page) {
@@ -52,8 +58,6 @@ Ecwid.OnAPILoaded.add(function() {
 });
 </script>
 HTML;
-
-		return $result;
 	}
 	
 }

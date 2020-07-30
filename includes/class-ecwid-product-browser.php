@@ -4,7 +4,7 @@ class Ecwid_Product_Browser
 {
 	public static function get_attributes()
 	{
-		return array(   
+		$attributes = array(   
 			'product_list_show_product_images' => array(
 				'name' => 'product_list_show_product_images',
 				'title' => __( 'Show product thumbnails', 'ecwid-shopping-cart' ),
@@ -199,7 +199,7 @@ class Ecwid_Product_Browser
 
 			'default_category_id' => array(
 				'name' => 'default_category_id',
-				'title' => __( 'Default category ID', 'ecwid-shopping-cart' ),
+				'title' => '',
 				'type' => 'default_category_id',
 				'default' => 0
 			),
@@ -361,7 +361,55 @@ class Ecwid_Product_Browser
 				'is_storefront_api' => true
 			),
 
+			'storefront_view' => array(
+				'name' => 'storefront_view',
+				'title' => __('What to display on the store front page:', 'ecwid-shopping-cart'),
+				'values' => array(
+					array(
+						'value' => 'COLLAPSE_CATEGORIES',
+						'title' => __( 'Categories list and featured products', 'ecwid-shopping-cart' ),
+						'description' => __('Display root categories and featured products. Good for showing all categories and highlighting some products. Recommended for most stores.', 'ecwid-shopping-cart'),
+						'config_name' => 'enable_catalog_on_one_page',
+						'config_value' => false
+					),
+					array(
+						'value' => 'EXPAND_CATEGORIES',
+						'title' => __( 'Expanded categories', 'ecwid-shopping-cart' ),
+						'description' => __('Display all categories along with their products. Good for restaurants and shops with a fewer number of products.', 'ecwid-shopping-cart'),
+						'config_name' => 'enable_catalog_on_one_page',
+						'config_value' => true
+					),
+					array(
+						'value' => 'SHOW_ROOT_CATEGORIES',
+						'title' => __( 'Only featured products', 'ecwid-shopping-cart' ),
+						'description' => __('Display featured products without categories list. Good when categories are already shown in the site menu.', 'ecwid-shopping-cart'),
+						'config_name' => 'show_root_categories',
+						'config_value' => false
+					),
+					array(
+						'value' => 'DEFAULT_CATEGORY_ID',
+						'title' => __( 'Category page', 'ecwid-shopping-cart' ),
+						'description' => __('Display a category page. Good for featuring a certain category, for example new products or bestsellers.', 'ecwid-shopping-cart'),
+						'config_name' => '',
+						'config_value' => false
+					),
+				),
+				'default' => 'COLLAPSE_CATEGORIES'
+			),
+
 		);
+
+		$api = new Ecwid_Api_V3();
+
+		if( $api->is_store_feature_available(Ecwid_Api_V3::FEATURE_PRODUCT_FILTERS) ) {
+			$attributes['storefront_view']['values'][] = array(
+				'value' => 'FILTERS_PAGE',
+				'title' => __( 'All products with filters', 'ecwid-shopping-cart' ),
+				'description' => __('Display all products and product filters. Good for a large product catalog with similar products.', 'ecwid-shopping-cart'),
+			);
+		}
+
+		return $attributes;
 
 	}
 	

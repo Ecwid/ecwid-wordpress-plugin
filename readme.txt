@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.4
-Stable tag: 6.10.2
+Stable tag: 6.10.3
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -154,8 +154,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10.2 - Jun 30, 2020 =
-- Fixed a PHP error message ("Failed opening required") for PHP version 5.2 in WordPress admin panel. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
+= 6.10.3 - Jul 30, 2020 =
+- **New Store Front Page display mode switch.** Now you can easily change what is displayed on the store home page. Categories list and featured products, Expanded categories, Only featured products, All products with filters or Specific Category Page. Choose what works best for your ecommerce site. The new setting is available in the Gutenberg editor: Choose the Ecwid “Store Home Page” block and see the “Store Front Page” settings section on the right.
+- **Improvements for the "Import from WooCommerce" tool.** If you import your products from WooCommerce to Ecwid, the import should work faster now. We made the import of product images faster, which is especially important for a large catalog import.
 - Minor fixes and improvements.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)

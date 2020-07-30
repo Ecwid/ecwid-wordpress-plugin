@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
         			jQuery('.ec-create-store-success-note').show();
 					
 					setTimeout(function() {
-						location.href="admin.php?page=ec-store";
+						location.href="admin.php?page=ec-store&ec-store-page=complete-registration";
 					}, 1000);
 				},
 				error: function(error) {

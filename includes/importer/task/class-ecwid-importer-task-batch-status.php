@@ -133,6 +133,11 @@ class Ecwid_Importer_Task_Batch_Status extends Ecwid_Importer_Task_Product_Base
 
 				}
 
+				$images_tasks = array( 'upload_category_image', 'upload_product_image', 'upload_product_gallery_image' );
+				if( in_array( $type, $images_tasks ) ) {
+					$exporter->_batch_progress['success'][] = $type;
+				}
+
 			}
 		}
 

@@ -33,17 +33,21 @@ class Ecwid_Importer_Task_Upload_Category_Image extends Ecwid_Importer_Task
 			$result = $api->upload_category_image( $data );
 		} else {
 
-			$batch_item_id = self::$type . '|' . $category_id;
-
 			$file_url = wp_get_attachment_url( $thumbnail_id );
+			$file_meta = wp_get_attachment_metadata( $thumbnail_id );
+
 			$data = array(
-				'externalUrl' => $file_url
+				'url' => $file_url,
+				'width' => $file_meta['width'],
+				'height' => $file_meta['height']
 			);
 
-			$batch_item = $api->batch_upload_category_image( $data, $category_id, $batch_item_id );
+			$batch_item_id = self::$type . '|' . $category_id;
+
+			$batch_item = $api->batch_upload_category_image_async( $data, $category_id, $batch_item_id );
 			$exporter->append_batch( $batch_item );
 
-			return $this->_result_success();
+			return $this->_result_nothing();
 
 		}
 
