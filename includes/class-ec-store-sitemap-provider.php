@@ -1,7 +1,7 @@
 <?php
 
 
-class Ec_Store_Sitemap extends WP_Sitemaps_Provider {
+class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 
 	public function __construct() {
 		$this->name        = 'ecstore';
@@ -41,6 +41,6 @@ class Ec_Store_Sitemap extends WP_Sitemaps_Provider {
 	}
 }
 
-add_filter( 'init', 'Ec_Store_Sitemap::init' );
+add_filter( 'init', 'Ec_Store_Sitemap_Provider::init' );
 
 ?>

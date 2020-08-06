@@ -166,7 +166,7 @@ if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 
 }
 
 if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0 ) {
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap.php';
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
