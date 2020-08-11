@@ -33,7 +33,7 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 			'priority' => $priority
 		);
 		
-		if( $obj->updated ) {
+		if( isset($obj->updated) ) {
 			$sitemap_entry['lastmod'] = $obj->updated;
 		}
 
