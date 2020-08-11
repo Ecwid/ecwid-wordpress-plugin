@@ -36,8 +36,7 @@ class Ecwid_Integration_Rank_Math
 
 	public function filter_meta_tags() {
 		if ( Ecwid_Store_Page::is_store_page() ) {
-			$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-			$is_home_page = empty( $html_catalog_params );
+			$is_home_page = Ecwid_Store_Page::is_store_home_page();
 			
 			if( !$is_home_page ) {
 				remove_all_actions( 'rank_math/head' );

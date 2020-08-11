@@ -296,8 +296,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-		$is_home_page = empty( $html_catalog_params );
+		$is_home_page = Ecwid_Store_Page::is_store_home_page();
 		if( !$is_home_page ) {
 			return false;
 		}

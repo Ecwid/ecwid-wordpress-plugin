@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.3
+Version: 6.10.4
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -163,6 +163,10 @@ if (version_compare($version, '4.0') >= 0) {
 
 if ( strpos( $version, '5.0' )  === 0 || version_compare( $version, '5.0' ) > 0 ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/gutenberg/class-ecwid-gutenberg.php';
+}
+
+if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0 ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
@@ -2282,6 +2286,7 @@ function ecwid_get_iframe_src($time, $page)
 		}
 
 		$url .= '&hide_staff_accounts_header_menu=true';
+		$url .= '&hide_header=true';
 		$url .= '&set_dashboard_website_section_type=wordpress';
 		$url .= '&website_manage_url=' . admin_url( 'admin.php?page=ec-storefront-settings' );
 

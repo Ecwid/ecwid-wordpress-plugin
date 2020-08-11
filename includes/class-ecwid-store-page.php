@@ -219,6 +219,17 @@ class Ecwid_Store_Page {
 		return false;
 	}
 
+	public static function is_store_home_page() {
+		if( !self::is_store_page() ) {
+			return false;
+		}
+		
+		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+		$is_home_page = empty( $html_catalog_params );
+
+		return $is_home_page;
+	}
+
 	public static function add_store_page( $page_id = 0 ) {
 
 		$pages = self::get_store_pages_array();
