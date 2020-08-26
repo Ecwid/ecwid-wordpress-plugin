@@ -534,6 +534,19 @@ class EcwidPlatform {
 		$time = is_null( $time ) ? time() : $time;
 		EcwidPlatform::set( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM, $time );
 	}
+
+	public static function clear_all_transients() {
+	    global $wpdb;
+
+	    $sql = "
+	        DELETE 
+	        FROM {$wpdb->options}
+	        WHERE option_name like '\_transient\_ecwid\_%'
+	        OR option_name like '\_transient\_timeout\_ecwid\_%'
+	    ";
+
+	    $wpdb->query($sql);
+	}
 }
 
 add_filter('http_api_transports', array('EcwidPlatform', 'http_api_transports'));
