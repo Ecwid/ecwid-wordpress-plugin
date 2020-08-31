@@ -155,7 +155,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 == Changelog == 
 
 = 6.10.5 - Aug 27, 2020 =
-- **Fixes for the Open Graph title tag (og:title and twitter:title tags).** When you share a page from your ecommerce site on Facebook or in a messenger, you should see the product title, description and image in the sharing preview snippet. 
-- Improvements for plugin caching.
+- **Fixes for the Open Graph title tags (og:title and twitter:title tags).** When you shared a link to a page of your store in social networks, the link preview could have a wrong title, we fixed it.
+- **Improved automatic cleanup of the plugin cache.** The Ecwid plugin stores your products data on cloud servers, so the plugin shouldn't take a lot of space on your site server. However some users observed a database table overflow with the plugin cache. That happens in rare cases when the plugin data is not cleaned up properly by Wordpress. We improved automatic cleanup of the plugin cache. The problem should be solved now.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)

@@ -262,8 +262,8 @@ class Ecwid_Static_Page {
 	public static function get_og_tags_html() {
 		$og_tags_html = self::_get_data_field( 'ogTagsHtml' );
 
-		$wp_title = apply_filters( 'wp_title', '', 10001, 3 );
 		$ec_title = self::get_title();
+		$wp_title = wp_get_document_title();
 
 		if( $og_tags_html && $wp_title && $ec_title ) {
 			$og_tags_html = str_replace( "content=\"$ec_title\"", "content=\"$wp_title\"", $og_tags_html);
