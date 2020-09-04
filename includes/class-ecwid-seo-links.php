@@ -109,7 +109,7 @@ class Ecwid_Seo_Links {
 				$redirect = Ecwid_Store_Page::get_category_url( $params['id'] );
 			}
 
-			if ($redirect) {
+			if( isset($redirect) ) {
 				wp_safe_redirect( $redirect, 301 );
 				exit;
 			}
