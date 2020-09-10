@@ -197,7 +197,7 @@
             }
 
             function ecwidLoaded() {
-                return !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
+                return typeof Ecwid != 'undefined' && !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
             }
 
             if (ecwidLoaded()) {
