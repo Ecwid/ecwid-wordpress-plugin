@@ -370,8 +370,6 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
-	$current_post = get_post();
-	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
@@ -462,9 +460,9 @@ function ecwid_print_inline_js_config() {
 		}
 	}
 
-	$js = apply_filters( 'ecwid_inline_js_config', $js );
+	$js = apply_filters( 'ecwid_inline_js_config', $js ) . PHP_EOL;
 	
-	echo sprintf( '<script data-cfasync="false" type="text/javascript">%s</script>', $js );
+	echo sprintf( '<script data-cfasync="false" type="text/javascript">%s</script>'  . PHP_EOL , $js );
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );

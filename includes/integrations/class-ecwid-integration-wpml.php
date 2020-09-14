@@ -69,7 +69,12 @@ class Ecwid_Integration_WPML
 
 	public function add_inline_js_config( $js ) {
 		if( is_array( $this->hreflang_items ) ) {
-			$js .= 'window.ec.config.storefrontUrls.enableHreflangTags = true;';
+
+			if( !Ecwid_Store_Page::is_store_page() ) {
+				$js .= Ecwid_Seo_Links::get_js_config_storefront_urls();
+			}
+
+			$js .= 'window.ec.config.storefrontUrls.enableHreflangTags = true;' . PHP_EOL;
 			$js .= 'window.ec.config.storefrontUrls.internationalPages = {';
 			
 			foreach( $this->hreflang_items as $lang => $url ) {

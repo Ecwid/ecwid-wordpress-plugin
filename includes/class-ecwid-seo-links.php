@@ -220,16 +220,24 @@ class Ecwid_Seo_Links {
 			$url = str_replace( ':443', '', $url );
 		}
 
-		$result = <<<JS
-			window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
-			window.ec.config.storefrontUrls.cleanUrls = true;
-			window.ec.config.baseUrl = '$url';
-			window.ec.storefront = window.ec.storefront || {};
-			window.ec.storefront.sharing_button_link = "DIRECT_PAGE_URL";
+		$result = self::get_js_config_storefront_urls();
+
+		$result .= <<<JS
+window.ec.config.baseUrl = '$url';
+window.ec.storefront = window.ec.storefront || {};
+window.ec.storefront.sharing_button_link = "DIRECT_PAGE_URL";
+
 JS;
 		$config .= $result;
 		
 		return $config;
+	}
+
+	public static function get_js_config_storefront_urls() {
+		return <<<JS
+window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
+window.ec.config.storefrontUrls.cleanUrls = true;
+JS;
 	}
 
 	public static function is_404_seo_link() {
