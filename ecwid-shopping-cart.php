@@ -1026,6 +1026,7 @@ function ecwid_full_cache_reset()
 	$p = new Ecwid_Products();
 	$p->reset_dates();
 	
+	update_option( Ecwid_Api_V3::OPTION_API_STATUS, Ecwid_Api_V3::API_STATUS_OK );
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
 
