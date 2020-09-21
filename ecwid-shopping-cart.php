@@ -611,7 +611,7 @@ function ecwid_backward_compatibility() {
 function ecwid_build_sitemap($callback)
 {
 	
-	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_paid_account() || !ecwid_is_store_page_available() ) return;
+	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_store_page_available() ) return;
 
 	$page_id = Ecwid_Store_Page::get_current_store_page_id();
 
