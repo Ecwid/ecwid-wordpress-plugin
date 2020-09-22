@@ -107,7 +107,7 @@ abstract class Ecwid_Shortcode_Base {
 		$function = $this->get_ecwid_widget_function_name();
 
 		return <<<HTML
-<script data-cfasync="false" type="text/javascript"> $function($params_string);</script>
+<script data-cfasync="false" data-no-optimize="1" type="text/javascript"> $function($params_string);</script>
 HTML;
 	}
 

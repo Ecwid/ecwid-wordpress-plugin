@@ -200,7 +200,8 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 		'wp-rocket/wp-rocket.php' => 'wprocket',
 		'urbango-core/main.php' => 'urbango',
-		'seo-by-rank-math/rank-math.php' => 'rank-math'
+		'seo-by-rank-math/rank-math.php' => 'rank-math',
+		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
@@ -462,7 +463,7 @@ function ecwid_print_inline_js_config() {
 
 	$js = apply_filters( 'ecwid_inline_js_config', $js ) . PHP_EOL;
 	
-	echo sprintf( '<script data-cfasync="false" type="text/javascript">%s</script>'  . PHP_EOL , $js );
+	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>'  . PHP_EOL , $js );
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
