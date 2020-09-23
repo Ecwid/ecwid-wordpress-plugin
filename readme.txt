@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.5
-Stable tag: 6.10.5
+Stable tag: 6.10.6
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -154,8 +154,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10.5 - Aug 27, 2020 =
-- **Fixes for the Open Graph title tags (og:title and twitter:title tags).** When you shared a link to a page of your store in social networks, the link preview could have a wrong title, we fixed it.
-- **Improved automatic cleanup of the plugin cache.** The Ecwid plugin stores your products data on cloud servers, so the plugin shouldn't take a lot of space on your site server. However some users observed a database table overflow with the plugin cache. That happens in rare cases when the plugin data is not cleaned up properly by Wordpress. We improved automatic cleanup of the plugin cache. The problem should be solved now.
+= 6.10.6 - Sep 23, 2020 =
+- Сompatibility with LiteSpeed cache plugin. We've fixed plugin compatibility issues. If you are using LightSpeed to speed up your WordPress site and Ecwid, they should work fine. If you see problems, please let us know.
+- Improved compatibility with themes that update site content without page reload (AJAX themes). Some users of such themes may have seen problems in the display of the storefront, we fixed that.
+- Minor fixes and improvements.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
