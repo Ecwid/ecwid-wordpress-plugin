@@ -330,6 +330,10 @@ class Ecwid_Static_Page {
 		if ( !EcwidPlatform::is_catalog_cache_trusted() ) {
 			return false;
 		}
+
+		if( Ecwid_Ajax_Defer_Renderer::is_ajax_request() ) {
+			return false;
+		}
 		
 		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_ENABLED ) {
 			return true;

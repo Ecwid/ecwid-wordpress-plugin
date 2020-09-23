@@ -61,7 +61,14 @@ class Ecwid_Ajax_Defer_Renderer {
 		$option_value = get_option( self::OPTION_DEFER_RENDERING );
 		
 		if ( $option_value == self::AUTO ) {
-			$filter_results = apply_filters( self::FILTER_ENABLED, false );
+
+			$filter_results = false;
+			
+			if( self::is_ajax_request() ) {
+				$filter_results = true;
+			}
+
+			$filter_results = apply_filters( self::FILTER_ENABLED, $filter_results );
 			
 			return $filter_results;
 		} else if ( $option_value == self::ALWAYS_ON ) {
@@ -70,6 +77,11 @@ class Ecwid_Ajax_Defer_Renderer {
 			return false;
 		}
 	}
+
+	public static function is_ajax_request() {
+		return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+	}
+
 	
 	public function get_custom_renderer() {
 		return array($this, 'render_shortcode');

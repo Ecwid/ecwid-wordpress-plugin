@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.5
+Version: 6.10.6
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -200,7 +200,8 @@ function ecwid_init_integrations()
 		'polylang/polylang.php' => 'polylang',
 		'wp-rocket/wp-rocket.php' => 'wprocket',
 		'urbango-core/main.php' => 'urbango',
-		'seo-by-rank-math/rank-math.php' => 'rank-math'
+		'seo-by-rank-math/rank-math.php' => 'rank-math',
+		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
@@ -370,8 +371,6 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style('ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css',array(), get_option('ecwid_plugin_version'));
 	
-	$current_post = get_post();
-	
 	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
@@ -462,9 +461,9 @@ function ecwid_print_inline_js_config() {
 		}
 	}
 
-	$js = apply_filters( 'ecwid_inline_js_config', $js );
+	$js = apply_filters( 'ecwid_inline_js_config', $js ) . PHP_EOL;
 	
-	echo sprintf( '<script data-cfasync="false" type="text/javascript">%s</script>', $js );
+	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>'  . PHP_EOL , $js );
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
@@ -613,7 +612,7 @@ function ecwid_backward_compatibility() {
 function ecwid_build_sitemap($callback)
 {
 	
-	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_paid_account() || !ecwid_is_store_page_available() ) return;
+	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_store_page_available() ) return;
 
 	$page_id = Ecwid_Store_Page::get_current_store_page_id();
 
@@ -1028,6 +1027,7 @@ function ecwid_full_cache_reset()
 	$p = new Ecwid_Products();
 	$p->reset_dates();
 	
+	update_option( Ecwid_Api_V3::OPTION_API_STATUS, Ecwid_Api_V3::API_STATUS_OK );
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
 
@@ -2294,7 +2294,7 @@ function ecwid_get_iframe_src($time, $page)
 		$url .= '&hide_staff_accounts_header_menu=true';
 		$url .= '&hide_header=true';
 		$url .= '&set_dashboard_website_section_type=wordpress';
-		$url .= '&website_manage_url=' . admin_url( 'admin.php?page=ec-storefront-settings' );
+		$url .= '&website_manage_url=' . urlencode( admin_url( 'admin.php?page=ec-storefront-settings' ) );
 
 		return $url;
 	} else {

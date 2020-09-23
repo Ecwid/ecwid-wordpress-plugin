@@ -49,7 +49,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		if ( $ecwid_current_theme ) {
 
 			$code = <<<HTML
-<script data-cfasync="false" >
+<script data-cfasync="false" data-no-optimize="1">
 if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
 	document.documentElement.id = 'ecwid_html';
 }
@@ -77,7 +77,7 @@ HTML;
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if( !empty( $js_code ) ) {
-			$code .= sprintf('<script data-cfasync="false" type="text/javascript">%s</script>', $js_code) . PHP_EOL;
+			$code .= sprintf('<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code) . PHP_EOL;
 		}
 
 		return $code;
@@ -85,7 +85,7 @@ HTML;
 
 	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
 		return <<<HTML
-			<script data-cfasync="false" type="text/javascript">
+			<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
 				window.ec.storefront = window.ec.storefront || {};
 				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
 				
@@ -100,7 +100,7 @@ HTML;
 
 	protected function _get_js_hide_static( $html_selector ) {
 		return <<<HTML
-			<script data-cfasync="false" type="text/javascript">
+			<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
 				function createClass(name,rules){
 					var style = document.createElement('style');
 					style.type = 'text/css';
