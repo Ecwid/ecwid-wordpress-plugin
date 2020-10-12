@@ -1,6 +1,6 @@
 <?php
 
-if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Site-Verification' ) ) {
+if ( isset($_SERVER['HTTP_USER_AGENT']) && strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Site-Verification' ) ) {
 	
 	add_action( 'wp_head', 'ecwid_add_kliken_code' );
 	
