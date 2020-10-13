@@ -1,516 +1,2594 @@
-msgid "Ecwid Shopping Cart"
-msgstr "Ecwid Shopping Cart"
+# Translation of Plugins - Ecwid Ecommerce Shopping Cart - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Ecwid Ecommerce Shopping Cart - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-10-12 12:45\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: it\n"
+"Project-Id-Version: temporary-strings\n"
+"X-Crowdin-Project: temporary-strings\n"
+"X-Crowdin-Project-ID: 295314\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /Wordpress Plugin/wp-plugins-ecwid-shopping-cart-stable.po\n"
+"X-Crowdin-File-ID: 988\n"
+"Language-Team: Italian\n"
 
-msgid "Ecwid Team"
-msgstr "Ecwid Team"
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:92
+msgid "You can control your store look and feel on the <a %s>Design settings page</a> in your store control panel."
+msgstr "Puoi gestire l'aspetto del negozio nella pagina <a %s>Impostazioni di design</a> nel pannello di controllo del negozio."
 
-msgid "Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up."
-msgstr "Ecwid è un negozio online, completamente gratuito. E' facilmente integrabile con qualsiasi blog Wordpress e sono necessari meno di 5 minuti per configurarlo."
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:55
+msgid "To manage your store, go to <a %s>the Store Dashboard page</a>"
+msgstr "Per gestire il tuo negozio, vai alla pagina <a %s>Dashboard del negozio</a>"
 
-msgid "Get help"
-msgstr "Chiedi aiuto"
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:39
+msgid "The category that is shown by default on the Store Front Page"
+msgstr "La categoria che viene mostrata di default nella vetrina del negozio"
 
-msgid "Go to Ecwid site"
-msgstr "Vai al sito Ecwid"
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:38
+msgid "Default category"
+msgstr "Categoria di default"
 
-msgid "Visit storefront"
-msgstr "Visita la vetrina del negozio"
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:29
+msgid "Online Store"
+msgstr "Negozio online"
 
-msgid "Manage my store"
-msgstr "Gestione negozio"
+#: includes/class-ecwid-stub-renderer.php:38
+msgid "Buy Now"
+msgstr "Acquista ora"
 
-msgid "Manage plugin settings"
-msgstr "Impostazioni plugin"
+#: templates/admin/welcome-terms-privacy.php:5
+msgid "By continuing, you agree to the <a %s>Terms of Service</a> and <a %s>Privacy Policy</a>."
+msgstr "Continuando, accetti i <a %s>Termini del servizio</a> e la <a %s>Privacy Policy</a>."
 
-msgid "→ Sell on Facebook"
-msgstr "→ Vendi su Facebook"
+#: js/gutenberg/blocks.build.js:1
+msgid "Display shopping cart and checkout page"
+msgstr "Mostra il carrello della spesa e la pagina di checkout"
 
-msgid "<a %s>Online store powered by Ecwid</a>"
-msgstr "<a %s>Negozio online powered by Ecwid</a>"
+#: js/gutenberg/blocks.build.js:1
+msgid "Cart and Checkout"
+msgstr "Carrello e checkout"
 
+#: js/gutenberg/blocks.build.js:1
+msgid "Filters"
+msgstr "Filtri"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "You can enable filters in the store settings: (“<a target=\"_blank\" href=\"admin.php?page=ec-store-admin-product-filters-mode-main\">Settings → Product Filters</a>”)."
+msgstr "Puoi attivare i filtri nelle impostazioni del negozio: (\"<a target=\"_blank\" href=\"admin.php?page=ec-store-admin-product-filters-mode-main\">Impostazioni → Filtri prodotto</a>\")."
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Search and Filters"
+msgstr "Cerca e filtra"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display search page with filters on a side"
+msgstr "Mostra la pagina di ricerca con filtri a lato"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product Search and filters"
+msgstr "Ricerca prodotto e filtri"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "To improve the look and feel of your product page and manage your its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Settings → What’s New</a>”)."
+msgstr "Per migliorare e gestire l'aspetto della pagina di prodotto, abilita l'opzione \"Aspetto avanzato della pagina di prodotto in vetrina\" nella dashboard del negozio (\"<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Impostazioni → Cosa c'è di nuovo</a>\")."
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display product page with description and a buy button"
+msgstr "Mostra la pagina di prodotto con la descrizione e il pulsante di acquisto"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product Card Large"
+msgstr "Scheda prodotto grande"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Selected category"
+msgstr "Categoria selezionata"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Select category"
+msgstr "Seleziona categoria"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Add categories"
+msgstr "Aggiungi categoria"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display category page"
+msgstr "Mostra la pagina di categoria"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Store Category Page"
+msgstr "Pagina di categoria del negozio"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display shopping bag link and summary"
+msgstr "Mostra link alla borsa della spesa e riepilogo"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Shopping Cart Icon"
+msgstr "Icona del carrello della spesa"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "The block is hidden because you don't have categories in your store. <a target=\"_blank\" href=\"admin.php?page=ec-store-admin-category-id-0-mode-edit\">Add categories.</a>"
+msgstr "Il blocco è nascosto perché non hai categorie nel tuo negozio. <a target=\"_blank\" href=\"admin.php?page=ec-store-admin-category-id-0-mode-edit\">Aggiungi categorie.</a>"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Categories"
+msgstr "Categorie"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display categories navigation bar"
+msgstr "Mostra la barra di navigazione delle categorie"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Store Categories Menu"
+msgstr "Menu categorie del negozio"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product Search Box"
+msgstr "Box di ricerca prodotto"
+
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:25
+#: js/gutenberg/blocks.build.js:1
+msgid "Linked product"
+msgstr "Prodotto collegato"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display a buy button"
+msgstr "Mostra pulsante di acquisto"
+
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:10
+#: js/gutenberg/blocks.build.js:1
+msgid "Buy Now Button"
+msgstr "Pulsante Acquista ora"
+
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:52
+#: js/gutenberg/blocks.build.js:1
+msgid "Show price inside the «Buy now» button"
+msgstr "Mostra il prezzo all'interno del pulsante «Acquista ora»"
+
+#: js/gutenberg/blocks.build.js:1
+msgctxt "gutenberg-product-block"
+msgid "Content"
+msgstr "Contenuto"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Change"
+msgstr "Cambia"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Displayed product"
+msgstr "Prodotto visualizzato"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display product with a buy button"
+msgstr "Mostra il prodotto con pulsante di acquisto"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product Card Small"
+msgstr "Scheda prodotto piccola"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Very dark gray"
+msgstr "Grigio scuro"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Cyan bluish gray"
+msgstr "Grigio blu turchese"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Very light gray"
+msgstr "Grigio chiaro"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Vivid cyan blue"
+msgstr "Blu turchese "
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Pale cyan blue"
+msgstr "Turchese pallido"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Vivid green cyan"
+msgstr "Verde turchese brillante"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Light green cyan"
+msgstr "Verde turchese chiaro"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Luminous vivid amber"
+msgstr "Ambra"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Luminous vivid orange"
+msgstr "Arancio brillante"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Vivid red"
+msgstr "Rosso brillante"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Pale pink"
+msgstr "Rosa pallido"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Set manually"
+msgstr "Imposta manualmente"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Detect automatically"
+msgstr "Rileva automaticamente"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Color settings"
+msgstr "Impostazioni di colore"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Store Navigation"
+msgstr "Navigazione nel negozio"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Store Front Page"
+msgstr "Pagina della vetrina"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product sidebar content"
+msgstr "Contenuto della barra laterale di prodotto"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product Page Appearance"
+msgstr "Aspetto della pagina di prodotto"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Product List Appearance"
+msgstr "Aspetto elenco dei prodotti "
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Category List Appearance"
+msgstr "Aspetto elenco delle categorie "
+
+#: js/gutenberg/blocks.build.js:1
+msgid "To improve the look and feel of your product page and manage its appearance here, please enable the “Next-gen look and feel of the product page on the storefront” option in your store dashboard (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Settings → What’s New</a>”)."
+msgstr "Per migliorare e gestire l'aspetto della pagina di prodotto, abilita l'opzione \"Aspetto avanzato della pagina di prodotto in vetrina\" nella dashboard del negozio (\"<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Impostazioni → Cosa c'è di nuovo</a>\")."
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Display cart icon"
+msgstr "Mostra l'icona del carrello"
+
+#: js/gutenberg/blocks.build.js:1
+msgid "To improve the look and feel of your store and manage your storefront appearance here, please enable the “Next-gen look and feel of the product list on the storefront” option in your store dashboard (“<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Settings → What’s New</a>”)."
+msgstr "Per migliorare e gestire l'aspetto della pagina di prodotto, abilita l'opzione \"Aspetto avanzato della pagina di prodotto in vetrina\" nella dashboard del negozio (\"<a href=\"admin.php?page=ec-store&ec-store-page=whatsnew\">Impostazioni → Cosa c'è di nuovo</a>\")."
+
+#: js/gutenberg/blocks.build.js:1
+msgid "Add storefront (product listing)"
+msgstr "Aggiungi vetrina (elenco prodotti)"
+
+#: templates/admin/storefront/main.php:21
+msgid "Customers can’t see your store page because it’s in draft. Publish the page to make it available for your customers."
+msgstr "I clienti non possono vedere la tua pagina del negozio perché è in bozza. Pubblica la pagina per renderla disponibile ai tuoi clienti."
+
+#: templates/admin/storefront/main.php:20
+msgid "The store is not visible on your site"
+msgstr "Il negozio non è visibile sul tuo sito"
+
+#: templates/admin/storefront/main.php:4
+msgid "Your Storefront"
+msgstr "La tua vetrina"
+
+#: templates/admin/storefront/area-promo.php:30
+msgid "Help customers find your store on the site. Add the store link to the site menu, create additional store pages, and highlight store products on other site pages and in sidebars."
+msgstr "Aiuta i clienti a trovare il tuo negozio sul sito. Aggiungi il link del negozio al menu del sito, crea ulteriori pagine del negozio e metti in evidenza i prodotti in altre pagine del sito e nelle barre laterali."
+
+#: templates/admin/storefront/area-promo.php:29
+msgid "Promote your store"
+msgstr "Promuovi il tuo negozio"
+
+#: templates/admin/storefront/area-promo.php:26
+msgid "Stay connected with your customers. Update the content of your store anytime to tell customers about ongoing promotions and what's new in your store."
+msgstr "Rimani in contatto con i tuoi clienti. Aggiorna il contenuto del tuo negozio in qualsiasi momento per informare i clienti sulle promozioni in corso e sulle novità."
+
+#: templates/admin/storefront/area-promo.php:25
+msgid "Change store content"
+msgstr "Cambia il contenuto del negozio"
+
+#: templates/admin/storefront/area-promo.php:22
+msgid "Customize your store’s appearance to fit your business needs. Give your store the exact look and feel that reflects your brand."
+msgstr "Personalizza l'aspetto del tuo negozio in base alle esigenze commerciali. Dai al negozio l'aspetto che meglio riflette il tuo marchio."
+
+#: templates/admin/storefront/area-promo.php:21
+msgid "Customize store appearance"
+msgstr "Personalizza l'aspetto del negozio"
+
+#: templates/admin/storefront/area-promo.php:7
+msgid "Add your %s store to the website and start selling in minutes."
+msgstr "Aggiungi il tuo negozio %s al sito web e inizia a vendere in pochi minuti."
+
+#: templates/admin/storefront/area-promo.php:3
+msgid "What's next?"
+msgstr "Qual è il prossimo passo?"
+
+#: templates/admin/storefront/area-additional.php:224
+msgid "Your store is added to several pages on the site. Choose the main page. Customers are directed to the main store page when they click on the cart icon, store links in the site menu, and products in the sidebar."
+msgstr "Il tuo negozio è aggiunto a diverse pagine del sito. Scegli la pagina principale. I clienti vengono indirizzati alla pagina principale del negozio quando fanno clic sull'icona del carrello, sui link del negozio nel menu del sito e sui prodotti nella barra laterale."
+
+#: templates/admin/storefront/area-additional.php:222
+msgid "Choose the main store page"
+msgstr "Scegli la pagina principale del negozio"
+
+#: templates/admin/storefront/area-additional.php:200
+msgid "Go to Pages"
+msgstr "Vai a Pages"
+
+#: templates/admin/storefront/area-additional.php:193
+msgid "You can add the entire storefront, categories, products, or \"Buy now\" buttons to other pages on your site. To do that, open a page in the editor and add an appropriate %s block."
+msgstr "Puoi aggiungere l'intera vetrina, le categorie, i prodotti o il pulsante \"Acquista ora\" ad altre pagine del sito. Per fare ciò, apri una pagina nell'editor e aggiungi l'apposito blocco %s. "
+
+#: templates/admin/storefront/area-additional.php:189
+msgid "Add your store to other site pages"
+msgstr "Aggiungi il tuo negozio ad altre pagine del sito"
+
+#: templates/admin/storefront/area-additional.php:166
+msgid "Create Product Page"
+msgstr "Crea pagina di prodotto"
+
+#: templates/admin/storefront/area-additional.php:150
+msgid "Pick Product"
+msgstr "Scegli prodotto"
+
+#: templates/admin/storefront/area-additional.php:136
+#: templates/admin/storefront/area-additional.php:138
+msgid "Create a landing page featuring one of your products."
+msgstr "Crea una landing page con uno dei tuoi prodotti."
+
+#: templates/admin/storefront/area-additional.php:132
+msgid "Add a product page"
+msgstr "Aggiungi pagina di prodotto"
+
+#: templates/admin/storefront/area-additional.php:109
+msgid "Create Category Page"
+msgstr "Crea pagina di categoria"
+
+#: templates/admin/storefront/area-additional.php:93
+msgid "Pick Category"
+msgstr "Scegli categoria"
+
+#: templates/admin/storefront/area-additional.php:79
+#: templates/admin/storefront/area-additional.php:81
+msgid "Feature a specific store category on a separate page of your site."
+msgstr "Metti in evidenza una specifica categoria del negozio in una pagina diversa del tuo sito."
+
+#: templates/admin/storefront/area-additional.php:75
+msgid "Add a category page"
+msgstr "Aggiungi pagina di categoria"
+
+#: templates/admin/storefront/area-additional.php:54
+msgid "Create Search Page"
+msgstr "Crea pagina di ricerca"
+
+#: templates/admin/storefront/area-additional.php:50
+msgid "Show customers that they can use a search and filters to find desired products faster."
+msgstr "Mostra ai clienti che possono fare una ricerca e utilizzare i filtri per trovare i prodotti desiderati più velocemente."
+
+#: templates/admin/storefront/area-additional.php:48
+msgid "Add a search and filters page"
+msgstr "Aggiungi pagina di ricerca e pagina dei filtri"
+
+#: templates/admin/storefront/area-additional.php:27
+msgid "Create Cart Page"
+msgstr "Crea pagina del carrello"
+
+#: templates/admin/storefront/area-additional.php:23
+msgid "Customers go to the cart page to review products they’ve added to the cart and proceed to the checkout."
+msgstr "I clienti vanno alla pagina del carrello per esaminare i prodotti che hanno aggiunto al carrello e procedere al pagamento."
+
+#: templates/admin/storefront/area-additional.php:21
+msgid "Add cart and checkout page"
+msgstr "Aggiungi carrello e pagina di checkout"
+
+#: templates/admin/storefront/area-additional.php:4
+msgid "Highlight products, categories, and other store pages by adding them to separate website pages."
+msgstr "Evidenzia i prodotti, le categorie e altre pagine del negozio aggiungendole a pagine specifiche del sito web."
+
+#: templates/admin/storefront/area-additional.php:3
+msgid "Additional store pages"
+msgstr "Altre pagine di negozio"
+
+#: templates/admin/storefront/draft-message.php:2
+msgid "Publish the page to use this option"
+msgstr "Pubblica la pagina per utilizzare questa opzione"
+
+#: templates/admin/storefront/area-design.php:55
+msgid "Along with the store catalog, you can add other widgets and texts to the store page."
+msgstr "Oltre al catalogo del negozio, puoi aggiungere altri widget e testi alla pagina del negozio."
+
+#: templates/admin/storefront/area-design.php:54
+msgid "Store page content"
+msgstr "Contenuto della pagina del negozio"
+
+#: templates/admin/storefront/area-design.php:25
+#: templates/admin/storefront/area-design.php:27
+msgid "Adjust your store design to fit your business needs."
+msgstr "Adatta il design del negozio alle tue esigenze commerciali."
+
+#: templates/admin/storefront/area-design.php:21
+msgid "Store appearance"
+msgstr "Aspetto del negozio"
+
+#: templates/admin/storefront/area-design.php:4
+msgid "Personalize your storefront's appearance and edit the content on the store page to reflect your brand and stay connected with your customers."
+msgstr "Personalizza l'aspetto della vetrina e modifica il contenuto della pagina del negozio in modo che rifletta al meglio il tuo marchio e per rimanere in contatto con i tuoi clienti."
+
+#: templates/admin/storefront/area-design.php:3
+msgid "Design and content"
+msgstr "Design e contenuto"
+
+#: templates/admin/storefront/area-status.php:124
+msgid "Create Store Page"
+msgstr "Crea la pagina del negozio"
+
+#: templates/admin/storefront/area-status.php:121
+msgid "Your store is not added to any page on your site. To let customers browse your store and place orders, create a page where the store will display."
+msgstr "Il tuo negozio non è aggiunto a nessuna pagina del sito. Per permettere ai clienti di visitarlo e di effettuare ordini, crea una pagina dove sia visibile."
+
+#: templates/admin/storefront/area-status.php:115
+msgid "Set Up Your Store"
+msgstr "Configura il tuo negozio"
+
+#: templates/admin/storefront/area-status.php:109
+msgid "To show your storefront instead of the demo store, connect your existing %s account or create a new one."
+msgstr "Per mostrare la tua vetrina invece di un negozio demo, collega il tuo account %s esistente o creane uno nuovo."
+
+#: templates/admin/storefront/area-status.php:101
+msgid "Publish Store Page"
+msgstr "Pubblica la pagina del negozio"
+
+#: templates/admin/storefront/area-status.php:98
+msgid "Your store page is currently in draft. Once you are ready, publish it to let customers browse the store and place orders."
+msgstr "La pagina del negozio è attualmente in bozza. Quando è tutto pronto, pubblicala per permettere ai clienti di visitare il negozio e fare ordini."
+
+#: templates/admin/storefront/area-status.php:92
+msgid "View Store Page"
+msgstr "Visualizza la pagina del negozio"
+
+#: templates/admin/storefront/area-status.php:86
+msgid "Your store page is published. Customers can browse your store at "
+msgstr "La pagina del negozio è pubblicata. I clienti possono visitarlo all'indirizzo "
+
+#: templates/admin/storefront/area-status.php:77
+msgid "View demo store page"
+msgstr "Visualizza la pagina del negozio demo"
+
+#: templates/admin/storefront/area-status.php:46
+msgid "Draft"
+msgstr "Bozza"
+
+#: templates/admin/storefront/area-status.php:45
+msgid "Published"
+msgstr "Pubblicato"
+
+#: templates/admin/storefront/area-status.php:33
+#: templates/admin/storefront/area-status.php:36
+msgid "Status"
+msgstr "Stato"
+
+#: templates/admin/storefront/area-status.php:29
+msgid "Add a store page"
+msgstr "Aggiungi pagina del negozio"
+
+#: templates/admin/storefront/area-status.php:24
+msgid "Connect your %s store"
+msgstr "Collega il tuo negozio %s"
+
+#: templates/admin/storefront/area-status.php:21
+msgid "Your store page"
+msgstr "La pagina del tuo negozio"
+
+#: templates/admin/storefront/area-status.php:10
+msgid "To start selling, add a page to your site where the storefront will display."
+msgstr "Per iniziare a vendere, aggiungi al tuo sito una pagina che mostrerà la vetrina."
+
+#: templates/admin/storefront/area-status.php:7
+msgid "While your store is not connected, a demo store displays on your site. Check it to get the idea of how your store may look on the site."
+msgstr "Se il negozio non è collegato, sul sito viene mostrato un negozio demo. Dai un'occhiata al sito per avere un'idea di come potrebbe apparire il tuo negozio."
+
+#: templates/admin/storefront/area-status.php:4
+msgid "Store page on your site"
+msgstr "Pagina del negozio sul tuo sito"
+
+#: templates/admin/storefront/area-navigation.php:205
+msgid "The shopping cart icon shows the number of items in the cart and helps customers proceed to the checkout. Additionally, you can <a href=\"%s\" target=\"_blank\">adjust the cart icon appearance</a>."
+msgstr "L'icona del carrello della spesa mostra il numero di articoli presenti nel carrello e permette ai clienti di procedere al pagamento. Inoltre, puoi <a href=\"%s\" target=\"_blank\"> modificare l'aspetto dell'icona del carrello</a>."
+
+#: templates/admin/storefront/area-navigation.php:201
+msgid "Display the shopping cart icon on site pages"
+msgstr "Mostra l'icona del carrello sulle pagine del sito"
+
+#: templates/admin/storefront/area-navigation.php:179
+msgid "Manage Sidebar"
+msgstr "Gestisci la barra laterale"
+
+#: templates/admin/storefront/area-navigation.php:175
+msgid "Highlight your best sellers or new products in the website sidebar."
+msgstr "Evidenzia i best seller o i nuovi prodotti nella barra laterale del sito."
+
+#: templates/admin/storefront/area-navigation.php:173
+msgid "Feature your products in the sidebar"
+msgstr "Metti in evidenza i prodotti nella barra laterale"
+
+#: templates/admin/storefront/area-navigation.php:151
+msgid "Add Store Page to Menu"
+msgstr "Aggiungi la pagina del negozio al menu"
+
+#: templates/admin/storefront/area-navigation.php:147
+msgid "Make your store accessible from the site menu so your customers can easily find it."
+msgstr "Rendi il negozio accessibile dal menu del sito in modo che i tuoi clienti possano trovarlo facilmente."
+
+#: templates/admin/storefront/area-navigation.php:141
+msgid "Add store page to the site menu"
+msgstr "Aggiungi la pagina del negozio al menu del sito"
+
+#: templates/admin/storefront/area-navigation.php:118
+msgid "Edit URL Slug"
+msgstr "Modifica slug URL "
+
+#: templates/admin/storefront/area-navigation.php:102
+msgid "Current URL slug: /<span data-ec-store-slug>%s</span>"
+msgstr "Attuale slug URL: /<span data-ec-store-slug>%s</span>"
+
+#: templates/admin/storefront/area-navigation.php:78
+msgid "Save"
+msgstr "Salva"
+
+#: templates/admin/storefront/area-navigation.php:69
+msgid "URL Slug"
+msgstr "Slug URL"
+
+#: templates/admin/storefront/area-navigation.php:60
+#: templates/admin/storefront/area-navigation.php:113
+msgid "A slug is the last part of a URL. You can create a custom slug for your store page. It’s better to keep it short since customers and search engines prefer short URLs. For example, use \"/shop\" or \"/products\"."
+msgstr "Lo slug è l'ultima parte di un URL. Puoi creare uno slug personalizzato della pagina del negozio. È meglio che sia breve perché i clienti e i motori di ricerca preferiscono gli URL brevi. Per esempio, usa \"/shop\" o \"/prodotti\"."
+
+#: templates/admin/storefront/area-navigation.php:56
+#: templates/admin/storefront/area-navigation.php:98
+msgid "Customize store page address"
+msgstr "Personalizza l'indirizzo della pagina del negozio"
+
+#: templates/admin/storefront/area-navigation.php:29
+msgid "Add your storefront to the website home page to make it more prominent. You can also tweak the site home page settings in <a href=\"%s\" target=\"_blank\">WordPress Settings > Reading</a>"
+msgstr "Aggiungi la vetrina alla home page del sito web per renderla più visibile. Puoi anche modificare le impostazioni della home page del sito in <a href=\"%s\" target=\"_blank\">Impostazioni WordPress > Lettura</a>."
+
+#: templates/admin/storefront/area-navigation.php:21
+msgid "Show your store on the home page"
+msgstr "Mostra il negozio in home page"
+
+#: templates/admin/storefront/area-navigation.php:4
+msgid "Help customers find your store on the website."
+msgstr "Aiuta i clienti a trovare il tuo negozio sul sito web."
+
+#: templates/admin/storefront/area-navigation.php:3
+msgid "Navigation"
+msgstr "Navigazione"
+
+#: templates/admin/welcome-no_oauth.php:12
+msgid "Store ID is a unique identifier of your %1$s account. You can find it in your %1$s control panel on the <a %2$s>Dashboard page</a>."
+msgstr "Lo store ID è un identificatore univoco del tuo account %1$s. Lo trovi nel pannello di controllo %1$s nella pagina <a %2$s>Dashboard </a>."
+
+#: templates/admin/welcome-create.php:11
+msgid "Your store has been created. Preparing your store dashboard ..."
+msgstr "Il tuo negozio è stato creato. La dashboard del negozio è in preparazione ..."
+
+#: templates/admin/welcome-connect.php:8
+msgid "Create store"
+msgstr "Crea negozio"
+
+#: templates/admin/welcome-connect.php:4
+msgid "Connect Your Store"
+msgstr "Collega il tuo negozio"
+
+#: templates/admin/welcome-page.php:61
+msgid "Provided by <a %s>%s</a>"
+msgstr "Realizzato da  <a %s>%s</a>"
+
+#: templates/admin/welcome-page.php:33
+msgid "To add your store to your website, put your %1$s Store ID in the field below. If you don't have an %1$s account yet, create one for free on the <a %2$s>%1$s website</a>."
+msgstr "Per aggiungere il negozio al tuo sito web, inserisci il tuo store ID %1$s nel campo sottostante. Se non hai ancora un account %1$s, creane uno gratis sul sito web <a %2$s>%1$s</a>."
+
+#: templates/admin/welcome-page.php:20
+msgid "Create a new store or connect an existing one, if you already have an %s account. The plugin will guide you through store setup and help publish it on your website."
+msgstr "Crea un nuovo negozio o collegane uno esistente, se disponi già di un account %s. Il plugin ti guiderà nella configurazione del negozio e ti aiuterà a pubblicarlo sul tuo sito web."
+
+#: templates/admin/welcome-page.php:12
+msgid "Add an Online Store to Your Website"
+msgstr "Aggiungi un negozio online al tuo sito web"
+
+#: includes/class-ecwid-store-page.php:566
+msgid "This is a demo store. Create your store to see your store products here."
+msgstr "Questo è un negozio demo. Crea qui il negozio con i tuoi prodotti."
+
+#: includes/class-ecwid-admin-storefront-page.php:539
+msgid "Publish"
+msgstr "Pubblica"
+
+#: templates/admin/storefront/area-design.php:33
+#: templates/admin/storefront/area-design.php:59
+#: includes/class-ecwid-admin-storefront-page.php:532
+msgid "Edit"
+msgstr "Modifica"
+
+#: includes/class-ecwid-admin-storefront-page.php:525
+msgid "Preview"
+msgstr "Anteprima"
+
+#: includes/class-ecwid-admin-storefront-page.php:516
+msgid "Switch to draft"
+msgstr "Passa a bozza"
+
+#: includes/class-ecwid-admin-storefront-page.php:506
+msgid "Edit page"
+msgstr "Modifica pagina"
+
+#: includes/class-ecwid-admin-storefront-page.php:499
+msgid "View store page"
+msgstr "Visualizza la pagina del negozio"
+
+#: includes/class-ecwid-admin-storefront-page.php:286
+msgid "Search products"
+msgstr "Cerca prodotti"
+
+#: includes/class-ecwid-admin-storefront-page.php:265
+msgid "Category"
+msgstr "Categoria"
+
+#: includes/class-ecwid-admin-storefront-page.php:240
+msgid "Page with that name already exists."
+msgstr "Pagina con questo nome già esistente."
+
+#: includes/class-ecwid-admin.php:538
+msgid "My Profile"
+msgstr "Il mio profilo"
+
+#: includes/class-ecwid-admin.php:533
+msgid "Apps"
+msgstr "App"
+
+#: includes/class-ecwid-admin.php:523
+msgid "Shipping & Pickup"
+msgstr "Spedizione e ritiro"
+
+#: includes/class-ecwid-admin.php:518
+msgid "Payment"
+msgstr "Pagamento"
+
+#: includes/class-ecwid-admin.php:513
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:88
+msgid "Design"
+msgstr "Design"
+
+#: includes/class-ecwid-admin.php:509
+msgid "Configuration"
+msgstr "Configurazione"
+
+#: includes/class-ecwid-admin.php:504
+msgid "All Sales Channels"
+msgstr "Tutti i canali di vendita"
+
+#: includes/class-ecwid-admin.php:499
+msgid "Website"
+msgstr "Sito web"
+
+#: includes/class-ecwid-admin.php:494
+msgid "Mobile"
+msgstr "Mobile"
+
+#: includes/class-ecwid-admin.php:485
+msgid "Sales channels"
+msgstr "Canali di vendita"
+
+#: includes/class-ecwid-admin.php:480
+msgid "Reports"
+msgstr "Report"
+
+#: includes/class-ecwid-admin.php:475
+msgid "Marketing"
+msgstr "Marketing"
+
+#: includes/class-ecwid-admin.php:470
+msgid "Catalog"
+msgstr "Catalogo"
+
+#: includes/class-ecwid-admin.php:465
+msgid "My Sales"
+msgstr "Le mie vendite"
+
+#: includes/class-ecwid-admin.php:455
+msgid "Store management"
+msgstr "Gestione del negozio"
+
+#: includes/class-ecwid-admin.php:344
+msgid "Instant site"
+msgstr "Sito immediato"
+
+#: includes/class-ecwid-admin.php:153 includes/class-ecwid-admin.php:154
+#: includes/class-ecwid-admin.php:309
+msgid "Storefront"
+msgstr "Vetrina"
+
+#: ecwid-shopping-cart.php:1111
+msgid "Manage storefront"
+msgstr "Gestisci la vetrina"
+
+#: ecwid-shopping-cart.php:1111
+msgid "Customize design"
+msgstr "Personalizza il design"
+
+#: ecwid-shopping-cart.php:1103
+msgid "Manage store"
+msgstr "Gestisci il negozio"
+
+#: templates/importer/woo-main.tpl.php:97
+msgid "Start Import"
+msgstr "Inizia a importare"
+
+#: templates/importer/woo-main.tpl.php:87
+msgid "Please mind the maximum number of products and categories you can have in your Ecwid store. This import tool will automatically stop when the store products limit is reached. To check the current store limit or increase it, please see the <nobr><a %s target=\"_blank\">\"Billing & Plans\"</a></nobr> page in your Ecwid store control panel."
+msgstr "Fai attenzione al numero massimo di prodotti e categorie che puoi mostrare nel tuo negozio Ecwid. L'importazione si interromperà automaticamente al raggiungimento del limite massimo di prodotti. Per verificare il limite attuale del negozio o aumentarlo, consulta la pagina <nobr><a %s target=\"_blank\">\"Fatturazione & Piani\"</a></nobr> nel pannello di controllo del negozio Ecwid."
+
+#: templates/importer/woo-main.tpl.php:82
+msgid "Import creates new products and update the existing products with matching SKUs."
+msgstr "Con Importa crei nuovi prodotti e aggiorni i prodotti esistenti con gli Cod. Art. corrispondenti."
+
+#: templates/importer/woo-main.tpl.php:60
+msgid "Copying products and categories."
+msgstr "Copia di prodotti e categorie"
+
+#: templates/importer/woo-main.tpl.php:50
+msgid "Import completed. <a href=\"%s\">Run again.</a>"
+msgstr "Procedura di importazione completata. <a href=\"%s\">Esegui di nuovo.</a>"
+
+#: templates/importer/woo-main.tpl.php:34
+msgid "Import is in Progress"
+msgstr "Procedura di importazione in corso"
+
+#: templates/importer/woo-main.tpl.php:32
+msgid "Import your products from Woocommerce to %s"
+msgstr "Importa i tuoi prodotti da Woocommerce in %s"
+
+#: templates/importer/woo-main.tpl.php:18
+msgid "Update your catalog"
+msgstr "Aggiorna il tuo catalogo"
+
+#: templates/importer/woo-main.tpl.php:4
+msgid "Import Your Products From Woocommerce to %s"
+msgstr "Importa i tuoi prodotti da Woocommerce in %s"
+
+#: templates/importer/import-no-token.tpl.php:3
+msgid "Click the connect button to get rights to update the product catalog"
+msgstr "Fai clic sul pulsante connect e ottieni i permessi necessari per aggiornare il catalogo dei prodotti"
+
+#: templates/importer/woo-complete-alert.tpl.php:52
+msgid "Go to Your %s Products"
+msgstr "Vai ai tuoi prodotti %s"
+
+#: templates/importer/woo-complete-alert.tpl.php:43
+msgid "Download <a href=\"%s\">import log</a>"
+msgstr "Scarica <a href=\"%s\">importa log</a>"
+
+#: templates/importer/woo-complete-alert.tpl.php:32
+msgid "Part of the products have not been copied to %1$s, because you reached the products limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan.</a></nobr>"
+msgstr "Una parte dei prodotti non è stata copiata in %1$s, perché hai raggiunto il limite massimo di prodotti consentito dal tuo piano tariffario in %1$s. Se desideri importare più prodotti, valuta la possibilità di effettuare <nobr><a %2$s> l'upgrade del tuo piano %1$s.</a></nobr>"
+
+#: templates/importer/woo-complete-alert.tpl.php:21
+msgid "<b>%s</b> categories"
+msgstr "Categorie <b>%s</b>"
+
+#: templates/importer/woo-complete-alert.tpl.php:18
+msgid "Imported <b>%s</b> products"
+msgstr "Prodotti <b>%s</b> importati"
+
+#: templates/importer/woo-complete-alert.tpl.php:15
+msgid "Import completed"
+msgstr "Procedura di importazione completata"
+
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:10
+#: includes/widgets/class-ecwid-widget-product-browser.php:12
+msgid "Online store"
+msgstr "Negozio online"
+
+#: includes/class-ecwid-store-page.php:476
+msgid "%s Store Page"
+msgstr "Pagina del negozio %s"
+
+#: templates/advanced-settings.php:79
+msgid "Integration with search on your site"
+msgstr "Integrazione con la ricerca sul tuo sito"
+
+#: templates/sync.php:130
+msgid "Deleted products synchronized: %1$s out of %2$s"
+msgstr "Prodotti cancellati sincronizzati: %1$s su %2$s"
+
+#: includes/class-ecwid-custom-admin-page.php:66
+msgid "Themes for Ecwid"
+msgstr "Temi di Ecwid"
+
+#: includes/class-ecwid-custom-admin-page.php:33
+msgid "Plugins for Ecwid"
+msgstr "Plugin per Ecwid"
+
+#: includes/class-ecwid-popup-deactivate.php:138
+msgid "I use this WordPress theme: %s"
+msgstr "Uso questo tema WordPress: %s"
+
+#: includes/class-ecwid-popup-deactivate.php:132
+msgid "I couldn’t find a WordPress theme that goes well with %s"
+msgstr "Non ho trovato un tema WordPress adatto a %s"
+
+#: includes/class-ecwid-product-browser.php:357
+msgid "On the right"
+msgstr "Sulla destra"
+
+#: includes/class-ecwid-product-browser.php:353
+msgid "On the left"
+msgstr "Sulla sinistra"
+
+#: includes/class-ecwid-product-browser.php:349
+msgid "Filters panel position"
+msgstr "Posizione del pannello filtri"
+
+#: includes/class-ecwid-product-browser.php:209
+msgid "Default product_ID"
+msgstr "ID prodotto predefinito"
+
+#: includes/gutenberg/class-ecwid-gutenberg-block-minicart.php:73
+msgid "Cart icon"
+msgstr "Icona del carrello"
+
+#: templates/shortcode-stub-store.tpl.php:4
+#: includes/gutenberg/class-ecwid-gutenberg-block-store.php:20
+#: js/gutenberg/blocks.build.js:1
+msgid "Store Home Page"
+msgstr "Home page del negozio"
+
+#: ecwid-shopping-cart.php:431
+msgid "Edit Category"
+msgstr "Modifica categoria"
+
+#: ecwid-shopping-cart.php:430
+msgid "Edit Product"
+msgstr "Modifica prodotto"
+
+#: includes/class-ecwid-admin.php:142 includes/class-ecwid-admin.php:143
+msgid "Online Store Apps"
+msgstr "Online Store Apps"
+
+#. Plugin Name of the plugin
+msgid "Ecwid Ecommerce Shopping Cart"
+msgstr "Carrello della spesa Ecwid Ecommerce"
+
+#: includes/class-ecwid-custom-admin-page.php:58 includes/faq_entries.php:76
+msgid "Ecwid is compatible with any WordPress theme. Be it a free theme from WordPress.org catalog, a premium theme by a third-party vendor or a custom-made theme, your Ecwid store will work good with it. If you want a premium theme, we recommend <a href=\"%s\">TemplateMonster themes</a>"
+msgstr "Ecwid è compatibile con qualsiasi tema WordPress. Il tuo negozio Ecwid si adatta perfettamente sia a temi gratuiti del catalogo WordPress.org, che a temi premium di provider terzi, che a temi personalizzati. Se desideri un tema premium, consigliamo <a href=\"%s\">TemplateMonster</a>."
+
+#: includes/faq_entries.php:74
+msgid "Is there a WordPress theme for Ecwid?"
+msgstr "Esiste un tema WordPress per Ecwid?"
+
+#: templates/admin-footer.php:19
+msgid "<a href=\"admin.php?page="
+msgstr "<a href=\"admin.php?page="
+
+#: includes/integrations/class-ecwid-integration-gutenberg.php:113
+#: includes/gutenberg/class-ecwid-gutenberg-block-store.php:25
+msgid "You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href=\"%1$s\">Appearance → Customize → %2$s</a>” menu to enable it."
+msgstr "Puoi attivare un widget aggiuntivo per l'icona della borsa della spesa che apparirà sulle pagine del sito. Apri il menu \"<a href=\"%1$s\">Aspetto → Personalizza → %2$s</a>\" per abilitarlo."
+
+#: includes/integrations/class-ecwid-integration-gutenberg.php:85
+#: includes/gutenberg/class-ecwid-gutenberg-block-store.php:18
+msgctxt "gutenberg-store-block-stub"
 msgid "Store"
 msgstr "Negozio"
 
-msgid "Ecwid shopping cart settings"
-msgstr "Impostazioni Ecwid shopping cart"
+#: includes/class-ecwid-product-browser.php:472
+msgid "Image feed"
+msgstr "Feed immagini"
 
-msgid "Ecwid Store"
-msgstr "Negozio Ecwid"
+#: includes/class-ecwid-product-browser.php:467
+msgid "Vertical thumbnails"
+msgstr "Thumbnail verticali"
 
-msgid "Setup"
+#: includes/class-ecwid-product-browser.php:462
+msgid "Horizontal thumbnails"
+msgstr "Thumbnail orizzontali"
+
+#: includes/class-ecwid-product-browser.php:452
+msgid "3 columns, image on the right"
+msgstr "3 colonne, immagine sulla destra"
+
+#: includes/class-ecwid-product-browser.php:448
+msgid "3 columns, image on the left"
+msgstr "3 colonne, immagine sulla sinistra"
+
+#: includes/class-ecwid-product-browser.php:444
+msgid "2 columns, image on the right"
+msgstr "2 colonne, immagine sulla destra"
+
+#: includes/class-ecwid-product-browser.php:440
+msgid "2 columns, image on the left"
+msgstr "2 colonne, immagine sulla sinistra"
+
+#: includes/class-ecwid-product-browser.php:429
+msgid "Landscape 3:2"
+msgstr "Panorama 3:2"
+
+#: includes/class-ecwid-product-browser.php:424
+msgid "Landscape 4:3"
+msgstr "Panorama 4:3"
+
+#: includes/class-ecwid-product-browser.php:419
+msgid "Square 1:1"
+msgstr "Quadrato 1:1"
+
+#: includes/class-ecwid-product-browser.php:414
+msgid "Portrait 3:4"
+msgstr "Ritratto 3:4"
+
+#: includes/class-ecwid-product-browser.php:409
+msgid "Portrait 2:3"
+msgstr "Ritratto 2:3"
+
+#: includes/class-ecwid-product-browser.php:399
+msgid "L"
+msgstr "L"
+
+#: includes/class-ecwid-product-browser.php:395
+msgid "M"
+msgstr "M"
+
+#: includes/class-ecwid-product-browser.php:391
+msgid "S"
+msgstr "S"
+
+#: includes/class-ecwid-product-browser.php:381
+msgid "Show on hover"
+msgstr "Mostra al passaggio del mouse"
+
+#: includes/class-ecwid-product-browser.php:377
+msgid "Hide"
+msgstr "Nascondi"
+
+#: includes/class-ecwid-product-browser.php:373
+msgid "Show"
+msgstr "Mostra"
+
+#: includes/class-ecwid-product-browser.php:342
+msgid "Background color"
+msgstr "Colore di sfondo"
+
+#: includes/class-ecwid-product-browser.php:335
+msgid "Link color"
+msgstr "Colore dei link"
+
+#: includes/class-ecwid-product-browser.php:328
+msgid "Price color"
+msgstr "Colore del prezzo"
+
+#: includes/class-ecwid-product-browser.php:321
+msgid "Text color"
+msgstr "Colore di testo"
+
+#: includes/class-ecwid-product-browser.php:314
+msgid "Button color"
+msgstr "Colore del pulsante"
+
+#: includes/class-ecwid-product-browser.php:299
+msgid "Wholesale prices"
+msgstr "Prezzi all'ingrosso"
+
+#: includes/class-ecwid-product-browser.php:292
+msgid "\"In stock\" label"
+msgstr "Etichetta \"in stock\""
+
+#: includes/class-ecwid-product-browser.php:285
+msgid "Available qty in stock"
+msgstr "Quantità disponibile in stock"
+
+#: includes/class-ecwid-product-browser.php:278
+msgid "Product quantity"
+msgstr "Quantità del prodotto"
+
+#: includes/class-ecwid-product-browser.php:271
+msgctxt "product-browser-attributes"
+msgid "Product price"
+msgstr "Prezzo del prodotto"
+
+#: includes/class-ecwid-product-browser.php:264
+msgctxt "product-browser-attributes"
+msgid "Product SKU"
+msgstr "Cod. Art. del prodotto"
+
+#: includes/class-ecwid-product-browser.php:257
+msgid "Breadcrumbs"
+msgstr "Navigazione breadcrumb"
+
+#: includes/class-ecwid-product-browser.php:241
+msgid "Image gallery layout"
+msgstr "Layout della galleria immagini"
+
+#: includes/integrations/class-ecwid-integration-gutenberg.php:391
+#: includes/class-ecwid-product-browser.php:224
+#: includes/class-ecwid-product-browser.php:233
+#: includes/gutenberg/class-ecwid-gutenberg-block-store.php:212
+msgid "Show description under the image"
+msgstr "Mostra la descrizione sotto l'immagine"
+
+#: includes/class-ecwid-product-browser.php:216
+msgid "Product page layout"
+msgstr "Layout della pagina di prodotto"
+
+#: includes/class-ecwid-product-browser.php:194
+msgid "Display sort by link"
+msgstr "Mostra ordinamento per link"
+
+#: includes/class-ecwid-product-browser.php:186
+#: includes/class-ecwid-product-browser.php:306
+msgid "Display sign in link"
+msgstr "Mostra segno nel link"
+
+#: includes/class-ecwid-product-browser.php:178
+msgid "Display footer menu"
+msgstr "Mostra menu nel footer"
+
+#: includes/class-ecwid-product-browser.php:170
+msgid "Display breadcrumbs"
+msgstr "Mostra navigazione breadcrumbs"
+
+#: includes/class-ecwid-product-browser.php:163 js/gutenberg/blocks.build.js:1
+msgid "Display search box"
+msgstr "Mostra casella di ricerca"
+
+#: includes/class-ecwid-product-browser.php:156
+msgid "Display categories menu"
+msgstr "Mostra menu categorie"
+
+#: includes/class-ecwid-product-browser.php:148
+msgid "Category thumbnail aspect ratio"
+msgstr "Categoria aspect ratio thumbnail"
+
+#: includes/class-ecwid-product-browser.php:140
+msgid "Category thumbnail size"
+msgstr "Categoria dimensione thumbnail"
+
+#: includes/class-ecwid-product-browser.php:131
+msgid "Image only"
+msgstr "Solo immagine"
+
+#: includes/class-ecwid-product-browser.php:127
+msgid "Title only"
+msgstr "Solo titolo"
+
+#: includes/class-ecwid-product-browser.php:123
+msgid "Image and title on mouse over"
+msgstr "Immagine e titolo al passaggio del mouse"
+
+#: includes/class-ecwid-product-browser.php:119
+msgid "Title on image"
+msgstr "Titolo sull'immagine"
+
+#: includes/class-ecwid-product-browser.php:115
+msgid "Title under image"
+msgstr "Titolo sotto l'immagine"
+
+#: includes/class-ecwid-product-browser.php:111
+msgid "Category card layout"
+msgstr "Categoria layout scheda"
+
+#: includes/class-ecwid-product-browser.php:103
+msgid "Show additional image on hover"
+msgstr "Mostra altre immagini al passaggio del mouse"
+
+#: includes/class-ecwid-product-browser.php:95
+msgid "Buy now buttons"
+msgstr "Pulsanti Acquista ora"
+
+#: includes/class-ecwid-product-browser.php:87
+msgid "Product SKU"
+msgstr "Cod. Art. prodotto"
+
+#: includes/class-ecwid-product-browser.php:79
+msgid "Product price"
+msgstr "Prezzo del prodotto"
+
+#: includes/class-ecwid-product-browser.php:71
+msgid "Product title"
+msgstr "Nome del prodotto"
+
+#: includes/class-ecwid-product-browser.php:61
+msgid "Justify"
+msgstr "Giustifica"
+
+#: includes/class-ecwid-product-browser.php:56
+msgid "Right"
+msgstr "Destra"
+
+#: includes/class-ecwid-product-browser.php:51
+msgid "Center"
+msgstr "Al centro"
+
+#: includes/class-ecwid-product-browser.php:46
+msgid "Left"
+msgstr "Sinistra"
+
+#: includes/class-ecwid-product-browser.php:42
+msgid "Product card text align"
+msgstr "Allinea testo della scheda prodotto"
+
+#: includes/class-ecwid-product-browser.php:34
+msgid "Show product card border"
+msgstr "Mostra bordo della scheda prodotto"
+
+#: includes/class-ecwid-product-browser.php:26
+msgid "Product thumbnail aspect ratio"
+msgstr "Aspect ratio thumbnail di prodotto"
+
+#: includes/class-ecwid-product-browser.php:18
+msgid "Product thumbnail size"
+msgstr "Dimensione thumbnail di prodotto"
+
+#: includes/class-ecwid-product-browser.php:10
+msgid "Show product thumbnails"
+msgstr "Mostra thumbnail di prodotto"
+
+#. Author of the plugin
+msgid "Ecwid Ecommerce"
+msgstr "Ecommerce Ecwid"
+
+#: templates/importer/woo-summary.tpl.php:34
+msgid "After import, your %s store will have "
+msgstr "Dopo l'importazione, il tuo negozio %s avrà "
+
+#: templates/importer/woo-summary.tpl.php:21
+msgid "Your %s store has "
+msgstr "Il tuo negozio %s ha "
+
+#: templates/importer/woo-summary.tpl.php:10
+msgid "Your WooCommerce store has "
+msgstr "Il tuo negozio WooCommerce ha "
+
+#: includes/integrations/class-ecwid-integration-elementor.php:64
+#: includes/integrations/class-ecwid-integration-divibuilder.php:25
+#: includes/integrations/class-ecwid-integration-gutenberg.php:94
+msgid "%s Store"
+msgstr "Negozio %s"
+
+#: includes/importer/class-ecwid-import-page.php:184
+msgid "%s products"
+msgstr "prodotti %s"
+
+#: includes/importer/class-ecwid-import-page.php:178
+msgid "%s products and %s categories"
+msgstr "prodotti %s e categorie %s"
+
+#: includes/class-ecwid-stub-renderer.php:27
+#: includes/class-ecwid-admin-storefront-page.php:272
+msgid "Product"
+msgstr "Prodotto"
+
+#: includes/class-ecwid-message-manager.php:278
+#: includes/class-ecwid-message-manager.php:297
+#: includes/class-ecwid-message-manager.php:318
+msgid "Warning: some of your online store features are disabled. Please contact your hosting provider to resolve."
+msgstr "Attenzione: alcune delle funzioni del tuo negozio online sono disabilitate. Ti invitiamo a contattare il tuo hosting provider per risolvere il problema."
+
+#: templates/admin/legacy-connect.tpl.php:39
+msgid "Create new account"
+msgstr "Crea nuovo account"
+
+#: templates/admin/legacy-connect.tpl.php:33
+msgid "Register at %s"
+msgstr "Registrati su %s"
+
+#: includes/class-ecwid-floating-minicart.php:155
+msgid "Bottom left"
+msgstr "In basso a sinistra"
+
+#: includes/class-ecwid-floating-minicart.php:154
+msgid "Top left"
+msgstr "In alto a sinistra"
+
+#: includes/class-ecwid-floating-minicart.php:113
+msgid "Show on all pages"
+msgstr "Mostra in tutte le pagine"
+
+#: includes/class-ecwid-floating-minicart.php:112
+msgid "Show on store pages"
+msgstr "Mostra nelle pagine del negozio"
+
+#: includes/class-ecwid-floating-minicart.php:111
+msgid "Do not show"
+msgstr "Non mostrare"
+
+#: includes/class-ecwid-customizer.php:134
+msgid "Vertical indent"
+msgstr "Rientro verticale"
+
+#: includes/class-ecwid-customizer.php:123
+msgid "Horizontal indent"
+msgstr "Rientro orizzontale"
+
+#: includes/class-ecwid-customizer.php:97
+msgid "Icon"
+msgstr "Icona"
+
+#: includes/class-ecwid-customizer.php:85
+#: includes/gutenberg/class-ecwid-gutenberg-block-minicart.php:79
+msgid "Border"
+msgstr "Bordo"
+
+#: includes/class-ecwid-customizer.php:72
+#: includes/gutenberg/class-ecwid-gutenberg-block-minicart.php:67
+msgid "Layout"
+msgstr "Layout"
+
+#: includes/class-ecwid-customizer.php:61
+msgid "Show when empty"
+msgstr "Mostra quando è vuoto"
+
+#: includes/class-ecwid-customizer.php:49
+msgid "Note: when enabled, the cart widget is always displayed in preview to make it easier to customize it. The \"Show on store pages\" and \"Show when empty\" options will apply to the cart widget on site when published"
+msgstr "Nota: quando è abilitato, il widget del carrello viene sempre mostrato in anteprima per facilitarne la personalizzazione. Le opzioni \"Mostra nelle pagine del negozio\" e \"Mostra quando è vuoto\" si applicano al widget del carrello sul sito al momento della pubblicazione"
+
+#: includes/class-ecwid-customizer.php:47
+msgid "Display shopping cart"
+msgstr "Mostra il carrello della spesa"
+
+#: includes/class-ecwid-customizer.php:35
+msgid "Shopping Cart Widget"
+msgstr "Widget del carrello della spesa"
+
+#. Author URI of the plugin
+msgid "https://ecwid.to/ecwid-site"
+msgstr "https://ecwid.to/ecwid-site"
+
+#: templates/product-popup.php:247
+msgid "selected product"
+msgstr "prodotto selezionato"
+
+#: templates/product-popup.php:138 templates/product-popup.php:143
+msgid "Selected Product"
+msgstr "Prodotto selezionato"
+
+#: templates/product-popup.php:124
+msgid " Choose another product"
+msgstr " Scegli un altro prodotto"
+
+#: templates/importer/landing.tpl.php:20
+msgid "Import your WooCommerce catalog to %s"
+msgstr "Importa il tuo catalogo WooCommerce in %s"
+
+#: includes/widgets/nsf-minicart-editor.tpl.php:35
+msgid "Border:"
+msgstr "Bordo:"
+
+#: includes/widgets/nsf-minicart-editor.tpl.php:19
+msgid "Cart icon:"
+msgstr "Icona del carrello:"
+
+#: includes/widgets/nsf-minicart-editor.tpl.php:3
+msgid "Layout:"
+msgstr "Layout:"
+
+#: includes/class-ecwid-floating-minicart.php:145
+msgid "No border"
+msgstr "Nessun bordo"
+
+#: includes/class-ecwid-floating-minicart.php:144
+msgid "Pill"
+msgstr "Pillola"
+
+#: includes/class-ecwid-floating-minicart.php:143
+msgid "Rectangle"
+msgstr "Rettangolo"
+
+#: includes/class-ecwid-floating-minicart.php:136
+msgid "Basket"
+msgstr "Cestino"
+
+#: includes/class-ecwid-floating-minicart.php:134
+msgid "Bag"
+msgstr "Borsa"
+
+#: includes/class-ecwid-floating-minicart.php:127
+msgid "Icon, label, item count, subtotal and link"
+msgstr "Icona, etichetta, conteggio articoli, subtotale e link"
+
+#: includes/class-ecwid-floating-minicart.php:126
+msgid "Icon, label, item count and subtotal"
+msgstr "Icona, etichetta, conteggio articoli e subtotale"
+
+#: includes/class-ecwid-floating-minicart.php:125
+msgid "Icon, label and item count"
+msgstr "Icona, etichetta e conteggio articoli"
+
+#: includes/class-ecwid-floating-minicart.php:124
+msgid "Icon and item count"
+msgstr "Icona e conteggio articoli"
+
+#: includes/class-ecwid-floating-minicart.php:123
+msgid "Label and item count"
+msgstr "Etichetta e conteggio articoli"
+
+#: includes/class-ecwid-floating-minicart.php:122
+msgid "Item count only"
+msgstr "Solo conteggio articoli"
+
+#: includes/class-ecwid-floating-minicart.php:121
+msgid "Small icon and item count"
+msgstr "Icona piccola e conteggio articoli"
+
+#: includes/class-ecwid-floating-minicart.php:120
+msgid "Small icon"
+msgstr "Icona piccola"
+
+#: includes/widgets/class-ecwid-widget-minicart.php:9
+msgid "Shopping Cart (deprecated)"
+msgstr "Carrello della spesa (disattivato)"
+
+#: includes/widgets/class-ecwid-widget-minicart-miniview.php:9
+msgid "Shopping Cart Mini (deprecated)"
+msgstr "Mini carrello della spesa (disattivato)"
+
+#: includes/widgets/class-ecwid-widget-floating-shopping-cart.php:21
+msgid "Shopping Cart Floating (deprecated)"
+msgstr "Carrello della spesa sospeso (disattivato)"
+
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:69
+msgid "Displays storefront: product listing and checkout"
+msgstr "Mostra la vetrina: elenco prodotti e checkout"
+
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:67
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:70
+msgctxt "vc-tab"
+msgid "Online store"
+msgstr "Negozio online"
+
+#: includes/integrations/class-ecwid-integration-gutenberg.php:105
+#: includes/gutenberg/class-ecwid-gutenberg.php:131
+msgid "Your product"
+msgstr "Il tuo prodotto"
+
+#: templates/shortcode-stub-store.tpl.php:18
+#: includes/integrations/class-ecwid-integration-gutenberg.php:103
+#: includes/widgets/class-ecwid-widget-product-browser.php:11
+#: includes/gutenberg/class-ecwid-gutenberg.php:129
+msgid "Your store will be shown here"
+msgstr "Il tuo negozio sarà mostrato qui"
+
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:31
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:101
+#: includes/integrations/class-ecwid-integration-gutenberg.php:101
+#: includes/gutenberg/class-ecwid-gutenberg.php:127
+#: js/gutenberg/blocks.build.js:1
+msgid "Choose product"
+msgstr "Scegli il prodotto"
+
+#: includes/integrations/class-ecwid-integration-gutenberg.php:97
+#: includes/gutenberg/class-ecwid-gutenberg.php:123
+msgid "%s product"
+msgstr "prodotto %s"
+
+#: templates/wp-toolbox.tpl.php:4
+msgid "Take advantage of powerful apps and extensions designed to enhance your store."
+msgstr "Approfitta di app ed estensioni efficienti progettate per migliorare il tuo negozio."
+
+#: templates/wp-toolbox.tpl.php:3
+msgid "Extensions for your Store"
+msgstr "Estensioni per il tuo negozio"
+
+#: templates/importer/woo-summary.tpl.php:6
+msgid "Import summary"
+msgstr "Importa riepilogo"
+
+#: templates/importer/woo-main.tpl.php:19
+msgid "This import will copy your WooCommerce products and categories to your %s store."
+msgstr "Questa importazione copierà i prodotti e le categorie WooCommerce nel tuo negozio %s."
+
+#: templates/importer/woo-main.tpl.php:62
+msgid "Importing %s of %s items"
+msgstr "%s articoli su %s in fase di importazione"
+
+#: templates/importer/woo-complete-alert.tpl.php:27
+msgid "Some of the items could not be imported."
+msgstr "Non è stato possibile importare alcuni articoli."
+
+#: templates/importer/landing.tpl.php:33
+msgid "Learn more"
+msgstr "Per saperne di più"
+
+#: templates/importer/landing.tpl.php:33
+msgid "https://support.ecwid.com/hc/en-us/articles/208079105-Importing-products"
+msgstr "https://support.ecwid.com/hc/en-us/articles/208079105-Importing-products"
+
+#: templates/importer/landing.tpl.php:31
+msgid "Ecwid allows you to upload your products in a form of CSV file. Learn more about this tool in the Ecwid Help Center"
+msgstr "Ecwid ti permette di caricare i tuoi prodotti sotto forma di file CSV. Per saperne di più su questo strumento visita l'Help Center Ecwid"
+
+#: templates/importer/landing.tpl.php:29
+msgid "Import product catalog from other sources"
+msgstr "Importa catalogo prodotti da altre fonti"
+
+#: templates/importer/landing.tpl.php:23
+msgid "(You will be able to confirm the changes before the actual import)"
+msgstr "(Potrai confermare le modifiche prima dell'importazione effettiva)"
+
+#: templates/importer/landing.tpl.php:12
+msgid "We found you have a WooCommerce installed. Your WooCommerce store has %1$s&nbsp;products and %2$s&nbsp;categories. Would you like to import it to %3$s?"
+msgstr "Abbiamo notato che utilizzi WooCommerce. Il tuo negozio WooCommerce ha %1$s&nbsp;prodotti e %2$s&nbsp;categorie. Vuoi importarlo in %3$s?"
+
+#: templates/importer/landing.tpl.php:9
+msgid "Import product catalog from WooCommerce"
+msgstr "Importa catalogo prodotti da WooCommerce"
+
+#: templates/importer/landing.tpl.php:4
+msgid "Here, we will help you uploading your product catalog to %s from another shopping cart or other sources."
+msgstr "Qui ti aiuteremo a caricare il tuo catalogo prodotti in %s da un altro carrello della spesa o da altre fonti."
+
+#: templates/importer/landing.tpl.php:1
+msgid "Import products to your %s store"
+msgstr "Importa prodotti nel tuo negozio %s"
+
+#: templates/dashboard-blog-posts.tpl.php:20
+msgid "Knowledge Base"
+msgstr "Knowledge Base"
+
+#: templates/dashboard-blog-posts.tpl.php:19
+msgid "https://support.ecwid.com/hc/en-us"
+msgstr "https://support.ecwid.com/hc/en-us"
+
+#: templates/dashboard-blog-posts.tpl.php:14
+msgid "https://www.ecwid.com/blog"
+msgstr "https://www.ecwid.com/blog"
+
+#: includes/importer/class-ecwid-import.php:39
+msgid "Bulk import products and categories to your %s store"
+msgstr "Importa in blocco prodotti e categorie nel tuo negozio %s"
+
+#: includes/importer/class-ecwid-import.php:38
+msgid "%s products and categories"
+msgstr "prodotti e categorie %s"
+
+#: templates/importer/woo-main.tpl.php:36
+#: includes/importer/class-ecwid-import-page.php:52
+#: includes/importer/class-ecwid-import-page.php:53
+msgid "Import your products from WooCommerce to %s"
+msgstr "Importa i tuoi prodotti da WooCommerce in %s"
+
+#: includes/importer/class-ecwid-import-page.php:42
+#: includes/importer/class-ecwid-import-page.php:43
+msgid "Import"
+msgstr "Importa"
+
+#: templates/dashboard-blog-posts.tpl.php:15
+#: includes/class-ecwid-wp-dashboard-feed.php:48
+msgid "%s Blog"
+msgstr "Blog %s"
+
+#: includes/class-ecwid-message-manager.php:345
+msgid "No Thanks"
+msgstr "No, grazie"
+
+#: includes/class-ecwid-message-manager.php:343
+msgid "Import my products from WooCommerce"
+msgstr "Importa i miei prodotti da WooCommerce"
+
+#: includes/class-ecwid-message-manager.php:341
+msgid "We noticed you have WooCommerce installed. If you want to easily copy your WooCommerce products to %s, this tool will help you."
+msgstr "Abbiamo notato che utilizzi WooCommerce. Se vuoi copiare facilmente i tuoi prodotti WooCommerce in %s, questo strumento ti aiuterà."
+
+#: includes/class-ecwid-message-manager.php:340
+msgid "Need help importing your products from WooCommerce to %s?"
+msgstr "Hai bisogno di aiuto per importare i tuoi prodotti da WooCommerce in %s?"
+
+#: includes/class-ecwid-admin.php:213 includes/class-ecwid-admin.php:214
+msgid "Customers"
+msgstr "Clienti"
+
+#: templates/help.php:28
+msgid "or <a %s>Browse the Help Center"
+msgstr "o <a %s>Visita l'Help Center"
+
+#: templates/admin/welcome-connection-message.php:5
+msgid "To display your store on this site, you need to allow WordPress to access your %1$s products. Please press connect to provide permission."
+msgstr "Per mostrare il tuo negozio su questo sito, devi autorizzare WordPress ad accedere ai tuoi prodotti %1$s. Premi connect per dare il consenso."
+
+#: includes/faq_entries.php:40
+msgid "Our 4 account types vary by number of products, types of functionality, and level of support. For more information, check out our <a target=\"_blank\" href=\"%s\">pricing page.</a><br /><br />Pro Tip: You can also save money by enrolling in our annual plans."
+msgstr "I 4 tipi di account disponibili variano in base al numero di prodotti, ai tipi di funzionalità e al livello di assistenza previsti. Per ulteriori informazioni, consulta la <a target=\"_blank\" href=\"%s\">pagina dei prezzi.</a><br /><br /> Suggerimento pro: puoi decidere di risparmiare iscrivendoti ad un piano annuale."
+
+#: includes/class-ecwid-popup-deactivate.php:59
+msgid "[%s] WordPress plugin deactivation feedback (store ID: %s)"
+msgstr "[%s] Feedback di disattivazione del plugin WordPress (store ID: %s)"
+
+#: includes/class-ecwid-message-manager.php:289
+msgid "Your storefront (product listing and checkout) is working fine, but the advanced store functions like SEO and sidebar widgets are disabled. To enable them and make sure your store works properly, please press the button below to connect your %s account. This will take less than a minute — you will only be asked to log in to your account and allow this site to get your store data."
+msgstr "La tua vetrina (elenco prodotti e checkout) è perfettamente funzionante, ma le opzioni avanzate consentite come il SEO e i widget della barra laterale sono disabilitate. Per attivarle e assicurarti che il negozio funzioni correttamente, premi il pulsante qui sotto per collegare il tuo account %s. L'operazione richiederà meno di un minuto; ti verrà chiesto solo di accedere al tuo account per permettere al sito di ottenere i dati del tuo negozio."
+
+#: includes/class-ecwid-message-manager.php:288
+msgid "Action required: please connect your %s account"
+msgstr "Azione richiesta: collega il tuo account %s"
+
+#: templates/popup/deactivate.php:24
+msgid "Contact Support"
+msgstr "Contatta l'assistenza"
+
+#: templates/popup/deactivate.php:1
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr "Se hai un momento, comunicaci perché stai procedendo con la disattivazione:"
+
+#: templates/admin/welcome-create.php:4
+msgid "Create Store"
+msgstr "Crea negozio"
+
+#: templates/advanced-settings.php:1
+msgid "%s — Advanced settings"
+msgstr "%s - Impostazioni avanzate"
+
+#: includes/widgets/class-ecwid-widget-random-products.php:10
+msgid "Displays a list of random products."
+msgstr "Mostra un elenco di prodotti a caso."
+
+#: includes/widgets/class-ecwid-widget-random-products.php:9
+msgid "Random Products"
+msgstr "Prodotti a caso"
+
+#: includes/widgets/class-ecwid-widget-random-product.php:9
+#: includes/widgets/class-ecwid-widget-random-product.php:64
+msgid "Random Product"
+msgstr "Prodotto a caso"
+
+#: includes/widgets/class-ecwid-widget-random-product.php:8
+msgid "Displays a random product from your store to attract customer attention."
+msgstr "Mostra un prodotto a caso dal tuo negozio per attirare l'attenzione dei clienti"
+
+#: includes/widgets/class-ecwid-widget-latest-products.php:10
+msgid "Displays the latest added products from your store. Show new products to returning customers to drive repeat sales."
+msgstr "Mostra gli ultimi prodotti aggiunti nel tuo negozio. Mostra i nuovi prodotti ai clienti di ritorno per promuovere vendite ricorrenti."
+
+#: includes/widgets/class-ecwid-widget-latest-products.php:9
+msgid "Latest Products"
+msgstr "Ultimi prodotti"
+
+#: includes/class-ecwid-popup-deactivate.php:164
+msgid "Can you share your feedback? What was wrong?"
+msgstr "Vuoi lasciarci il tuo feedback? Che cosa non ha funzionato?"
+
+#: includes/class-ecwid-popup-deactivate.php:161
+msgid "Other"
+msgstr "Altro"
+
+#: includes/class-ecwid-popup-deactivate.php:155
+msgid "It's a temporary deactivation. Please do not ask me again."
+msgstr "È una disattivazione temporanea. Per favore, non chiedermelo più."
+
+#: includes/class-ecwid-popup-deactivate.php:152
+msgid "Can you share the name of the plugin you chose?"
+msgstr "Puoi comunicarci il nome del plugin che hai scelto?"
+
+#: includes/class-ecwid-popup-deactivate.php:149
+msgid "I found a better plugin"
+msgstr "Ho trovato un plugin migliore"
+
+#: includes/class-ecwid-popup-deactivate.php:146
+msgid "What feature do you need?"
+msgstr "Di quali funzionalità hai bisogno?"
+
+#: includes/class-ecwid-popup-deactivate.php:143
+msgid "The plugin doesn't support the feature I want"
+msgstr "Il plugin non supporta la funzionalità che cerco"
+
+#: includes/class-ecwid-popup-deactivate.php:128
+msgid "What was wrong?"
+msgstr "Che cosa non ha funzionato?"
+
+#: includes/class-ecwid-popup-deactivate.php:125
+msgid "I have a problem using this plugin"
+msgstr "Ho un problema con questo plugin"
+
+#: includes/class-ecwid-popup-deactivate.php:112
+msgid "Before You Go"
+msgstr "Prima di andare"
+
+#: templates/admin/storefront/area-navigation.php:79
+#: includes/class-ecwid-popup-deactivate.php:105
+msgid "Cancel"
+msgstr "Annulla"
+
+#: includes/class-ecwid-popup-deactivate.php:101
+msgid "Submit & Deactivate"
+msgstr "Invia & Disattiva"
+
+#: includes/class-ecwid-message-manager.php:244
+#: includes/class-ecwid-store-page.php:568
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:51
+#: ecwid-shopping-cart.php:1082 js/gutenberg/blocks.build.js:1
+msgid "Set up your store"
+msgstr "Configura il tuo negozio"
+
+#: templates/admin-head.php:8 includes/class-ecwid-admin.php:48
+#: includes/integrations/class-ecwid-integration-gutenberg.php:45
+#: includes/gutenberg/class-ecwid-gutenberg.php:69
+msgid "%s"
+msgstr "%s"
+
+#: templates/product-popup.php:199 js/gutenberg/blocks.build.js:1
+msgid "«Buy now» button"
+msgstr "Pulsante «Acquista ora»"
+
+#: templates/admin/simple-dashboard.php:10
+msgid "%s Shopping Cart"
+msgstr "Carrello della spesa %s"
+
+#: templates/advanced-settings.php:42
+msgid "Please subscribe to a paid plan to get this feature."
+msgstr "Iscriviti a un piano a pagamento per ottenere questa funzionalità."
+
+#: templates/admin-footer.php:9
+msgid "Get %s mobile app"
+msgstr "Scarica l'app %s per mobile"
+
+#: includes/class-ecwid-message-manager.php:272
+msgid "Rate %s at WordPress.org"
+msgstr "Valuta %s su WordPress.org"
+
+#: includes/class-ecwid-message-manager.php:268
+msgid "Do you like your %s online store? We'd appreciate it if you add your review and vote for the plugin on WordPress site."
+msgstr "Sei soddisfatto del tuo negozio online %s? Ti saremmo grati se potessi lasciare una recensione e votare il plugin sul sito di WordPress."
+
+#: includes/class-ecwid-message-manager.php:260
+msgid "To add extra functions to your store, drag and drop %s store elements on your site. When you're done, you can get back to modifying your settings."
+msgstr "Per aggiungere funzionalità extra al tuo negozio, trascina e rilascia gli elementi sul sito. Una volta terminato, puoi modificare le impostazioni."
+
+#: templates/sync.php:114
+msgid "Provide access."
+msgstr "Fornisci accesso"
+
+#: templates/sync.php:113
+msgid "To enable this feature, the plugin needs a permission to read your store product information."
+msgstr "Per abilitare questa funzionalità, è necessario dare al plugin l'autorizzazione per leggere le informazioni dei prodotti del tuo negozio."
+
+#: templates/product-popup.php:137 templates/product-popup.php:147
+msgid "Choose Product"
+msgstr "Scegli prodotto"
+
+#: templates/product-popup.php:96
+msgid "Try another search."
+msgstr "Fai un'altra ricerca"
+
+#: templates/sync.php:152
+msgid "Not synchronized yet"
+msgstr "Non ancora sincronizzato"
+
+#: templates/sync.php:149
+msgid "Last update"
+msgstr "Ultimo aggiornamento"
+
+#: templates/sync.php:145
+msgid "Products are successfully synchronized. The product pages are up to date."
+msgstr "Prodotti sincronizzati con successo. Le pagine dei prodotti sono aggiornate."
+
+#: templates/sync.php:138
+msgid "Products synchronized: %1$s out of %2$s"
+msgstr "Prodotti sincronizzati: %1$s su %2$s"
+
+#: templates/sync.php:126
+msgid "We're synchronizing your products. This may take a few minutes. Please do not reload the page."
+msgstr "Stiamo sincronizzando i tuoi prodotti. L'operazione potrebbe richiedere qualche minuto. Non ricaricare la pagina."
+
+#: templates/sync.php:119
+msgid "Synchronize products"
+msgstr "Prodotti sincronizzati"
+
+#: templates/advanced-settings.php:83
+msgid "%s stores your products data in a secure cloud storage. The product pages are displayed on the fly when a customer browses your store. So, basically, the products are not stored on the site, that's why the site search doesn't find product pages while looking through site pages and posts. This option enables a local storage mode: the products will be stored both in the cloud and on your site. The site search results will list product pages as well as regular pages/posts of your site."
+msgstr "%s archivia i dati dei tuoi prodotti in un cloud storage sicuro. Le pagine dei prodotti vengono mostrate all'istante quando un cliente visita il tuo negozio. Quindi, in pratica, dato che i prodotti non sono archiviati sul sito, quando si effettua una ricerca nel sito, questa avviene tra le pagine del sito e i post, mentre le pagine dei prodotti non compaiono tra i risultati. Questa opzione abilita una modalità di memorizzazione locale: i prodotti sono memorizzati sia nel cloud che sul tuo sito. Tra i risultati delle ricerche effettuate nel sito vengono mostrate anche le pagine dei prodotti, oltre alle consuete pagine/post del sito."
+
+#: templates/product-popup.php:243
+msgid "Insert"
+msgstr "Inserisci"
+
+#: templates/product-popup.php:242
+msgid "select product"
+msgstr "seleziona prodotto"
+
+#: templates/product-popup.php:241 templates/product-popup.php:246
+msgid "customize appearance"
+msgstr "personalizza aspetto"
+
+#: templates/product-popup.php:224
+msgid "Show price inside the \"Buy now\" button"
+msgstr "Mostra prezzo all'interno del pulsante \"Acquista ora\""
+
+#: templates/product-popup.php:229
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:62
+#: js/gutenberg/blocks.build.js:1
+msgid "Center align on a page"
+msgstr "Allinea al centro della pagina"
+
+#: templates/product-popup.php:219 js/gutenberg/blocks.build.js:1
+msgid "Add border"
+msgstr "Aggiungi bordo"
+
+#: templates/product-popup.php:188 js/gutenberg/blocks.build.js:1
+msgid "Quantity"
+msgstr "Quantità"
+
+#: templates/product-popup.php:178 js/gutenberg/blocks.build.js:1
+msgid "Options"
 msgstr "Opzioni"
 
-msgid "Dashboard"
-msgstr "Pannello"
+#: templates/product-popup.php:173 js/gutenberg/blocks.build.js:1
+msgid "Picture"
+msgstr "Immagine"
+
+#: templates/product-popup.php:163
+msgid "Choose product properties to display in widget"
+msgstr "Scegli le caratteristiche del prodotto da mostrare nel widget"
+
+#: templates/product-popup.php:139 templates/product-popup.php:151
+msgid "Customize widget"
+msgstr "Personalizza widget"
+
+#: templates/product-popup.php:97
+msgid "Browse all products."
+msgstr "Sfoglia tutti i prodotti."
+
+#: templates/product-popup.php:94
+msgid "Nothing found for <span class=\"empty-page__term\">\"{{ data.term }}\"</span>"
+msgstr "Nessun risultato per <span class=\"empty-page__term\">\"{{ data.term }}\"</span>"
+
+#: templates/product-popup.php:80
+msgid "Next page"
+msgstr "Pagina seguente"
+
+#: templates/product-popup.php:69
+msgid "Current Page"
+msgstr "Pagina corrente"
+
+#: templates/product-popup.php:49
+msgid "Title or SKU"
+msgstr "Titolo o Cod. Art."
+
+#: templates/product-popup.php:47 templates/product-popup.php:53
+#: templates/product-popup.php:56
+msgid "Search"
+msgstr "Cerca"
+
+#: templates/product-popup.php:29
+msgid "SKU"
+msgstr "Cod. Art."
+
+#: templates/product-popup.php:23
+msgid "Name"
+msgstr "Nome"
+
+#: includes/class-ecwid-product-popup.php:150
+msgid "Last Page"
+msgstr "Ultima pagina"
+
+#: includes/class-ecwid-product-popup.php:149
+msgid "Next Page"
+msgstr "Pagina seguente"
+
+#: includes/class-ecwid-product-popup.php:148
+msgid "Previous Page"
+msgstr "Pagina precedente"
+
+#: includes/class-ecwid-product-popup.php:147
+msgid "First Page"
+msgstr "Prima pagina"
+
+#: includes/class-ecwid-product-popup.php:107
+msgid "Add Product"
+msgstr "Aggiungi prodotto"
+
+#: includes/class-ecwid-oauth.php:366
+msgid "To be able to choose a product to insert to your posts and pages, you will need to re-connect your site to your %s store. This will only require you to accept permissions request – so that the plugin will be able to list your products in the \"Add product\" dialog."
+msgstr "Per poter scegliere un prodotto da inserire nei post e nelle pagine, devi ricollegare il sito al tuo negozio %s. Questa operazione ti chiederà solo di accettare la richiesta di autorizzazione, in modo che il plugin possa elencare i prodotti nella finestra di dialogo \"Aggiungi prodotto\"."
+
+#: templates/advanced-settings.php:54
+msgid "To make sure your customer can actually log in to your site and store, enable registration in the <a %s>site settings</a>"
+msgstr "Per accertarti che i tuoi clienti possano effettivamente accedere al sito e al negozio, abilita la registrazione nelle impostazioni del sito <a %s></a>."
+
+#: templates/advanced-settings.php:48
+msgid "To allow %s automatically log in customers to your store, please provide it with a permission to use the customer data in the store. <a %s>Please use this link to do that</a>"
+msgstr "Per consentire a %s di far accedere automaticamente i clienti al negozio, richiediamo l'autorizzazione per l'utilizzo dei dati dei clienti che accedono. <a %s>Utilizza questo link per procedere</a>}"
+
+#: templates/advanced-settings.php:39
+msgid "Upgrade to get this feature"
+msgstr "Passa a un piano superiore per ottenere questa funzionalità"
+
+#: templates/advanced-settings.php:32
+msgid "Single Sign-On allows your customers to have a single login for your WordPress site and your %s. When someone logs in to your site, they will automatically be logged in to their customer account in your store as well with no need to enter their email/password again."
+msgstr "Single Sign-On permette ai tuoi clienti di avere un unico login per WordPress e %s. Quando accederanno al tuo sito, saranno automaticamente connessi al loro account cliente anche nel negozio, senza bisogno di inserire nuovamente e-mail/password."
+
+#: templates/advanced-settings.php:27
+msgid "Customer Single Sign-On"
+msgstr "Single sign-on per i clienti"
+
+#: includes/integrations/class-ecwid-integration-divibuilder.php:63
+msgid "Enter optional CSS classes to be used for this module. A CSS class can be used to create custom CSS styling. You can add multiple classes, separated with a space."
+msgstr "Inserisci le classi CSS opzionali da utilizzare per questo modulo. Una classe CSS può essere usata per creare uno stile CSS personalizzato. Puoi aggiungere più classi, separate da uno spazio."
+
+#: includes/integrations/class-ecwid-integration-divibuilder.php:60
+msgid "CSS Class"
+msgstr "Classe CSS"
+
+#: includes/integrations/class-ecwid-integration-divibuilder.php:57
+msgid "Enter an optional CSS ID to be used for this module. An ID can be used to create custom CSS styling, or to create links to particular sections of your page."
+msgstr "Inserisci un ID CSS opzionale da utilizzare per questo modulo. Un ID può essere usato per creare uno stile CSS personalizzato o per creare link a particolari sezioni della pagina."
+
+#: includes/integrations/class-ecwid-integration-divibuilder.php:54
+msgid "CSS ID"
+msgstr "ID CSS"
 
-msgid "Appearance settings"
-msgstr "Impostazioni visualizzazione"
+#: includes/integrations/class-ecwid-integration-divibuilder.php:51
+msgid "This will change the label of the module in the builder for easy identification."
+msgstr "In questo modo l'etichetta del modulo nel generatore verrà cambiata per permettere una facile identificazione."
 
-msgid "Appearance"
-msgstr "Visualizzazione"
+#: includes/integrations/class-ecwid-integration-divibuilder.php:49
+msgid "Admin Label"
+msgstr "Etichetta Admin"
 
-msgid "Advanced settings"
-msgstr "Impostazioni avanzate"
+#: includes/integrations/class-ecwid-integration-divibuilder.php:44
+msgid "Here you can create the content that will be used within the module."
+msgstr "Qui puoi creare il contenuto che verrà utilizzato all'interno del modulo."
 
-msgid "Advanced"
-msgstr "Avanzate"
+#: includes/integrations/class-ecwid-integration-divibuilder.php:41
+msgid "Content"
+msgstr "Contenuto"
 
-msgid "Hidden category"
-msgstr "Categoria nascosta"
+#: templates/admin-footer.php:29
+msgid "<a %s>Reconnect</a>"
+msgstr "<a %s>Riconnetti</a>"
 
-msgid "Recommendations for Your Online Store"
-msgstr "Consigli per il tuo negozio Online"
+#: templates/help.php:15
+msgid "https://support.ecwid.com/hc/en-us/search"
+msgstr "https://support.ecwid.com/hc/en-us/search"
 
-msgid "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
-msgstr "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
+#: includes/widgets/class-ecwid-widget-vertical-categories-list.php:73
+msgid "Browse by Category"
+msgstr "Sfoglia per categoria"
 
-msgid "Ecwid Badge"
-msgstr "Ecwid Badge"
+#: includes/widgets/class-ecwid-widget-vertical-categories-list.php:15
+msgid "Store Root Categories"
+msgstr "Categorie di root del negozio"
 
-msgid "Ecwid shopping cart widget"
-msgstr "Widget Ecwid"
+#: includes/widgets/class-ecwid-widget-vertical-categories-list.php:14
+msgid "Adds root categories list to the sidebar to let your customers navigate the store."
+msgstr "Aggiungi categorie di root alla barra laterale per consentire ai clienti di navigare nel negozio."
 
-msgid "Ecwid ecommerce solution"
-msgstr "Soluzione ecommerce Ecwid"
+#: templates/admin/welcome-connection-message.php:25
+msgid "To sell using %1$s, you must allow WordPress to access the %1$s plugin. The connect button will direct you to your %1$s account where you can provide permission."
+msgstr "Per vendere utilizzando %1$s, è necessario consentire a WordPress di accedere al plugin %1$s. Il pulsante connect ti indirizzerà al tuo account %1$s dove potrai dare l'autorizzazione."
 
-msgid "Ecwid free shopping cart"
-msgstr "Ecwid carrello gratuito"
+#: templates/admin-timeout.php:11
+msgid "Our team is already working on this issue. Please refresh the page in a few minutes. If the issue persists, please contact <a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/emails/new\">our customer support team</a>."
+msgstr "Il nostro team è già al lavoro sul problema. Ti invitiamo ad aggiornare la pagina entro pochi minuti. Se il problema persiste, contatta <a target=\"_blank\" href=\"https://help.ecwid.com/customer/portal/emails/new\"> il nostro team di assistenza clienti</a>."
 
-msgid "Ecwid shopping cart"
-msgstr "Ecwid shopping cart"
+#: templates/admin-timeout.php:9
+msgid "Sorry we're having technical difficulties."
+msgstr "Ci scusiamo per le difficoltà tecniche."
 
-msgid "Ecwid e-commerce widgets"
-msgstr "Widget Ecwid e-commerce "
-
-msgid "Adds a cart widget for customer to see the products they added to the cart."
-msgstr "Adds a cart widget for customer to see the products they added to the cart."
-
-msgid "Shopping Cart"
-msgstr "Shopping Cart"
-
-msgid "Adds a compact cart widget for customer to see the products they added to the cart."
-msgstr "Adds a compact cart widget for customer to see the products they added to the cart."
-
-msgid "Shopping Cart (Mini)"
-msgstr "Shopping Cart (Mini)"
-
-msgid "Displays a simple search box for your customers to find a product in your storex"
-msgstr "Displays a simple search box for your customers to find a product in your storex"
-
-msgid "Product Search"
-msgstr "Product Search"
-
-msgid "Adds vertical categories block to let the customer navigate your store."
-msgstr "Adds vertical categories block to let the customer navigate your store."
-
-msgid "Store Categories"
-msgstr "Store Categories"
-
-msgid "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
-msgstr "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
-
-msgid "Store Page Link"
-msgstr "Store Page Link"
-
-msgid "Shop"
-msgstr "Negozio"
-
-msgid "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
-msgstr "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
-
-msgid "Recently Viewed Products"
-msgstr "Prodotti visti recentemente"
-
-msgid "You have not viewed any product yet. Open store."
-msgstr "You have not viewed any product yet. Open store."
-
-msgid "Store Link Title"
-msgstr "Titolo link per il negozio"
-
-msgid "Number of products to show"
-msgstr "Numero di prodotti da mostrare"
-
-msgid "Greetings! Your Ecwid store is now active."
-msgstr "Congratulazioni! Il tuo negozio Ecwid è ora attivo."
-
-msgid "Take a few simple steps to complete store setup"
-msgstr "Ora esegui alcuni semplici step per completare la configurazione del negozio"
-
-msgid "Set up Ecwid Store"
-msgstr "Imposta Negozio Ecwid"
-
-msgid "Good job! Your store is set up and you're ready to sell."
-msgstr "Ottimo lavoro! Il tuo negozio è stato configurato e ora sei pronto a vendere."
-
-msgid "Now you can fine-tune your store's appearance"
-msgstr "Ora è possibile ottimizzare l'aspetto del tuo negozio"
-
-msgid "Visit Storefront"
-msgstr "Visita la vetrina del negozio"
-
-msgid "Configure Appearance"
-msgstr "Configurare l'aspetto"
-
-msgid "Your store is almost ready!"
-msgstr "Il negozio è quasi pronto!"
-
-msgid "Connect your Ecwid account with this site to complete setup and start selling"
-msgstr "Collega il tuo account Ecwid con questo sito per completare l'installazione e iniziare a vendere"
-
-msgid "Connect Your Ecwid Store"
-msgstr "Collega il tuo negozio Ecwid"
-
-msgid "To add extra functions to your store, drag and drop Ecwid store elements on your site. When you're done, you can get back to modifying your settings."
-msgstr "Per aggiungere funzioni extra al tuo negozio, trascina e rilascia gli elementi del negozio Ecwid sul tuo sito. Quando hai finito, è possibile tornare indietro per modificare le impostazioni."
-
-msgid "Back to Store Settings"
-msgstr "Torna alle impostazioni del negozio"
-
-msgid "Do you like your Ecwid online store? We'd appreciate it if you add your review and vote for the plugin on Wordpress site."
-msgstr "Ti piace il tuo negozio online Ecwid? Apprezzeremmo se aggiungi la recensione e il voto per il plugin sul sito Wordpress."
-
-msgid "Rate Ecwid at WordPress.org"
-msgstr "Valuta Ecwid su WordPress.org"
-
-msgid "Add Store"
-msgstr "Aggiungi Negozio"
-
-msgid "Edit Store"
-msgstr "Modifica Negozio"
-
-msgid "Edit Appearance"
-msgstr "Modifica l'aspetto"
-
-msgid "Price"
-msgstr "Prezzo"
-
-msgid "Never show this message again"
-msgstr "Non mostrare più questo messaggio"
-
-msgid "Ecwid Shopping Cart — Advanced settings"
-msgstr "Ecwid Shopping Cart — Impostazioni Avanzate"
-
-msgid "Category shown by default"
-msgstr "Categoria visualizzata come predefinita"
-
-msgid "Store root category"
-msgstr "Categoria principale negozio"
-
-msgid "Default category ID"
-msgstr "ID categoria predefinita"
-
-msgid "By default, the storefront shows a list of root categories. You can override this behavior and show a different category when customers open your store for the first time. This is useful if you only have one category or want to display a specific set of items (e.g. \"Featured Products\") to new visitors."
-msgstr "Per impostazione predefinita, la vetrina mostra un elenco di categorie principali. È possibile ignorare questo comportamento e mostrare una categoria diversa quando i clienti aprono il negozio per la prima volta. E 'utile se si dispone di una sola categoria o si desidera visualizzare uno specifico insieme di elementi (es. \"Prodotti in evidenza\")  a tutti i nuovi visitatori."
-
-msgid "In order to set this option, <a %s>find an ID of the necessary category</a> and save it here."
-msgstr "Per attivare questa opzione, <a %s> cerca un ID della categoria necessaria</a> e salvalo qui."
-
-msgid "Single Sign-On Secret Key"
-msgstr "Registrazione  Sign-On Secret Key"
-
-msgid "Single Sign-On Secret Key is an option that allows your customers access to your WordPress site as well as the Ecwid shopping cart. When customers log in to your site, they will automatically be logged in to your Ecwid store as well. It makes sense to enable this feature if your visitors actually create accounts in your WordPress website."
-msgstr "Questa funzione opzionale consente di abilitare la Sign-on Secret Key, quando i clienti sono registrati al sito, si accede automaticamente al tuo negozio Ecwid, anche se non dispongono di un account del negozio . Ha senso attivare questa funzione, se i visitatori effettivamente hanno creato un account nel tuo sito WordPress."
-
-msgid "In order to enable this feature, opt to use a secret key. You will find this key in your Ecwid control panel, at \"System Settings > Apps > Legacy API Keys > Single Sign-On Secret Key\" page. This feature is available for <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">paid users</a> only."
-msgstr "Per abilitare questa funzione è necessario essere in possesso di una chiave segreta. Troverai questo pulsante nel pannello di controllo Ecwid,  in \"Impostazioni di sistema > Apps > Single Sign-on API secret key\" . Questa funzione è disponibile per tutti gli <a href=\"http://www.ecwid.com/compare-plans.html\" target=\"_blank\">utenti paganti</a>."
-
-msgid "Chameleon skin <sup>beta</sup>"
-msgstr "Tema Chameleon <sup>beta</sup>"
-
-msgid "Automatic adjustment of your store design to your Wordpress theme. Whatever Wordpress theme you use, Ecwid will detect predominant colors and font and use them in your product catalog."
-msgstr "Regolazione automatica del design del tuo negozio per il tema Wordpress. Qualsiasi tema Wordpress utilizzi, Ecwid rileverà font e colori predominanti e li utilizzerà nel tuo catalogo prodotti."
-
-msgid "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
-msgstr "Please note this functionality is in beta. So if you run into difficulties or find problems with Chameleon, please <a %s>let us know</a>."
-
-msgid "Enable the new category menu"
-msgstr "Enable the new category menu"
-
-msgid "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
-msgstr "The new category menu looks better and is more mobile-friendly. If you haven't yet added category menu to your store page, you can do that in the <a %s>store page editor</a> (enable the \"Show categories\" option)"
-
-msgid "Save changes"
-msgstr "Salva modifiche"
-
-msgid "Ecwid Shopping Cart — Appearance settings"
-msgstr "Ecwid Shopping Cart — Impostazioni di visualizzazione"
-
-msgid "Display search box above products"
-msgstr "Mostra casella di ricerca sopra prodotti"
-
-msgid "Or you can add search box to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
-msgstr "Puoi anche aggiungere alla barra degli strumenti la casella di ricerca del tuo sito web utilizzando i <a href=\"%s\">widgets nativi di WordPress</a>"
-
-msgid "Display categories above products"
-msgstr "Display categories above products"
-
-msgid "Or you can add vertical categories to your website's toolbar using <a href=\"%s\">WordPress native widgets</a>"
-msgstr "Puoi anche aggiungere alla barra degli strumenti le categorie verticali utilizzando i <a href=\"%s\">widgets nativi di WordPress</a>"
-
-msgid "Enable minicart attached to categories"
-msgstr "Enable minicart attached to categories"
-
-msgid "You should disable this option, if you added minicart to your website's&nbsp;sidebar"
-msgstr "È necessario disattivare questa opzione, se hai aggiunto il carrello al tuo sito web&nbsp;sidebar"
-
-msgid "Number of categories per row"
-msgstr "Numero di categorie per riga"
-
-msgid "Number of products per page"
-msgstr "Numero di prodotti per pagina"
-
-msgid "Grid view"
-msgstr "Visualizza come griglia"
-
-msgid "List view"
-msgstr "Visualizza come elenco"
-
-msgid "Table view"
-msgstr "Visualizza come tabella"
-
-msgid "Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, Ecwid will adapt the number of columns to hold all products."
-msgstr "Qui è possibile controllare il numero di prodotti da visualizzare per pagina. Queste opzioni definiscono valori massimi. Se non c'è abbastanza spazio per mostrare tutte le colonne dei prodotto, Ecwid adatterà il numero di colonne a tutti i prodotti."
-
-msgid "Default view mode on product pages"
-msgstr "Modalità di visualizzazione predefinita sulle pagine prodotti"
-
-msgid "Grid"
-msgstr "Griglia"
-
-msgid "List"
-msgstr "Elenco"
-
-msgid "Table"
-msgstr "Tabella"
-
-msgid "Default view mode on search results"
-msgstr "Modalità di visualizzazione predefinita nei risultati di ricerca"
-
-msgid "Connect your store<br /> to this WordPress site"
-msgstr "Collega il tuo negozio<br /> a questo sito WordPress"
-
-msgid "Enter your Store ID"
-msgstr "Enter your Store ID"
-
-msgid "Connect Ecwid store"
-msgstr "Collega Ecwid store"
-
-msgid "Save and connect"
-msgstr "Save and connect"
-
-msgid "After clicking button you need to login and accept permissions to use our plugin"
-msgstr "Dopo aver cliccato il pulsante devi accedere e accettare le autorizzazioni necessarie per utilizzare il nostro plugin"
-
-msgid "Connection error - after clicking button you need to login and accept permissions to use our plugin. Please, try again."
-msgstr "Errore di connessione - dopo aver cliccato il pulsante, è necessario accedere e accettare le autorizzazioni necessarie per utilizzare il nostro plugin. Per favore, riprova."
-
-msgid "Where to find your Store ID:"
-msgstr "Where to find your Store ID:"
-
-msgid "Store ID is a unique identifier of your Ecwid account. You can find it in your Ecwid control panel: open the <a %s>Dashboard page</a> and find the \"<b>Store ID: NNNNNNN</b>\" text, where <b>NNNNNNN</b> is your Store&nbsp;ID."
-msgstr "Store ID is a unique identifier of your Ecwid account. You can find it in your Ecwid control panel: open the <a %s>Dashboard page</a> and find the \"<b>Store ID: NNNNNNN</b>\" text, where <b>NNNNNNN</b> is your Store&nbsp;ID."
-
-msgid "Don't have Ecwid account? Create it here"
-msgstr "Non hai un accont Ecwid? Crealo qui"
-
-msgid "Questions? Visit <a %s>Ecwid support center</a>"
-msgstr "Hai domande? Visita il <a %s>Centro di supporto Ecwid</a>"
-
-msgid "Store ID"
-msgstr "ID Negozio"
-
-msgid "Disconnect store"
-msgstr "Scollega il negozio"
-
-msgid "Congratulations!"
-msgstr "Congratulazioni!"
-
-msgid "Your Ecwid store is now connected<br /> to your WordPress website"
-msgstr "Il tuo negozio Ecwid è ora collegato<br /> al tuo sito Web WordPress"
-
-msgid "Greetings!"
-msgstr "Auguri!"
-
-msgid "Your Ecwid store is connected<br /> to your WordPress website"
-msgstr "Il tuo negozio Ecwid è collegato<br /> al tuo sito WordPress"
-
-msgid "Open control panel"
-msgstr "Apri pannello di controllo"
-
-msgid "Plugin is installed successfully!"
-msgstr "Plugin installato con successo!"
-
-msgid "There are just a few steps left to start selling<br /> on your WordPress site"
-msgstr "Ci sono pochi step da fare per iniziare a vendere<br /> sul tuo sito WordPress"
-
-msgid "There are few little steps left to start selling<br /> on your WordPress site"
-msgstr "Ci sono alcuni piccoli step da fare per iniziare a vendere<br /> sul tuo sito WordPress"
-
-msgid "Register"
-msgstr "Registra"
-
-msgid "Create a free Ecwid account to manage your store and inventory.<br /> No credit card required"
-msgstr "Crea un account gratuito di Ecwid per gestire il tuo negozio e le tue giacenze.<br /> Nessuna carta di credito necessaria"
-
-msgid "Connect"
-msgstr "Collegati"
-
-msgid "Add your Ecwid store to your site <nobr>in two clicks</nobr>"
-msgstr "Aggiungi il tuo negozio Ecwid per il tuo sito <nobr>in due click</nobr>"
-
-msgid "Connect your Ecwid store to this site <nobr>in two clicks</nobr>"
-msgstr "Collega il tuo negozio di Ecwid a questo sito <nobr>in due click</nobr>"
-
-msgid "Start selling"
-msgstr "Iniziare a vendere"
-
-msgid "Your storefront is ready"
-msgstr "Il tuo negozio virtuale è pronto"
-
-msgid "Create Ecwid store"
-msgstr "Crea un negozio Ecwid"
-
-msgid "Connect your store"
-msgstr "Collega il tuo negozio"
-
-msgid "Free registration, No credit card required"
-msgstr "Registrazione gratuita, nessuna carta di credito necessaria"
-
-msgid "Connection error: please click the button again and give permissions for this plugin<br /> to show your Ecwid store on this site."
-msgstr "Errore di connessione: per mostrare il tuo negozio Ecwid su questo sito<br /> clicca ancora sul pulsante e concedi le autorizzazioni per questo plugin."
-
-msgid "You will be asked to log in to your Ecwid Control Panel<br />and give permissions to show your store on this site"
-msgstr "Verrà chiesto di accedere al tuo pannello di controllo Ecwid<br />quindi devi dare le autorizzazioni per mostrare il tuo negozio su questo sito"
-
-msgid "Already have Ecwid account?"
-msgstr "Hai già un accont Ecwid?"
-
-msgid "Connect your store to Wordpress site"
-msgstr "Collega il tuo negozio al sito Wordpress"
-
-msgid "Don't have an Ecwid account?"
-msgstr "Non disponi di un account Ecwid?"
-
-msgid "Register at Ecwid for free"
-msgstr "Registrati gratuitamente a Ecwid"
-
-msgid "No credit card required"
-msgstr "Nessuna carta di credito necessaria"
-
-msgid "Get ready to sell online"
-msgstr "Preparati a vendere online"
-
-msgid "Sell Everywhere<br>with your Ecwid store"
-msgstr "Vendi ovunque<br>con il tuo negozio Ecwid"
-
-msgid "Start selling on your WordPress site. Then mirror your shop on your Facebook page, blog and marketplaces like Google Shopping, Yahoo and Shopping.com."
-msgstr "Inizia a vendere sul tuo sito WordPress. Puoi ottenere una copia del tuo negozio anche sulla tua pagina Facebook, su un blog o su un Marketplace come Google Shopping, Yahoo e Shopping.com."
-
-msgid "Use Ecwid's mobile-POS to swipe credit cards and sell on the go. Your orders and inventory are always synchronized with your online store."
-msgstr "Usa un POS-Mobile Ecwid per vendere e pagare con carte di credito. I tuoi ordini e l'inventario dei tuoi prodotti sono sempre sincronizzati con il tuo negozio online."
-
-msgid "Features"
-msgstr "Funzionalità"
-
-msgid "Compatible with your theme"
-msgstr "Compatibile con il tuo tema"
-
-msgid "Ecwid is compatible with your<br>“%s” WordPress theme<br>out of the box."
-msgstr "Ecwid i comatibile con il tuo<br>“%s” tema WordPress<br>e altri temi WordPress."
-
-msgid "Free and always up to date"
-msgstr "Gratuito e sempre aggiornato"
-
-msgid "Free plan always available with tons of features<br>at no additional cost. Updates are seamless, automatic<br>and free of charge."
-msgstr "Free plan always available with tons of features<br>at no additional cost. Updates are seamless, automatic<br>and free of charge."
-
-msgid "Responsive design"
-msgstr "Design eccezionale"
-
-msgid "Your store looks perfect<br />on all devices"
-msgstr "Il tuo negozio è perfetto<br />su tutti i dispositivi"
-
-msgid "PCI-DSS Certified"
-msgstr "PCI-DSS Certificato"
-
-msgid "Secure checkout with over 40<br />payment options"
-msgstr "Checkout sicuro con oltre 40<br />opzioni di pagamento"
-
-msgid "Global Reach"
-msgstr "Portata globale"
-
-msgid "More than 800,000 merchants in 175 countries"
-msgstr "More than 800,000 merchants in 175 countries"
-
-msgid "Start selling <br>on your WordPress <nobr>site for free</nobr>"
-msgstr "Inizia a vendere <br>sul tuo WordPress <nobr>sito gratis</nobr>"
-
-msgid "Get Started, Create Ecwid Account"
-msgstr "Per iniziare, crea un Account Ecwid"
-
-msgid "Connect your store to this site"
-msgstr "Collega il tuo negozio a questo sito"
-
-msgid "Reconnect your store<br /> to this WordPress site"
-msgstr "Reconnect your store<br /> to this WordPress site"
-
-msgid "Reconnect Ecwid store"
-msgstr "Reconnect Ecwid store"
-
-msgid "New features available, reconnect to be in touch with our updates"
-msgstr "New features available, reconnect to be in touch with our updates"
-
-msgid "Questions? Visit <a href=\"http://help.ecwid.com/?source=wporg\">Ecwid support center</a>"
-msgstr "Domande? Visita il <a href=\"http://help.ecwid.com/?source=wporg\">Centro di Supporto Ecwid</a>"
-
-msgid "Store settings"
-msgstr "Impostazioni Negozio"
-
-msgid "Choose widgets to show"
-msgstr "Scegli il widget da mostrare"
-
-msgid "Product catalog will be shown automatically"
-msgstr "Il catalogo prodotti verrà mostrato automaticamente"
-
-msgid "Show search"
-msgstr "Mostra ricerca"
-
-msgid "Show minicart"
-msgstr "Mostra carrello"
-
-msgid "Show categories"
-msgstr "Show categories"
-
-msgid "Additionally, you can add store controls to your website's toolbar using <a %s>WordPress native widgets</a>"
-msgstr "Inoltre, è possibile aggiungere altri controlli alla barra degli strumenti del tuo sito Web utilizzando i <a %s>widgets nativi WordPress</a>"
-
-msgid "Demo store"
-msgstr "Negozio demo"
-
-msgid "Ecwid plugin settings"
-msgstr "Impostazioni plugin Ecwid"
-
-msgid "Your store will be shown here!"
-msgstr "Qui verrà mostrato il tuo negozio!"
-
+#: includes/class-ecwid-floating-minicart.php:153
+#: includes/widgets/class-ecwid-widget-floating-shopping-cart.php:143
+msgid "Top right"
+msgstr "In alto a destra"
+
+#: includes/class-ecwid-floating-minicart.php:152
+#: includes/widgets/class-ecwid-widget-floating-shopping-cart.php:138
+msgid "Bottom right"
+msgstr "In basso a destra"
+
+#: includes/widgets/class-ecwid-widget-floating-shopping-cart.php:135
+#: includes/class-ecwid-customizer.php:110
+msgid "Position"
+msgstr "Posizione"
+
+#: includes/widgets/class-ecwid-widget-floating-shopping-cart.php:20
+msgid "Adds a shopping cart widget to the top right corner of your site."
+msgstr "Aggiunge widget del carrello della spesa nell'angolo in alto a destra del sito."
+
+#: templates/help.php:215
+msgid "You can send a new request here."
+msgstr "Puoi inviare una nuova richiesta qui."
+
+#: templates/help.php:214
+msgid " Thank you very much for contacting us! We will get back to you shortly."
+msgstr " Grazie mille per averci contattato! Ti risponderemo a breve."
+
+#: templates/help.php:213
+msgid "Your email has been sent"
+msgstr "La tua email è stata inviata"
+
+#: templates/help.php:207
+msgid "Send message failed"
+msgstr "Impossibile inviare il messaggio"
+
+#: templates/help.php:196
+msgid "Send Message"
+msgstr "Invia messaggio"
+
+#: templates/help.php:193
+msgid "Type in your message here"
+msgstr "Scrivi qui il tuo messaggio"
+
+#: templates/help.php:192
+msgid "Subject"
+msgstr "Oggetto"
+
+#: templates/help.php:186
+msgid "Send a message to our support team"
+msgstr "Invia un messaggio al nostro team di assistenza"
+
+#: templates/help.php:177
+msgid "Still have questions about Ecwid? Let us know!"
+msgstr "Hai ancora domande su Ecwid? Contattaci!"
+
+#: templates/help.php:176
+msgid "Contact us"
+msgstr "Contattaci"
+
+#: templates/help.php:33
+msgid "Frequently Asked Questions"
+msgstr "Domande frequenti"
+
+#: templates/help.php:21
+msgid "Search the Knowledge Base"
+msgstr "Cerca nella Knowledge Base"
+
+#: templates/help.php:17
+msgid "E.g. How to set up shipping"
+msgstr "Esempio: come impostare la spedizione"
+
+#: templates/help.php:11
+msgid "How can we help you?"
+msgstr "Come possiamo aiutarti?"
+
+#: includes/faq_entries.php:68
+msgid "You can display your store on the site main page. Adjust the \"Reading\" settings of your site as described in our <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#displaystoreonhomepage\">Help Center.</a>"
+msgstr "Puoi mostrare il tuo negozio sulla pagina principale del sito. Modifica le impostazioni \"Lettura\" del sito come descritto nell'<a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#displaystoreonhomepage\">Help Center.</a>"
+
+#: includes/faq_entries.php:67
+msgid "Is it possible to display my store on the site home page?"
+msgstr "Posso mostrare il mio negozio nella home page del sito?"
+
+#: includes/faq_entries.php:61
+msgid "To feature a single product on a separate page or blog post of your site, use <b>[ecwid_product]</b> shortcode. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#buynow\">How to use it.</a>"
+msgstr "Per inserire un singolo prodotto in una pagina specifica o in un post del blog del sito, usa lo shortcode <b>[ecwid_product]</b>. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#buynow\"> Come usarlo.</a>"
+
+#: includes/faq_entries.php:60
+msgid "How to add a single product with the add to bag button to the site pages?"
+msgstr "Come aggiungere alle pagine del sito un singolo prodotto con il pulsante \"aggiungi alla borsa\"?"
+
+#: includes/faq_entries.php:55
+msgid "To create sitemap for your Wordpress site we suggest using <a target=\"_blank\" href=\"https://wordpress.org/plugins/google-sitemap-generator/\">Google XML Sitemaps</a>  or <a target=\"_blank\" href=\"https://wordpress.org/plugins/wordpress-seo/\">Yoast Wordpress SEO</a>. &nbsp;plugins. These plugins are fully compatible with Ecwid and allow to generate a sitemap that will contain links to categories and product pages, so the store pages will get indexed faster. Please note that this option is available to <a target=\"_blank\" href=\"https://www.ecwid.com/pricing\">paid Ecwid users</a>."
+msgstr "Per creare la mappa del tuo sito Wordpress ti consigliamo di usare <a target=\"_blank\" href=\"https://wordpress.org/plugins/google-sitemap-generator/\">Google XML Sitemaps</a> o <a target=\"_blank\" href=\"https://wordpress.org/plugins/wordpress-seo/\">Yoast Wordpress SEO</a>. &nbsp;plugins. Questi plugin sono perfettamente compatibili con Ecwid e permettono di generare una sitemap contenente link a categorie e pagine di prodotto; in questo modo, le pagine del negozio sono indicizzate più velocemente. Tieni presente che questa opzione è disponibile per <a target=\"_blank\" href=\"https://www.ecwid.com/pricing\">utenti Ecwid a pagamento</a>."
+
+#: includes/faq_entries.php:54
+msgid "How do I put my products in the sitemap?"
+msgstr "Come posso inserire i miei prodotti nella sitemap?"
+
+#: includes/faq_entries.php:48
+msgid "You can add the store categories menu to your site menu to help your customers easily navigate your site. Just open \"Appearance > Menus\" in your WordPress control panel and add the \"Store with Categories Menu\" item to your site menu. A drop-down menu containing your store categories will automatically appear on your site."
+msgstr "Puoi aggiungere il menu categorie del negozio al menu del sito per aiutare i clienti nella navigazione. Basta aprire \"Aspetto > Menu\" nel pannello di controllo WordPress e aggiungere la voce \"Negozio con menu categorie\" al menu del tuo sito. Un menu a tendina contenente le categorie del negozio apparirà automaticamente sul sito."
+
+#: includes/faq_entries.php:47
+msgid "How do I add store categories to the site menu?"
+msgstr "Come posso aggiungere le categorie del negozio al menu del sito?"
+
+#: includes/faq_entries.php:38
+msgid "How much does Ecwid cost?"
+msgstr "Quanto costa Ecwid?"
+
+#: includes/faq_entries.php:30
+msgid "You can add product search box, cart widget and more on the <a href=\"%s\">\"Appearance / Widgets page\"</a> here in your site admin. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#sidebarwidgets\">More details.</a>"
+msgstr "Puoi aggiungere la casella di ricerca dei prodotti, il widget del carrello e altro ancora nella pagina<a href=\"%s\">\"Aspetto / Widget\"</a> del tuo sito admin. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#sidebarwidgets\"> Maggiori dettagli.</a>"
+
+#: includes/faq_entries.php:28
+msgid "How can I add a cart widget to my site sidebar?"
+msgstr "Come posso aggiungere il widget del carrello alla barra laterale del sito?"
+
+#: includes/faq_entries.php:21
+msgid "You can add your online store to your Facebook business page. No addons needed. Ecwid will automatically synchronize products, customers, orders and inventory between your WordPress and Facebook storefronts. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/115005892705-Facebook-Shop\">More details.</a>"
+msgstr "Puoi aggiungere il tuo negozio online alla tua pagina Facebook. Non sono necessarie estensioni. Ecwid sincronizzerà automaticamente prodotti, clienti, ordini e inventario tra le vetrine di WordPress e Facebook. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/115005892705-Facebook-Shop\"> Maggiori dettagli.</a>"
+
+#: includes/faq_entries.php:20
+msgid "How to set up a storefront on Facebook with Ecwid?"
+msgstr "Come creare una vetrina su Facebook con Ecwid?"
+
+#: includes/faq_entries.php:13
+msgid "Ecwid provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. <a target=\"_blank\" href=\"https://www.ecwid.com/ecwid-mobile\">More details.</a>"
+msgstr "Ecwid realizza applicazioni mobili gratuite per iOS e Android per gestire il tuo negozio e vendere dove vuoi, quando vuoi. Scansiona i prodotti, monitora l'inventario, gestisci le vendite e accetta pagamenti utilizzando il tuo dispositivo mobile come lettore POS. <a target=\"_blank\" href=\"https://www.ecwid.com/ecwid-mobile\"> Maggiori dettagli.</a>"
+
+#: includes/faq_entries.php:12
+msgid "How can I manage my store from a mobile device?"
+msgstr "Come posso gestire il mio negozio da un dispositivo mobile?"
+
+#: includes/faq_entries.php:6
+msgid "Ecwid is PCI DSS Level 1 certified, which is the gold standard for e-commerce solutions worldwide. This means you won't have any banking compliance issues when selling online with Ecwid. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#security\">More details.</a>"
+msgstr "Ecwid è certificato PCI DSS livello 1, che rappresenta il gold standard per le soluzioni di e-commerce in tutto il mondo. Ciò significa che la tua attività di vendita online con Ecwid non avrà problemi di conformità bancaria. <a target=\"_blank\" href=\"https://support.ecwid.com/hc/en-us/articles/207101259-Wordpress-downloadable-#security\"> Maggiori dettagli.</a>"
+
+#: includes/faq_entries.php:5
+msgid "How secure is this plugin? Is my store PCI DSS compliant?"
+msgstr "Quanto è sicuro questo plugin? Il mio negozio è conforme agli standard PCI DSS?"
+
+#: includes/class-ecwid-nav-menus.php:32
+msgid "Ecwid Menu Item"
+msgstr "Voce menu Ecwid"
+
+#: includes/class-ecwid-admin.php:179 includes/class-ecwid-admin.php:180
+msgid "Help"
+msgstr "Aiuto"
+
+#: templates/admin-footer.php:27
+msgid "Want to connect another %s store?"
+msgstr "Vuoi collegare un altro negozio %s?"
+
+#: templates/admin-footer.php:17
+msgid "Questions?"
+msgstr "Domande?"
+
+#: templates/admin-footer.php:6
+msgid "Manage Store on iPhone, iPad or Android"
+msgstr "Gestisci il negozio su iPhone, iPad o Android"
+
+#: includes/class-ecwid-message-manager.php:254
+msgid "Complete Setup"
+msgstr "Completa configurazione"
+
+#: includes/class-ecwid-message-manager.php:253
+msgid "Complete setup and start selling"
+msgstr "Completa l'installazione e inizia a vendere"
+
+#: includes/class-ecwid-message-manager.php:242
+msgid "Greetings! Your %s plugin is now active."
+msgstr "Ciao! Il tuo plugin %s è ora attivo."
+
+#: templates/debug.php:12
+msgid "Download log file"
+msgstr "Scarica il file di log"
+
+#: templates/help.php:67 includes/oembed.php:75 includes/oembed.php:104
+msgid "See more"
+msgstr "Scopri di più"
+
+#: ecwid-shopping-cart.php:1051
+msgid "I have a problem with my %s store"
+msgstr "Ho un problema con il mio negozio %s"
+
+#: includes/class-ecwid-message-manager.php:55
+msgid "Sorry, there is a problem. This page is supposed to display your store Control Panel. However, this Wordpress site doesn't seem to be able to connect to the Ecwid server to show your store dashboard here. This is likely caused by your server misconfiguration and can be fixed by your hosting provider. Here is a more techy description of the problem, which you can send to your hosting provider: \"The Wordpress function wp_remote_post() failed to connect a remote server because of some error: \"%s\". Seems like HTTP POST requests are disabled on this server\". <br /><br />Please feel free to contact us at <a %s>wordpress@ecwid.com</a> and we will help you contact your hosting and ask them to fix the issue. <br /><br /> Meanwhile, to manage your store, you can use the Ecwid Web Control Panel at <a %s>my.ecwid.com</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>."
+msgstr "Ci dispiace, c'è un problema. Questa pagina dovrebbe mostrare il pannello di controllo del tuo negozio. Tuttavia, questo sito Wordpress sembra non essere in grado di connettersi al server Ecwid per effettuare tale operazione. La causa potrebbe essere un errore di configurazione del server, che può essere risolto dal tuo hosting provider. Ecco una descrizione più tecnica del problema, che puoi inviare all'hosting provider: \"La funzione Wordpress wp_remote_post() non è riuscita a collegare un server remoto a causa di un errore: \"%s\". Sembra che le richieste HTTP POST siano disabilitate su questo server\". <br /><br />Non esitare a contattarci all'indirizzo <a %s>wordpress@ecwid.com</a>: ti aiuteremo a contattare il tuo hosting provider per risolvere il problema. <br /><br /> Nel frattempo, per gestire il tuo negozio, puoi usare il pannello di controllo web di Ecwid all'indirizzo <a %s>my.ecwid.com</a>. La vetrina del negozio è perfettamente funzionante, controlla qui: <a %s>%s</a>."
+
+#: templates/store-popup.php:249
+msgid "Open store dashboard"
+msgstr "Apri dashboard del negozio"
+
+#: templates/store-popup.php:12 templates/store-popup.php:27
+msgid "Store elements"
+msgstr "Archivia gli elementi"
+
+#: templates/reconnect-sso.php:10
+msgid "Re-connect to Enable Control Panel"
+msgstr "Ricollega per abilitare il pannello di controllo"
+
+#: templates/reconnect-sso.php:8
+msgid "Manage products, track sales, adjust settings - <nobr>All without</nobr> leaving this page."
+msgstr "Gestisci i prodotti, monitora le vendite, modifica le impostazioni.<nobr> Tutto senza</nobr> lasciare questa pagina."
+
+#: templates/reconnect-sso.php:7
+msgid "Your store Control Panel. Right here in WordPress."
+msgstr "Il pannello di controllo del tuo negozio. Proprio qui in WordPress."
+
+#: ecwid-shopping-cart.php:2114
+msgid "Orders"
+msgstr "Ordini"
+
+#: includes/class-ecwid-nav-menus.php:168 ecwid-shopping-cart.php:2118
+msgid "The store top-level categories are automatically added to this drop-down menu"
+msgstr "Le categorie principali del negozio vengono aggiunte automaticamente a questo menu a tendina"
+
+#: includes/class-ecwid-nav-menus.php:167 ecwid-shopping-cart.php:2117
+msgid "Done"
+msgstr "Fatto"
+
+#: includes/class-ecwid-nav-menus.php:166 ecwid-shopping-cart.php:2116
+msgid "Refresh categories list"
+msgstr "Aggiorna l'elenco delle categorie"
+
+#: includes/class-ecwid-nav-menus.php:165
+msgid "Store Page"
+msgstr "Pagina del negozio"
+
+#: includes/class-ecwid-nav-menus.php:319
+msgid "Add to Menu"
+msgstr "Aggiungi al menu"
+
+#: includes/class-ecwid-nav-menus.php:316
+msgid "Select All"
+msgstr "Seleziona tutto"
+
+#: includes/class-ecwid-nav-menus.php:369
+msgid "Store with Categories Menu"
+msgstr "Negozio con menu categorie"
+
+#: includes/class-ecwid-nav-menus.php:352
+#: includes/class-ecwid-nav-menus.php:355
+msgid "My Account"
+msgstr "Il mio account"
+
+#: includes/class-ecwid-nav-menus.php:335
+#: includes/class-ecwid-floating-minicart.php:135
+#: includes/class-ecwid-admin-storefront-page.php:279
+msgid "Cart"
+msgstr "Carrello"
+
+#: includes/class-ecwid-admin.php:87 includes/class-ecwid-admin.php:88
+#: includes/class-ecwid-products.php:228 ecwid-shopping-cart.php:2112
+msgid "Products"
+msgstr "Prodotti"
+
+#: includes/class-ecwid-admin.php:79 includes/class-ecwid-admin.php:80
+msgid "Sales"
+msgstr "Vendite"
+
+#: ecwid-shopping-cart.php:1119
+msgid "Report a problem with the store"
+msgstr "Segnala un problema del negozio"
+
+#: ecwid-shopping-cart.php:1036
+msgid "%s plugin doesn't work well with my \"%s\" theme"
+msgstr "Il plugin %s non funziona bene con il mio tema \"%s"
+
+#: templates/admin/welcome-connection-message.php:22
+#: templates/admin/welcome-connection-message.php:28
+msgid "Looks like your site does not support remote POST requests that are required for %s API to work. Please, contact your hosting provider to enable cURL."
+msgstr "Sembra che il tuo sito non supporti richieste POST remote necessarie per il funzionamento delle API %s. Contatta il tuo hosting provider per abilitare cURL."
+
+#. Description of the plugin
+msgid "Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up."
+msgstr "Ecwid è un carrello della spesa completo e gratuito. Si integra facilmente con qualsiasi blog Wordpress e richiede meno di 5 minuti di configurazione."
+
+#. Plugin URI of the plugin
+msgid "http://www.ecwid.com?partner=wporg"
+msgstr "http://www.ecwid.com?partner=wporg"
+
+#: templates/store-svg.php:12
 msgid "Demo Store"
 msgstr "Negozio demo"
 
-msgid "Sell On The Go with Ecwid iOS Application"
-msgstr "Sell On The Go with Ecwid iOS Application"
+#: templates/store-svg.php:9
+msgid "Your store will be shown here!"
+msgstr "Il tuo negozio sarà mostrato qui!"
 
-msgid "Ecwid iOS app allows you to manage your online store, sell your products on the go, and accept payments with your phone. Just download the Ecwid app, connect it to your Ecwid shop and have your sales at your fingertips!"
-msgstr "Ecwid iOS app allows you to manage your online store, sell your products on the go, and accept payments with your phone. Just download the Ecwid app, connect it to your Ecwid shop and have your sales at your fingertips!"
+#: templates/product-popup.php:248 templates/store-popup.php:256
+msgid "Update"
+msgstr "Aggiornamento"
 
-msgid "Get Your Products Found on Google using XML Sitemap"
-msgstr "Get Your Products Found on Google using XML Sitemap"
+#: templates/store-popup.php:253
+msgid "Insert into page"
+msgstr "Inserisci nella pagina"
 
-msgid "Free Google XML Sitemaps plugin creates a sitemap that includes your store product links. This makes your product pages more visible to search engines and appear in the search results."
-msgstr "Free Google XML Sitemaps plugin creates a sitemap that includes your store product links. This makes your product pages more visible to search engines and appear in the search results."
+#: templates/store-popup.php:246
+msgid "Demo store"
+msgstr "Negozio demo"
 
-msgid "Add Product Slider to Your Store"
-msgstr "Add Product Slider to Your Store"
+#: templates/store-popup.php:80
+msgid "Additionally, you can add store controls to your website's toolbar using <a %s>WordPress native widgets</a>"
+msgstr "Inoltre, puoi aggiungere i controlli del negozio alla barra degli strumenti del tuo sito web utilizzando <a %s>widget originali WordPress</a>."
 
-msgid "Add a fancy product slider to your site using a free WP Widgets Avalanche plugin which works perfectly with Ecwid"
-msgstr "Add a fancy product slider to your site using a free WP Widgets Avalanche plugin which works perfectly with Ecwid"
+#: templates/store-popup.php:74
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:86
+msgid "Show categories"
+msgstr "Mostra categorie"
+
+#: templates/store-popup.php:66
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:94
+msgid "Show minicart"
+msgstr "Mostra mini carrello"
+
+#: templates/store-popup.php:58
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:78
+msgid "Show search"
+msgstr "Mostra ricerca"
+
+#: templates/store-popup.php:53
+msgid "Product catalog will be shown automatically"
+msgstr "Il catalogo dei prodotti sarà mostrato automaticamente"
+
+#: templates/store-popup.php:52
+msgid "Choose widgets to show"
+msgstr "Scegli i widget da mostrare"
+
+#: templates/admin/welcome-create.php:7
+msgid "Connect your store"
+msgstr "Collega il tuo negozio"
+
+#: templates/admin/welcome-no_oauth.php:6
+#: templates/importer/import-no-token.tpl.php:6
+#: includes/class-ecwid-message-manager.php:291
+msgid "Connect"
+msgstr "Collega"
+
+#: templates/admin/legacy-connect.tpl.php:68
+msgid "Save and connect your %s store to the site"
+msgstr "Salva e collega il tuo negozio %s al sito"
+
+#: templates/admin/legacy-connect.tpl.php:59
+msgid "Enter your Store ID here:"
+msgstr "Inserisci qui il tuo store ID:"
+
+#: templates/admin/legacy-connect.tpl.php:52
+msgid "Store ID is a unique identifier of any %1$s store, it consists of several digits. You can find it on the \"Dashboard\" page of %1$s control panel. Also the Store ID will be sent in the Welcome email after the registration."
+msgstr "Lo store ID è un identificatore univoco di qualsiasi negozio %1$s, composto da diverse cifre. Lo trovi nella pagina \"Dashboard\" del pannello di controllo %1$s. Lo riceverai anche nella mail di benvenuto che ti invieremo dopo la registrazione."
+
+#: templates/admin/legacy-connect.tpl.php:50
+msgid "Find your Store ID"
+msgstr "Trova il tuo store ID"
+
+#: templates/admin/legacy-connect.tpl.php:46
+msgid "You will be able to sign up through your existing Google, Facebook or PayPal profiles as well."
+msgstr "Puoi iscriverti anche attraverso i tuoi attuali profili Google, Facebook o PayPal."
+
+#: templates/admin/legacy-connect.tpl.php:42
+msgid "I already have an account, sign in"
+msgstr "Ho già un account, accedi"
+
+#: templates/admin/legacy-connect.tpl.php:35
+msgid "Create a new %s account which you will use to manage your store and inventory. The registration is free."
+msgstr "Crea un nuovo account %s che utilizzerai per gestire il negozio e l'inventario. La registrazione è gratuita."
+
+#: templates/admin/legacy-connect.tpl.php:24
+msgid "The first step towards opening your online business: <br />Let’s get started and add a store to your WordPress website in <strong>3</strong> simple steps."
+msgstr "Il primo passo per aprire il tuo business online: <br />Iniziamo subito aggiungendo un negozio al tuo sito WordPress in <strong>3</strong> semplici mosse."
+
+#: templates/admin/legacy-connect.tpl.php:21
+msgid "Thank you for choosing %s to build your online store"
+msgstr "Grazie di aver scelto %s per realizzare il tuo negozio online"
+
+#: templates/admin/simple-dashboard.php:58
+msgid "Open control panel"
+msgstr "Apri pannello di controllo"
+
+#: templates/admin/simple-dashboard.php:42
+msgid "Your %s store is connected<br /> to your WordPress website"
+msgstr "Il tuo negozio %s è collegato<br /> al tuo sito WordPress"
+
+#: templates/admin/simple-dashboard.php:39
+msgid "Greetings!"
+msgstr "Ciao!"
+
+#: templates/admin/simple-dashboard.php:34
+msgid "Your %s store is now connected<br /> to your WordPress website"
+msgstr "Il tuo negozio %s è ora collegato<br /> al tuo sito WordPress"
+
+#: templates/admin/simple-dashboard.php:31
+msgid "Congratulations!"
+msgstr "Congratulazioni!"
+
+#: templates/admin/simple-dashboard.php:18
+msgid "Disconnect store"
+msgstr "Scollega il negozio"
+
+#: templates/admin/legacy-connect.tpl.php:65
+#: templates/admin/simple-dashboard.php:14 templates/store-popup.php:244
+#: templates/store-svg.php:14
+#: includes/integrations/class-ecwid-integration-gutenberg.php:104
+#: includes/gutenberg/class-ecwid-gutenberg.php:130
+msgid "Store ID"
+msgstr "Store ID"
+
+#: templates/admin/welcome-connection-message.php:15
+msgid "Connection error - after clicking button you need to login and provide permissions to use our plugin. Please, try again."
+msgstr "Errore di connessione: dopo aver cliccato sul pulsante è necessario effettuare il login e dare il consenso per utilizzare il nostro plugin. Prova di nuovo."
+
+#: templates/admin/legacy-connect.tpl.php:57
+#: templates/admin/welcome-no_oauth.php:3
+msgid "Enter your Store ID"
+msgstr "Inserisci il tuo store ID"
+
+#: templates/store-popup.php:221
+msgid "Default view mode on search results"
+msgstr "Modalità di visualizzazione predefinita dei risultati di ricerca"
+
+#: templates/store-popup.php:214 templates/store-popup.php:232
+msgid "Table"
+msgstr "Tabella"
+
+#: templates/store-popup.php:211 templates/store-popup.php:229
+msgid "List"
+msgstr "Elenco"
+
+#: templates/store-popup.php:208 templates/store-popup.php:226
+msgid "Grid"
+msgstr "Griglia"
+
+#: templates/store-popup.php:204
+msgid "Default view mode on product pages"
+msgstr "Modalità di visualizzazione predefinita delle pagine di prodotto"
+
+#: templates/store-popup.php:184
+msgid "Here you can control how many products will be displayed per page. These options define maximum values. If there is not enough space to show all product columns, %s will adapt the number of columns to hold all products."
+msgstr "Qui puoi controllare quanti prodotti sono visualizzati per pagina. Queste opzioni definiscono i valori massimi. Se non c'è abbastanza spazio per mostrare tutte le colonne dei prodotti, %s adatta il numero di colonne per contenere tutti i prodotti."
+
+#: templates/store-popup.php:169
+msgid "Table view"
+msgstr "Vista tabella"
+
+#: templates/store-popup.php:152
+msgid "List view"
+msgstr "Vista elenco"
+
+#: templates/store-popup.php:125
+msgid "Grid view"
+msgstr "Vista griglia"
+
+#: templates/store-popup.php:123
+msgid "Number of products per page"
+msgstr "Numero di prodotti per pagina"
+
+#: templates/store-popup.php:191
+msgid "Number of categories per row"
+msgstr "Numero di categorie per riga"
+
+#: templates/advanced-settings.php:98
+msgid "Save changes"
+msgstr "Salva le modifiche"
+
+#: includes/class-ecwid-product-browser.php:202
+msgid "Default category ID"
+msgstr "ID categoria di default"
+
+#: templates/store-popup.php:98
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:127
+#: includes/integrations/class-ecwid-integration-gutenberg.php:427
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:56
+#: includes/gutenberg/class-ecwid-gutenberg-block-store.php:248
+msgid "Store root category"
+msgstr "Categoria di root del negozio"
+
+#: templates/store-popup.php:90
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:101
+msgid "Category shown by default"
+msgstr "Categoria mostrata di default"
+
+#: templates/admin-message.php:47
+msgid "Never show this message again"
+msgstr "Non mostrare più questo messaggio"
+
+#: templates/product-popup.php:194 lib/ecwid_platform.php:209
+#: js/gutenberg/blocks.build.js:1
+msgid "Price"
+msgstr "Prezzo"
+
+#: includes/class-ecwid-store-editor.php:75
+#: includes/integrations/class-ecwid-integration-gutenberg.php:102
+#: includes/gutenberg/class-ecwid-gutenberg.php:128
+msgid "Edit Appearance"
+msgstr "Modifica aspetto"
+
+#: includes/class-ecwid-store-editor.php:60
+msgid "Edit Store"
+msgstr "Modifica negozio"
+
+#: templates/store-popup.php:11 templates/store-popup.php:21
+#: includes/class-ecwid-store-editor.php:52
+msgid "Add Store"
+msgstr "Aggiungi negozio"
+
+#: includes/class-ecwid-message-manager.php:261
+msgid "Back to Store Settings"
+msgstr "Torna alle impostazioni del negozio"
+
+#: includes/class-ecwid-message-manager.php:252
+msgid "Your store is almost ready!"
+msgstr "Il tuo negozio è quasi pronto!"
+
+#: includes/class-ecwid-message-manager.php:243
+msgid "Take a few simple steps to complete store setup"
+msgstr "Per completare la configurazione del negozio, bastano poche semplici mosse"
+
+#: includes/widgets/class-ecwid-widget-products-base.php:205
+msgid "Number of products to show"
+msgstr "Numero di prodotti da mostrare"
+
+#: includes/widgets/class-ecwid-widget-recently-viewed.php:89
+msgid "Store Link Title"
+msgstr "Titolo del link del negozio"
+
+#: templates/product-popup.php:183 includes/class-ecwid-product-browser.php:249
+#: includes/widgets/class-ecwid-widget-products-base.php:199
+#: js/gutenberg/blocks.build.js:1
+msgid "Title"
+msgstr "Titolo"
+
+#: includes/widgets/class-ecwid-widget-recently-viewed.php:69
+#: includes/widgets/class-ecwid-widget-recently-viewed.php:91
+msgid "You have not viewed any product yet. Open store."
+msgstr "Non hai ancora visualizzato nessun prodotto. Apri il negozio."
+
+#: includes/widgets/class-ecwid-widget-recently-viewed.php:11
+msgid "Recently Viewed Products"
+msgstr "Prodotti visti di recente"
+
+#: includes/widgets/class-ecwid-widget-recently-viewed.php:12
+msgid "Displays a list of products recently viewed by the customer to easily return to the products they saw in your shop."
+msgstr "Mostra l'elenco dei prodotti visti di recente dai clienti nel tuo negozio per consentire loro di visualizzarli nuovamente con facilità."
+
+#: includes/widgets/class-ecwid-widget-store-link.php:35
+msgid "Text"
+msgstr "Testo"
+
+#: includes/themes/class-ecwid-theme-twentyseventeen.php:48
+#: includes/themes/class-ecwid-theme-twentyseventeen.php:54
+#: includes/themes/class-ecwid-theme-twentyfifteen.php:34
+#: includes/themes/class-ecwid-theme-twentyfifteen.php:40
+#: includes/themes/class-ecwid-theme-twentysixteen.php:36
+#: includes/themes/class-ecwid-theme-twentysixteen.php:42
+#: includes/widgets/class-ecwid-widget-store-link.php:31
+msgid "Shop"
+msgstr "Acquista"
+
+#: includes/widgets/class-ecwid-widget-store-link.php:10
+msgid "Store Page Link"
+msgstr "Link alla pagina del negozio"
+
+#: includes/widgets/class-ecwid-widget-store-link.php:9
+msgid "Displays a link to the store page in sidebar for customer to quickly access your store from any page on the site."
+msgstr "Mostra nella barra laterale un link alla pagina del negozio per consentire al cliente di accedervi rapidamente da qualsiasi pagina del sito."
+
+#: includes/widgets/class-ecwid-widget-vcategories.php:9
+msgid "Store Categories"
+msgstr "Categorie del negozio"
+
+#: includes/widgets/class-ecwid-widget-vcategories.php:8
+msgid "Adds vertical categories block to let the customer navigate your store."
+msgstr "Aggiunge il blocco categorie in verticale per permettere al cliente di esplorare il negozio."
+
+#: includes/class-ecwid-nav-menus.php:344
+#: includes/class-ecwid-nav-menus.php:347
+#: includes/widgets/class-ecwid-widget-search.php:13
+msgid "Product Search"
+msgstr "Ricerca prodotto"
+
+#: includes/widgets/class-ecwid-widget-search.php:12
+msgid "Displays a simple search box for your customers to find a product in your store"
+msgstr "Mostra una semplice casella di ricerca per permettere ai clienti di trovare un prodotto nel negozio"
+
+#: includes/widgets/class-ecwid-widget-minicart-miniview.php:8
+msgid "Adds a compact cart widget for customer to see the products they added to the cart."
+msgstr "Aggiunge un widget del carrello compatto che mostra al cliente i prodotti che ha aggiunto al carrello."
+
+#: includes/widgets/class-ecwid-widget-minicart.php:41
+#: includes/widgets/class-ecwid-widget-random-product.php:67
+#: includes/widgets/class-ecwid-widget-search.php:46
+#: includes/widgets/nsf-minicart-editor.tpl.php:50
+#: includes/widgets/class-ecwid-widget-minicart-miniview.php:41
+#: includes/widgets/class-ecwid-widget-vcategories.php:39
+#: includes/widgets/class-ecwid-widget-vertical-categories-list.php:76
+msgid "Title:"
+msgstr "Titolo:"
+
+#: includes/class-ecwid-nav-menus.php:338
+#: includes/widgets/class-ecwid-widget-nsf-minicart.php:20
+msgid "Shopping Cart"
+msgstr "Carrello della spesa"
+
+#: includes/widgets/class-ecwid-widget-minicart.php:8
+#: includes/widgets/class-ecwid-widget-nsf-minicart.php:19
+msgid "Adds a cart widget for customer to see the products they added to the cart."
+msgstr "Aggiunge un widget del carrello che mostra al cliente i prodotti che ha aggiunto al carrello."
+
+#: includes/widgets/class-ecwid-widget-badge.php:51
+#: includes/widgets/class-ecwid-widget-badge.php:63
+msgid "Ecwid e-commerce widgets"
+msgstr "Widget e-commerce Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:45
+#: includes/widgets/class-ecwid-widget-badge.php:57
+msgid "Ecwid shopping cart"
+msgstr "Carrello della spesa Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:39
+#: includes/widgets/class-ecwid-widget-badge.php:75
+msgid "Ecwid free shopping cart"
+msgstr "Carrello della spesa gratuito Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:33
+#: includes/widgets/class-ecwid-widget-badge.php:69
+msgid "Ecwid ecommerce solution"
+msgstr "Soluzione ecommerce Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:21
+#: includes/widgets/class-ecwid-widget-badge.php:27
+msgid "Ecwid shopping cart widget"
+msgstr "Widget del carrello della spesa Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:14
+msgid "Ecwid Badge"
+msgstr "Badge Ecwid"
+
+#: includes/widgets/class-ecwid-widget-badge.php:13
+msgid "Do you like Ecwid and want to help it grow? You can add this fancy 'Powered by Ecwid' badge on your site to show your visitors that you're a proud user of Ecwid."
+msgstr "Ti piace Ecwid e vuoi aiutarci a crescere? Aggiungi il badge 'Powered by Ecwid' sul tuo sito per mostrare ai tuoi visitatori che sei un utente Ecwid soddisfatto."
+
+#: ecwid-shopping-cart.php:2791
+msgid "Recommendations for Your Online Store"
+msgstr "Raccomandazioni per il tuo negozio online"
+
+#: includes/class-ecwid-admin.php:528
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:77
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:87
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:95
+#: includes/integrations/class-ecwid-integration-wpbakery-composer.php:103
+#: ecwid-shopping-cart.php:2056
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: includes/class-ecwid-admin.php:165
+msgid "Advanced"
+msgstr "Avanzato"
+
+#: includes/class-ecwid-admin.php:164
+msgid "Advanced settings"
+msgstr "Impostazioni avanzate"
+
+#: templates/product-popup.php:206 templates/store-popup.php:14
+#: templates/store-popup.php:34
+#: includes/integrations/elementor/class-ec-elementor-widget-buynow.php:44
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:78
+#: js/gutenberg/blocks.build.js:1
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: includes/class-ecwid-admin.php:28 includes/class-ecwid-admin.php:59
+#: includes/class-ecwid-admin.php:459 ecwid-shopping-cart.php:2110
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: includes/class-ecwid-admin.php:57 ecwid-shopping-cart.php:2056
+msgid "Setup"
+msgstr "Configurazione"
+
+#: includes/class-ecwid-admin.php:47
+msgid "%s shopping cart settings"
+msgstr "Impostazioni del carrello della spesa %s"
+
+#: includes/class-ecwid-nav-menus.php:132
+#: includes/class-ecwid-nav-menus.php:361
+#: includes/class-ecwid-nav-menus.php:364
+#: includes/class-ecwid-nav-menus.php:372 includes/class-ecwid-admin.php:206
+#: includes/class-ecwid-admin.php:207 includes/class-ecwid-admin.php:220
+#: includes/class-ecwid-admin.php:221
+#: includes/integrations/elementor/class-ec-elementor-widget-store.php:63
+#: includes/class-ecwid-admin-storefront-page.php:257
+#: ecwid-shopping-cart.php:1657
+msgid "Store"
+msgstr "Negozio"
+
+#: ecwid-shopping-cart.php:1306
+msgid "<a %s>Online store powered by %s</a>"
+msgstr "<a %s>Online store powered by %s</a>"
+
+#: includes/class-ecwid-admin.php:489
+msgid "Sell on Facebook"
+msgstr "Vendi su Facebook"
+
+#: templates/admin/simple-dashboard.php:48 ecwid-shopping-cart.php:1094
+msgid "Visit storefront"
+msgstr "Visita la vetrina"
 
