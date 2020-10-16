@@ -216,7 +216,7 @@ class Ecwid_OAuth {
 			'public_storefront'
 		);
 	
-		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+		if ( function_exists('is_plugin_active') && is_plugin_active('woocommerce/woocommerce.php') ) {
 			$defaults[] = 'create_catalog';
 			$defaults[] = 'update_catalog';
 		}
