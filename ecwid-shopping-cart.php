@@ -1551,7 +1551,7 @@ function ecwid_parse_escaped_fragment($escaped_fragment) {
 }
 
 function ecwid_ajax_get_product_info() {
-	$id = $_GET['id'];
+	$id = sanitize_text_field( $_GET['id'] );
 
 	$product = Ecwid_Product::get_by_id($id);
 	

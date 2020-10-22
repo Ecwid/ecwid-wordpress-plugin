@@ -105,11 +105,11 @@ class Ecwid_Admin_Main_Page
 		}
 
 		if (isset($_GET['ec-page']) && $_GET['ec-page']) {
-			$page = $_GET['ec-page'];
+			$page = sanitize_text_field( $_GET['ec-page'] );
 		}
 
 		if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
-			$page = $_GET['ec-store-page'];
+			$page = sanitize_text_field( $_GET['ec-store-page'] );
 		}
 
 		if ( $page == self::PAGE_HASH_UPGRADE ) {

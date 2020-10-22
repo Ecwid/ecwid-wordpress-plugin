@@ -93,7 +93,7 @@ class Ecwid_OAuth {
 
 		$base_admin_url = 'admin-post.php?action=ec_oauth' . ($reconnect ? '_reconnect' : '');
 
-		$params['code'] = $_REQUEST['code'];
+		$params['code'] = sanitize_text_field($_REQUEST['code']);
 		$params['client_id'] = Ecwid_Config::get_oauth_appid();
 		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
 		$params['redirect_uri'] = admin_url( $base_admin_url );
