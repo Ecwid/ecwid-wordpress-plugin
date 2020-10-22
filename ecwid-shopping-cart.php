@@ -1825,13 +1825,6 @@ function ecwid_get_update_params_options() {
 				Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO
 			)	
 		),
-		Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION => array(
-			'values' => array(
-				'',
-				'topright',
-				'bottomright'
-			)
-		),
 		Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY => array(
 			'type' => 'bool',
 		),
