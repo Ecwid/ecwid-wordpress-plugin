@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.10.7 - Oct 27, 2020 =
+- Updated the plugin translations. Now the plugin settings are fully translated into English, Russian, German, Spanish, French, Italian. In addition, the Ecwid store control panel and storefront have long supported all major languages (50 translations).
+- Plugin code improvements for better security and stability.
+- Minor fixes and improvements.
+
 = 6.10.6 - Sep 23, 2020 =
 - Сompatibility with LiteSpeed cache plugin. We've fixed plugin compatibility issues. If you are using LightSpeed to speed up your WordPress site and Ecwid, they should work fine. If you see problems, please let us know.
 - Improved compatibility with themes that update site content without page reload (AJAX themes). Some users of such themes may have seen problems in the display of the storefront, we fixed that.

@@ -63,7 +63,7 @@ class Ecwid_Product_Popup {
 
         foreach ( $allowed as $name ) {
             if ( array_key_exists( $name, $_REQUEST ) ) {
-                $params[$name] = $_REQUEST[$name];
+                $params[$name] = sanitize_text_field( $_REQUEST[$name] );
             }
         }
 

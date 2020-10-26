@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.6
+Version: 6.10.7
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -89,7 +89,6 @@ if ( is_admin() ) {
 	add_action( 'wp_head', 'ecwid_seo_compatibility_restore', 1000 );
 	add_action( 'wp_head', 'ecwid_print_inline_js_config' );
 	add_action( 'wp_head', 'ecwid_product_browser_url_in_head' );
-	add_action( 'wp_head', 'ec_add_mailchimp_js' );
 
 	add_action( 'send_headers', 'ecwid_503_on_store_closed' );
 	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
@@ -510,20 +509,6 @@ function ecwid_add_chameleon( $js ) {
 	$js .= sprintf( 'window.ec.config.chameleon.colors = %s;', $chameleon['colors'] ) . PHP_EOL;
 
 	return $js;
-}
-
-function ec_add_mailchimp_js() {
-	
-	if( !is_front_page() && !Ecwid_Store_Page::is_store_page() ) {
-		return;
-	}
-
-	$api = new Ecwid_Api_V3();
-	$profile = $api->get_store_profile();
-
-	if( isset($profile->mailchimpSettings) && isset($profile->mailchimpSettings->script) ) {
-		echo PHP_EOL . $profile->mailchimpSettings->script . PHP_EOL;
-	}
 }
 
 function ecwid_load_textdomain() {
@@ -1566,7 +1551,7 @@ function ecwid_parse_escaped_fragment($escaped_fragment) {
 }
 
 function ecwid_ajax_get_product_info() {
-	$id = $_GET['id'];
+	$id = sanitize_text_field( $_GET['id'] );
 
 	$product = Ecwid_Product::get_by_id($id);
 	
@@ -1839,13 +1824,6 @@ function ecwid_get_update_params_options() {
 				Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_FALSE,
 				Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO
 			)	
-		),
-		Ecwid_Widget_Floating_Shopping_Cart::OPTION_DISPLAY_POSITION => array(
-			'values' => array(
-				'',
-				'topright',
-				'bottomright'
-			)
 		),
 		Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY => array(
 			'type' => 'bool',
@@ -2301,89 +2279,6 @@ function ecwid_get_iframe_src($time, $page)
 		return false;
 	}
 }
-
-function ecwid_admin_do_page( $page ) {
-
-	if (isset($_GET['show_timeout']) && $_GET['show_timeout'] == '1') {
-		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
-		die();
-	}
-	
-	if (Ecwid_Api_V3::get_token() == false) {
-		require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-		die();
-	}
-	
-	global $ecwid_oauth;
-
-	if (isset($_GET['ec-page']) && $_GET['ec-page']) {
-		$page = $_GET['ec-page'];
-	}
-
-	if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
-		$page = $_GET['ec-store-page'];
-	}
-
-	if ( $page == Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ) {
-		update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
-	}
-	
-	$time = time() - get_option('ecwid_time_correction', 0);
-
-	$iframe_src = ecwid_get_iframe_src($time, $page);
-	
-	$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-
-    if (!$request) {
-        echo Ecwid_Message_Manager::show_message('no_oauth');
-        return;
-    }
-	
-	$result = $request->do_request();
-    
-	if ( @$result['code'] == 403 && ( 
-		strpos($result['data'], 'Token too old') !== false 
-		|| strpos($result['data'], 'window.top.location = \'https://my.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?') !== false 
-		)
-	) {
-
-		if (isset($result['headers']['date'])) {
-			$time = strtotime($result['headers']['date']);
-
-			$iframe_src = ecwid_get_iframe_src($time, $page);
-
-			$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-			if (!$request) {
-				echo Ecwid_Message_Manager::show_message('no_oauth');
-				return;
-			}
-			$result = $request->do_request();
-
-			if ($result['code'] == 200) {
-				update_option('ecwid_time_correction', time() - $time);
-			}
-		}
-
-		$iframe_src = ecwid_get_iframe_src($time, $page);
-
-		$request = Ecwid_Http::create_get('embedded_admin_iframe', $iframe_src, array(Ecwid_Http::POLICY_RETURN_VERBOSE));
-		$result = $request->do_request();
-	}
-	
-	if (empty($result['code']) && empty($result['data']) ) {
-		require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
-	} else if ($result['code'] != 200) {
-		if (ecwid_test_oauth(true)) {
-			require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
-		} else {
-			require_once ECWID_PLUGIN_DIR . 'templates/simple-dashboard.php';
-		}
-	} else {
-		$show_reconnect = true;
-		require_once ECWID_PLUGIN_DIR . 'templates/ecwid-admin.php';
-	}
-}
-
 
 function ecwid_admin_products_do_page() {
 	Ecwid_Admin_Main_Page::do_integrated_admin_page(

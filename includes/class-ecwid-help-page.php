@@ -32,7 +32,7 @@ class Ecwid_Help_Page {
 		$body_lines[] = '';
 		$body_lines[] = 'Message:';
 		$body_lines[] = '';
-		$body_lines[] = $_POST['body'];
+		$body_lines[] = sanitize_textarea_field( $_POST['body'] );
 
 		global $current_user;
 		$reply_to = $current_user->user_email;
