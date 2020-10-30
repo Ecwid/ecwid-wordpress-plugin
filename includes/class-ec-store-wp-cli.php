@@ -1,5 +1,8 @@
 <?php
 class Ec_Store_WP_CLI extends WP_CLI_Command {
+
+	public static $command = 'ec-store';
+	
 	/**
 	* Setting WL configuration. If you need more information, please contact your manager.
 	* ## OPTIONS
@@ -61,4 +64,4 @@ class Ec_Store_WP_CLI extends WP_CLI_Command {
 
 }
  
-WP_CLI::add_command( 'ec-store', 'Ec_Store_WP_CLI' );
+WP_CLI::add_command( Ec_Store_WP_CLI::$command, 'Ec_Store_WP_CLI' );
