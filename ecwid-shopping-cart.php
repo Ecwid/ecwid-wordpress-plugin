@@ -168,6 +168,10 @@ if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
+if( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-wp-cli.php';
+}
+
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
 foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );

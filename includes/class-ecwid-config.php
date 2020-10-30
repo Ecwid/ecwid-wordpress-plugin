@@ -112,6 +112,15 @@ class Ecwid_Config {
 		
 		self::_apply_config( $result );
 	}
+
+	public static function load_from_cli( $params ) {
+
+		if ( !$params ) {
+			return;
+		}
+
+		self::_apply_config( $params );
+	}
 	
 	public static function enqueue_styles() {
 		if ( !self::is_wl() ) {
