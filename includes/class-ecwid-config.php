@@ -113,6 +113,10 @@ class Ecwid_Config {
 		self::_apply_config( $result );
 	}
 
+	public static function is_cli_running() {
+		return defined( 'WP_CLI' ) && WP_CLI;
+	}
+
 	public static function load_from_cli( $params ) {
 
 		if ( !$params ) {
