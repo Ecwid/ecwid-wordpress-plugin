@@ -55,9 +55,9 @@ class Ec_Store_WP_CLI extends WP_CLI_Command {
 	*/
 	function config( $args, $assoc_args ) {
 
-		$params = $assoc_args;
+		$config = $assoc_args;
 
-		Ecwid_Config::load_from_cli( $params );
+		Ecwid_Config::load_from_cli( $config );
 
 		WP_CLI::line( 'Configuration saved!' );
 	}
