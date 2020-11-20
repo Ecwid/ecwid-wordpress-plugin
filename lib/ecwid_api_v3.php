@@ -21,6 +21,7 @@ class Ecwid_Api_V3
 
 	const FEATURE_NEW_PRODUCT_LIST = 'NEW_PRODUCT_LIST';
 	const FEATURE_PRODUCT_FILTERS = 'PRODUCT_FILTERS';
+	const FEATURE_PRODUCT_SUBTITLES = 'PRODUCT_SUBTITLES_FEATURE';
 	
 	public static function get_api_status_list()
 	{

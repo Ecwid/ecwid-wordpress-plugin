@@ -409,6 +409,25 @@ class Ecwid_Product_Browser
 			);
 		}
 
+		if( $api->is_store_feature_available(Ecwid_Api_V3::FEATURE_PRODUCT_SUBTITLES) ) {
+
+			$attributes['product_list_subtitles_behavior'] = array(
+				'name' => 'product_list_subtitles_behavior',
+				'title' => __( 'Product subtitles', 'ecwid-shopping-cart' ),
+				'values' => self::_get_behaviors(),
+				'default' => 'SHOW',
+				'is_storefront_api' => true
+			);
+
+			$attributes['product_details_show_subtitle'] = array(
+				'name' => 'product_details_show_subtitle',
+				'title' => __( 'Subtitle', 'ecwid-shopping-cart' ),
+				'type' => 'boolean',
+				'default' => true,
+				'is_storefront_api' => true
+			);
+		}
+
 		return $attributes;
 
 	}
