@@ -10,10 +10,16 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-.components-toolbar__control.components-button:not(:disabled).is-active > svg rect {
+.components-toolbar__control.components-button:not(:disabled).is-pressed > svg rect {
   fill: white; }
 
-.components-toolbar__control.components-button.ecwid-toolbar-icon > svg {
+.components-toolbar div:first-child .components-button.components-button.ecwid-toolbar-icon {
+  padding-left: 6px; }
+
+.components-toolbar div:last-child .components-button.components-button.ecwid-toolbar-icon {
+  padding-right: 6px; }
+
+.components-toolbar div > .components-button.components-button.ecwid-toolbar-icon {
   padding: 0; }
 
 .ecwid-store-block-icon {
@@ -279,6 +285,9 @@
 .ec-store-color-picker .components-color-palette {
   margin-top: .6rem; }
 
+.ec-store-color-picker select {
+  margin: 6px 0 10px; }
+
 .ec-store-inspector-subheader-row {
   margin-bottom: 20px; }
 
@@ -288,19 +297,15 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
-      align-items: center; }
-
-.ec-store-inspector-row label,
-.ec-store-inspector-row button {
-  display: block; }
+      align-items: center;
+  margin: 15px 0; }
+  .ec-store-inspector-row label, .ec-store-inspector-row button {
+    display: block; }
 
 .ec-store-inspector-subheader {
   color: #191e23;
   font-weight: 600;
   cursor: default; }
-
-.ec-store-inspector-row {
-  margin: 15px 0; }
 
 .ec-store-inspector-select {
   max-width: 100%; }
@@ -308,7 +313,7 @@
 .ec-store-control-select {
   width: 100%; }
 
-.ec-store-control-button-group {
+.ec-store-inspector-button-group {
   display: block; }
 
 .ec-store-generic-block > div {
