@@ -22,6 +22,9 @@
 .components-toolbar div > .components-button.components-button.ecwid-toolbar-icon {
   padding: 0; }
 
+.block-editor-block-icon.has-colors svg.ec-store-icon-color {
+  color: #0087cd; }
+
 .ecwid-store-block-icon {
   background: url("../images/wordpress_20x20.svg");
   background-size: contain;
