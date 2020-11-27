@@ -68,10 +68,10 @@ class Ecwid_Gutenberg {
 			'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $store_block->get_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
 		);
 
-		$has_blocks = count( self::get_blocks_on_page() ) > 0;
+		$is_store_page = Ecwid_Store_Page::is_store_page();
 		$installed_within_one_weeks = time() - get_option( 'ecwid_installation_date' ) < WEEK_IN_SECONDS;
 
-		if( $has_blocks || (!$has_blocks && $installed_within_one_weeks) ) {
+		if( $is_store_page || (!$is_store_page && $installed_within_one_weeks) ) {
 			return array_merge( array($ec_category), $categories );
 		}
 
