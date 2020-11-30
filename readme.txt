@@ -73,9 +73,7 @@ The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store d
 * [Term of Service](https://www.ecwid.com/terms-of-service)
 * [Privacy Policy](https://www.ecwid.com/privacy-policy)
 
-The plugin uses our CDN from AWS Cloudfront service in some cases to speed up the loading of static assets in many countries —  faster storefronts, even on weak hostings. It is managed by our "Terms of Service" and "Privacy Policy".
-
-* [AWS Customer Agreement](https://aws.amazon.com/agreement/)
+The plugin uses CDN services by AWS Cloudfront to speed up user stores. It is managed by the Ecwid Terms of Service and Privacy Policy and [AWS Customer Agreement](https://aws.amazon.com/agreement/).
 
 == Installation ==
 
