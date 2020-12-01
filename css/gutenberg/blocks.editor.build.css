@@ -367,6 +367,9 @@
 
 .ec-store-categories-category4 {
   background: url("../../images/gutenberg/categories4.png"); }
+
+.block-editor-inserter__preview-container .ec-store-products > div, .block-editor-inserter__preview-container .ec-store-category-products > div {
+  margin: 5px; }
 /**
  * #.# Common SCSS
  *
