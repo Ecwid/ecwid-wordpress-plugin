@@ -61,7 +61,7 @@
 
 <h2>Error log</h2>
 <div>
-	<?php foreach (json_decode($all_options['ecwid_error_log'], true) as $key => $item): ?>
+	<?php if( isset($all_options['ecwid_error_log']) ) foreach (json_decode($all_options['ecwid_error_log'], true) as $key => $item): ?>
 	<div class="section"><?php echo htmlspecialchars($item['message']); ?><br><br></div>
 	<?php endforeach; ?>
 </div>

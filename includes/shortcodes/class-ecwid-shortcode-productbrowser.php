@@ -264,7 +264,7 @@ HTML;
 			return false;
 		}
 
-		$result .= <<<HTML
+		$result = <<<HTML
 <script>
 Ecwid.OnAPILoaded.add(function() {
     Ecwid.OnPageLoad.add(function(page) {

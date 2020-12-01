@@ -1052,7 +1052,7 @@ I have a problem with my store.
 [Please provide details here]
 
 The theme title is %s.
-The store URL is %
+The store URL is %s
 
 Can you have a look?
 
