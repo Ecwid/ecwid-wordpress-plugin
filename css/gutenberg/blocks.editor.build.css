@@ -370,6 +370,11 @@
 
 .block-editor-inserter__preview-container .ec-store-products > div, .block-editor-inserter__preview-container .ec-store-category-products > div {
   margin: 5px; }
+
+.block-editor-inserter__panel-header .ec-store-icon {
+  width: 18px;
+  height: 18px;
+  margin-bottom: 1px; }
 /**
  * #.# Common SCSS
  *
