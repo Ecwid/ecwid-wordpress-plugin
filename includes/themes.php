@@ -61,7 +61,7 @@ function ecwid_apply_theme($theme_name = null)
 		'ribosome'              => array( 'css' ),
 		'optimizepress'         => array( 'css' ),
 		'edge'                  => array( 'js', 'scroll' => 50 ),
-		'newsmag'               => array( 'css-no-parent'),
+		'newsmag'               => array( 'css-no-parent' ),
 		'optimizer'             => array( 'css' ),
 		'businesso'				=> array( 'css' ),
 		'flatsome'				=> array( Ecwid_Theme_Base::PROP_USE_JS_API_FOR_CATS_NAV_MENU ),
@@ -69,7 +69,8 @@ function ecwid_apply_theme($theme_name = null)
 		'Parallax-One'			=> array( 'css' ),
 		'twentytwenty'			=> array( 'css', 'title' ),
 		'jevelin3'				=> array( 'css-no-parent' ),
-		'newstore'				=> array( 'css', 'title' )
+		'newstore'				=> array( 'css', 'title' ),
+		'twentytwentyone'		=> array( 'css-no-parent', 'title' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 

@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
-Tested up to: 5.5
-Stable tag: 6.10.7
+Tested up to: 5.6
+Stable tag: 6.10.8
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -72,6 +72,8 @@ The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store d
 
 * [Term of Service](https://www.ecwid.com/terms-of-service)
 * [Privacy Policy](https://www.ecwid.com/privacy-policy)
+
+The plugin uses CDN services by AWS Cloudfront to speed up user stores. It is managed by the Ecwid Terms of Service and Privacy Policy and [AWS Customer Agreement](https://aws.amazon.com/agreement/).
 
 == Installation ==
 
@@ -154,9 +156,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10.7 - Oct 27, 2020 =
-- Updated the plugin translations. Now the plugin settings are fully translated into English, Russian, German, Spanish, French, Italian. In addition, the Ecwid store control panel and storefront have long supported all major languages (50 translations).
-- Plugin code improvements for better security and stability.
-- Minor fixes and improvements.
+= 6.10.8 - Dec 11, 2020 =
+- **WordPress 5.6 and Twenty Twenty One theme compatibility.** The new WordPress version with the 2021 theme is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.6 and try a new theme. 
+- **Compatibility with PHP 8.** WordPress 5.6 marks the first steps toward WordPress Core support for PHP 8. Ecwid ecommerce shopping cart plugin should work well with the latest PHP version. 
+- Fixes and improvements for the Ecwid ecommerce blocks in Gutenberg editor.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)

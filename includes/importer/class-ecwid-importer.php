@@ -268,7 +268,7 @@ class Ecwid_Importer
 	}
 
 	public static function is_localhost() {
-return false;
+
 		if( get_option( self::OPTIONS_SEPARATE_IMAGE_LOADING, false ) ) {
 			return true;
 		}

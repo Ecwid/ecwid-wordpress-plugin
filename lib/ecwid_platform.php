@@ -156,16 +156,6 @@ class EcwidPlatform {
 		return self::$crypt->decrypt($what);
 	}
 
-	static public function esc_attr($value)
-	{
-		return esc_attr($value);
-	}
-
-	static public function esc_html($value)
-	{
-		return esc_html($value);
-	}
-
 	static public function cache_log_record( $operation, $params ) {
 		
 		if ( !get_option( self::OPTION_LOG_CACHE, false ) )  { return; }
@@ -202,11 +192,6 @@ class EcwidPlatform {
 		$cache[] = $log_entry;
 		
 		update_option('ecwid_cache_log', $cache );
-	}
-	
-	static public function get_price_label()
-	{
-		return __('Price', 'ecwid-shopping-cart');
 	}
 
 	static public function cache_get($name, $default = false)

@@ -15,6 +15,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			'attributes' => $this->get_attributes_for_editor(),
 			'isNewProductList' => $this->_is_new_product_list(),
 			'isNewDetailsPage' => $this->_is_new_details_page(),
+			'isEnabledProductSubtitles' => $this->_is_enabled_product_subtitles(),
 			'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' ),
 			'shortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
 			'title' => __( 'Store Home Page', 'ecwid-shopping-cart' ),
@@ -308,6 +309,12 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$api = new Ecwid_Api_V3();
 
 		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_DETAILS_PAGE );
+	}
+
+	protected function _is_enabled_product_subtitles() {
+		$api = new Ecwid_Api_V3();
+
+		return $api->is_store_feature_available(Ecwid_Api_V3::FEATURE_PRODUCT_SUBTITLES);
 	}
 
 	public function get_icon_path()

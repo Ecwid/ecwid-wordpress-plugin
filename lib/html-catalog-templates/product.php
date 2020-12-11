@@ -1,17 +1,17 @@
 
 <div itemscope itemtype="http://schema.org/Product">
 
-	<h1 itemprop="name"><?php echo EcwidPlatform::esc_html( $product->name ); ?></h1>
-	<p itemprop="sku"><?php echo EcwidPlatform::esc_html( $product->sku ); ?></p>
-	<img itemprop="image" src="<?php echo EcwidPlatform::esc_attr( $product->originalImageUrl ); ?>" alt="<?php echo EcwidPlatform::esc_attr( $product->name  . ' ' . $product->sku); ?>" />
+	<h1 itemprop="name"><?php echo esc_html( $product->name ); ?></h1>
+	<p itemprop="sku"><?php echo esc_html( $product->sku ); ?></p>
+	<img itemprop="image" src="<?php echo esc_attr( $product->originalImageUrl ); ?>" alt="<?php echo esc_attr( $product->name  . ' ' . $product->sku); ?>" />
 	<div itemprop="description"><?php echo isset( $product->seoDescription )&& !empty( $product->seoDescription ) ? $product->seoDescription : $product->description; ?></div>
     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-		<span itemprop="price" content="<?php echo EcwidPlatform::esc_html( $product->defaultDisplayedPrice ); ?>"><?php
-			echo EcwidPlatform::esc_html( 
+		<span itemprop="price" content="<?php echo esc_html( $product->defaultDisplayedPrice ); ?>"><?php
+			echo esc_html( 
             	$formats->currencyPrefix . $product->defaultDisplayedPrice . $formats->currencySuffix
 			); 
 		?></span>
-		<span itemprop="priceCurrency" content="<?php echo EcwidPlatform::esc_attr( $formats->currency ); ?>"></span>
+		<span itemprop="priceCurrency" content="<?php echo esc_attr( $formats->currency ); ?>"></span>
 		<?php if ( !isset( $product->quantity) || $product->quantity > 0): ?><link itemprop="availability" href="http://schema.org/InStock" />In stock<?php endif; ?> 
 		<link itemprop="url" href="<?php if( !empty($product->seo_link) ) { echo $product->seo_link; } else { echo $product->url; }?>" />
 	</div>
@@ -24,9 +24,9 @@
 			     || 
 				 isset( $attribute->type ) && $attribute->type == 'BRAND'
 			):
-			?><span itemprop="brand"><?php echo EcwidPlatform::esc_html( $attribute->value ); ?></span><?php 
+			?><span itemprop="brand"><?php echo esc_html( $attribute->value ); ?></span><?php 
 			else: 
-				echo EcwidPlatform::esc_html( $attribute->value ); 
+				echo esc_html( $attribute->value ); 
 			endif; 
 		?></div>
 	<?php 
@@ -39,14 +39,14 @@
 		<span class="input"><?php 
 			if ( $option->type == 'TEXTAREA' ):
 		?>
-			<textarea name="<?php echo EcwidPlatform::esc_attr( $option->name ); ?>"></textarea>
+			<textarea name="<?php echo esc_attr( $option->name ); ?>"></textarea>
 			<?php elseif ( $option->type == 'SELECT' ): ?> 
-			<select name="<?php echo EcwidPlatform::esc_attr( $option->name ); ?>"><?php 
+			<select name="<?php echo esc_attr( $option->name ); ?>"><?php 
 				foreach( $option->choices as $param ): ?> 
-				<option value="<?php echo EcwidPlatform::esc_attr( $param->text ); ?>"><?php
-					echo EcwidPlatform::esc_html( $param->text );
+				<option value="<?php echo esc_attr( $param->text ); ?>"><?php
+					echo esc_html( $param->text );
 					echo ' ';
-					echo EcwidPlatform::esc_html( $param->priceModifier );
+					echo esc_html( $param->priceModifier );
 					?></option><?php endforeach; 
 			?> 
 			</select><?php 
@@ -54,23 +54,23 @@
 				foreach ( $option->choices as $param ): ?> 
 			<?php echo sprintf(
 				'<input type="radio" name="%s" value="%s" />%s (%s)',
-				EcwidPlatform::esc_attr( $option->name ),
-				EcwidPlatform::esc_attr( $param->text ),
-				EcwidPlatform::esc_html( $param->text ),
-				EcwidPlatform::esc_html( $param->priceModifier )
+				esc_attr( $option->name ),
+				esc_attr( $param->text ),
+				esc_html( $param->text ),
+				esc_html( $param->priceModifier )
 			); ?>
 			<?php endforeach; ?>
 			<?php elseif ( $option->type == 'CHECKBOX'): foreach ( $option->choices as $param ): ?> 
 			<?php echo sprintf(
 					'<input type="checkbox" name="%s[]" value="%s" />%s (%s)',
-					EcwidPlatform::esc_attr( $option->name ),
-					EcwidPlatform::esc_attr( $param->text ),
-					EcwidPlatform::esc_html( $param->text ),
-					EcwidPlatform::esc_html( $param->priceModifier )
+					esc_attr( $option->name ),
+					esc_attr( $param->text ),
+					esc_html( $param->text ),
+					esc_html( $param->priceModifier )
 				); ?>
 			<?php endforeach; ?>
 			<?php else: ?> 
-			<input type="text" name="<?php echo EcwidPlatform::esc_attr( $option->name ); ?>" /><?php 
+			<input type="text" name="<?php echo esc_attr( $option->name ); ?>" /><?php 
 			endif; 
 		?> 
 		</span>
@@ -78,6 +78,6 @@
 	<?php endforeach;
 	endif; ?> 
 	<?php if ( $product->galleryImages ) foreach ( $product->galleryImages as $image):
-	?><img src="<?php echo EcwidPlatform::esc_attr( $image->url ); ?>" alt="<?php echo EcwidPlatform::esc_attr( isset( $image->alt ) ? $image->alt : $product->name ); ?>" />
+	?><img src="<?php echo esc_attr( $image->url ); ?>" alt="<?php echo esc_attr( isset( $image->alt ) ? $image->alt : $product->name ); ?>" />
 	<?php endforeach; ?> 
 </div>

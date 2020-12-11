@@ -11,7 +11,7 @@
 <?php if ( $categories ): foreach ( $categories as $category ): ?>
 <div class="category-<?php echo $category->id; ?>">
 	<a href="<?php $cat = Ecwid_Category::get_by_id( $category->id ); echo $cat->get_link( $this->store_base_url ); ?>">
-        <?php echo EcwidPlatform::esc_html( $category->name ); ?> 
+        <?php echo esc_html( $category->name ); ?> 
     </a>
 </div>
 <?php endforeach; endif; ?>
@@ -22,7 +22,7 @@
 <div class="product-<?php echo $product->id; ?>">
 	<span class="product-name">
 		<a href="<?php echo $product->get_link( $this->store_base_url ); ?>">
-            <?php echo EcwidPlatform::esc_html( $product->name ); ?> 
+            <?php echo esc_html( $product->name ); ?> 
         </a>
 	</span>
 	<span class="product-price">
