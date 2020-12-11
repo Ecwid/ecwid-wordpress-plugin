@@ -61,16 +61,21 @@ class Ecwid_Gutenberg {
 	public function block_categories( $categories ) {
 	    
 	    $store_block = new Ecwid_Gutenberg_Block_Store();
-		return array_merge(
-			$categories,
-			array(
-				array(
-					'slug'  => 'ec-store',
-					'title' => sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
-					'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $store_block->get_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
-				),
-			)
+
+	    $ec_category = array(
+			'slug'  => 'ec-store',
+			'title' => sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+			'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $store_block->get_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
 		);
+
+		$is_store_page = Ecwid_Store_Page::is_store_page();
+		$installed_within_one_weeks = time() - get_option( 'ecwid_installation_date' ) < WEEK_IN_SECONDS;
+
+		if( $is_store_page || (!$is_store_page && $installed_within_one_weeks) ) {
+			return array_merge( array($ec_category), $categories );
+		}
+
+		return array_merge( $categories, array($ec_category) );
 	}
 	
 	public function on_save_post( $post, $request, $creating ) {

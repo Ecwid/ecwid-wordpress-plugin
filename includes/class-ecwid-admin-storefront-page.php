@@ -333,7 +333,7 @@ class Ecwid_Admin_Storefront_Page
 				$block_params = '';
 			}
 
-			if( $page['block_add_shortcode'] ) {
+			if( isset($page['block_add_shortcode']) && $page['block_add_shortcode'] ) {
 				$shortcode = str_replace('ec_store', 'ecwid', $shortcode);
 				$content = sprintf( '<!-- wp:%1$s %2$s -->%3$s<!-- /wp:%1$s -->', $page['block'], $block_params, $shortcode );
 			} else {

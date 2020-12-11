@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.10.8 - Dec 11, 2020 =
+- **WordPress 5.6 and Twenty Twenty One theme compatibility.** The new WordPress version with the 2021 theme is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.6 and try a new theme. 
+- **Compatibility with PHP 8.** WordPress 5.6 marks the first steps toward WordPress Core support for PHP 8. Ecwid ecommerce shopping cart plugin should work well with the latest PHP version. 
+- Fixes and improvements for the Ecwid ecommerce blocks in Gutenberg editor.
+
 = 6.10.7 - Oct 27, 2020 =
 - Updated the plugin translations. Now the plugin settings are fully translated into English, Russian, German, Spanish, French, Italian. In addition, the Ecwid store control panel and storefront have long supported all major languages (50 translations).
 - Plugin code improvements for better security and stability.
