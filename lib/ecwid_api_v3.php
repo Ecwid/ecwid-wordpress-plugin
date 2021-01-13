@@ -99,6 +99,10 @@ class Ecwid_Api_V3
 	
 	public static function check_api_status()
 	{
+		if( ecwid_is_demo_store() ) {
+			return self::set_api_status( self::API_STATUS_OK );
+		}
+
 		$api = new Ecwid_Api_V3();
 		
 		$token = self::_load_token();
@@ -137,10 +141,6 @@ class Ecwid_Api_V3
 		if (-$tls_fails ) {
 			return self::set_api_status( self::API_STATUS_ERROR_TLS );
 		}
-		
-		if( ecwid_is_demo_store() ) {
-			return self::set_api_status( self::API_STATUS_OK );
-		}
 
 		return self::set_api_status( self::API_STATUS_ERROR_OTHER );
 	}
@@ -161,7 +161,7 @@ class Ecwid_Api_V3
 	
 	public function get_categories($input_params)
 	{
-		if( ecwid_is_demo_store() ) {
+		if( ecwid_is_demo_store() && !ecwid_get_demo_store_public_key() ) {
 			return false;
 		}
 
@@ -447,6 +447,10 @@ class Ecwid_Api_V3
 
 	public static function get_token()
 	{
+		if( ecwid_is_demo_store() ) {
+			return ecwid_get_demo_store_public_key();
+		}
+
 		$config_value = Ecwid_Config::get_token();
 
 		if ($config_value) return $config_value;

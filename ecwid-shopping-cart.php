@@ -2194,7 +2194,20 @@ function ecwid_get_demo_stores() {
 		'locale_ru' => 13437191,
 		'locale_other' => 13433173
 	);
-	
+}
+
+function ecwid_get_demo_store_public_key() {
+	$public_keys = array(
+		13437191 => 'public_LRaZBiDigZCMJquHkRWDpdAt4HPmb4zH',
+		13433173 => 'public_9EYLuZ15kfKEHdpsuKMsqp9MZ2Umxtcp'
+	);
+
+	$store_id = ecwid_get_demo_store_id();
+	if( isset($public_keys[$store_id]) ) {
+		return $public_keys[$store_id];
+	}
+
+	return false;
 }
 
 function ecwid_create_store() {
@@ -2408,9 +2421,16 @@ function ecwid_get_categories_for_selector() {
 		return $cached;
 	}
 	
+	$query_params = array(
+		'hidden_categories' => true
+	);
+
+	if( ecwid_is_demo_store() ) {
+		$query_params['parent'] = 0;
+	}
+
 	$api = new Ecwid_Api_V3();
-	
-	$categories = $api->get_categories( array( 'hidden_categories' => true ) );
+	$categories = $api->get_categories( $query_params );
 
 	$all_categories = array();
 	
@@ -2428,7 +2448,9 @@ function ecwid_get_categories_for_selector() {
 		$page = 0;
 		while ( $categories->count + $offset * $page < $categories->total ) {
 			$page++;
-			$categories = $api->get_categories( array( 'offset' => $offset * $page, 'hidden_categories' => true ) );
+
+			$query_params['offset'] = $offset * $page;
+			$categories = $api->get_categories( $query_params );
 
 			foreach ( $categories->items as $category ) {
 				$all_categories[$category->id] = $category;
@@ -2440,6 +2462,11 @@ function ecwid_get_categories_for_selector() {
 
 	$result = array();
 	foreach ( $all_categories as $category ) {
+
+		if( !isset( $category->name ) ) {
+			continue;
+		}
+
 		$result[$category->id] = $category;
 		
 		if ( !isset($category->parentId) ) {
