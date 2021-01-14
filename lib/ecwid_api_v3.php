@@ -395,7 +395,7 @@ class Ecwid_Api_V3
 	{
 		$params = array('token');
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled' );
 
 		foreach ($passthru as $name) {
 		    if ( array_key_exists( $name, $input_params ) ) {
