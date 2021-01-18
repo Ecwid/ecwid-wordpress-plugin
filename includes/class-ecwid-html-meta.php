@@ -68,7 +68,7 @@ abstract class Ecwid_HTML_Meta
         $params = ecwid_get_scriptjs_params();
 
 		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
-			. $store_id . $params . '" as="script" crossorigin>' . PHP_EOL;
+			. $store_id . $params . '" as="script">' . PHP_EOL;
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
 			$css_files = Ecwid_Static_Page::get_css_files();

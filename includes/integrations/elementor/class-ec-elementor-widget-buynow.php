@@ -92,7 +92,7 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
     protected function _get_products_for_selector() {
 
         $api = new Ecwid_Api_V3();
-        $products = $api->get_products( array() );
+        $products = $api->get_products( array('enabled' => true) );
 
         if( !$products ) {
             return array();

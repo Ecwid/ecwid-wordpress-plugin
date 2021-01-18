@@ -566,7 +566,9 @@ class Ecwid_Store_Page {
 jQuery(document).ready(function(){
 	if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
 	    Ecwid.OnPageLoaded.add(function(page){
-	        jQuery('.ec-store__content-wrapper').eq(0).append( '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>' );
+	    	if( jQuery('.ec-notice.ec-demo-notice').length > 0 ) return;
+
+        	jQuery('.ec-store__content-wrapper').eq(0).append( '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>' );
 	    });
 	}
 });
