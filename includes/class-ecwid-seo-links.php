@@ -474,7 +474,8 @@ JS;
 			'cart',
 			'account',
 			'checkout',
-			'signin'
+			'signin',
+			'search'
 		);
 		
 		$home_url = home_url();
