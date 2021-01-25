@@ -216,12 +216,14 @@ class Ecwid_Admin {
 				'admin.php?page=' . self::ADMIN_SLUG . '-admin-customers'
 			);
 
-			add_theme_page(
-				__( 'Store', 'ecwid-shopping-cart' ),
-				__( 'Store', 'ecwid-shopping-cart' ),
-				self::get_capability(),
-				'admin.php?page=' . self::ADMIN_SLUG . '-admin-design'
-			);
+			if( !Ecwid_Admin_Storefront_Page::is_gutenberg_active() ) {
+				add_theme_page(
+					__( 'Store', 'ecwid-shopping-cart' ),
+					__( 'Store', 'ecwid-shopping-cart' ),
+					self::get_capability(),
+					'admin.php?page=' . self::ADMIN_SLUG . '-admin-design'
+				);
+			}
 		}
 	}
 
