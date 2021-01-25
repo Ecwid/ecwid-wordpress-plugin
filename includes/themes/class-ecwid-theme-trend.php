@@ -49,7 +49,7 @@ class Ecwid_Theme_Trend extends Ecwid_Theme_Base
 		$ecwid_store_id = get_ecwid_store_id();
 		$before = <<<HTML
 <script>
-ecwid_shortcodes = [];
+var ecwid_shortcodes = [];
 </script>
 HTML;
 
@@ -62,7 +62,7 @@ HTML;
 
 		if (typeof Ecwid != 'undefined' && Ecwid.destroy) Ecwid.destroy();
 
-if (typeof ecwid_shortcodes != 'undefined') {
+		if (typeof ecwid_shortcodes != 'undefined') {
 			window._xnext_initialization_scripts = ecwid_shortcodes;
 
 			if (!document.getElementById('ecwid-script')) {
@@ -77,10 +77,9 @@ if (typeof ecwid_shortcodes != 'undefined') {
 				var catalog = document.getElementById('ecwid-html-catalog-$ecwid_store_id');
 				catalog.parentElement.removeChild(catalog);
 			} else {
-			ecwid_onBodyDone();
+				ecwid_onBodyDone();
+			}
 		}
-
-}
 </script>
 HTML;
 		return $before . $content . $after;
@@ -98,11 +97,13 @@ HTML;
 
 		$code = <<<HTML
 <script type="text/javascript">
-ecwid_shortcodes[ecwid_shortcodes.length] = {
-	widgetType: '$widgetType',
-	id: '$id',
-	arg: [$args]
-};
+if (typeof ecwid_shortcodes != 'undefined') {
+	ecwid_shortcodes[ecwid_shortcodes.length] = {
+		widgetType: '$widgetType',
+		id: '$id',
+		arg: [$args]
+	};
+}
 </script>
 HTML;
 		return $code;

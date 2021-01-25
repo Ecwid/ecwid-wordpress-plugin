@@ -100,7 +100,7 @@ class Ecwid_Ajax_Defer_Renderer {
 		$ecwid_store_id = get_ecwid_store_id();
 		$before = <<<HTML
 <script>
-ecwid_shortcodes = [];
+var ecwid_shortcodes = [];
 </script>
 HTML;
 		
@@ -159,11 +159,13 @@ HTML;
 
 		$code = <<<HTML
 <script type="text/javascript">
-ecwid_shortcodes[ecwid_shortcodes.length] = {
-	widgetType: '$widgetType',
-	id: '$id',
-	arg: [$args]
-};
+if (typeof ecwid_shortcodes != 'undefined') {
+	ecwid_shortcodes[ecwid_shortcodes.length] = {
+		widgetType: '$widgetType',
+		id: '$id',
+		arg: [$args]
+	};
+}
 </script>
 HTML;
 		return $code;
