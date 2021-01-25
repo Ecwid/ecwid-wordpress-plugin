@@ -71,6 +71,8 @@ function ecwidApplyIframeAdminMenu($link, menu) {
     .attr('data-ecwid-menu-slug', menu.slug)
     .click(function (e) {
 
+        var slug = jQuery(this).data('ecwid-menu-slug');
+
         if (e.shiftKey || e.ctrlKey || e.metaKey) {
             if( !!jQuery(this).attr('href') ) {
                 window.open( jQuery(this).attr('href'), '_blank' );
@@ -79,7 +81,9 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         }
 
         if ( jQuery(this).hasClass('current') ) {
-            return false;
+            if( slug != 'ec-store-admin-products' ) {
+                return false;
+            }
         }
 
         if( ecwid_params.is_demo_store ) {
@@ -93,8 +97,6 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         var is3dlevelMenuRoot = link.hasClass('wp-has-submenu3');
         
         var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
-        
-        var slug = jQuery(this).data('ecwid-menu-slug');
 
         if( slug == 'ec-storefront-settings' ) {
             
