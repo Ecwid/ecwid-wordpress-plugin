@@ -524,6 +524,10 @@ class Ecwid_Api_V3
 		$result = EcwidPlatform::fetch_url($url);
 
 		if ( !isset( $result['data'] ) ) {
+			if( isset($result['message']) ) {
+				ecwid_log_error( $result['message'] );				
+			}
+			
 			return null;
 		}
 		

@@ -67,6 +67,10 @@ abstract class Ecwid_Http {
 		$data = $this->_do_request($url, $args);
 
 		if ( is_null( $data ) || $this->is_error ) {
+			if( is_wp_error($data) ) {
+				ecwid_log_error( $data->get_error_message('http_request_failed') );
+			}
+
 			return null;
 		}
 
