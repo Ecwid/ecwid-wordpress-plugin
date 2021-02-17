@@ -52,10 +52,11 @@ class Ecwid_OAuth {
 			$action = 'ec_oauth_reconnect';
 		}
 
-		$redirect_uri = 'admin-post.php?action=' . $action;
+		$redirect_uri = admin_url( 'admin-post.php?action=' . $action );
+		$redirect_uri = $this->check_url_for_idn_format( $redirect_uri );
 
 		return $this->api->get_oauth_dialog_url(
-			admin_url( $redirect_uri ),
+			$redirect_uri,
 			implode(' ', $this->_get_scope() )
 		);
 	}
@@ -92,11 +93,14 @@ class Ecwid_OAuth {
 		}
 
 		$base_admin_url = 'admin-post.php?action=ec_oauth' . ($reconnect ? '_reconnect' : '');
+		$redirect_uri = admin_url( $base_admin_url );
+
+		$redirect_uri = $this->check_url_for_idn_format( $redirect_uri );
 
 		$params['code'] = sanitize_text_field($_REQUEST['code']);
 		$params['client_id'] = Ecwid_Config::get_oauth_appid();
 		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
-		$params['redirect_uri'] = admin_url( $base_admin_url );
+		$params['redirect_uri'] = $redirect_uri;
 
 		$params['grant_type'] = 'authorization_code';
 		
@@ -150,7 +154,7 @@ class Ecwid_OAuth {
 			} else {
 				$url = Ecwid_Admin::get_dashboard_url();
 			}
-			wp_safe_redirect( $url );
+			wp_redirect( $url );
 		}
 		exit;
 	}
@@ -382,6 +386,22 @@ class Ecwid_OAuth {
 	public function reset_just_connected()
 	{
 		update_option( self::OPTION_JUST_CONNECTED, false );
+	}
+
+	public function check_url_for_idn_format( $url ) {
+		if( function_exists('idn_to_ascii') ) {
+			$host = wp_parse_url( $url, PHP_URL_HOST );
+
+			$is_idn_format = $host != idn_to_ascii($host);
+			if( $is_idn_format ) {
+				$encoded_host = idn_to_ascii($host);
+				$pattern = '/' . $host . '/i';
+
+				return preg_replace($pattern, $encoded_host, $url, 1);
+			}
+		}
+
+		return $url;
 	}
 	
 	protected function _is_reconnect() {
