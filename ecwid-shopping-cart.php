@@ -201,6 +201,7 @@ function ecwid_init_integrations()
 		'urbango-core/main.php' => 'urbango',
 		'seo-by-rank-math/rank-math.php' => 'rank-math',
 		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
+		'sg-cachepress/sg-cachepress.php' => 'sg-optimizer',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );

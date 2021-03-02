@@ -10,9 +10,10 @@ class Ecwid_Integration_WPRocket
 
 	public function hook_excluded_inline_js($excluded_inline_js) {
 		
+		$excluded_inline_js[] = 'window.ec.';
+
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 			$excluded_inline_js[] = 'EcStaticPageUtils';
-			$excluded_inline_js[] = 'window.ec.storefront';
 		} else {
 			$excluded_inline_js[] = 'createClass';
 		}
