@@ -1,28 +1,31 @@
-<?php 
+<?php
 
-class Ecwid_Integration_WPBakery_Composer {
+require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-stub-renderer.php';
+
+class Ec_Integration_WPBakery_Composer {
 	
-	public function __construct()
-	{
+	public function __construct() {
 		add_action( 'vc_before_init', array( $this, 'before_init_actions' ) );
 	}
 
-	function before_init_actions() {
-
+	public function before_init_actions() {
 		//.. Code from other Tutorials ..//
-
 		// Require new custom Element
 	}
 }
 
-$ecwid_wpbakery_composer = new Ecwid_Integration_WPBakery_Composer();
+class Ec_Integration_WPBakery_Stub_Renderer extends Ecwid_Stub_Renderer {
+	protected function _should_apply() {
+		return isset($_GET['vc_editable']) && $_GET['vc_editable'];
+	}
+}
 
-/*
-Element Description: VC Info Box
-*/
+$__ec_wpbakery_composer = new Ec_Integration_WPBakery_Composer();
+$__ec_integration_wpbakery_stub_renderer = new Ec_Integration_WPBakery_Stub_Renderer();
+
 
 // Element Class 
-class vcInfoBox extends WPBakeryShortCode {
+class Ec_WPBakeryShortCode_Store extends WPBakeryShortCode {
 
 	// Element Init
 	function __construct() {
@@ -44,13 +47,12 @@ class vcInfoBox extends WPBakeryShortCode {
 	// Element Mapping
 	public function vc_infobox_mapping() {
 
-// Stop all if VC is not enabled
+		// Stop all if VC is not enabled
 		if ( !defined( 'WPB_VC_VERSION' ) ) {
 			return;
 		}
 
 		$categories = ecwid_get_categories_for_selector();
-		//die(var_dump($categories));
 		
 		$cats = array(
 			__( 'Store root category', 'ecwid-shopping-cart' ) => 0
@@ -58,11 +60,9 @@ class vcInfoBox extends WPBakeryShortCode {
 		foreach ($categories as $category) {
 			$cats[$category->path] = $category->id;
 		}
-		
-		
+
 		// Map the block with vc_map()
 		vc_map(
-
 			array(
 				'name' => sprintf( _x('Online store', 'vc-tab', 'ecwid-shopping-cart' ) ),
 				'base' => 'vc_ecwid_store',
@@ -70,7 +70,6 @@ class vcInfoBox extends WPBakeryShortCode {
 				'category' => _x( 'Online store', 'vc-tab', 'ecwid-shopping-cart' ),
 				'icon' => ECWID_PLUGIN_URL . 'images/wordpress_20x20.svg',
 				'params' => array(
-					
 					array(
 						'type' => 'checkbox',
 						'param_name' => 'show_search',
@@ -78,8 +77,6 @@ class vcInfoBox extends WPBakeryShortCode {
 						'value' => array( __( 'Show search', 'ecwid-shopping-cart' ) => 'yes' ),
 						'std' => 'yes',
 					),
-
-
 					array(
 						'type' => 'checkbox',
 						'param_name' => 'show_categories',
@@ -87,7 +84,6 @@ class vcInfoBox extends WPBakeryShortCode {
 						'group' => __( 'Settings', 'ecwid-shopping-cart' ),
 						'std' => 'yes'
 					),
-
 					array(
 						'type' => 'checkbox',
 						'param_name' => 'show_minicart',
@@ -144,5 +140,4 @@ class vcInfoBox extends WPBakeryShortCode {
 
 } // End Element Class
 
-// Element Class Init
-new vcInfoBox(); 
+new Ec_WPBakeryShortCode_Store(); 

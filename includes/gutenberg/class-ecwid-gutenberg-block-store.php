@@ -61,6 +61,10 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		}
 
 		foreach ($params as $key => $value) {
+			if( is_object($value) || is_array($value) ) {
+				$value = json_encode($value);
+			}
+
 			$result .= " $key='$value'";
 		}
 

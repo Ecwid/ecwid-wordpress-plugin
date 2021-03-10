@@ -417,6 +417,11 @@ class Ecwid_Admin_Storefront_Page
 			if ( is_plugin_active( $plugin ) ) {
 				return false;
 			}
+
+			//check Divi builder from themes
+			if( defined('ET_BUILDER_THEME') && ET_BUILDER_THEME ) {
+				return false;
+			}
 		}
 
 		return true;

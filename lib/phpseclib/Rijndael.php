@@ -76,7 +76,7 @@
  * Base cipher class
  */
 if (!class_exists('Ecwid_Crypt_Base')) {
-    include_once 'Base.php';
+    include_once dirname(__FILE__) . '/Base.php';
 }
 
 /**#@+

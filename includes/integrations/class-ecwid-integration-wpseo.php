@@ -4,7 +4,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 {
 	// Store intermediate sitemap generation results here
 	protected $sitemap = array();
-	protected $_og_drop = array( 'title', 'desc', 'image', 'type', 'url', 'site_name' );
+	protected $_og_drop = array( 'title', 'desc', 'type', 'url', 'site_name' );
 	protected $_twitter_drop = array( 'title', 'description', 'image', 'card_type' );
 	
 	public function __construct()
@@ -31,6 +31,8 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
 		add_action( 'init', array($this, 'clear_ecwid_sitemap_index') );
+		
+		add_action( 'template_redirect', array($this, 'force_clear_metatags') );
 	}
 
 	public function ecwid_set_mainpage_metadesc_hook( $set_metadesc ) {
@@ -107,15 +109,45 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		remove_action( 'template_redirect', array( $wpseo_front, 'force_rewrite_output_buffer' ), 99999 );
 	}
 
+	public function force_clear_metatags() {
+		$is_store_page = Ecwid_Store_Page::is_store_page();
+		$is_home_page = Ecwid_Store_Page::is_store_home_page();
+
+		if( $is_store_page && !$is_home_page ) {
+			ob_start();
+			add_action('shutdown', array($this, 'clear_output_metatags'), 0);
+		}
+	}
+
+	public function clear_output_metatags() {
+		$output = ob_get_contents();
+	    ob_end_clean();
+
+	    if( substr_count($output, '"og:image"') > 1 ) {
+
+	    	$og_tags = array( '', ':width', ':height' );
+	    	foreach ($og_tags as $og_tag) {
+	    		$output = preg_replace( 
+	    			'/<meta property="og:image' . $og_tag . '" content=".*?" \/>[[:space:]]*/', 
+	    			'',
+	    			$output,
+	    			1
+	    		);
+	    	}
+		}
+
+	    echo $output;
+	}
+
 	public function clear_ecwid_sitemap_index() {
 
 		if( strpos( $_SERVER['REQUEST_URI'], 'sitemap_index.xml' ) !== false ) {
 			ob_start();
-			add_action('shutdown', array($this, 'shutdown_hook_ecwid_sitemap_clear'), 0);
+			add_action('shutdown', array($this, 'sitemap_clear'), 0);
 		}
 	}
 
-	public function shutdown_hook_ecwid_sitemap_clear()
+	public function sitemap_clear()
 	{
 		$output = ob_get_contents();
 	    ob_end_clean();

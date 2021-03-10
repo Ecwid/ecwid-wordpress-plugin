@@ -303,7 +303,7 @@ class Ecwid_Product_Browser
 			),
 			'product_details_show_share_buttons' => array(
 				'name' => 'product_details_show_share_buttons',
-				'title' => __( 'Display sign in link', 'ecwid-shopping-cart' ),
+				'title' => __( 'Share buttons', 'ecwid-shopping-cart' ),
 				'type' => 'boolean',
 				'default' => true,
 				'is_storefront_api' => true

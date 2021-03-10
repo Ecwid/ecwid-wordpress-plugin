@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 6.10.10 - Mar 10, 2021 =
+- **WordPress 5.7 compatibility.** The new WordPress version is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.7.
+- **Improved compatibility with WP Rocket and SG Optimizer cache plugins**. If you have one of those plugins installed and noticed any issue, it should be fixed now. If you still see a problem, please let us know. 
+- Improvements for the Ecwid ecommerce blocks in Gutenberg editor.
+- Minor fixes and improvements.
+
 = 6.10.9 - Jan 18, 2021 =
 - Improvements for the Ecwid online store blocks in Gutenberg editor.
 - Improved compatibility with the Elementor page builder. In some cases, the Ecwid ecommerce plugin affected other plugins for Elementor. We fixed it.

@@ -518,9 +518,10 @@ class Ecwid_Store_Page {
 		}
 
 		$is_empty = in_array( $profile->generalInfo->storeUrl, array('http://', 'https://') );
-		$is_generated_url = $profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl;
 		$is_same_domain = wp_parse_url( $profile->generalInfo->storeUrl, PHP_URL_HOST ) == wp_parse_url( $store_url, PHP_URL_HOST );
-
+		
+		$is_custom_domain = isset( $profile->generalInfo->starterSite->customDomain );
+		$is_generated_url = ($profile->generalInfo->storeUrl == $profile->generalInfo->starterSite->generatedUrl) && !$is_custom_domain;
 
 		$is_dev_to_prod = self::is_localhost( $profile->generalInfo->storeUrl ) && !self::is_localhost( $store_url );
 		if( $is_dev_to_prod ) {
