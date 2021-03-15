@@ -50,7 +50,7 @@ if ( is_admin() ) {
 
 	add_action( 'admin_init', 'ecwid_settings_api_init' );
 	add_action( 'admin_init', 'ecwid_check_version' );
-	add_action('wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache');
+	add_action( 'wp_ajax_check_api_cache', 'ecwid_admin_check_api_cache' );
 
 	add_action( 'admin_enqueue_scripts', 'ecwid_common_admin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'ecwid_register_admin_styles' );
@@ -993,6 +993,10 @@ function ecwid_regular_cache_check()
 		if (time() - $last_transients > MONTH_IN_SECONDS ) {
 			EcwidPlatform::clear_all_transients();
 			update_option( 'ecwid_last_transients_check', time() );
+		}
+
+		if ( EcwidPlatform::is_need_clear_transients() ) {
+			EcwidPlatform::clear_all_transients();
 		}
 	}
 }
