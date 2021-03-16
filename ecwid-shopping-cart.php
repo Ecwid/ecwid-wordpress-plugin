@@ -365,7 +365,8 @@ function ecwid_enqueue_frontend() {
 		wp_enqueue_script('ecwid-historyjs-wa', ECWID_PLUGIN_URL . 'js/historywa.js');
 	}
 
-	if (!wp_script_is('jquery-ui-widget')) {
+	$version = get_bloginfo('version');
+	if ( !wp_script_is('jquery-ui-widget') && version_compare($version, '5.6') < 0 ) {
 		wp_enqueue_script('jquery-ui-widget', includes_url() . 'js/jquery/ui/widget.min.js', array('jquery'));
 	}
 
