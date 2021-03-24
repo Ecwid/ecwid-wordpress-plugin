@@ -1603,11 +1603,8 @@ EOT;
 	add_option("ecwid_pb_defaultview", 'grid', '', 'yes');
 	add_option("ecwid_pb_searchview", 'list', '', 'yes');
 
-	add_option("ecwid_mobile_catalog_link", '', '', 'yes');  
-	add_option("ecwid_default_category_id", '', '', 'yes');  
-	 
-	add_option('ecwid_is_api_enabled', 'on', '', 'yes');
-	add_option('ecwid_api_check_time', 0, '', 'yes');
+	add_option("ecwid_mobile_catalog_link", '', '', 'yes'); 
+	add_option("ecwid_default_category_id", '', '', 'yes');
 
 	add_option('ecwid_show_vote_message', true);
 
@@ -1776,8 +1773,6 @@ function ecwid_uninstall() {
 	delete_option("ecwid_pb_searchview");
 	delete_option("ecwid_mobile_catalog_link");
 	delete_option("ecwid_default_category_id");
-	delete_option('ecwid_is_api_enabled');
-	delete_option('ecwid_api_check_time');
 	delete_option('ecwid_show_vote_message');
 	delete_option("ecwid_sso_secret_key");
 	delete_option("ecwid_installation_date");
@@ -2085,10 +2080,9 @@ function ecwid_settings_api_init() {
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
     	
     	ecwid_update_store_id( $_POST['ecwid_store_id'] );
-		update_option('ecwid_is_api_enabled', 'off');
-		update_option('ecwid_api_check_time', 0);
+		update_option('ecwid_api_check_retry_after', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
-		update_option( 'ecwid_connected_via_legacy_page_time', time() );
+		update_option('ecwid_connected_via_legacy_page_time', time());
 	}
 
 
@@ -2375,8 +2369,7 @@ function ecwid_admin_post_connect()
 
 	if (isset($_GET['force_store_id'])) {
 		update_option('ecwid_store_id', $_GET['force_store_id']);
-		update_option('ecwid_is_api_enabled', 'off');
-		update_option('ecwid_api_check_time', 0);
+		update_option('ecwid_api_check_retry_after', 0);
 		update_option('ecwid_last_oauth_fail_time', 1);
 		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit();
@@ -2992,8 +2985,7 @@ function ecwid_update_store_id( $new_store_id ) {
 	EcwidPlatform::cache_reset( 'nav_categories_posts' );
 
 	update_option( 'ecwid_store_id', $new_store_id );
-	update_option( 'ecwid_is_api_enabled', 'off' );
-	update_option( 'ecwid_api_check_time', 0 );
+	update_option( 'ecwid_api_check_retry_after', 0 );
 	
 	ecwid_invalidate_cache( true );
 	EcwidPlatform::cache_reset('all_categories');
