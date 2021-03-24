@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.10.11 - Mar 24, 2021 =
+- Improved compatibility with Oxygen Builder plugin. We noticed that the Ecwid plugin affected some settings on the Oxygen Builder editor page. We fixed it, now it works fine.
+- Improvements for the single product widgets added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for sidebar widgets to make them meet the latest Google recommendations.
+- Minor fixes and improvements.
+
 = 6.10.10 - Mar 10, 2021 =
 - **WordPress 5.7 compatibility.** The new WordPress version is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.7.
 - **Improved compatibility with WP Rocket and SG Optimizer cache plugins**. If you have one of those plugins installed and noticed any issue, it should be fixed now. If you still see a problem, please let us know. 

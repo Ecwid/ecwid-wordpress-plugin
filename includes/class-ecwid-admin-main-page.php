@@ -112,10 +112,6 @@ class Ecwid_Admin_Main_Page
 			$page = sanitize_text_field( $_GET['ec-store-page'] );
 		}
 
-		if ( $page == self::PAGE_HASH_UPGRADE ) {
-			update_option('ecwid_api_check_time', time() - ECWID_API_AVAILABILITY_CHECK_TIME + 10 * 60);
-		}
-
 		if ( $page == self::PAGE_HASH_DASHBOARD || $page == self::PAGE_HASH_COMPLETE_REGISTRATION ) {
 			$show_reconnect = true;
 		}

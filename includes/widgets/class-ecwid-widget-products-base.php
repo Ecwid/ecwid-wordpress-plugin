@@ -121,13 +121,14 @@ HTML;
 			}
 
 			$name = esc_html($product->name);
+			$price = $product->price;
 
 			echo <<<HTML
 		<a class="product" href="$product->link" data-ecwid-page="product" data-ecwid-product-id="$product->id" alt="$name" title="$name">
 			<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-$product->id" data-single-product-link="$product->link" itemscope itemtype="http://schema.org/Product" data-single-product-id="$product->id">
 				<div itemprop="image" data-force-image="$force_image"></div>
-				<div class="ecwid-title" itemprop="name"></div>
-				<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price"></div></div>
+				<div class="ecwid-title" itemprop="name" content="$name"></div>
+				<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="$price"></div></div>
 			</div>
 			<!-- noptimize --><script type="text/javascript">xSingleProduct();</script><!-- /noptimize -->
 		</a>

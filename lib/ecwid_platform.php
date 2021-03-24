@@ -19,6 +19,8 @@ class EcwidPlatform {
 	
 	const OPTION_LOG_CACHE = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
+
+	const TRANSIENTS_LIMIT = 30000;
 	
 	static public function get_store_id()
 	{
@@ -229,13 +231,21 @@ class EcwidPlatform {
 
 	static public function fetch_url($url, $options = array())
 	{
-		$default_timeout = 10;
+		$api_check_retry_after = get_option('ecwid_api_check_retry_after', 0);
 
+		if( $api_check_retry_after > time() ) {
+			return array(
+				'code' => '429',
+				'data' => '',
+				'message' => 'Too Many Requests'
+			);
+		}
 
 		if (get_option('ecwid_http_use_stream', false)) {
 			self::$http_use_streams = true;
 		}
 
+		$default_timeout = 10;
 		$result = wp_remote_get( $url, array_merge(
 				array(
 					'timeout' => get_option( 'ecwid_remote_get_timeout', $default_timeout )
@@ -243,6 +253,15 @@ class EcwidPlatform {
 				$options
 			)
 		);
+
+		if( wp_remote_retrieve_response_code($result) == '429' ) {
+
+			$retry_after = intval( wp_remote_retrieve_header($result, 'retry-after') );
+
+			if( $retry_after > 0 ) {
+				update_option( 'ecwid_api_check_retry_after', time() + $retry_after );
+			}
+		}
 
 		if (get_option('ecwid_http_use_stream', false)) {
 			self::$http_use_streams = false;
@@ -520,14 +539,32 @@ class EcwidPlatform {
 		EcwidPlatform::set( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM, $time );
 	}
 
-	public static function clear_all_transients() {
+	static public function is_need_clear_transients() {
+		global $wpdb;
+
+		$sql =  "
+			SELECT COUNT(*)
+			FROM {$wpdb->options}
+			WHERE option_name LIKE '\_transient\_ecwid\_%'
+		";
+
+		$count_transients = $wpdb->get_var($sql);
+
+		if( $count_transients >= self::TRANSIENTS_LIMIT ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	static public function clear_all_transients() {
 	    global $wpdb;
 
 	    $sql = "
 	        DELETE 
 	        FROM {$wpdb->options}
-	        WHERE option_name like '\_transient\_ecwid\_%'
-	        OR option_name like '\_transient\_timeout\_ecwid\_%'
+	        WHERE option_name LIKE '\_transient\_ecwid\_%'
+	        OR option_name LIKE '\_transient\_timeout\_ecwid\_%'
 	    ";
 
 	    $wpdb->query($sql);

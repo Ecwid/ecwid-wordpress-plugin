@@ -136,7 +136,6 @@ class Ecwid_OAuth {
 		ecwid_update_store_id( $result->store_id );
 
 		update_option( 'ecwid_oauth_scope', $result->scope );
-		update_option( 'ecwid_api_check_time', 0 );
 		update_option( 'ecwid_public_token', $result->public_token );
 		update_option( self::OPTION_JUST_CONNECTED, true );
 		EcwidPlatform::cache_reset( 'all_categories' );
@@ -163,8 +162,6 @@ class Ecwid_OAuth {
 	{
 		update_option( 'ecwid_store_id', ecwid_get_demo_store_id() );
 		$this->api->save_token( '' );
-		update_option( 'ecwid_is_api_enabled', 'off' );
-		update_option( 'ecwid_api_check_time', 0 );
 
 		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit;
