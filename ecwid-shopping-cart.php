@@ -2080,7 +2080,6 @@ function ecwid_settings_api_init() {
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
     	
     	ecwid_update_store_id( $_POST['ecwid_store_id'] );
-		update_option('ecwid_api_check_retry_after', 0);
 		update_option('ecwid_last_oauth_fail_time', 0);
 		update_option('ecwid_connected_via_legacy_page_time', time());
 	}
