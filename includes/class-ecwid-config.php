@@ -112,6 +112,26 @@ class Ecwid_Config {
 		
 		self::_apply_config( $result );
 	}
+
+	public static function is_cli_running() {
+		return defined( 'WP_CLI' ) && WP_CLI;
+	}
+
+	public static function load_from_cli( $config ) {
+
+		if ( !$config ) {
+			return;
+		}
+
+		$common_config = self::_get_common_config();
+		$token_config_name = $common_config[self::TOKEN];
+
+		if( isset( $config[$token_config_name] ) ) {
+			Ecwid_Api_V3::save_token( $config[$token_config_name] );
+		}
+
+		self::_apply_config( $config );
+	}
 	
 	public static function enqueue_styles() {
 		if ( !self::is_wl() ) {

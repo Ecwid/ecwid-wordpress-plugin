@@ -168,6 +168,10 @@ if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
+if( Ecwid_Config::is_cli_running() ) {
+	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-wp-cli.php';
+}
+
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
 foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
@@ -1686,9 +1690,11 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 		&& isset($_POST['checked'])
 		&& count($_POST['checked']) > 1;
 
+	$is_cli_running = Ecwid_Config::is_cli_running();
+
 	$is_newbie = ecwid_is_demo_store();
 
-    if( !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_cli_running && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         exit( wp_safe_redirect( Ecwid_Admin::get_dashboard_url() ) );
     }
 }
