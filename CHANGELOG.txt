@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.10.12 - Apr 14, 2021 =
+- Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category names in multilingual mode when enabling the WPML plugin. We've fixed that.
+- Improvements for the single product blocks added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for Gutenberg blocks to make them meet the latest Google recommendations.
+- Minor fixes and improvements.
+
 = 6.10.11 - Mar 24, 2021 =
 - Improved compatibility with Oxygen Builder plugin. We noticed that the Ecwid plugin affected some settings on the Oxygen Builder editor page. We fixed it, now it works fine.
 - Improvements for the single product widgets added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for sidebar widgets to make them meet the latest Google recommendations.

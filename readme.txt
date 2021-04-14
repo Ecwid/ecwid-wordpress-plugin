@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, online store, sell
 Requires at least: 3.7
 Tested up to: 5.7
-Stable tag: 6.10.11
+Stable tag: 6.10.12
 
 Powerful, easy to use ecommerce shopping cart. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -156,9 +156,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10.11 - Mar 24, 2021 =
-- Improved compatibility with Oxygen Builder plugin. We noticed that the Ecwid plugin affected some settings on the Oxygen Builder editor page. We fixed it, now it works fine.
-- Improvements for the single product widgets added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for sidebar widgets to make them meet the latest Google recommendations.
+= 6.10.12 - Apr 14, 2021 =
+- Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category names in multilingual mode when enabling the WPML plugin. We've fixed that.
+- Improvements for the single product blocks added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for Gutenberg blocks to make them meet the latest Google recommendations.
 - Minor fixes and improvements.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)
