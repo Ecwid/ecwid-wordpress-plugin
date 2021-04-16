@@ -42,6 +42,10 @@ class Ecwid_Integration_WPML
 	public function mod_default_page_id( $page_id, $link ) {
 		global $sitepress;
 
+		if( is_null($sitepress) ) {
+			return $page_id;
+		}
+
 		$lang = $sitepress->get_default_language();
 		if( function_exists('icl_object_id') ) {
 			return apply_filters( 'wpml_object_id', $page_id, 'post', false, $lang );
@@ -105,6 +109,10 @@ class Ecwid_Integration_WPML
 
 	public function mod_relative_permalink( $default_link, $item_id ) {
 		global $sitepress;
+
+		if( is_null($sitepress) ) {
+			return $default_link;
+		}
 		
 		if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
 
