@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.10.13 - Jun 10, 2021 =
+- Improvements for compatibility of the Ecwid shopping cart with WPML plugin. Some ecommerce sites had an issue with installing when enabling the WPML plugin. We've fixed that.
+- Minor fixes and improvements.
+
 = 6.10.12 - Apr 14, 2021 =
 - Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category names in multilingual mode when enabling the WPML plugin. We've fixed that.
 - Improvements for the single product blocks added via the Ecwid shopping cart plugin. We enhanced the SEO structured product data for Gutenberg blocks to make them meet the latest Google recommendations.
