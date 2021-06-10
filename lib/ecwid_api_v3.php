@@ -478,6 +478,11 @@ class Ecwid_Api_V3
 			$query['partner'] = Ecwid_Config::get_channel_id();
 		}
 
+		$is_default_wl_domain = strpos($url, 'shopsettings.com') !== false;
+		if( !isset($query['partner']) && Ecwid_Config::is_wl() && $is_default_wl_domain ) {
+			$query['partner'] = Ecwid_Config::get_channel_id();
+		}
+
 		foreach ($query as $key => $value) {
 			$query[$key] = urlencode($value);
 		}
@@ -508,7 +513,7 @@ class Ecwid_Api_V3
 		return @$result['code'] == 200;
 	}
 
-	public function get_store_update_stats() {
+	public function get_store_update_stats( $additional_params = false ) {
 
 		static $stats = null;
 		
@@ -519,6 +524,10 @@ class Ecwid_Api_V3
 		$params = array(
 			'token' => self::get_token()
 		);
+
+		if( is_array($additional_params) ) {
+			$params = array_merge( $additional_params, $params );
+		}		
 
 		$url = $this->build_request_url($url, $params);
 		$result = EcwidPlatform::fetch_url($url);

@@ -62,9 +62,18 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		$items = preg_split('![^0-9^a-z^A-Z^\-^_]!', $this->_params['display']);
 
 		$product = Ecwid_Product::get_without_loading( $this->_params['id'], (object)array('name' => '') );
-		
+
 		if (is_array($items) && count($items) > 0) foreach ($items as $item) {
 			if (array_key_exists($item, $display_items)) {
+
+				if( $item == 'title' ) {
+					$display_items[$item] = str_replace('$name', $product->name, $display_items[$item]);
+				}
+
+				if( $item == 'price' ) {
+					$display_items[$item] = str_replace('$price', $product->price, $display_items[$item]);
+				}
+
 				if ($this->_params['link'] == 'yes' && in_array($item, array('title', 'picture'))) {
 					$product_link = $product->link;
 					$result .= '<a href="' . esc_url($product_link) . '">' . $display_items[$item] . '</a>';
@@ -91,7 +100,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		return array(
 			'display_items' => array(
 				'picture'  => '<div itemprop="picture"></div>',
-				'title'    => '<div class="ecwid-title" itemprop="title"></div>',
+				'title'    => '<div class="ecwid-title" 222 itemprop="title"></div>',
 				'price'    => '<div itemtype="http://schema.org/Offer" itemscope itemprop="offers">'
 				              . '<div class="ecwid-productBrowser-price ecwid-price" itemprop="price"></div>'
 				              . '</div>',
@@ -133,9 +142,9 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 		return array(
 			'display_items' => array(
 				'picture'  => '<div itemprop="picture"></div>',
-				'title'    => '<div class="ecwid-title" itemprop="title"></div>',
+				'title'    => '<div class="ecwid-title" itemprop="name" content="$name"></div>',
 				'price'    => '<div itemtype="http://schema.org/Offer" itemscope itemprop="offers">'
-				              . '<div class="ecwid-productBrowser-price ecwid-price" itemprop="price"' . $price_location_attributes . '>'
+				              . '<div class="ecwid-productBrowser-price ecwid-price" itemprop="price"' . $price_location_attributes . ' content="$price">'
 				              . '<div itemprop="priceCurrency"></div>'
 				              . '</div>'
 				              . '</div>',

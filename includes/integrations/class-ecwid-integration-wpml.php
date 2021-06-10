@@ -15,6 +15,22 @@ class Ecwid_Integration_WPML
 		add_filter( 'ecwid_lang', array( $this, 'force_scriptjs_lang' ) );
 		add_filter( 'wpml_hreflangs', array( $this, 'filter_hreflangs' ), 10, 1 );
 		add_filter( 'wpml_hreflangs_html', array( $this, 'filter_hreflangs_html'), 10, 1 );
+
+		add_filter( 'ecwid_nav_categories_posts', array( $this, 'filter_ecwid_menu_items'), 10, 1 );
+	}
+
+	public function filter_ecwid_menu_items($posts) {
+
+		$lang = apply_filters( 'wpml_current_language', null );
+
+		foreach ($posts as $key => $post) {
+
+			if( !empty($post->ecwid_name_translated->{$lang}) ) {
+				$posts[$key]->title = $post->ecwid_name_translated->{$lang};
+			}
+		}
+
+		return $posts;
 	}
 	
 	public function mod_rewrite_rules( $link, $page_id ) {
@@ -25,6 +41,10 @@ class Ecwid_Integration_WPML
 
 	public function mod_default_page_id( $page_id, $link ) {
 		global $sitepress;
+
+		if( is_null($sitepress) ) {
+			return $page_id;
+		}
 
 		$lang = $sitepress->get_default_language();
 		if( function_exists('icl_object_id') ) {
@@ -89,6 +109,10 @@ class Ecwid_Integration_WPML
 
 	public function mod_relative_permalink( $default_link, $item_id ) {
 		global $sitepress;
+
+		if( is_null($sitepress) ) {
+			return $default_link;
+		}
 		
 		if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
 

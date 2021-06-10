@@ -267,6 +267,13 @@ class Ecwid_Importer
 		return false;
 	}
 
+	public function send_import_mark_to_log() {
+		$api = new Ecwid_Api_V3();
+		$params = array( 'wp_import_woo' => get_ecwid_store_id() );
+
+		return $api->get_store_update_stats( $params );
+	}
+
 	public static function is_localhost() {
 
 		if( get_option( self::OPTIONS_SEPARATE_IMAGE_LOADING, false ) ) {
