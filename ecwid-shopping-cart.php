@@ -1332,9 +1332,11 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 		$shortcode_content .= "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
 	}
 
-	$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
+	$brand = Ecwid_Config::get_brand();
+
+	$shortcode_content = "<!-- $brand shopping cart plugin v $version -->"
 	                     . $shortcode_content
-	                     . "<!-- END Ecwid Shopping Cart v $version -->";
+	                     . "<!-- END $brand Shopping Cart v $version -->";
 
 	return apply_filters('ecwid_shortcode_content', $shortcode_content);
 }
