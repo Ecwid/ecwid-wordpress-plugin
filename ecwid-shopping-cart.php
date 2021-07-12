@@ -361,6 +361,20 @@ function ecwid_redirect_canonical2($redir, $req) {
 	return $redir;
 }
 
+add_action( 'current_screen', 'ecwid_add_deactivation_popup' );
+
+function ecwid_add_deactivation_popup()
+{
+	if ( get_current_screen()->id == 'plugins' ) {
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
+		
+		$popup = new Ecwid_Popup_Deactivate();
+		
+		if ( !$popup->is_disabled() ) {
+			Ecwid_Popup::add_popup( $popup );
+		}
+	}
+}
 
 function ecwid_enqueue_frontend() {
 	global $ecwid_current_theme;
