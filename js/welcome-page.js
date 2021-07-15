@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 
-	jQuery('.ec-create-store-button').click(function() {
+	jQuery('.ec-create-store-button').on('click', function() {
 		
 	    if (ecwidParams.isWL) {
 	        location.href = ecwidParams.registerLink;

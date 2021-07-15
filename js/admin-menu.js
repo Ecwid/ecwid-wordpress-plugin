@@ -69,7 +69,7 @@ function ecwidApplyIframeAdminMenu($link, menu) {
     $link
     .data('ecwid-menu', menu)
     .attr('data-ecwid-menu-slug', menu.slug)
-    .click(function (e) {
+    .on('click', function (e) {
 
         var slug = jQuery(this).data('ecwid-menu-slug');
 
@@ -174,9 +174,9 @@ function ecwidAddSubmenu(items, parent) {
             e.preventDefault();
             return false;
         }
-    }).mouseover(function () {
+    }).on('mouseover', function () {
         jQuery(this).addClass('opensub');
-    }).mouseout(function () {
+    }).on('mouseout', function () {
         jQuery(this).removeClass('opensub');
     });
 }
@@ -310,7 +310,7 @@ jQuery(document).ready(function() {
 
         var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href="admin.php?page"]');
         $link.closest('li').attr('data-ecwid-dynamic-menu', 1);
-        $link.click(function() { return false; });
+        $link.on('click', function() { return false; });
 
         var $link = jQuery('li.toplevel_page_ec-store .wp-submenu a[href="admin.php?page=ec-store"]');
         ecwidApplyIframeAdminMenu($link, {slug:'ec-store', url: 'admin.php?page=ec-store', hash:'dashboard'});

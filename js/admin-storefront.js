@@ -181,13 +181,15 @@ function ecwid_disable_cards( status ) {
         if( card.data('ecStorefrontDisabledCard') == status ) {
             card.find('.iconable-block').addClass('iconable-block--disabled');
             card.find('.status-block').addClass('status-block--disabled');
+            card.find('.cta-block').addClass('cta-block--disabled');
             card.find('input').attr('disabled', true);
             card.find('.btn').attr('disabled', true);
         } else {
             card.find('.iconable-block').removeClass('iconable-block--disabled');
             card.find('.status-block').removeClass('status-block--disabled');
-            card.find('input').removeAttr('disabled');
-            card.find('.btn').removeAttr('disabled');
+            card.find('.cta-block').removeClass('cta-block--disabled');
+            card.find('input').attr('disabled', false);
+            card.find('.btn').attr('disabled', false);
         }
     });
 }
