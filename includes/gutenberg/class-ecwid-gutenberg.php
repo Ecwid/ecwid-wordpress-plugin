@@ -42,7 +42,14 @@ class Ecwid_Gutenberg {
 		add_action( "rest_insert_post", array( $this, 'on_save_post' ), 10, 3 );
 		add_action( "rest_insert_page", array( $this, 'on_save_post' ), 10, 3 );
 		
-		add_filter( 'block_categories', array( $this, 'block_categories' ) );
+		$version = get_bloginfo('version');
+
+		if ( strpos( $version, '5.8' )  === 0 || version_compare( $version, '5.8' ) >= 0 ) {
+			add_filter( 'block_categories_all', array( $this, 'block_categories' ) );
+		} else {
+			add_filter( 'block_categories', array( $this, 'block_categories' ) );
+		}
+		
 	}
 
 	public function init_scripts()
@@ -138,7 +145,8 @@ class Ecwid_Gutenberg {
 				'isApiAvailable' => Ecwid_Api_V3::is_available(),
 				'products' => $this->_get_products_data(),
 				'hasCategories' => $api->has_public_categories(),
-				'imagesUrl' => ECWID_PLUGIN_URL . '/images/gutenberg/'
+				'imagesUrl' => ECWID_PLUGIN_URL . '/images/gutenberg/',
+				'isWidgetsScreen' => get_current_screen()->id == 'widgets'
 			)
 		);
 
