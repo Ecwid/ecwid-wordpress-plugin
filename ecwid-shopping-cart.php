@@ -130,7 +130,10 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
+	
+	if( !Ecwid_Admin::disable_dashboard() ){
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';	
+	}
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';

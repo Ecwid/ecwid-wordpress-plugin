@@ -71,7 +71,7 @@ class Ecwid_Admin {
 		
 		global $ecwid_oauth;
 
-		if (!$is_newbie && Ecwid_Api_V3::is_available() ) {
+		if (!$is_newbie && Ecwid_Api_V3::is_available() && !self::disable_dashboard() ) {
 			
 			if ( !self::are_auto_menus_enabled() ) {
 				add_submenu_page(
@@ -147,7 +147,7 @@ class Ecwid_Admin {
 			}
 		}
 
-		if ( !$is_newbie && !Ecwid_Api_V3::is_available() || ecwid_is_demo_store() || isset($_GET['reconnect']) ) {
+		if ( !$is_newbie && !Ecwid_Api_V3::is_available() || ecwid_is_demo_store() || isset($_GET['reconnect']) || self::disable_dashboard() ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Storefront', 'ecwid-shopping-cart'),
@@ -423,6 +423,11 @@ class Ecwid_Admin {
 	
 	static public function are_auto_menus_enabled()
 	{
+
+		if( self::disable_dashboard() ) {
+			return false;
+		}
+
 		if ( get_option( self::OPTION_ENABLE_AUTO_MENUS ) == self::OPTION_ENABLE_AUTO_MENUS_OFF ) {
 			return false;
 		}
