@@ -11,6 +11,10 @@
 
 <a class="button button-primary" href="admin-post.php?action=ecwid_get_debug" style="margin-top:10px"><?php _e('Download log file', 'ecwid-shopping-cart'); ?></a>
 
+<?php if( Ecwid_Config::is_wl() ): ?>
+	<a class="button button-secondary" href="admin.php?page=ec_debug&ec-reset-plugin-config" style="margin-top:10px"><?php _e('Reset plugin config', 'ecwid-shopping-cart'); ?></a>
+<?php endif; ?>
+
 <h2>Active plugins</h2>
 
 <div>

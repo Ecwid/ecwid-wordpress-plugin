@@ -2550,6 +2550,11 @@ function ecwid_debug_do_page() {
 	if ( array_key_exists( 'reset_cache', $_GET ) ) {
 		ecwid_invalidate_cache(true );
 	}
+
+	if ( array_key_exists( 'ec-reset-plugin-config', $_GET ) ) {
+		update_option( 'ecwid_plugin_data', array() );
+		Ecwid_Config::load_from_ini();
+	}
 	
 	$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
 
