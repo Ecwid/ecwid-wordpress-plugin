@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.14
+Version: 6.10.15
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -1961,7 +1961,11 @@ function ecwid_update_plugin_params()
 		if ( isset($option['type']) && $option['type'] == 'html' ) {
 			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
 		} else {
-			$options4update[$key] = @$_POST['option'][$key];
+			$options4update[$key] = sanitize_text_field(@$_POST['option'][$key]);
+		}
+
+		if( $key == 'ecwid_store_id' ) {
+			$options4update[$key] = intval($options4update[$key]);
 		}
 	}
 	
@@ -2103,8 +2107,10 @@ function ecwid_settings_api_init() {
 	}
 
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
-    	
-    	ecwid_update_store_id( $_POST['ecwid_store_id'] );
+
+		$new_store_id = sanitize_text_field($_POST['ecwid_store_id']);
+
+    	ecwid_update_store_id( $new_store_id );
 		update_option('ecwid_last_oauth_fail_time', 0);
 		update_option('ecwid_connected_via_legacy_page_time', time());
 	}
@@ -2586,6 +2592,8 @@ function get_ecwid_store_id() {
 	if ($config_value) return $config_value;
 	
 	$store_id = get_option('ecwid_store_id');
+	$store_id = intval( trim($store_id) );
+
 	if (empty($store_id)) {
 		$store_id = ecwid_get_demo_store_id();
 	}

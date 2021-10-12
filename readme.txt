@@ -152,8 +152,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
-= 6.10.14 - Jul 19, 2021 =
-- **WordPress 5.8 compatibility.** The new WordPress version will be released soon. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.8.
+= 6.10.15 - Oct 12, 2021 =
+- **Improved security of handling initial onboarding. Plugin update is recommended.**
+- Fixed slow loading issue for the site in some cases.
 - Minor fixes and improvements.
 
 [See full changelog](https://raw.githubusercontent.com/Ecwid/ecwid-wordpress-plugin/master/CHANGELOG.txt)

@@ -42,7 +42,7 @@
 				</select>
 			<?php endif; ?>
 			
-			<?php echo get_option($key); ?>
+			<?php echo esc_attr( get_option($key) ); ?>
 
 			</td>
 		</tr>

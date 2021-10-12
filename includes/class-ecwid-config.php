@@ -69,7 +69,10 @@ class Ecwid_Config {
 	}
 	
 	public static function get_store_id() {
-		return EcwidPlatform::get( self::STORE_ID, null ); 
+		$store_id = EcwidPlatform::get( self::STORE_ID, null );
+		$store_id = intval( trim($store_id) );
+
+		return $store_id;
 	}
 	
 	public static function get_token() {
