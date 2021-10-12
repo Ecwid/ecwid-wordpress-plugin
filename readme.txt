@@ -153,7 +153,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 == Changelog == 
 
 = 6.10.15 - Oct 12, 2021 =
-- **Improved security of handling initial onboarding. Plugin update is recommended.**
+- **Improved security of handling initial onboarding. Plugin update is recommended.** Thanks to "tigertech.net" for a great job on the problem discovery.
 - Fixed slow loading issue for the site in some cases.
 - Minor fixes and improvements.
 
