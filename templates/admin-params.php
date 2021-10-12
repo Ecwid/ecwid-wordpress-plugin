@@ -31,7 +31,7 @@
 					<option value="Y"<?php if (get_option($key) ):?> selected="selected"<?php endif; ?>>on</option>
 				</select>
 			<?php elseif ( @$option['type'] == 'string'): ?>
-				<input type="text" name="option[<?php echo $key; ?>]" value="<?php echo get_option( $key ); ?>">
+				<input type="text" name="option[<?php echo $key; ?>]" value="<?php echo esc_attr(get_option( $key )); ?>">
 			<?php elseif ( @$option['type'] == 'html'): ?>
 		        <textarea name="option[<?php echo $key; ?>]" style="width:500px"><?php echo htmlentities( get_option( $key ) ); ?></textarea>
 		    <?php elseif ( @$option['values'] ): ?>
