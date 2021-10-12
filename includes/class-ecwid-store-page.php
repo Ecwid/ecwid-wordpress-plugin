@@ -500,7 +500,7 @@ class Ecwid_Store_Page {
 
 		$store_url = self::get_store_url();
 
-		EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+		// EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
 
 		$api = new Ecwid_Api_V3();
 		$profile = $api->get_store_profile();
