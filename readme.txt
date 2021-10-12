@@ -1,6 +1,6 @@
 === Ecwid Ecommerce Shopping Cart === 
 Contributors: Ecwid
-Tags: ecommerce, e-commerce, storefront, online store, sell
+Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 3.7
 Tested up to: 5.8
 Stable tag: 6.10.14
@@ -70,7 +70,7 @@ Ecwid offers a free plan that’s always available with no hidden setup charges 
 
 The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store data is securely hosted with Ecwid under the terms and conditions listed here: 
 
-* [Term of Service](https://www.ecwid.com/terms-of-service)
+* [Terms of Service](https://www.ecwid.com/terms-of-service)
 * [Privacy Policy](https://www.ecwid.com/privacy-policy)
 
 The plugin uses CDN services by AWS Cloudfront to speed up user stores. It is managed by the Ecwid Terms of Service and Privacy Policy and [AWS Customer Agreement](https://aws.amazon.com/agreement/).
@@ -122,12 +122,7 @@ Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard fo
 
 = How much does Ecwid cost? =
 
-Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support.
-* Free - Up to 10 products
-* Venture - $15/month
-* Business - $35/month
-* Unlimited - $99/month
-Pro Tip: you can save money by enrolling in our annual plans. For more information, check out our [pricing page](https://ecwid.to/ecwid-pricing).
+Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support. Learn more: [https://ecwid.to/ecwid-pricing](https://ecwid.to/ecwid-pricing).
 
 = How can I manage my online shop from a mobile device? =
 
