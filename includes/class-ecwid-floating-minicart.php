@@ -43,6 +43,10 @@ if ( version_compare( get_bloginfo('version'), '4.0' ) >= 0 ) {
 				return;
 			}
 
+			if( isset($_REQUEST['legacy-widget-preview']) ) {
+				return;
+			}
+
 			echo ecwid_get_scriptjs_code();
 
 			$position = esc_attr(get_option(self::OPTION_FIXED_POSITION));

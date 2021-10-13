@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.13
+Version: 6.10.15
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -130,7 +130,10 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
+	
+	if( !Ecwid_Admin::disable_dashboard() ){
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';	
+	}
 }
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
@@ -361,6 +364,20 @@ function ecwid_redirect_canonical2($redir, $req) {
 	return $redir;
 }
 
+add_action( 'current_screen', 'ecwid_add_deactivation_popup' );
+
+function ecwid_add_deactivation_popup()
+{
+	if ( get_current_screen()->id == 'plugins' ) {
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
+		
+		$popup = new Ecwid_Popup_Deactivate();
+		
+		if ( !$popup->is_disabled() ) {
+			Ecwid_Popup::add_popup( $popup );
+		}
+	}
+}
 
 function ecwid_enqueue_frontend() {
 	global $ecwid_current_theme;
@@ -1332,9 +1349,11 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 		$shortcode_content .= "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
 	}
 
-	$shortcode_content = "<!-- Ecwid shopping cart plugin v $version -->"
+	$brand = Ecwid_Config::get_brand();
+
+	$shortcode_content = "<!-- $brand shopping cart plugin v $version -->"
 	                     . $shortcode_content
-	                     . "<!-- END Ecwid Shopping Cart v $version -->";
+	                     . "<!-- END $brand Shopping Cart v $version -->";
 
 	return apply_filters('ecwid_shortcode_content', $shortcode_content);
 }
@@ -1942,7 +1961,11 @@ function ecwid_update_plugin_params()
 		if ( isset($option['type']) && $option['type'] == 'html' ) {
 			$options4update[$key] = html_entity_decode( @$_POST['option'][$key] );
 		} else {
-			$options4update[$key] = @$_POST['option'][$key];
+			$options4update[$key] = sanitize_text_field(@$_POST['option'][$key]);
+		}
+
+		if( $key == 'ecwid_store_id' ) {
+			$options4update[$key] = intval($options4update[$key]);
 		}
 	}
 	
@@ -2013,7 +2036,8 @@ function ecwid_register_admin_styles($hook_suffix) {
 		$is_connection_error = Ecwid_Admin_Main_Page::is_connection_error();
 
 		// Can't really remember why it checks against the raw version, not the sanitized one; consider refactoring
-		if ( ecwid_is_demo_store( get_option( 'ecwid_store_id' ) ) || !get_option( 'ecwid_store_id' ) || $is_reconnect || $is_connection_error || Ecwid_Api_V3::get_token() == false ) {
+		$store_id = get_ecwid_store_id();
+		if ( ecwid_is_demo_store( $store_id ) || !$store_id || $is_reconnect || $is_connection_error || Ecwid_Api_V3::get_token() == false ) {
 
 			if( class_exists('Ecwid_Admin') && isset($_GET['page']) && $_GET['page'] != Ecwid_Admin::ADMIN_SLUG ) {
 				return;
@@ -2084,8 +2108,10 @@ function ecwid_settings_api_init() {
 	}
 
 	if ( isset( $_POST['ecwid_store_id'] ) ) {
-    	
-    	ecwid_update_store_id( $_POST['ecwid_store_id'] );
+
+		$new_store_id = sanitize_text_field($_POST['ecwid_store_id']);
+
+    	ecwid_update_store_id( $new_store_id );
 		update_option('ecwid_last_oauth_fail_time', 0);
 		update_option('ecwid_connected_via_legacy_page_time', time());
 	}
@@ -2373,7 +2399,8 @@ function ecwid_admin_post_connect()
 	}
 
 	if (isset($_GET['force_store_id'])) {
-		update_option('ecwid_store_id', $_GET['force_store_id']);
+		$force_store_id = sanitize_text_field($_GET['force_store_id']);
+		update_option('ecwid_store_id', $force_store_id);
 		update_option('ecwid_api_check_retry_after', 0);
 		update_option('ecwid_last_oauth_fail_time', 1);
 		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
@@ -2531,6 +2558,11 @@ function ecwid_debug_do_page() {
 	if ( array_key_exists( 'reset_cache', $_GET ) ) {
 		ecwid_invalidate_cache(true );
 	}
+
+	if ( array_key_exists( 'ec-reset-plugin-config', $_GET ) ) {
+		update_option( 'ecwid_plugin_data', array() );
+		Ecwid_Config::load_from_ini();
+	}
 	
 	$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
 
@@ -2562,6 +2594,8 @@ function get_ecwid_store_id() {
 	if ($config_value) return $config_value;
 	
 	$store_id = get_option('ecwid_store_id');
+	$store_id = intval( trim($store_id) );
+
 	if (empty($store_id)) {
 		$store_id = ecwid_get_demo_store_id();
 	}

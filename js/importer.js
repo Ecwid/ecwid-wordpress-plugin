@@ -153,7 +153,7 @@ jQuery(document).ready(function() {
         }
     };
    
-    jQuery('#ec-importer-woo-go').click(function(){
+    jQuery('#ec-importer-woo-go').on('click', function(){
         startWooImport();
     });
 

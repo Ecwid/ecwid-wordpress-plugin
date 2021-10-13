@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
     
     window.ecwidShoppingCartMakeStoreLinksUseApiCall = function($link) {
 
-        $link.click(function() {
+        $link.on('click', function() {
             if (typeof Ecwid == 'undefined') {
                 return true;
             }

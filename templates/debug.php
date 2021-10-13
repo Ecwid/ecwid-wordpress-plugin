@@ -95,15 +95,44 @@
 </div>
 
 <h2>Store pages</h2>
-    <?php foreach (Ecwid_Store_Page::get_store_pages_array() as $page_id): ?>
+<div>
+<?php foreach (Ecwid_Store_Page::get_store_pages_array() as $page_id): ?>
     <div>
         <a target="_blank" href="post.php?post=<?php echo $page_id; ?>&action=edit"><?php echo @get_post($page_id)->post_name; ?></a>
         <?php if ( $page_id == get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID ) ): ?>
         <b> - main</b>
         <?php endif ;?>
-
     </div>
 <?php endforeach; ?>
+</div>
+
+
+<?php if( Ecwid_Config::is_wl() ): ?>
+	<?php
+	$wl_config_methods = array( 'get_kb_link', 'get_contact_us_url', 'get_registration_url', 'get_channel_id', 'get_oauth_token_url', 'get_oauth_auth_url', 'get_oauth_appid', 'get_api_domain', 'get_scriptjs_domain', 'get_cpanel_domain' );
+
+	?>
+	<h2>WL</h2>
+	<div>
+		<?php foreach ($wl_config_methods as $method): ?>
+		<div class="section">
+			<div><?php echo str_replace('get_', '', $method); ?></div>
+			<div>
+				<?php
+				if( method_exists('Ecwid_Config', $method) ) {
+					echo Ecwid_Config::$method();
+				}
+				?>	
+			</div>
+		</div>
+		<?php endforeach;?>
+		<p>
+			<a href="admin.php?page=ec_debug&ec-reset-plugin-config" style="margin-top:10px"><?php _e('Reset plugin config', 'ecwid-shopping-cart'); ?></a>
+		</p>
+	</div>
+<?php endif; ?>
+
+
 <h2>PhpInfo</h2>
 
 <div>

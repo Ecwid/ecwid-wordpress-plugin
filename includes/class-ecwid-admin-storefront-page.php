@@ -41,8 +41,12 @@ class Ecwid_Admin_Storefront_Page
 			} else {
 				$page = Ecwid_Admin_Main_Page::PAGE_HASH_DASHBOARD;
 				$time = time() - get_option('ecwid_time_correction', 0);
-				$iframe_src = ecwid_get_iframe_src($time, $page);
+				$iframe_src = false;
 				
+				if( !Ecwid_Admin::disable_dashboard() ){
+					$iframe_src = ecwid_get_iframe_src($time, $page);
+				}
+
 				if( !$iframe_src ) {
 					$design_edit_link = 'https://' . Ecwid_Config::get_cpanel_domain() . '/#design';
 				} else {

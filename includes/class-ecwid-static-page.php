@@ -235,14 +235,7 @@ class Ecwid_Static_Page {
 	}
 
 	public static function get_title() {
-		$title = self::_get_data_field( 'metaDescriptionHtml' );
-
-		if( $title ) {
-			$title = preg_replace( '/<title>(.*?)<\/title>(.*)/is', '$1', $title );
-			$title = trim( $title );
-		}
-
-		return $title;
+		return self::_get_data_field( 'title' );
 	}
 
 	public static function get_meta_description_html() {

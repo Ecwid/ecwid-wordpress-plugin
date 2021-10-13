@@ -137,6 +137,7 @@ class Ecwid_Admin_Main_Page
 		if ( @$result['code'] == 403 && (
 				strpos($result['data'], 'Token too old') !== false
 				|| strpos($result['data'], 'window.top.location = \'https://my.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?') !== false
+				|| strpos($result['data'], 'window.top.location = \'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?') !== false
 			)
 		) {
 

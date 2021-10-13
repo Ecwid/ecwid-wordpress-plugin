@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
                 .attr('href', 'javascript:void(0);')
                 .addClass('ecwid-reset-categories-cache')
                 .appendTo($target)
-                .click(function() {
+                .on('click', function() {
 
                     var that = this;
                     jQuery(this).css('cursor', 'wait');

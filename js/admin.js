@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 		}), "*")
 	}
 
-	jQuery('#hide-vote-message').click(function() {
+	jQuery('#hide-vote-message').on('click', function() {
 		jQuery('#hide-vote-message').addClass('hiding');
 		jQuery.getJSON(
 			'admin-ajax.php',
@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
 		);
 	});
 
-	jQuery('a.ecwid-message-hide').click(function() {
+	jQuery('a.ecwid-message-hide').on('click', function() {
 
 		var a = this;
 		jQuery(a).css('cursor', 'wait');
@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 	}
 
 	jQuery('.drop-down').each(function(idx, el) {
-		jQuery(el).find('>span').click(function (e) {
+		jQuery(el).find('>span').on('click', function (e) {
 			jQuery(e.target).closest('.drop-down').addClass('hover');
 
 			jQuery(window).bind('click.ecwidDropDown', function(e) {
@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
 		})
 	});
 
-	jQuery('#ecwid-connect-no-oauth').click(function() {
+	jQuery('#ecwid-connect-no-oauth').on('click', function() {
 		if (jQuery('#ecwid-store-id').val()) {
 			var link = jQuery(this).data('href');
 			location.href = link + '&force_store_id=' + jQuery('#ecwid-store-id').val();
@@ -112,7 +112,7 @@ jQuery(document).ready(function() {
 		return false;
 	});
 
-	jQuery('#ecwid-get-mobile-app').click(function() {
+	jQuery('#ecwid-get-mobile-app').on('click', function() {
 		ecwidOpenAdminPage('mobile');
 
 		return false;
@@ -154,7 +154,8 @@ prepareVerticalCategoriesWidget = function(element) {
 			.attr('href', 'javascript:void(0);')
 			.addClass('ecwid-reset-categories-cache')
 			.appendTo($target);
-	a.click(function() {
+
+	a.on('click', function() {
 
 		var that = this;
 		jQuery(that).css('cursor', 'wait');

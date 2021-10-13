@@ -23,12 +23,20 @@ class Ecwid_Product_Popup {
     public function init_current_screen()
     {
         $current_screen = get_current_screen();
+        $version = get_bloginfo('version');
 
-        if ($current_screen->base != 'post') {
+        $is_post_screen = $current_screen->base == 'post';
+        $is_widgets_screen = false;
+        
+        if ( strpos( $version, '5.8' )  === 0 || version_compare( $version, '5.8' ) >= 0 ) {
+            $is_widgets_screen = $current_screen->base == 'widgets';        
+        }
+
+        if (!$is_post_screen && !$is_widgets_screen ) {
             return;
         }
         
-        if ( !in_array( $current_screen->post_type, array( 'page', 'post' ) ) ) {
+        if ( $is_post_screen && !in_array( $current_screen->post_type, array( 'page', 'post' ) ) ) {
         	return;
 		}
 

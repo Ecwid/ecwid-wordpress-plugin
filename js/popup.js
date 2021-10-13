@@ -1,5 +1,5 @@
 jQuery('document').ready(function() {
-    jQuery('.ecwid-popup').click(function(e) {
+    jQuery('.ecwid-popup').on('click', function(e) {
         var $popup = jQuery('.ecwid-popup-window', this);
 
         if (!$popup.is(e.target) && $popup.has(e.target).length === 0) {
@@ -8,7 +8,7 @@ jQuery('document').ready(function() {
         }
     });
     
-    jQuery('.ecwid-popup .btn-close').click(function() {
+    jQuery('.ecwid-popup .btn-close').on('click', function() {
         jQuery(this).closest('.ecwid-popup').removeClass('open');
         jQuery('body').removeClass('ecwid-popup-open');
     });

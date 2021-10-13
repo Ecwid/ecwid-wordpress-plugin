@@ -1,4 +1,4 @@
-jQuery(window).resize(function() {
+jQuery(window).on('resize', function() {
 	if (jQuery(this).width() < 768) {
 		jQuery('.ecwid-admin').addClass('width-smaller');
 		var head =
@@ -17,7 +17,7 @@ show_reconnect = function() {
 		'admin-post.php?action=ecwid_show_reconnect',
 		'',
 		function() {
-			jQuery('.ecwid-popup .close').click(function() {
+			jQuery('.ecwid-popup .close').on('click', function() {
 				jQuery(this).closest('.ecwid-popup').remove();
 			});
 		}
