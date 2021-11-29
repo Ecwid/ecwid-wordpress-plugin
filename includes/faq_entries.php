@@ -53,7 +53,7 @@ $faqs = array(
 	array(
 		'title' => __( 'How do I put my products in the sitemap?', 'ecwid-shopping-cart' ),
 		'body' => __(
-'To create sitemap for your Wordpress site we suggest using <a target="_blank" href="https://wordpress.org/plugins/google-sitemap-generator/">Google XML Sitemaps</a>  or <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast Wordpress SEO</a>. &nbsp;plugins. These plugins are fully compatible with Ecwid and allow to generate a sitemap that will contain links to categories and product pages, so the store pages will get indexed faster. Please note that this option is available to <a target="_blank" href="https://www.ecwid.com/pricing">paid Ecwid users</a>.', 'ecwid-shopping-cart'
+'To create sitemap for your Wordpress site we suggest using <a target="_blank" href="https://wordpress.org/plugins/google-sitemap-generator/">Google XML Sitemaps</a>  or <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast Wordpress SEO</a>. &nbsp;plugins. These plugins are fully compatible with Ecwid and allow to generate a sitemap that will contain links to categories and product pages, so the store pages will get indexed faster.', 'ecwid-shopping-cart'
 		)
 	),
 	array(

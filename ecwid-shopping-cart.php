@@ -1311,7 +1311,7 @@ function ecwid_oembed_url( $url, $permalink, $format ) {
 	}
 
 	$url = add_query_arg( array(
-		'url'    => urlencode( $permalink ),
+		'url'    => rawurlencode( $permalink ),
 		'format' => ( 'json' !== $format ) ? $format : false,
 	), $url );
 
@@ -2297,7 +2297,7 @@ function ecwid_get_admin_sso_url( $time, $page = '' ) {
 		Ecwid_Api_V3::get_token(),
 		$time,
 		hash( 'sha256', get_ecwid_store_id() . Ecwid_Api_V3::get_token() . $time . Ecwid_Config::get_oauth_appsecret() ),
-		urlencode( $page ),
+		rawurlencode( $page ),
 		substr( $lang, 0, 2 )
 	);
 }
@@ -2315,7 +2315,7 @@ function ecwid_get_iframe_src($time, $page)
 		$url .= '&hide_staff_accounts_header_menu=true';
 		$url .= '&hide_header=true';
 		$url .= '&set_dashboard_website_section_type=wordpress';
-		$url .= '&website_manage_url=' . urlencode( admin_url( 'admin.php?page=ec-storefront-settings' ) );
+		$url .= '&website_manage_url=' . rawurlencode( admin_url( 'admin.php?page=ec-storefront-settings' ) );
 
 		return $url;
 	} else {

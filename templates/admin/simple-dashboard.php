@@ -26,7 +26,7 @@
 			</div>
 
 			<div class="greeting">
-			<?php if (@$_GET['settings-updated']): ?>
+			<?php if ( isset($_GET['settings-updated']) ): ?>
 				<div class="greeting-title">
 					<?php _e('Congratulations!', 'ecwid-shopping-cart'); ?>
 				</div>

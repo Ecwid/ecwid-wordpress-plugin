@@ -1,6 +1,8 @@
 <?php
 
-if ( isset($_SERVER['HTTP_USER_AGENT']) && strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Site-Verification' ) ) {
+$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+
+if ( strpos( $user_agent, 'Google-Site-Verification' ) ) {
 	
 	add_action( 'wp_head', 'ecwid_add_kliken_code' );
 	

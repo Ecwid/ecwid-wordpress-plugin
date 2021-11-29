@@ -80,7 +80,10 @@ function render_nested( $name, $data ) {
 
 $cache = get_option('ecwid_cache_log');
 
-$kill = @$_GET['kill'];
+$kill = 0;
+if( isset($_GET['kill']) ) {
+	$kill = sanitize_text_field( wp_unslash($_GET['kill']) );
+}
 while ( $kill-- > 0 && count($cache) > 0) {
     array_pop($cache);
 }

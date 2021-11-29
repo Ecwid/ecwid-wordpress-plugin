@@ -39,13 +39,18 @@ class Ecwid_Admin_UI_Framework
 
     public function is_need_include_assets()
     {
-        $ignore_pages = $this->get_pages_exclude_framework();
-
-        if( isset($_GET['page']) && in_array($_GET['page'], $ignore_pages) ) {
+        if( !isset($_GET['page']) ) {
             return false;
         }
 
-        if ( isset($_GET['page']) && strpos($_GET['page'], 'ec-store') === 0 ) {
+        $ignore_pages = $this->get_pages_exclude_framework();
+        $page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+
+        if( in_array($page, $ignore_pages) ) {
+            return false;
+        }
+
+        if ( strpos($page, 'ec-store') === 0 ) {
             return true;
         }
 

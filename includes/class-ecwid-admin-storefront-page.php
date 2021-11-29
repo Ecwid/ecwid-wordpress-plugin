@@ -56,7 +56,7 @@ class Ecwid_Admin_Storefront_Page
 
 			if( class_exists( 'Ecwid_Floating_Minicart' ) ) {
 				$minicart_hide = get_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY ) == Ecwid_Floating_Minicart::DISPLAY_NONE;
-				$customizer_minicart_link = admin_url('customize.php') . '?autofocus[section]=ec-store-minicart&url=' . urlencode($page_link);
+				$customizer_minicart_link = admin_url('customize.php') . '?autofocus[section]=ec-store-minicart&url=' . rawurlencode($page_link);
 			}
 
 			if ( count ( Ecwid_Store_Page::get_store_pages_array_for_selector() ) > 1 ) {

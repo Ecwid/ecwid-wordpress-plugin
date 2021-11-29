@@ -1,7 +1,7 @@
 == Changelog ==
 
 = 6.10.15 - Oct 12, 2021 =
-- **Improved security of handling initial onboarding. Plugin update is recommended.** Thanks to "tigertech.net" for a great job on the problem discovery.
+- **Improved security of handling initial onboarding. Ecwid ecommerce shopping cart plugin update is recommended.** Thanks to "tigertech.net" for a great job on the problem discovery.
 - Fixed slow loading issue for the site in some cases.
 - Minor fixes and improvements.
 
@@ -871,7 +871,7 @@ We wish you happy holidays and all the best in the New Year! Sincerely yours, Ec
 = 1.3 =
 - [+] Backward compatibility with old Inline SEO Catalog links.
 = 1.2 =
-- [+] A lot of changes in Ecwid shopping cart: http://www.ecwid.com/blog/new-releases/
+- [+] A lot of changes in Ecwid ecommerce shopping cart: http://www.ecwid.com/blog/new-releases/
 - [+] Support of the Google’s “AJAX Crawling” API for native indexing of AJAX applications has been added. This will significantly improve the indexation of Ecwid ecommerce stores and is a successor of the Inline SEO Catalog feature. More details at https://developers.google.com/webmasters/ajax-crawling/  (This feature requires a paid Ecwid subscription)
 - [+] Auto-generated titles for product pages.
 - [+] Support of microformats to get rich snippets in search engine results pages.
@@ -925,4 +925,4 @@ We wish you happy holidays and all the best in the New Year! Sincerely yours, Ec
 - [!] Minor bugfixes
 
 = 0.1 =
-- [+] Initial version
+- [+] Initial version of Ecwid Ecommerce Shopping Cart plugin

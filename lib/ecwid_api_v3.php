@@ -484,7 +484,7 @@ class Ecwid_Api_V3
 		}
 
 		foreach ($query as $key => $value) {
-			$query[$key] = urlencode($value);
+			$query[$key] = rawurlencode($value);
 		}
 
 		return $url . '?' . build_query( $query );
@@ -756,7 +756,7 @@ class Ecwid_Api_V3
 					$params['token'] = self::get_token();
 				}
 			}else {
-				$params[$key] = urlencode($param);
+				$params[$key] = rawurlencode($param);
 			}
 		}
 

@@ -279,6 +279,10 @@ class Ecwid_Importer
 		if( get_option( self::OPTIONS_SEPARATE_IMAGE_LOADING, false ) ) {
 			return true;
 		}
+
+		if( !isset($_SERVER['REMOTE_ADDR']) ) {
+			return false;
+		}
  
 		return in_array( $_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1') );
 	}

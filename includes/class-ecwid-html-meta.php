@@ -31,10 +31,10 @@ abstract class Ecwid_HTML_Meta
 	}
 
 	protected function _is_available_prefetch_tags(){
-		$ua = @$_SERVER['HTTP_USER_AGENT'];
+		$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
 	
-		$is_ie = strpos( $ua, 'MSIE' ) !== false 
-			|| strpos( $ua, 'Trident' ) !== false;
+		$is_ie = strpos( $user_agent, 'MSIE' ) !== false 
+			|| strpos( $user_agent, 'Trident' ) !== false;
 		
 		if ( $is_ie  || ( get_option( 'ecwid_hide_prefetch' ) == 'on' ) ) {
 			return false;	

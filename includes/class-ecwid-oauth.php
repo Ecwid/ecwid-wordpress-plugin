@@ -153,7 +153,7 @@ class Ecwid_OAuth {
 			} else {
 				$url = Ecwid_Admin::get_dashboard_url();
 			}
-			wp_redirect( $url );
+			wp_safe_redirect( $url );
 		}
 		exit;
 	}

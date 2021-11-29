@@ -27,7 +27,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 						'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
 						'ecwid-shopping-cart'
 					),
-					'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
+					'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . rawurlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
 					),
 					Ecwid_Config::get_brand()
 				),

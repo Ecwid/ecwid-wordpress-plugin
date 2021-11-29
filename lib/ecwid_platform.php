@@ -542,13 +542,11 @@ class EcwidPlatform {
 	static public function is_need_clear_transients() {
 		global $wpdb;
 
-		$sql =  "
+		$count_transients = $wpdb->get_var( "
 			SELECT COUNT(*)
 			FROM {$wpdb->options}
 			WHERE option_name LIKE '\_transient\_ecwid\_%'
-		";
-
-		$count_transients = $wpdb->get_var($sql);
+		");
 
 		if( $count_transients >= self::TRANSIENTS_LIMIT ) {
 			return true;
@@ -560,14 +558,12 @@ class EcwidPlatform {
 	static public function clear_all_transients() {
 	    global $wpdb;
 
-	    $sql = "
+	    $wpdb->query("
 	        DELETE 
 	        FROM {$wpdb->options}
 	        WHERE option_name LIKE '\_transient\_ecwid\_%'
 	        OR option_name LIKE '\_transient\_timeout\_ecwid\_%'
-	    ";
-
-	    $wpdb->query($sql);
+	    ");
 	}
 }
 

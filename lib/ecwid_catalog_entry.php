@@ -111,6 +111,6 @@ abstract class Ecwid_Catalog_Entry {
 		if ( $result && count( @$match[0] ) > 0 )
 			return implode('-', $match[0] );
 		
-		return urlencode($str);
+		return rawurlencode($str);
 	}
 }

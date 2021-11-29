@@ -215,12 +215,16 @@ TXT
 
 		if ($name == 'on_appearance_widgets') {
 
-			if (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'appearance') {
-				$admin_page = Ecwid_Admin::get_dashboard_url() . '-appearance';
-			} elseif (isset($_GET['from-ec-store']) && $_GET['from-ec-store'] == 'new') {
-				$admin_page = 'post-new.php?post_type=page';
-			} elseif (isset($_GET['from-ec-store']) && is_numeric($_GET['from-ec-store'])) {
-				$admin_page = 'post.php?post=' . $_GET['from-ec-store'] . '&action=edit';
+			if ( isset($_GET['from-ec-store']) ) {
+				$fromt_ec_store = sanitize_text_field(wp_unslash($_GET['from-ec-store']));
+
+				if( $fromt_ec_store == 'appearance') {
+					$admin_page = Ecwid_Admin::get_dashboard_url() . '-appearance';
+				} elseif ( $fromt_ec_store == 'new') {
+					$admin_page = 'post-new.php?post_type=page';
+				} elseif ( is_numeric($fromt_ec_store)) {
+					$admin_page = 'post.php?post=' . $fromt_ec_store . '&action=edit';
+				}
 			}
 
 			$params['secondary_url'] = $admin_page;
@@ -375,7 +379,7 @@ HTML
 					&& $admin_page != 'ecwid_page_' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG;
 
 			case 'on_storeid_set':
-				return !ecwid_is_demo_store() && @$_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
+				return !ecwid_is_demo_store() && isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'true' && $admin_page == 'toplevel_page_ec-store';
 
 			case 'on_no_storeid_on_setup_pages':
 				return $this->should_display_on_no_storeid_on_setup_pages();

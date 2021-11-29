@@ -444,7 +444,7 @@ class Ecwid_Admin {
 		if ( !isset( $_GET['reconnect'] ) ) {
 			if ( get_option( 'ecwid_disable_dashboard' ) == 'on' ) {
 				return true;
-			} elseif ( get_option( 'ecwid_disable_dashboard' ) != 'off' && @$_COOKIE[ 'ecwid_is_safari' ] == 'true' ) {
+			} elseif ( get_option( 'ecwid_disable_dashboard' ) != 'off' && isset($_COOKIE[ 'ecwid_is_safari' ]) && $_COOKIE[ 'ecwid_is_safari' ] == 'true' ) {
 				return true;
 			}
 		}

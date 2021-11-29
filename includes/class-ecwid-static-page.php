@@ -167,7 +167,7 @@ class Ecwid_Static_Page {
 		$url = self::_get_endpoint_url( $endpoint_params );
 
 		foreach ( $params as $name => $value ) {
-			$url .= $name . '=' . urlencode( $value ) . '&'; 
+			$url .= $name . '=' . rawurlencode( $value ) . '&'; 
 		}
 
 		$url = substr( $url, 0, -1 );
