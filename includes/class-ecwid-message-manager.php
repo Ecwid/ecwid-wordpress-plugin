@@ -11,6 +11,7 @@ class Ecwid_Message_Manager
 		$this->init_messages();
 		
 		add_action( 'ecwid_connected_via_legacy_page', array( $this, 'on_connected_via_legacy_page' ) );
+		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
 	}
 
 	public static function show_messages()
@@ -271,10 +272,10 @@ TXT
 				'message' => sprintf(
 					__('Do you like your %s online store? We\'d appreciate it if you add your review and vote for the plugin on WordPress site.', 'ecwid-shopping-cart'),
 					Ecwid_Config::get_brand(),
-					'target="_blank" href="http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart"'
+					'target="_blank" href="https://wordpress.org/support/plugin/ecwid-shopping-cart/reviews/?filter=5"'
 				),
 				'primary_title' => sprintf( __( 'Rate %s at WordPress.org', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-				'primary_url' => 'http://wordpress.org/support/view/plugin-reviews/ecwid-shopping-cart',
+				'primary_url' => 'https://wordpress.org/support/plugin/ecwid-shopping-cart/reviews/?filter=5',
 				'hideable' => true
 			),
 
@@ -481,5 +482,21 @@ HTML
 		$is_store_page = $admin_page == 'post' && isset($_GET['post']) && $_GET['post'] == Ecwid_Store_Page::get_current_store_page_id();
 
 		return $is_newbie && ($is_ecwid_settings || $is_store_page);		
+	}
+
+	public function admin_footer_text( $footer_text ) {
+		if(
+			!Ecwid_Config::is_wl() 
+			&& ecwid_is_paid_account()
+			&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
+		) {
+			$footer_text = sprintf(
+				__('Do you like your %s online store? We\'d appreciate it if you add your a %s rating for the plugin on WordPress site.', 'ecwid-shopping-cart'),
+				Ecwid_Config::get_brand(),
+				'<a href="https://wordpress.org/support/plugin/ecwid-shopping-cart/reviews/?filter=5" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
+			);
+		}
+
+		return $footer_text;
 	}
 }
