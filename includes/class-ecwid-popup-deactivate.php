@@ -114,6 +114,12 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 
 	protected function _render_body()
 	{
+		if( ecwid_is_paid_account() ) {
+			$support_link = Ecwid_Config::get_contact_us_url();
+		} else {
+			$support_link = 'https://wordpress.org/support/plugin/ecwid-shopping-cart/#new-topic-0';
+		}
+		
 		$reasons = $this->_get_reasons();
 		require ( ECWID_POPUP_TEMPLATES_DIR . 'deactivate.php' );
 	}

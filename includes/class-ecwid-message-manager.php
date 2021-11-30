@@ -491,7 +491,7 @@ HTML
 			&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
 		) {
 			$footer_text = sprintf(
-				__('Do you like your %s online store? We\'d appreciate it if you add your a %s rating for the plugin on WordPress site.', 'ecwid-shopping-cart'),
+				__('Do you like your %s online store? We\'d appreciate it if you add a %s rating for the plugin on WordPress site.', 'ecwid-shopping-cart'),
 				Ecwid_Config::get_brand(),
 				'<a href="https://wordpress.org/support/plugin/ecwid-shopping-cart/reviews/?filter=5" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
 			);

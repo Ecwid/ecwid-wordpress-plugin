@@ -6,6 +6,7 @@
 
 .reasons-list-item .message textarea {
     width: 100%;
+    font-size: 1em;
 }
 
 .reasons-list-item.selected .message {
@@ -25,4 +26,10 @@
     margin-left: -298px;
     top: 10%;
     width: 596px;
+}
+
+.ecwid-popup-deactivate .ec-deactivate-notice {
+    font-size: 12px;
+    color: #7d8d9e;
+    margin: 4px 0 16px;
 }

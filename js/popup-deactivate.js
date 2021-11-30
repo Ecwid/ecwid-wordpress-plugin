@@ -41,19 +41,4 @@ jQuery(document).ready(function() {
             }
         });
     });
-    
-    jQuery('.ecwid-popup-deactivate .bottom-support-link a').on('click', function() {
-        var feedback = gatherFeedback();
-        
-        var target = 'admin.php?page=ec-store-help';
-        
-        if (feedback.reasonText) 
-            target += '&contact_us_subject=' + encodeURIComponent(feedback.reasonText);
-        if (feedback.message)
-            target += '&contact_us_message=' + encodeURIComponent(feedback.message);
-        
-        location.href = target;
-        
-        return false;
-    });
 });
