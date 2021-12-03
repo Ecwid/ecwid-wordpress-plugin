@@ -80,7 +80,16 @@ class Ec_Integration_Elementor_Stub_Renderer extends Ecwid_Stub_Renderer {
 	}
 
 	protected function _should_apply() {
-		return @$_REQUEST['action'] == 'elementor_ajax' || @$_REQUEST['action'] == 'elementor' || isset( $_GET['elementor-preview'] );
+
+		if( isset($_REQUEST['action']) && in_array( $_REQUEST['action'], array('elementor_ajax', 'elementor') ) ) {
+			return true;
+		}
+
+		if( isset( $_GET['elementor-preview'] ) ) {
+			return true;	
+		}
+
+		return false;
 	}
 	
 	public function enqueue_scripts() {

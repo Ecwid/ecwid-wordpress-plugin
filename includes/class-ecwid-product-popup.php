@@ -41,7 +41,7 @@ class Ecwid_Product_Popup {
 		}
 
 
-		if ( is_plugin_active( 'elementor/elementor.php' ) && @$_GET['action'] == 'elementor' ) {
+		if ( is_plugin_active( 'elementor/elementor.php' ) && isset($_GET['action']) && $_GET['action'] == 'elementor' ) {
 			return;
 		}
 
@@ -57,7 +57,9 @@ class Ecwid_Product_Popup {
             return;
         }
 
-        EcwidPlatform::set('spw_display_params', $_REQUEST['params']);
+        $params = isset($_REQUEST['params']) ? map_deep( wp_unslash( $_REQUEST['params'] ), 'sanitize_text_field' ) : array();
+
+        EcwidPlatform::set('spw_display_params', $params);
     }
 
     public function search_products() {
@@ -71,7 +73,7 @@ class Ecwid_Product_Popup {
 
         foreach ( $allowed as $name ) {
             if ( array_key_exists( $name, $_REQUEST ) ) {
-                $params[$name] = sanitize_text_field( $_REQUEST[$name] );
+                $params[$name] = sanitize_text_field(wp_unslash( $_REQUEST[$name] ));
             }
         }
 
@@ -79,7 +81,7 @@ class Ecwid_Product_Popup {
         $params['offset'] = 0;
         
         if ( array_key_exists( 'page', $_REQUEST ) ) {
-            $params['offset'] = $params['limit'] * ( $_REQUEST['page'] - 1 );
+            $params['offset'] = $params['limit'] * ( intval($_REQUEST['page']) - 1 );
         }
 
 

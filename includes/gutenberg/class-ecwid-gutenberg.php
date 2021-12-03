@@ -257,7 +257,7 @@ class Ecwid_Gutenberg {
 
 	protected function _get_version_for_assets( $asset_file_path )
 	{
-		if ( $_SERVER['HTTP_HOST'] == 'localhost' ) {
+		if ( isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost' ) {
 			return filemtime( ECWID_PLUGIN_DIR . '/' . $asset_file_path );
 		}
 		

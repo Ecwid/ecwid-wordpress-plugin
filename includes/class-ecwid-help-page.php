@@ -13,7 +13,8 @@ class Ecwid_Help_Page {
 
 			die();
 		}
-		if ( !wp_verify_nonce($_POST['wp-nonce'], self::CONTACT_US_ACTION_NAME) ) {
+
+		if ( !isset($_POST['wp-nonce']) && !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wp-nonce'])), self::CONTACT_US_ACTION_NAME) ) {
 			header('403 Access Denied');
 
 			die();
@@ -32,14 +33,14 @@ class Ecwid_Help_Page {
 		$body_lines[] = '';
 		$body_lines[] = 'Message:';
 		$body_lines[] = '';
-		$body_lines[] = sanitize_textarea_field( $_POST['body'] );
+		$body_lines[] = (isset($_POST['body'])) ? sanitize_textarea_field(wp_unslash( $_POST['body'] )) : '';
 
 		global $current_user;
 		$reply_to = $current_user->user_email;
 
 		$result = wp_mail(
 			$to,
-			$_POST['subject'],
+			(isset($_POST['subject'])) ? sanitize_text_field(wp_unslash($_POST['subject'])) : '',
 			implode(PHP_EOL, $body_lines),
 			'Reply-To:' . $reply_to
 		);

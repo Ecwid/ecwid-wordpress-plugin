@@ -260,7 +260,8 @@ jQuery(document).ready(function() {
                     'url': ajaxurl + '?action=' + ecwid_admin_menu.actionUpdateMenu,
                     'method': 'POST',
                     'data': {
-                        menu: e.data.data.navigationMenuItems
+                        'menu': e.data.data.navigationMenuItems,
+                        '_ajax_nonce': ecwid_admin_menu.ajaxNonce
                     },
                     'success': function(result) {
                         jQuery('li[data-ecwid-dynamic-menu]').remove();

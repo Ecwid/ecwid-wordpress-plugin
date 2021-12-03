@@ -37,7 +37,7 @@ class EcwidCatalog
 
 	public function get_category($id)
 	{
-		$offset = ( isset($_GET['offset']) ) ? $_GET['offset'] : 0;
+		$offset = ( isset($_GET['offset']) ) ? intval($_GET['offset']) : 0;
 		$data = $this->_get_data_for_category( $id, $offset );
 		
 		if ( !$data ) {

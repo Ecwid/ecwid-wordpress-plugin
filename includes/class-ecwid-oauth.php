@@ -79,7 +79,7 @@ class Ecwid_OAuth {
 
 	public function process_authorization()
 	{
-		$reconnect = $_REQUEST['action'] == 'ec_oauth_reconnect';
+		$reconnect = isset($_REQUEST['action']) && $_REQUEST['action'] == 'ec_oauth_reconnect';
 
 		if ( isset( $_REQUEST['error'] ) || !isset( $_REQUEST['code'] ) ) {
 			if ($reconnect) {
@@ -97,7 +97,7 @@ class Ecwid_OAuth {
 
 		$redirect_uri = $this->check_url_for_idn_format( $redirect_uri );
 
-		$params['code'] = sanitize_text_field($_REQUEST['code']);
+		$params['code'] = sanitize_text_field(wp_unslash($_REQUEST['code']));
 		$params['client_id'] = Ecwid_Config::get_oauth_appid();
 		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
 		$params['redirect_uri'] = $redirect_uri;
@@ -295,8 +295,8 @@ class Ecwid_OAuth {
 
 	protected function _load_state() {
 		if (isset($_COOKIE['ecwid_oauth_state'])) {
-			$this->state = @json_decode( $_COOKIE['ecwid_oauth_state'] );
-
+			$cookie = sanitize_text_field(wp_unslash( $_COOKIE['ecwid_oauth_state'] ));
+			$this->state = @json_decode( $cookie );
 		}
 
 		if (!is_object($this->state)) {

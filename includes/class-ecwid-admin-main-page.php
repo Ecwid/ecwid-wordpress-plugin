@@ -104,12 +104,12 @@ class Ecwid_Admin_Main_Page
 			die();
 		}
 
-		if (isset($_GET['ec-page']) && $_GET['ec-page']) {
-			$page = sanitize_text_field( $_GET['ec-page'] );
+		if ( isset($_GET['ec-page']) ) {
+			$page = sanitize_text_field(wp_unslash( $_GET['ec-page'] ));
 		}
 
-		if (isset($_GET['ec-store-page']) && $_GET['ec-store-page']) {
-			$page = sanitize_text_field( $_GET['ec-store-page'] );
+		if ( isset($_GET['ec-store-page']) ) {
+			$page = sanitize_text_field(wp_unslash( $_GET['ec-store-page'] ));
 		}
 
 		if ( $page == self::PAGE_HASH_DASHBOARD || $page == self::PAGE_HASH_COMPLETE_REGISTRATION ) {
@@ -244,7 +244,7 @@ class Ecwid_Admin_Main_Page
 	protected function _is_oauth_error() 
 	{
 		$connection_error = isset( $_GET['connection_error'] );
-		$no_oauth = @$_GET['oauth'] == 'no';
+		$no_oauth = isset($_GET['oauth']) && $_GET['oauth'] == 'no';
 		
 		return isset( $connection_error ) && $no_oauth;		
 	}

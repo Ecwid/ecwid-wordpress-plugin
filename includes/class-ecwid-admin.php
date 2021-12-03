@@ -30,7 +30,8 @@ class Ecwid_Admin {
 			'menu' => self::are_auto_menus_enabled() ? $menu : array(),
 			'baseSlug' => self::ADMIN_SLUG,
 			'enableAutoMenus' => self::are_auto_menus_enabled(),
-			'actionUpdateMenu' => self::AJAX_ACTION_UPDATE_MENU
+			'actionUpdateMenu' => self::AJAX_ACTION_UPDATE_MENU,
+			'ajaxNonce' => wp_create_nonce("ec_admin")
 		));		
 	}
 
@@ -264,11 +265,15 @@ class Ecwid_Admin {
 			die();
 		}
 		
+		check_ajax_referer( 'ec_admin', '_ajax_nonce' );
+
 		if (!isset( $_POST['menu'] ) ) {
 			die();
 		}
+
+		$menu = map_deep( wp_unslash( $_POST['menu'] ), 'sanitize_text_field' );
 		
-		EcwidPlatform::set( 'admin_menu', $_POST['menu'] );
+		EcwidPlatform::set( 'admin_menu', $menu );
 		
 		echo json_encode( $this->_get_menus() );
 		die();

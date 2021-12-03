@@ -16,7 +16,7 @@ class Ec_Integration_WPBakery_Composer {
 
 class Ec_Integration_WPBakery_Stub_Renderer extends Ecwid_Stub_Renderer {
 	protected function _should_apply() {
-		return isset($_GET['vc_editable']) && $_GET['vc_editable'];
+		return isset($_GET['vc_editable']) && sanitize_text_field(wp_unslash($_GET['vc_editable']));
 	}
 }
 

@@ -1,7 +1,7 @@
 === Ecwid Ecommerce Shopping Cart === 
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
-Requires at least: 3.7
+Requires at least: 4.4
 Tested up to: 5.8
 Stable tag: 6.10.15
 

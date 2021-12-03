@@ -147,7 +147,7 @@ class Ecwid_Admin_Storefront_Page
 	}
 
 	public function ajax_set_store_on_front() {
-		$status = intval( $_GET['status'] );
+		$status = isset($_GET['status']) ? intval( $_GET['status'] ) : false;
 
         $store_page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
 
@@ -174,6 +174,10 @@ class Ecwid_Admin_Storefront_Page
 	}
 
     public function ajax_set_mainpage() {
+    	if( !isset($_GET['page']) ) {
+    		return;
+    	}
+
         $page_id = intval( $_GET['page'] );
 
         if( !Ecwid_Store_Page::is_store_page( $page_id ) ) {
@@ -199,7 +203,7 @@ class Ecwid_Admin_Storefront_Page
     }
 
 	public function ajax_set_display_cart_icon() {
-		$status = intval( $_GET['status'] );
+		$status = isset($_GET['status']) ? intval( $_GET['status'] ) : false;
 
 		if( $status ) {
 			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_ALL );
@@ -212,7 +216,11 @@ class Ecwid_Admin_Storefront_Page
 	}
 
 	public function ajax_set_page_slug() {
-		$slug = sanitize_title( $_GET['slug'] );
+		if( !isset( $_GET['slug'] ) ) {
+			return;
+		}
+
+		$slug = sanitize_text_field(wp_unslash( $_GET['slug'] ));
 
 		$args = array(
 			'name' => $slug,
@@ -248,7 +256,11 @@ class Ecwid_Admin_Storefront_Page
 	}
 
 	public function ajax_create_page() {
-		$type = sanitize_title( $_GET['type'] );
+		if( !isset($_GET['type']) ) {
+			return;
+		}
+
+		$type = sanitize_text_field(wp_unslash( $_GET['type'] ));
 
 		if( isset($_GET['item_id']) ) {
 			$item_id = intval( $_GET['item_id'] );

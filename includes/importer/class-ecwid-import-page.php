@@ -105,7 +105,7 @@ class Ecwid_Import_Page
 		$importer = new Ecwid_Importer();
 		
 		if ( !$importer->has_begun() || isset( $_REQUEST['reset'] ) ) {
-			$settings = isset($_REQUEST['settings']) ? $_REQUEST['settings'] : array();
+			$settings = isset($_REQUEST['settings']) ? map_deep( wp_unslash( $_REQUEST['settings'] ), 'sanitize_text_field' ) : array();
 			$importer->initiate( $settings );
 		}
 		

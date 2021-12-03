@@ -707,8 +707,8 @@ class Ecwid_Api_V3
 			),
 		);
 
-		if( !in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
-			$params['merchant']['ip'] = $_SERVER['REMOTE_ADDR'];
+		if( isset($_SERVER['REMOTE_ADDR']) && !in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) ) {
+			$params['merchant']['ip'] = sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']));
 		}
 
 		$ref = apply_filters( 'ecwid_get_new_store_ref_id', '' );

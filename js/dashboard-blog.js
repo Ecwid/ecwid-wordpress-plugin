@@ -41,7 +41,8 @@ jQuery(document).ready(function() {
                     'url': ajaxurl + '?action=' + ecwidDashboardBlog.saveAction,
                     'method': 'POST',
                     'data': {
-                        'posts': window.ecwidBlogPosts
+                        'posts': window.ecwidBlogPosts,
+                        '_ajax_nonce': ecwid_admin_menu.ajaxNonce
                     }
                 });
             };

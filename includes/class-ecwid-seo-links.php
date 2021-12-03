@@ -55,7 +55,7 @@ class Ecwid_Seo_Links {
 			return;
 		}
 		
-		$id = (isset( $_GET['post'] )) ? $_GET['post'] : false;
+		$id = (isset( $_GET['post'] )) ? intval($_GET['post']) : false;
 		
 		if ( !$id ) {
 			return;
@@ -97,7 +97,7 @@ class Ecwid_Seo_Links {
 
 	public function redirect_escaped_fragment() {
 		if ( ecwid_should_display_escaped_fragment_catalog() ) {
-			$params = ecwid_parse_escaped_fragment( $_GET[ '_escaped_fragment_' ] );
+			$params = ecwid_parse_escaped_fragment();
 
 			if ( !isset( $params[ 'mode' ] ) ) {
 				return;
@@ -480,7 +480,9 @@ JS;
 		
 		$home_url = home_url();
 		$path = parse_url( $home_url, PHP_URL_PATH );
-		$seo_part = str_replace( $path . $relative_permalink, '', $_SERVER['REQUEST_URI'] );
+
+		$request_uri = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+		$seo_part = str_replace( $path . $relative_permalink, '', $request_uri );
 		
 		foreach ( $noindex_pages as $page ) {
 			if ( preg_match( '!' . $page . '([\?\/]+.*|)$' . '!', $seo_part ) ) {
