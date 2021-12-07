@@ -79,7 +79,7 @@ class Ecwid_Ajax_Defer_Renderer {
 	}
 
 	public static function is_ajax_request() {
-		return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+		return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(sanitize_text_field(wp_unslash($_SERVER['HTTP_X_REQUESTED_WITH']))) == 'xmlhttprequest';
 	}
 
 	

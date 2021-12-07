@@ -30,7 +30,7 @@ class Ecwid_Import_Page
 			return;
 		}
 
-		if ( @$_GET[self::PARAM_FROM_IMPORT_ONBOARDING] ) {
+		if ( isset($_GET[self::PARAM_FROM_IMPORT_ONBOARDING]) ) {
 			Ecwid_Message_Manager::disable_message( Ecwid_Message_Manager::MSG_WOO_IMPORT_ONBOARDING );
 		}
 	}
@@ -105,7 +105,8 @@ class Ecwid_Import_Page
 		$importer = new Ecwid_Importer();
 		
 		if ( !$importer->has_begun() || isset( $_REQUEST['reset'] ) ) {
-			$importer->initiate( @$_REQUEST['settings'] );
+			$settings = isset($_REQUEST['settings']) ? map_deep( wp_unslash( $_REQUEST['settings'] ), 'sanitize_text_field' ) : array();
+			$importer->initiate( $settings );
 		}
 		
 		$result = $importer->proceed();
@@ -144,7 +145,7 @@ class Ecwid_Import_Page
 
 		wp_safe_redirect(
 			'admin.php?page=' .  Ecwid_Admin::ADMIN_SLUG 
-			. '&reconnect&return-url=' . urlencode( $url )
+			. '&reconnect&return-url=' . rawurlencode( $url )
 			. '&scope=create_catalog+update_catalog&do_reconnect=1'
 		);
 	}

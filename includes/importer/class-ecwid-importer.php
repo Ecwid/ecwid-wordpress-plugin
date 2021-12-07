@@ -141,7 +141,7 @@ class Ecwid_Importer
 					$progress['success'][] = $task_data['type'];
 				}
 
-				if( is_array($status['plan_limit']) && count($status['plan_limit']) ) {
+				if( isset($status['plan_limit']) && is_array($status['plan_limit']) && count($status['plan_limit']) ) {
 					update_option( self::OPTION_STATUS, $status );
 				}
 			} else {
@@ -201,7 +201,7 @@ class Ecwid_Importer
 			update_option( self::OPTION_ERROR_LOG, $progress['error_messages'] );
 		}
 
-		if(	$progress['status'] == 'in_progress' ) {
+		if(	isset($progress['status']) && $progress['status'] == 'in_progress' ) {
 			$progress['tasks'] = $this->_tasks;
 			return $progress;
 		}
@@ -278,6 +278,10 @@ class Ecwid_Importer
 
 		if( get_option( self::OPTIONS_SEPARATE_IMAGE_LOADING, false ) ) {
 			return true;
+		}
+
+		if( !isset($_SERVER['REMOTE_ADDR']) ) {
+			return false;
 		}
  
 		return in_array( $_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1') );

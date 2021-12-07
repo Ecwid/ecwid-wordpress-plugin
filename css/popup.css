@@ -46,8 +46,11 @@ body.ecwid-popup-open {
 
 .ecwid-popup-body {
     padding: 20px;
+    font-size: 14px;
 }
 
 .ecwid-popup-body h3 {
     margin: 0px;
+    font-size: 16px;
+    font-weight: 500;
 }

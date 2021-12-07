@@ -21,7 +21,7 @@ class Ecwid_Store_Editor {
 			return;
 		}
 		
-		if ( is_plugin_active( 'elementor/elementor.php' ) && @$_GET['action'] == 'elementor' ) {
+		if ( is_plugin_active( 'elementor/elementor.php' ) && isset($_GET['action']) && $_GET['action'] == 'elementor' ) {
 			return;	
 		}
 

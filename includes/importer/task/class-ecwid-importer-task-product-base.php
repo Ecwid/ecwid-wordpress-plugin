@@ -31,7 +31,7 @@ abstract class Ecwid_Importer_Task_Product_Base extends Ecwid_Importer_Task {
 
 		$url = 'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG . '&ec-store-page=';
 		
-		$url .= urlencode( 'product:mode=edit&id=' . $this->get_ecwid_id() );
+		$url .= rawurlencode( 'product:mode=edit&id=' . $this->get_ecwid_id() );
 		
 		return admin_url( $url );
 	}

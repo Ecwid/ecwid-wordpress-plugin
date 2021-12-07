@@ -92,6 +92,9 @@ class Ecwid_Integration_Gutenberg {
 		);
 		
 		$is_demo_store = ecwid_is_demo_store();
+
+		$request_uri = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+
 		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
 			array(
 				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
@@ -119,7 +122,7 @@ class Ecwid_Integration_Gutenberg {
 							'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
 							'ecwid-shopping-cart'
 						),
-						'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) )
+						'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . rawurlencode( remove_query_arg( wp_removable_query_args(), $request_uri )
 						),
 						Ecwid_Config::get_brand()
 					)
@@ -208,7 +211,7 @@ class Ecwid_Integration_Gutenberg {
 	
 	public function render_callback( $params ) {
 		
-		if ( $_SERVER['REQUEST_METHOD'] != 'GET' ) {
+		if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET' ) {
 			return '';
 		}
 
@@ -366,7 +369,7 @@ JS;
 
 	protected function _get_version_for_assets( $asset_file_path )
 	{
-		if ( $_SERVER['HTTP_HOST'] == 'localhost' ) {
+		if ( isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost' ) {
 			return filemtime( ECWID_PLUGIN_DIR . '/' . $asset_file_path );
 		}
 		

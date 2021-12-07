@@ -35,7 +35,12 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		}
 		
 		$reasons = $this->_get_reasons();
-		$reason = $reasons[$_GET['reason']];
+
+		if( isset($_GET['reason']) ) {
+			$reason = $reasons[ sanitize_text_field(wp_unslash($_GET['reason'])) ];
+		} else {
+			$reason = end($reasons);
+		}
 
 		if ( isset( $reason['is_disable_message'] ) ) {
 			update_option( self::OPTION_DISABLE_POPUP, true );
@@ -44,7 +49,7 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 		$body_lines[] = 'Store URL: ' . Ecwid_Store_Page::get_store_url();
 		$body_lines[] = 'Plugin installed: '  . strftime(  '%d %b %Y', get_option( 'ecwid_installation_date' ) );
 		$body_lines[] = 'Plugin version: ' . get_option('ecwid_plugin_version');
-		$body_lines[] = 'Reason:' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  $_GET['message'] : '[no message]' );
+		$body_lines[] = 'Reason:' . $reason['text'] . "\n" . ( !empty( $_GET['message'] ) ?  sanitize_text_field(wp_unslash($_GET['message'])) : '[no message]' );
 		
 		$api = new Ecwid_Api_V3();
 		
@@ -114,6 +119,12 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 
 	protected function _render_body()
 	{
+		if( ecwid_is_paid_account() ) {
+			$support_link = Ecwid_Config::get_contact_us_url();
+		} else {
+			$support_link = 'https://wordpress.org/support/plugin/ecwid-shopping-cart/#new-topic-0';
+		}
+		
 		$reasons = $this->_get_reasons();
 		require ( ECWID_POPUP_TEMPLATES_DIR . 'deactivate.php' );
 	}

@@ -55,8 +55,16 @@ class Ecwid_WP_Dashboard_Feed {
 		if ( !current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
+
+		check_ajax_referer( 'ec_admin', '_ajax_nonce' );
+
+		if( !isset($_POST['posts']) ) {
+			die();
+		}
 		
-		EcwidPlatform::cache_set( $this->_get_cache_name(), $_POST['posts'], 12 * HOUR_IN_SECONDS );
+		$posts = map_deep( wp_unslash( $_POST['posts'] ), 'sanitize_text_field' );
+
+		EcwidPlatform::cache_set( $this->_get_cache_name(), $posts, 12 * HOUR_IN_SECONDS );
 
 		header( 'HTTP/1.0 200 OK' );
 		die();

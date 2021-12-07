@@ -66,7 +66,7 @@ class Ecwid_Static_Page {
 
 		if( !$params ) {
 			if ( ecwid_is_applicable_escaped_fragment() ) {
-				$params = ecwid_parse_escaped_fragment( $_GET['_escaped_fragment_'] );
+				$params = ecwid_parse_escaped_fragment();
 			} else {
 				$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 			}
@@ -114,7 +114,8 @@ class Ecwid_Static_Page {
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
-		$accept_language = apply_filters( 'ecwid_lang', @$_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? : '';
+		$accept_language = apply_filters( 'ecwid_lang', $http_accept_language );
 
 		$params['lang'] = $accept_language;
 
@@ -152,7 +153,8 @@ class Ecwid_Static_Page {
 
 
 		if( !empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
-			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $_COOKIE['ec_store_chameleon_font'] );
+			$chameleon_cookie = sanitize_text_field(wp_unslash($_COOKIE['ec_store_chameleon_font']));
+			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
 		}
 
 
@@ -167,7 +169,7 @@ class Ecwid_Static_Page {
 		$url = self::_get_endpoint_url( $endpoint_params );
 
 		foreach ( $params as $name => $value ) {
-			$url .= $name . '=' . urlencode( $value ) . '&'; 
+			$url .= $name . '=' . rawurlencode( $value ) . '&'; 
 		}
 
 		$url = substr( $url, 0, -1 );

@@ -35,7 +35,7 @@
 				<div class="upgrade-note">
 					<a
 						class="button ecwid-button button-green" target="_blank"
-						href="<?php echo Ecwid_Admin::get_dashboard_url(); ?>&ec-page=<?php echo urlencode( Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ); ?>">
+						href="<?php echo Ecwid_Admin::get_dashboard_url(); ?>&ec-page=<?php echo rawurlencode( Ecwid_Admin_Main_Page::PAGE_HASH_UPGRADE ); ?>">
 						<?php _e( 'Upgrade to get this feature', 'ecwid-shopping-cart' ); ?>
 					</a>
 					<div class="note grayed-links">

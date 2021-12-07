@@ -18,7 +18,8 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 
 		$recently_viewed = false;
 		if (isset($_COOKIE['ecwid-shopping-cart-recently-viewed'])) {
-			$recently_viewed = json_decode(stripslashes($_COOKIE['ecwid-shopping-cart-recently-viewed']));
+			$cookie = sanitize_text_field(wp_unslash($_COOKIE['ecwid-shopping-cart-recently-viewed']));
+			$recently_viewed = json_decode($cookie);
 		}
 
 		if ($recently_viewed && $recently_viewed->store_id != get_ecwid_store_id() && !is_admin()) {
@@ -38,9 +39,9 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 	protected function _get_products() {
 		$recently_viewed = false;
 		if (isset($_COOKIE['ecwid-shopping-cart-recently-viewed'])) {
-			$recently_viewed = json_decode($_COOKIE['ecwid-shopping-cart-recently-viewed']);
+			$cookie = sanitize_text_field(wp_unslash($_COOKIE['ecwid-shopping-cart-recently-viewed']));
+			$recently_viewed = json_decode($cookie);
 		}
-		$recently_viewed = json_decode(stripslashes(@$_COOKIE['ecwid-shopping-cart-recently-viewed']));
 
 		if ($recently_viewed && $recently_viewed->store_id != get_ecwid_store_id()) {
 			$recently_viewed = null;

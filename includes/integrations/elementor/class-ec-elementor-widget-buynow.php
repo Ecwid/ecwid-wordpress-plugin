@@ -72,7 +72,7 @@ class Ec_Elementor_Widget_Buynow extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        $is_editor_page = @$_REQUEST['action'] == 'elementor_ajax' || @$_REQUEST['action'] == 'elementor';
+        $is_editor_page = isset($_REQUEST['action']) && in_array( $_REQUEST['action'], array('elementor_ajax', 'elementor') );
         if( !$is_editor_page && intval($settings['product_id']) <= 1 ) {
             return;
         }

@@ -14,12 +14,19 @@
 		<?php if ( @$reason['has_message'] ): ?>
 		<div class="message">
 			<textarea name="message[<?php echo $key; ?>]" placeholder="<?php echo $reason['message_hint']; ?>"><?php if($reason['code'] == 'theme'){ echo $reason['message_hint']; } ?></textarea>
+
+			<div class="ec-deactivate-notice">
+				<?php
+				echo sprintf(
+					__('You can <a %1$s>contact %2$s support</a> and let us help you with the problem you are facing, instead of removing the plugin.', 'ecwid-shopping-cart'),
+					sprintf( 'href="%s" target="_blank"', $support_link ),
+					Ecwid_Config::get_brand()
+				);
+				?>
+			</div>
+
 		</div>
 		<?php endif; ?>
 	</li>
 <?php endforeach; ?>
 </ul>
-
-<div class="bottom-support-link">
-	<a href="#"><?php _e( 'Contact Support', 'ecwid-shopping-cart' ); ?></a>
-</div>

@@ -141,7 +141,9 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 
 	public function clear_ecwid_sitemap_index() {
 
-		if( strpos( $_SERVER['REQUEST_URI'], 'sitemap_index.xml' ) !== false ) {
+		$request_uri = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+
+		if( strpos( $request_uri, 'sitemap_index.xml' ) !== false ) {
 			ob_start();
 			add_action('shutdown', array($this, 'sitemap_clear'), 0);
 		}

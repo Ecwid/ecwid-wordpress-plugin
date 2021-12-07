@@ -1,4 +1,4 @@
-<div class="ecwid-popup <?php echo $this->_class; ?>">
+<div class="ecwid-popup <?php echo esc_html($this->_class); ?>">
 	<div class="ecwid-popup-window">
 		<div class="ecwid-popup-header">
 			<?php $this->_render_header(); ?>

@@ -108,7 +108,7 @@ HTML;
 	}
 
 	public function themes_install_ajax() {
-		if( $_REQUEST['request']['browse'] == self::TAB_NAME ) {
+		if( isset($_REQUEST['request']['browse']) && $_REQUEST['request']['browse'] == self::TAB_NAME ) {
 			$themes_data = array(
 				"data" => array(
 					"info" => array( "page" => 1, "pages" => 1, "results" => 0 ),
