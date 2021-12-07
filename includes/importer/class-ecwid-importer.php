@@ -141,7 +141,7 @@ class Ecwid_Importer
 					$progress['success'][] = $task_data['type'];
 				}
 
-				if( is_array($status['plan_limit']) && count($status['plan_limit']) ) {
+				if( isset($status['plan_limit']) && is_array($status['plan_limit']) && count($status['plan_limit']) ) {
 					update_option( self::OPTION_STATUS, $status );
 				}
 			} else {
@@ -201,7 +201,7 @@ class Ecwid_Importer
 			update_option( self::OPTION_ERROR_LOG, $progress['error_messages'] );
 		}
 
-		if(	$progress['status'] == 'in_progress' ) {
+		if(	isset($progress['status']) && $progress['status'] == 'in_progress' ) {
 			$progress['tasks'] = $this->_tasks;
 			return $progress;
 		}

@@ -152,6 +152,11 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
+= 6.10.16 - Dec 07, 2021 =
+- Improvements in the plugin code to comply with the WordPress plugin marketplace recommendations.
+- Twenty Twenty theme improved compatibility. Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes.
+— Minor fixes and improvements.
+
 = 6.10.15 - Oct 12, 2021 =
 - **Improved security of handling initial onboarding. Ecwid ecommerce shopping cart plugin update is recommended.** Thanks to "tigertech.net" for a great job on the problem discovery.
 - Fixed slow loading issue for the site in some cases.
