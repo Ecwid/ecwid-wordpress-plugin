@@ -77,7 +77,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast
 		global $wpseo_front;
 		// Canonical
 
-		if (empty($wpseo_front)) {
+		if (empty($wpseo_front) && class_exists('WPSEO_Frontend')) {
 			$wpseo_front = WPSEO_Frontend::get_instance();
 		}
 
