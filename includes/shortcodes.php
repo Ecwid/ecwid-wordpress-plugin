@@ -14,8 +14,7 @@ add_shortcode('ecwid_product', 'ecwid_render_shortcode');
 add_shortcode('ecwid_searchbox', 'ecwid_searchbox_shortcode');
 add_shortcode('ec_product', 'ecwid_render_shortcode');
 
-function ecwid_render_shortcode($params, $content = '', $name) {
-	
+function ecwid_render_shortcode($params, $content = '', $name = '') {
 	$shortcode = Ecwid_Shortcode_Base::get_shortcode_object( $name, $params );
 	
 	if ( $shortcode ) {
@@ -23,7 +22,7 @@ function ecwid_render_shortcode($params, $content = '', $name) {
 	}
 }
 
-function ecwid_searchbox_shortcode($params, $content = '', $name) {
+function ecwid_searchbox_shortcode($params, $content = '', $name = '') {
 
     $shortcode = new Ecwid_Shortcode_Search($params);
 
