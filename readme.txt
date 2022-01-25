@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 6.10.16
+Stable tag: 6.10.17
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+
+= 6.10.18 - Jan 25, 2021 =
+- **WordPress 5.9 compatibility.** The new WordPress version is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.9.
+- **Compatibility with PHP 8.** WordPress 5.9 also includes improvements to support PHP 8. Ecwid ecommerce shopping cart plugin should work well with the latest PHP version.
 
 = 6.10.17 - Dec 15, 2021 =
 - Fixed a PHP error message (“Class ‘WPSEO_Frontend’ not found“), when Ecwid is used with the Yoast plugin. If you noticed some of your store pages have that error when Yoast and Ecwid Ecommerce shopping cart plugins are both activated, this update should fix that.

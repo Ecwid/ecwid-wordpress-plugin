@@ -1,1 +1,481 @@
-!function(){var t,e=!1,n=null,o="static-content",i=null,r=!1,a=!1,c=0,d=0;function u(t){return document.querySelector(t)}function s(){var t,e=u("#"+n);return!(e&&(t=e,t.offsetWidth||t.offsetHeight||t.getClientRects().length))}function f(t,n){var o=0,i=0,r=0,a=0,c=!1;e&&(t.addEventListener("touchstart",(function(t){c=!0,o=t.touches[0].clientX,i=t.touches[0].clientY,r=0,a=0})),t.addEventListener("touchmove",(function(t){r=t.changedTouches[0].clientX-o,a=t.changedTouches[0].clientY-i})),t.addEventListener("touchend",(function(t){c&&Math.abs(r)<10&&Math.abs(a)<10&&n(t)}))),t.addEventListener("click",(function(t){c?c=!1:n(t)}))}function l(t,e){return function(o){(function(t,e){return"product"===t&&(e.ctrlKey||e.metaKey)})(t,o)||(o.preventDefault(),g((function(){if(!s()){var o=window.ec.storefront.staticPages.onClickCallback;!a&&o&&o(),r=!0;var i=u("#"+n+" .ec-wrapper");i&&y([i],(function(t){t.add("ec-wrapper--transition")})),Ecwid.openPage(t,e)}}),0))}}function g(t,e){e>=40?console&&console.warn("failed to add Ecwid.OnPageLoaded callback"):"object"==typeof Ecwid&&"object"==typeof Ecwid.OnPageLoaded?Ecwid.OnPageLoaded.add(t):setTimeout((function(){g(t,e+1)}),50)}function p(){var t=u("#"+i),e=t.getAttribute("style")||"";t.setAttribute("style",e+"display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;")}function w(){requestAnimationFrame((function(){var t;!function(){if(!a)return;var t=document.querySelectorAll(".ec-wrapper--animated-transitions");y(Array.prototype.slice.call(t),(function(t){t.remove("ec-wrapper--animated-transitions")}))}(),(t=u("#"+i)).style.height="",t.style.maxHeight="",t.style.minHeight="",t.style.overflowY="",t.style.display="block",function(){var t=u("#"+n);t&&(t.style.opacity=0,t.style.display="none")}();var e=u("#"+n);e&&e.parentNode&&e.parentNode.removeChild(e);var o=window.ec.storefront.staticPages.switchToDynamicCallback,r=u("#"+n+" .ec-wrapper");r&&y([r],(function(t){t.remove("ec-wrapper--transition")})),!a&&o&&o()}))}function y(t,e){if(Array.isArray(t))for(var n in t){var o=t[n].classList;void 0!==o&&e(o)}}window.ec=window.ec||{},window.ec.storefront=window.ec.storefront||{},window.ec.storefront.staticPages=window.ec.storefront.staticPages||{},window.ec.storefront.staticPages.switchStaticToDynamic=w,t=function(){if(!0===(window.ec.storefront.staticPages.staticStorefrontEnabled||!1))if(n=ec.storefront.staticPages.staticContainerID,i=ec.storefront.staticPages.dynamicContainerID,n&&document.querySelector("#"+n))if(i&&document.querySelector("#"+i)){var t=ec.storefront.staticPages.mainCategoryId;t&&(c=t);var y,v=ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady;if(a=v||!1,ec.storefront.staticPages.initialCategoryOffset&&(d=ec.storefront.staticPages.initialCategoryOffset),p(),(y=u("#"+n+" ."+o))&&(y.style.opacity=1),window.ec.config=window.ec.config||{},window.ec.config.navigation_scrolling="DISABLED","ontouchstart"in window&&(e=!0,document.body.classList.add("touchable")),""!==window.location.hash&&-1===window.location.hash.indexOf("#!/c/0/"))return p(),void w();if(function(){function t(t,e){for(var n=document.querySelectorAll(t),o=0;o<n.length;o++)e(n[o])}t("#"+n+" .ec-breadcrumbs a",(function(t){var e=t.getAttribute("categoryId");e!==c&&f(t,l("category",{id:e}))}));var e=document.querySelector("#"+n+" .grid__sort select");e&&e.addEventListener("change",(function(t){l("category",{id:c,sort:e.value})(t)})),t("#"+n+" .grid__sort .grid-sort__item--filter",(function(t){f(t,(function(){g((function(){s()||(w(),Ecwid.showProductFilters())}),0)}))})),t("#"+n+" .grid-category__card a",(function(t){var e=t.getAttribute("data-category-id");f(t,l("category",{id:e}))})),t("#"+n+" .grid-product:not(.grid-product--view-all) a:not(.open-external-url)",(function(t){var e=t.getAttribute("data-product-id");f(t,l("product",{id:e}))})),t("#"+n+" .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]",(function(t){var e=t.getAttribute("data-product-id");f(t,l("product",{id:e}))})),t("#"+n+" .grid-product--view-all a",(function(t){var e=t.getAttribute("data-category-id");f(t,l("category",{id:e}))})),t("#"+n+" .grid-product__buy-now",(function(t){var e=t.getAttribute("data-product-id");f(t,l("product",{id:e}))})),t("#"+n+" .footer__link--gift-card",(function(t){var e=t.getAttribute("data-product-id");f(t,l("product",{id:e}))})),t("#"+n+" .footer__link--all-products",(function(t){f(t,l("search"))})),t("#"+n+" .footer__link--track-order",(function(t){f(t,l("account/orders"))})),t("#"+n+" .footer__link--shopping-favorites",(function(t){f(t,l("account/favorites"))})),t("#"+n+" .footer__link--shopping-cart",(function(t){f(t,l("cart"))})),t("#"+n+" .footer__link--sigin-in",(function(t){f(t,l("signin"))})),t("#"+n+" .footer__link--my-account",(function(t){f(t,l("account/settings"))})),t("#"+n+" .pager__button",(function(t){var e=t.getAttribute("data-page-number")||2;f(t,l("category",{id:c,page:e}))})),t("#"+n+" .pager__number",(function(t){var e=t.getAttribute("data-page-number");f(t,l("category",{id:c,page:e}))})),t("#"+n+" .open-external-url",(function(t){f(t,(function(t){t.stopPropagation()}))}))}(),_())h();else var m=setInterval((function(){_()&&(h(),clearInterval(m))}),100)}else console&&console.warn("Static storefront is enabled, but no dynamicContainerID is provided or container is not present");else console&&console.warn("Static storefront is enabled, but no staticContainerID is provided or container is not present");function h(){Ecwid.OnAPILoaded.add((function(){if(!s()){var t=window.ecwid_initial_data.data.storeClosed,e=document.querySelectorAll(".ecwid-maintenance-wrapper"),n=!t&&e.length>0;(t||n||A())&&w()}})),Ecwid.OnPageLoad.add((function(t){s()||("CART"===t.type||"ORDERS"===t.type||"FAVORITES"===t.type||"SIGN_IN"===t.type||"RESET_PASSWORD"===t.type||A())&&w()})),g((function(t){s()||(a?b(10):(r||"CATEGORY"!==t.type||t.categoryId!==c||t.offset!==d)&&w())}),0)}function b(t){t<=0||function(){if(!i)return!0;try{if(null!=document.querySelector("#"+i+" .grid-category--loading"))return!1;if(null!=document.querySelector("#"+i+" .grid-product--loading"))return!1}catch(t){}return!0}()?w():setTimeout((function(){b(t-1)}),100)}function _(){return!!Ecwid&&!!Ecwid.OnAPILoaded&&!!Ecwid.OnAPILoaded.add}function A(){return!!window.ecwidMessages&&Object.keys(window.ecwidMessages).length>0}},(document.attachEvent?"complete"===document.readyState:"loading"!==document.readyState)?t():document.addEventListener("DOMContentLoaded",t)}();
+(function () {
+    var isTouchDevice = false;
+    var staticId = null;
+    var staticContentClass = 'static-content';
+    var dynamicId = null;
+    var ecwidPageOpened = false;
+    var autoSwitchStaticToDynamicWhenReady = false;
+    var autoSwitchStaticToDynamicWhenReadyDefault = false;
+    var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;";
+    var mainCategoryId = 0;
+    var initialCategoryOffset = 0;
+
+    function find(selector) {
+        return document.querySelector(selector);
+    }
+
+    function isDynamicMode() {
+        function isVisible(elem) {
+            return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+        }
+
+        var staticHtml = find('#' + staticId);
+        return !staticHtml || !isVisible(staticHtml);
+    }
+
+    function processStaticHomePage() {
+
+        window.ec = window.ec || {};
+        window.ec.storefront = window.ec.storefront || {};
+        window.ec.storefront.staticPages = window.ec.storefront.staticPages || {};
+
+
+        window.ec.storefront.staticPages.switchStaticToDynamic = switchToDynamicMode;
+
+        function isRootCategory() {
+            return window.location.hash === '' || window.location.hash.indexOf("#!/c/0/") !== -1;
+        }
+
+        function onDocumentReady(fn) {
+            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
+            }
+        }
+
+        onDocumentReady(function () {
+            var staticStorefrontEnabled = window.ec.storefront.staticPages.staticStorefrontEnabled || false;
+
+            if (staticStorefrontEnabled !== true) {
+                return;
+            }
+
+            staticId = ec.storefront.staticPages.staticContainerID;
+            dynamicId = ec.storefront.staticPages.dynamicContainerID;
+            if (!staticId || !document.querySelector("#" + staticId)) {
+                if (!!console) {
+                    console.warn("Static storefront is enabled, but no staticContainerID is provided or container is not present");
+                }
+                return;
+            }
+            if (!dynamicId || !document.querySelector("#" + dynamicId)) {
+                if (!!console) {
+                    console.warn("Static storefront is enabled, but no dynamicContainerID is provided or container is not present");
+                }
+                return;
+            }
+
+            var mainCategoryIdFromConfig = ec.storefront.staticPages.mainCategoryId;
+            if (mainCategoryIdFromConfig) {
+                mainCategoryId = mainCategoryIdFromConfig;
+            }
+
+
+            var autoSwitchStaticToDynamicWhenReadyFromConfig = ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady;
+            if (autoSwitchStaticToDynamicWhenReadyFromConfig) {
+                autoSwitchStaticToDynamicWhenReady = autoSwitchStaticToDynamicWhenReadyFromConfig;
+            } else {
+                autoSwitchStaticToDynamicWhenReady = autoSwitchStaticToDynamicWhenReadyDefault;
+            }
+
+            if (ec.storefront.staticPages.initialCategoryOffset) {
+                initialCategoryOffset = ec.storefront.staticPages.initialCategoryOffset;
+            }
+
+            hideStorefront();
+            showStaticHtml();
+
+            window.ec.config = window.ec.config || {};
+            window.ec.config.navigation_scrolling = "DISABLED";
+            if (!!('ontouchstart' in window)) {
+                isTouchDevice = true;
+                document.body.classList.add('touchable');
+            }
+
+            if (!isRootCategory()) {
+                hideStorefront();
+                switchToDynamicMode();
+                return;
+            }
+
+            addStaticPageHandlers();
+
+            function setupAfterEcwidLoaded() {
+
+                // если магазин не закрыт для клиента, то в storeClosed не будет true
+                // если магазин не закрыт для клиента и мы загрузили закрытую плашку проверим это в динамике
+                Ecwid.OnAPILoaded.add(function () {
+                    var storeClosed = window.ecwid_initial_data.data.storeClosed;
+                    var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
+                    var storeNotClosedAndWrapperExists = !storeClosed && storeClosedWrapper.length > 0;
+
+                    if (!isDynamicMode() && (storeClosed || storeNotClosedAndWrapperExists)) {
+                        switchToDynamicMode();
+                    }
+                });
+
+                Ecwid.OnPageLoad.add(function (openedPage) {
+                    if (isDynamicMode()) {
+                        // if we've already switched to dynamic, we don't need to dispatch this event anymore
+                        return;
+                    }
+
+                    if (openedPage.type === "CART"
+                        || openedPage.type === "ORDERS"
+                        || openedPage.type === "FAVORITES"
+                        || openedPage.type === "SIGN_IN"
+                        || openedPage.type === "RESET_PASSWORD") {
+                        // static links from bottom of the page should be processed before page load event finishes,
+                        // so self pre-opening scroll didn't make the page jump
+                        switchToDynamicMode();
+                    }
+                });
+
+                addOnPageLoadedCallback(function (openedPage) {
+                    if (isDynamicMode()) {
+                        // if we've already switched to dynamic, we don't need to dispatch this event anymore
+                        return;
+                    }
+
+                    if (autoSwitchStaticToDynamicWhenReady) {
+                        switchToDynamicWhenReadyWithRetries(10);
+                        return;
+                    }
+
+                    if (!ecwidPageOpened
+                        && openedPage.type === "CATEGORY"
+                        && openedPage.categoryId === mainCategoryId
+                        && openedPage.offset === initialCategoryOffset) {
+
+                        // we don't need to dispatch root category loading,
+                        // since our static contents covers it for the first time
+                        return;
+                    }
+                    // other than self we must show opened page in dynamic view,
+                    // because static view contains only root category page
+                    switchToDynamicMode();
+                }, 0);
+            }
+
+            function switchToDynamicWhenReadyWithRetries(retry) {
+                if (retry <= 0) {
+                    switchToDynamicMode();
+                    return;
+                }
+
+                var allImagesLoaded = allImagesLoadedInDynamicMarkup();
+                if (!allImagesLoaded) {
+                    setTimeout(function () {
+                        switchToDynamicWhenReadyWithRetries(retry - 1);
+                    }, 100);
+                    return
+                }
+
+                switchToDynamicMode();
+            }
+
+            function allImagesLoadedInDynamicMarkup() {
+                if (!dynamicId) {
+                    return true;
+                }
+
+                try {
+                    var firstNotLoadedCategory = document.querySelector('#' + dynamicId + ' .grid-category--loading');
+                    if (firstNotLoadedCategory != null) {
+                        return false;
+                    }
+
+                    var firstNotLoadedProduct = document.querySelector('#' + dynamicId + ' .grid-product--loading');
+                    if (firstNotLoadedProduct != null) {
+                        return false;
+                    }
+                } catch (e) {
+                }
+
+                return true;
+            }
+
+            function ecwidLoaded() {
+                return typeof Ecwid != 'undefined' && !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
+            }
+
+            if (ecwidLoaded()) {
+                setupAfterEcwidLoaded();
+            } else {
+                var setupIntervalId = setInterval(function () {
+                    if (ecwidLoaded()) {
+                        setupAfterEcwidLoaded();
+                        clearInterval(setupIntervalId);
+                    }
+                }, 100);
+            }
+        });
+    }
+
+    function addStaticPageHandlers() {
+        function addClickHandlers(selector, elementProcessor) {
+            var elements = document.querySelectorAll(selector);
+            for (var i = 0; i < elements.length; i++) {
+                elementProcessor(elements[i]);
+            }
+        }
+
+        addClickHandlers('#' + staticId + ' .ec-breadcrumbs a', function (element) {
+            var categoryId = element.getAttribute('categoryId');
+            if (categoryId !== mainCategoryId) {
+                addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+            }
+        });
+
+        var orderByOptions = document.querySelector('#' + staticId + ' .grid__sort select');
+        if (!!orderByOptions) {
+            orderByOptions.addEventListener("change", function (event) {
+                openEcwidPage('category', {
+                    'id': mainCategoryId,
+                    'sort': orderByOptions.value
+                })(event);
+            });
+        }
+
+        addClickHandlers('#' + staticId + ' .grid__sort .grid-sort__item--filter', function (element) {
+            addStaticClickEvent(element, function () {
+                addOnPageLoadedCallback(function () {
+                    if (isDynamicMode()) {
+                        return;
+                    }
+                    switchToDynamicMode();
+                    Ecwid.showProductFilters();
+                }, 0);
+            });
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-category__card a', function (element) {
+            var categoryId = element.getAttribute('data-category-id');
+            addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) a', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .grid-product--view-all a' , function (element) {
+            var categoryId = element.getAttribute('data-category-id');
+            addStaticClickEvent(element, openEcwidPage('category', {'id': categoryId}));
+        })
+
+        addClickHandlers('#' + staticId + ' .grid-product__buy-now', function (element) {
+            var productId = element.getAttribute('data-product-id');
+            addStaticClickEvent(element, openEcwidPage('product', {'id': productId}));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--all-products', function (element) {
+            addStaticClickEvent(element, openEcwidPage('search'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--track-order', function (element) {
+            addStaticClickEvent(element, openEcwidPage('account/orders'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--shopping-favorites', function (element) {
+            addStaticClickEvent(element, openEcwidPage('account/favorites'));
+        });
+
+        addClickHandlers('#' + staticId + ' .footer__link--shopping-cart', function (element) {
+            addStaticClickEvent(element, openEcwidPage('cart'));
+        });
+
+
+        addClickHandlers('#' + staticId + ' .footer__link--sigin-in', function (element) {
+            addStaticClickEvent(element, openEcwidPage('signin'));
+        });
+
+        addClickHandlers('#' + staticId + ' .pager__button', function (element) {
+            var pageNumber = element.getAttribute('data-page-number') || 2;
+            addStaticClickEvent(element, openEcwidPage('category', {
+                'id': mainCategoryId,
+                'page': pageNumber
+            }));
+        });
+
+        addClickHandlers('#' + staticId + ' .pager__number', function (element) {
+            var pageNumber = element.getAttribute('data-page-number');
+            addStaticClickEvent(element, openEcwidPage('category', {
+                'id': mainCategoryId,
+                'page': pageNumber
+            }));
+        });
+
+    }
+
+    function addStaticClickEvent(el, callback) {
+        var x = 0,
+            y = 0,
+            dx = 0,
+            dy = 0,
+            isTap = false;
+
+        if (isTouchDevice) {
+            el.addEventListener('touchstart', function (e) {
+                isTap = true;
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+                dx = 0;
+                dy = 0;
+            });
+            el.addEventListener('touchmove', function (e) {
+                dx = e.changedTouches[0].clientX - x;
+                dy = e.changedTouches[0].clientY - y;
+            });
+            el.addEventListener('touchend', function (e) {
+                if (isTap && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+                    callback(e);
+                }
+            });
+        }
+
+        el.addEventListener('click', function (e) {
+            if (!isTap) {
+                callback(e);
+            } else {
+                isTap = false;
+            }
+        });
+    }
+
+    function openEcwidPage(page, params) {
+        return function (e) {
+            e.preventDefault();
+            // we must wait for Ecwid first page to be ready before changing it
+            addOnPageLoadedCallback(function () {
+                if (isDynamicMode()) {
+                    // if we've already switched to dynamic, we don't need to dispatch this event anymore
+                    return;
+                }
+                var onClickCallback = window.ec.storefront.staticPages.onClickCallback;
+                if (!autoSwitchStaticToDynamicWhenReady && onClickCallback) {
+                    onClickCallback();
+                }
+                ecwidPageOpened = true;
+                var element = find('#' + staticId + " .ec-wrapper");
+                if (!!element) {
+                    elementsClassListAction([element], function(list) {
+                        list.add("ec-wrapper--transition");
+                    });
+                }
+                Ecwid.openPage(page, params);
+            }, 0);
+        }
+    }
+
+    function addOnPageLoadedCallback(callback, attempt) {
+        // Иногда при загрузке витрины (статической версии) на странице еще не определен Ecwid.OnPageLoaded.
+        // Надо подождать пока он появится, отложенно отработать клик пользователя (например открыть детали товара).
+        // Время ретраев - 2 секунды. 50 ms * 40 попыток = 2000 ms.
+        // Время выбрано по времени загрузки script.js https://graphweb.ecwid.com:3000/d/000000007/ecwid-performance-metrics
+        // 99 перцентиль иногда поднимается до 1.5 секунд. Сделал небольшой запас
+
+        if (attempt >= 40) {
+            if (!!console) {
+                console.warn("failed to add Ecwid.OnPageLoaded callback");
+            }
+            return;
+        }
+
+        if (typeof(Ecwid) == 'object' && typeof(Ecwid.OnPageLoaded) == 'object') {
+            Ecwid.OnPageLoaded.add(callback);
+        } else {
+            setTimeout(function () {
+                addOnPageLoadedCallback(callback, attempt + 1);
+            }, 50);
+        }
+    }
+
+    function hideStorefront() {
+        var dynamicEl = find('#' + dynamicId);
+        var currentStyleAttribute = dynamicEl.getAttribute("style") || "";
+
+        dynamicEl.setAttribute("style", currentStyleAttribute + invisibleDynamicContainerStyle);
+    }
+
+    function showStorefront() {
+        var dynamicEl = find('#' + dynamicId);
+        // disable zero-height trick to show the storefront
+        dynamicEl.style.height = "";
+        dynamicEl.style.maxHeight = "";
+        dynamicEl.style.minHeight = "";
+        dynamicEl.style.overflowY = "";
+        dynamicEl.style.display = "block";
+    }
+
+    function hideStaticHtml() {
+        var staticEl = find('#' + staticId);
+        if (!!staticEl) {
+            staticEl.style.opacity = 0;
+            staticEl.style.display = 'none';
+        }
+    }
+
+    function showStaticHtml() {
+        var element = find('#' + staticId + " ." + staticContentClass);
+        if (!!element) {
+            element.style.opacity = 1;
+        }
+    }
+
+    function switchToDynamicMode() {
+        requestAnimationFrame(function () {
+            removeClassAnimationForAutoSwitchToDynamic();
+            showStorefront();
+            hideStaticHtml();
+
+            var staticEl = find('#' + staticId);
+            if (staticEl && staticEl.parentNode) {
+                staticEl.parentNode.removeChild(staticEl);
+            }
+            var switchToDynamicCallback = window.ec.storefront.staticPages.switchToDynamicCallback;
+
+            var element = find('#' + staticId + " .ec-wrapper");
+            if (!!element) {
+                elementsClassListAction([element], function(list) {
+                    list.remove("ec-wrapper--transition");
+                });
+            }
+            if (!autoSwitchStaticToDynamicWhenReady && switchToDynamicCallback) {
+                switchToDynamicCallback();
+            }
+        });
+    }
+
+    function removeClassAnimationForAutoSwitchToDynamic() {
+        if (!autoSwitchStaticToDynamicWhenReady) {
+            return;
+        }
+        var wrapers = document.querySelectorAll('.ec-wrapper--animated-transitions');
+        var arrWrapers = Array.prototype.slice.call(wrapers);
+        elementsClassListAction(arrWrapers, function(list) {
+            list.remove('ec-wrapper--animated-transitions');
+        });
+    }
+
+    function elementsClassListAction(elements, callback) {
+        if (!(Array.isArray(elements))) {
+            return;
+        }
+        for (var key in elements) {
+            var list = elements[key].classList;
+            if (typeof list != "undefined") {
+                callback(list);
+            }
+        }
+    }
+
+    processStaticHomePage();
+
+})();
