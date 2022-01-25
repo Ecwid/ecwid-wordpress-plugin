@@ -70,7 +70,8 @@ function ecwid_apply_theme($theme_name = null)
 		'twentytwenty'			=> array( 'css-no-parent', 'title' ),
 		'jevelin3'				=> array( 'css-no-parent' ),
 		'newstore'				=> array( 'css', 'title' ),
-		'twentytwentyone'		=> array( 'css-no-parent', 'title' )
+		'twentytwentyone'		=> array( 'css-no-parent', 'title' ),
+		'twentytwentytwo'		=> array( 'css-no-parent', 'title' )
 	);
 	$generic_themes = apply_filters('ecwid_generic_themes', $generic_themes);
 
