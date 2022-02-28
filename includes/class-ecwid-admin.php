@@ -177,9 +177,20 @@ class Ecwid_Admin {
 		if (!Ecwid_Config::is_wl()) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
+				__('Developers', 'ecwid-shopping-cart'),
+				__('Developers', 'ecwid-shopping-cart'),
+				self::get_capability(),
+				Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+				'Ecwid_Admin_Developers_Page::do_page'
+			);
+
+			add_submenu_page(
+				self::ADMIN_SLUG,
 				__('Help', 'ecwid-shopping-cart'),
 				__('Help', 'ecwid-shopping-cart'),
-				'manage_options', self::ADMIN_SLUG . '-help', 'ecwid_help_do_page'
+				self::get_capability(),
+				self::ADMIN_SLUG . '-help',
+				'ecwid_help_do_page'
 			);
 		}
 
