@@ -151,10 +151,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-wp-dashboard-feed.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
 
-if( is_admin() ) {
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
-	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-developers-page.php';
-}
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-developers-page.php';
 
 if (version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
