@@ -1956,14 +1956,12 @@ function ecwid_params_do_page() {
 add_action('admin_post_' . ecwid_get_update_params_action(), 'ecwid_update_plugin_params');
 function ecwid_update_plugin_params()
 {
-	if ( !current_user_can('administrator') ) {
-		header('403 Access Denied');
-		die();
+	if ( !current_user_can('manage_options') ) {
+		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
 	}
 	
 	if ( isset($_POST['wp-nonce']) && !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wp-nonce'])), ecwid_get_update_params_action()) ) {
-		header('403 Access Denied');
-		die();
+		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
 	}
 
 	$options = ecwid_get_update_params_options();
