@@ -205,6 +205,15 @@ class Ecwid_Admin_Main_Page
 		require_once ECWID_ADMIN_TEMPLATES_DIR . '/welcome-page.php';
 	}
 
+	protected function _is_registration_blocked_locale()
+	{
+		$locale = ecwid_get_current_user_locale();
+		if ( strpos( $locale, 'ru' ) === 0 ) {
+			return true;
+		}
+		return false;
+	}
+
 	public function get_welcome_page_note( $text, $additional_classes = '' ) {
 		return sprintf( '<div class="ec-note %s">%s</div>', $additional_classes, $text );
 	}
