@@ -25,7 +25,7 @@
 
 			<?php } ?>
 
-			<?php if( $state == 'no_oauth' ) { ?>
+			<?php if( $state == 'no_oauth' && !$this->_is_registration_blocked_locale() ) { ?>
 
 			<div class="ec-subheading">
 				<p>
