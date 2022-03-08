@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 6.10.18 - Jan 25, 2021 =
+= 6.10.18 - Jan 25, 2022 =
 - **WordPress 5.9 compatibility.** The new WordPress version is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 5.9.
 - **Compatibility with PHP 8.** WordPress 5.9 also includes improvements to support PHP 8. Ecwid ecommerce shopping cart plugin should work well with the latest PHP version.
 
