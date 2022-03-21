@@ -159,6 +159,17 @@ class Ecwid_Admin {
 			);
 		}
 		
+		if (!Ecwid_Config::is_wl()) {
+			add_submenu_page(
+				self::ADMIN_SLUG,
+				__('Developers', 'ecwid-shopping-cart'),
+				__('Developers', 'ecwid-shopping-cart'),
+				self::get_capability(),
+				Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+				'Ecwid_Admin_Developers_Page::do_page'
+			);
+		}
+
 		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
 			add_submenu_page(
 				self::ADMIN_SLUG,
@@ -175,15 +186,6 @@ class Ecwid_Admin {
 		add_submenu_page('', 'Ecwid params', '', 'manage_options', 'ec-params', 'ecwid_params_do_page');
 
 		if (!Ecwid_Config::is_wl()) {
-			add_submenu_page(
-				self::ADMIN_SLUG,
-				__('Developers', 'ecwid-shopping-cart'),
-				__('Developers', 'ecwid-shopping-cart'),
-				self::get_capability(),
-				Ecwid_Admin_Developers_Page::ADMIN_SLUG,
-				'Ecwid_Admin_Developers_Page::do_page'
-			);
-
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Help', 'ecwid-shopping-cart'),
@@ -329,6 +331,13 @@ class Ecwid_Admin {
 			'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG
 		);
 
+		$is_developers_menu_item_added = false;
+		$menu_developers = array(
+			'title' => __('Developers', 'ecwid-shopping-cart'),
+			'slug' => Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+			'url' => 'admin.php?page=' . Ecwid_Admin_Developers_Page::ADMIN_SLUG
+		);
+
 		foreach ( $menu as $item ) {
 
 			$menu_item = array();
@@ -378,6 +387,10 @@ class Ecwid_Admin {
 		if( !$is_storefront_menu_item_added ) {
 			$result[] = $menu_storefront;
 		}
+
+		// if( !$is_developers_menu_item_added ) {
+		// 	$result[] = $menu_developers;
+		// }
 		
 		return $result;
 	}

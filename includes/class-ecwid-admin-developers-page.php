@@ -14,6 +14,8 @@ class Ecwid_Admin_Developers_Page
 
         echo Ecwid_Admin_UI_Framework::print_fix_js();
 		require_once self::$templates_dir . 'developers.php';
+
+		// require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php';
 	}
 
 	public function get_blocks_data() {

@@ -13,16 +13,17 @@
 </script>
 
 <style type="text/css">
-	<?php if( isset($_GET['page']) && $_GET['page'] == 'ec-storefront-settings' ) {?>
+	<?php if( isset($_GET['page']) && in_array($_GET['page'], array('ec-storefront-settings', 'ec-developers')) ) {?>
 		#ecwid-frame { display: none; }
 	<?php } else { ?>
-		#ec-storefront-settings { display: none; }
+		#ec-storefront-settings /*, #ec-developers*/ { display: none; }
 	<?php } ?>
 </style>
 
 <?php
 
 Ecwid_Admin_Storefront_Page::do_page();
+// Ecwid_Admin_Developers_Page::do_page();
 
 ?>
 

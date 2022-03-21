@@ -98,13 +98,13 @@ function ecwidApplyIframeAdminMenu($link, menu) {
         
         var isOpen = jQuery('li.current').closest('.toplevel_page_ec-store').length > 0;
 
-        if( slug == 'ec-storefront-settings' ) {
+        if( slug == 'ec-storefront-settings' || slug == 'ec-developers' ) {
             
             if( !jQuery('#ecwid-frame').length ) {
                 location.href = jQuery(this).attr('href');
             }
 
-            jQuery('#ec-storefront-settings').show();
+            jQuery('#' + slug).show();
             jQuery('#ecwid-frame').hide();
 
             jQuery(document).scrollTop(0);
@@ -117,7 +117,9 @@ function ecwidApplyIframeAdminMenu($link, menu) {
                 }
 
                 jQuery('#ecwid-frame').show();
+
                 jQuery('#ec-storefront-settings').hide();
+                jQuery('#ec-developers').hide();
 
                 jQuery(document).scrollTop(48);
             } else {
@@ -227,7 +229,9 @@ jQuery(document).ready(function() {
 
                 if( ec_admin_wait_page_load ) {
                     jQuery('#ecwid-frame').show();
+
                     jQuery('#ec-storefront-settings').hide();
+                    jQuery('#ec-developers').hide();
                 }
 
                 if( adminpage.indexOf(ecwid_admin_menu.baseSlug) != -1 ) {
