@@ -1,4 +1,4 @@
-<div id="ec-storefront-settings" class="settings-page" data-ec-storefront-status="<?php echo $page_status; ?>" >
+<div id="ec-storefront-settings" class="settings-page ec-ui-framework-page" data-ec-storefront-status="<?php echo $page_status; ?>" >
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
 			<h1 class="settings-page__title"><?php _e('Your Storefront', 'ecwid-shopping-cart'); ?></h1>

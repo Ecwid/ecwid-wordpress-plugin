@@ -157,9 +157,7 @@ class Ecwid_Admin {
 				Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
 				'Ecwid_Admin_Storefront_Page::do_page'
 			);
-		}
-		
-		if (!Ecwid_Config::is_wl()) {
+
 			add_submenu_page(
 				self::ADMIN_SLUG,
 				__('Developers', 'ecwid-shopping-cart'),
@@ -324,18 +322,19 @@ class Ecwid_Admin {
 		$slugs = array();
 		$result = array();
 
-		$is_storefront_menu_item_added = false;
-		$menu_storefront = array(
-			'title' => __('Storefront', 'ecwid-shopping-cart'),
-			'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
-			'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG
-		);
-
-		$is_developers_menu_item_added = false;
-		$menu_developers = array(
-			'title' => __('Developers', 'ecwid-shopping-cart'),
-			'slug' => Ecwid_Admin_Developers_Page::ADMIN_SLUG,
-			'url' => 'admin.php?page=' . Ecwid_Admin_Developers_Page::ADMIN_SLUG
+		$additional_menus = array(
+			Ecwid_Admin_Storefront_Page::ADMIN_SLUG => array(
+				'title' => __('Storefront', 'ecwid-shopping-cart'),
+				'slug' => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
+				'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
+				'is_added' => false
+			),
+			Ecwid_Admin_Developers_Page::ADMIN_SLUG => array(
+				'title' => __('Developers', 'ecwid-shopping-cart'),
+				'slug' => Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+				'url' => 'admin.php?page=' . Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+				'is_added' => false
+			)
 		);
 
 		foreach ( $menu as $item ) {
@@ -343,9 +342,10 @@ class Ecwid_Admin {
 			$menu_item = array();
 			
 			if( $item['type'] == 'menuItem' && $item['path'] == 'payments' ) {
+				$page_slug = Ecwid_Admin_Storefront_Page::ADMIN_SLUG;
 				
-				$result[] = $menu_storefront;
-				$is_storefront_menu_item_added = true;
+				$result[] = $additional_menus[$page_slug];
+				$additional_menus[$page_slug]['is_added'] = true;
 			}
 
 			if( $this->maybe_hide_menu_item( $item ) ) {
@@ -382,15 +382,21 @@ class Ecwid_Admin {
 			}
 			
 			$result[] = $menu_item;
+
+			if( $item['type'] == 'menuItem' && $item['path'] == 'billing' ) {
+				$page_slug = Ecwid_Admin_Developers_Page::ADMIN_SLUG;
+				
+				$result[] = $additional_menus[$page_slug];
+				$additional_menus[$page_slug]['is_added'] = true;
+			}
 		}
 
-		if( !$is_storefront_menu_item_added ) {
-			$result[] = $menu_storefront;
-		}
 
-		// if( !$is_developers_menu_item_added ) {
-		// 	$result[] = $menu_developers;
-		// }
+		foreach( $additional_menus as $menu ) {
+			if( !$menu['is_added'] ) {
+				$result[] = $menu;	
+			}
+		}
 		
 		return $result;
 	}

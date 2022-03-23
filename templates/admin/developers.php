@@ -1,4 +1,4 @@
-<div id="ec-developers" class="settings-page cf">
+<div id="ec-store-developers" class="settings-page ec-ui-framework-page">
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
 			<h1 class="settings-page__title"><?php echo esc_html( __( 'Developers', 'ecwid-shopping-cart' ) );?></h1>
@@ -12,7 +12,7 @@
 			<div class="named-area__header">
 				<div class="named-area__titles">
 					<div class="named-area__title">
-						<?php echo esc_html( __( 'Ecwid plugin features', 'ecwid-shopping-cart' ) );?>
+						<?php echo esc_html( __( 'Plugin features', 'ecwid-shopping-cart' ) );?>
 					</div>
 					<div class="named-area__subtitle">
 						<?php echo esc_html( __( 'Extend your site with an easy-to-use plugin that is compatible with WordPress page builders and editors.', 'ecwid-shopping-cart' ) );?>

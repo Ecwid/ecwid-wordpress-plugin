@@ -1,7 +1,7 @@
 <?php
 class Ecwid_Admin_Developers_Page
 {
-	const ADMIN_SLUG = 'ec-developers';
+	const ADMIN_SLUG = 'ec-store-developers';
 	public static $templates_dir;
 	
 	public function __construct() {
@@ -17,15 +17,6 @@ class Ecwid_Admin_Developers_Page
 
 		// require_once ECWID_PLUGIN_DIR . 'templates/admin-footer.php';
 	}
-
-	public function get_blocks_data() {
-		$blocks = array(
-
-		);
-
-		return $blocks;
-	}
-
 }
 
 $_ecwid_admin_developers_page = new Ecwid_Admin_Developers_Page();
