@@ -152,6 +152,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
+= 6.10.20 - Mar 29, 2022 =
+- New Developers Help page in the WordPress admin panel (WordPress admin > Ecwid > Developers). We aim to help developers get to know the plugin better so you can build the best ecommerce sites for your clients. On this page, you will find information about all ecommerce blocks for popular page editors, information about integrations with other services, special settings, and apps. How to join our partnership program to build and scale your offering in ecommerce. Please, tell us what can be improved regarding the Ecwid ecommerce shopping cart plugin via the feedback form on this page.
+- Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category links in multilingual mode when enabling the WPML plugin. We’ve fixed that.
+
 = 6.10.19 - Mar 09, 2022 =
 - Minor fixes and improvements.
 
