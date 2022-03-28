@@ -158,14 +158,16 @@ class Ecwid_Admin {
 				'Ecwid_Admin_Storefront_Page::do_page'
 			);
 
-			add_submenu_page(
-				self::ADMIN_SLUG,
-				__('Developers', 'ecwid-shopping-cart'),
-				__('Developers', 'ecwid-shopping-cart'),
-				self::get_capability(),
-				Ecwid_Admin_Developers_Page::ADMIN_SLUG,
-				'Ecwid_Admin_Developers_Page::do_page'
-			);
+			if( !Ecwid_Config::is_wl() ) {
+				add_submenu_page(
+					self::ADMIN_SLUG,
+					__('Developers', 'ecwid-shopping-cart'),
+					__('Developers', 'ecwid-shopping-cart'),
+					self::get_capability(),
+					Ecwid_Admin_Developers_Page::ADMIN_SLUG,
+					'Ecwid_Admin_Developers_Page::do_page'
+				);
+			}
 		}
 
 		if ( !$is_newbie || ( isset($_GET['page']) && $_GET['page'] == 'ec-store-advanced' ) ) {
@@ -329,13 +331,17 @@ class Ecwid_Admin {
 				'url' => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
 				'is_added' => false
 			),
-			Ecwid_Admin_Developers_Page::ADMIN_SLUG => array(
+		);
+
+
+		if( !Ecwid_Config::is_wl() ) {
+			$additional_menus[Ecwid_Admin_Developers_Page::ADMIN_SLUG] = array(
 				'title' => __('Developers', 'ecwid-shopping-cart'),
 				'slug' => Ecwid_Admin_Developers_Page::ADMIN_SLUG,
 				'url' => 'admin.php?page=' . Ecwid_Admin_Developers_Page::ADMIN_SLUG,
-				'is_added' => false
-			)
-		);
+				'is_added' => false,
+			);
+		}
 
 		foreach ( $menu as $item ) {
 
@@ -383,11 +389,10 @@ class Ecwid_Admin {
 			
 			$result[] = $menu_item;
 
-			if( $item['type'] == 'menuItem' && $item['path'] == 'billing' ) {
-				$page_slug = Ecwid_Admin_Developers_Page::ADMIN_SLUG;
-				
-				$result[] = $additional_menus[$page_slug];
-				$additional_menus[$page_slug]['is_added'] = true;
+			$dev_page_slug = Ecwid_Admin_Developers_Page::ADMIN_SLUG;
+			if( isset($additional_menus[$dev_page_slug]) && $item['type'] == 'menuItem' && $item['path'] == 'billing' ) {
+				$result[] = $additional_menus[$dev_page_slug];
+				$additional_menus[$dev_page_slug]['is_added'] = true;
 			}
 		}
 

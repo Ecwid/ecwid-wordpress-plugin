@@ -2373,11 +2373,6 @@ function ecwid_help_do_page() {
 	require_once ECWID_PLUGIN_DIR . 'templates/help.php';
 }
 
-function ec_developers_do_page() {
-	echo Ecwid_Admin_UI_Framework::print_fix_js();
-	require_once ECWID_PLUGIN_DIR . 'templates/admin/developers.php';
-}
-
 function ecwid_process_oauth_params() {
 	
 	$is_get_request = isset($_SERVER['REQUEST_METHOD']) && strtoupper(sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))) == 'GET';

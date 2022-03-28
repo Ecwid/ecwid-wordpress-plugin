@@ -433,7 +433,7 @@
 										</div>
 									</div>
 									<div class="cta-block__cta">
-										<a href="https://ecommerce-store.typeform.com/to/Heh5d4?utm_source=wp" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Get the Plan', 'ecwid-shopping-cart'));?></span> </a>
+										<a href="https://ecommerce-store.typeform.com/to/Heh5d4?utm_source=wp-plugin" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Get the Plan', 'ecwid-shopping-cart'));?></span> </a>
 									</div>
 								</div>
 							</div>
@@ -523,7 +523,7 @@
 										</div>
 									</div>
 									<div class="cta-block__cta">
-										<a href="https://ecommerce-store.typeform.com/to/qMgJpSBq?utm_source=wp#store_id=<?php echo get_ecwid_store_id(); ?>" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Leave Feedback', 'ecwid-shopping-cart' ) );?></span> </a>
+										<a href="https://ecommerce-store.typeform.com/to/qMgJpSBq?utm_source=wp-plugin#store_id=<?php echo get_ecwid_store_id(); ?>" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Leave Feedback', 'ecwid-shopping-cart' ) );?></span> </a>
 									</div>
 								</div>
 							</div>
