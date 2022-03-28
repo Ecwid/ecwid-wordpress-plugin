@@ -17,6 +17,7 @@ class Ecwid_Integration_WPML
 		add_filter( 'wpml_hreflangs_html', array( $this, 'filter_hreflangs_html'), 10, 1 );
 
 		add_filter( 'ecwid_nav_categories_posts', array( $this, 'filter_ecwid_menu_items'), 10, 1 );
+		add_filter( 'ecwid_nav_categories_posts_cache_key', array( $this, 'filter_ecwid_categories_cache_key'), 10, 1 );
 	}
 
 	public function filter_ecwid_menu_items($posts) {
@@ -31,6 +32,17 @@ class Ecwid_Integration_WPML
 		}
 
 		return $posts;
+	}
+
+	public function filter_ecwid_categories_cache_key($cache_key) {
+
+		$lang = apply_filters( 'wpml_current_language', null );
+
+		if( !empty($lang) ) {
+			return $cache_key . '_' . $lang;
+		}
+
+		return $cache_key;
 	}
 	
 	public function mod_rewrite_rules( $link, $page_id ) {

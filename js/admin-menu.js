@@ -117,12 +117,13 @@ function ecwidApplyIframeAdminMenu($link, menu) {
                 }
 
                 jQuery('#ecwid-frame').show();
-                jQuery('.ec-ui-framework-page').hide();
 
                 jQuery(document).scrollTop(48);
             } else {
                 ec_admin_wait_page_load = true;
             }
+
+            jQuery('.ec-ui-framework-page').hide();
 
             ecwidOpenAdminPage(ecwidMenu.hash);
             ec_admin_prev_slug = slug;

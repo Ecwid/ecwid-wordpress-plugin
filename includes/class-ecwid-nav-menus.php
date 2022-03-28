@@ -203,7 +203,10 @@ class Ecwid_Nav_Menus {
 			}
             
 			if ($item->object == 'ecwid-store-with-categories') {
-				$posts = EcwidPlatform::cache_get( 'nav_categories_posts' );
+
+				$cache_key = apply_filters( 'ecwid_nav_categories_posts_cache_key', 'nav_categories_posts' );
+
+				$posts = EcwidPlatform::cache_get( $cache_key );
                 
 				if ( !$posts ) {
 					$posts = array();
@@ -251,7 +254,7 @@ class Ecwid_Nav_Menus {
                             $posts[] = $post;
                         }
     
-                        EcwidPlatform::cache_set( 'nav_categories_posts', $posts, DAY_IN_SECONDS );
+                        EcwidPlatform::cache_set( $cache_key, $posts, DAY_IN_SECONDS );
 					}
                 }
 

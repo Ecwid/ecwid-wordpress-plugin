@@ -1,7 +1,7 @@
 == Changelog ==
 
 = 6.10.20 - Mar 29, 2022 =
-- New Developers Help page in the WordPress admin panel (WordPress admin > Ecwid > Developers). We aim to help developers get to know the plugin better so you can build the best ecommerce sites for your clients. On this page, you will find information about all ecommerce blocks for popular page editors, information about integrations with other services, special settings, and apps. How to join our partnership program to build and scale your offering in ecommerce. Please, tell us what can be improved regarding the Ecwid ecommerce shopping cart plugin via the feedback form on this page.
+- New “Developers” page in the WordPress admin panel (WordPress admin > Ecwid > Developers). The page gives you an overview of plugin features where you can easily find all store blocks we have for popular page editors and quickly access advanced plugin settings. You can find information about external services Ecwid is integrated with and quickly access our APIs if you want to build a custom app. You will also find out how to earn a lifetime commission for every new client you refer to Ecwid. If you see something needs to be improved in the plugin or you want to integrate a third-party plugin, please, send us any feedback via the “Leave Feedback” button at the bottom of the “Developers” page.
 - Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category links in multilingual mode when enabling the WPML plugin. We’ve fixed that.
 
 = 6.10.19 - Mar 09, 2022 =
