@@ -14,30 +14,45 @@
 
 			<?php if( $state == 'create' || $state == 'connect' ) { ?>
 
-			<div class="ec-subheading">
-				<p>
-					<?php echo sprintf(
-						__( 'Create a new store or connect an existing one, if you already have an %s account. The plugin will guide you through store setup and help publish it on your website.', 'ecwid-shopping-cart' ),
-						Ecwid_Config::get_brand()
-					); ?>
-				</p>
-			</div>
+				<div class="ec-subheading">
+					<p>
+						<?php echo sprintf(
+							__( 'Create a new store or connect an existing one, if you already have an %s account. The plugin will guide you through store setup and help publish it on your website.', 'ecwid-shopping-cart' ),
+							Ecwid_Config::get_brand()
+						); ?>
+					</p>
+				</div>
 
 			<?php } ?>
 
-			<?php if( $state == 'no_oauth' && !$this->_is_registration_blocked_locale() ) { ?>
-
-			<div class="ec-subheading">
-				<p>
-					<?php echo sprintf(
-						__( 'To add your store to your website, put your %1$s Store ID in the field below. If you don\'t have an %1$s account yet, create one for free on the <a %2$s>%1$s website</a>.', 'ecwid-shopping-cart' ),
-						Ecwid_Config::get_brand(),
-						'href="' . esc_attr(ecwid_get_register_link()) . '" target="_blank"'
-					); ?>
-				</p>
-			</div>
-
+			<?php if( $state == 'no_oauth' ) { ?>
+				<div class="ec-subheading">
+					<p>
+						<?php if(  $this->_is_registration_blocked_locale()  ) {
+							echo sprintf(
+								__( 'To add your store to your website, put your %1$s Store ID in the field below.', 'ecwid-shopping-cart' ),
+								Ecwid_Config::get_brand()
+							);
+						} else {
+							echo sprintf(
+								__( 'To add your store to your website, put your %1$s Store ID in the field below. If you don\'t have an %1$s account yet, create one for free on the <a %2$s>%1$s website</a>.', 'ecwid-shopping-cart' ),
+								Ecwid_Config::get_brand(),
+								'href="' . esc_attr(ecwid_get_register_link()) . '" target="_blank"'
+							);
+						} ?>
+					</p>
+				</div>
 			<?php } ?>
+
+
+			<?php if(  $this->_is_registration_blocked_locale()  ) { ?>
+				<div class="ec-subheading">
+					<p>
+						<?php echo $this->get_welcome_page_note( __('Unfortunately, creating a new account is currently unavailable for your country. You can still connect an existing account.', 'ecwid-shopping-cart'), 'ec-connection-error' ); ?>
+					</p>
+				</div>
+			<?php } ?>
+
 
 			<?php
 			if( $state == 'create' ) {
