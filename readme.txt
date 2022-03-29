@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 4.4
 Tested up to: 5.9
-Stable tag: 6.10.19
+Stable tag: 6.10.20
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+
+= 6.10.20 - Mar 29, 2022 =
+- New “Developers” page in the WordPress admin panel (WordPress admin > Ecwid > Developers). The page gives you an overview of plugin features where you can easily find all store blocks we have for popular page editors and quickly access advanced plugin settings. You can find information about external services Ecwid is integrated with and quickly access our APIs if you want to build a custom app. You will also find out how to earn a lifetime commission for every new client you refer to Ecwid. If you see something needs to be improved in the plugin or you want to integrate a third-party plugin, please, send us any feedback via the “Leave Feedback” button at the bottom of the “Developers” page.
+- Improvements for compatibility of the shopping cart category menu with WPML plugin. Some ecommerce sites had an issue with category links in multilingual mode when enabling the WPML plugin. We’ve fixed that.
 
 = 6.10.19 - Mar 09, 2022 =
 - Minor fixes and improvements.

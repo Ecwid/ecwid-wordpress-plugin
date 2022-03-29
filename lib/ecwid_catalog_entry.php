@@ -85,12 +85,22 @@ abstract class Ecwid_Catalog_Entry {
 				}
 			}
 			$url = $baseUrl;
+
+			$query = parse_url($url, PHP_URL_QUERY);
+			if( !empty($query) ) {
+				$exploded_url = explode('?', $url);
+				$url = $exploded_url[0];
+			}
 			
 			if ($url && strlen($url) > 0 && strrpos($url, '/') != strlen($url) - 1) {
 				$url .= '/';
 			}
 			
 			$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
+
+			if( !empty($query) ) {
+				$url .= '/?' . $query;
+			}
 
 			return $url;
 		} else if ( isset( $this->_data->seo_link ) ) {

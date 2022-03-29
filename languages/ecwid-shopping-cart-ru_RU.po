@@ -1692,6 +1692,12 @@ msgstr "Чтобы использовать этот функционал, вк�
 msgid "%s Store Page"
 msgstr "Страница %s-магазина"
 
+msgid "To add your store to your website, put your %1$s Store ID in the field below."
+msgstr "Чтобы добавить магазин на сайт, введите ID вашего Ecwid-магазина."
+
+msgid "Unfortunately, creating a new account is currently unavailable for your country. You can still connect an existing account."
+msgstr "К сожалению, создание новой учетной записи в настоящее время недоступно для вашей страны. Вы можете подключить существующую учетную запись."
+
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
 msgid "http://www.ecwid.com?source=wporg"

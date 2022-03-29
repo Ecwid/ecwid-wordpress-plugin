@@ -50,6 +50,9 @@ class Ecwid_Admin_UI_Framework
             return false;
         }
 
+        if ( strpos($page, 'ec-developers') === 0 ) {
+            return true;
+        }
         if ( strpos($page, 'ec-store') === 0 ) {
             return true;
         }

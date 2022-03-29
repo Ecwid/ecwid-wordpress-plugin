@@ -208,7 +208,7 @@ class Ecwid_Admin_Main_Page
 	protected function _is_registration_blocked_locale()
 	{
 		$locale = ecwid_get_current_user_locale();
-		if ( strpos( $locale, 'ru' ) === 0 ) {
+		if ( strpos( $locale, '_RU' ) != false ) {
 			return true;
 		}
 		return false;

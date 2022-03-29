@@ -13,16 +13,17 @@
 </script>
 
 <style type="text/css">
-	<?php if( isset($_GET['page']) && $_GET['page'] == 'ec-storefront-settings' ) {?>
-		#ecwid-frame { display: none; }
-	<?php } else { ?>
-		#ec-storefront-settings { display: none; }
-	<?php } ?>
+	<?php if( isset($_GET['page']) && in_array($_GET['page'], array('ec-storefront-settings', 'ec-store-developers')) ) {
+		echo '#ecwid-frame { display: none; } ';
+		echo sprintf('#%s { display: block; }', sanitize_text_field(wp_unslash($_GET['page'])) );
+	} ?>
+	.ec-ui-framework-page { display: none; }
 </style>
 
 <?php
 
 Ecwid_Admin_Storefront_Page::do_page();
+Ecwid_Admin_Developers_Page::do_page();
 
 ?>
 
