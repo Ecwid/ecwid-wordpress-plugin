@@ -20,7 +20,7 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
-	const TRANSIENTS_LIMIT = 30000;
+	const TRANSIENTS_LIMIT = 1000;
 	
 	static public function get_store_id()
 	{
@@ -403,7 +403,7 @@ class EcwidPlatform {
 			'data' => $data
 		);
 
-		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
+		self::cache_set( $name, $to_store, DAY_IN_SECONDS );
 		
 		self::cache_log_record( 'store_in_entity_cache', array( 'name' => $url, 'type' => $type, 'data' => $data ), 'set' );
 	}
