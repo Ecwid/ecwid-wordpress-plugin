@@ -69,7 +69,7 @@
 												<?php echo esc_html( __( 'Shortcodes', 'ecwid-shopping-cart'));?>
 											</div>
 											<div class="cta-block__content">
-												<?php echo esc_html( __( 'Add shortcodes to WordPress site to apply basic changes to your store appearance.', 'ecwid-shopping-cart' ) );?>
+												<?php echo esc_html( __( 'Add shortcodes to the WordPress site to apply basic changes to your store appearance.', 'ecwid-shopping-cart' ) );?>
 											</div>
 										</div>
 										<div class="cta-block__cta">
@@ -95,7 +95,7 @@
 												<?php echo esc_html( __( 'Store blocks for Gutenberg', 'ecwid-shopping-cart'));?>
 											</div>
 											<div class="cta-block__content">
-												<?php echo esc_html( __( 'Add store plugin to WordPress site in Gutenberg block editor, with no need of HTML or shortcodes.', 'ecwid-shopping-cart' ) );?>
+												<?php echo esc_html( __( 'Add store plugin to the WordPress site in Gutenberg block editor, with no need of HTML or shortcodes.', 'ecwid-shopping-cart' ) );?>
 											</div>
 										</div>
 										<div class="cta-block__cta">
@@ -121,7 +121,7 @@
 												<?php echo esc_html( __( 'Store blocks for Elementor', 'ecwid-shopping-cart'));?>
 											</div>
 											<div class="cta-block__content">
-												<?php echo esc_html( __( 'Create a store from your website with Ecwid plugin and Elementor page builder, no coding required.', 'ecwid-shopping-cart' ) );?>
+												<?php echo esc_html( __( 'Create a store from your website with the Ecwid plugin and Elementor page builder, no coding required.', 'ecwid-shopping-cart' ) );?>
 											</div>
 										</div>
 										<div class="cta-block__cta">
@@ -251,7 +251,7 @@
 									</div>
 									<div class="cta-block__cta">
 									<?php if( class_exists('woocommerce') && class_exists('Ecwid_Importer') )  {?>
-										<a href="<?php echo admin_url('admin.php?page=ec-store-import-woocommerce');?>" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Start Import', 'ecwid-shopping-cart'));?></span> </a>
+										<a href="<?php echo admin_url('admin.php?page=ec-store-import-woocommerce');?>" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Go to Import Page', 'ecwid-shopping-cart'));?></span> </a>
 									<?php } else { ?>
 										<a href="https://support.ecwid.com/hc/en-us/articles/360000049040" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Learn More', 'ecwid-shopping-cart'));?></span> </a>
 									<?php } ?>
@@ -426,14 +426,14 @@
 								<div class="cta-block">
 									<div class="cta-block__central">
 										<div class="cta-block__title">
-											<?php echo esc_html( __( 'Get Ecwid Business plan for free', 'ecwid-shopping-cart'));?>
+											<?php echo esc_html( __( 'Use free Ecwid premium plan', 'ecwid-shopping-cart'));?>
 										</div>
 										<div class="cta-block__content">
-											<?php echo esc_html( __( 'Use a free Ecwid Business account to build and test WordPress sites, check out the platform features, and get access to Ecwid API.', 'ecwid-shopping-cart' ) );?>
+											<?php echo esc_html( __( 'If you’re developing sites on WordPress, you can get a free subscription to the Ecwid premium plan. Use it to build and test WordPress sites, check out the platform features, and get access to Ecwid API. Just apply for the free subscription, and we’ll get in touch with you soon.', 'ecwid-shopping-cart' ) );?>
 										</div>
 									</div>
 									<div class="cta-block__cta">
-										<a href="https://ecommerce-store.typeform.com/to/Heh5d4?utm_source=wp-plugin" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Get the Plan', 'ecwid-shopping-cart'));?></span> </a>
+										<a href="https://ecommerce-store.typeform.com/to/Heh5d4?utm_source=wp-plugin" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Apply for Free Plan', 'ecwid-shopping-cart'));?></span> </a>
 									</div>
 								</div>
 							</div>
@@ -493,7 +493,7 @@
 											<?php echo esc_html( __( 'Request custom development', 'ecwid-shopping-cart' ) );?>
 										</div>
 										<div class="cta-block__content">
-											<?php echo esc_html( __( 'Ecwid team can help you build the desired features and options that Ecwid does not have out of the box — from integrations with other tools to your own mobile app. Custom development is a paid service, the price depends on the complexity of the request.', 'ecwid-shopping-cart' ) );?>
+											<?php echo esc_html( __( 'The Ecwid team can help you build the desired features and options that Ecwid does not have out of the box — from integrations with other tools to your own mobile app. Custom development is a paid service, the price depends on the complexity of the request.', 'ecwid-shopping-cart' ) );?>
 										</div>
 									</div>
 									<div class="cta-block__cta">
@@ -519,7 +519,7 @@
 											<?php echo esc_html( __( 'Leave feedback', 'ecwid-shopping-cart' ) );?>
 										</div>
 										<div class="cta-block__content">
-											<?php echo esc_html( __( 'Tell us what can be improved regarding Ecwid plugin, functionality and work.', 'ecwid-shopping-cart' ) );?>
+											<?php echo esc_html( __( 'Tell us what can be improved regarding Ecwid features, integrations, and their functionality.', 'ecwid-shopping-cart' ) );?>
 										</div>
 									</div>
 									<div class="cta-block__cta">
