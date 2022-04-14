@@ -3,7 +3,7 @@
 		<div class="settings-page__titles settings-page__titles--left">
 			<h1 class="settings-page__title"><?php echo esc_html( __( 'Developers', 'ecwid-shopping-cart' ) );?></h1>
 			<div class="settings-page__subtitle">
-				<?php echo esc_html( __( 'Build the store your client needs with the developer-friendly WordPress plugin made by Ecwid. Become an Ecwid partner and grow your business effectively.', 'ecwid-shopping-cart' ) );?>
+				<?php echo esc_html( __( 'Build the store your client needs and realize your own vision with Ecwid. Use the Ecwid plugin, powerful API, apps and integrations to design stores and build your own solutions. Become an Ecwid partner and grow your business effectively.', 'ecwid-shopping-cart' ) );?>
 			</div>
 		</div>
 	</div>
@@ -12,10 +12,10 @@
 			<div class="named-area__header">
 				<div class="named-area__titles">
 					<div class="named-area__title">
-						<?php echo esc_html( __( 'Plugin features', 'ecwid-shopping-cart' ) );?>
+						<?php echo esc_html( __( 'Ecwid plugin features', 'ecwid-shopping-cart' ) );?>
 					</div>
 					<div class="named-area__subtitle">
-						<?php echo esc_html( __( 'Extend your site with an easy-to-use plugin that is compatible with WordPress page builders and editors.', 'ecwid-shopping-cart' ) );?>
+						<?php echo esc_html( __( 'Extend your site with an easy-to-use plugin compatible with WordPress page builders and editors.', 'ecwid-shopping-cart' ) );?>
 					</div>
 				</div>
 				<div class="named-area__description"></div>
@@ -37,7 +37,7 @@
 													<div class="titled-item__title"></div>
 													<div class="titled-item__content">
 														<div>
-															<?php echo esc_html( __( 'Add store components to any place of your WordPress site using shortcodes or WordPress builders and editors.', 'ecwid-shopping-cart' ) );?>
+															<?php echo esc_html( __( 'Add store components to any place of your WordPress site using shortcodes or WordPress site builders and editors.', 'ecwid-shopping-cart' ) );?>
 														</div>
 													</div>
 												</div>
@@ -95,7 +95,7 @@
 												<?php echo esc_html( __( 'Store blocks for Gutenberg', 'ecwid-shopping-cart'));?>
 											</div>
 											<div class="cta-block__content">
-												<?php echo esc_html( __( 'Add store plugin to the WordPress site in Gutenberg block editor, with no need of HTML or shortcodes.', 'ecwid-shopping-cart' ) );?>
+												<?php echo esc_html( __( 'Add store plugin to the WordPress site in Gutenberg block editor, with no HTML or shortcodes.', 'ecwid-shopping-cart' ) );?>
 											</div>
 										</div>
 										<div class="cta-block__cta">
@@ -121,7 +121,7 @@
 												<?php echo esc_html( __( 'Store blocks for Elementor', 'ecwid-shopping-cart'));?>
 											</div>
 											<div class="cta-block__content">
-												<?php echo esc_html( __( 'Create a store from your website with the Ecwid plugin and Elementor page builder, no coding required.', 'ecwid-shopping-cart' ) );?>
+												<?php echo esc_html( __( 'Create a store from your website with the Ecwid plugin and Elementor page builder, with no coding required.', 'ecwid-shopping-cart' ) );?>
 											</div>
 										</div>
 										<div class="cta-block__cta">
@@ -207,7 +207,7 @@
 											</div>
 										</div>
 										<div class="cta-block__cta">
-											<a href="https://api-docs.ecwid.com/reference/customize-appearance" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Check docs', 'ecwid-shopping-cart'));?></span> </a>
+											<a href="https://api-docs.ecwid.com/reference/customize-appearance" target="_blank" type="button" class="btn btn-default btn-medium"> <span><?php echo esc_html( __( 'Learn More', 'ecwid-shopping-cart'));?></span> </a>
 										</div>
 									</div>
 								</div>
@@ -519,7 +519,7 @@
 											<?php echo esc_html( __( 'Leave feedback', 'ecwid-shopping-cart' ) );?>
 										</div>
 										<div class="cta-block__content">
-											<?php echo esc_html( __( 'Tell us what can be improved regarding Ecwid features, integrations, and their functionality.', 'ecwid-shopping-cart' ) );?>
+											<?php echo esc_html( __( 'Tell us what can be improved regarding Ecwid features, integrations, and functionality.', 'ecwid-shopping-cart' ) );?>
 										</div>
 									</div>
 									<div class="cta-block__cta">
