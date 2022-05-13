@@ -426,10 +426,10 @@
 								<div class="cta-block">
 									<div class="cta-block__central">
 										<div class="cta-block__title">
-											<?php echo esc_html( __( 'Use free Ecwid premium plan', 'ecwid-shopping-cart'));?>
+											<?php echo esc_html( __( 'Use Ecwid premium plan for free', 'ecwid-shopping-cart'));?>
 										</div>
 										<div class="cta-block__content">
-											<?php echo esc_html( __( 'If you’re developing sites on WordPress, you can get a free subscription to the Ecwid premium plan. Use it to build and test WordPress sites, check out the platform features, and get access to Ecwid API. Just apply for the free subscription, and we’ll get in touch with you soon.', 'ecwid-shopping-cart' ) );?>
+											<?php echo esc_html( __( 'If you’re developing sites on WordPress, you can get a free subscription to the Ecwid premium plan. Use it to build and test stores on the WordPress sites, check out the platform features, and get access to Ecwid API. Just apply for the free subscription, and we’ll get in touch with you soon.', 'ecwid-shopping-cart' ) );?>
 										</div>
 									</div>
 									<div class="cta-block__cta">
