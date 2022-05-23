@@ -92,8 +92,8 @@ class Ecwid_Gutenberg {
 	}
 	
 	public function enqueue_block_editor_assets() {
-		wp_enqueue_script( 'ecwid-gutenberg-store' ); //, ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), get_option('ecwid_plugin_version') );
-		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css', get_option('ecwid_plugin_version') );
+		wp_enqueue_script( 'ecwid-gutenberg-store' );
+		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css', array(), get_option('ecwid_plugin_version') );
 		
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
@@ -145,7 +145,7 @@ class Ecwid_Gutenberg {
 				'isApiAvailable' => Ecwid_Api_V3::is_available(),
 				'products' => $this->_get_products_data(),
 				'hasCategories' => $api->has_public_categories(),
-				'imagesUrl' => ECWID_PLUGIN_URL . '/images/gutenberg/',
+				'imagesUrl' => ECWID_PLUGIN_URL . 'images/gutenberg/',
 				'isWidgetsScreen' => get_current_screen()->id == 'widgets'
 			)
 		);
