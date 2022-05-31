@@ -38,7 +38,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 	{
 		global $aioseop_options;
 
-		if (! Ecwid_Store_Page::is_store_page() ) {
+		if ( !Ecwid_Store_Page::is_store_page() ) {
 			return;
 		}
 
@@ -56,6 +56,12 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 			add_filter( 'ecwid_static_page_field_canonicalurl', '__return_false' );
 		}
 
+		$is_home_page = Ecwid_Store_Page::is_store_home_page();
+		if( !$is_home_page ) {
+			add_filter( 'aioseo_facebook_tags', '__return_empty_array' );
+			add_filter( 'aioseo_twitter_tags', '__return_empty_array' );
+		}
+
 		if ( !$is_escaped_fragment && !$is_seo_links_store_page ) {
 			return;
 		}
@@ -63,7 +69,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack
 		$aioseop_options['aiosp_can'] = false;
 		add_filter( 'aioseop_title', '__return_null' );
 		add_filter( 'aioseop_description', '__return_null' );
-		add_filter( 'aioseop_disable_schema', '__return_true' );
+		add_filter( 'aioseo_schema_disable', '__return_true' );
 	}
 
 	// Hook that new sitemap type to aiosp sitemap
