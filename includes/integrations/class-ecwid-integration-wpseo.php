@@ -2,10 +2,9 @@
 
 class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
-	// Store intermediate sitemap generation results here
-	protected $sitemap       = array();
-	protected $_og_drop      = array( 'title', 'desc', 'type', 'url', 'site_name' );
-	protected $_twitter_drop = array( 'title', 'description', 'image', 'card_type' );
+	/** Store intermediate sitemap generation results here */
+	protected $sitemap = array();
+	protected $og_drop = array( 'title', 'desc', 'type', 'url', 'site_name' );
 
 	public function __construct() {
 		if ( ! Ecwid_Api_V3::is_available() ) {
@@ -59,7 +58,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 			add_filter( 'wpseo_metadesc', '__return_false' );
 			add_filter( 'wpseo_json_ld_output', '__return_false' );
 
-			foreach ( $this->_og_drop as $name ) {
+			foreach ( $this->og_drop as $name ) {
 				add_filter( 'wpseo_opengraph_' . $name, '__return_false' );
 			}
 		}
@@ -122,7 +121,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 		if ( substr_count( $output, '"og:image"' ) > 1 ) {
 
-			$og_tags = array( '', ':width', ':height' );
+			$og_tags = array( '', ':width', ':height', ':type' );
 			foreach ( $og_tags as $og_tag ) {
 				$output = preg_replace(
 					'/<meta property="og:image' . $og_tag . '" content=".*?" \/>[[:space:]]*/',
