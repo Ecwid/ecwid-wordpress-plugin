@@ -1,6 +1,4 @@
 <?php
-
-
 class EcwidSitemapBuilder {
 	var $callback;
 	var $type;
