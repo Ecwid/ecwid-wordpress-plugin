@@ -20,7 +20,7 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
-	const TRANSIENTS_LIMIT = 30000;
+	const TRANSIENTS_LIMIT = 5000;
 
 	public static function get_store_id() {
 		 return get_ecwid_store_id();
@@ -78,8 +78,6 @@ class EcwidPlatform {
 
 		return $handle;
 	}
-
-
 
 	/*
 	* @throws InvalidArgumentException if $file can't be slugified at all
@@ -389,19 +387,18 @@ class EcwidPlatform {
 	}
 
 	public static function store_in_products_cache( $url, $data ) {
-		self::_store_in_cache( $url, 'products', $data );
+		self::store_in_cache( $url, 'products', $data );
 	}
 
-
 	public static function store_in_categories_cache( $url, $data ) {
-		self::_store_in_cache( $url, 'categories', $data );
+		self::store_in_cache( $url, 'categories', $data );
 	}
 
 	public static function store_in_catalog_cache( $url, $data ) {
-		self::_store_in_cache( $url, 'catalog', $data );
+		self::store_in_cache( $url, 'catalog', $data );
 	}
 
-	protected static function _store_in_cache( $url, $type, $data ) {
+	protected static function store_in_cache( $url, $type, $data ) {
 		$name = self::_build_cache_name( $url, $type );
 
 		$to_store = array(
@@ -409,7 +406,7 @@ class EcwidPlatform {
 			'data' => $data,
 		);
 
-		self::cache_set( $name, $to_store, MONTH_IN_SECONDS );
+		self::cache_set( $name, $to_store, WEEK_IN_SECONDS );
 
 		self::cache_log_record(
 			'store_in_entity_cache',
