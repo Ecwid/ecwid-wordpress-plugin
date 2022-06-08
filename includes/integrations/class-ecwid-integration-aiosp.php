@@ -5,6 +5,8 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	/** Store intermediate sitemap generation results here */
 	protected $sitemap = array();
 
+	public $sitemap_url = 'ecstore-sitemap.xml';
+
 	public function __construct() {
 		if ( ! Ecwid_Api_V3::is_available() ) {
 			return;
@@ -15,8 +17,8 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		$plugin_data = get_file_data( WP_PLUGIN_DIR . '/all-in-one-seo-pack/all_in_one_seo_pack.php', array( 'version' => 'Version' ), 'plugin' );
 
 		if ( version_compare( $plugin_data['version'], '4.0.0', '>=' ) ) {
-			add_filter( 'aioseo_sitemap_indexes', array( $this, 'sitemap_add_indexes' ) );
-			add_action( 'shutdown', array( $this, 'show_custom_sitemap' ), 0 );
+			add_filter( 'aioseo_sitemap_indexes', array( $this, 'add_sitemap_to_indexes' ) );
+			add_action( 'init', array( $this, 'is_sitemap_page' ) );
 		} else {
 			add_filter( 'aiosp_sitemap_extra', array( $this, 'aiosp_hook_sitemap_extra' ) );
 			add_filter( 'aiosp_sitemap_custom_ecwid', array( $this, 'aiosp_hook_sitemap_content' ) );
@@ -62,22 +64,22 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		add_filter( 'aioseo_schema_disable', '__return_true' );
 	}
 
-	public function sitemap_add_indexes( $indexes ) {
+	public function add_sitemap_to_indexes( $indexes ) {
 		$indexes[] = array(
-			'loc'     => home_url( 'ecstore-sitemap.xml' ),
+			'loc'     => home_url( $this->sitemap_url ),
 			'lastmod' => '',
 		);
 		return $indexes;
 	}
 
     // phpcs:disable
-	public function show_custom_sitemap() {
+	public function is_sitemap_page() {
         $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-        if ( strpos( $request_uri, 'ecstore-sitemap.xml' ) !== false ) {
-		    ob_end_clean();
+        
+        if ( strpos( $request_uri, $this->sitemap_url ) !== false ) {
 		    echo $this->do_sitemap();
+            exit;
         }
-        exit;
 	}
     // phpcs:enable
 
@@ -112,7 +114,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 					<image:title>$title</image:title>
 					<image:loc>$image</image:loc>
 				</image:image>
-	XML;
+XML;
 		}
 
 		$this->sitemap .= <<<XML
@@ -121,7 +123,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		<changefreq>$frequency</changefreq>
 		<priority>$priority</priority> $imageCode
 	</url>
-	XML;
+XML;
 	}
     // phpcs:enable
 
