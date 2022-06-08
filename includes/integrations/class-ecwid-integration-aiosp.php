@@ -6,6 +6,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	protected $sitemap = array();
 
 	public $sitemap_url = 'ecstore-sitemap.xml';
+	public $plugin_version;
 
 	public function __construct() {
 		if ( ! Ecwid_Api_V3::is_available() ) {
@@ -14,9 +15,10 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 
 		add_action( 'wp', array( $this, 'disable_seo_if_needed' ) );
 
-		$plugin_data = get_file_data( WP_PLUGIN_DIR . '/all-in-one-seo-pack/all_in_one_seo_pack.php', array( 'version' => 'Version' ), 'plugin' );
+		$plugin_data          = get_file_data( WP_PLUGIN_DIR . '/all-in-one-seo-pack/all_in_one_seo_pack.php', array( 'version' => 'Version' ), 'plugin' );
+		$this->plugin_version = $plugin_data['version'];
 
-		if ( version_compare( $plugin_data['version'], '4.0.0', '>=' ) ) {
+		if ( version_compare( $this->plugin_version, '4.0.0', '>=' ) ) {
 			add_filter( 'aioseo_sitemap_indexes', array( $this, 'add_sitemap_to_indexes' ) );
 			add_action( 'init', array( $this, 'is_sitemap_page' ) );
 		} else {
@@ -28,40 +30,37 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_if_needed() {
-		global $aioseop_options;
 
 		if ( ! Ecwid_Store_Page::is_store_page() ) {
 			return;
 		}
 
-		if ( Ecwid_Store_Page::is_store_page_with_default_category() ) {
-			add_filter( 'aioseop_canonical_url', '__return_null' );
-		}
-
-		$is_escaped_fragment     = array_key_exists( '_escaped_fragment_', $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$is_seo_links_store_page = Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url();
-
-		$page_params              = Ecwid_Store_Page::get_store_page_params();
-		$is_default_category_page = isset( $page_params['default_category_id'] ) && $page_params['default_category_id'] > 0;
-
-		if ( $is_default_category_page ) {
+		if ( Ecwid_Store_Page::is_store_page_with_default_category() && Ecwid_Store_Page::is_store_home_page() ) {
 			add_filter( 'ecwid_static_page_field_canonicalurl', '__return_false' );
 		}
 
-		$is_home_page = Ecwid_Store_Page::is_store_home_page();
-		if ( ! $is_home_page ) {
+		if ( ! Ecwid_Store_Page::is_store_home_page() ) {
 			add_filter( 'aioseo_facebook_tags', '__return_empty_array' );
 			add_filter( 'aioseo_twitter_tags', '__return_empty_array' );
-		}
 
-		if ( ! $is_escaped_fragment && ! $is_seo_links_store_page ) {
-			return;
-		}
+			if ( version_compare( $this->plugin_version, '4.0.0', '>=' ) ) {
+				if ( class_exists( 'Ecwid_Static_Page' ) ) {
+					add_filter( 'aioseo_title', 'Ecwid_Static_Page::get_title' );
+				}
 
-		$aioseop_options['aiosp_can'] = false;
-		add_filter( 'aioseop_title', '__return_null' );
-		add_filter( 'aioseop_description', '__return_null' );
-		add_filter( 'aioseo_schema_disable', '__return_true' );
+				add_filter( 'aioseo_description', '__return_null' );
+				add_filter( 'aioseo_canonical_url', '__return_null' );
+			} else {
+				global $aioseop_options;
+				$aioseop_options['aiosp_can'] = false;
+
+				add_filter( 'aioseop_title', '__return_null' );
+				add_filter( 'aioseop_description', '__return_null' );
+				add_filter( 'aioseop_canonical_url', '__return_null' );
+			}
+
+			add_filter( 'aioseo_schema_disable', '__return_true' );
+		}//end if
 	}
 
 	public function add_sitemap_to_indexes( $indexes ) {
