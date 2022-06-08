@@ -1,6 +1,4 @@
 <?php
-
-
 class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 
 	public function __construct() {
@@ -10,13 +8,13 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 
 	public static function init() {
 		$provider = new self();
-        wp_register_sitemap_provider( 'ecstore', $provider );
+		wp_register_sitemap_provider( 'ecstore', $provider );
 	}
 
 	public function get_url_list( $page_num, $post_type = '' ) {
 		$this->url_list = array();
 
-		ecwid_build_sitemap( array($this, 'sitemap_callback') );
+		ecwid_build_sitemap( array( $this, 'sitemap_callback' ) );
 
 		return $this->url_list;
 	}
@@ -25,15 +23,15 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 		return 1;
 	}
 
-	public function sitemap_callback($url, $priority, $frequency, $obj) {
-		
+	public function sitemap_callback( $url, $priority, $frequency, $obj ) {
+
 		$sitemap_entry = array(
-			'loc' => $url,
+			'loc'        => $url,
 			'changefreq' => $frequency,
-			'priority' => $priority
+			'priority'   => $priority,
 		);
-		
-		if( isset($obj->updated) ) {
+
+		if ( isset( $obj->updated ) ) {
 			$sitemap_entry['lastmod'] = $obj->updated;
 		}
 
@@ -42,5 +40,3 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 }
 
 add_filter( 'init', 'Ec_Store_Sitemap_Provider::init' );
-
-?>

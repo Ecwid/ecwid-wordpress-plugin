@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.21
+Version: 6.10.22
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -2679,7 +2679,7 @@ function ecwid_sync_products_sse() {
 
 function ecwid_format_date( $unixtime ) {
 
-	return date_i18n( get_option('date_format') . ' ' . get_option('time_format'), $unixtime + get_option( 'gmt_offset' ) * 60 * 60 );
+	return date_i18n( get_option('date_format') . ' ' . get_option('time_format'), $unixtime + get_option('gmt_offset') * 60 * 60 );
 }
 
 function ecwid_slow_sync_progress($status) {
