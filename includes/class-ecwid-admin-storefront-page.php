@@ -117,6 +117,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_status() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		$page_statuses = array(
 			0 => 'draft',
 			1 => 'publish',
@@ -151,6 +155,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_store_on_front() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		$status = isset( $_GET['status'] ) ? intval( $_GET['status'] ) : false;
 
 		$store_page_id = get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID );
@@ -178,6 +186,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_mainpage() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		if ( ! isset( $_GET['page'] ) ) {
 			return;
 		}
@@ -207,6 +219,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_display_cart_icon() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		$status = isset( $_GET['status'] ) ? intval( $_GET['status'] ) : false;
 
 		if ( $status ) {
@@ -220,6 +236,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_page_slug() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		if ( ! isset( $_GET['slug'] ) ) {
 			return;
 		}
@@ -262,6 +282,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_create_page() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
 		if ( ! isset( $_GET['type'] ) ) {
 			return;
 		}

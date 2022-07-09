@@ -1223,6 +1223,10 @@ function ecwid_trim_description($description)
 add_action( 'wp_ajax_ecwid_deactivate_feedback', 'ecwid_ajax_deactivate_feedback' );
 function ecwid_ajax_deactivate_feedback() 
 {
+    if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+        die();
+    }
+    
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
 	$popup = new Ecwid_Popup_Deactivate();
 	$popup->ajax_deactivate_feedback();
@@ -2629,6 +2633,9 @@ function get_ecwid_store_id() {
 }
 
 function ecwid_sync_products() {
+    if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+        die();
+    }
 
 	set_time_limit(3600);
 	if (!defined('DOING_AJAX')) {
