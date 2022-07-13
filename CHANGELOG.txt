@@ -1,5 +1,8 @@
 == Changelog == 
 
+= 6.10.24 - Jul 13, 2022 =
+- Improved security of handling plugin settings with the WordPress plugin marketplace requirements. Ecwid ecommerce shopping cart plugin update is recommended.
+
 = 6.10.23 - Jul 10, 2022 =
 - **Improved security of handling storefront settings. Ecwid ecommerce shopping cart plugin update is recommended.**
 - Farmin theme improved compatibility. Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes.

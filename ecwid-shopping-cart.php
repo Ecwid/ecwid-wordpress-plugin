@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.23
+Version: 6.10.24
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -1722,7 +1722,7 @@ EOT;
 add_action( 'activated_plugin', 'ecwid_plugin_activation_redirect' );
 function ecwid_plugin_activation_redirect( $plugin ) {
 	
-	$is_nonce_set = isset($_POST['_wpnonce']) && wp_verify_nonce( $_POST['_wpnonce'], 'bulk-plugins' );
+	$is_nonce_set = isset($_POST['_wpnonce']) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), 'bulk-plugins' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 	$is_bulk_activation = $is_nonce_set
 		&& isset($_POST['action'])
@@ -1966,7 +1966,11 @@ function ecwid_update_plugin_params()
 		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
 	}
 	
-	if ( isset($_POST['wp-nonce']) && !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wp-nonce'])), ecwid_get_update_params_action()) ) {
+    if ( ! isset( $_POST['_wpnonce'] ) ) {
+        wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+    }
+
+    if ( ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), ecwid_get_update_params_action() ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
 	}
 
@@ -2103,7 +2107,7 @@ function ecwid_plugin_actions($links) {
 
 function ecwid_settings_api_init() {
 
-    if ( isset( $_POST['settings_section'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'ecwid_options_page-options' ) ) {
+    if ( isset( $_POST['settings_section'] ) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), 'ecwid_options_page-options' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		switch ( $_POST['settings_section'] ) {
 			case 'general':
@@ -2131,7 +2135,7 @@ function ecwid_settings_api_init() {
 		}
 	}
 
-	if ( isset( $_POST['ecwid_store_id'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'ecwid_options_page-options' )  ) {
+	if ( isset( $_POST['ecwid_store_id'] ) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), 'ecwid_options_page-options' )  ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$new_store_id = sanitize_text_field(wp_unslash($_POST['ecwid_store_id']));
 
@@ -2423,7 +2427,7 @@ function ecwid_admin_post_connect()
 		return;
 	}
 
-	if ( isset($_GET['force_store_id']) && wp_verify_nonce($_GET['_wpnonce'], 'ec_admin') ) {
+	if ( isset($_GET['force_store_id']) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'ec_admin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		
 		$force_store_id = sanitize_text_field(wp_unslash($_GET['force_store_id']));
 		
