@@ -2874,23 +2874,6 @@ HTML;
 
 }
 
-function ecwid_get_wp_install_date( ) {
-	global $wpdb;
-
-	$wp_date = get_option( 'ecwid_wp_install_date' );
-	if ( ! $wp_date ) {
-		global $wpdb;
-		$oldest_user     = strtotime( $wpdb->get_var( "SELECT min(`user_registered`) FROM {$wpdb->users}" ) );
-		$oldest_post     = strtotime( $wpdb->get_var( "SELECT min(`post_date`) FROM {$wpdb->posts}" ) );
-		$wpconfig_create = @filectime( ABSPATH . '/wp-config.php' );
-
-		$wp_date = min( $oldest_user, $oldest_post, $wpconfig_create );
-		update_option( 'ecwid_wp_install_date', $wp_date );
-	}
-
-	return $wp_date;
-}
-
 function ecwid_check_for_remote_connection_errors()
 {
 	global $ecwid_oauth;
