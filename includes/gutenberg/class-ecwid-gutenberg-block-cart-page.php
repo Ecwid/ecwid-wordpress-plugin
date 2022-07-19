@@ -11,12 +11,12 @@ class Ecwid_Gutenberg_Block_Cart_Page extends Ecwid_Gutenberg_Block_Store {
 		$attributes = parent::get_attributes_for_editor();
 
 		$overrides = array(
-			'show_footer_menu' => false
+			'show_footer_menu' => false,
 		);
 
 		foreach ( $overrides as $name => $editor_default ) {
-			$attributes[$name]['profile_default'] = $attributes[$name]['default'];
-			$attributes[$name]['default'] = $editor_default;
+			$attributes[ $name ]['profile_default'] = $attributes[ $name ]['default'];
+			$attributes[ $name ]['default']         = $editor_default;
 		}
 
 		return $attributes;
@@ -29,7 +29,7 @@ class Ecwid_Gutenberg_Block_Cart_Page extends Ecwid_Gutenberg_Block_Store {
 
 		$result = parent::render_callback( $params );
 
-		$result .= <<<HTML
+		$result .= '
 <script>
 Ecwid.OnAPILoaded.add(function() {
     Ecwid.OnPageLoad.add(function(page) {
@@ -38,8 +38,7 @@ Ecwid.OnAPILoaded.add(function() {
         }
     })
 });
-</script>
-HTML;
+</script>';
 
 		return $result;
 	}

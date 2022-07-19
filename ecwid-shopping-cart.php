@@ -320,22 +320,20 @@ function ecwid_redirect_canonical($redirect_url, $requested_url) {
 	return $requested_url;
 }
 
-function ecwid_ie8_fonts_inclusion()
-{
-	$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+function ecwid_ie8_fonts_inclusion() {
+	$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
 
-	if (strpos($user_agent, 'MSIE 8') === false) return;
+	if ( strpos( $user_agent, 'MSIE 8' ) === false ) {
+		return;
+	}
 
 	$url = ECWID_PLUGIN_URL . 'fonts/ecwid-logo.eot';
-	echo <<<HTML
-<style>
-@font-face {
-	font-family: 'ecwid-logo';
-	src:url($url);
-}
-</style>
-HTML;
-
+	echo '<style>
+    @font-face {
+        font-family: "ecwid-logo";
+        src:url(' . esc_url( $url ) . ');
+    }
+</style>';
 }
 
 add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
@@ -3073,6 +3071,31 @@ function ecwid_embed_svg($name) {
 		$code = file_get_contents( $path );
 		echo $code;
 	}
+}
+
+function ecwid_kses_get_allowed_html() {
+    return array(
+        'iframe' => array(
+            'seamless'    => array(),
+            'id'          => array(),
+            'frameborder' => array(),
+            'width'       => array(),
+            'height'      => array(),
+            'scrolling'   => array(),
+            'src'         => array(),
+        ),
+        'script' => array(
+            'type' => array(),
+        ),
+        'li' => array(),
+        'a' => array(
+            'href' => array(),
+            'data-sort' => array()
+        ),
+        'div' => array(
+            'id' => array()
+        )
+    );
 }
 
 /*

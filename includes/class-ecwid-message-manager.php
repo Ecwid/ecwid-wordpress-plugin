@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable
 class Ecwid_Message_Manager
 {
 	protected $messages = array();
