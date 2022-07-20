@@ -11,7 +11,7 @@ class Ecwid_Integration_Divibuilder {
 	}
 
 	public function enqueue_style() {
-		wp_enqueue_style('ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css' );
+		wp_enqueue_style( 'ecwid-divi', ECWID_PLUGIN_URL . '/css/divibuilder.css', array(), get_option( 'ecwid_plugin_version' ) );
 	}
 }
 
@@ -21,11 +21,11 @@ function ecwid_create_divi_module() {
 
 	if ( class_exists( 'ET_Builder_Module' ) && ! class_exists( 'ET_Builder_Module_Ecwid' ) ) {
 		class ET_Builder_Module_Ecwid extends ET_Builder_Module {
-			function init() {
+			public function init() {
 				$this->name            = sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 				$this->slug            = 'et_pb_ecwid';
-				$this->use_row_content = TRUE;
-				$this->decode_entities = TRUE;
+				$this->use_raw_content = true;
+				$this->decode_entities = true;
 
 				$this->whitelisted_fields = array(
 					'raw_content',
@@ -35,14 +35,14 @@ function ecwid_create_divi_module() {
 				);
 			}
 
-			function get_fields() {
+			public function get_fields() {
 				$fields = array(
 					'raw_content'  => array(
 						'label'           => __( 'Content', 'et_builder' ),
 						'type'            => 'text',
 						'option_category' => 'basic_option',
 						'description'     => __( 'Here you can create the content that will be used within the module.', 'et_builder' ),
-						'default'         => '[' . Ecwid_Shortcode_Base::get_current_store_shortcode_name() .' widgets="productbrowser" default_category_id="0"]'
+						'default'         => '[' . Ecwid_Shortcode_Base::get_current_store_shortcode_name() . ' widgets="productbrowser" default_category_id="0"]',
 
 					),
 					'admin_label'  => array(
@@ -67,20 +67,19 @@ function ecwid_create_divi_module() {
 				return $fields;
 			}
 
-			function shortcode_callback( $atts, $content = NULL, $function_name ) {
-
+			public function shortcode_callback( $atts, $content, $function_name ) {
 				$module_id    = $this->shortcode_atts['module_id'];
 				$module_class = $this->shortcode_atts['module_class'];
 
 				$module_class = ET_Builder_Element::add_module_order_class( $module_class, $function_name );
 
-				$this->shortcode_content = et_builder_replace_code_content_entities( $this->shortcode_content );
+				$content = do_shortcode( $this->shortcode_atts['raw_content'] );
 
 				$output = sprintf(
 					'<div%2$s class="et_pb_ecwid et_pb_module%3$s">
 					%1$s
 				</div> <!-- .et_pb_ecwid -->',
-					$this->shortcode_content,
+					$content,
 					( '' !== $module_id ? sprintf( ' id="%1$s"', esc_attr( $module_id ) ) : '' ),
 					( '' !== $module_class ? sprintf( ' %1$s', esc_attr( $module_class ) ) : '' )
 				);
@@ -89,7 +88,7 @@ function ecwid_create_divi_module() {
 			}
 		}
 
-		new ET_Builder_Module_Ecwid;
+		new ET_Builder_Module_Ecwid();
 
-	}
+	}//end if
 }
