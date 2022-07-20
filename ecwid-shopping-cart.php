@@ -1349,7 +1349,12 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
 	$version = get_option('ecwid_plugin_version');
 
-	$shortcode_content = ecwid_get_scriptjs_code(@$attrs['lang']);
+    $lang = null;
+	if( isset( $attrs['lang'] ) ) {
+		$lang = $attrs['lang'];
+	}
+
+	$shortcode_content = ecwid_get_scriptjs_code( $lang );
 
 	if ($name == 'product2') {
 		$shortcode_content .= $content;
