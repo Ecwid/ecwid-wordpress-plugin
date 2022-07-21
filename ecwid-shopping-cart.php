@@ -188,11 +188,12 @@ add_action( 'update_option_' . Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID, arra
 add_action( 'update_option_rewrite_rules', array( 'Ecwid_Store_Page', 'set_store_url' ) );
 
 
-function ecwid_init_integrations()
-{
-	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
+function ecwid_init_integrations() {
+	if ( ! function_exists( 'get_plugins' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
 
-	$integrations = array(	
+	$integrations = array(
 		'all-in-one-seo-pack/all_in_one_seo_pack.php' => 'aiosp',
 		'wordpress-seo/wp-seo.php' => 'wpseo',
 		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
@@ -218,7 +219,7 @@ function ecwid_init_integrations()
 
 	// that integration did not work well with older php
 	// and it is not needed for newer wordpress since blocks are a part of its core
-	if ( !$old_php && $old_wordpress ) {
+	if ( ! $old_php && $old_wordpress ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
@@ -227,9 +228,17 @@ function ecwid_init_integrations()
 			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $class . '.php';
 		}
 	}
+
+	// exception case when divi builder supplied from theme
+	if ( function_exists( 'ecwid_get_theme_identification' ) ) {
+		$divi = 'divi-builder/divi-builder.php';
+		if ( ! is_plugin_active( $divi_builder ) && ecwid_get_theme_identification() === 'Divi' ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $integrations[ $divi ] . '.php';
+		}
+	}
 }
 
-add_action('admin_post_ecwid_estimate_sync', 'ecwid_estimate_sync');
+add_action( 'admin_post_ecwid_estimate_sync', 'ecwid_estimate_sync' );
 
 function ecwid_estimate_sync() {
 	$p = new Ecwid_Products();

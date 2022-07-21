@@ -67,6 +67,26 @@ function ecwid_create_divi_module() {
 				return $fields;
 			}
 
+			public function render( $atts, $content, $function_name ) {
+				$module_id    = $this->shortcode_atts['module_id'];
+				$module_class = $this->shortcode_atts['module_class'];
+
+				$module_class = ET_Builder_Element::add_module_order_class( $module_class, $function_name );
+
+				$content = do_shortcode( $this->shortcode_atts['raw_content'] );
+
+				$output = sprintf(
+					'<div%2$s class="et_pb_ecwid et_pb_module%3$s">
+					%1$s
+				</div> <!-- .et_pb_ecwid -->',
+					$content,
+					( '' !== $module_id ? sprintf( ' id="%1$s"', esc_attr( $module_id ) ) : '' ),
+					( '' !== $module_class ? sprintf( ' %1$s', esc_attr( $module_class ) ) : '' )
+				);
+
+				return $output;
+			}
+
 			public function shortcode_callback( $atts, $content, $function_name ) {
 				$module_id    = $this->shortcode_atts['module_id'];
 				$module_class = $this->shortcode_atts['module_class'];
