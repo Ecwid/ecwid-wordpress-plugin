@@ -232,7 +232,7 @@ function ecwid_init_integrations() {
 	// exception case when divi builder supplied from theme
 	if ( function_exists( 'ecwid_get_theme_identification' ) ) {
 		$divi = 'divi-builder/divi-builder.php';
-		if ( ! is_plugin_active( $divi_builder ) && ecwid_get_theme_identification() === 'Divi' ) {
+		if ( ! is_plugin_active( $divi ) && ecwid_get_theme_identification() === 'Divi' ) {
 			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $integrations[ $divi ] . '.php';
 		}
 	}
