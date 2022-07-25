@@ -1,11 +1,11 @@
 <?php
 
-class Ecwid_Integration_PWA
-{
+class Ecwid_Integration_PWA {
+
 	public $cache_prefix = 'ec-store';
 
 	public function __construct() {
-		if( !class_exists( 'WP_Service_Worker_Caching_Routes' ) ) {
+		if ( ! class_exists( 'WP_Service_Worker_Caching_Routes' ) ) {
 			return;
 		}
 
@@ -13,22 +13,22 @@ class Ecwid_Integration_PWA
 	}
 
 	protected function _register_routes() {
-		
+
 		$routes = $this->_get_routes();
 
-		if( !is_array( $routes ) && empty( $routes ) ) {
+		if ( ! is_array( $routes ) && empty( $routes ) ) {
 			return;
 		}
 
-		foreach ($routes as $route) {
+		foreach ( $routes as $route ) {
 			wp_register_service_worker_caching_route(
 				$route['pattern'],
 				array(
 					'strategy'  => $route['strategy'],
 					'cacheName' => sprintf( '%s: %s', $this->cache_prefix, $route['cache_name'] ),
 					'plugins'   => array(
-						'expiration' => $route['expiration']
-					)
+						'expiration' => $route['expiration'],
+					),
 				)
 			);
 		}
@@ -43,60 +43,60 @@ class Ecwid_Integration_PWA
 			'd34ikvsdm2rlij.cloudfront.net',
 			'd1q3axnfhmyveb.cloudfront.net',
 			'categories.js\?ownerid=' . $store_id,
-			'd3j0zfs7paavns.cloudfront.net',
-			'data.js\?ownerid=' . $store_id
+			'd1oxsl77a1kjht.cloudfront.net',
+			'data.js\?ownerid=' . $store_id,
 		);
 
 		$plugin_dir_name = dirname( ECWID_PLUGIN_BASENAME );
 
 		$routes = array(
-			
+
 			array(
-				'pattern' => '.*(?:' . implode( '|', $stale_while_revalidate ) . ').*$',
+				'pattern'    => '.*(?:' . implode( '|', $stale_while_revalidate ) . ').*$',
 				'cache_name' => 'stale-while-revalidate',
-				'strategy' => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
-				'expiration' => array(
-					'maxEntries'    => 100,
-					'maxAgeSeconds' => 60 * 60 * 24 * 30
-				)
-			),
-			
-			array(
-				'pattern' => '.*(?:png|gif|jpg|svg)$',
-				'cache_name' => 'images-cache',
-				'strategy' => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
+				'strategy'   => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
 				'expiration' => array(
 					'maxEntries'    => 100,
 					'maxAgeSeconds' => 60 * 60 * 24 * 30,
-					'purgeOnQuotaError' => true
-				)
+				),
 			),
-			
+
 			array(
-				'pattern' => '.*(?:ttf|woff|woff2)$',
+				'pattern'    => '.*(?:png|gif|jpg|svg)$',
+				'cache_name' => 'images-cache',
+				'strategy'   => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
+				'expiration' => array(
+					'maxEntries'        => 100,
+					'maxAgeSeconds'     => 60 * 60 * 24 * 30,
+					'purgeOnQuotaError' => true,
+				),
+			),
+
+			array(
+				'pattern'    => '.*(?:ttf|woff|woff2)$',
 				'cache_name' => 'fonts-cache',
-				'strategy' => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
+				'strategy'   => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
 				'expiration' => array(
-					'maxAgeSeconds' => 60 * 60 * 24 * 365
-				)
+					'maxAgeSeconds' => 60 * 60 * 24 * 365,
+				),
 			),
-			
+
 			array(
-				'pattern' => '.*\/' . $plugin_dir_name . '\/.*(?:css|js).*$',
+				'pattern'    => '.*\/' . $plugin_dir_name . '\/.*(?:css|js).*$',
 				'cache_name' => 'plugin-cache',
-				'strategy' => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
+				'strategy'   => WP_Service_Worker_Caching_Routes::STRATEGY_STALE_WHILE_REVALIDATE,
 				'expiration' => array(
-					'maxAgeSeconds' => 60 * 60 * 24 * 30
-				)
+					'maxAgeSeconds' => 60 * 60 * 24 * 30,
+				),
 			),
-			
+
 			array(
-				'pattern' => '.*script.js\?' . $store_id . '.*$',
+				'pattern'    => '.*script.js\?' . $store_id . '.*$',
 				'cache_name' => 'network-first',
-				'strategy' => WP_Service_Worker_Caching_Routes::STRATEGY_NETWORK_FIRST,
+				'strategy'   => WP_Service_Worker_Caching_Routes::STRATEGY_NETWORK_FIRST,
 				'expiration' => array(
-					'maxAgeSeconds' => 60 * 60 * 24 * 30
-				)
+					'maxAgeSeconds' => 60 * 60 * 24 * 30,
+				),
 			),
 
 		);

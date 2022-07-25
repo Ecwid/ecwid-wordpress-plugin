@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.24
+Version: 6.10.25
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -188,11 +188,12 @@ add_action( 'update_option_' . Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID, arra
 add_action( 'update_option_rewrite_rules', array( 'Ecwid_Store_Page', 'set_store_url' ) );
 
 
-function ecwid_init_integrations()
-{
-	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
+function ecwid_init_integrations() {
+	if ( ! function_exists( 'get_plugins' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
 
-	$integrations = array(	
+	$integrations = array(
 		'all-in-one-seo-pack/all_in_one_seo_pack.php' => 'aiosp',
 		'wordpress-seo/wp-seo.php' => 'wpseo',
 		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
@@ -218,7 +219,7 @@ function ecwid_init_integrations()
 
 	// that integration did not work well with older php
 	// and it is not needed for newer wordpress since blocks are a part of its core
-	if ( !$old_php && $old_wordpress ) {
+	if ( ! $old_php && $old_wordpress ) {
 		$integrations['gutenberg/gutenberg.php'] = 'gutenberg';
 	}
 
@@ -227,9 +228,17 @@ function ecwid_init_integrations()
 			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $class . '.php';
 		}
 	}
+
+	// exception case when divi builder supplied from theme
+	if ( function_exists( 'ecwid_get_theme_identification' ) ) {
+		$divi = 'divi-builder/divi-builder.php';
+		if ( ! is_plugin_active( $divi ) && ecwid_get_theme_identification() === 'Divi' ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/integrations/class-ecwid-integration-' . $integrations[ $divi ] . '.php';
+		}
+	}
 }
 
-add_action('admin_post_ecwid_estimate_sync', 'ecwid_estimate_sync');
+add_action( 'admin_post_ecwid_estimate_sync', 'ecwid_estimate_sync' );
 
 function ecwid_estimate_sync() {
 	$p = new Ecwid_Products();
@@ -320,22 +329,20 @@ function ecwid_redirect_canonical($redirect_url, $requested_url) {
 	return $requested_url;
 }
 
-function ecwid_ie8_fonts_inclusion()
-{
-	$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+function ecwid_ie8_fonts_inclusion() {
+	$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
 
-	if (strpos($user_agent, 'MSIE 8') === false) return;
+	if ( strpos( $user_agent, 'MSIE 8' ) === false ) {
+		return;
+	}
 
 	$url = ECWID_PLUGIN_URL . 'fonts/ecwid-logo.eot';
-	echo <<<HTML
-<style>
-@font-face {
-	font-family: 'ecwid-logo';
-	src:url($url);
-}
-</style>
-HTML;
-
+	echo '<style>
+    @font-face {
+        font-family: "ecwid-logo";
+        src:url(' . esc_url( $url ) . ');
+    }
+</style>';
 }
 
 add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
@@ -1351,7 +1358,12 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 {
 	$version = get_option('ecwid_plugin_version');
 
-	$shortcode_content = ecwid_get_scriptjs_code(@$attrs['lang']);
+    $lang = null;
+	if( isset( $attrs['lang'] ) ) {
+		$lang = $attrs['lang'];
+	}
+
+	$shortcode_content = ecwid_get_scriptjs_code( $lang );
 
 	if ($name == 'product2') {
 		$shortcode_content .= $content;
@@ -2874,23 +2886,6 @@ HTML;
 
 }
 
-function ecwid_get_wp_install_date( ) {
-	global $wpdb;
-
-	$wp_date = get_option( 'ecwid_wp_install_date' );
-	if ( ! $wp_date ) {
-		global $wpdb;
-		$oldest_user     = strtotime( $wpdb->get_var( "SELECT min(`user_registered`) FROM {$wpdb->users}" ) );
-		$oldest_post     = strtotime( $wpdb->get_var( "SELECT min(`post_date`) FROM {$wpdb->posts}" ) );
-		$wpconfig_create = @filectime( ABSPATH . '/wp-config.php' );
-
-		$wp_date = min( $oldest_user, $oldest_post, $wpconfig_create );
-		update_option( 'ecwid_wp_install_date', $wp_date );
-	}
-
-	return $wp_date;
-}
-
 function ecwid_check_for_remote_connection_errors()
 {
 	global $ecwid_oauth;
@@ -3090,6 +3085,31 @@ function ecwid_embed_svg($name) {
 		$code = file_get_contents( $path );
 		echo $code;
 	}
+}
+
+function ecwid_kses_get_allowed_html() {
+    return array(
+        'iframe' => array(
+            'seamless'    => array(),
+            'id'          => array(),
+            'frameborder' => array(),
+            'width'       => array(),
+            'height'      => array(),
+            'scrolling'   => array(),
+            'src'         => array(),
+        ),
+        'script' => array(
+            'type' => array(),
+        ),
+        'li' => array(),
+        'a' => array(
+            'href' => array(),
+            'data-sort' => array()
+        ),
+        'div' => array(
+            'id' => array()
+        )
+    );
 }
 
 /*

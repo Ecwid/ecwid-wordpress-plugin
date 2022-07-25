@@ -160,7 +160,8 @@ class EcwidPlatform {
 		}
 		$backtrace = debug_backtrace( false );
 
-		$file = $line = '';
+		$file = '';
+		$line = '';
 		foreach ( $backtrace as $entry ) {
 			if ( strpos( @$entry['file'], 'ecwid_platform.php' ) !== false ) {
 				continue;
