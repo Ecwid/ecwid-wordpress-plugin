@@ -97,7 +97,7 @@ class Ecwid_Product_Popup {
 				$output['items'][] = array(
 					'id'    => $product->id,
 					'name'  => $product->name,
-					'thumb' => @$product->thumbnailUrl,
+					'thumb' => @$product->thumbnailUrl, //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'sku'   => $product->sku,
 				);
 			}
@@ -110,14 +110,12 @@ class Ecwid_Product_Popup {
 
 	public function add_editor_button( $editor_id ) {
 
-		$title  = __( 'Add Product', 'ecwid-shopping-cart' );
-		$button = <<<HTML
-	<button id="insert-ecwid-product-button" class="button add-ecwid-product ecwid_button" title="$title">
-		$title
-	</button>
-HTML;
-
-		echo $button;
+		$title = __( 'Add Product', 'ecwid-shopping-cart' );
+		?>
+		<button id="insert-ecwid-product-button" class="button add-ecwid-product ecwid_button" title="<?php echo esc_attr( $title ); ?>">
+			<?php echo esc_html( $title ); ?>
+		</button>
+		<?php
 	}
 
 	public function add_scripts() {
