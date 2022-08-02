@@ -6,9 +6,9 @@ abstract class Ecwid_Shortcode_Base {
 	protected $_should_render = true;
 	protected $_index;
 
-	static protected $shortcodes = array();
+	protected static $shortcodes = array();
 
-	static public function get_shortcode_name() {
+	public static function get_shortcode_name() {
 		return 'ec_store';
 	}
 
@@ -17,17 +17,17 @@ abstract class Ecwid_Shortcode_Base {
 
 	public function __construct( $params ) {
 
-		if (isset($params['lang']) && $params['lang']) {
+		if ( isset( $params['lang'] ) && $params['lang'] ) {
 			$this->_lang = $params['lang'];
 		}
-		
+
 		$this->_process_params( $params );
-		
-		if (!isset(self::$shortcodes[$this->get_shortcode_name()])) {
-			self::$shortcodes[$this->get_shortcode_name()] = array();
+
+		if ( ! isset( self::$shortcodes[ $this->get_shortcode_name() ] ) ) {
+			self::$shortcodes[ $this->get_shortcode_name() ] = array();
 		}
-		$this->_index = count(self::$shortcodes[$this->get_shortcode_name()]);
-		self::$shortcodes[$this->get_shortcode_name()][] = $this;
+		$this->_index                                      = count( self::$shortcodes[ $this->get_shortcode_name() ] );
+		self::$shortcodes[ $this->get_shortcode_name() ][] = $this;
 	}
 
 	public static function get_store_shortcode_names() {
@@ -43,10 +43,9 @@ abstract class Ecwid_Shortcode_Base {
 		return 'ecwid';
 	}
 
-	public static function get_shortcode_object( $name, $params )
-	{
-		$names = array( 'productbrowser', 'minicart', 'search', 'categories', 'product' );
-		
+	public static function get_shortcode_object( $name, $params ) {
+		 $names = array( 'productbrowser', 'minicart', 'search', 'categories', 'product' );
+
 		$expected_prefix = 'ecwid_';
 		if ( Ecwid_Config::is_wl() ) {
 			$expected_prefix = 'ec_';
@@ -54,44 +53,48 @@ abstract class Ecwid_Shortcode_Base {
 
 		$prefix = substr( $name, 0, strlen( $expected_prefix ) );
 
-		if ( $prefix != $expected_prefix ) return '';
+		if ( $prefix != $expected_prefix ) {
+			return '';
+		}
 
 		$base = substr( $name, strlen( $expected_prefix ) );
 
 		if ( in_array( $base, $names ) ) {
 			$class = 'Ecwid_Shortcode_' . $base;
 
-			$class = apply_filters( 'ecwid_get_shortcode_class', $class, $name );
+			$class     = apply_filters( 'ecwid_get_shortcode_class', $class, $name );
 			$shortcode = new $class( $params );
 
 			return $shortcode;
-		}		
-		
+		}
+
 		return null;
 	}
-	
-	public function wrap_code($code) {
 
-		$version = get_option('ecwid_plugin_version');
+	public function wrap_code( $code ) {
 
-		$shortcode_content = ecwid_get_scriptjs_code($this->_lang) . $code;
+		$version = get_option( 'ecwid_plugin_version' );
 
-		$shortcode_content = apply_filters('ecwid_shortcode_content', $shortcode_content);
-		
+		$shortcode_content = ecwid_get_scriptjs_code( $this->_lang ) . $code;
+
+		$shortcode_content = apply_filters( 'ecwid_shortcode_content', $shortcode_content );
+
 		$brand = Ecwid_Config::get_brand();
 
 		$shortcode_content = "<!-- $brand shopping cart plugin v $version -->"
-	       . $shortcode_content
-	       . "<!-- END $brand Shopping Cart v $version -->";
+		   . $shortcode_content
+		   . "<!-- END $brand Shopping Cart v $version -->";
 
 		return $shortcode_content;
 	}
 
 	public function render() {
-		if (!$this->_should_render) return '';
+		if ( ! $this->_should_render ) {
+			return '';
+		}
 
-		$custom_renderer = apply_filters('ecwid_shortcode_custom_renderer', null, $this);
-		if (is_callable($custom_renderer)) {
+		$custom_renderer = apply_filters( 'ecwid_shortcode_custom_renderer', null, $this );
+		if ( is_callable( $custom_renderer ) ) {
 			return call_user_func( $custom_renderer, $this );
 		}
 
@@ -102,24 +105,20 @@ abstract class Ecwid_Shortcode_Base {
 		$params_string = $this->build_params_string(
 			array_merge(
 				$this->_params,
-				array('id' => $this->get_html_id())
+				array( 'id' => $this->get_html_id() )
 			)
 		);
 
 		$function = $this->get_ecwid_widget_function_name();
 
-		return <<<HTML
-<script data-cfasync="false" data-no-optimize="1" type="text/javascript"> $function($params_string);</script>
-HTML;
+		return sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s(%s);</script>', $function, $params_string );
 	}
 
 	public function render_placeholder() {
-
 		$classname = $this->_get_html_class_name();
-		$id = $this->get_html_id();
-		return <<<HTML
-<div class="ecwid-shopping-cart-$classname" id="$id"></div>
-HTML;
+		$id        = $this->get_html_id();
+
+		return '<div class="ecwid-shopping-cart-' . esc_attr( $classname ) . ' id="' . esc_attr( $id ) . '"></div>';
 	}
 
 	protected function _get_html_class_name() {
@@ -127,7 +126,7 @@ HTML;
 	}
 
 	public function get_html_id() {
-		return 'ecwid-shopping-cart-' . $this->get_shortcode_name() . '-' . ( $this->_index + 1);
+		return 'ecwid-shopping-cart-' . $this->get_shortcode_name() . '-' . ( $this->_index + 1 );
 	}
 
 	protected function _default_render() {
@@ -136,31 +135,31 @@ HTML;
 		$result .= $this->render_placeholder();
 		$result .= $this->render_script();
 
-		$result = apply_filters('ecwid_' . $this->get_shortcode_name() . '_shortcode_content', $result);
+		$result = apply_filters( 'ecwid_' . $this->get_shortcode_name() . '_shortcode_content', $result );
 
-		if ($result) {
+		if ( $result ) {
 			return $this->wrap_code( $result );
 		}
 
 		return '';
 	}
 
-	public function build_params_string($params = null) {
+	public function build_params_string( $params = null ) {
 
-		if (is_null($params)) {
+		if ( is_null( $params ) ) {
 			$params = $this->_params;
 		}
 
 		unset( $params['noHTMLCatalog'] );
 
 		$pieces = array();
-		if ( !empty ( $params ) ) {
+		if ( ! empty( $params ) ) {
 			foreach ( $params as $key => $value ) {
 				$pieces[] = "$key=$value";
 			}
 		}
 
-		return '"' . implode('","', $pieces) . '"';
+		return '"' . implode( '","', $pieces ) . '"';
 	}
 
 	public function get_params() {

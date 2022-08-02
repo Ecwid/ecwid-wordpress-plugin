@@ -1070,8 +1070,7 @@ function add_ecwid_admin_bar_node() {
 	if (!is_admin()) {
 		$subject = sprintf( __('%s plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), $theme );
 
-		$body = <<<TEXT
-Hey %s,
+		$body = "Hey %s,
 
 My store looks bad with my theme on Wordpress.
 
@@ -1080,12 +1079,10 @@ The store URL is %s
 
 Can you have a look?
 
-Thanks.
-TEXT;
+Thanks.";
 	} else {
 		$subject = __('I have a problem with my %s store', 'ecwid-shopping-cart');
-		$body = <<<TEXT
-Hey %s,
+		$body = "Hey %s,
 
 I have a problem with my store.
 
@@ -1096,8 +1093,7 @@ The store URL is %s
 
 Can you have a look?
 
-Thanks.
-TEXT;
+Thanks.";
 	}
 
 	$body = __($body, 'ecwid-shopping-cart');
@@ -1630,15 +1626,12 @@ function ecwid_store_activate() {
 
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
-	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id="0"]
-EOT;
+	$content = "[$shortcode widgets=\"productbrowser\" default_category_id=\"0\"]";
 	
-	$content = <<<EOT
+	$content = "
 <!-- wp:ecwid/store-block -->
 $content
-<!-- /wp:ecwid/store-block -->
-EOT;
+<!-- /wp:ecwid/store-block -->";
 	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
@@ -2873,15 +2866,14 @@ function ecwid_get_product_browser_url_script()
 	if (ecwid_is_store_page_available() && !Ecwid_Store_Page::is_store_page()) {
 
 		$url = esc_js( Ecwid_Store_Page::get_store_url() );
-
-		
-		$str = <<<HTML
-<script data-cfasync="false" type="text/javascript">
-window.ec = window.ec || Object();
-window.ec.config = window.ec.config || Object();
-window.ec.config.store_main_page_url = '$url';		
-</script>
-HTML;
+        ?>
+        <script data-cfasync="false" type="text/javascript">
+            window.ec = window.ec || Object();
+            window.ec.config = window.ec.config || Object();
+            window.ec.config.store_main_page_url = '<?php echo esc_js( $url ); ?>';
+        </script>
+        <?php 
+        $str = ob_get_clean();
 	}
 
 	return $str;
@@ -2937,16 +2929,6 @@ function ecwid_sso() {
 
 	$signin_url = wp_login_url(Ecwid_Store_Page::get_store_url());
 	$signout_url = wp_logout_url(Ecwid_Store_Page::get_store_url());
-	$sign_in_out_urls = <<<JS
-window.EcwidSignInUrl = '$signin_url';
-window.EcwidSignOutUrl = '$signout_url';
-window.Ecwid.OnAPILoaded.add(function() {
-    window.Ecwid.setSignInUrls({
-        signInUrl: '$signin_url',
-        signOutUrl: '$signout_url'
-    });
-});
-JS;
 
 	$ecwid_sso_profile = '';
     if ($current_user->ID) {
@@ -2982,28 +2964,35 @@ JS;
 		$hmac = ecwid_hmacsha1("$user_data_encoded $time", $key);
 
 		$ecwid_sso_profile = "$user_data_encoded $hmac $time";
-
     }
 
-
-	$ecwid_sso_script = <<<HTML
+	ob_start();
+    ?>
 <script data-cfasync="false" type="text/javascript">
 
-	var ecwid_sso_profile='$ecwid_sso_profile';
-	$sign_in_out_urls
+	var ecwid_sso_profile = '<?php echo esc_js( $ecwid_sso_profile ); ?>';
+	window.EcwidSignInUrl = '<?php echo esc_js( $signin_url ); ?>';
+    window.EcwidSignOutUrl = '<?php echo esc_js( $signout_url ); ?>';
+    window.Ecwid.OnAPILoaded.add(function() {
+        window.Ecwid.setSignInUrls({
+            signInUrl: '<?php echo esc_js( $signin_url ); ?>',
+            signOutUrl: '<?php echo esc_js( $signout_url ); ?>'
+        });
+    });
 
 	jQuery(document).ready(function() {
 		if (typeof Ecwid == 'undefined') return;
 
 		Ecwid.OnPageLoad.add(function(page) {
 			if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
-				location.href = '$signin_url';
+				location.href = '<?php echo esc_js( $signin_url ); ?>';
 			}
 		})
 	}
 );
 </script>
-HTML;
+    <?php
+    $ecwid_sso_script = ob_get_clean();
 
 	return $ecwid_sso_script;
 }
