@@ -29,16 +29,20 @@ class Ecwid_Gutenberg_Block_Cart_Page extends Ecwid_Gutenberg_Block_Store {
 
 		$result = parent::render_callback( $params );
 
-		$result .= '
-<script>
-Ecwid.OnAPILoaded.add(function() {
-    Ecwid.OnPageLoad.add(function(page) {
-        if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
-            Ecwid.openPage("cart");
-        }
-    })
-});
-</script>';
+		ob_start();
+		?>
+		<script>
+		Ecwid.OnAPILoaded.add(function() {
+			Ecwid.OnPageLoad.add(function(page) {
+				if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
+					Ecwid.openPage("cart");
+				}
+			})
+		});
+		</script>
+		<?php
+
+		$result .= ob_get_clean();
 
 		return $result;
 	}
