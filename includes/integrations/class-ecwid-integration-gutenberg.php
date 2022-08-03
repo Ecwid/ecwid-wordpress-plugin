@@ -1,46 +1,53 @@
-<?php 
+<?php
 
 require_once ECWID_PLUGIN_DIR . '/includes/class-ecwid-product-browser.php';
 
 class Ecwid_Integration_Gutenberg {
-	
-	const STORE_BLOCK = 'ecwid/store-block';
+
+	const STORE_BLOCK   = 'ecwid/store-block';
 	const PRODUCT_BLOCK = 'ecwid/product-block';
-	
+
 	public function __construct() {
 
-		$version = get_bloginfo('version');
+		$version = get_bloginfo( 'version' );
 		if ( version_compare( $version, '5.0' ) < 0 ) {
 			return;
 		}
 
-		if ( isset( $_GET['classic-editor'] ) ) return;
-		
+		if ( isset( $_GET['classic-editor'] ) ) {
+			return;
+		}
+
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-		add_action( "rest_insert_post", array( $this, 'on_save_post' ), 10, 3 );
-		add_action( "rest_insert_page", array( $this, 'on_save_post' ), 10, 3 );
-		
-		register_block_type(self::STORE_BLOCK, array(
-			'editor_script' => 'ecwid-gutenberg-store',
-			'render_callback' => array( $this, 'render_callback' ),
-        ));
-		
-		register_block_type(self::PRODUCT_BLOCK, array(
-			'editor_script' => 'ecwid-gutenberg-store',
-			'render_callback' => array( $this, 'product_render_callback' ),
-		));
-		
+		add_action( 'rest_insert_post', array( $this, 'on_save_post' ), 10, 3 );
+		add_action( 'rest_insert_page', array( $this, 'on_save_post' ), 10, 3 );
+
+		register_block_type(
+			self::STORE_BLOCK,
+			array(
+				'editor_script'   => 'ecwid-gutenberg-store',
+				'render_callback' => array( $this, 'render_callback' ),
+			)
+		);
+
+		register_block_type(
+			self::PRODUCT_BLOCK,
+			array(
+				'editor_script'   => 'ecwid-gutenberg-store',
+				'render_callback' => array( $this, 'product_render_callback' ),
+			)
+		);
+
 		add_filter( 'block_categories', array( $this, 'block_categories' ) );
 	}
 
-	public function admin_enqueue_scripts()
-	{
+	public function admin_enqueue_scripts() {
 		wp_enqueue_script( 'gutenberg-store' );
 		EcwidPlatform::enqueue_style( 'store-popup' );
 	}
-	
+
 	public function block_categories( $categories ) {
 		return array_merge(
 			$categories,
@@ -48,31 +55,30 @@ class Ecwid_Integration_Gutenberg {
 				array(
 					'slug'  => 'ec-store',
 					'title' => sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
-					'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $this->_get_store_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>'
+					'icon'  => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#555d66" d="' . $this->_get_store_icon_path() . '"/><path d="M19 13H5v-2h14v2z" /></svg>',
 				),
 			)
 		);
 	}
-	
+
 	public function on_save_post( $post, $request, $creating ) {
-		if (strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
+		if ( strpos( $post->post_content, '<!-- wp:' . self::STORE_BLOCK ) !== false ) {
 			Ecwid_Store_Page::add_store_page( $post->ID );
 		}
 	}
-	
+
 	public function enqueue_block_editor_assets() {
 
 		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
 		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
-		
+
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
 			$locale_data = gutenberg_get_jed_locale_data( 'ecwid-shopping-cart' );
-		} else if ( function_exists( 'wp_get_jed_locale_data' ) ) {
+		} elseif ( function_exists( 'wp_get_jed_locale_data' ) ) {
 			$locale_data = wp_get_jed_locale_data( 'ecwid-shopping-cart' );
 		}
-		
-		
+
 		if ( $locale_data ) {
 			wp_add_inline_script(
 				'ecwid-gutenberg-store',
@@ -80,143 +86,155 @@ class Ecwid_Integration_Gutenberg {
 				'before'
 			);
 		}
-		
+
 		$api = new Ecwid_Api_V3();
-		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergStoreBlockParams', 
+		wp_localize_script(
+			'ecwid-gutenberg-store',
+			'EcwidGutenbergStoreBlockParams',
 			array(
-				'attributes' => $this->_get_attributes_for_editor(),
+				'attributes'          => $this->_get_attributes_for_editor(),
 				'is_new_product_list' => $this->_is_new_product_list(),
 				'is_new_details_page' => $this->_is_new_details_page(),
-				'storeBlockTitle' => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' )
+				'storeBlockTitle'     => _x( 'Store', 'gutenberg-store-block-stub', 'ecwid-shopping-cart' ),
 			)
 		);
-		
+
 		$is_demo_store = ecwid_is_demo_store();
 
-		$request_uri = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-		wp_localize_script( 'ecwid-gutenberg-store', 'EcwidGutenbergParams',
+		wp_localize_script(
+			'ecwid-gutenberg-store',
+			'EcwidGutenbergParams',
 			array(
-				'ecwid_pb_defaults' => ecwid_get_default_pb_size(),
-				'storeImageUrl' => site_url('?file=ecwid_store_svg.svg'),
-				'storeBlockTitle' => sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
-				'storeShortcodeName' => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
-				'storeBlock' => self::STORE_BLOCK,
-				'productBlockTitle' => sprintf( __( '%s product', 'ecwid-shopping-cart'), Ecwid_Config::get_brand() ),
-				'productShortcodeName' => Ecwid_Shortcode_Product::get_shortcode_name(),
-				'productBlock' => self::PRODUCT_BLOCK,
-				'storeId' => get_ecwid_store_id(),
-				'chooseProduct' => __( 'Choose product', 'ecwid-shopping-cart' ),
-				'editAppearance' => __( 'Edit Appearance', 'ecwid-shopping-cart' ),
-				'yourStoreWill' => __( 'Your store will be shown here', 'ecwid-shopping-cart' ),
-				'storeIdLabel' => __( 'Store ID', 'ecwid-shopping-cart' ),
-				'yourProductLabel' => __( 'Your product', 'ecwid-shopping-cart' ),
-				'storeIcon' => $this->_get_store_icon_path(),
-				'productIcon' => $this->_get_product_icon_path(),
-				'isDemoStore' => $is_demo_store,
-				'isApiAvailable' => Ecwid_Api_V3::is_available(),
-				'products' => $this->_get_products_data(),
+				'ecwid_pb_defaults'     => ecwid_get_default_pb_size(),
+				'storeImageUrl'         => site_url( '?file=ecwid_store_svg.svg' ),
+				'storeBlockTitle'       => sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'storeShortcodeName'    => Ecwid_Shortcode_Base::get_current_store_shortcode_name(),
+				'storeBlock'            => self::STORE_BLOCK,
+				'productBlockTitle'     => sprintf( __( '%s product', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
+				'productShortcodeName'  => Ecwid_Shortcode_Product::get_shortcode_name(),
+				'productBlock'          => self::PRODUCT_BLOCK,
+				'storeId'               => get_ecwid_store_id(),
+				'chooseProduct'         => __( 'Choose product', 'ecwid-shopping-cart' ),
+				'editAppearance'        => __( 'Edit Appearance', 'ecwid-shopping-cart' ),
+				'yourStoreWill'         => __( 'Your store will be shown here', 'ecwid-shopping-cart' ),
+				'storeIdLabel'          => __( 'Store ID', 'ecwid-shopping-cart' ),
+				'yourProductLabel'      => __( 'Your product', 'ecwid-shopping-cart' ),
+				'storeIcon'             => $this->_get_store_icon_path(),
+				'productIcon'           => $this->_get_product_icon_path(),
+				'isDemoStore'           => $is_demo_store,
+				'isApiAvailable'        => Ecwid_Api_V3::is_available(),
+				'products'              => $this->_get_products_data(),
 				'customizeMinicartText' =>
 					sprintf(
 						__(
 							'You can enable an extra shopping bag icon widget that will appear on your site pages. Open “<a href="%1$s">Appearance → Customize → %2$s</a>” menu to enable it.',
 							'ecwid-shopping-cart'
 						),
-						'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . rawurlencode( remove_query_arg( wp_removable_query_args(), $request_uri )
+						'customize.php?autofocus[section]=' . Ecwid_Customizer::SECTION_MINICART . '&return=' . rawurlencode(
+							remove_query_arg( wp_removable_query_args(), $request_uri )
 						),
 						Ecwid_Config::get_brand()
-					)
+					),
 			)
 		);
 
 	}
-	
+
 	protected function _get_products_data() {
 
 		$blocks = self::get_blocks_on_page();
 
-		$productIds = array();
+		$product_ids = array();
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] == self::PRODUCT_BLOCK ) {
-				$productIds[] = $block['attrs']['id'];
+				$product_ids[] = $block['attrs']['id'];
 			}
 		}
-		
-		if ( empty( $productIds ) ) {
+
+		if ( empty( $product_ids ) ) {
 			return array();
 		}
-		
+
 		$result = array();
-		foreach ( $productIds as $id ) {
+		foreach ( $product_ids as $id ) {
 			$product = Ecwid_Product::get_by_id( $id );
-			
-			$result[$id] = array(
-				'name' => $product->name,
-				'imageUrl' => $product->thumbnailUrl
+
+			$result[ $id ] = array(
+				'name'     => $product->name,
+				'imageUrl' => $product->thumbnailUrl, //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			);
 		}
-		
+
 		return $result;
 	}
-	
+
 	protected function _is_new_product_list() {
 		$api = new Ecwid_Api_V3();
-		
-		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );	
+
+		return ecwid_is_demo_store() || ! Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_PRODUCT_LIST );
 	}
 
 	protected function _is_new_details_page() {
 		$api = new Ecwid_Api_V3();
 
-		return ecwid_is_demo_store() || !Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_DETAILS_PAGE );
+		return ecwid_is_demo_store() || ! Ecwid_Api_V3::is_available() || $api->is_store_feature_enabled( Ecwid_Api_V3::FEATURE_NEW_DETAILS_PAGE );
 	}
-	
+
 	public function product_render_callback( $params ) {
-		
-		if ( !@$params['id'] ) return '';
-		
+
+		if ( ! @$params['id'] ) {
+			return '';
+		}
+
 		$params = wp_parse_args(
 			$params,
 			array(
-				'id' => 0,
-				'show_picture' => true,
-				'show_title' => true,
-				'show_price' => true,
-				'show_options' => true,
-				'show_addtobag' => true,
-				'show_border' => true,
-				'center_align' => true,
-				'show_price_on_button' => true
+				'id'                   => 0,
+				'show_picture'         => true,
+				'show_title'           => true,
+				'show_price'           => true,
+				'show_options'         => true,
+				'show_addtobag'        => true,
+				'show_border'          => true,
+				'center_align'         => true,
+				'show_price_on_button' => true,
 			)
 		);
-		
+
 		$display = array(
-			'picture', 'title', 'price', 'options', 'qty', 'addtobag' 
+			'picture',
+			'title',
+			'price',
+			'options',
+			'qty',
+			'addtobag',
 		);
-		
+
 		$params['display'] = '';
-		$display_string = '';
+		$display_string    = '';
 		foreach ( $display as $name ) {
-			if ( @$params['show_' . $name] ) {
+			if ( @$params[ 'show_' . $name ] ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}
-		
+
 		$params['version'] = 2;
 
 		$shortcode = new Ecwid_Shortcode_Product( $params );
 
 		return $shortcode->render();
 	}
-	
+
 	public function render_callback( $params ) {
-		
-		if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET' ) {
+
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] != 'GET' ) {
 			return '';
 		}
 
-		$result = "[ecwid";
-		
+		$result = '[ecwid';
+
 		$params['widgets'] = 'productbrowser';
 		if ( @$params['show_categories'] ) {
 			$params['widgets'] .= ' categories';
@@ -224,98 +242,97 @@ class Ecwid_Integration_Gutenberg {
 		if ( @$params['show_search'] ) {
 			$params['widgets'] .= ' search';
 		}
-		
-		foreach ($params as $key => $value) {
+
+		foreach ( $params as $key => $value ) {
 			$result .= " $key='$value'";
-		} 
-		
+		}
+
 		$result .= ']';
-		
-		$result .= <<<HTML
-<script type="text/javascript">
-		window.ec = window.ec || Object();
-		window.ec.storefront = window.ec.storefront || Object();
-HTML;
-		
+
+		$result .= '<script type="text/javascript">';
+
+		$result .= '
+            window.ec = window.ec || Object();
+            window.ec.storefront = window.ec.storefront || Object();';
+
 		$attributes = $this->_get_attributes_for_editor();
-		
+
 		$store_page_data = array();
-		
+
 		foreach ( $attributes as $key => $attribute ) {
-			
+
 			$name = $attribute['name'];
 			// we do not print defaults
-			if ( !isset( $params[$name] ) ) {
-				$store_page_data[$name] = $attribute['default'];
+			if ( ! isset( $params[ $name ] ) ) {
+				$store_page_data[ $name ] = $attribute['default'];
 				continue;
 			}
-			
-			$value = $params[$name];
-			
+
+			$value = $params[ $name ];
+
 			if ( $name == 'show_description_under_image' ) {
 				$attribute['is_storefront_api'] = true;
-				$value = !@$params[$name];
-				
+				$value                          = ! @$params[ $name ];
+
 				$layout = @$params['product_details_layout'];
 				if ( is_null( $layout ) ) {
 					$layout = $attributes['product_details_layout']['default'];
 				}
-				
+
 				if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT' ) {
 					$name = 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar';
-				} else if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
+				} elseif ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
 					$name = 'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar';
 				} else {
 					unset( $attribute['is_storefront_api'] );
 				}
 			}
-			
+
 			if ( @$attribute['is_storefront_api'] ) {
-				
-				if ( @$attribute['type'] == 'boolean') {
-					$result .= 'window.ec.storefront.' . $name . "=" . ( $value ? 'true' : 'false' ) . ";" . PHP_EOL;
+
+				if ( @$attribute['type'] == 'boolean' ) {
+					$result .= 'window.ec.storefront.' . $name . '=' . ( $value ? 'true' : 'false' ) . ';' . PHP_EOL;
 				} else {
 					$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
 				}
-				$store_page_data[$name] = $value;
+				$store_page_data[ $name ] = $value;
 			}
-		}
-		
+		}//end foreach
+
 		$colors = array();
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
-			$color = @$params['chameleon_color_' . $kind];
+			$color = @$params[ 'chameleon_color_' . $kind ];
 			if ( $color ) {
-				$colors['color-' . $kind] = $color;
+				$colors[ 'color-' . $kind ] = $color;
 			}
 		}
-		
+
 		if ( empty( $colors ) ) {
 			$colors = 'auto';
 		}
 
-		$colors = json_encode($colors);
-		
+		$colors = json_encode( $colors );
+
 		$chameleon = apply_filters( 'ecwid_chameleon_settings', array( 'colors' => $colors ) );
 
-		if ( !is_array($chameleon ) ) {
+		if ( ! is_array( $chameleon ) ) {
 			$chameleon = array(
 				'colors' => $colors,
 			);
 		}
 
-		if ( !isset( $chameleon['colors'] ) ) {
-			$chameleon['colors'] = json_encode($colors);
+		if ( ! isset( $chameleon['colors'] ) ) {
+			$chameleon['colors'] = json_encode( $colors );
 		}
 
 		$store_page_data['chameleon-colors'] = $chameleon['colors'];
-		
+
 		Ecwid_Store_Page::save_store_page_params( $store_page_data );
-		
+
 		if ( $chameleon['colors'] != 'auto' ) {
-			$result .= <<<JS
-window.ec.config.chameleon = window.ec.config.chameleon || Object();
-window.ec.config.chameleon.colors = $chameleon[colors];
-JS;
+			$result .= '
+                window.ec.config.chameleon = window.ec.config.chameleon || Object();
+                window.ec.config.chameleon.colors = ' . $chameleon['colors'] . ';';
 		}
 		$result .= "
 		if ( typeof Ecwid != 'undefined' ) {
@@ -324,17 +341,17 @@ JS;
 			});
 		}
 		</script>";
-		
+
 		return $result;
 	}
 
 	public static function get_block_names() {
 		return array(
 			self::STORE_BLOCK,
-			self::PRODUCT_BLOCK
+			self::PRODUCT_BLOCK,
 		);
 	}
-	
+
 	/**
 	 * @param $post
 	 *
@@ -342,40 +359,41 @@ JS;
 	 */
 	public static function get_blocks_on_page() {
 		$post = get_post();
-		
-		if ( !$post ) return array();
-		
+
+		if ( ! $post ) {
+			return array();
+		}
+
 		if ( function_exists( 'gutenberg_parse_blocks' ) ) {
 			$blocks = gutenberg_parse_blocks( $post->post_content );
 		} else {
 			$blocks = parse_blocks( $post->post_content );
 		}
-		
+
 		if ( empty( $blocks ) ) {
 			return array();
 		}
 
 		$result = array();
-		
+
 		$ecwid_blocks = self::get_block_names();
 		foreach ( $blocks as $block ) {
 			if ( in_array( $block['blockName'], $ecwid_blocks ) ) {
-				$result[$block['blockName']] = $block;
+				$result[ $block['blockName'] ] = $block;
 			}
 		}
 
 		return $result;
 	}
 
-	protected function _get_version_for_assets( $asset_file_path )
-	{
-		if ( isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost' ) {
+	protected function _get_version_for_assets( $asset_file_path ) {
+		if ( isset( $_SERVER['HTTP_HOST'] ) && $_SERVER['HTTP_HOST'] == 'localhost' ) {
 			return filemtime( ECWID_PLUGIN_DIR . '/' . $asset_file_path );
 		}
-		
+
 		return get_option( 'ecwid_plugin_version' );
 	}
-	
+
 	protected function _get_attributes_for_editor() {
 		$api = new Ecwid_Api_V3();
 
@@ -388,7 +406,7 @@ JS;
 		$attributes = Ecwid_Product_Browser::get_attributes();
 		$to_remove  = array(
 			'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar',
-			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar'
+			'product_details_two_columns_with_right_sidebar_show_product_description_on_sidebar',
 		);
 		foreach ( $to_remove as $name ) {
 			unset( $attributes[ $name ] );
@@ -398,7 +416,7 @@ JS;
 			'name'    => 'show_description_under_image',
 			'title'   => __( 'Show description under the image', 'ecwid-shopping-cart' ),
 			'default' => false,
-			'type'    => 'boolean'
+			'type'    => 'boolean',
 		);
 
 		foreach ( $attributes as $key => $attribute ) {
@@ -411,7 +429,7 @@ JS;
 
 			$prop_to_default_exceptions = array(
 				'product_list_category_image_aspect_ratio' => 'product_list_image_aspect_ratio',
-				'product_list_category_image_size'         => 'product_list_image_size'
+				'product_list_category_image_size'         => 'product_list_image_size',
 			);
 
 			if ( array_key_exists( $name, $prop_to_default_exceptions ) ) {
@@ -424,7 +442,7 @@ JS;
 			if ( $default !== null ) {
 				$attributes[ $key ]['default'] = $default;
 			}
-		}
+		}//end foreach
 
 		$categories = ecwid_get_categories_for_selector();
 
@@ -432,13 +450,13 @@ JS;
 			$attributes['default_category_id']['values'] = array(
 				array(
 					'value' => '',
-					'title' => __( 'Store root category', 'ecwid-shopping-cart' )
-				)
+					'title' => __( 'Store root category', 'ecwid-shopping-cart' ),
+				),
 			);
 			foreach ( $categories as $category ) {
 				$attributes['default_category_id']['values'][] = array(
 					'value' => $category->id,
-					'title' => $category->name
+					'title' => $category->name,
 				);
 			}
 		} else {
@@ -448,17 +466,21 @@ JS;
 			if ( $cats && $cats->total == 0 ) {
 				unset( $attributes['default_category_id'] );
 			}
-		}
+		}//end if
 
-		$attributes['widgets'] = array( 'type' => 'string', 'default' => '', 'name' => 'widgets' );
+		$attributes['widgets'] = array(
+			'type'    => 'string',
+			'default' => '',
+			'name'    => 'widgets',
+		);
 
 		return $attributes;
 	}
-		
+
 	public static function get_store_block_data_from_current_page() {
-		
+
 		$blocks = self::get_blocks_on_page();
-		
+
 		$store_block = null;
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] == self::STORE_BLOCK ) {
@@ -466,15 +488,16 @@ JS;
 				break;
 			}
 		}
-		
-		if ( !$store_block ) return array();
-		
+
+		if ( ! $store_block ) {
+			return array();
+		}
+
 		return $store_block['atts'];
 	}
-	
-	protected function _get_store_icon_path()
-	{
-		return 'M15.32,15.58c-0.37,0-0.66,0.3-0.66,0.67c0,0.37,0.3,0.67,0.66,0.67c0.37,0,0.67-0.3,0.67-0.67
+
+	protected function _get_store_icon_path() {
+		 return 'M15.32,15.58c-0.37,0-0.66,0.3-0.66,0.67c0,0.37,0.3,0.67,0.66,0.67c0.37,0,0.67-0.3,0.67-0.67
     C15.98,15.88,15.69,15.58,15.32,15.58z M15.45,0H4.55C2.04,0,0,2.04,0,4.55v10.91C0,17.97,2.04,20,4.55,20h10.91c2.51,0,4.55-2.04,4.55-4.55V4.55
     C20,2.04,17.96,0,15.45,0z M12.97,4.94C13.54,4.94,14,5.4,14,5.96s-0.46,1.03-1.03,1.03c-0.57,0-1.03-0.46-1.03-1.03
     C11.95,5.4,12.41,4.94,12.97,4.94z M12.97,8.02c0.57,0,1.03,0.46,1.03,1.03c0,0.57-0.46,1.03-1.03,1.03c-0.57,0-1.03-0.46-1.03-1.03
@@ -490,9 +513,8 @@ JS;
     c0.1,0,0.2,0.05,0.26,0.13C18.48,2.58,18.5,2.68,18.48,2.79z M4.6,15.5c-0.37,0-0.66,0.3-0.66,0.67c0,0.37,0.3,0.67,0.66,0.67c0.37,0,0.67-0.3,0.67-0.67
     S4.96,15.5,4.6,15.5z';
 	}
-	
-	protected function _get_product_icon_path() 
-	{
+
+	protected function _get_product_icon_path() {
 		return 'M16.43,5.12c-0.13-1.19-0.15-1.19-1.35-1.33c-0.21-0.02-0.21-0.02-0.43-0.05c-0.01,0.06,0.06,0.78,0.14,1.13
 	c0.57,0.37,0.87,0.98,0.87,1.71c0,1.14-0.93,2.07-2.07,2.07s-2.07-0.93-2.07-2.07c0-0.54,0.09-0.97,0.55-1.4
 	c-0.06-0.61-0.19-1.54-0.18-1.64C10.14,3.46,8.72,3.46,8.58,3.6l-8.17,8.13c-0.56,0.55-0.56,1.43,0,1.97l5.54,5.93
