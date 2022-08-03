@@ -171,19 +171,12 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		$now = date( 'c', time() );
 
 		$sitemap_url = $this->_get_base_url( 'ecstore-sitemap.xml' );
-		return <<<XML
-		<sitemap>
-			<loc>$sitemap_url</loc>
-			<lastmod>$now</lastmod>
-		</sitemap>
-XML;
+		return '<sitemap><loc>' . $sitemap_url . '</loc><lastmod>' . $now . '</lastmod></sitemap>';
 	}
 
 	// Hook that adds content to sitemap
 	public function wpseo_hook_do_sitemap() {
-		$this->sitemap = <<<XML
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-XML;
+		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 		ecwid_build_sitemap( array( $this, 'sitemap_callback' ) );
 
@@ -197,30 +190,22 @@ XML;
 
 	// A callback for the streaming sitemap builder
 	public function sitemap_callback( $url, $priority, $frequency, $obj ) {
-		$url       = htmlspecialchars( $url );
-		$imageCode = '';
-		$image     = @$obj->originalImageUrl;
+		$url        = htmlspecialchars( $url );
+		$image_code = '';
+		$image      = @$obj->originalImageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( $image ) {
-			$image     = htmlspecialchars( $image );
-			$title     = htmlspecialchars( $obj->name );
-			$imageCode = <<<XML
-				<image:image>
-					<image:title>$title</image:title>
-					<image:loc>$image</image:loc>
-
-				</image:image>
-XML;
+			$image      = htmlspecialchars( $image );
+			$title      = htmlspecialchars( $obj->name );
+			$image_code = '<image:image><image:title>' . $title . '</image:title><image:loc>' . $image . '</image:loc></image:image>';
 		}
 
-		$this->sitemap .= <<<XML
+		$this->sitemap .= "
 	<url>
 		<loc>$url</loc>
 		<changefreq>$frequency</changefreq>
 		<priority>$priority</priority>
-		$imageCode
-	</url>
-
-XML;
+		$image_code
+	</url>";
 	}
 
 	public function get_title_separator( $separator ) {
