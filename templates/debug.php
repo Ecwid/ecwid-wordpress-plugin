@@ -9,18 +9,18 @@
 	$all_options = wp_load_alloptions();
 ?>
 
-<a class="button button-primary" href="admin-post.php?action=ecwid_get_debug" style="margin-top:10px"><?php _e( 'Download log file', 'ecwid-shopping-cart' ); ?></a>
+<a class="button button-primary" href="admin-post.php?action=ecwid_get_debug" style="margin-top:10px"><?php esc_html_e( 'Download log file', 'ecwid-shopping-cart' ); ?></a>
 
 <h2>Active plugins</h2>
 
 <div>
-<?php foreach ( $active_plugins as $path ) : ?>
+<?php foreach ( $active_plugins as $path ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited ?>
 	<div class="section">
 		<div>
-			<?php echo $all_plugins[ $path ]['Name']; ?>
+			<?php echo esc_html( $all_plugins[ $path ]['Name'] ); ?>
 		</div>
 		<div>
-			<?php echo $all_plugins[ $path ]['PluginURI']; ?>
+			<?php echo esc_url( $all_plugins[ $path ]['PluginURI'] ); ?>
 		</div>
 	</div>
 <?php endforeach; ?>
@@ -32,10 +32,10 @@
 <?php foreach ( $all_plugins as $key => $item ) : ?>
 	<div class="section">
 		<div>
-			<?php echo $item['Name']; ?>
+			<?php echo esc_html( $item['Name'] ); ?>
 		</div>
 		<div>
-			<?php echo $item['PluginURI']; ?>
+			<?php echo esc_url( $item['PluginURI'] ); ?>
 		</div>
 	</div>
 <?php endforeach; ?>
@@ -44,17 +44,17 @@
 <h2>Theme</h2>
 
 <div class="section">
-	<div><?php echo $theme->get( 'Name' ); ?></div>
-	<div><?php echo $theme->get( 'ThemeURI' ); ?></div>
+	<div><?php echo esc_html( $theme->get( 'Name' ) ); ?></div>
+	<div><?php echo esc_url( $theme->get( 'ThemeURI' ) ); ?></div>
 </div>
 
 <h2>Api V3 profile test</h2>
 <div>
 	<?php
 	if ( is_wp_error( $api_v3_profile_results ) ) {
-		echo 'WP_Error: ' . $api_v3_profile_results->get_error_message();
+		echo 'WP_Error: ' . esc_html( $api_v3_profile_results->get_error_message() );
 	} else {
-		echo 'Response status: ' . implode( ' ', $api_v3_profile_results['response'] );
+		echo 'Response status: ' . esc_html( implode( ' ', $api_v3_profile_results['response'] ) );
 	}
 	?>
 </div>
@@ -65,7 +65,7 @@
 	if ( isset( $all_options['ecwid_error_log'] ) ) {
 		foreach ( json_decode( $all_options['ecwid_error_log'], true ) as $key => $item ) :
 			?>
-	<div class="section"><?php echo htmlspecialchars( $item['message'] ); ?><br><br></div>
+	<div class="section"><?php echo esc_html( $item['message'] ); ?><br><br></div>
 			<?php
 	endforeach;
 	}
@@ -76,11 +76,11 @@
 <div>
 	<div class="section">
 		<div>Theme identification</div>
-		<div><?php echo ecwid_get_theme_identification(); ?></div>
+		<div><?php echo esc_html( ecwid_get_theme_identification() ); ?></div>
 	</div>
 	<div class="section">
 		<div>Affiliate Ref ID</div>
-		<div><?php echo apply_filters( 'ecwid_get_new_store_ref_id', '' ); ?></div>
+		<div><?php echo esc_html( apply_filters( 'ecwid_get_new_store_ref_id', '' ) ); ?></div>
 	</div>
 </div>
 <h2>Options</h2>
@@ -90,10 +90,10 @@
 	<?php if ( strpos( $key, 'ecwid' ) !== false ) : ?>
 	<div class="section">
 		<div>
-			<?php echo $key; ?>
+			<?php echo esc_html( $key ); ?>
 		</div>
 		<div>
-			<?php echo htmlspecialchars( $option ); ?>
+			<?php echo esc_html( $option ); ?>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -104,7 +104,7 @@
 <div>
 <?php foreach ( Ecwid_Store_Page::get_store_pages_array() as $page_id ) : ?>
 	<div>
-		<a target="_blank" href="post.php?post=<?php echo $page_id; ?>&action=edit"><?php echo @get_post( $page_id )->post_name; ?></a>
+		<a target="_blank" href="post.php?post=<?php echo esc_attr( $page_id ); ?>&action=edit"><?php echo esc_html( @get_post( $page_id )->post_name ); ?></a>
 		<?php if ( $page_id == get_option( Ecwid_Store_Page::OPTION_MAIN_STORE_PAGE_ID ) ) : ?>
 		<b> - main</b>
 		<?php endif; ?>
@@ -122,11 +122,11 @@
 	<div>
 		<?php foreach ( $wl_config_methods as $method ) : ?>
 		<div class="section">
-			<div><?php echo str_replace( 'get_', '', $method ); ?></div>
+			<div><?php echo esc_html( str_replace( 'get_', '', $method ) ); ?></div>
 			<div>
 				<?php
 				if ( method_exists( 'Ecwid_Config', $method ) ) {
-					echo Ecwid_Config::$method();
+					echo esc_html( Ecwid_Config::$method() );
 				}
 				?>
 					
@@ -134,7 +134,7 @@
 		</div>
 		<?php endforeach; ?>
 		<p>
-			<a href="admin.php?page=ec_debug&ec-reset-plugin-config" style="margin-top:10px"><?php _e( 'Reset plugin config', 'ecwid-shopping-cart' ); ?></a>
+			<a href="admin.php?page=ec_debug&ec-reset-plugin-config" style="margin-top:10px"><?php esc_html_e( 'Reset plugin config', 'ecwid-shopping-cart' ); ?></a>
 		</p>
 	</div>
 <?php endif; ?>
