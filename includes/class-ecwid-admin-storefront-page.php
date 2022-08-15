@@ -40,8 +40,10 @@ class Ecwid_Admin_Storefront_Page {
 				$design_edit_link = get_edit_post_link( $page_id ) . '&ec-show-store-settings';
 			} else {
 				$page       = Ecwid_Admin_Main_Page::PAGE_HASH_DASHBOARD;
-				$time       = time() - get_option( 'ecwid_time_correction', 0 );
 				$iframe_src = false;
+
+				$time_correction = get_option( 'ecwid_time_correction', 0 );
+				$time            = time() - $time_correction;
 
 				if ( ! Ecwid_Admin::disable_dashboard() ) {
 					$iframe_src = ecwid_get_iframe_src( $time, $page );
@@ -72,7 +74,8 @@ class Ecwid_Admin_Storefront_Page {
 				$products_total = $res->total;
 			}
 
-			$need_show_draft_warning = time() - get_option( 'ecwid_installation_date' ) > 3 * DAY_IN_SECONDS;
+			$plugin_installation_date = get_option( 'ecwid_installation_date' );
+			$need_show_draft_warning  = time() - $plugin_installation_date > 3 * DAY_IN_SECONDS;
 		} else {
 			$store_on_front           = false;
 			$page_edit_link           = false;
@@ -91,7 +94,7 @@ class Ecwid_Admin_Storefront_Page {
 
 		wp_enqueue_script( 'ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option( 'ecwid_plugin_version' ) );
 
-		echo Ecwid_Admin_UI_Framework::print_fix_js();
+		Ecwid_Admin_UI_Framework::print_fix_js();
 		require_once self::$templates_dir . 'main.php';
 	}
 
@@ -504,7 +507,7 @@ class Ecwid_Admin_Storefront_Page {
 			});
 		";
 
-		wp_register_script( 'ec-blockeditor-inline-js', '', array(), '', true );
+		wp_register_script( 'ec-blockeditor-inline-js', '', array(), get_option( 'ecwid_plugin_version' ), true );
 		wp_enqueue_script( 'ec-blockeditor-inline-js' );
 		wp_add_inline_script( 'ec-blockeditor-inline-js', $script );
 	}
@@ -519,7 +522,9 @@ class Ecwid_Admin_Storefront_Page {
 			$text       = '';
 
 			if ( isset( $item['is_separator'] ) && $item['is_separator'] ) {
-				echo '<li class="list-dropdown__separator"></li>';
+				?>
+				<li class="list-dropdown__separator"></li>
+				<?php
 				continue;
 			}
 
@@ -533,7 +538,7 @@ class Ecwid_Admin_Storefront_Page {
 				$text = $item['text'];
 			}
 
-			echo sprintf( '<li><a%s>%s</a></li>', $attributes, $text );
+			echo sprintf( '<li><a%s>%s</a></li>', esc_attr( $attributes ), esc_html( $text ) );
 		}//end foreach
 	}
 

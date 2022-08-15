@@ -21,7 +21,7 @@ class Ecwid_Admin_Developers_Page {
 
 		self::$templates_dir = ECWID_PLUGIN_DIR . '/templates/admin/';
 
-		echo Ecwid_Admin_UI_Framework::print_fix_js(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		Ecwid_Admin_UI_Framework::print_fix_js();
 		require_once self::$templates_dir . 'developers.php';
 	}
 }

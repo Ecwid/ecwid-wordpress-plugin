@@ -2,11 +2,11 @@ window.ec = window.ec || {};
 window.ec.config = window.ec.config || {};
 window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 
-jQuery(document).ready(function() {
-    
-    window.ecwidShoppingCartMakeStoreLinksUseApiCall = function($link) {
+jQuery(document).ready(function () {
 
-        $link.on('click', function() {
+    window.ecwidShoppingCartMakeStoreLinksUseApiCall = function ($link) {
+
+        $link.click(function () {
             if (typeof Ecwid == 'undefined') {
                 return true;
             }
@@ -16,33 +16,33 @@ jQuery(document).ready(function() {
                 if (!ecwidParams.useJsApiToOpenStoreCategoriesPages) {
                     return;
                 }
-                
+
                 var id = jQuery('[data-ecwid-default-category-id]').data('ecwid-default-category-id');
                 if (id) {
-                    Ecwid.openPage('category', {id:id});
+                    Ecwid.openPage('category', { id: id });
                 } else {
                     Ecwid.openPage('category', 0);
                 }
-            } else if (page == 'category' ) {
+            } else if (page == 'category') {
                 if (ecwidParams.useJsApiToOpenStoreCategoriesPages) {
-                    Ecwid.openPage('category', {id:jQuery(this).data('ecwid-category-id')});
+                    Ecwid.openPage('category', { id: jQuery(this).data('ecwid-category-id') });
                     jQuery(this).hide().blur().show();
                 } else {
                     return;
                 }
-            } else if ( page == 'product' ) {
-                Ecwid.openPage('product', {id: jQuery(this).data('ecwid-product-id')});
+            } else if (page == 'product') {
+                Ecwid.openPage('product', { id: jQuery(this).data('ecwid-product-id') });
             } else {
                 Ecwid.openPage(page);
             }
-            
+
             return false;
         });
     };
-    
+
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
 
-    if ( typeof Ecwid != 'undefined' ) {
+    if (typeof Ecwid != 'undefined') {
         Ecwid.OnAPILoaded.add(function () {
 
             var font = window.ec.config.chameleonDefaults
@@ -51,5 +51,5 @@ jQuery(document).ready(function() {
             document.cookie = "ec_store_chameleon_font=" + font;
         })
     };
-    
+
 });
