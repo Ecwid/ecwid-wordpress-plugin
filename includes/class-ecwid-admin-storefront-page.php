@@ -538,7 +538,7 @@ class Ecwid_Admin_Storefront_Page {
 				$text = $item['text'];
 			}
 
-			echo sprintf( '<li><a%s>%s</a></li>', esc_attr( $attributes ), esc_html( $text ) );
+			echo sprintf( '<li><a%s>%s</a></li>', wp_kses_post( $attributes ), esc_html( $text ) );
 		}//end foreach
 	}
 

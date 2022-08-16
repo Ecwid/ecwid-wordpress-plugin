@@ -1,12 +1,12 @@
 <div class="settings-page">
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
-			<h1 class="settings-page__title"><?php echo sprintf( __( 'Import Your Products From Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></h1>
+			<h1 class="settings-page__title"><?php echo esc_html( sprintf( __( 'Import Your Products From Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></h1>
 			<div class="settings-page__subtitle"></div>
 		</div>
 
 		<?php
-		if( $this->_is_token_ok() ) {
+		if ( $this->_is_token_ok() ) {
 			require __DIR__ . '/woo-complete-alert.tpl.php';
 		}
 		?>
@@ -15,8 +15,8 @@
 		<div class="named-area">
 			<div class="named-area__header">
 				<div class="named-area__titles">
-					<div class="named-area__title"><?php _e( 'Update your catalog', 'ecwid-shopping-cart' ); ?></div>
-					<div class="named-area__subtitle"><?php echo sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
+					<div class="named-area__title"><?php esc_html_e( 'Update your catalog', 'ecwid-shopping-cart' ); ?></div>
+					<div class="named-area__subtitle"><?php echo esc_html__( sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></div>
 				</div>
 			</div>
 			<div class="named-area__body">
@@ -29,26 +29,26 @@
 								<div class="feature-element__core">
 									<div class="feature-element__data">
 
-										<div class="feature-element__title" data-ec-importer-state="default"><?php echo sprintf( __( 'Import your products from Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
+										<div class="feature-element__title" data-ec-importer-state="default"><?php echo esc_html( sprintf( __( 'Import your products from Woocommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></div>
 
-										<div class="feature-element__title" data-ec-importer-state="process"><?php _e( 'Import is in Progress', 'ecwid-shopping-cart' ); ?></div>
+										<div class="feature-element__title" data-ec-importer-state="process"><?php esc_html_e( 'Import is in Progress', 'ecwid-shopping-cart' ); ?></div>
 
-										<div class="feature-element__title" data-ec-importer-state="complete"><?php echo sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?></div>
+										<div class="feature-element__title" data-ec-importer-state="complete"><?php echo esc_html( sprintf( __( 'Import your products from WooCommerce to %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></div>
 
 										<?php
-										if( !$this->_is_token_ok() ) {
+										if ( ! $this->_is_token_ok() ) {
 											require __DIR__ . '/import-no-token.tpl.php';
 										}
 										?>
 
-										<?php if( $this->_is_token_ok() ){?>
+										<?php if ( $this->_is_token_ok() ) { ?>
 
 											<div class="feature-element__status" data-ec-importer-state="complete">
 												<span class="feature-element__status-title success">
-													<?php 
+													<?php
 													echo sprintf(
-														__( 'Import completed. <a href="%s">Run again.</a>', 'ecwid-shopping-cart' ),
-														admin_url( 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG_WOO )
+														__( 'Import completed. <a href="%s">Run again.</a>', 'ecwid-shopping-cart' ), //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+														esc_url( admin_url( 'admin.php?page=' . Ecwid_Import_Page::PAGE_SLUG_WOO ) )
 													);
 													?>
 												</span>
@@ -57,20 +57,28 @@
 											<div class="feature-element__status" data-ec-importer-state="process">
 												<div class="canonical-status canonical-status--has-icon canonical-status--loading canonical-status--prepend-icon canonical-status--warning">
 													<div class="canonical-status__text">
-														<?php _e( 'Copying products and categories.', 'ecwid-shopping-cart' ); ?>
-														<?php echo sprintf( 
-											            __( 'Importing %s of %s items', 'ecwid-shopping-cart' ), 
-											            '<span id="import-progress-current">0</span>', 
-											            '<span id="import-progress-total">' . (Ecwid_Importer::count_woo_products() + Ecwid_Importer::count_woo_categories()) . '</span>' ); 
+														<?php esc_html_e( 'Copying products and categories.', 'ecwid-shopping-cart' ); ?>
+														<?php
+														echo wp_kses_post(
+															sprintf(
+																__( 'Importing %1$s of %2$s items', 'ecwid-shopping-cart' ),
+																'<span id="import-progress-current">0</span>',
+																'<span id="import-progress-total">' . ( Ecwid_Importer::count_woo_products() + Ecwid_Importer::count_woo_categories() ) . '</span>'
+															)
+														);
 														?>
 													</div>
 
 													<div class="canonical-status__text" data-ec-importer-process-images style="display: none;">
-														<?php _e( 'Copying images.', 'ecwid-shopping-cart' ); ?>
-														<?php echo sprintf( 
-											            __( 'Importing %s of %s items', 'ecwid-shopping-cart' ), 
-											            '<span id="import-images-progress-current">0</span>', 
-											            '<span id="import-images-progress-total">0</span>' ); 
+														<?php esc_html_e( 'Copying images.', 'ecwid-shopping-cart' ); ?>
+														<?php
+														echo wp_kses_post(
+															sprintf(
+																__( 'Importing %1$s of %2$s items', 'ecwid-shopping-cart' ),
+																'<span id="import-images-progress-current">0</span>',
+																'<span id="import-images-progress-total">0</span>'
+															)
+														);
 														?>
 													</div>
 
@@ -89,13 +97,16 @@
 												<div class="feature-element__text">
 													<p>
 													<?php
-													_e( 'Import creates new products and update the existing products with matching SKUs.', 'ecwid-shopping-cart' );
+													esc_html_e( 'Import creates new products and update the existing products with matching SKUs.', 'ecwid-shopping-cart' );
 													?>
 
 													<?php
-													if ( !Ecwid_Config::is_wl() ) {
-														echo sprintf( __( 'Please mind the maximum number of products and categories you can have in your Ecwid store. This import tool will automatically stop when the store products limit is reached. To check the current store limit or increase it, please see the <nobr><a %s target="_blank">"Billing & Plans"</a></nobr> page in your Ecwid store control panel.', 'ecwid-shopping-cart'),
-															'href="admin.php?page=ec-store-admin-billing"'
+													if ( ! Ecwid_Config::is_wl() ) {
+														echo wp_kses_post(
+															sprintf(
+																__( 'Please mind the maximum number of products and categories you can have in your Ecwid store. This import tool will automatically stop when the store products limit is reached. To check the current store limit or increase it, please see the <nobr><a %s target="_blank">"Billing & Plans"</a></nobr> page in your Ecwid store control panel.', 'ecwid-shopping-cart' ),
+																'href="admin.php?page=ec-store-admin-billing"'
+															)
 														);
 													}
 													?>
@@ -104,16 +115,18 @@
 
 												<div class="feature-element__action" data-ec-importer-state="default">
 													<button type="button" class="btn btn-primary btn-medium" id="ec-importer-woo-go">
-														<span><?php _e( 'Start Import', 'ecwid-shopping-cart' ); ?></span>
+														<span><?php esc_html_e( 'Start Import', 'ecwid-shopping-cart' ); ?></span>
 													</button>
 												</div>
 											</div>
 
-										<?php }?>
+											<?php
+										}//end if
+										?>
 
 									</div>
 									<div class="feature-element__picture">
-										<img src="<?php echo( esc_attr( ECWID_PLUGIN_URL )); ?>templates/importer/import-picture-feature.png" alt="" />
+										<img src="<?php echo( esc_attr( ECWID_PLUGIN_URL ) ); ?>templates/importer/import-picture-feature.png" alt="" />
 									</div>
 								</div>
 							</div>
@@ -121,7 +134,7 @@
 					</div>
 
 					<?php
-					if( $this->_is_token_ok() ) {
+					if ( $this->_is_token_ok() ) {
 						require __DIR__ . '/woo-summary.tpl.php';
 					}
 					?>
