@@ -1,5 +1,10 @@
 == Changelog == 
 
+= 6.10.26 - Aug 16, 2022 =
+- Compatibility improvements with the Elementor builder. If you are using the ecommerce widget in the Elementor builder, you may have encountered an issue where the storefront links in the menu or sitemap are not working properly. We've fixed it.
+- Plugin code improvements to comply with the WordPress plugin marketplace recommendations.
+- Minor fixes and improvements.
+
 = 6.10.25 - Jul 25, 2022 =
 - Improvements in the plugin code to comply with the WordPress plugin marketplace recommendations.
 - A few fixes for compatibility with Divi builder. If you are using the eсommerce widget in the Divi Builder, you may be faced with an issue where the storefront is not displayed. We fixed that, now it should work fine.
