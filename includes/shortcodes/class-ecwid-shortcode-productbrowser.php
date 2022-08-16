@@ -46,17 +46,19 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code = '';
 		global $ecwid_current_theme;
 		if ( $ecwid_current_theme ) {
+			ob_start();
+			?>
+			<script data-cfasync="false" data-no-optimize="1">
+				if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
+					document.documentElement.id = 'ecwid_html';
+				}
 
-			$code = "
-<script data-cfasync=\"false\" data-no-optimize=\"1\">
-if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
-	document.documentElement.id = 'ecwid_html';
-}
-
-if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
-	document.body.id = 'ecwid_body';
-}
-</script>";
+				if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
+					document.body.id = 'ecwid_body';
+				}
+			</script>
+			<?php
+			$code = ob_get_clean();
 		}
 
 		$classname = '';
@@ -81,32 +83,38 @@ if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
 	}
 
 	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
-		return "
-			<script data-cfasync=\"false\" data-no-optimize=\"1\" type=\"text/javascript\">
-				window.ec.storefront = window.ec.storefront || {};
-				window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
-				
-				ec.storefront.staticPages.staticStorefrontEnabled = true;
-				ec.storefront.staticPages.staticContainerID = '$static_container_id';
-				ec.storefront.staticPages.dynamicContainerID = '$dynamic_container_id';
-				ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
-			</script>";
+		ob_start();
+		?>
+		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
+			window.ec.storefront = window.ec.storefront || {};
+			window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
+
+			ec.storefront.staticPages.staticStorefrontEnabled = true;
+			ec.storefront.staticPages.staticContainerID = '<?php echo esc_js( $static_container_id ); ?>';
+			ec.storefront.staticPages.dynamicContainerID = '<?php echo esc_js( $dynamic_container_id ); ?>';
+			ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
+		</script>
+		<?php
+		return ob_get_clean();
 	}
 
 	protected function _get_js_hide_static( $html_selector ) {
-		return "
-			<script data-cfasync=\"false\" data-no-optimize=\"1\" type=\"text/javascript\">
-				function createClass(name,rules){
-					var style = document.createElement('style');
-					style.type = 'text/css';
-					document.getElementsByTagName('head')[0].appendChild(style);
-					if(!(style.sheet||{}).insertRule) 
-						(style.styleSheet || style.sheet).addRule(name, rules);
-					else
-						style.sheet.insertRule(name+'{'+rules+'}',0);
-				}
-				createClass('$html_selector','display:none;');
-			</script>";
+		ob_start();
+		?>
+		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
+			function createClass(name,rules){
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				document.getElementsByTagName('head')[0].appendChild(style);
+				if(!(style.sheet||{}).insertRule) 
+					(style.styleSheet || style.sheet).addRule(name, rules);
+				else
+					style.sheet.insertRule(name+'{'+rules+'}',0);
+			}
+			createClass('<?php echo esc_js( $html_selector ); ?>','display:none;');
+		</script>
+		<?php
+		return ob_get_clean();
 	}
 
 
@@ -258,17 +266,19 @@ if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
 			return false;
 		}
 
-		$result = '
-<script>
-Ecwid.OnAPILoaded.add(function() {
-    Ecwid.OnPageLoad.add(function(page) {
-        if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
-            Ecwid.openPage("' . $page . '");
-        }
-    })
-});
-</script>';
+		ob_start();
+		?>
+		<script>
+		Ecwid.OnAPILoaded.add(function() {
+			Ecwid.OnPageLoad.add(function(page) {
+				if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
+					Ecwid.openPage("<?php echo esc_js( $page ); ?>");
+				}
+			})
+		});
+		</script>
+		<?php
 
-		return $result;
+		return ob_get_clean();
 	}
 }

@@ -29,21 +29,11 @@ class Ecwid_Message_Manager
 	{
 		if (!$wp_remote_post_error) {
 			$message = sprintf(
-				__( <<<TXT
-Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn't seem to be able to connect to the %s server, that's why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider.
-<br /><br />
-Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to %s and %s are blocked.".
-<br /><br />
-Please also feel free to contact us at <a %s">%s</a> and we will help you handle it with your hosting.
-<br /><br />
-Meanwhile, to manage your store, you can use the %s Control Panel at <a %s>%s</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.
-TXT
-
-				),
+				__('Sorry, there is a problem. This page is supposed to display your store control panel. But this WordPress site doesn\'t seem to be able to connect to the %s server, that\'s why there is no dashboard. This is caused by your server misconfiguration and can be fixed by your hosting provider. <br /><br />Here is a more techy description of the problem, please send it to your hosting provider: "The WordPress function wp_remote_post() failed to connect a remote server because of some error. Seems like HTTP requests to remote servers are disabled on this server. Specifically, the requests to %s and %s are blocked.". <br /><br />Please also feel free to contact us at <a %s">%s</a> and we will help you handle it with your hosting. <br /><br />Meanwhile, to manage your store, you can use the %s Control Panel at <a %s>%s</a>. Your store front is working fine as well and you can check it here: <a %s>%s</a>.'),
 				Ecwid_Config::get_brand(),
 				Ecwid_Config::get_api_domain(),
 				Ecwid_Config::get_cpanel_domain(),
-				'href="https://'. Ecwid_Config::get_contact_us_url() .'" target="_blank"',
+				'href="'. Ecwid_Config::get_contact_us_url() .'" target="_blank"',
 				Ecwid_Config::get_contact_us_url(),
 				Ecwid_Config::get_brand(),
 				'href="https://'. Ecwid_Config::get_cpanel_domain() .'" target="_blank"',
@@ -253,7 +243,6 @@ TXT
 			),
 
 			'on_no_storeid_on_setup_pages' => array(
-				'type' => 'warning',
 				'title' => __('Your store is almost ready!', 'ecwid-shopping-cart' ),
 				'message' => __('Complete setup and start selling', 'ecwid-shopping-cart' ),
 				'primary_title' => __('Complete Setup', 'ecwid-shopping-cart' ),
@@ -304,18 +293,14 @@ TXT
 					'ecwid-shopping-cart' 
 				),
 				'message' => sprintf( 
-					__( 
-						<<<HTML
-<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that because of your server misconfiguration.
-<br /><br />
-<b>How to fix:</b> Your server seems to be using outdated software (TLS v1.0) to communicate with the %1\$s APIs. The reason can also be a deprecated version of the CURL module. This can be fixed by your hosting provider by updating your server software to the latest version. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
-HTML
-						, 'ecwid-shopping-cart' 
-					),
+					__(
+                        "<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that because of your server misconfiguration. <br /><br /><b>How to fix:</b> Your server seems to be using outdated software (TLS v1.0) to communicate with the %1\$s APIs. The reason can also be a deprecated version of the CURL module. This can be fixed by your hosting provider by updating your server software to the latest version. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target=\"_blank\" href=\"%2\$s\">%2\$s</a>.",
+                        'ecwid-shopping-cart'
+                    ),
 					Ecwid_Config::get_brand(),
 					Ecwid_Config::get_contact_us_url()
 				),
-				'type' => 'warning',
+				'type' => 'error',
 				'hideable' => false
 			),
 			
@@ -325,17 +310,14 @@ HTML
 					'ecwid-shopping-cart' 
 				),
 				'message' => sprintf( 
-					__( 
-						<<<HTML
-<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that as your server blocks those requests for some reason.
-<br /><br />
-<b>How to fix:</b> Refresh this page after a few minutes. If this message does not disappear, then the problem is likely caused by your server misconfiguration and can be fixed by your hosting provider. In particular, the CURL module can be disabled in your PHP config or a firewall might block requests to our servers. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target="_blank" href="%2\$s">%2\$s</a>.
-HTML
-					, 'ecwid-shopping-cart' ),
+					__(
+                        "<b>What happened:</b> This WordPress site doesn't seem to be able to connect to the %1\$s servers. Your store is working and your products can be purchased from your site, but some features are disabled, including SEO, product sidebar widgets, advanced site menu and store navigation. The %1\$s plugin tries to reach the %1\$s APIs at our servers and cannot do that as your server blocks those requests for some reason. <br /><br /><b>How to fix:</b> Refresh this page after a few minutes. If this message does not disappear, then the problem is likely caused by your server misconfiguration and can be fixed by your hosting provider. In particular, the CURL module can be disabled in your PHP config or a firewall might block requests to our servers. Please send this message to your hosting provider and ask them to check it for you. If this doesn't help, please contact us at <a target=\"_blank\" href=\"%2\$s\">%2\$s</a>.",
+                        'ecwid-shopping-cart'
+                    ),
 					Ecwid_Config::get_brand(),
 					Ecwid_Config::get_contact_us_url()
 				),
-				'type' => 'warning',
+				'type' => 'error',
 				'hideable' => false
 			)
 		);
@@ -446,18 +428,20 @@ HTML
 				return $result;
 				
 			case 'api_failed_tls':
+                $legacy_page_time = get_option( 'ecwid_connected_via_legacy_page_time', 0 );
 				return 
 					!ecwid_is_demo_store()
 					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
 					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_TLS
-					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
+					&& time() - $legacy_page_time > 15 * MINUTE_IN_SECONDS;
 				
 			case 'api_failed_other':
+                $legacy_page_time = get_option( 'ecwid_connected_via_legacy_page_time', 0 );
 				return 
 					!ecwid_is_demo_store()
 					&& get_current_screen()->parent_base == Ecwid_Admin::ADMIN_SLUG
 					&& Ecwid_Api_V3::get_api_status() == Ecwid_Api_V3::API_STATUS_ERROR_OTHER
-					&& time() - get_option( 'ecwid_connected_via_legacy_page_time' ) > 15 * MINUTE_IN_SECONDS;
+					&& time() - $legacy_page_time > 15 * MINUTE_IN_SECONDS;
 
 			case 'no_oauth':
 				global $ecwid_oauth;

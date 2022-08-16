@@ -48,15 +48,19 @@ class Ecwid_Gutenberg_Block_Filters_Page extends Ecwid_Gutenberg_Block_Store {
 	}
 
 	public static function get_script_for_open_filters_page() {
-		return '<script>
-Ecwid.OnAPILoaded.add(function() {
-    Ecwid.OnPageLoad.add(function(page) {
-        if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
-            Ecwid.openPage("search");
-        }
-    })
-});
-</script>';
+		ob_start();
+		?>
+		<script>
+		Ecwid.OnAPILoaded.add(function() {
+			Ecwid.OnPageLoad.add(function(page) {
+				if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {
+					Ecwid.openPage("search");
+				}
+			})
+		});
+		</script>
+		<?php
+		return ob_get_clean();
 	}
 
 }

@@ -11,17 +11,17 @@ function ecwid_get_theme_name() {
 	$version = get_bloginfo( 'version' );
 
 	if ( version_compare( $version, '3.4' ) < 0 ) {
-		$theme_name = get_current_theme();
+		$theme_name = get_current_theme(); //phpcs:ignore WordPress.WP.DeprecatedFunctions.get_current_themeFound
 	} else {
 		$theme      = wp_get_theme();
-		$theme_name = $theme->Name;
+		$theme_name = $theme->Name; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 
 	return $theme_name;
 }
 
 function ecwid_get_theme_identification() {
-	 $version = get_bloginfo( 'version' );
+	$version = get_bloginfo( 'version' );
 
 	if ( version_compare( $version, '3.4' ) < 0 ) {
 		$theme_name = get_template();

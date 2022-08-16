@@ -22,6 +22,7 @@ function ecwid_create_divi_module() {
 	if ( class_exists( 'ET_Builder_Module' ) && ! class_exists( 'ET_Builder_Module_Ecwid' ) ) {
 		class ET_Builder_Module_Ecwid extends ET_Builder_Module {
 			public function init() {
+				// translators: %s: brand
 				$this->name            = sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() );
 				$this->slug            = 'et_pb_ecwid';
 				$this->use_raw_content = true;

@@ -14,16 +14,14 @@ class Ecwid_Shortcode_Stub extends Ecwid_Shortcode_Base {
 	public function get_ecwid_widget_function_name() {
 		return '';
 	}
-	
+
 	public function render_widget() {
-		
+
 	}
 
 	public function render_placeholder() {
 		$classname = $this->_get_html_class_name();
-		$id = $this->get_html_id();
-		return <<<HTML
-<div class="ecwid-shopping-cart-$classname"><div id="$id"></div></div>
-HTML;
+		$id        = $this->get_html_id();
+		return '<div class="ecwid-shopping-cart-' . esc_attr( $classname ) . '"><div id="' . esc_attr( $id ) . '"></div></div>';
 	}
 }

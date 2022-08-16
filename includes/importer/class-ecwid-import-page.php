@@ -151,7 +151,7 @@ class Ecwid_Import_Page {
 	}
 
 	protected function _get_woo_url() {
-		 return 'admin.php?page=' . self::PAGE_SLUG_WOO;
+		return 'admin.php?page=' . self::PAGE_SLUG_WOO;
 	}
 
 	protected function _need_to_show_woo() {
@@ -159,12 +159,12 @@ class Ecwid_Import_Page {
 	}
 
 	public function do_page() {
-		 require_once ECWID_IMPORTER_TEMPLATES_DIR . '/landing.tpl.php';
+		require_once ECWID_IMPORTER_TEMPLATES_DIR . '/landing.tpl.php';
 	}
 
 	public function do_woo_page() {
-		 $import_data = Ecwid_Import::gather_import_data();
-		echo Ecwid_Admin_UI_Framework::print_fix_js();
+		$import_data = Ecwid_Import::gather_import_data();
+		Ecwid_Admin_UI_Framework::print_fix_js();
 
 		require_once ECWID_IMPORTER_TEMPLATES_DIR . '/woo-main.tpl.php';
 	}

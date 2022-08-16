@@ -1,22 +1,22 @@
 <div class="ecwid-message <?php echo esc_attr( $type ); ?>">
-	<?php if ( $title ): ?>
+	<?php if ( $title ) : ?>
 	<div class="ecwid-message-title">
 		<?php echo esc_html( $title ); ?>
 	</div>
 	<?php endif; ?>
 
 	<div class="ecwid-message-content">
-		<?php echo $message; ?>
+		<?php echo wp_kses_post( $message ); ?>
 	</div>
 
-	<?php if ( $primary_button || $secondary_button || $do_not_show_again ): ?>
+	<?php if ( $primary_button || $secondary_button || $do_not_show_again ) : ?>
 	<div class="ecwid-message-buttons">
-		<?php if ($primary_button): ?>
+		<?php if ( $primary_button ) : ?>
 		<div>
 			<a
 				class="button button-primary"
 				href="<?php echo esc_attr( $primary_url ); ?>"
-				<?php if ( $primary_blank ): ?>
+				<?php if ( $primary_blank ) : ?>
 				target="_blank"
 				<?php endif; ?>
 			>
@@ -25,13 +25,16 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if ( $secondary_button ): ?>
+		<?php if ( $secondary_button ) : ?>
 		<div>
 			<a
-				class="button<?php if ( $secondary_hide ): ?> ecwid-message-hide<?php endif; ?>"
+				class="button
+				<?php if ( $secondary_hide ) : ?>
+					ecwid-message-hide
+				<?php endif; ?>"
 				href="<?php echo esc_attr( $secondary_url ); ?>"
-				name="<?php echo $name; ?>"
-				<?php if ( $secondary_blank ): ?>
+				name="<?php echo esc_attr( $name ); ?>"
+				<?php if ( $secondary_blank ) : ?>
 				target="_blank"
 				<?php endif; ?>
 			>
@@ -40,14 +43,13 @@
 		</div>
 		<?php endif; ?>
 
-        <div class="hide-wrapper">
-		<?php if ( $do_not_show_again ): ?>
-		
-			<a class="ecwid-message-hide" name="<?php echo $name; ?>" href="javascript: void(0);">
-				<?php _e('Never show this message again', 'ecwid-shopping-cart'); ?>
+		<div class="hide-wrapper">
+		<?php if ( $do_not_show_again ) : ?>
+			<a class="ecwid-message-hide" name="<?php echo esc_attr( $name ); ?>" href="javascript: void(0);">
+				<?php echo esc_html( __( 'Never show this message again', 'ecwid-shopping-cart' ) ); ?>
 			</a>
 		<?php endif; ?>
-        </div>
+		</div>
 	</div>
 	<?php endif; ?>
 </div>

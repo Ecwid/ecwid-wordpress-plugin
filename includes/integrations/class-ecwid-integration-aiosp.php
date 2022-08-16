@@ -100,31 +100,27 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	}
 
 	// A callback for the streaming sitemap builder
-    // phpcs:disable
 	public function get_sitemap_items_callback( $url, $priority, $frequency, $obj ) {
-		$url       = htmlspecialchars( $url );
-		$imageCode = '';
-		$image     = @$obj->originalImageUrl;
+		$url        = htmlspecialchars( $url );
+		$image_code = '';
+		$image      = @$obj->originalImageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( $image ) {
-			$image     = htmlspecialchars( $image );
-			$title     = htmlspecialchars( $obj->name );
-			$imageCode = <<<XML
+			$image      = htmlspecialchars( $image );
+			$title      = htmlspecialchars( $obj->name );
+			$image_code = "
 				<image:image>
 					<image:title>$title</image:title>
 					<image:loc>$image</image:loc>
-				</image:image>
-XML;
+				</image:image>";
 		}
 
-		$this->sitemap .= <<<XML
-	<url>
-		<loc>$url</loc>
-		<changefreq>$frequency</changefreq>
-		<priority>$priority</priority> $imageCode
-	</url>
-XML;
+		$this->sitemap .= "
+            <url>
+                <loc>$url</loc>
+                <changefreq>$frequency</changefreq>
+                <priority>$priority</priority> $image_code
+            </url>";
 	}
-    // phpcs:enable
 
 	public function aiosp_hook_sitemap_prio_item_filter( $pr_info, $post, $args ) {
 		$post_type = (string) $post->post_type;

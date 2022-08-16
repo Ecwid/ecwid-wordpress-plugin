@@ -35,7 +35,7 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 	}
 
 	protected function _init( $title, $description, $widget_name = null, $class_name = null ) {
-		 $this->_title      = $title;
+		$this->_title       = $title;
 		$this->_description = $description;
 		if ( is_null( $widget_name ) ) {
 			$widget_name = strtolower( $title );
@@ -59,7 +59,7 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 		}
 	}
 
-	function _render_widget_content( $args, $instance ) {
+	protected function _render_widget_content( $args, $instance ) {
 
 		$this->_args     = $args;
 		$this->_instance = wp_parse_args( $instance, array( 'number_of_products' => $this->_default ) );
@@ -83,7 +83,7 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 	}
 
 	protected function _print_widget_content( $instance ) {
-		 $products = $this->_get_products();
+		$products = $this->_get_products();
 
 		if ( $products ) {
 			$this->_print_products( $products );
@@ -94,13 +94,15 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 	protected function _print_js_init() {
 
 		$data_attr = "data-$this->_class_name-initialized";
-		echo <<<HTML
-<script type="text/javascript">
-    jQuery(document).ready(function() {
-        jQuery('.$this->_class_name:not([$data_attr=1])').$this->_widget_class().attr('$data_attr', 1);
-    });
-</script>
-HTML;
+		?>
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('.<?php echo esc_js( $this->_class_name ); ?>:not([<?php echo esc_js( $data_attr ); ?>=1])')
+					.<?php echo esc_js( $this->_widget_class ); ?>()
+					.attr('<?php echo esc_js( $data_attr ); ?>', 1);
+			});
+		</script>
+		<?php
 	}
 
 	protected function _print_products( $products ) {
@@ -121,36 +123,36 @@ HTML;
 			$name  = esc_html( $product->name );
 			$price = $product->price;
 
-			echo <<<HTML
-		<a class="product" href="$product->link" data-ecwid-page="product" data-ecwid-product-id="$product->id" alt="$name" title="$name">
-			<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-$product->id" data-single-product-link="$product->link" itemscope itemtype="http://schema.org/Product" data-single-product-id="$product->id">
-				<div itemprop="image" data-force-image="$force_image"></div>
-				<div class="ecwid-title" itemprop="name" content="$name"></div>
-				<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="$price"></div></div>
-			</div>
-			<!-- noptimize --><script type="text/javascript">xSingleProduct();</script><!-- /noptimize -->
-		</a>
-HTML;
+			?>
+			<a class="product" href="<?php echo esc_url( $product->link ); ?>" data-ecwid-product-id="<?php echo esc_attr( $product->id ); ?>" alt="<?php echo esc_attr( $name ); ?>" title="<?php echo esc_attr( $name ); ?>" data-ecwid-page="product">
+				<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-<?php echo esc_attr( $product->id ); ?>" data-single-product-link="<?php echo esc_url( $product->link ); ?>" data-single-product-id="<?php echo esc_attr( $product->id ); ?>" itemscope itemtype="http://schema.org/Product">
+					<div itemprop="image" data-force-image="<?php echo esc_attr( $force_image ); ?>"></div>
+					<div class="ecwid-title" itemprop="name" content="<?php echo esc_attr( $name ); ?>"></div>
+					<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="<?php echo esc_attr( $price ); ?>"></div></div>
+				</div>
+				<!-- noptimize --><script type="text/javascript">xSingleProduct();</script><!-- /noptimize -->
+			</a>
+			<?php
 			$next++;
 		}//end foreach
 	}
 
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
 		foreach ( $this->_get_form_fields() as $field ) {
 			$name = $field['name'];
-			if ( $name == 'number_of_products' ) {
+			if ( $name === 'number_of_products' ) {
 				$instance[ $name ] = $this->_get_valid_number_of_products( $new_instance['number_of_products'] );
 			} else {
-				$instance[ $name ] = strip_tags( stripslashes( $new_instance[ $name ] ) );
+				$instance[ $name ] = wp_strip_all_tags( stripslashes( $new_instance[ $name ] ) );
 			}
 		}
 
 		return $instance;
 	}
 
-	function form( $instance ) {
+	public function form( $instance ) {
 
 		$default_args = array();
 		foreach ( $this->_get_form_fields() as $field ) {
@@ -170,17 +172,17 @@ HTML;
 
 			printf(
 				$template,
-				$this->get_field_name( $field['name'] ),
-				$field['title'],
+				esc_attr( $this->get_field_name( $field['name'] ) ),
+				esc_html( $field['title'] ),
 				'width:100%',
-				$this->get_field_id( $field['name'] ),
-				$this->get_field_name( $field['name'] ),
-				$value
+				esc_attr( $this->get_field_id( $field['name'] ) ),
+				esc_attr( $this->get_field_name( $field['name'] ) ),
+				esc_attr( $value )
 			);
 		}
 	}
 
-	function _get_valid_number_of_products( $num ) {
+	protected function _get_valid_number_of_products( $num ) {
 		$num = intval( $num );
 		if ( $num > $this->_max ) {
 			$num = $this->_max;

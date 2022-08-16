@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.25
+Version: 6.10.26
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -337,20 +337,22 @@ function ecwid_ie8_fonts_inclusion() {
 	}
 
 	$url = ECWID_PLUGIN_URL . 'fonts/ecwid-logo.eot';
-	echo '<style>
-    @font-face {
-        font-family: "ecwid-logo";
-        src:url(' . esc_url( $url ) . ');
-    }
-</style>';
+	?>
+	<style>
+	@font-face {
+		font-family: "ecwid-logo";
+		src: url('<?php echo esc_url( $url ); ?>');
+	}
+	</style>
+	<?php
 }
 
 add_action( 'wp_head', 'ecwid_maybe_remove_emoji', 0 );
 function ecwid_maybe_remove_emoji() {
 
 	if ( Ecwid_Store_page::is_store_page() && get_option( 'ecwid_remove_emoji' ) == 'Y' ) {
-		remove_action('wp_head', 'print_emoji_detection_script', 7);
-		remove_action('wp_print_styles', 'print_emoji_styles');
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		remove_action( 'admin_print_styles', 'print_emoji_styles' );
@@ -1068,8 +1070,7 @@ function add_ecwid_admin_bar_node() {
 	if (!is_admin()) {
 		$subject = sprintf( __('%s plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), $theme );
 
-		$body = <<<TEXT
-Hey %s,
+		$body = "Hey %s,
 
 My store looks bad with my theme on Wordpress.
 
@@ -1078,12 +1079,10 @@ The store URL is %s
 
 Can you have a look?
 
-Thanks.
-TEXT;
+Thanks.";
 	} else {
 		$subject = __('I have a problem with my %s store', 'ecwid-shopping-cart');
-		$body = <<<TEXT
-Hey %s,
+		$body = "Hey %s,
 
 I have a problem with my store.
 
@@ -1094,8 +1093,7 @@ The store URL is %s
 
 Can you have a look?
 
-Thanks.
-TEXT;
+Thanks.";
 	}
 
 	$body = __($body, 'ecwid-shopping-cart');
@@ -1628,15 +1626,12 @@ function ecwid_store_activate() {
 
 	$shortcode = Ecwid_Shortcode_Base::get_current_store_shortcode_name();
 	
-	$content = <<<EOT
-	[$shortcode widgets="productbrowser" default_category_id="0"]
-EOT;
+	$content = "[$shortcode widgets=\"productbrowser\" default_category_id=\"0\"]";
 	
-	$content = <<<EOT
+	$content = "
 <!-- wp:ecwid/store-block -->
 $content
-<!-- /wp:ecwid/store-block -->
-EOT;
+<!-- /wp:ecwid/store-block -->";
 	
 	add_option("ecwid_store_page_id", '', '', 'yes');
 
@@ -2871,15 +2866,14 @@ function ecwid_get_product_browser_url_script()
 	if (ecwid_is_store_page_available() && !Ecwid_Store_Page::is_store_page()) {
 
 		$url = esc_js( Ecwid_Store_Page::get_store_url() );
-
-		
-		$str = <<<HTML
-<script data-cfasync="false" type="text/javascript">
-window.ec = window.ec || Object();
-window.ec.config = window.ec.config || Object();
-window.ec.config.store_main_page_url = '$url';		
-</script>
-HTML;
+        ?>
+        <script data-cfasync="false" type="text/javascript">
+            window.ec = window.ec || Object();
+            window.ec.config = window.ec.config || Object();
+            window.ec.config.store_main_page_url = '<?php echo esc_js( $url ); ?>';
+        </script>
+        <?php 
+        $str = ob_get_clean();
 	}
 
 	return $str;
@@ -2935,16 +2929,6 @@ function ecwid_sso() {
 
 	$signin_url = wp_login_url(Ecwid_Store_Page::get_store_url());
 	$signout_url = wp_logout_url(Ecwid_Store_Page::get_store_url());
-	$sign_in_out_urls = <<<JS
-window.EcwidSignInUrl = '$signin_url';
-window.EcwidSignOutUrl = '$signout_url';
-window.Ecwid.OnAPILoaded.add(function() {
-    window.Ecwid.setSignInUrls({
-        signInUrl: '$signin_url',
-        signOutUrl: '$signout_url'
-    });
-});
-JS;
 
 	$ecwid_sso_profile = '';
     if ($current_user->ID) {
@@ -2980,28 +2964,35 @@ JS;
 		$hmac = ecwid_hmacsha1("$user_data_encoded $time", $key);
 
 		$ecwid_sso_profile = "$user_data_encoded $hmac $time";
-
     }
 
-
-	$ecwid_sso_script = <<<HTML
+	ob_start();
+    ?>
 <script data-cfasync="false" type="text/javascript">
 
-	var ecwid_sso_profile='$ecwid_sso_profile';
-	$sign_in_out_urls
+	var ecwid_sso_profile = '<?php echo esc_js( $ecwid_sso_profile ); ?>';
+	window.EcwidSignInUrl = '<?php echo esc_js( $signin_url ); ?>';
+    window.EcwidSignOutUrl = '<?php echo esc_js( $signout_url ); ?>';
+    window.Ecwid.OnAPILoaded.add(function() {
+        window.Ecwid.setSignInUrls({
+            signInUrl: '<?php echo esc_js( $signin_url ); ?>',
+            signOutUrl: '<?php echo esc_js( $signout_url ); ?>'
+        });
+    });
 
 	jQuery(document).ready(function() {
 		if (typeof Ecwid == 'undefined') return;
 
 		Ecwid.OnPageLoad.add(function(page) {
 			if (page.type == 'SIGN_IN' && ecwid_sso_profile == '') {
-				location.href = '$signin_url';
+				location.href = '<?php echo esc_js( $signin_url ); ?>';
 			}
 		})
 	}
 );
 </script>
-HTML;
+    <?php
+    $ecwid_sso_script = ob_get_clean();
 
 	return $ecwid_sso_script;
 }
@@ -3085,31 +3076,6 @@ function ecwid_embed_svg($name) {
 		$code = file_get_contents( $path );
 		echo $code;
 	}
-}
-
-function ecwid_kses_get_allowed_html() {
-    return array(
-        'iframe' => array(
-            'seamless'    => array(),
-            'id'          => array(),
-            'frameborder' => array(),
-            'width'       => array(),
-            'height'      => array(),
-            'scrolling'   => array(),
-            'src'         => array(),
-        ),
-        'script' => array(
-            'type' => array(),
-        ),
-        'li' => array(),
-        'a' => array(
-            'href' => array(),
-            'data-sort' => array()
-        ),
-        'div' => array(
-            'id' => array()
-        )
-    );
 }
 
 /*
