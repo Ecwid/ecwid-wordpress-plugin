@@ -8,60 +8,54 @@
 <div class="ecwid-help main-container">
 
 	<div class="block-search block-search-index">
-		<h2><?php _e( 'How can we help you?', 'ecwid-shopping-cart' ); ?></h2>
+		<h2><?php esc_html_e( 'How can we help you?', 'ecwid-shopping-cart' ); ?></h2>
 
 		<div class="hds-container">
 			<div class="hds-wrapper">
-				<form class="hds-form" method="get" target="_blank" data-action="<?php _e( 'https://support.ecwid.com/hc/en-us/search', 'ecwid-shopping-cart' ); ?>" onsubmit="help-page searchquerysubmited">
+				<form class="hds-form" method="get" target="_blank" data-action="<?php esc_html_e( 'https://support.ecwid.com/hc/en-us/search', 'ecwid-shopping-cart' ); ?>" onsubmit="help-page searchquerysubmited">
 					<div class="input-wrapper input-prepend">
-						<input type="text" class="form-control q" value="" id="q" placeholder="<?php _e( 'E.g. How to set up shipping', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
+						<input type="text" class="form-control q" value="" id="q" placeholder="<?php esc_html_e( 'E.g. How to set up shipping', 'ecwid-shopping-cart' ); ?>	" autocomplete="off"/>
 						<span class="hds-loader"></span>
 						<button type="submit" class="hds-submit btn" id="hds-submit" onClick="">
 							<span class="icon-search"></span>
-							<span class="btn-text"><?php _e( 'Search the Knowledge Base', 'ecwid-shopping-cart' ); ?>	</span>
+							<span class="btn-text"><?php esc_html_e( 'Search the Knowledge Base', 'ecwid-shopping-cart' ); ?>	</span>
 						</button>
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="block-search block-search-kb-link">
-			<?php echo sprintf( __( 'or <a %s>Browse the Help Center', 'ecwid-shopping-cart' ), 'href="https://support.ecwid.com/"' ); ?>
+			<?php echo wp_kses_post( sprintf( __( 'or <a %s>Browse the Help Center', 'ecwid-shopping-cart' ), 'href="https://support.ecwid.com/"' ) ); ?>
 		</div>
 	</div>
 
 	<div class="block-faq">
-		<h2><?php _e( 'Frequently Asked Questions', 'ecwid-shopping-cart' ); ?>	</h2>
+		<h2><?php esc_html_e( 'Frequently Asked Questions', 'ecwid-shopping-cart' ); ?>	</h2>
 		<div class="block-faq-wrap">
 			<ul class="block-faq-list">
-				<?php
-				foreach ( $faqs as $idx => $faq ) :
-					if ( $idx % 2 == 0 ) :
-						?>
-				<li class="index-article
-						<?php
-						if ( $idx >= $col_size ) {
-							echo ' index-article--hidden';}
-						?>
+			<?php foreach ( $faqs as $idx => $faq ) { ?>
+				<?php if ( $idx % 2 == 0 ) { ?>
+				<li class="index-article 
+					<?php
+					if ( $idx >= $col_size ) {
+						echo ' index-article--hidden';}
+					?>
 				">
 					<a class="index-article-title" href="#" onclick="return false;">
-						<i class="icon-down"></i><?php echo $faq->title; ?>
+						<i class="icon-down"></i><?php echo esc_html( $faq->title ); ?>
 					</a>
 					<div class="index-article-body">
-						<?php echo $faq->body; ?>
+						<?php echo wp_kses_post( $faq->body ); ?>
 					</div>
 				</li>
 
-									<?php
-				endif;
-endforeach;
-				?>
+				<?php } ?>
+			<?php } ?>
 			</ul>
 
 			<ul class="block-faq-list">
-				<?php
-				foreach ( $faqs as $idx => $faq ) :
-					if ( $idx % 2 == 1 ) :
-						?>
+			<?php foreach ( $faqs as $idx => $faq ) { ?>
+				<?php if ( $idx % 2 == 1 ) { ?>
 					<li class="index-article
 						<?php
 						if ( $idx >= $col_size ) {
@@ -69,16 +63,14 @@ endforeach;
 						?>
 					">
 						<a class="index-article-title" href="#" onclick="return false;">
-							<i class="icon-down"></i><?php echo $faq->title; ?>
+							<i class="icon-down"></i><?php echo esc_html( $faq->title ); ?>
 						</a>
 						<div class="index-article-body">
-							<?php echo $faq->body; ?>
+							<?php echo wp_kses_post( $faq->body ); ?>
 						</div>
 					</li>
-									<?php
-				endif;
-endforeach;
-				?>
+				<?php } ?>
+			<?php } ?>
 			</ul>
 
 		</div>
@@ -86,7 +78,7 @@ endforeach;
 		<div class="block-topics-link">
 
 			<a href="#" class="horizontal-icolink">
-				<?php _e( 'See more', 'ecwid-shopping-cart' ); ?>
+				<?php esc_html_e( 'See more', 'ecwid-shopping-cart' ); ?>
 				<i class="icon-arr-right"></i>
 			</a>
 
@@ -195,8 +187,8 @@ endforeach;
 			<ul>
 				<li>
 					<div class="block-help-item">
-						<a href="<?php esc_html_e( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ); ?>" target="_blank"><?php _e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
-						<p><?php _e( 'Still have questions about Ecwid? Let us know!', 'ecwid-shopping-cart' ); ?>	</p>
+						<a href="<?php esc_html_e( Ecwid_Config::get_contact_us_url(), 'ecwid-shopping-cart' ); ?>" target="_blank"><?php esc_html_e( 'Contact us', 'ecwid-shopping-cart' ); ?>	</a>
+						<p><?php esc_html_e( 'Still have questions about Ecwid? Let us know!', 'ecwid-shopping-cart' ); ?>	</p>
 					</div>
 				</li>
 			</ul>
@@ -205,27 +197,28 @@ endforeach;
 
 	<?php if ( isset( $_SERVER['REMOTE_ADDR'] ) && ! in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) ) ) : ?>
 	<div class="block-contact">
-		<h2><?php _e( 'Send a message to our support team', 'ecwid-shopping-cart' ); ?>	</h2>
+		<h2><?php esc_html_e( 'Send a message to our support team', 'ecwid-shopping-cart' ); ?>	</h2>
 
 		<div class="contact-form">
 			<form action="admin-post.php" enctype="multipart/form-data" class="new_email" id="new_email" method="post" novalidate="novalidate">
 				<input type="hidden" name="action" value="ecwid_contact_us" />
-				<input type="hidden" name="_wpnonce" id="wp-nonce" value="<?php echo wp_create_nonce( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ); ?>" />
+				<input type="hidden" name="_wpnonce" id="wp-nonce" value="<?php echo esc_attr( wp_create_nonce( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ) ); ?>" />
 				<input id="email_subject" maxlength="100" name="email[subject]" type="text" class="form-control" value="
 				<?php
 				if ( ! empty( $_GET['contact_us_subject'] ) ) {
-					echo __( sanitize_text_field( wp_unslash( $_GET['contact_us_subject'] ) ) );}
+					echo esc_html( sanitize_text_field( wp_unslash( $_GET['contact_us_subject'] ) ) );}
 				?>
-				" placeholder="<?php _e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
-				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php _e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>	">
-																										 <?php
-																											if ( ! empty( $_GET['contact_us_message'] ) ) {
-																												echo sanitize_text_field( wp_unslash( $_GET['contact_us_message'] ) );}
-																											?>
+				" placeholder="<?php esc_html_e( 'Subject', 'ecwid-shopping-cart' ); ?>	">
+				<textarea id="email_body" name="email[body]" class="form-control" placeholder="<?php esc_html_e( 'Type in your message here', 'ecwid-shopping-cart' ); ?>">
+				<?php
+				if ( ! empty( $_GET['contact_us_message'] ) ) {
+					echo esc_textarea( sanitize_text_field( wp_unslash( $_GET['contact_us_message'] ) ) );
+				}
+				?>
 				</textarea>
 				<div class="btn-container">
 					<button id="contact-ecwid-support" class="btn btn-medium btn-aqua" type="submit">
-						<span class="btn-text"><?php _e( 'Send Message', 'ecwid-shopping-cart' ); ?></span>
+						<span class="btn-text"><?php esc_html_e( 'Send Message', 'ecwid-shopping-cart' ); ?></span>
 						<div class="loader">
 							<div class="ecwid-spinner spin-right">
 								<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -236,15 +229,15 @@ endforeach;
 							</div>
 						</div>
 					</button>
-					<div class="send-error"><?php _e( 'Send message failed', 'ecwid-shopping-cart' ); ?></div>
+					<div class="send-error"><?php esc_html_e( 'Send message failed', 'ecwid-shopping-cart' ); ?></div>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div class="block-sent">
-		<h2><?php _e( 'Your email has been sent', 'ecwid-shopping-cart' ); ?></h2>
-		<p><?php _e( ' Thank you very much for contacting us! We will get back to you shortly.', 'ecwid-shopping-cart' ); ?></p>
-		<p><a id="show-ecwid-contact-again" href="#"><?php _e( 'You can send a new request here.', 'ecwid-shopping-cart' ); ?></a></p>
+		<h2><?php esc_html_e( 'Your email has been sent', 'ecwid-shopping-cart' ); ?></h2>
+		<p><?php esc_html_e( ' Thank you very much for contacting us! We will get back to you shortly.', 'ecwid-shopping-cart' ); ?></p>
+		<p><a id="show-ecwid-contact-again" href="#"><?php esc_html_e( 'You can send a new request here.', 'ecwid-shopping-cart' ); ?></a></p>
 
 	</div>
 	<?php endif; ?>
@@ -288,7 +281,7 @@ endforeach;
 		jQuery('.block-contact .btn').addClass('btn-loading');
 		jQuery('.block-contact .form-control').addClass('submitted');
 
-		$result = jQuery.ajax(ajaxurl + '?action=<?php echo Ecwid_Help_Page::CONTACT_US_ACTION_NAME; ?>', {
+		$result = jQuery.ajax(ajaxurl + '?action=<?php echo esc_attr( Ecwid_Help_Page::CONTACT_US_ACTION_NAME ); ?>', {
 			'method': 'POST',
 			'data': {
 				'subject'  : jQuery('#email_subject').val(),

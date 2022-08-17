@@ -6,8 +6,8 @@
 				<path d="M34.5 49c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM35.5 38.57h-2l-1-14c0-1.17.89-2.07 2-2.07s2 .9 2 2l-1 14.07z"></path>
 			</svg>
 		</div>
-		<h3 class="title"><?php _e("Sorry we're having technical difficulties.", 'ecwid-shopping-cart'); ?></h3>
+		<h3 class="title"><?php esc_html_e( "Sorry we're having technical difficulties.", 'ecwid-shopping-cart' ); ?></h3>
 		<div class="text">
-			<?php _e('Our team is already working on this issue. Please refresh the page in a few minutes. If the issue persists, please contact <a target="_blank" href="https://help.ecwid.com/customer/portal/emails/new">our customer support team</a>.', 'ecwid-shopping-cart'); ?>
+			<?php echo wp_kses_post( __( 'Our team is already working on this issue. Please refresh the page in a few minutes. If the issue persists, please contact <a target="_blank" href="https://help.ecwid.com/customer/portal/emails/new">our customer support team</a>.', 'ecwid-shopping-cart' ) ); ?>
 		</div>
 	</div>

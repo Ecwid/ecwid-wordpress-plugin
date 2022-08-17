@@ -8,9 +8,9 @@
 </div>
 <br />
 
-<form method="POST" type="multipart/form-data" action="admin-post.php?action=<?php echo ecwid_get_update_params_action(); ?>">
+<form method="POST" type="multipart/form-data" action="admin-post.php?action=<?php echo esc_attr( ecwid_get_update_params_action() ); ?>">
 
-	<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce( ecwid_get_update_params_action() ); ?>" />
+	<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( ecwid_get_update_params_action() ) ); ?>" />
 
 	<style type="text/css">
 		#ec-params-table { border-collapse: collapse; border-spacing: 0; margin-bottom: 5px; }
@@ -23,10 +23,10 @@
 	
 	<?php foreach ( ecwid_get_update_params_options() as $key => $option ) : ?>
 		<tr style="padding: 0 0 5px;">
-			<td><?php echo $key; ?>: </td>
+			<td><?php echo esc_html( $key ); ?>: </td>
 			<td>
 			<?php if ( @$option['type'] == 'bool' ) : ?>
-				<select name="option[<?php echo $key; ?>]">
+				<select name="option[<?php echo esc_attr( $key ); ?>]">
 					<option value=""
 					<?php
 					if ( get_option( $key ) == '' ) :
@@ -39,17 +39,17 @@
 						 selected="selected"<?php endif; ?>>on</option>
 				</select>
 			<?php elseif ( @$option['type'] == 'string' ) : ?>
-				<input type="text" name="option[<?php echo $key; ?>]" value="<?php echo esc_attr( get_option( $key ) ); ?>">
+				<input type="text" name="option[<?php echo esc_attr( $key ); ?>]" value="<?php echo esc_attr( get_option( $key ) ); ?>">
 			<?php elseif ( @$option['type'] == 'html' ) : ?>
-				<textarea name="option[<?php echo $key; ?>]" style="width:500px"><?php echo htmlentities( get_option( $key ) ); ?></textarea>
+				<textarea name="option[<?php echo esc_attr( $key ); ?>]" style="width:500px"><?php echo esc_textarea( get_option( $key ) ); ?></textarea>
 			<?php elseif ( @$option['values'] ) : ?>
-				<select name="option[<?php echo $key; ?>]">
+				<select name="option[<?php echo esc_attr( $key ); ?>]">
 				<?php foreach ( @$option['values'] as $value ) : ?>
-					<option value="<?php echo $value; ?>"
-											  <?php
-												if ( $value == get_option( $key ) ) :
-													?>
-						 selected="selected"<?php endif; ?>><?php echo $value; ?></option>
+					<option value="<?php echo esc_attr( $value ); ?>"
+						<?php if ( $value == get_option( $key ) ) { ?>
+							selected="selected"
+						<?php } ?>
+					><?php echo esc_html( $value ); ?></option>
 				<?php endforeach; ?>	
 				</select>
 			<?php endif; ?>
@@ -67,4 +67,4 @@
 
 <br />
 <h2>Clear plugin cache</h2>
-<a href="?<?php echo ecwid_get_clear_all_cache_action(); ?>&redirect_back">Clear all caches</a>
+<a href="?<?php echo esc_attr( ecwid_get_clear_all_cache_action() ); ?>&redirect_back">Clear all caches</a>

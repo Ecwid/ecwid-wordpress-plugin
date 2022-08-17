@@ -2,11 +2,11 @@
 	jQuery(document.body).addClass('ecwid-admin-iframe ecwid-no-padding');
 
 	jQuery(document).ready(function() {
-		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; ?>');
+		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>');
 		ecwidSetPopupCentering('#ecwid-frame');
 
 		jQuery.ajax({
-			url: ajaxurl + '?action=<?php echo Ecwid_Store_Page::WARMUP_ACTION; ?>'
+			url: ajaxurl + '?action=<?php echo esc_attr( Ecwid_Store_Page::WARMUP_ACTION ); ?>'
 		});
 	});
 	//]]>
@@ -16,7 +16,7 @@
 	<?php
 	if ( isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'ec-storefront-settings', 'ec-store-developers' ) ) ) {
 		echo '#ecwid-frame { display: none; } ';
-		echo sprintf( '#%s { display: block; }', sanitize_text_field( wp_unslash( $_GET['page'] ) ) );
+		echo esc_html( sprintf( '#%s { display: block; }', sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) );
 	}
 	?>
 	.ec-ui-framework-page { display: none; }
