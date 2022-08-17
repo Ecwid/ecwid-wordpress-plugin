@@ -1585,7 +1585,7 @@ class Ecwid_Crypt_Base
      */
     function _encryptBlock($in)
     {
-        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);
+        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     /**
@@ -1598,7 +1598,7 @@ class Ecwid_Crypt_Base
      */
     function _decryptBlock($in)
     {
-        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);
+        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     /**
@@ -1612,7 +1612,7 @@ class Ecwid_Crypt_Base
      */
     function _setupKey()
     {
-        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);
+        user_error((version_compare(PHP_VERSION, '5.0.0', '>=')  ? __METHOD__ : __FUNCTION__)  . '() must extend by class ' . get_class($this), E_USER_ERROR);//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     /**
@@ -1673,7 +1673,7 @@ class Ecwid_Crypt_Base
             if ($length % $this->block_size == 0) {
                 return $text;
             } else {
-                user_error("The plaintext's length ($length) is not a multiple of the block size ({$this->block_size})");
+                user_error("The plaintext's length ($length) is not a multiple of the block size ({$this->block_size})");//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 $this->padding = true;
             }
         }
