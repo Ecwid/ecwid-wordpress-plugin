@@ -1,15 +1,15 @@
 <!-- noptimize -->
 <?php
 
-echo ecwid_get_scriptjs_code();
-echo ecwid_get_product_browser_url_script();
+echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo ecwid_get_product_browser_url_script(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>
 
 <div class='ec-cart-widget'
-	 data-fixed='false'
-	 data-fixed-shape='<?php echo $instance[self::FIELD_FIXED_SHAPE]; ?>'
-	 data-layout='<?php echo $instance[self::FIELD_LAYOUT]; ?>'
-	 data-icon='<?php echo $instance[self::FIELD_ICON]; ?>'
+	data-fixed='false'
+	data-fixed-shape='<?php echo esc_attr( $instance[ self::FIELD_FIXED_SHAPE ] ); ?>'
+	data-layout='<?php echo esc_attr( $instance[ self::FIELD_LAYOUT ] ); ?>'
+	data-icon='<?php echo esc_attr( $instance[ self::FIELD_ICON ] ); ?>'
 ></div>
 
 <script>

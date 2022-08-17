@@ -41,7 +41,7 @@ class Ecwid_Divi extends Ecwid_Theme_Base {
 	}
 
 	public function add_scriptjs_code() {
-		echo ecwid_get_scriptjs_code();
+		echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function single_post_title( $post_title, $post ) {
