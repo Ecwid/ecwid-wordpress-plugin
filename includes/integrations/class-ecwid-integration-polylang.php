@@ -66,23 +66,18 @@ class Ecwid_Integration_Polylang {
 			return;
 		}
 
-		$js = '<script data-cfasync="false" type="text/javascript">';
-
-		$js .= 'window.ec = window.ec || Object();';
-		$js .= 'window.ec.config = window.ec.config || Object();';
-
-		$js .= 'window.ec.config.storefrontUrls.enableHreflangTags = true;';
-		$js .= 'window.ec.config.storefrontUrls.internationalPages = {';
-
+		$pages = array();
 		foreach ( $this->hreflang_items as $lang => $url ) {
-			$js .= sprintf( '"%s": "%s",', $lang, $url );
+			$pages[ $lang ] = $url;
 		}
-
-		$js .= '};';
-
-		$js .= '</script>';
-
-		echo $js;
+		?>
+		<script data-cfasync="false" type="text/javascript">
+			window.ec = window.ec || Object();
+			window.ec.config = window.ec.config || Object();
+			window.ec.config.storefrontUrls.enableHreflangTags = true;
+			window.ec.config.storefrontUrls.internationalPages = <?php echo wp_json_encode( $pages, JSON_UNESCAPED_SLASHES ); ?>;
+		</script>
+		<?php
 	}
 }
 
