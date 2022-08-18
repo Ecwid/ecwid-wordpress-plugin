@@ -152,6 +152,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog == 
 
+= 6.10.27 - Aug 18, 2022 =
+- After the last update, the Ecwid ecommerce plugin may have broken other plugins on your ecommerce site. It was a bug. We've fixed it.
+
 = 6.10.26 - Aug 16, 2022 =
 - Compatibility improvements with the Elementor builder. If you are using the ecommerce widget in the Elementor builder, you may have encountered an issue where the storefront links in the menu or sitemap are not working properly. We've fixed it.
 - Plugin code improvements to comply with the WordPress plugin marketplace recommendations.
