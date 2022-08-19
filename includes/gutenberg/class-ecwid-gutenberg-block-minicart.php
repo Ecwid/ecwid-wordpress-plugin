@@ -5,13 +5,13 @@ require_once dirname( __FILE__ ) . '/class-ecwid-gutenberg-block-base.php';
 class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 
 	protected $_name = 'minicart';
-	
+
 	public function render_callback( $params ) {
-		
+
 		$params = wp_parse_args(
 			$params,
 			array(
-				'is_ecwid_shortcode' => true
+				'is_ecwid_shortcode' => true,
 			)
 		);
 
@@ -20,29 +20,29 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 		<!-- noptimize -->
 		<?php
 
-		echo ecwid_get_scriptjs_code();
-		echo ecwid_get_product_browser_url_script();
+		echo ecwid_get_scriptjs_code(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo ecwid_get_product_browser_url_script(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$attributes = $this->get_attributes_for_editor();
-		
+
 		foreach ( array( 'fixed_shape', 'layout', 'icon' ) as $param ) {
-		    if ( !@$params[$param] ) {
-		        $params[$param] = $attributes[$param]['default'];
-            }
-        }
-        
+			if ( ! @$params[ $param ] ) {
+				$params[ $param ] = $attributes[ $param ]['default'];
+			}
+		}
+
 		?>
-        
-        <div class='ec-cart-widget'
-		     data-fixed='false'
-		     data-fixed-shape='<?php echo @$params['fixed_shape']; ?>'
-		     data-layout='<?php echo @$params['layout']; ?>'
-		     data-icon='<?php echo @$params['icon']; ?>'
+		
+		<div class='ec-cart-widget'
+			 data-fixed='false'
+			 data-fixed-shape='<?php echo esc_attr( @$params['fixed_shape'] ); ?>'
+			 data-layout='<?php echo esc_attr( @$params['layout'] ); ?>'
+			 data-icon='<?php echo esc_attr( @$params['icon'] ); ?>'
 		></div>
-        
+		
 		<script>
 			if (typeof Ecwid != 'undefined'){
-            	Ecwid.init();
+				Ecwid.init();
 			}
 		</script>
 		<!-- /noptimize -->
@@ -52,9 +52,9 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 		ob_end_clean();
 
 		$align = @$params['align'];
-        if ( $align == 'right' || $align == "left" ) {
-            $contents = '<div class="align' . $align . '">' . $contents . '</div>';
-        }
+		if ( $align == 'right' || $align == 'left' ) {
+			$contents = '<div class="align' . $align . '">' . $contents . '</div>';
+		}
 
 		return $contents;
 	}
@@ -62,43 +62,43 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 	public function get_attributes_for_editor() {
 
 		$minicart_attributes = array(
-			'layout' => array(
-				'name' => 'layout',
-				'title' => __( 'Layout', 'ecwid-shopping-cart' ),
-				'values' => Ecwid_Floating_Minicart::get_layouts(),
-				'default' => 'BIG_ICON_TITLE_SUBTOTAL'
+			'layout'      => array(
+				'name'    => 'layout',
+				'title'   => __( 'Layout', 'ecwid-shopping-cart' ),
+				'values'  => Ecwid_Floating_Minicart::get_layouts(),
+				'default' => 'BIG_ICON_TITLE_SUBTOTAL',
 			),
-			'icon' => array(
-				'name' => 'icon',
-				'title' => __( 'Cart icon', 'ecwid-shopping-cart' ),
-				'values' => Ecwid_Floating_Minicart::get_icons(),
-				'default' => 'BAG'
+			'icon'        => array(
+				'name'    => 'icon',
+				'title'   => __( 'Cart icon', 'ecwid-shopping-cart' ),
+				'values'  => Ecwid_Floating_Minicart::get_icons(),
+				'default' => 'BAG',
 			),
 			'fixed_shape' => array(
-				'name' => 'fixed_shape',
-				'title' => __( 'Border', 'ecwid-shopping-cart' ),
-				'values' => Ecwid_Floating_Minicart::get_fixed_shapes(),
-				'default' => 'RECT'
-			)
+				'name'    => 'fixed_shape',
+				'title'   => __( 'Border', 'ecwid-shopping-cart' ),
+				'values'  => Ecwid_Floating_Minicart::get_fixed_shapes(),
+				'default' => 'RECT',
+			),
 		);
 
 		$attributes = array();
-		
+
 		foreach ( $minicart_attributes as $name => $attr ) {
-			$result = array();
-			$result['name'] = $attr['name'];
-			$result['title'] = $attr['title'];
+			$result            = array();
+			$result['name']    = $attr['name'];
+			$result['title']   = $attr['title'];
 			$result['default'] = $attr['default'];
-			$result['values'] = array();
+			$result['values']  = array();
 
 			foreach ( $attr['values'] as $value => $title ) {
 				$result['values'][] = array(
 					'value' => $value,
-					'title' => $title
+					'title' => $title,
 				);
 			}
 
-			$attributes[$name] = $result;
+			$attributes[ $name ] = $result;
 		}
 
 		return $attributes;

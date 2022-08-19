@@ -484,21 +484,21 @@ function ecwid_print_inline_js_config() {
 	$js .= 'window.ec.config = window.ec.config || Object();' . PHP_EOL;
 	$js .= 'window.ec.config.enable_canonical_urls = true;' . PHP_EOL;
 
-	$plugins_disabling_interactive = array(	
+	$plugins_disabling_interactive = array(
 		'shiftnav-pro/shiftnav.php',
-		'easymega/easymega.php'
+		'easymega/easymega.php',
 	);
 
 	foreach ( $plugins_disabling_interactive as $plugin ) {
 		if ( is_plugin_active( $plugin ) ) {
-			$js .= "window.ec.config.interactive = false;" . PHP_EOL;
+			$js .= 'window.ec.config.interactive = false;' . PHP_EOL;
 			break;
 		}
 	}
 
 	$js = apply_filters( 'ecwid_inline_js_config', $js ) . PHP_EOL;
-	
-	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>'  . PHP_EOL , $js );
+
+	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>' . PHP_EOL, $js ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
@@ -1201,7 +1201,7 @@ function ecwid_get_current_user_locale()
 }
 
 function ecwid_product_browser_url_in_head() {
-	echo ecwid_get_product_browser_url_script();
+	echo ecwid_get_product_browser_url_script(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function ecwid_is_applicable_escaped_fragment() {
@@ -1742,7 +1742,8 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 	$is_newbie = ecwid_is_demo_store();
 
     if( !$is_cli_running && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
-        exit( wp_safe_redirect( Ecwid_Admin::get_dashboard_url() ) );
+        wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
+        exit();
     }
 }
 
@@ -1970,15 +1971,15 @@ add_action('admin_post_' . ecwid_get_update_params_action(), 'ecwid_update_plugi
 function ecwid_update_plugin_params()
 {
 	if ( !current_user_can('manage_options') ) {
-		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
 	}
 	
     if ( ! isset( $_POST['_wpnonce'] ) ) {
-        wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+        wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
     }
 
     if ( ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), ecwid_get_update_params_action() ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
 	}
 
 	$options = ecwid_get_update_params_options();
@@ -2670,7 +2671,7 @@ function ecwid_sync_progress_callback($status) {
 		$status['event'] = 'progress';
 	}
 
-	echo 'event: ' . $status['event'] . "\n";
+	echo 'event: ' . esc_html( $status['event'] ) . "\n";
 
 	echo 'data: ' . json_encode($status) . "\n\n";
 	flush();
@@ -2786,7 +2787,7 @@ function ecwid_tick() {
 	error_log('tick');
 	header("Content-Type: text/event-stream\n\n");
 	for ($i = 0; $i < 30; $i++) {
-		echo "data: $i \n\n";
+		echo "data: $i \n\n"; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		flush();
 		sleep(2);
 		//usleep(2000);
@@ -3075,7 +3076,7 @@ function ecwid_embed_svg($name) {
 	
 	if( file_exists( $path ) ) {
 		$code = file_get_contents( $path );
-		echo $code;
+		echo $code; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 

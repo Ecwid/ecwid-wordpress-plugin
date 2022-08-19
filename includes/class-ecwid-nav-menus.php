@@ -337,9 +337,9 @@ class Ecwid_Nav_Menus {
 						?>
 						<li>
 							<label class="menu-item-title">
-								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo $value['list-name']; ?>
+								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $value['list-name'] ); ?>
 							</label>
-							<input type="hidden" class="menu-item-object" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object]" value="<?php echo $value['classes']; ?>" />
+							<input type="hidden" class="menu-item-object" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object]" value="<?php echo esc_attr( $value['classes'] ); ?>" />
 							<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="ecwid_menu_item" />
 							<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html( $value['label'] ); ?>" />
 							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( Ecwid_Store_Page::get_store_url() . '#!/~/' . $value['url'] ); ?>" />
@@ -352,7 +352,7 @@ class Ecwid_Nav_Menus {
 			</div>
 			<p class="button-controls">
 				<span class="list-controls">
-					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-ecwid-links' ); ?>" class="select-all"><?php _e( 'Select All' ); ?></a>
+					<a href="<?php echo esc_url( admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-ecwid-links' ) ); ?>" class="select-all"><?php esc_html_e( 'Select All' ); ?></a>
 				</span>
 				<span class="add-to-menu">
 					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-post-type-menu-item" id="submit-posttype-ecwid-links">

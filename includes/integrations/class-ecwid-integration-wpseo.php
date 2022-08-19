@@ -119,7 +119,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		$output = ob_get_contents();
 		ob_end_clean();
 
-		if ( substr_count( $output, '"og:image"' ) > 1 ) {
+		if ( substr_count( $output, '"og:image"' ) >= 1 ) {
 
 			$og_tags = array( '', ':width', ':height', ':type' );
 			foreach ( $og_tags as $og_tag ) {
@@ -132,7 +132,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 			}
 		}
 
-		echo $output;
+		echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function clear_ecwid_sitemap_index() {
@@ -160,9 +160,9 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 				}
 			}
 
-			echo $xml->asXML();
+			echo $xml->asXML(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
-			echo $output;
+			echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

@@ -23,7 +23,7 @@ abstract class Ecwid_Widget_Base extends WP_Widget {
 			return;
 		}
 
-		echo $before_widget;
+		echo $before_widget;  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		if ( ! $this->_hide_title ) {
 
 			$title = '&nbsp;';
@@ -34,12 +34,12 @@ abstract class Ecwid_Widget_Base extends WP_Widget {
 			$title = apply_filters( 'widget_title', $title );
 
 			if ( $title ) {
-				echo $before_title . $title . $after_title;
+				echo $before_title . $title . $after_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
-		echo $content;
+		echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		echo $after_widget;
+		echo $after_widget; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
