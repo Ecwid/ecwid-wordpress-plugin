@@ -1786,12 +1786,6 @@ function ecwid_show_admin_messages() {
 	}
 }
 
-function ecwid_show_admin_message($message) {
-
-	$class = version_compare(get_bloginfo('version'), '3.0') < 0 ? "updated fade" : "update-nag";
-	echo sprintf('<div class="%s" style="margin-top: 5px">%s</div>', $class, $message);
-}
-
 function ecwid_store_deactivate() {
 	$ecwid_page_id = get_option("ecwid_store_page_id");
 	$_tmp_page = null;
