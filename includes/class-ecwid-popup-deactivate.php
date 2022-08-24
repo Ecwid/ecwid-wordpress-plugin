@@ -105,12 +105,16 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 	protected function _get_footer_buttons() {
 		return array(
 			(object) array(
-				'class' => 'button-secondary deactivate',
+				'class' => 'button-secondary float-left deactivate',
 				'title' => __( 'Submit & Deactivate', 'ecwid-shopping-cart' ),
 			),
 			(object) array(
-				'class' => 'button-primary btn-close',
+				'class' => 'button-primary float-left btn-close',
 				'title' => __( 'Cancel', 'ecwid-shopping-cart' ),
+			),
+			(object) array(
+				'class' => 'button-link deactivate',
+				'title' => __( 'Skip & Deactivate', 'ecwid-shopping-cart' ),
 			),
 		);
 	}
@@ -131,51 +135,51 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 	}
 
 	protected function _get_reasons() {
-		 $options = array(
-			 array(
-				 'text'         => __( 'I have a problem using this plugin', 'ecwid-shopping-cart' ),
-				 'has_message'  => true,
-				 'code'         => 'problem',
-				 'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
-			 ),
-			 array(
-				 'text'         => sprintf(
-					 __( 'I couldn’t find a WordPress theme that goes well with %s', 'ecwid-shopping-cart' ),
-					 Ecwid_Config::get_brand()
-				 ),
-				 'has_message' => true,
-				 'code'        => 'theme',
-				 'message_hint' => sprintf(
-					 __( 'I use this WordPress theme: %s', 'ecwid-shopping-cart' ),
-					 wp_get_theme()->get( 'Name' )
-				 ),
-			 ),
-			 array(
-				 'text'         => __( 'The plugin doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
-				 'has_message'  => true,
-				 'code'         => 'no feature',
-				 'message_hint' => __( 'What feature do you need?', 'ecwid-shopping-cart' ),
-			 ),
-			 array(
-				 'text'         => __( 'I found a better plugin', 'ecwid-shopping-cart' ),
-				 'has_message'  => true,
-				 'code'         => 'found better',
-				 'message_hint' => __( 'Can you share the name of the plugin you chose?', 'ecwid-shopping-cart' ),
-			 ),
-			 array(
-				 'text'               => __( 'It\'s a temporary deactivation. Please do not ask me again.', 'ecwid-shopping-cart' ),
-				 'has_message'        => false,
-				 'code'               => 'temporary',
-				 'is_disable_message' => true,
-			 ),
-			 array(
-				 'text'         => __( 'Other', 'ecwid-shopping-cart' ),
-				 'has_message'  => true,
-				 'code'         => 'other',
-				 'message_hint' => __( 'Can you share your feedback? What was wrong?', 'ecwid-shopping-cart' ),
-			 ),
-		 );
+		$options = array(
+			array(
+				'text'         => __( 'I have a problem using this plugin', 'ecwid-shopping-cart' ),
+				'has_message'  => true,
+				'code'         => 'problem',
+				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
+			),
+			array(
+				'text'         => sprintf(
+					__( 'I couldn’t find a WordPress theme that goes well with %s', 'ecwid-shopping-cart' ),
+					Ecwid_Config::get_brand()
+				),
+				'has_message'  => true,
+				'code'         => 'theme',
+				'message_hint' => sprintf(
+					__( 'I use this WordPress theme: %s', 'ecwid-shopping-cart' ),
+					wp_get_theme()->get( 'Name' )
+				),
+			),
+			array(
+				'text'         => __( 'The plugin doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
+				'has_message'  => true,
+				'code'         => 'no feature',
+				'message_hint' => __( 'What feature do you need?', 'ecwid-shopping-cart' ),
+			),
+			array(
+				'text'         => __( 'I found a better plugin', 'ecwid-shopping-cart' ),
+				'has_message'  => true,
+				'code'         => 'found better',
+				'message_hint' => __( 'Can you share the name of the plugin you chose?', 'ecwid-shopping-cart' ),
+			),
+			array(
+				'text'               => __( 'It\'s a temporary deactivation. Please do not ask me again.', 'ecwid-shopping-cart' ),
+				'has_message'        => false,
+				'code'               => 'temporary',
+				'is_disable_message' => true,
+			),
+			array(
+				'text'         => __( 'Other', 'ecwid-shopping-cart' ),
+				'has_message'  => true,
+				'code'         => 'other',
+				'message_hint' => __( 'Can you share your feedback? What was wrong?', 'ecwid-shopping-cart' ),
+			),
+		);
 
-		 return $options;
+		return $options;
 	}
 }
