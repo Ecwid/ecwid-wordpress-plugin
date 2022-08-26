@@ -20,40 +20,40 @@
 	</style>
 
 	<table id="ec-params-table">
-	
+
 	<?php foreach ( ecwid_get_update_params_options() as $key => $option ) : ?>
 		<tr style="padding: 0 0 5px;">
 			<td><?php echo esc_html( $key ); ?>: </td>
 			<td>
-			<?php if ( @$option['type'] == 'bool' ) : ?>
+			<?php if ( isset( $option['type'] ) && $option['type'] === 'bool' ) : ?>
 				<select name="option[<?php echo esc_attr( $key ); ?>]">
 					<option value=""
 					<?php
-					if ( get_option( $key ) == '' ) :
+					if ( get_option( $key ) === '' ) :
 						?>
-						 selected="selected"<?php endif; ?>>off</option>
+						selected="selected"<?php endif; ?>>off</option>
 					<option value="Y"
 					<?php
 					if ( get_option( $key ) ) :
 						?>
-						 selected="selected"<?php endif; ?>>on</option>
+						selected="selected"<?php endif; ?>>on</option>
 				</select>
-			<?php elseif ( @$option['type'] == 'string' ) : ?>
+			<?php elseif ( isset( $option['type'] ) && $option['type'] === 'string' ) : ?>
 				<input type="text" name="option[<?php echo esc_attr( $key ); ?>]" value="<?php echo esc_attr( get_option( $key ) ); ?>">
-			<?php elseif ( @$option['type'] == 'html' ) : ?>
+			<?php elseif ( isset( $option['type'] ) && $option['type'] === 'html' ) : ?>
 				<textarea name="option[<?php echo esc_attr( $key ); ?>]" style="width:500px"><?php echo esc_textarea( get_option( $key ) ); ?></textarea>
-			<?php elseif ( @$option['values'] ) : ?>
+			<?php elseif ( ! empty( $option['values'] ) ) : ?>
 				<select name="option[<?php echo esc_attr( $key ); ?>]">
-				<?php foreach ( @$option['values'] as $value ) : ?>
+				<?php foreach ( $option['values'] as $value ) : ?>
 					<option value="<?php echo esc_attr( $value ); ?>"
-						<?php if ( $value == get_option( $key ) ) { ?>
+						<?php if ( $value === get_option( $key ) ) { ?>
 							selected="selected"
 						<?php } ?>
 					><?php echo esc_html( $value ); ?></option>
 				<?php endforeach; ?>	
 				</select>
 			<?php endif; ?>
-			
+
 			<?php echo esc_attr( get_option( $key ) ); ?>
 
 			</td>

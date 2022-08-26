@@ -19,7 +19,7 @@ new Ecwid_Integration_Divibuilder();
 
 function ecwid_create_divi_module() {
 
-	if ( class_exists( 'ET_Builder_Module' ) && ! class_exists( 'ET_Builder_Module_Ecwid' ) ) {
+	if ( class_exists( 'ET_Builder_Module' ) && class_exists( 'ET_Builder_Settings' ) && ! class_exists( 'ET_Builder_Module_Ecwid' ) ) {
 		class ET_Builder_Module_Ecwid extends ET_Builder_Module {
 			public function init() {
 				// translators: %s: brand
