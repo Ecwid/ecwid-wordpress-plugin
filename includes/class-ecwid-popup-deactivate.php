@@ -105,12 +105,8 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 	protected function _get_footer_buttons() {
 		return array(
 			(object) array(
-				'class' => 'button-secondary float-left deactivate',
+				'class' => 'button-primary float-left deactivate',
 				'title' => __( 'Submit & Deactivate', 'ecwid-shopping-cart' ),
-			),
-			(object) array(
-				'class' => 'button-primary float-left btn-close',
-				'title' => __( 'Cancel', 'ecwid-shopping-cart' ),
 			),
 			(object) array(
 				'class' => 'button-link deactivate',
