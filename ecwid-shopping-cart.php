@@ -94,7 +94,6 @@ if ( is_admin() ) {
 	add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_frontend' );
 	add_filter( 'wp_title', 'ecwid_seo_title', 10000, 3 );
 	add_filter( 'document_title_parts', 'ecwid_seo_title_parts' );
-	add_action( 'plugins_loaded', 'ecwid_minifier_compatibility', 0 );
 	add_filter( 'widget_meta_poweredby', 'ecwid_add_credits' );
 	add_filter( 'body_class', 'ecwid_body_class' );
 	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
@@ -661,21 +660,6 @@ function ecwid_google_xml_sitemap_build_sitemap_callback($url, $priority, $frequ
 	if($generatorObject != null) {
 		$page = new GoogleSitemapGeneratorPage($url, $priority, $frequency);
 		$generatorObject->AddElement($page);
-	}
-}
-
-function ecwid_minifier_compatibility()
-{
-	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
-
-	$plugins = get_plugins();
-	$wp_minify_plugin = 'wp-minify/wp-minify.php';
-	if (array_key_exists($wp_minify_plugin, $plugins) && is_plugin_active($wp_minify_plugin)) {
-		global $wp_minify;
-
-		if (is_object($wp_minify) && array_key_exists('default_exclude', get_object_vars($wp_minify)) && is_array($wp_minify->default_exclude)) {
-			$wp_minify->default_exclude[] = Ecwid_Config::get_scriptjs_domain() . '/script.js';
-		}
 	}
 }
 
