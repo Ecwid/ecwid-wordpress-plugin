@@ -198,7 +198,6 @@ function ecwid_init_integrations() {
 		'wordpress-seo-premium/wp-seo-premium.php' => 'wpseo',
 		'divi-builder/divi-builder.php' => 'divibuilder',
 		'autoptimize/autoptimize.php' => 'autoptimize',
-		'above-the-fold-optimization/abovethefold.php' => 'above-the-fold',
 		'js_composer/js_composer.php' => 'wpbakery-composer',
 		'beaver-builder-lite-version/fl-builder.php' => 'beaver-builder',
 		'bb-plugin/fl-builder.php' => 'beaver-builder',
