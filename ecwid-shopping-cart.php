@@ -1386,7 +1386,7 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 
 	$code =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
 	$code .= ecwid_sso();
-	$code .= '<script type="text/javascript">if (jQuery && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
+	$code .= '<script type="text/javascript">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
 
 	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
