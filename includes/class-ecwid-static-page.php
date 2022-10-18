@@ -225,6 +225,10 @@ class Ecwid_Static_Page {
 		}
 
 		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$dynamic_css  = '';
+		if ( ! empty( $_GET['dynamic_css'] ) ) {
+			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
+		}
 
 		if ( strpos( $snapshot_url, self::API_URL ) !== 0 ) {
 			return;
@@ -242,6 +246,10 @@ class Ecwid_Static_Page {
 
 		if ( $fetched_data && isset( $fetched_data['data'] ) ) {
 			$fetched_data = json_decode( $fetched_data['data'] );
+
+			if ( ! empty( $dynamic_css ) ) {
+				$fetched_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			}
 
 			if ( isset( $fetched_data->lastUpdated ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$last_update = substr( $fetched_data->lastUpdated, 0, -3 ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase

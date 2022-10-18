@@ -17,7 +17,8 @@ ecwidGetStaticSnapshot = function () {
         {
             action: 'ec_get_static_snapshot',
             snapshot_url: ecwidDelayedActionsParams.snapshot_url,
-            _ajax_nonce: ecwidDelayedActionsParams.ajaxNonce
+            _ajax_nonce: ecwidDelayedActionsParams.ajaxNonce,
+            dynamic_css: ecwidDelayedActionsParams.cssLinkElement
         }
     );
 }
@@ -34,3 +35,15 @@ jQuery(window).on('beforeunload', function () {
     ecwidCheckApiCache();
     document.cookie = "ecwid_event_is_working_beforeunload=true";
 });
+
+
+if (typeof Ecwid != 'undefined') {
+    Ecwid.OnAPILoaded.add(function () {
+        if (typeof ecwidDelayedActionsParams == 'undefined') return;
+
+        var css = window.ec.cssLinkElement
+            && window.ec.cssLinkElement.href || '';
+
+        ecwidDelayedActionsParams.cssLinkElement = css;
+    })
+};
