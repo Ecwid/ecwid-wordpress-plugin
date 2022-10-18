@@ -23,7 +23,7 @@ class EcwidPlatform {
 	const TRANSIENTS_LIMIT = 5000;
 
 	public static function get_store_id() {
-		 return get_ecwid_store_id();
+		return get_ecwid_store_id();
 	}
 
 	public static function init_crypt( $force = false ) {
@@ -233,7 +233,7 @@ class EcwidPlatform {
 	}
 
 	public static function report_error( $error ) {
-		ecwid_log_error( json_encode( $error ) );
+		ecwid_log_error( wp_json_encode( $error ) );
 	}
 
 	public static function fetch_url( $url, $options = array() ) {
@@ -463,7 +463,7 @@ class EcwidPlatform {
 	}
 
 	public static function get_from_catalog_cache( $key ) {
-		 $cache_name = self::_build_cache_name( $key, 'catalog' );
+		$cache_name = self::_build_cache_name( $key, 'catalog' );
 
 		$result = self::cache_get( $cache_name );
 
@@ -533,7 +533,7 @@ class EcwidPlatform {
 	}
 
 	public static function invalidate_products_cache_from( $time = null ) {
-		 self::_invalidate_cache_from( self::PRODUCTS_CACHE_VALID_FROM, $time );
+		self::_invalidate_cache_from( self::PRODUCTS_CACHE_VALID_FROM, $time );
 	}
 
 	public static function invalidate_categories_cache_from( $time = null ) {
@@ -556,7 +556,7 @@ class EcwidPlatform {
 	public static function is_need_clear_transients() {
 		global $wpdb;
 
-		$count_transients = $wpdb->get_var(
+		$count_transients = $wpdb->get_var( //phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			"
 			SELECT COUNT(*)
 			FROM {$wpdb->options}
@@ -574,7 +574,7 @@ class EcwidPlatform {
 	public static function clear_all_transients() {
 		global $wpdb;
 
-		$wpdb->query(
+		$wpdb->query( //phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			"
 	        DELETE 
 	        FROM {$wpdb->options}

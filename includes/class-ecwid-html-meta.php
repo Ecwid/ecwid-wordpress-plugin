@@ -240,7 +240,7 @@ class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
 
 			if ( $css_files && is_array( $css_files ) ) {
 				foreach ( $css_files as $item ) {
-					echo sprintf( '<link rel="prefetch" href="%s">', $item ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo sprintf( '<link rel="prefetch" href="%s" as="style">', $item ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}
@@ -250,10 +250,10 @@ class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
 			$params   = ecwid_get_scriptjs_params();
 
 			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
-			echo sprintf( '<link rel="prefetch" href="%s" />', $scriptjs_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo sprintf( '<link rel="prefetch" href="%s" as="script"/>', $scriptjs_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			$page_url = Ecwid_Store_Page::get_store_url();
-			echo sprintf( '<link rel="prerender" href="%s" />', $page_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo sprintf( '<link rel="prerender" href="%s"/>', $page_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

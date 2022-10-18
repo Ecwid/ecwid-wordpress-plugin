@@ -13,6 +13,8 @@ class Ecwid_Static_Page {
 
 	protected $_has_theme_adjustments = false;
 
+	protected static $snapshot_url;
+
 	public function __construct() {
 		add_option( self::OPTION_IS_ENABLED );
 
@@ -20,6 +22,11 @@ class Ecwid_Static_Page {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'add_js_for_delayed_static_snapshot' ) );
+
+		add_action( 'wp_ajax_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
+		add_action( 'wp_ajax_nopriv_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
 	}
 
 	public function enqueue_scripts() {
@@ -41,7 +48,7 @@ class Ecwid_Static_Page {
 
 		if ( $css_files && is_array( $css_files ) ) {
 			foreach ( $css_files as $index => $item ) {
-				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item, array(), null );
+				wp_enqueue_style( 'ecwid-' . self::HANDLE_STATIC_PAGE . '-' . $index, $item, array(), null ); //phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			}
 		}
 	}
@@ -57,7 +64,7 @@ class Ecwid_Static_Page {
 			add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_cache_control', 100 );
 		}
 
-		$data = self::_maybe_fetch_data();
+		$data = self::maybe_fetch_data();
 
 		return $data;
 	}
@@ -89,7 +96,7 @@ class Ecwid_Static_Page {
 		return $url;
 	}
 
-	protected static function _maybe_fetch_data() {
+	protected static function maybe_fetch_data() {
 		$version       = get_bloginfo( 'version' );
 		$pb_attribures = array();
 		if ( strpos( $version, '5.0' ) === 0 || version_compare( $version, '5.0' ) > 0 ) {
@@ -114,10 +121,7 @@ class Ecwid_Static_Page {
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
-		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : '';
-		$accept_language      = apply_filters( 'ecwid_lang', $http_accept_language );
-
-		$params['lang'] = $accept_language;
+		$params['lang'] = self::get_accept_language();
 
 		$storefront_view_params = array( 'show_root_categories', 'enable_catalog_on_one_page' );
 		foreach ( $storefront_view_params as $param ) {
@@ -177,36 +181,79 @@ class Ecwid_Static_Page {
 			return $cached_data;
 		}
 
-		$fetched_data = null;
+		self::$snapshot_url = $url;
+
+		return null;
+	}
+
+	public static function get_accept_language() {
+		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+		return apply_filters( 'ecwid_lang', $http_accept_language );
+	}
+
+	public function add_js_for_delayed_static_snapshot() {
+		if ( empty( self::$snapshot_url ) ) {
+			return;
+		}
+
+		wp_enqueue_script( 'ecwid-delayed-actions', ECWID_PLUGIN_URL . 'js/delayed-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
+
+		wp_localize_script(
+			'ecwid-delayed-actions',
+			'ecwidDelayedActionsParams',
+			array(
+				'ajax_url'     => admin_url( 'admin-ajax.php' ),
+				'snapshot_url' => self::$snapshot_url,
+				'ajaxNonce'    => wp_create_nonce( 'ec_delayed_actions' ),
+			)
+		);
+	}
+
+	public static function get_static_snapshot() {
+		check_ajax_referer( 'ec_delayed_actions', '_ajax_nonce' );
+
+		$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] === 'ec_get_static_snapshot';
+		$is_doing_ajax           = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$is_get_request          = isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'GET';
+
+		if ( ! $is_ajax_check_api_cache && ( $is_doing_ajax || $is_get_request ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['snapshot_url'] ) ) {
+			return;
+		}
+
+		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		if ( strpos( $snapshot_url, self::API_URL ) !== 0 ) {
+			return;
+		}
 
 		$fetched_data = EcwidPlatform::fetch_url(
-			$url,
+			$snapshot_url,
 			array(
 				'timeout' => 3,
 				'headers' => array(
-					'ACCEPT-LANGUAGE' => $accept_language,
+					'ACCEPT-LANGUAGE' => self::get_accept_language(),
 				),
 			)
 		);
 
-		if ( $fetched_data && @$fetched_data['data'] ) {
+		if ( $fetched_data && isset( $fetched_data['data'] ) ) {
+			$fetched_data = json_decode( $fetched_data['data'] );
 
-			$fetched_data = @json_decode( $fetched_data['data'] );
-
-			if ( isset( $fetched_data->lastUpdated ) ) {
-				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
+			if ( isset( $fetched_data->lastUpdated ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			} else {
 				$last_update = time();
 			}
 
+			$cache_key = $snapshot_url;
+
 			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
-
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
-
-			return $fetched_data;
 		}
-
-		return null;
 	}
 
 	public static function _get_data_field( $field ) {
