@@ -247,21 +247,29 @@ class Ecwid_Static_Page {
 		if ( $fetched_data && isset( $fetched_data['data'] ) ) {
 			$fetched_data = json_decode( $fetched_data['data'] );
 
+            //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! empty( $dynamic_css ) ) {
-				$fetched_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$fetched_data->cssFiles = array( $dynamic_css );
 			}
 
-			if ( isset( $fetched_data->lastUpdated ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				$last_update = substr( $fetched_data->lastUpdated, 0, -3 ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			if ( ! empty( $fetched_data->htmlCode ) ) {
+				$pattern = '/<img(.*?)>/is';
+
+				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 loading="lazy">', $fetched_data->htmlCode );
+			}
+
+			if ( isset( $fetched_data->lastUpdated ) ) {
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
 			} else {
 				$last_update = time();
 			}
+            //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 			$cache_key = $snapshot_url;
 
 			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
-		}
+		}//end if
 	}
 
 	public static function _get_data_field( $field ) {
