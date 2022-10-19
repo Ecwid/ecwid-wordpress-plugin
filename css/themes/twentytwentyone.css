@@ -1,7 +1,8 @@
-#dynamic-ec-store, #static-ec-store {
-	max-width: 80rem;
+#dynamic-ec-store-container,
+#static-ec-store-container {
+    max-width: 80rem;
 }
 
 #ecwid_body .vc_row {
-	max-width: 80rem;
+    max-width: 80rem;
 }

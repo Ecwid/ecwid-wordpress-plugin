@@ -44,30 +44,38 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code  = '';
 		$code .= self::get_js_for_adding_html_id();
 
-		$html_class = '';
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
-			$code      .= self::get_js_for_switch_dynamic( 'static-ec-store', 'dynamic-ec-store' );
-			$html_class = 'hide-ec-dynamic-placeholder';
+			$code .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
 		} else {
-			$code .= self::get_js_for_hide_static( '#static-ec-store' );
+			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
 		}
 
-		$code .= self::get_dynamic_html_code( $html_class );
+		$code .= self::get_dynamic_html_code( true );
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
-		$code            .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
+		$js_code          = Ecwid_Static_Page::get_js_code();
 
-		$js_code = Ecwid_Static_Page::get_js_code();
+		$code .= '<div id="static-ec-store-container">';
+		$code .= htmlspecialchars_decode( $static_html_code );
+
 		if ( ! empty( $js_code ) ) {
 			$code .= sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
 		}
 
+		$code .= '</div>';
+		$code .= '<script>window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();</script>';
+
 		return $code;
 	}
 
-	protected function get_dynamic_html_code( $html_class = '' ) {
-		$default_render = parent::render();
-		$code           = '<div id="dynamic-ec-store" class="' . esc_attr( $html_class ) . '">' . $default_render . '</div>' . PHP_EOL;
+	protected function get_dynamic_html_code( $lazy_mode = false ) {
+
+		if ( ! $lazy_mode ) {
+			$default_render = parent::render();
+			$code           = '<div id="dynamic-ec-store-container">' . $default_render . '</div>' . PHP_EOL;
+		} else {
+			$code = '<div id="dynamic-ec-store-container"><div id="dynamic-ec-store"></div></div>' . PHP_EOL;
+		}
 
 		return $code;
 	}
@@ -93,6 +101,11 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	protected function get_js_for_switch_dynamic( $static_container_id, $dynamic_container_id ) {
+
+		$store_id       = get_ecwid_store_id();
+		$params         = ecwid_get_scriptjs_params();
+		$script_js_link = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
+
 		ob_start();
 		?>
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
@@ -103,6 +116,10 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			ec.storefront.staticPages.staticContainerID = '<?php echo esc_js( $static_container_id ); ?>';
 			ec.storefront.staticPages.dynamicContainerID = '<?php echo esc_js( $dynamic_container_id ); ?>';
 			ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
+			ec.storefront.staticPages.lazyLoading = {
+				scriptJsLink: '<?php echo $script_js_link; ?>',
+				xProductBrowserArguments: ["categoriesPerRow=3", "views=grid(20,3) list(60) table(60)", "categoryView=grid", "searchView=list", "id=dynamic-ec-store"]
+			}
 		</script>
 		<?php
 		return ob_get_clean();

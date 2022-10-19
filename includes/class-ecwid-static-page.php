@@ -177,11 +177,13 @@ class Ecwid_Static_Page {
 		$cache_key   = $url;
 		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
 
+		self::$snapshot_url = $url;
+
 		if ( $cached_data ) {
 			return $cached_data;
 		}
 
-		self::$snapshot_url = $url;
+		// self::$snapshot_url = $url;
 
 		return null;
 	}
@@ -225,7 +227,7 @@ class Ecwid_Static_Page {
 		}
 
 		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-		$dynamic_css  = '';
+		$dynamic_css  = 'https://d1oxsl77a1kjht.cloudfront.net/css/new?hc=-1762212718&amp;ownerid=16735114&amp;useProximaNovaFont=true&amp;id-selector=html%23ecwid_html%20body%23ecwid_body&amp;frontendV2&amp;color-foreground=rgb(40%2C%2048%2C%2061)&amp;color-price=rgb(40%2C%2048%2C%2061)&amp;color-background=rgb(209%2C%20228%2C%20221)&amp;color-link=rgb(40%2C%2048%2C%2061)&amp;font-family=-apple-system%2C%22system-ui%22%2C%22Segoe%20UI%22%2CRoboto%2COxygen-Sans%2CUbuntu%2CCantarell%2C%22Helvetica%20Neue%22%2Csans-serif&amp;useExactGalleryColors=false';
 		if ( ! empty( $_GET['dynamic_css'] ) ) {
 			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
 		}
