@@ -122,16 +122,6 @@ class Ecwid_Ajax_Defer_Renderer {
 					script.setAttribute('data-cfasync', 'false');
 
 					document.body.appendChild(script);
-					var el = document.getElementById('ecwid-html-catalog-<?php echo esc_js( $ecwid_store_id ); ?>');
-					if (el) {
-						el.style.display = 'none';
-					}
-					if ( typeof Ecwid != 'undefined' ) {
-						Ecwid.OnPageLoad.add(function() {
-							var catalog = document.getElementById('ecwid-html-catalog-<?php echo esc_js( $ecwid_store_id ); ?>');
-							catalog.parentElement.removeChild(catalog);
-						});
-					}
 				} else {
 					ecwid_onBodyDone();
 				}
