@@ -111,7 +111,8 @@ class Ecwid_Ajax_Defer_Renderer {
 			if (typeof Ecwid != 'undefined' && Ecwid.destroy) Ecwid.destroy();
 
 			if (typeof ecwid_shortcodes != 'undefined') {
-				window._xnext_initialization_scripts = ecwid_shortcodes;
+				window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
+				window._xnext_initialization_scripts.push(...ecwid_shortcodes);
 
 				if (!document.getElementById('ecwid-script')) {
 					var script = document.createElement('script');

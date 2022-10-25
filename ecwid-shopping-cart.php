@@ -137,12 +137,12 @@ if ( is_admin() ) {
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-ajax-defer-renderer.php';
+require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-defer-init.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-page.php';
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_product.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_category.php';
-
 
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-seo-links.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-html-meta.php';
@@ -857,9 +857,9 @@ function ecwid_override_option($name, $new_value = null)
         update_option($name, $overridden[$name]);
     }
 }
-function ecwid_tinymce_init($in)
-{
-	if(!empty($in['extended_valid_elements'])) {
+
+function ecwid_tinymce_init( $in ) {
+	if ( ! empty( $in['extended_valid_elements'] ) ) {
 		$in['extended_valid_elements'] .= ',';
 	} else {
 		$in['extended_valid_elements'] = '';
@@ -870,19 +870,22 @@ function ecwid_tinymce_init($in)
 	return $in;
 }
 
-function ecwid_seo_ultimate_compatibility()
-{
+function ecwid_seo_ultimate_compatibility() {
 	global $seo_ultimate;
 
-	if (!$seo_ultimate) return;
-	if (!Ecwid_Store_Page::is_store_page()) return;
-	
+	if ( ! $seo_ultimate ) {
+		return;
+	}
+	if ( ! Ecwid_Store_Page::is_store_page() ) {
+		return;
+	}
+
 	if ( isset( $_GET['_escaped_fragment_'] ) || ( Ecwid_Seo_Links::is_enabled() && Ecwid_Seo_Links::is_product_browser_url() ) ) {
-		remove_action('template_redirect', array($seo_ultimate->modules['titles'], 'before_header'), 0);
-		remove_action('wp_head', array($seo_ultimate->modules['titles'], 'after_header'), 1000);
-		remove_action('su_head', array($seo_ultimate->modules['meta-descriptions'], 'head_tag_output'));
-		remove_action('su_head', array($seo_ultimate->modules['canonical'], 'link_rel_canonical_tag'));
-		remove_action('su_head', array($seo_ultimate->modules['canonical'], 'http_link_rel_canonical'));
+		remove_action( 'template_redirect', array( $seo_ultimate->modules['titles'], 'before_header' ), 0 );
+		remove_action( 'wp_head', array( $seo_ultimate->modules['titles'], 'after_header' ), 1000 );
+		remove_action( 'su_head', array( $seo_ultimate->modules['meta-descriptions'], 'head_tag_output' ) );
+		remove_action( 'su_head', array( $seo_ultimate->modules['canonical'], 'link_rel_canonical_tag' ) );
+		remove_action( 'su_head', array( $seo_ultimate->modules['canonical'], 'http_link_rel_canonical' ) );
 	}
 }
 
@@ -979,29 +982,30 @@ function ecwid_invalidate_cache( $full_reset = false ) {
 	ecwid_regular_cache_check();
 }
 
-function ecwid_regular_cache_check()
-{
+function ecwid_regular_cache_check() {
 	static $already_checked = false;
-	
-	if ( Ecwid_Api_V3::is_available() && !$already_checked ) {
-	
+
+	if ( Ecwid_Api_V3::is_available() && ! $already_checked ) {
+
 		$already_checked = true;
 		$api = new Ecwid_Api_V3();
 
 		$stats = $api->get_store_update_stats();
 
-		EcwidPlatform::cache_log_record('reg cache check', array( 'stats' => $stats ) );
+		EcwidPlatform::cache_log_record( 'reg cache check', array( 'stats' => $stats ) );
 
 		if ( $stats ) {
+            //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
 			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
 			EcwidPlatform::invalidate_profile_cache_from( strtotime( $stats->profileUpdated ) );
 			update_option( 'ecwid_last_api_cache_check', time() );
+            //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
-		$last_transients = get_option('ecwid_last_transients_check');
+		$last_transients = get_option( 'ecwid_last_transients_check' );
 
-		if (time() - $last_transients > MONTH_IN_SECONDS ) {
+		if ( time() - $last_transients > MONTH_IN_SECONDS ) {
 			EcwidPlatform::clear_all_transients();
 			update_option( 'ecwid_last_transients_check', time() );
 		}
@@ -1009,11 +1013,10 @@ function ecwid_regular_cache_check()
 		if ( EcwidPlatform::is_need_clear_transients() ) {
 			EcwidPlatform::clear_all_transients();
 		}
-	}
+	}//end if
 }
 
-function ecwid_full_cache_reset()
-{
+function ecwid_full_cache_reset() {
 	Ecwid_Api_V3::reset_api_status();
 
 	EcwidPlatform::invalidate_categories_cache_from( time() );
@@ -1027,7 +1030,7 @@ function ecwid_full_cache_reset()
 
 	$p = new Ecwid_Products();
 	$p->reset_dates();
-	
+
 	update_option( Ecwid_Api_V3::OPTION_API_STATUS, Ecwid_Api_V3::API_STATUS_OK );
 	update_option( 'ecwid_last_api_cache_check', time() );
 }
@@ -1355,6 +1358,11 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 }
 
 function ecwid_get_scriptjs_code( $force_lang = null ) {
+    
+    if ( Ec_Store_Defer_Init::is_enabled() ) {
+        return '';
+    }
+
 	static $code = '';
 
 	$store_id = get_ecwid_store_id();
@@ -1367,7 +1375,6 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
 
-
 add_filter( 'ecwid_lang', 'ecwid_get_default_language', 1, 1 );
 function ecwid_get_default_language( $lang ) {
 	$locale = get_locale();
@@ -1379,7 +1386,6 @@ function ecwid_get_default_language( $lang ) {
 
 	return $lang;
 }
-
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {
 
@@ -1415,10 +1421,6 @@ function ecwid_minicart_shortcode($attributes) {
 	$shortcode = new Ecwid_Shortcode_Minicart($attributes);
 
 	return $shortcode->render();
-}
-
-function ecwid_get_search_js_code() {
-	return 'xSearch("style=");';
 }
 
 function _ecwid_get_single_product_widget_parts_v1($attributes) {
@@ -1910,6 +1912,13 @@ function ecwid_get_update_params_options() {
 			'values' => array(
 				'',
 				'1'
+			)
+		),
+
+        'ecwid_defer_store_init' => array(
+			'values' => array(
+				'',
+				'off'
 			)
 		),
 

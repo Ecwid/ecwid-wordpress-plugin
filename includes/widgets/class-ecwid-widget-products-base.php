@@ -64,8 +64,8 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 		$this->_args     = $args;
 		$this->_instance = wp_parse_args( $instance, array( 'number_of_products' => $this->_default ) );
 
-		$html  = '';
-		$html .= '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
+		$html = '';
+		// $html .= '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
 
 		$html .= '<div class="' . $this->_class_name . '" data-ecwid-max="' . $this->_instance['number_of_products'] . '">';
 
@@ -116,21 +116,22 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 			}
 
 			$force_image = '';
-			if ( isset( $product->imageUrl ) && strpos( $product->imageUrl, 'https://' ) == 0 ) {
-				$force_image = $product->imageUrl;
+			if ( isset( $product->imageUrl ) && strpos( $product->imageUrl, 'https://' ) == 0 ) {//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$force_image = $product->imageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			}
 
 			$name  = esc_html( $product->name );
 			$price = $product->price;
 
+			$widget_id = 'ec-store-widget-product-' . $product->id;
 			?>
 			<a class="product" href="<?php echo esc_url( $product->link ); ?>" data-ecwid-product-id="<?php echo esc_attr( $product->id ); ?>" alt="<?php echo esc_attr( $name ); ?>" title="<?php echo esc_attr( $name ); ?>" data-ecwid-page="product">
-				<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-<?php echo esc_attr( $product->id ); ?>" data-single-product-link="<?php echo esc_url( $product->link ); ?>" data-single-product-id="<?php echo esc_attr( $product->id ); ?>" itemscope itemtype="http://schema.org/Product">
+				<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-<?php echo esc_attr( $product->id ); ?>" data-single-product-link="<?php echo esc_url( $product->link ); ?>" data-single-product-id="<?php echo esc_attr( $product->id ); ?>" itemscope itemtype="http://schema.org/Product" id="<?php echo esc_attr( $widget_id ); ?>">
 					<div itemprop="image" data-force-image="<?php echo esc_attr( $force_image ); ?>"></div>
 					<div class="ecwid-title" itemprop="name" content="<?php echo esc_attr( $name ); ?>"></div>
 					<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="<?php echo esc_attr( $price ); ?>"></div></div>
 				</div>
-				<!-- noptimize --><script type="text/javascript">xSingleProduct();</script><!-- /noptimize -->
+				<?php Ec_Store_Defer_Init::print_js_widget( 'xSingleProduct', $widget_id ); ?>
 			</a>
 			<?php
 			$next++;

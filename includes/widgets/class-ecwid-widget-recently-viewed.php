@@ -43,6 +43,18 @@ class Ecwid_Widget_Recently_Viewed extends Ecwid_Widget_Products_List_Base {
 			$recently_viewed = json_decode( $cookie );
 		}
 
+		$recently_viewed           = new stdClass();
+		$recently_viewed->store_id = get_ecwid_store_id();
+		$recently_viewed->products = array();
+
+		$product                     = new stdClass();
+		$product->id                 = '306983110';
+		$recently_viewed->products[] = $product;
+
+		$product                     = new stdClass();
+		$product->id                 = '236925909';
+		$recently_viewed->products[] = $product;
+
 		if ( $recently_viewed && $recently_viewed->store_id != get_ecwid_store_id() ) {
 			$recently_viewed = null;
 		}

@@ -18,15 +18,18 @@ class Ecwid_Widget_Search extends Ecwid_Widget_Base {
 
 	function _render_widget_content( $args, $instance ) {
 
+		$widget_id = 'ec-store-search';
+
 		$html  = '';
-		$html .= '<div>';
+		$html .= '<div id="' . $widget_id . '">';
 		$html .= '<!-- noptimize -->';
 
 		$html .= ecwid_get_scriptjs_code();
 		$html .= ecwid_get_product_browser_url_script();
 
-		$code  = ecwid_get_search_js_code();
-		$html .= '<script data-cfasync="false" type="text/javascript"> ' . $code . ' </script>';
+		ob_start();
+		Ec_Store_Defer_Init::print_js_widget( 'xSearch', $widget_id );
+		$html .= ob_get_clean();
 
 		$html .= '<!-- /noptimize -->';
 		$html .= '</div>';

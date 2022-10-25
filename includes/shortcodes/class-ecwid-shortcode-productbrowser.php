@@ -65,6 +65,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code .= '</div>';
 		$code .= '<script>window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();</script>';
 
+		remove_action( 'wp_footer', 'ecwid_lazy_scriptjs_load' );
+
 		return $code;
 	}
 
@@ -117,7 +119,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			ec.storefront.staticPages.dynamicContainerID = '<?php echo esc_js( $dynamic_container_id ); ?>';
 			ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
 			ec.storefront.staticPages.lazyLoading = {
-				scriptJsLink: '<?php echo $script_js_link; ?>',
+				scriptJsLink: '<?php echo $script_js_link; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>',
 				xProductBrowserArguments: ["categoriesPerRow=3", "views=grid(20,3) list(60) table(60)", "categoryView=grid", "searchView=list", "id=dynamic-ec-store"]
 			}
 		</script>
