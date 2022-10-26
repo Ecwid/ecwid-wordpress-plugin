@@ -17,7 +17,7 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 
 		ob_start();
 		?>
-		<!-- noptimize -->
+
 		<?php
 
 		echo ecwid_get_scriptjs_code(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -30,22 +30,22 @@ class Ecwid_Gutenberg_Block_Minicart extends Ecwid_Gutenberg_Block_Base {
 				$params[ $param ] = $attributes[ $param ]['default'];
 			}
 		}
-
 		?>
-		
+
 		<div class='ec-cart-widget'
-			 data-fixed='false'
-			 data-fixed-shape='<?php echo esc_attr( @$params['fixed_shape'] ); ?>'
-			 data-layout='<?php echo esc_attr( @$params['layout'] ); ?>'
-			 data-icon='<?php echo esc_attr( @$params['icon'] ); ?>'
+			data-fixed='false'
+			data-fixed-shape='<?php echo esc_attr( @$params['fixed_shape'] ); ?>'
+			data-layout='<?php echo esc_attr( @$params['layout'] ); ?>'
+			data-icon='<?php echo esc_attr( @$params['icon'] ); ?>'
 		></div>
-		
+
+		<!--noptimize-->
 		<script>
 			if (typeof Ecwid != 'undefined'){
 				Ecwid.init();
 			}
 		</script>
-		<!-- /noptimize -->
+		<!--/noptimize-->
 		<?php
 
 		$contents = ob_get_contents();

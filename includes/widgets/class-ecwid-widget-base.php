@@ -6,10 +6,17 @@ abstract class Ecwid_Widget_Base extends WP_Widget {
 
 	abstract protected function _render_widget_content( $args, $instance );
 
-	public function widget( $args, $instance ) {
+	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+		parent::__construct( $id_base, $name, $widget_options, $control_options );
+	}
 
-		$before_widget = $before_title = $after_title = $after_widget = '';
-		extract( $args );
+	public function widget( $args, $instance ) {
+		$before_widget = '';
+		$before_title  = '';
+		$after_title   = '';
+		$after_widget  = '';
+
+		extract( $args ); //phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 
 		$renderer = apply_filters( 'ecwid_get_custom_widget_renderer', null );
 

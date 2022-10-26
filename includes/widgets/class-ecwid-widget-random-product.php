@@ -10,7 +10,6 @@ class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
 			'description' => __( 'Displays a random product from your store to attract customer attention.', 'ecwid-shopping-cart' ),
 		);
 		parent::__construct( 'ecwidrandomproduct', __( 'Random Product', 'ecwid-shopping-cart' ), $widget_ops );
-
 	}
 
 	protected function _render_widget_content( $args, $instance ) {
@@ -45,11 +44,9 @@ class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
 		$html  = '';
 		$html .= '<div>';
 
-		$html .= '<!-- noptimize -->';
 		$html .= ecwid_get_scriptjs_code();
 		$html .= $content;
 
-		$html .= '<!-- /noptimize -->';
 		$html .= '</div>';
 
 		return $html;

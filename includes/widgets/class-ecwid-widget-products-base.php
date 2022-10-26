@@ -64,8 +64,8 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 		$this->_args     = $args;
 		$this->_instance = wp_parse_args( $instance, array( 'number_of_products' => $this->_default ) );
 
-		$html = '';
-		// $html .= '<!-- noptimize -->' . ecwid_get_scriptjs_code() . '<!-- /noptimize -->';
+		$html  = '';
+		$html .= ecwid_get_scriptjs_code();
 
 		$html .= '<div class="' . $this->_class_name . '" data-ecwid-max="' . $this->_instance['number_of_products'] . '">';
 

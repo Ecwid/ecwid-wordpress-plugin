@@ -4,7 +4,7 @@ require_once ECWID_PLUGIN_DIR . '/includes/widgets/class-ecwid-widget-base.php';
 
 class Ecwid_Widget_Store_Link extends Ecwid_Widget_Base {
 
-	function __construct() {
+	public function __construct() {
 		$this->_hide_title = true;
 		$widget_ops        = array(
 			'classname'   => 'widget_ecwid_store_link',
@@ -13,7 +13,7 @@ class Ecwid_Widget_Store_Link extends Ecwid_Widget_Base {
 		parent::__construct( 'ecwidstorelink', __( 'Store Page Link', 'ecwid-shopping-cart' ), $widget_ops );
 	}
 
-	function _render_widget_content( $args, $instance ) {
+	public function _render_widget_content( $args, $instance ) {
 
 		$html = '<div>';
 
@@ -23,14 +23,14 @@ class Ecwid_Widget_Store_Link extends Ecwid_Widget_Base {
 		return $html;
 	}
 
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance          = $old_instance;
-		$instance['label'] = strip_tags( stripslashes( $new_instance['label'] ) );
+		$instance['label'] = wp_strip_all_tags( stripslashes( $new_instance['label'] ) );
 
 		return $instance;
 	}
 
-	function form( $instance ) {
+	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'label' => __( 'Shop', 'ecwid-shopping-cart' ) ) );
 
 		$label = htmlspecialchars( $instance['label'] );

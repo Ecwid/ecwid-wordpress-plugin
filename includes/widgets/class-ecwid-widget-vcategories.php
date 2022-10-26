@@ -15,13 +15,9 @@ class Ecwid_Widget_VCategories extends Ecwid_Widget_Base {
 	function _render_widget_content( $args, $instance ) {
 
 		$html  = '<div>';
-		$html .= '<!-- noptimize -->';
-
 		$html .= ecwid_get_scriptjs_code();
 		$html .= ecwid_get_product_browser_url_script();
-		$html .= '<script data-cfasync="false" type="text/javascript"> xVCategories("style="); </script>';
-
-		$html .= '<!-- /noptimize -->';
+		$html .= '<!--noptimize--><script data-cfasync="false" type="text/javascript"> xVCategories("style="); </script><!--/noptimize-->';
 		$html .= '</div>';
 
 		return $html;

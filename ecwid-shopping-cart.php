@@ -1358,8 +1358,8 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 }
 
 function ecwid_get_scriptjs_code( $force_lang = null ) {
-    
-    if ( Ec_Store_Defer_Init::is_enabled() ) {
+
+    if( Ec_Store_Defer_Init::is_enabled() ) {
         return '';
     }
 
@@ -1368,9 +1368,9 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 	$store_id = get_ecwid_store_id();
 	$params = ecwid_get_scriptjs_params();
 
-	$code =  '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
+	$code =  '<!--noptimize--><script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
 	$code .= ecwid_sso();
-	$code .= '<script type="text/javascript">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script>';
+	$code .= '<script type="text/javascript">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script><!--/noptimize-->';
 
 	return apply_filters( 'ecwid_scriptjs_code', $code );
 }
@@ -1915,7 +1915,7 @@ function ecwid_get_update_params_options() {
 			)
 		),
 
-        'ecwid_defer_store_init' => array(
+        Ec_Store_Defer_Init::OPTION_ENABLED => array(
 			'values' => array(
 				'',
 				'off'
@@ -2848,11 +2848,13 @@ function ecwid_get_product_browser_url_script()
 		$url = esc_js( Ecwid_Store_Page::get_store_url() );
         ob_start();
         ?>
+        <!--noptimize-->
         <script data-cfasync="false" type="text/javascript">
             window.ec = window.ec || Object();
             window.ec.config = window.ec.config || Object();
             window.ec.config.store_main_page_url = '<?php echo esc_js( $url ); ?>';
         </script>
+        <!--/noptimize-->
         <?php 
         $str = ob_get_clean();
 	}

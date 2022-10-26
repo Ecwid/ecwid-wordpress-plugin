@@ -1,20 +1,27 @@
 <?php
 class Ec_Store_Defer_Init {
 
-	const OPTION_DEFER_STORE_INIT = 'ecwid_defer_store_init';
+	const OPTION_ENABLED = 'ecwid_defer_store_init_enabled';
 
 	public function __construct() {
-		add_action( 'wp_footer', array( $this, 'defer_script_js_load' ) );
+		if ( ! is_admin() ) {
+			add_action( 'wp_footer', array( $this, 'defer_script_js_load' ) );
+		}
 	}
 
 	public static function is_enabled() {
-		if ( get_option( self::OPTION_DEFER_STORE_INIT, '' ) === 'off' ) {
+		if ( get_option( self::OPTION_ENABLED, '' ) === 'off' ) {
 			return false;
 		}
-		return true;
+
+		return apply_filters( 'ecwid_is_defer_store_init_enabled', true );
 	}
 
 	public function defer_script_js_load() {
+		if ( ! self::is_enabled() ) {
+			return false;
+		}
+
 		$widgets = apply_filters( 'ecwid_defer_widgets', array() );
 
 		$ecwid_store_id = get_ecwid_store_id();
@@ -27,7 +34,7 @@ class Ec_Store_Defer_Init {
 		?>
 		<script data-cfasync="false" type="text/javascript">
 			(function () {
-				var ec_widgets = <?php echo json_encode( $widgets ); ?>
+				var ec_widgets = <?php echo wp_json_encode( $widgets ); ?>
 
 				window.ecwid_script_defer = true;
 				window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
@@ -64,20 +71,17 @@ class Ec_Store_Defer_Init {
 			if ( $widget_type === 'Search' ) {
 				$widget_type = 'SearchWidget';
 			}
-		}
-
-		if ( self::is_enabled() ) {
 			?>
-			<!-- noptimize -->
+			<!--noptimize-->
 			<script data-cfasync="false" type="text/javascript">
 			window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
-			window._xnext_initialization_scripts.push({widgetType: '<?php echo esc_js( $widget_type ); ?>', id: '<?php echo esc_js( $id ); ?>', arg: ["style="]});
+			window._xnext_initialization_scripts.push({widgetType: '<?php echo esc_js( $widget_type ); ?>', id: '<?php echo esc_js( $id ); ?>', arg: []});
 			</script>
-			<!-- noptimize -->
+			<!--/noptimize-->
 			<?php
 		} else {
 			?>
-			<!-- noptimize --><script data-cfasync="false" type="text/javascript"><?php echo esc_js( $widget_type ); ?></script><!-- noptimize -->
+			<!--noptimize--><script data-cfasync="false" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
 			<?php
 		}
 	}

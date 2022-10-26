@@ -7,7 +7,7 @@ class Ecwid_Integration_Autoptimize {
 	}
 
 	public function ecwid_shortcode_content( $content ) {
-		return '<!-- noptimize -->' . $content . '<!-- /noptimize -->';
+		return '<!--noptimize-->' . $content . '<!--/noptimize-->';
 	}
 
 	public function hook_js_exclude( $exclude ) {
