@@ -1423,56 +1423,6 @@ function ecwid_minicart_shortcode($attributes) {
 	return $shortcode->render();
 }
 
-function _ecwid_get_single_product_widget_parts_v1($attributes) {
-	return array(
-		'display_items' => array(
-			'picture'  => '<div itemprop="picture"></div>',
-			'title'    => '<div class="ecwid-title" itemprop="title"></div>',
-			'price'    => '<div itemtype="http://schema.org/Offer" itemscope itemprop="offers">'
-			              . '<div class="ecwid-productBrowser-price ecwid-price" itemprop="price"></div>'
-			              . '</div>',
-			'options'  => '<div itemprop="options"></div>',
-			'qty' 	   => '<div itemprop="qty"></div>',
-			'addtobag' => '<div itemprop="addtobag"></div>'
-		),
-		'opening_div' => sprintf('<div class="ecwid ecwid-SingleProduct ecwid-Product ecwid-Product-%d" '
-		                 . 'itemscope itemtype="http://schema.org/Product" '
-		                 . 'data-single-product-id="%d">', $attributes['id'], $attributes['id']),
-		'widget_call' => '<script data-cfasync="false" type="text/javascript">xSingleProduct()</script>'
-	);
-}
-
-function _ecwid_get_single_product_widget_parts_v2($attributes) {
-
-	$price_location_attributes = '  data-spw-price-location="button"';
-	$bordered_class = ' ecwid-SingleProduct-v2-bordered';
-	if ($attributes['show_border'] == 0) {
-		$bordered_class = '';
-	}
-
-	if ($attributes['show_price_on_button'] == 0) {
-		$price_location_attributes = '';
-	}
-
-	return array(
-		'display_items' => array(
-			'picture'  => '<div itemprop="picture"></div>',
-			'title'    => '<div class="ecwid-title" itemprop="title"></div>',
-			'price'    => '<div itemtype="http://schema.org/Offer" itemscope itemprop="offers">'
-			              . '<div class="ecwid-productBrowser-price ecwid-price" itemprop="price"' . $price_location_attributes . '>'
-			              . '<div itemprop="priceCurrency"></div>'
-			              . '</div>'
-			              . '</div>',
-			'options'  => '<div customprop="options"></div>',
-			'qty' 	   => '<div customprop="qty"></div>',
-			'addtobag' => '<div customprop="addtobag"></div>'
-		),
-		'opening_div' => sprintf('<div class="ecwid ecwid-SingleProduct-v2' . $bordered_class . ' ecwid-Product ecwid-Product-%d"'
-		. 'itemscope itemtype="http://schema.org/Product" data-single-product-id="%d">', $attributes['id'], $attributes['id']),
-		'widget_call' => '<script data-cfasync="false" type="text/javascript">xProduct()</script>'
-	);
-}
-
 function ecwid_shortcode($attributes)
 {
 	$custom_renderer = apply_filters( 'ecwid_shortcode_custom_renderer', null );
