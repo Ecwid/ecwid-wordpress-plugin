@@ -1359,9 +1359,9 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 
 function ecwid_get_scriptjs_code( $force_lang = null ) {
 
-    if( Ec_Store_Defer_Init::is_enabled() ) {
-        return '';
-    }
+	if( Ec_Store_Defer_Init::is_enabled() ) {
+		return '';
+	}
 
 	static $code = '';
 

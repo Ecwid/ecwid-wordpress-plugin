@@ -5,7 +5,7 @@ class Ec_Store_Defer_Init {
 
 	public function __construct() {
 		if ( ! is_admin() ) {
-			add_action( 'wp_footer', array( $this, 'defer_script_js_load' ) );
+			add_action( 'wp_footer', 'Ec_Store_Defer_Init::defer_script_js_load' );
 		}
 	}
 
@@ -17,7 +17,7 @@ class Ec_Store_Defer_Init {
 		return apply_filters( 'ecwid_is_defer_store_init_enabled', true );
 	}
 
-	public function defer_script_js_load() {
+	public static function defer_script_js_load() {
 		if ( ! self::is_enabled() ) {
 			return false;
 		}
@@ -41,20 +41,22 @@ class Ec_Store_Defer_Init {
 				window._xnext_initialization_scripts.push(...ec_widgets);
 
 				var ecwidLazyScriptjsLoad = function() {
-					var script = document.createElement('script');
-					script.charset = 'utf-8';
-					script.type = 'text/javascript';
-					script.src = '<?php echo esc_attr( $script_src ); ?>';
-					script.id = 'ecwid-script';
-					script.setAttribute('data-cfasync', 'false');
+					if ( ! document.getElementById( 'ecwid-script' ) ) {
+						var script = document.createElement('script');
+						script.charset = 'utf-8';
+						script.type = 'text/javascript';
+						script.src = '<?php echo esc_attr( $script_src ); ?>';
+						script.id = 'ecwid-script';
+						script.setAttribute('data-cfasync', 'false');
 
-					document.body.appendChild(script);
+						document.body.appendChild(script);
 
-					var nodes = document.getElementsByClassName('ec-cart-widget')
-					if (nodes.length > 0) {
-						script.addEventListener('load', function() {
-							Ecwid.init();
-						});
+						var nodes = document.getElementsByClassName('ec-cart-widget')
+						if (nodes.length > 0) {
+							script.addEventListener('load', function() {
+								Ecwid.init();
+							});
+						}
 					}
 				}
 
@@ -92,7 +94,7 @@ class Ec_Store_Defer_Init {
 		<?php
 	}
 
-	public static function print_js_widget( $widget_type, $id, $arg = array() ) {
+	public static function print_js_widget( $widget_type, $id, $arg = '' ) {
 
 		if ( self::is_enabled() ) {
 			$widget_type = preg_replace( '/^x([a-z0-9]+)/i', '$1', $widget_type );
@@ -102,15 +104,15 @@ class Ec_Store_Defer_Init {
 			}
 			?>
 			<!--noptimize-->
-			<script data-cfasync="false" type="text/javascript">
+			<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
 			window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
-			window._xnext_initialization_scripts.push({widgetType: '<?php echo esc_js( $widget_type ); ?>', id: '<?php echo esc_js( $id ); ?>', arg: []});
+			window._xnext_initialization_scripts.push({widgetType: '<?php echo esc_js( $widget_type ); ?>', id: '<?php echo esc_js( $id ); ?>', arg: [<?php echo $arg;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>]});
 			</script>
 			<!--/noptimize-->
 			<?php
 		} else {
 			?>
-			<!--noptimize--><script data-cfasync="false" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
+			<!--noptimize--><script data-cfasync="false" data-no-optimize="1" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
 			<?php
 		}
 	}

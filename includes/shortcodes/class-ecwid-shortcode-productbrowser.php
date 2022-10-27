@@ -50,7 +50,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
 		}
 
-		$code .= self::get_dynamic_html_code( true );
+		$is_defer_mode_enabled = Ec_Store_Defer_Init::is_enabled();
+
+		$code .= self::get_dynamic_html_code( $is_defer_mode_enabled );
 
 		$static_html_code = Ecwid_Static_Page::get_html_code();
 		$js_code          = Ecwid_Static_Page::get_js_code();
@@ -63,16 +65,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		}
 
 		$code .= '</div>';
-		$code .= '<script>window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();</script>';
 
-		remove_action( 'wp_footer', 'ecwid_lazy_scriptjs_load' );
+		if ( $is_defer_mode_enabled ) {
+			$code .= '<script>if( typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) { window.ec.storefront.staticPages.forceDynamicLoadingIfRequired(); }</script>';
+			// add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
+		}
 
 		return $code;
 	}
 
-	protected function get_dynamic_html_code( $lazy_mode = false ) {
+	protected function get_dynamic_html_code( $defer_mode = false ) {
 
-		if ( ! $lazy_mode ) {
+		if ( ! $defer_mode ) {
 			$default_render = parent::render();
 			$code           = '<div id="dynamic-ec-store-container">' . $default_render . '</div>' . PHP_EOL;
 		} else {
