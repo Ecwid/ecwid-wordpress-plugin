@@ -40,7 +40,7 @@ class Ec_Store_Defer_Init {
 				window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
 				window._xnext_initialization_scripts.push(...ec_widgets);
 
-				var ecwid_lazy_scriptjs_load = function() {
+				var ecwidLazyScriptjsLoad = function() {
 					var script = document.createElement('script');
 					script.charset = 'utf-8';
 					script.type = 'text/javascript';
@@ -50,14 +50,43 @@ class Ec_Store_Defer_Init {
 
 					document.body.appendChild(script);
 
-					script.addEventListener('load', function() {
-						Ecwid.init();
-					});
+					var nodes = document.getElementsByClassName('ec-cart-widget')
+					if (nodes.length > 0) {
+						script.addEventListener('load', function() {
+							Ecwid.init();
+						});
+					}
 				}
 
-				document.addEventListener('mousemove', function(){ 
-					ecwid_lazy_scriptjs_load();
-				});
+				var isTouchDevice = false;
+				var documentEventsForLazyLoading = ['mousedown', 'mouseup', 'mousemove', 'contextmenu', 'keydown', 'keyup'];
+				var documentTouchEventsForLazyLoading = ['touchstart', 'touchend', 'touchcancel', 'touchmove'];
+
+				if (!!('ontouchstart' in window)) {
+					isTouchDevice = true;
+				}
+
+				var toggleEvent = function (el, add, event) {
+					if (add) {
+						el.addEventListener(event, ecwidLazyScriptjsLoad);
+					} else {
+						el.removeEventListener(event, ecwidLazyScriptjsLoad);
+					}
+				}
+
+				if (isTouchDevice) {
+					documentTouchEventsForLazyLoading.forEach(
+						function applyEvent(event) {
+							toggleEvent(document, true, event);
+						}
+					);
+				} else {
+					documentEventsForLazyLoading.forEach(
+						function applyEvent(event) {
+							toggleEvent(document, true, event);
+						}
+					);
+				}
 			})();
 		</script>
 		<?php
