@@ -154,8 +154,8 @@ class Ecwid_Static_Page {
 		}
 
 		if ( ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
-			$chameleon_cookie                          = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
-			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
+			$chameleon_cookie = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
+			// $params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
 		}
 
 		$hreflang_items = apply_filters( 'ecwid_hreflangs', null );

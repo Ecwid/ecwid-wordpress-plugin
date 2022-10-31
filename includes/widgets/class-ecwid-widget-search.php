@@ -26,9 +26,7 @@ class Ecwid_Widget_Search extends Ecwid_Widget_Base {
 		$html .= ecwid_get_scriptjs_code();
 		$html .= ecwid_get_product_browser_url_script();
 
-		ob_start();
-		Ec_Store_Defer_Init::print_js_widget( 'xSearch', $widget_id );
-		$html .= ob_get_clean();
+		$html .= Ec_Store_Defer_Init::print_js_widget( 'xSearch', $widget_id );
 
 		$html .= '</div>';
 

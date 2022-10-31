@@ -188,6 +188,12 @@
             addStaticPageHandlers();
 
             function setupAfterEcwidLoaded() {
+
+                var cartWidgets = document.getElementsByClassName('ec-cart-widget');
+                if (cartWidgets.length > 0) {
+                    Ecwid.init();
+                }
+
                 // if a store is opened for a client, then the storeClosed won't be true
                 // if a store is opened for a client and we've uploaded a closed banner, then we check it in dynamic
                 Ecwid.OnAPILoaded.add(function () {

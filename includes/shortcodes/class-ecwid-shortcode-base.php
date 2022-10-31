@@ -82,8 +82,8 @@ abstract class Ecwid_Shortcode_Base {
 		$brand = Ecwid_Config::get_brand();
 
 		$shortcode_content = "<!-- $brand shopping cart plugin v $version -->"
-		   . $shortcode_content
-		   . "<!-- END $brand Shopping Cart v $version -->";
+		. $shortcode_content
+		. "<!-- END $brand Shopping Cart v $version -->";
 
 		return $shortcode_content;
 	}
@@ -111,7 +111,11 @@ abstract class Ecwid_Shortcode_Base {
 
 		$function = $this->get_ecwid_widget_function_name();
 
-		return sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s(%s);</script>', $function, $params_string );
+		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
+			return sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s(%s);</script>', $function, $params_string );
+		} else {
+			return Ec_Store_Defer_Init::print_js_widget( $function, $this->get_html_id(), $params_string );
+		}
 	}
 
 	public function render_placeholder() {

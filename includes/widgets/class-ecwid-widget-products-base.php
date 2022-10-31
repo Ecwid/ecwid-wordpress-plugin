@@ -131,7 +131,7 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 					<div class="ecwid-title" itemprop="name" content="<?php echo esc_attr( $name ); ?>"></div>
 					<div itemtype="http://schema.org/Offer" itemscope itemprop="offers"><div class="ecwid-productBrowser-price ecwid-price" itemprop="price" content="<?php echo esc_attr( $price ); ?>"></div></div>
 				</div>
-				<?php Ec_Store_Defer_Init::print_js_widget( 'xSingleProduct', $widget_id ); ?>
+				<?php echo Ec_Store_Defer_Init::print_js_widget( 'xSingleProduct', $widget_id );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
 			<?php
 			$next++;

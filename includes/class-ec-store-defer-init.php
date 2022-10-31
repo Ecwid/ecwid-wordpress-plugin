@@ -3,6 +3,10 @@ class Ec_Store_Defer_Init {
 
 	const OPTION_ENABLED = 'ecwid_defer_store_init_enabled';
 
+	const OPTION_VALUE_ENABLED  = 'Y';
+	const OPTION_VALUE_DISABLED = 'N';
+	const OPTION_VALUE_AUTO     = '';
+
 	public function __construct() {
 		if ( ! is_admin() ) {
 			add_action( 'wp_footer', 'Ec_Store_Defer_Init::defer_script_js_load' );
@@ -10,7 +14,13 @@ class Ec_Store_Defer_Init {
 	}
 
 	public static function is_enabled() {
-		if ( get_option( self::OPTION_ENABLED, '' ) === 'off' ) {
+		$default_value = self::OPTION_VALUE_DISABLED;
+
+		// if ( ! ecwid_is_demo_store() && get_ecwid_store_id() % 2 === 0 ) {
+		// $default_value = self::OPTION_VALUE_ENABLED;
+		// }
+
+		if ( get_option( self::OPTION_ENABLED, $default_value ) !== self::OPTION_VALUE_ENABLED ) {
 			return false;
 		}
 
@@ -19,6 +29,11 @@ class Ec_Store_Defer_Init {
 
 	public static function defer_script_js_load() {
 		if ( ! self::is_enabled() ) {
+			return false;
+		}
+
+		$hide_defer_load_script = apply_filters( 'ecwid_hide_defer_load_script', false );
+		if ( $hide_defer_load_script ) {
 			return false;
 		}
 
@@ -95,6 +110,7 @@ class Ec_Store_Defer_Init {
 	}
 
 	public static function print_js_widget( $widget_type, $id, $arg = '' ) {
+		ob_start();
 
 		if ( self::is_enabled() ) {
 			$widget_type = preg_replace( '/^x([a-z0-9]+)/i', '$1', $widget_type );
@@ -115,6 +131,8 @@ class Ec_Store_Defer_Init {
 			<!--noptimize--><script data-cfasync="false" data-no-optimize="1" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
 			<?php
 		}
+
+		return ob_get_clean();
 	}
 
 }

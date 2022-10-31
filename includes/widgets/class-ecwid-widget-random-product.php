@@ -37,9 +37,7 @@ class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
             </div>
         </div>";
 
-		ob_start();
-		Ec_Store_Defer_Init::print_js_widget( 'xProduct', $widget_id );
-		$content .= ob_get_clean();
+		$content .= Ec_Store_Defer_Init::print_js_widget( 'xProduct', $widget_id );
 
 		$html  = '';
 		$html .= '<div>';
