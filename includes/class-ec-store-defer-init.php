@@ -14,6 +14,10 @@ class Ec_Store_Defer_Init {
 	}
 
 	public static function is_enabled() {
+		if ( array_key_exists( 'ec-enable-defer-store-init', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return true;
+		}
+
 		$default_value = self::OPTION_VALUE_DISABLED;
 
 		// if ( ! ecwid_is_demo_store() && get_ecwid_store_id() % 2 === 0 ) {

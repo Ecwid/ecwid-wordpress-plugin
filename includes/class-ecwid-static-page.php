@@ -379,7 +379,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) {
+		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return true;
 		}
 
