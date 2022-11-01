@@ -661,37 +661,41 @@ function ecwid_google_xml_sitemap_build_sitemap_callback($url, $priority, $frequ
 	}
 }
 
-function ecwid_check_version()
-{
-	$plugin_data = get_plugin_data(__FILE__);
+function ecwid_check_version() {
+	$plugin_data = get_plugin_data( __FILE__ );
 	$current_version = $plugin_data['Version'];
-	$stored_version = get_option('ecwid_plugin_version', null);
+	$stored_version = get_option( 'ecwid_plugin_version', null );
 
-	$migration_since_version = get_option('ecwid_plugin_migration_since_version', null);
-	if (is_null($migration_since_version)) {
-		update_option('ecwid_plugin_migration_since_version', $current_version);
+	$migration_since_version = get_option( 'ecwid_plugin_migration_since_version', null );
+	if ( is_null( $migration_since_version ) ) {
+		update_option( 'ecwid_plugin_migration_since_version', $current_version );
 	}
 
-	$fresh_install = !$stored_version;
-	$upgrade = $stored_version && version_compare($current_version, $stored_version) > 0;
+	$fresh_install = ! $stored_version;
+	$upgrade = $stored_version && version_compare( $current_version, $stored_version ) > 0;
 
-	if ($fresh_install) {
+	if ( $fresh_install ) {
 
-		do_action('ecwid_plugin_installed', $current_version);
-		add_option('ecwid_plugin_version', $current_version);
-		
+		do_action( 'ecwid_plugin_installed', $current_version );
+		add_option( 'ecwid_plugin_version', $current_version );
+
 		// Called in Ecwid_Seo_Links->on_fresh_install
 		do_action( 'ecwid_on_fresh_install' );
 
-	} elseif ($upgrade) {
+	} elseif ( $upgrade ) {
 
-		do_action('ecwid_plugin_upgraded', array( 'old' => $stored_version, 'new' => $current_version ) );
-		update_option('ecwid_plugin_version', $current_version);
-		
+		do_action( 'ecwid_plugin_upgraded', array( 'old' => $stored_version, 'new' => $current_version ) );
+		update_option( 'ecwid_plugin_version', $current_version );
+
 		do_action( 'ecwid_on_plugin_upgrade' );
+
+		// remove cache for Defet Mode feauture compatibility
+		if ( version_compare( $stored_version, '6.10.29' ) < 0 && version_compare( $current_version, '6.10.29' ) >= 0 ) {
+			ecwid_invalidate_cache( true );
+		}
 	}
 
-	if ($fresh_install || $upgrade || isset($_GET['ecwid_reinit'])) {
+	if ( $fresh_install || $upgrade || isset( $_GET['ecwid_reinit'] ) ) {
 
 		add_option( Ecwid_Seo_Links::OPTION_ENABLED, false );
 
@@ -765,7 +769,7 @@ function ecwid_check_version()
 
 		// Since 6.4.14+
 		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install ? 'Y' : '' );
-		
+
 		do_action( 'ecwid_on_plugin_update' );
 
 		Ecwid_Store_Page::add_store_page( get_option('ecwid_store_page_id') );
@@ -1591,7 +1595,7 @@ $content
 
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-nav-menus.php';
 
-	$id = get_option("ecwid_store_page_id");	
+	$id = get_option( "ecwid_store_page_id" );	
 	$_tmp_page = null;
 	if (!empty($id) and ($id > 0)) { 
 		$_tmp_page = get_post($id);
