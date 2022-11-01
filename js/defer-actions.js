@@ -9,16 +9,22 @@ ecwidCheckApiCache = function () {
     );
 }
 
+var isNeedGetStaticSnapshot = true;
 ecwidGetStaticSnapshot = function () {
-    if (typeof ecwidDelayedActionsParams == 'undefined') return;
+    if (typeof ecwidDeferActionsParams == 'undefined') return;
+
+    if (!isNeedGetStaticSnapshot) return;
 
     jQuery.getJSON(
-        ecwidDelayedActionsParams.ajax_url,
+        ecwidDeferActionsParams.ajax_url,
         {
             action: 'ec_get_static_snapshot',
-            snapshot_url: ecwidDelayedActionsParams.snapshot_url,
-            _ajax_nonce: ecwidDelayedActionsParams.ajaxNonce,
-            dynamic_css: ecwidDelayedActionsParams.cssLinkElement
+            snapshot_url: ecwidDeferActionsParams.snapshot_url,
+            dynamic_css: ecwidDeferActionsParams.cssLinkElement,
+            _ajax_nonce: ecwidDeferActionsParams.ajaxNonce
+        },
+        function () {
+            isNeedGetStaticSnapshot = false;
         }
     );
 }
@@ -39,11 +45,13 @@ jQuery(window).on('beforeunload', function () {
 
 if (typeof Ecwid != 'undefined') {
     Ecwid.OnAPILoaded.add(function () {
-        if (typeof ecwidDelayedActionsParams == 'undefined') return;
+        if (typeof ecwidDeferActionsParams == 'undefined') return;
+
+        ecwidGetStaticSnapshot();
 
         var css = window.ec.cssLinkElement
             && window.ec.cssLinkElement.href || '';
 
-        ecwidDelayedActionsParams.cssLinkElement = css;
+        ecwidDeferActionsParams.cssLinkElement = css;
     })
 };

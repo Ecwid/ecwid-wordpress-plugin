@@ -49,17 +49,17 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code  = '';
 		$code .= self::get_js_for_adding_html_id();
 
+		$classname = '';
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			add_filter( 'ecwid_hide_defer_load_script', '__return_true', 10000 );
-
-			$code .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
+			$code     .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
+			$classname = 'hide-ec-dynamic-placeholder';
 		} else {
 			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
-
 			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
 		}
 
-		$code .= self::get_dynamic_html_code( false );
+		$code .= self::get_dynamic_html_code( false, $classname );
 		$code .= '<div id="static-ec-store-container">';
 		$code .= htmlspecialchars_decode( Ecwid_Static_Page::get_html_code() );
 
@@ -78,11 +78,11 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		return $code;
 	}
 
-	protected function get_dynamic_html_code( $is_default_render = true ) {
+	protected function get_dynamic_html_code( $is_default_render = true, $classname = '' ) {
 
 		if ( ! Ec_Store_Defer_Init::is_enabled() || $is_default_render ) {
 			$default_render = parent::render();
-			$code           = '<div id="dynamic-ec-store-container">' . $default_render . '</div>' . PHP_EOL;
+			$code           = '<div id="dynamic-ec-store-container" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
 		} else {
 			$code = '<div id="dynamic-ec-store-container"><div id="dynamic-ec-store"></div></div>' . PHP_EOL;
 		}

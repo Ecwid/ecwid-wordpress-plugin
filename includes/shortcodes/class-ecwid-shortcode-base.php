@@ -122,7 +122,7 @@ abstract class Ecwid_Shortcode_Base {
 		$classname = $this->_get_html_class_name();
 		$id        = $this->get_html_id();
 
-		return '<div class="ecwid-shopping-cart-' . esc_attr( $classname ) . ' id="' . esc_attr( $id ) . '"></div>';
+		return '<div class="ecwid-shopping-cart-' . esc_attr( $classname ) . '" id="' . esc_attr( $id ) . '"></div>';
 	}
 
 	protected function _get_html_class_name() {

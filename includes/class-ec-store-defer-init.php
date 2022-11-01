@@ -20,9 +20,12 @@ class Ec_Store_Defer_Init {
 
 		$default_value = self::OPTION_VALUE_DISABLED;
 
-		// if ( ! ecwid_is_demo_store() && get_ecwid_store_id() % 2 === 0 ) {
-		// $default_value = self::OPTION_VALUE_ENABLED;
-		// }
+		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 4 === 0;
+		$is_auto            = empty( get_option( self::OPTION_ENABLED ) );
+
+		if ( $is_needed_store_id && $is_auto ) {
+			$default_value = self::OPTION_VALUE_ENABLED;
+		}
 
 		if ( get_option( self::OPTION_ENABLED, $default_value ) !== self::OPTION_VALUE_ENABLED ) {
 			return false;

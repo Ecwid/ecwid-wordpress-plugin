@@ -23,7 +23,7 @@ class Ecwid_Static_Page {
 			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'add_js_for_delayed_static_snapshot' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'add_js_for_defer_static_snapshot' ) );
 
 		add_action( 'wp_ajax_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
 		add_action( 'wp_ajax_nopriv_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
@@ -183,8 +183,6 @@ class Ecwid_Static_Page {
 			return $cached_data;
 		}
 
-		// self::$snapshot_url = $url;
-
 		return null;
 	}
 
@@ -193,26 +191,26 @@ class Ecwid_Static_Page {
 		return apply_filters( 'ecwid_lang', $http_accept_language );
 	}
 
-	public function add_js_for_delayed_static_snapshot() {
+	public function add_js_for_defer_static_snapshot() {
 		if ( empty( self::$snapshot_url ) ) {
 			return;
 		}
 
-		wp_enqueue_script( 'ecwid-delayed-actions', ECWID_PLUGIN_URL . 'js/delayed-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
+		wp_enqueue_script( 'ecwid-defer-actions', ECWID_PLUGIN_URL . 'js/defer-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
 
 		wp_localize_script(
-			'ecwid-delayed-actions',
-			'ecwidDelayedActionsParams',
+			'ecwid-defer-actions',
+			'ecwidDeferActionsParams',
 			array(
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'snapshot_url' => self::$snapshot_url,
-				'ajaxNonce'    => wp_create_nonce( 'ec_delayed_actions' ),
+				'ajaxNonce'    => wp_create_nonce( 'ec_defer_actions' ),
 			)
 		);
 	}
 
 	public static function get_static_snapshot() {
-		check_ajax_referer( 'ec_delayed_actions', '_ajax_nonce' );
+		check_ajax_referer( 'ec_defer_actions', '_ajax_nonce' );
 
 		$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] === 'ec_get_static_snapshot';
 		$is_doing_ajax           = defined( 'DOING_AJAX' ) && DOING_AJAX;
@@ -227,7 +225,12 @@ class Ecwid_Static_Page {
 		}
 
 		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-		$dynamic_css  = 'https://d1oxsl77a1kjht.cloudfront.net/css/new?hc=-1762212718&amp;ownerid=16735114&amp;useProximaNovaFont=true&amp;id-selector=html%23ecwid_html%20body%23ecwid_body&amp;frontendV2&amp;color-foreground=rgb(40%2C%2048%2C%2061)&amp;color-price=rgb(40%2C%2048%2C%2061)&amp;color-background=rgb(209%2C%20228%2C%20221)&amp;color-link=rgb(40%2C%2048%2C%2061)&amp;font-family=-apple-system%2C%22system-ui%22%2C%22Segoe%20UI%22%2CRoboto%2COxygen-Sans%2CUbuntu%2CCantarell%2C%22Helvetica%20Neue%22%2Csans-serif&amp;useExactGalleryColors=false';
+
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $snapshot_url );
+		if ( ! empty( $cached_data ) ) {
+			return;
+		}
+
 		if ( ! empty( $_GET['dynamic_css'] ) ) {
 			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
 		}

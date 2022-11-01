@@ -47,7 +47,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 				return;
 			}
 
-			// echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			$position   = esc_attr( get_option( self::OPTION_FIXED_POSITION ) );
 			$shape      = esc_attr( get_option( self::OPTION_FIXED_SHAPE ) );

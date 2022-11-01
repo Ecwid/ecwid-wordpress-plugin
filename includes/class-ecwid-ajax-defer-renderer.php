@@ -34,6 +34,7 @@ class Ecwid_Ajax_Defer_Renderer {
 			add_filter( 'ecwid_disable_widgets', '__return_true' );
 			add_filter( 'ecwid_shortcode_custom_renderer', array( $this, 'get_custom_renderer' ) );
 			add_filter( 'the_content', array( $this, 'add_shortcodes' ) );
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
 			$this->_already_enabled = true;
 		}
 	}
