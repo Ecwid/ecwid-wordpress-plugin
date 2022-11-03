@@ -26,13 +26,13 @@ abstract class Ecwid_Shortcode_Base {
 		if ( ! isset( self::$shortcodes[ $this->get_shortcode_name() ] ) ) {
 			self::$shortcodes[ $this->get_shortcode_name() ] = array();
 		}
-		$this->_index                                      = count( self::$shortcodes[ $this->get_shortcode_name() ] );
+		$this->_index = count( self::$shortcodes[ $this->get_shortcode_name() ] );
+
 		self::$shortcodes[ $this->get_shortcode_name() ][] = $this;
 	}
 
 	public static function get_store_shortcode_names() {
 		return array( 'ecwid', 'ec_store' );
-
 	}
 
 	public static function get_current_store_shortcode_name() {
@@ -44,7 +44,7 @@ abstract class Ecwid_Shortcode_Base {
 	}
 
 	public static function get_shortcode_object( $name, $params ) {
-		 $names = array( 'productbrowser', 'minicart', 'search', 'categories', 'product' );
+		$names = array( 'productbrowser', 'minicart', 'search', 'categories', 'product' );
 
 		$expected_prefix = 'ecwid_';
 		if ( Ecwid_Config::is_wl() ) {

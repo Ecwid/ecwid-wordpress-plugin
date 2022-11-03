@@ -1,0 +1,6 @@
+#dynamic-ec-store,
+#static-ec-store,
+#ecwid_html .wp-block-post-title,
+#ecwid_body .wp-block-post-title {
+    max-width: var(--wp--style--global--wide-size);
+}

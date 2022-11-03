@@ -79,6 +79,7 @@ function ecwid_apply_theme( $theme_name = null ) {
 		'newstore'              => array( 'css', 'title' ),
 		'twentytwentyone'       => array( 'css-no-parent', 'title' ),
 		'twentytwentytwo'       => array( 'css-no-parent', 'title' ),
+		'twentytwentythree'     => array( 'css-no-parent', 'title' ),
 	);
 	$generic_themes = apply_filters( 'ecwid_generic_themes', $generic_themes );
 
