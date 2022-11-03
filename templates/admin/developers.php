@@ -473,7 +473,7 @@
 										</div>
 									</div>
 									<div class="cta-block__cta">
-										<a href="https://ecwid-community.herokuapp.com/?utm_source=wp-plugin" target="_blank" type="button" class="btn btn-default btn-medium"> <span>Join Community</span> </a>
+										<a href="https://join.slack.com/t/lightspeed-ecom-comm/shared_invite/zt-1hvv9uar5-BtF5AQGJHqd~T7fR2~Boyw" target="_blank" type="button" class="btn btn-default btn-medium"> <span>Join Community</span> </a>
 									</div>
 								</div>
 							</div>
