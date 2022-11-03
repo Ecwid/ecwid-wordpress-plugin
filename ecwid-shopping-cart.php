@@ -62,7 +62,7 @@ if ( is_admin() ) {
 	add_action( 'admin_post_ecwid_sync_products', 'ecwid_sync_products' );
 	add_action( 'admin_post_ec_connect', 'ecwid_admin_post_connect' );
 	add_action( 'admin_post_ecwid_get_debug', 'ecwid_get_debug_file' );
-	
+
 	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
 	add_action( 'get_footer', 'ecwid_admin_get_footer' );
 	add_action( 'admin_init', 'ecwid_process_oauth_params' );
@@ -71,7 +71,7 @@ if ( is_admin() ) {
 	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
 } else {
 	add_shortcode( 'ecwid_script', 'ecwid_script_shortcode' );
-	
+
 	add_action( 'init', 'ecwid_backward_compatibility' );
 	add_action( 'init', 'ecwid_check_api_cache' );
 
@@ -96,12 +96,12 @@ if ( is_admin() ) {
 	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
 
 	$ecwid_seo_title = '';
-}
+}//end if
 
 add_action( 'admin_bar_menu', 'add_ecwid_admin_bar_node', 1000 );
 
-if ( get_option('ecwid_last_oauth_fail_time') > 0 ) {
-	add_action( 'plugins_loaded', 'ecwid_test_oauth');
+if ( get_option( 'ecwid_last_oauth_fail_time' ) > 0 ) {
+	add_action( 'plugins_loaded', 'ecwid_test_oauth' );
 }
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
@@ -126,8 +126,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
-	
-	if( !Ecwid_Admin::disable_dashboard() ){
+
+	if ( ! Ecwid_Admin::disable_dashboard() ) {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';	
 	}
 }
@@ -150,13 +150,13 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-developers-page.php';
 
-if (version_compare( phpversion(), '5.6', '>=' ) ) {
+if ( version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
 
-$version = get_bloginfo('version');
+$version = get_bloginfo( 'version' );
 
-if (version_compare($version, '4.0') >= 0) {
+if ( version_compare( $version, '4.0' ) >= 0 ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
 }
@@ -169,12 +169,12 @@ if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
-if( Ecwid_Config::is_cli_running() ) {
+if ( Ecwid_Config::is_cli_running() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-wp-cli.php';
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
+foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
 
@@ -242,7 +242,7 @@ function ecwid_estimate_sync() {
 
 	$result = $p->estimate_sync();
 
-	echo json_encode($result);
+	echo json_encode( $result );
 }
 
 if ( version_compare( $version, '3.6' ) < 0 ) {

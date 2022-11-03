@@ -2,7 +2,37 @@
 
 require_once ECWID_SHORTCODES_DIR . '/class-ecwid-shortcode-base.php';
 
+add_action( 'init', 'Ecwid_Shortcode_ProductBrowser::init_static_js_repair' );
+
 class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
+
+	public static function init_static_js_repair() {
+		ob_start();
+		add_action( 'shutdown', 'Ecwid_Shortcode_ProductBrowser::is_needed_static_js_repair', 0 );
+	}
+
+	public static function is_needed_static_js_repair() {
+		$output = ob_get_clean();
+
+		$pattern = '/<script id="ec-static-inline-js"(.*?)>(.*?)<\/script>/is';
+
+		$is_found_static_js = preg_match( $pattern, $output, $m );
+
+		if ( $is_found_static_js ) {
+			preg_match( $pattern, $output, $matches );
+
+			if ( ! empty( $matches[2] ) ) {
+				$static_js = $matches[2];
+
+				if ( strpos( $static_js, '&#038;' ) !== false ) {
+					$static_js = str_replace( '&#038;', '&', $static_js );
+					$output    = preg_replace( $pattern, "<script id=\"ec-static-inline-js\"$1>$static_js</script>", $output, 1 );
+				}
+			}
+		}
+
+		echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
 
 	public static function get_shortcode_name() {
 		return 'productbrowser';
@@ -76,7 +106,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if ( ! empty( $js_code ) ) {
-			$code .= sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
+			$code .= sprintf( '<script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
 		}
 
 		return $code;
