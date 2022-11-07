@@ -21,7 +21,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 		const CUSTOMIZE_ID = 'ec-customize-cart';
 
 		public function __construct() {
-			 add_action( 'wp_footer', array( $this, 'display' ) );
+			add_action( 'wp_footer', array( $this, 'display' ) );
 		}
 
 		public function display() {
@@ -47,7 +47,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 				return;
 			}
 
-			echo ecwid_get_scriptjs_code();
+			echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			$position   = esc_attr( get_option( self::OPTION_FIXED_POSITION ) );
 			$shape      = esc_attr( get_option( self::OPTION_FIXED_SHAPE ) );
@@ -136,11 +136,11 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 		}
 
 		public static function get_fixed_shapes() {
-			 return array(
-				 'RECT' => __( 'Rectangle', 'ecwid-shopping-cart' ),
-				 'PILL' => __( 'Pill', 'ecwid-shopping-cart' ),
-				 ''     => __( 'No border', 'ecwid-shopping-cart' ),
-			 );
+			return array(
+				'RECT' => __( 'Rectangle', 'ecwid-shopping-cart' ),
+				'PILL' => __( 'Pill', 'ecwid-shopping-cart' ),
+				''     => __( 'No border', 'ecwid-shopping-cart' ),
+			);
 		}
 
 		public static function get_fixed_positions() {

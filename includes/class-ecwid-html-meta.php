@@ -62,20 +62,19 @@ abstract class Ecwid_HTML_Meta {
 			return;
 		}
 
-		echo $this->_get_html_prefetch_control_tags();
+		echo $this->_get_html_prefetch_control_tags(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$store_id = get_ecwid_store_id();
 		$params   = ecwid_get_scriptjs_params();
 
-		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?'
-			. $store_id . $params . '" as="script">' . PHP_EOL;
+		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '" as="script">' . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
 			$css_files = Ecwid_Static_Page::get_css_files();
 
 			if ( $css_files && is_array( $css_files ) ) {
 				foreach ( $css_files as $item ) {
-					echo sprintf( '<link rel="preload" href="%s" as="style">', $item ) . PHP_EOL;
+					echo sprintf( '<link rel="preload" href="%s" as="style">', $item ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}
@@ -152,7 +151,7 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 		}//end if
 
 		if ( $description_html ) {
-			echo $description_html;
+			echo $description_html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return;
@@ -169,7 +168,7 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 			$og_tags_html
 		);
 
-		echo $og_tags_html;
+		echo $og_tags_html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 
@@ -187,7 +186,7 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 
 	protected function _print_json_ld() {
 		$json_ld = Ecwid_Static_Page::get_json_ld_html();
-		echo $json_ld;
+		echo $json_ld; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	protected function _print_ajax_crawling_fragment() {
@@ -234,14 +233,14 @@ class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
 			return;
 		}
 
-		echo $this->_get_html_prefetch_control_tags();
+		echo $this->_get_html_prefetch_control_tags(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
 			$css_files = Ecwid_Static_Page::get_css_files();
 
 			if ( $css_files && is_array( $css_files ) ) {
 				foreach ( $css_files as $item ) {
-					echo sprintf( '<link rel="prefetch" href="%s">', $item ) . PHP_EOL;
+					echo sprintf( '<link rel="prefetch" href="%s">', $item ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
 		}
@@ -251,10 +250,10 @@ class Ecwid_HTML_Meta_Other extends Ecwid_HTML_Meta {
 			$params   = ecwid_get_scriptjs_params();
 
 			$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
-			echo sprintf( '<link rel="prefetch" href="%s" />', $scriptjs_url ) . PHP_EOL;
+			echo sprintf( '<link rel="prefetch" href="%s" />', $scriptjs_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			$page_url = Ecwid_Store_Page::get_store_url();
-			echo sprintf( '<link rel="prerender" href="%s" />', $page_url ) . PHP_EOL;
+			echo sprintf( '<link rel="prerender" href="%s" />', $page_url ) . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

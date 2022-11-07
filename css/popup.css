@@ -3,7 +3,7 @@ body.ecwid-popup-open {
 }
 
 .ecwid-popup {
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, .7);
     position: fixed;
     overflow: auto;
     height: 100%;
@@ -22,7 +22,9 @@ body.ecwid-popup-open {
     position: absolute;
 }
 
-.ecwid-popup-header, .ecwid-popup-footer, .ecwid-popup-body {
+.ecwid-popup-header,
+.ecwid-popup-footer,
+.ecwid-popup-body {
     padding: 15px;
     box-sizing: border-box;
 }
@@ -42,6 +44,15 @@ body.ecwid-popup-open {
     border-top: 1px solid lightgray;
     width: 100%;
     text-align: right;
+}
+
+.ecwid-popup-footer .float-left {
+    float: left;
+    margin-left: 5px;
+}
+
+.ecwid-popup-footer .float-left:nth-child(1) {
+    margin-left: 0;
 }
 
 .ecwid-popup-body {

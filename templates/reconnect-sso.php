@@ -1,18 +1,18 @@
 <div class="wrap ecwid-admin ecwid-connect ecwid-reconnect-allow-sso">
 	<div class="ec-store-box">
-        <?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
+		<?php require ECWID_PLUGIN_DIR . 'templates/admin-head.php'; ?>
 
 		<div class="main-wrap">
 			<div class="column">
-				<h4><?php _e('Your store Control Panel. Right here in WordPress.', 'ecwid-shopping-cart'); ?></h4>
-				<p class="note"><?php _e('Manage products, track sales, adjust settings - <nobr>All without</nobr> leaving this page.', 'ecwid-shopping-cart'); ?></p>
+				<h4><?php esc_html_e( 'Your store Control Panel. Right here in WordPress.', 'ecwid-shopping-cart' ); ?></h4>
+				<p class="note"><?php echo wp_kses_post( __( 'Manage products, track sales, adjust settings - <nobr>All without</nobr> leaving this page.', 'ecwid-shopping-cart' ) ); ?></p>
 				<div class="connect-button">
-					<a href="admin-post.php?action=ec_connect&reconnect"><?php _e( 'Re-connect to Enable Control Panel', 'ecwid-shopping-cart' ); ?></a>
+					<a href="admin-post.php?action=ec_connect&reconnect"><?php esc_html_e( 'Re-connect to Enable Control Panel', 'ecwid-shopping-cart' ); ?></a>
 				</div>
 			</div>
 
 			<div class="column">
-				<img src="<?php echo(esc_attr(ECWID_PLUGIN_URL)); ?>/images/new-feature.png" />
+				<img src="<?php echo esc_attr( ECWID_PLUGIN_URL ); ?>/images/new-feature.png" />
 			</div>
 		</div>
 

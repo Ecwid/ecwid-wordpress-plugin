@@ -1,11 +1,13 @@
 <div class="named-area" data-ec-state="demo no-pages">
 	<div class="named-area__header">
-		<div class="named-area__titles"><div class="named-area__title"><?php _e( "What's next?" , 'ecwid-shopping-cart'); ?></div></div>
+		<div class="named-area__titles"><div class="named-area__title"><?php esc_html_e( "What's next?", 'ecwid-shopping-cart' ); ?></div></div>
 		<div class="named-area__description">
-			<?php 
-			echo sprintf(
-				__( 'Add your %s store to the website and start selling in minutes.', 'ecwid-shopping-cart'),
-				Ecwid_Config::get_brand()
+			<?php
+			echo esc_html(
+				sprintf(
+					__( 'Add your %s store to the website and start selling in minutes.', 'ecwid-shopping-cart' ),
+					Ecwid_Config::get_brand()
+				)
 			);
 			?>
 		</div>
@@ -18,16 +20,16 @@
 					<div class="promo-row__content">
 						<ul class="titled-items-list titled-items-list--ordered">
 							<li class="titled-items-list__item titled-item">
-								<div class="titled-item__title"><?php _e( "Customize store appearance" , 'ecwid-shopping-cart'); ?></div>
-								<div class="titled-item__content"><?php _e( "Customize your store’s appearance to fit your business needs. Give your store the exact look and feel that reflects your brand." , 'ecwid-shopping-cart'); ?></div>
+								<div class="titled-item__title"><?php esc_html_e( 'Customize store appearance', 'ecwid-shopping-cart' ); ?></div>
+								<div class="titled-item__content"><?php esc_html_e( 'Customize your store’s appearance to fit your business needs. Give your store the exact look and feel that reflects your brand.', 'ecwid-shopping-cart' ); ?></div>
 							</li>
 							<li class="titled-items-list__item titled-item">
-								<div class="titled-item__title"><?php _e( "Change store content" , 'ecwid-shopping-cart'); ?></div>
-								<div class="titled-item__content"><?php _e( "Stay connected with your customers. Update the content of your store anytime to tell customers about ongoing promotions and what's new in your store." , 'ecwid-shopping-cart'); ?></div>
+								<div class="titled-item__title"><?php esc_html_e( 'Change store content', 'ecwid-shopping-cart' ); ?></div>
+								<div class="titled-item__content"><?php esc_html_e( "Stay connected with your customers. Update the content of your store anytime to tell customers about ongoing promotions and what's new in your store.", 'ecwid-shopping-cart' ); ?></div>
 							</li>
 							<li class="titled-items-list__item titled-item">
-								<div class="titled-item__title"><?php _e( "Promote your store" , 'ecwid-shopping-cart'); ?></div>
-								<div class="titled-item__content"><?php _e( "Help customers find your store on the site. Add the store link to the site menu, create additional store pages, and highlight store products on other site pages and in sidebars." , 'ecwid-shopping-cart'); ?></div>
+								<div class="titled-item__title"><?php esc_html_e( 'Promote your store', 'ecwid-shopping-cart' ); ?></div>
+								<div class="titled-item__content"><?php esc_html_e( 'Help customers find your store on the site. Add the store link to the site menu, create additional store pages, and highlight store products on other site pages and in sidebars.', 'ecwid-shopping-cart' ); ?></div>
 							</li>
 						</ul>
 					</div>

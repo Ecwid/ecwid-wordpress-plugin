@@ -1,7 +1,8 @@
-<div id="sync-container" class="state-initial"<?php if (!get_option('ecwid_local_base_enabled', false)) echo ' style="display:none"'; ?>>
+<div id="sync-container" class="state-initial" <?php if ( ! get_option( 'ecwid_local_base_enabled', false ) ) {
+	echo ' style="display:none"';} ?>>
 <?php
 $prods = new Ecwid_Products();
-$api = new Ecwid_Api_V3(get_ecwid_store_id());
+$api   = new Ecwid_Api_V3( get_ecwid_store_id() );
 ?>
 
 <script>
@@ -10,16 +11,16 @@ jQuery(document).ready(function() {
 jQuery('#sync-container').addClass('no-sse');
 
 jQuery('#ecwid_local_base_enabled').click(function() {
-   jQuery('#sync-container').css('display', (jQuery(this).is(':checked')) ? '' : 'none');
+	jQuery('#sync-container').css('display', (jQuery(this).is(':checked')) ? '' : 'none');
 });
 
 jQuery('#sync-button').click(function() {
-    sync_by_chunks();
+	sync_by_chunks();
 
 	return false;
 });
 
-var updatedFrom = '<?php echo $estimation['last_update']; ?>';
+var updatedFrom = '<?php echo esc_js( $estimation['last_update'] ); ?>';
 
 function do_no_sse_sync(mode, offset, limit, time) {
 	jQuery.getJSON('admin-post.php?action=ecwid_sync_no_sse&mode=' + mode + '&offset=' + offset + '&limit=' + limit + '&time=' + updatedFrom, {}, process_no_sse_sync);
@@ -36,7 +37,7 @@ function process_no_sse_sync(data) {
 		return do_no_sse_over();
 	}
 
-    update_no_sse_stuff(data);
+	update_no_sse_stuff(data);
 
 	if (data.total == data.count + data.offset) {
 		if (processed_updates > 0) {
@@ -50,15 +51,15 @@ function process_no_sse_sync(data) {
 		}
 		offset = parseInt(data.offset) + parseInt(data.limit);
 	}
-    
-    do_no_sse_sync(mode, offset, limit, updatedFrom);
+
+	do_no_sse_sync(mode, offset, limit, updatedFrom);
 }
 
 function update_no_sse_stuff(data) {
-    var counters = ['deleted', 'skipped_deleted', 'deleted_disabled'];
-    for (var i = 0; i < counters.length; i++) {
-        increment_progress_counter(data[counters[i]], 'deleted');
-    }
+	var counters = ['deleted', 'skipped_deleted', 'deleted_disabled'];
+	for (var i = 0; i < counters.length; i++) {
+		increment_progress_counter(data[counters[i]], 'deleted');
+	}
 	var counters = ['created', 'updated'];
 	for (var i = 0; i < counters.length; i++) {
 		increment_progress_counter(data[counters[i]], 'updated');
@@ -66,9 +67,9 @@ function update_no_sse_stuff(data) {
 }
 
 function increment_progress_counter(increment = 1, counter_type) {
-    debugger;
-    
-    if (increment == 0) {
+	debugger;
+
+	if (increment == 0) {
 		return;
 	}
 
@@ -108,52 +109,60 @@ jQuery('#sync-button-slow').click(function() {
 });
 </script>
 
-<?php if ( !Ecwid_Api_V3::get_token() ): ?>
+<?php if ( ! Ecwid_Api_V3::get_token() ) : ?>
 <div>
-    <?php _e( 'To enable this feature, the plugin needs a permission to read your store product information.', 'ecwid-shopping-cart' ); ?>
-	<a href="<?php echo get_reconnect_link(); ?>"><?php _e( 'Provide access.', 'ecwid-shopping-cart' ); ?></a>
+	<?php esc_html_e( 'To enable this feature, the plugin needs a permission to read your store product information.', 'ecwid-shopping-cart' ); ?>
+	<a href="<?php echo esc_url( get_reconnect_link() ); ?>"><?php esc_html_e( 'Provide access.', 'ecwid-shopping-cart' ); ?></a>
 </div>
-<?php else: ?>
+<?php else : ?>
 
 <div class="sync-block" id="sync-buttons">
-	<a id="sync-button-slow"><?php _e('Synchronize products', 'ecwid-shopping-cart'); ?></a>
+	<a id="sync-button-slow"><?php esc_html_e( 'Synchronize products', 'ecwid-shopping-cart' ); ?></a>
 </div>
 <div class="sync-block progress-indicator" id="updating">
 	<div class="sync-icon">
-		<?php ecwid_embed_svg('update'); ?>
+		<?php ecwid_embed_svg( 'update' ); ?>
 	</div>
 	<div>
-		<?php _e('We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart'); ?>
+		<?php esc_html_e( 'We\'re synchronizing your products. This may take a few minutes. Please do not reload the page.', 'ecwid-shopping-cart' ); ?>
 	</div>
 </div>
-<div class="sync-block" id="deleted-progress">
-  <?php echo sprintf(__( 'Deleted products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
-    '<span id="count_deleted">0</span>',
-    '<span id="total_deleted">' . ($estimation['total_deleted']) . '</span>'
-  );
-  ?>
+<div class="sync-block">
+	<?php
+	echo wp_kses_post(
+		sprintf(
+			__( 'Deleted products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
+			'<span id="count_deleted">0</span>',
+			'<span id="total_deleted">' . ( $estimation['total_deleted'] ) . '</span>'
+		)
+	);
+	?>
 </div>
-  
+
 <div class="sync-block" id="updated-progress">
-	<?php echo sprintf(__( 'Products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
+	<?php
+	echo wp_kses_post(
+		sprintf(
+			__( 'Products synchronized: %1$s out of %2$s', 'ecwid-shopping-cart' ),
 			'<span id="count_updated">0</span>',
-			'<span id="total_updated">' . ($estimation['total_updated']) . '</span>'
-		);
+			'<span id="total_updated">' . ( $estimation['total_updated'] ) . '</span>'
+		)
+	);
 	?>
 </div>
 <div class="sync-block" id="complete">
-	<?php _e( 'Products are successfully synchronized. The product pages are up to date.', 'ecwid-shopping-cart' ); ?>
+	<?php esc_html_e( 'Products are successfully synchronized. The product pages are up to date.', 'ecwid-shopping-cart' ); ?>
 </div>
 
 <div class="sync-block" id="last-sync-date">
-	<?php _e( 'Last update', 'ecwid-shopping-cart' ); ?>:
+	<?php esc_html_e( 'Last update', 'ecwid-shopping-cart' ); ?>:
 	<span id="sync-date">
-        <?php if ( $estimation['last_update'] == 0 ): ?>
-            <?php _e( 'Not synchronized yet', 'ecwid-shopping-cart' ); ?>
-        <?php else: ?>
-            <?php echo ecwid_format_date( $estimation['last_update'] ); ?>
-        <?php endif; ?>
-    </span>
+		<?php if ( $estimation['last_update'] == 0 ) : ?>
+			<?php esc_html_e( 'Not synchronized yet', 'ecwid-shopping-cart' ); ?>
+		<?php else : ?>
+			<?php echo esc_html( ecwid_format_date( $estimation['last_update'] ) ); ?>
+		<?php endif; ?>
+	</span>
 </div>
 <?php endif; ?>
 

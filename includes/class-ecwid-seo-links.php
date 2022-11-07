@@ -160,6 +160,8 @@ class Ecwid_Seo_Links {
 			'account\/orders',
 			'account\/address-book',
 			'account\/favorites',
+			'account\/registration',
+			'account\/resetPassword',
 			'search',
 			'search\?.*',
 			'signin',

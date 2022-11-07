@@ -198,12 +198,12 @@ class Ecwid_Import_Page {
 		}
 
 		foreach ( $error_log as $type => $messages ) {
-			echo sprintf( "ERROR TYPE: %s\r\n", $type );
+			echo esc_html( sprintf( "ERROR TYPE: %s\r\n", $type ) );
 
 			foreach ( $messages as $message => $data ) {
 				echo "*** \r\n";
-				echo $message . "\r\n";
-				echo 'Data: ' . var_export( $data, true ) . "\r\n";
+				echo esc_html( $message ) . "\r\n";
+				echo 'Data: ' . var_export( $data, true ) . "\r\n"; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 
 			echo "\r\n";

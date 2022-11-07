@@ -1,5 +1,16 @@
 == Changelog == 
 
+= 6.10.29 - Nov 07, 2022 =
+- **WordPress 6.1 and Twenty Twenty Three theme compatibility.** The new WordPress version with the 2023 theme is released. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 6.1 and try a new theme. 
+- Compatibility improvements with XML Sitemaps plugin. If you are using the XML Sitemaps plugin, you may be experiencing an issue where storefront products links are not being added to sitemap. We've fixed it.
+- Improvements for compatibility with the Elementor builder.
+- Minor fixes and improvements.
+
+= 6.10.28 - Sep 01, 2022 =
+- Improvements in the plugin code to comply with the WordPress plugin marketplace recommendations.
+- Improvements ecommerce widgets for Divi builder.
+- Minor fixes and improvements.
+
 = 6.10.27 - Aug 18, 2022 =
 - After the last update, the Ecwid ecommerce plugin may have broken other plugins on your ecommerce site. It was a bug. We've fixed it.
 

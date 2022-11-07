@@ -1,13 +1,13 @@
-<div id="ec-storefront-settings" class="settings-page ec-ui-framework-page" data-ec-storefront-status="<?php echo $page_status; ?>" >
+<div id="ec-storefront-settings" class="settings-page ec-ui-framework-page" data-ec-storefront-status="<?php echo esc_attr( $page_status ); ?>" >
 	<div class="settings-page__header">
 		<div class="settings-page__titles settings-page__titles--left">
-			<h1 class="settings-page__title"><?php _e('Your Storefront', 'ecwid-shopping-cart'); ?></h1>
+			<h1 class="settings-page__title"><?php esc_html_e( 'Your Storefront', 'ecwid-shopping-cart' ); ?></h1>
 			<div class="settings-page__subtitle"></div>
 		</div>
 
 		<?php
-		if( isset($need_show_draft_warning) && $need_show_draft_warning ) {
-		?>
+		if ( isset( $need_show_draft_warning ) && $need_show_draft_warning ) {
+			?>
 		<div class="a-card a-card--compact a-card--warning" data-ec-state="draft">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile iconable-block--warning">
@@ -17,16 +17,16 @@
 					<div class="iconable-block__content">
 						<div class="cta-block">
 							<div class="cta-block__central">
-								<div class="cta-block__title"><?php _e('The store is not visible on your site', 'ecwid-shopping-cart'); ?></div>
-								<div class="cta-block__content"><?php _e('Customers can’t see your store page because it’s in draft. Publish the page to make it available for your customers.', 'ecwid-shopping-cart'); ?></div>
+								<div class="cta-block__title"><?php esc_html_e( 'The store is not visible on your site', 'ecwid-shopping-cart' ); ?></div>
+								<div class="cta-block__content"><?php esc_html_e( 'Customers can’t see your store page because it’s in draft. Publish the page to make it available for your customers.', 'ecwid-shopping-cart' ); ?></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<?php
-		}
+			<?php
+		}//end if
 		?>
 
 		<?php require self::$templates_dir . '/area-status.php'; ?>
@@ -42,4 +42,3 @@
 	</div>
 
 </div>
-

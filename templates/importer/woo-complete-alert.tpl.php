@@ -12,44 +12,46 @@
 			<div class="iconable-block__content">
 				<div class="cta-block">
 					<div class="cta-block__central">
-						<div class="cta-block__title"><?php _e( 'Import completed', 'ecwid-shopping-cart' ); ?></div>
+						<div class="cta-block__title"><?php esc_html_e( 'Import completed', 'ecwid-shopping-cart' ); ?></div>
 						<div class="cta-block__content">
-							<?php 
-							echo sprintf( __( 'Imported <b>%s</b> products', 'ecwid-shopping-cart' ), '<span id="import-results-products">0</span>' );
+							<?php
+							echo wp_kses_post( sprintf( __( 'Imported <b>%s</b> products', 'ecwid-shopping-cart' ), '<span id="import-results-products">0</span>' ) );
 							if ( ecwid_is_paid_account() ) {
-								echo ", "; 
-								echo sprintf( __( '<b>%s</b> categories', 'ecwid-shopping-cart' ), '<span id="import-results-categories">0</span>' );
+								echo ', ';
+								echo wp_kses_post( sprintf( __( '<b>%s</b> categories', 'ecwid-shopping-cart' ), '<span id="import-results-categories">0</span>' ) );
 							}
 							?>
 						</div>
 
 						<div class="cta-block__content" data-ec-importer-alert="warning">
-							<?php _e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?>
+							<?php esc_html_e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?>
 
 							<span data-ec-importer-alert="limit">
 							<?php
-								echo sprintf( 
-									__( 'Part of the products have not been copied to %1$s, because you reached the products limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan.</a></nobr>', 'ecwid-shopping-cart' ),
-									Ecwid_Config::get_brand(), 
-									'href="' . $this->_get_billing_page_url() .'"'
+								echo wp_kses_post(
+									sprintf(
+										__( 'Part of the products have not been copied to %1$s, because you reached the products limit on your pricing plan in %1$s. If you want to import more products, please consider <nobr><a %2$s>upgrading your %1$s plan.</a></nobr>', 'ecwid-shopping-cart' ),
+										Ecwid_Config::get_brand(),
+										'href="' . esc_url( $this->_get_billing_page_url() ) . '"'
+									)
 								);
-							?>
+								?>
 							</span>
 						</div>
 
 						<div class="cta-block__content" data-ec-importer-alert="warning">
-							<?php 
+							<?php
 							echo sprintf(
-								__( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ),
-								'admin-post.php?action=' . Ecwid_Import_Page::ACTION_GET_WOO_IMPORT_LOG
+								wp_kses_post( __( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ) ),
+								'admin-post.php?action=' . esc_attr( Ecwid_Import_Page::ACTION_GET_WOO_IMPORT_LOG )
 							);
 							?>
 						</div>
 
 					</div>
 					<div class="cta-block__cta">
-						<a class="btn btn-primary btn-medium" href="admin.php?page=<?php echo Ecwid_Admin::ADMIN_SLUG; ?>-admin-products">
-							<?php echo sprintf( __('Go to Your %s Products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ); ?>
+						<a class="btn btn-primary btn-medium" href="admin.php?page=<?php echo esc_attr( Ecwid_Admin::ADMIN_SLUG ); ?>-admin-products">
+							<?php echo esc_html( sprintf( __( 'Go to Your %s Products', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?>
 						</a>
 					</div>
 				</div>

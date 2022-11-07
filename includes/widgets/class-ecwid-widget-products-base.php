@@ -167,19 +167,15 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 			} else {
 				$value = htmlspecialchars( $instance[ $field['name'] ] );
 			}
-
-			$template = '<p><label for="%s">%s:<input style="%s" id="%s" name="%s" type="text" value="%s" /></label></p>';
-
-			printf(
-				$template,
-				esc_attr( $this->get_field_name( $field['name'] ) ),
-				esc_html( $field['title'] ),
-				'width:100%',
-				esc_attr( $this->get_field_id( $field['name'] ) ),
-				esc_attr( $this->get_field_name( $field['name'] ) ),
-				esc_attr( $value )
-			);
-		}
+			?>
+			<p>
+				<label for="<?php echo esc_attr( $this->get_field_name( $field['name'] ) ); ?>">
+					<?php echo esc_html( $field['title'] ); ?>:
+					<input style="width:100%" id="<?php echo esc_attr( $this->get_field_name( $field['name'] ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( $field['name'] ) ); ?>" type="text" value="<?php echo esc_attr( $value ); ?>" />
+				</label>
+			</p>
+			<?php
+		}//end foreach
 	}
 
 	protected function _get_valid_number_of_products( $num ) {
@@ -193,20 +189,20 @@ abstract class Ecwid_Widget_Products_List_Base extends Ecwid_Widget_Base {
 	}
 
 	protected function _get_form_fields() {
-		 return array(
-			 array(
-				 'name'    => 'title',
-				 'title'   => __( 'Title' ),
-				 'type'    => 'text',
-				 'default' => $this->_title,
-			 ),
-			 array(
-				 'name'    => 'number_of_products',
-				 'title'   => __( 'Number of products to show', 'ecwid-shopping-cart' ),
-				 'type'    => 'int',
-				 'default' => 3,
-			 ),
-		 );
+		return array(
+			array(
+				'name'    => 'title',
+				'title'   => __( 'Title' ),
+				'type'    => 'text',
+				'default' => $this->_title,
+			),
+			array(
+				'name'    => 'number_of_products',
+				'title'   => __( 'Number of products to show', 'ecwid-shopping-cart' ),
+				'type'    => 'int',
+				'default' => 3,
+			),
+		);
 	}
 
 }

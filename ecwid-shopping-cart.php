@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.27
+Version: 6.10.29
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -14,16 +14,15 @@ register_activation_hook( __FILE__, 'ecwid_store_activate' );
 register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
-define('ECWID_API_AVAILABILITY_CHECK_TIME', 60*60*3);
-
-define ('ECWID_TRIMMED_DESCRIPTION_LENGTH', 160);
+define( 'ECWID_API_AVAILABILITY_CHECK_TIME', 60 * 60 * 3 );
+define( 'ECWID_TRIMMED_DESCRIPTION_LENGTH', 160 );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
 	define( 'ECWID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-if ( !defined( 'ECWID_TEMPLATES_DIR' ) ) {
-	define ( 'ECWID_TEMPLATES_DIR', ECWID_PLUGIN_DIR . 'templates' );
+if ( ! defined( 'ECWID_TEMPLATES_DIR' ) ) {
+	define( 'ECWID_TEMPLATES_DIR', ECWID_PLUGIN_DIR . 'templates' );
 }
 
 if ( ! defined( 'ECWID_PLUGIN_BASENAME' ) ) {
@@ -34,12 +33,9 @@ if ( ! defined( 'ECWID_PLUGIN_URL' ) ) {
 	define( 'ECWID_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
-if ( ! defined('ECWID_SHORTCODES_DIR' ) ) {
+if ( ! defined( 'ECWID_SHORTCODES_DIR' ) ) {
 	define( 'ECWID_SHORTCODES_DIR', ECWID_PLUGIN_DIR . 'includes/shortcodes' );
 }
-
-// Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
-add_action( 'sm_buildmap', 'ecwid_build_google_xml_sitemap' );
 
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter( 'plugins_loaded', 'ecwid_load_textdomain' );
@@ -66,7 +62,7 @@ if ( is_admin() ) {
 	add_action( 'admin_post_ecwid_sync_products', 'ecwid_sync_products' );
 	add_action( 'admin_post_ec_connect', 'ecwid_admin_post_connect' );
 	add_action( 'admin_post_ecwid_get_debug', 'ecwid_get_debug_file' );
-	
+
 	add_action( 'admin_head', 'ecwid_ie8_fonts_inclusion' );
 	add_action( 'get_footer', 'ecwid_admin_get_footer' );
 	add_action( 'admin_init', 'ecwid_process_oauth_params' );
@@ -75,7 +71,7 @@ if ( is_admin() ) {
 	add_filter( 'tiny_mce_before_init', 'ecwid_tinymce_init' );
 } else {
 	add_shortcode( 'ecwid_script', 'ecwid_script_shortcode' );
-	
+
 	add_action( 'init', 'ecwid_backward_compatibility' );
 	add_action( 'init', 'ecwid_check_api_cache' );
 
@@ -100,12 +96,12 @@ if ( is_admin() ) {
 	add_action( 'redirect_canonical', 'ecwid_redirect_canonical', 10, 2 );
 
 	$ecwid_seo_title = '';
-}
+}//end if
 
 add_action( 'admin_bar_menu', 'add_ecwid_admin_bar_node', 1000 );
 
-if ( get_option('ecwid_last_oauth_fail_time') > 0 ) {
-	add_action( 'plugins_loaded', 'ecwid_test_oauth');
+if ( get_option( 'ecwid_last_oauth_fail_time' ) > 0 ) {
+	add_action( 'plugins_loaded', 'ecwid_test_oauth' );
 }
 
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
@@ -130,8 +126,8 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-static-page.php';
 if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-ui-framework.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
-	
-	if( !Ecwid_Admin::disable_dashboard() ){
+
+	if ( ! Ecwid_Admin::disable_dashboard() ) {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';	
 	}
 }
@@ -154,13 +150,13 @@ require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-well-known.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-storefront-page.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-admin-developers-page.php';
 
-if (version_compare( phpversion(), '5.6', '>=' ) ) {
+if ( version_compare( phpversion(), '5.6', '>=' ) ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/importer/importer.php';
 }
 
-$version = get_bloginfo('version');
+$version = get_bloginfo( 'version' );
 
-if (version_compare($version, '4.0') >= 0) {
+if ( version_compare( $version, '4.0' ) >= 0 ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-customizer.php';
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-floating-minicart.php';
 }
@@ -173,12 +169,12 @@ if ( strpos( $version, '5.5' )  === 0 || version_compare( $version, '5.5' ) >= 0
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-sitemap-provider.php';
 }
 
-if( Ecwid_Config::is_cli_running() ) {
+if ( Ecwid_Config::is_cli_running() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-wp-cli.php';
 }
 
 // Needs to be in both front-end and back-end to allow admin zone recognize the shortcode
-foreach (Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name) {
+foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
 	add_shortcode( $shortcode_name, 'ecwid_shortcode' );
 }
 
@@ -212,6 +208,7 @@ function ecwid_init_integrations() {
 		'seo-by-rank-math/rank-math.php' => 'rank-math',
 		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 		'sg-cachepress/sg-cachepress.php' => 'sg-optimizer',
+		'google-sitemap-generator/sitemap.php' => 'google-sitemap-generator',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
@@ -245,14 +242,14 @@ function ecwid_estimate_sync() {
 
 	$result = $p->estimate_sync();
 
-	echo json_encode($result);
+	echo json_encode( $result );
 }
 
-if (version_compare($version, '3.6') < 0) {
-    /**
-     * A copy of has_shortcode functionality from wordpress 3.6
-     * http://core.trac.wordpress.org/browser/tags/3.6/wp-includes/shortcodes.php
-     */
+if ( version_compare( $version, '3.6' ) < 0 ) {
+	/**
+	* A copy of has_shortcode functionality from wordpress 3.6
+	* http://core.trac.wordpress.org/browser/tags/3.6/wp-includes/shortcodes.php
+	*/
 
 	if (!function_exists('shortcode_exists')) {
 		function shortcode_exists( $tag ) {
@@ -484,21 +481,21 @@ function ecwid_print_inline_js_config() {
 	$js .= 'window.ec.config = window.ec.config || Object();' . PHP_EOL;
 	$js .= 'window.ec.config.enable_canonical_urls = true;' . PHP_EOL;
 
-	$plugins_disabling_interactive = array(	
+	$plugins_disabling_interactive = array(
 		'shiftnav-pro/shiftnav.php',
-		'easymega/easymega.php'
+		'easymega/easymega.php',
 	);
 
 	foreach ( $plugins_disabling_interactive as $plugin ) {
 		if ( is_plugin_active( $plugin ) ) {
-			$js .= "window.ec.config.interactive = false;" . PHP_EOL;
+			$js .= 'window.ec.config.interactive = false;' . PHP_EOL;
 			break;
 		}
 	}
 
 	$js = apply_filters( 'ecwid_inline_js_config', $js ) . PHP_EOL;
-	
-	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>'  . PHP_EOL , $js );
+
+	echo sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>' . PHP_EOL, $js ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 add_action( 'ecwid_inline_js_config', 'ecwid_add_chameleon' );
@@ -614,7 +611,6 @@ function ecwid_is_store_closed()
 	return false;
 }
 
-
 function ecwid_backward_compatibility() {
 
     // Backward compatibility with 1.1.2 and earlier
@@ -630,37 +626,18 @@ function ecwid_backward_compatibility() {
     }
 }
 
-function ecwid_build_sitemap($callback)
-{
-	
-	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_store_page_available() ) return;
+function ecwid_build_sitemap( $callback ) {
+	if ( ! Ecwid_Api_V3::is_available() || ! ecwid_is_store_page_available() ) {
+		return;
+	}
 
 	$page_id = Ecwid_Store_Page::get_current_store_page_id();
 
-	if (get_post_status($page_id) == 'publish') {
+	if ( get_post_status( $page_id ) === 'publish' ) {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
-		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback);
-
+		$sitemap = new EcwidSitemapBuilder( Ecwid_Store_Page::get_store_url(), $callback );
 		$sitemap->generate();
-	}
-}
-
-function ecwid_build_google_xml_sitemap()
-{
-	return ecwid_build_sitemap('ecwid_google_xml_sitemap_build_sitemap_callback');
-}
-
-function ecwid_google_xml_sitemap_build_sitemap_callback($url, $priority, $frequency)
-{
-	static $generatorObject = null;
-	if (is_null($generatorObject)) {
-		$generatorObject = GoogleSitemapGenerator::GetInstance(); //Please note the "&" sign!
-	}
-
-	if($generatorObject != null) {
-		$page = new GoogleSitemapGeneratorPage($url, $priority, $frequency);
-		$generatorObject->AddElement($page);
 	}
 }
 
@@ -1201,7 +1178,7 @@ function ecwid_get_current_user_locale()
 }
 
 function ecwid_product_browser_url_in_head() {
-	echo ecwid_get_product_browser_url_script();
+	echo ecwid_get_product_browser_url_script(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function ecwid_is_applicable_escaped_fragment() {
@@ -1742,7 +1719,8 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 	$is_newbie = ecwid_is_demo_store();
 
     if( !$is_cli_running && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
-        exit( wp_safe_redirect( Ecwid_Admin::get_dashboard_url() ) );
+        wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
+        exit();
     }
 }
 
@@ -1783,12 +1761,6 @@ function ecwid_show_admin_messages() {
 
 		Ecwid_Message_Manager::show_messages();
 	}
-}
-
-function ecwid_show_admin_message($message) {
-
-	$class = version_compare(get_bloginfo('version'), '3.0') < 0 ? "updated fade" : "update-nag";
-	echo sprintf('<div class="%s" style="margin-top: 5px">%s</div>', $class, $message);
 }
 
 function ecwid_store_deactivate() {
@@ -1970,15 +1942,15 @@ add_action('admin_post_' . ecwid_get_update_params_action(), 'ecwid_update_plugi
 function ecwid_update_plugin_params()
 {
 	if ( !current_user_can('manage_options') ) {
-		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
 	}
 	
     if ( ! isset( $_POST['_wpnonce'] ) ) {
-        wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+        wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
     }
 
     if ( ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), ecwid_get_update_params_action() ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		wp_die( __( 'Sorry, you are not allowed to access this page.' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ) );
 	}
 
 	$options = ecwid_get_update_params_options();
@@ -2670,7 +2642,7 @@ function ecwid_sync_progress_callback($status) {
 		$status['event'] = 'progress';
 	}
 
-	echo 'event: ' . $status['event'] . "\n";
+	echo 'event: ' . esc_html( $status['event'] ) . "\n";
 
 	echo 'data: ' . json_encode($status) . "\n\n";
 	flush();
@@ -2786,7 +2758,7 @@ function ecwid_tick() {
 	error_log('tick');
 	header("Content-Type: text/event-stream\n\n");
 	for ($i = 0; $i < 30; $i++) {
-		echo "data: $i \n\n";
+		echo "data: $i \n\n"; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		flush();
 		sleep(2);
 		//usleep(2000);
@@ -3075,7 +3047,7 @@ function ecwid_embed_svg($name) {
 	
 	if( file_exists( $path ) ) {
 		$code = file_get_contents( $path );
-		echo $code;
+		echo $code; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
@@ -3119,6 +3091,8 @@ function ecwid_get_shortcode_regex() {
 
 	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
 	// Also, see shortcode_unautop() and shortcode.js.
+
+    // phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	return
 		'\\['                              // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
@@ -3148,6 +3122,7 @@ function ecwid_get_shortcode_regex() {
 		.     ')?'
 		. ')'
 		. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+    // phpcs:enable
 }
 
 ?>

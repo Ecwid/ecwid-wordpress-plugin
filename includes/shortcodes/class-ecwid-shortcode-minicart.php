@@ -8,30 +8,35 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 
 		$params = shortcode_atts(
 			array(
-				'layout' => NULL,
-				'is_ecwid_shortcode' => FALSE,
-			), $shortcode_attributes
+				'layout'             => null,
+				'is_ecwid_shortcode' => false,
+			),
+			$shortcode_attributes
 		);
 
 		$layout = $params['layout'];
-		if ( ! in_array( $layout, array(
-			'',
-			'attachToCategories',
-			'floating',
-			'Mini',
-			'MiniAttachToProductBrowser'
-		), true )
+		if ( ! in_array(
+			$layout,
+			array(
+				'',
+				'attachToCategories',
+				'floating',
+				'Mini',
+				'MiniAttachToProductBrowser',
+			),
+			true
+		)
 		) {
 			$layout = 'MiniAttachToProductBrowser';
 		}
 
 		$this->_params = array(
-			'layout' => $layout
+			'layout' => $layout,
 		);
 
 		if ( $params['is_ecwid_shortcode'] ) {
 			// it is a part of the ecwid shortcode, we need to show it anyways
-			$ecwid_enable_minicart = $ecwid_show_categories = TRUE;
+			$ecwid_enable_minicart = $ecwid_show_categories = true;
 		} else {
 			// it is a ecwid_minicart widget that works based on appearance settings
 			$ecwid_enable_minicart = get_option( 'ecwid_enable_minicart' );
@@ -53,11 +58,11 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 
 		$default_render = parent::render();
 
-		if ( !isset($this->_params['layout']) || $this->_params['layout'] != 'MiniAttachToProductBrowser' ) {
+		if ( ! isset( $this->_params['layout'] ) || $this->_params['layout'] != 'MiniAttachToProductBrowser' ) {
 			return $default_render;
 		}
 
-		$has_minicart = (strpos($default_render, 'xMinicart') !== false);
+		$has_minicart = ( strpos( $default_render, 'xMinicart' ) !== false );
 		if ( $has_minicart && Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
 			$default_render .= '<style>#static-ec-store { padding-top: 40px; }</style>';
 		}
@@ -65,11 +70,11 @@ class Ecwid_Shortcode_Minicart extends Ecwid_Shortcode_Base {
 		return $default_render;
 	}
 
-	public function build_params_string($params = null) {
-		if (!is_null($params) && array_key_exists('id', $params) && isset($params['layout']) && $params['layout'] == 'MiniAttachToProductBrowser') {
-			unset($params['id']);
+	public function build_params_string( $params = null ) {
+		if ( ! is_null( $params ) && array_key_exists( 'id', $params ) && isset( $params['layout'] ) && $params['layout'] == 'MiniAttachToProductBrowser' ) {
+			unset( $params['id'] );
 		}
 
-		return parent::build_params_string($params);
+		return parent::build_params_string( $params );
 	}
 }
