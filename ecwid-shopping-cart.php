@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.10.28
+Version: 6.10.29
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -15,7 +15,6 @@ register_deactivation_hook( __FILE__, 'ecwid_store_deactivate' );
 register_uninstall_hook( __FILE__, 'ecwid_uninstall' );
 
 define( 'ECWID_API_AVAILABILITY_CHECK_TIME', 60 * 60 * 3 );
-
 define( 'ECWID_TRIMMED_DESCRIPTION_LENGTH', 160 );
 
 if ( ! defined( 'ECWID_PLUGIN_DIR' ) ) {
@@ -37,9 +36,6 @@ if ( ! defined( 'ECWID_PLUGIN_URL' ) ) {
 if ( ! defined( 'ECWID_SHORTCODES_DIR' ) ) {
 	define( 'ECWID_SHORTCODES_DIR', ECWID_PLUGIN_DIR . 'includes/shortcodes' );
 }
-
-// Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
-add_action( 'sm_buildmap', 'ecwid_build_google_xml_sitemap' );
 
 add_action( 'plugins_loaded', 'ecwid_init_integrations' );
 add_filter( 'plugins_loaded', 'ecwid_load_textdomain' );
@@ -132,7 +128,7 @@ if ( is_admin() ) {
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-help-page.php';
 
 	if ( ! Ecwid_Admin::disable_dashboard() ) {
-		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-custom-admin-page.php';	
 	}
 }
 
@@ -211,6 +207,7 @@ function ecwid_init_integrations() {
 		'seo-by-rank-math/rank-math.php' => 'rank-math',
 		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 		'sg-cachepress/sg-cachepress.php' => 'sg-optimizer',
+		'google-sitemap-generator/sitemap.php' => 'google-sitemap-generator',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
@@ -249,9 +246,9 @@ function ecwid_estimate_sync() {
 
 if ( version_compare( $version, '3.6' ) < 0 ) {
 	/**
-	 * A copy of has_shortcode functionality from wordpress 3.6
-	 * http://core.trac.wordpress.org/browser/tags/3.6/wp-includes/shortcodes.php
-	 */
+	* A copy of has_shortcode functionality from wordpress 3.6
+	* http://core.trac.wordpress.org/browser/tags/3.6/wp-includes/shortcodes.php
+	*/
 
 	if ( ! function_exists( 'shortcode_exists' ) ) {
 		function shortcode_exists( $tag ) {
@@ -611,7 +608,6 @@ function ecwid_is_store_closed()
 	return false;
 }
 
-
 function ecwid_backward_compatibility() {
 
     // Backward compatibility with 1.1.2 and earlier
@@ -627,42 +623,39 @@ function ecwid_backward_compatibility() {
     }
 }
 
-function ecwid_build_sitemap($callback)
-{
-	
-	if ( !Ecwid_Api_V3::is_available() || !ecwid_is_store_page_available() ) return;
+function ecwid_build_sitemap( $callback ) {
+	if ( ! Ecwid_Api_V3::is_available() || ! ecwid_is_store_page_available() ) {
+		return;
+	}
 
 	$page_id = Ecwid_Store_Page::get_current_store_page_id();
 
-	if (get_post_status($page_id) == 'publish') {
+	if ( get_post_status( $page_id ) === 'publish' ) {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
-		$sitemap = new EcwidSitemapBuilder(Ecwid_Store_Page::get_store_url(), $callback);
-
+		$sitemap = new EcwidSitemapBuilder( Ecwid_Store_Page::get_store_url(), $callback );
 		$sitemap->generate();
 	}
 }
 
-function ecwid_build_google_xml_sitemap()
+function ecwid_minifier_compatibility()
 {
-	return ecwid_build_sitemap('ecwid_google_xml_sitemap_build_sitemap_callback');
-}
+	if ( !function_exists( 'get_plugins' ) ) { require_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); }
 
-function ecwid_google_xml_sitemap_build_sitemap_callback($url, $priority, $frequency)
-{
-	static $generatorObject = null;
-	if (is_null($generatorObject)) {
-		$generatorObject = GoogleSitemapGenerator::GetInstance(); //Please note the "&" sign!
-	}
+	$plugins = get_plugins();
+	$wp_minify_plugin = 'wp-minify/wp-minify.php';
+	if (array_key_exists($wp_minify_plugin, $plugins) && is_plugin_active($wp_minify_plugin)) {
+		global $wp_minify;
 
-	if($generatorObject != null) {
-		$page = new GoogleSitemapGeneratorPage($url, $priority, $frequency);
-		$generatorObject->AddElement($page);
+		if (is_object($wp_minify) && array_key_exists('default_exclude', get_object_vars($wp_minify)) && is_array($wp_minify->default_exclude)) {
+			$wp_minify->default_exclude[] = Ecwid_Config::get_scriptjs_domain() . '/script.js';
+		}
 	}
 }
 
-function ecwid_check_version() {
-	$plugin_data = get_plugin_data( __FILE__ );
+function ecwid_check_version()
+{
+	$plugin_data = get_plugin_data(__FILE__);
 	$current_version = $plugin_data['Version'];
 	$stored_version = get_option( 'ecwid_plugin_version', null );
 
@@ -3059,6 +3052,8 @@ function ecwid_get_shortcode_regex() {
 
 	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
 	// Also, see shortcode_unautop() and shortcode.js.
+
+    // phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	return
 		'\\['                              // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
@@ -3088,6 +3083,7 @@ function ecwid_get_shortcode_regex() {
 		.     ')?'
 		. ')'
 		. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+    // phpcs:enable
 }
 
 ?>
