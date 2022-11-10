@@ -139,17 +139,17 @@
                         }
                     }
 
-                    // var staticEl = find('#' + staticId);
+                    var staticEl = find('#' + staticId);
                     if (isTouchDevice) {
                         staticDivTouchEventsForLazyLoading.forEach(
                             function applyEvent(event) {
-                                toggleEvent(document, add, event);
+                                toggleEvent(staticEl, add, event);
                             }
                         );
                     } else {
                         staticDivEventsForLazyLoading.forEach(
                             function applyEvent(event) {
-                                toggleEvent(document, add, event);
+                                toggleEvent(staticEl, add, event);
                             }
                         );
                     }
