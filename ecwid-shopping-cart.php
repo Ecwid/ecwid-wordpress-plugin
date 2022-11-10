@@ -1311,18 +1311,17 @@ function ecwid_add_credits($powered_by)
 	return $powered_by;
 }
 
-function ecwid_wrap_shortcode_content($content, $name, $attrs)
-{
-	$version = get_option('ecwid_plugin_version');
+function ecwid_wrap_shortcode_content( $content, $name, $attrs ) {
+	$version = get_option( 'ecwid_plugin_version' );
 
-    $lang = null;
-	if( isset( $attrs['lang'] ) ) {
+	$lang = null;
+	if ( isset( $attrs['lang'] ) ) {
 		$lang = $attrs['lang'];
 	}
 
 	$shortcode_content = ecwid_get_scriptjs_code( $lang );
 
-	if ($name == 'product2') {
+	if ( $name == 'product2' ) {
 		$shortcode_content .= $content;
 	} else {
 		$shortcode_content .= "<div class=\"ecwid-shopping-cart-$name\">$content</div>";
@@ -1331,23 +1330,23 @@ function ecwid_wrap_shortcode_content($content, $name, $attrs)
 	$brand = Ecwid_Config::get_brand();
 
 	$shortcode_content = "<!-- $brand shopping cart plugin v $version -->"
-	                     . $shortcode_content
-	                     . "<!-- END $brand Shopping Cart v $version -->";
+						. $shortcode_content
+						. "<!-- END $brand Shopping Cart v $version -->";
 
-	return apply_filters('ecwid_shortcode_content', $shortcode_content);
+	return apply_filters( 'ecwid_shortcode_content', $shortcode_content );
 }
 
 function ecwid_get_scriptjs_code( $force_lang = null ) {
 	static $code = '';
 
-	$code =  '<!--noptimize-->';
+	$code = '<!--noptimize-->';
 
-    if( ! Ec_Store_Defer_Init::is_enabled() ) {
-        $store_id = get_ecwid_store_id();
-        $params = ecwid_get_scriptjs_params();
+	if ( ! Ec_Store_Defer_Init::is_enabled() ) {
+		$store_id = get_ecwid_store_id();
+		$params = ecwid_get_scriptjs_params();
 
-        $code .= '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>';
-    }
+		$code .= '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>'; //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+	}
 
 	$code .= ecwid_sso();
 	$code .= '<script type="text/javascript">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script><!--/noptimize-->';
@@ -1360,21 +1359,21 @@ function ecwid_get_default_language( $lang ) {
 	$locale = get_locale();
 
 	if ( $locale ) {
-        $locales = explode( '_', $locale );
-        return $locales[0];
-    }
+		$locales = explode( '_', $locale );
+		return $locales[0];
+	}
 
 	return $lang;
 }
 
 function ecwid_get_scriptjs_params( $force_lang = null ) {
 
-	if( is_null( $force_lang ) ) {
+	if ( is_null( $force_lang ) ) {
 		$force_lang = apply_filters( 'ecwid_lang', $force_lang );
 	}
 
 	$store_id = get_ecwid_store_id();
-	$force_lang_str = !empty( $force_lang ) ? "&lang=$force_lang" : '';
+	$force_lang_str = ! empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
 
 	return $params;
