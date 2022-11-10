@@ -59,15 +59,15 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
 		}
 
-		$code .= self::get_dynamic_html_code( false, $classname );
 		$code .= '<div id="static-ec-store-container">';
 		$code .= htmlspecialchars_decode( Ecwid_Static_Page::get_html_code() );
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if ( ! empty( $js_code ) ) {
-			$code .= sprintf( '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
+			$code .= sprintf( '<script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
 		}
 		$code .= '</div>';
+		$code .= self::get_dynamic_html_code( false, $classname );
 
 		$code .= '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
         if( typeof window.ec.storefront.staticPages != "undefined" && typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) {
