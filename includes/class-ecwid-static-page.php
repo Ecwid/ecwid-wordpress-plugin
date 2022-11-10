@@ -11,8 +11,6 @@ class Ecwid_Static_Page {
 	const HANDLE_STATIC_PAGE = 'static-page';
 	const API_URL            = 'https://storefront.ecwid.com/';
 
-	protected $_has_theme_adjustments = false;
-
 	protected static $snapshot_url;
 
 	public function __construct() {
@@ -20,13 +18,12 @@ class Ecwid_Static_Page {
 
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( Ecwid_Theme_Base::ACTION_APPLY_THEME, array( $this, 'apply_theme' ) );
 		}
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'add_js_for_defer_static_snapshot' ) );
 
-		add_action( 'wp_ajax_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
-		add_action( 'wp_ajax_nopriv_ec_get_static_snapshot', 'Ecwid_Static_Page::get_static_snapshot' );
+		add_action( 'wp_ajax_ec_get_static_snapshot', 'Ecwid_Static_Page::ajax_get_static_snapshot' );
+		add_action( 'wp_ajax_nopriv_ec_get_static_snapshot', 'Ecwid_Static_Page::ajax_get_static_snapshot' );
 	}
 
 	public function enqueue_scripts() {
@@ -53,12 +50,6 @@ class Ecwid_Static_Page {
 		}
 	}
 
-	public function apply_theme( $theme ) {
-		if ( $theme ) {
-			$this->_has_theme_adjustments = true;
-		}
-	}
-
 	public static function get_data_for_current_page() {
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
 			add_action( 'wp_enqueue_scripts', 'ecwid_enqueue_cache_control', 100 );
@@ -68,7 +59,7 @@ class Ecwid_Static_Page {
 		return $data;
 	}
 
-	protected static function _get_endpoint_url( $params = false ) {
+	protected static function get_endpoint_url( $params = false ) {
 
 		if ( ! $params ) {
 			if ( ecwid_is_applicable_escaped_fragment() ) {
@@ -112,11 +103,11 @@ class Ecwid_Static_Page {
 			$params['base_url']    = get_permalink();
 		}
 
-		if ( array_key_exists( 'offset', $_GET ) ) {
-			$params['offset'] = intval( $_GET['offset'] );
+		if ( array_key_exists( 'offset', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		if ( ! array_key_exists( 'category', $_GET ) && isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
+		if ( ! array_key_exists( 'category', $_GET ) && isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
@@ -136,8 +127,9 @@ class Ecwid_Static_Page {
 
 		foreach ( $pb_attribures as $attribute ) {
 			$name = $attribute['name'];
-			if ( @$attribute['is_storefront_api'] && isset( $store_page_params[ $name ] ) ) {
-				if ( @$attribute['type'] == 'boolean' ) {
+
+			if ( ! empty( $attribute['is_storefront_api'] ) && isset( $store_page_params[ $name ] ) ) {
+				if ( ! empty( $attribute['type'] ) && $attribute['type'] === 'boolean' ) {
 					$value = $store_page_params[ $name ] ? 'true' : 'false';
 				} else {
 					$value = $store_page_params[ $name ];
@@ -150,12 +142,12 @@ class Ecwid_Static_Page {
 					$params[ 'tplvar_ec.storefront.' . $name ] = $value;
 				}
 			}
-		}
+		}//end foreach
 
-		// if ( ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
-			// $chameleon_cookie = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
-			// $params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
-		// }
+		if ( ! Ec_Store_Defer_Init::is_enabled() && ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
+			$chameleon_cookie                          = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
+			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
+		}
 
 		$hreflang_items = apply_filters( 'ecwid_hreflangs', null );
 
@@ -165,74 +157,27 @@ class Ecwid_Static_Page {
 			}
 		}
 
-		$url = self::_get_endpoint_url( $endpoint_params );
+		$url = self::get_endpoint_url( $endpoint_params );
 
 		foreach ( $params as $name => $value ) {
 			$url .= $name . '=' . rawurlencode( $value ) . '&';
 		}
 
-		$url = substr( $url, 0, -1 );
-
-		$cache_key   = $url;
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $cache_key );
-
-		self::$snapshot_url = $url;
+		self::$snapshot_url = substr( $url, 0, -1 );
+		$cached_data        = EcwidPlatform::get_from_catalog_cache( self::$snapshot_url );
 
 		if ( $cached_data ) {
 			return $cached_data;
 		}
 
+		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
+			return self::get_static_snapshot( self::$snapshot_url );
+		}
+
 		return null;
 	}
 
-	public static function get_accept_language() {
-		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found
-		return apply_filters( 'ecwid_lang', $http_accept_language );
-	}
-
-	public function add_js_for_defer_static_snapshot() {
-		if ( empty( self::$snapshot_url ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'ecwid-defer-actions', ECWID_PLUGIN_URL . 'js/defer-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
-
-		wp_localize_script(
-			'ecwid-defer-actions',
-			'ecwidDeferActionsParams',
-			array(
-				'ajax_url'     => admin_url( 'admin-ajax.php' ),
-				'snapshot_url' => self::$snapshot_url,
-				'ajaxNonce'    => wp_create_nonce( 'ec_defer_actions' ),
-			)
-		);
-	}
-
-	public static function get_static_snapshot() {
-		check_ajax_referer( 'ec_defer_actions', '_ajax_nonce' );
-
-		$is_ajax_check_api_cache = isset( $_GET['action'] ) && $_GET['action'] === 'ec_get_static_snapshot';
-		$is_doing_ajax           = defined( 'DOING_AJAX' ) && DOING_AJAX;
-		$is_get_request          = isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'GET';
-
-		if ( ! $is_ajax_check_api_cache && ( $is_doing_ajax || $is_get_request ) ) {
-			return;
-		}
-
-		if ( empty( $_GET['snapshot_url'] ) ) {
-			return;
-		}
-
-		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $snapshot_url );
-		if ( ! empty( $cached_data ) ) {
-			return;
-		}
-
-		if ( ! empty( $_GET['dynamic_css'] ) ) {
-			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
-		}
+	protected static function get_static_snapshot( $snapshot_url, $dynamic_css = '' ) {
 
 		if ( strpos( $snapshot_url, self::API_URL ) !== 0 ) {
 			return;
@@ -262,21 +207,78 @@ class Ecwid_Static_Page {
 				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 loading="lazy">', $fetched_data->htmlCode );
 			}
 
-			// if ( isset( $fetched_data->lastUpdated ) ) {
-			// $last_update = substr( $fetched_data->lastUpdated, 0, -3 );
-			// } else {
+			if ( isset( $fetched_data->lastUpdated ) ) {
+				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
+			} else {
 				$last_update = time();
-			// }
+			}
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 			$cache_key = $snapshot_url;
 
 			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
 			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
+
+			return $fetched_data;
 		}//end if
+
+		return null;
 	}
 
-	public static function _get_data_field( $field ) {
+	public static function ajax_get_static_snapshot() {
+		check_ajax_referer( 'ec_defer_actions', '_ajax_nonce' );
+
+		$is_get_request         = isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'GET';
+		$is_needed_ajax_request = isset( $_GET['action'] ) && $_GET['action'] === 'ec_get_static_snapshot';
+		$is_doing_ajax          = wp_doing_ajax();
+
+		if ( ! $is_needed_ajax_request && ( $is_doing_ajax || $is_get_request ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['snapshot_url'] ) ) {
+			return;
+		}
+
+		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$dynamic_css  = '';
+
+		if ( ! empty( $_GET['dynamic_css'] ) ) {
+			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
+		}
+
+		$is_cached_data_exist = ! empty( EcwidPlatform::get_from_catalog_cache( $snapshot_url ) );
+		if ( $is_cached_data_exist ) {
+			return;
+		}
+
+		$fetched_data = self::get_static_snapshot( $snapshot_url, $dynamic_css );
+	}
+
+	public static function get_accept_language() {
+		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+		return apply_filters( 'ecwid_lang', $http_accept_language );
+	}
+
+	public function add_js_for_defer_static_snapshot() {
+		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
+			return;
+		}
+
+		wp_enqueue_script( 'ecwid-defer-actions', ECWID_PLUGIN_URL . 'js/defer-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
+
+		wp_localize_script(
+			'ecwid-defer-actions',
+			'ecwidDeferActionsParams',
+			array(
+				'ajax_url'     => admin_url( 'admin-ajax.php' ),
+				'snapshot_url' => self::$snapshot_url,
+				'ajaxNonce'    => wp_create_nonce( 'ec_defer_actions' ),
+			)
+		);
+	}
+
+	public static function get_data_field( $field ) {
 		$data = self::get_data_for_current_page();
 
 		if ( isset( $data->$field ) ) {
@@ -288,23 +290,23 @@ class Ecwid_Static_Page {
 	}
 
 	public static function get_css_files() {
-		return self::_get_data_field( 'cssFiles' );
+		return self::get_data_field( 'cssFiles' );
 	}
 
 	public static function get_html_code() {
-		return self::_get_data_field( 'htmlCode' );
+		return self::get_data_field( 'htmlCode' );
 	}
 
 	public static function get_js_code() {
-		return self::_get_data_field( 'jsCode' );
+		return self::get_data_field( 'jsCode' );
 	}
 
 	public static function get_title() {
-		return self::_get_data_field( 'title' );
+		return self::get_data_field( 'title' );
 	}
 
 	public static function get_meta_description_html() {
-		$description = self::_get_data_field( 'metaDescriptionHtml' );
+		$description = self::get_data_field( 'metaDescriptionHtml' );
 
 		if ( $description ) {
 			$description = preg_replace( '/<title>.*?<\/title>/i', '', $description );
@@ -314,11 +316,11 @@ class Ecwid_Static_Page {
 	}
 
 	public static function get_canonical_url() {
-		return self::_get_data_field( 'canonicalUrl' );
+		return self::get_data_field( 'canonicalUrl' );
 	}
 
 	public static function get_og_tags_html() {
-		$og_tags_html = self::_get_data_field( 'ogTagsHtml' );
+		$og_tags_html = self::get_data_field( 'ogTagsHtml' );
 
 		$ec_title = self::get_title();
 		$wp_title = wp_get_document_title();
@@ -331,15 +333,15 @@ class Ecwid_Static_Page {
 	}
 
 	public static function get_json_ld_html() {
-		return self::_get_data_field( 'jsonLDHtml' );
+		return self::get_data_field( 'jsonLDHtml' );
 	}
 
 	public static function get_href_lang_html() {
-		return self::_get_data_field( 'hrefLangHtml' );
+		return self::get_data_field( 'hrefLangHtml' );
 	}
 
 	public static function get_last_update() {
-		return self::_get_data_field( 'lastUpdated' );
+		return self::get_data_field( 'lastUpdated' );
 	}
 
 	public static function is_data_available() {
@@ -393,7 +395,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_ENABLED ) {
+		if ( get_option( self::OPTION_IS_ENABLED ) === self::OPTION_VALUE_ENABLED ) {
 			return true;
 		}
 
@@ -401,19 +403,15 @@ class Ecwid_Static_Page {
 			return true;
 		}
 
-		if ( get_option( self::OPTION_IS_ENABLED ) == self::OPTION_VALUE_DISABLED ) {
+		if ( get_option( self::OPTION_IS_ENABLED ) === self::OPTION_VALUE_DISABLED ) {
 			return false;
 		}
 
-		if ( get_option( self::OPTION_IS_ENABLED ) == '' ) {
+		if ( get_option( self::OPTION_IS_ENABLED ) === '' ) {
 			return true;
 		}
 
 		return false;
-	}
-
-	public static function is_feature_available() {
-		return true;
 	}
 }
 

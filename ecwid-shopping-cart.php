@@ -1034,8 +1034,6 @@ function add_ecwid_admin_bar_node() {
 	$theme     = ecwid_get_theme_name();
 	$store_url = Ecwid_Store_Page::get_store_url();
 
-
-	$brand = Ecwid_Config::get_brand();
 	if (!is_admin()) {
 		$subject = sprintf( __('%s plugin doesn\'t work well with my "%s" theme', 'ecwid-shopping-cart'), Ecwid_Config::get_brand(), $theme );
 
@@ -1187,94 +1185,88 @@ function ecwid_is_applicable_escaped_fragment() {
 	return true;
 }
 
-function ecwid_trim_description($description)
-{
+function ecwid_trim_description( $description ) {
 	return Ecwid_HTML_Meta::process_raw_description( $description, ECWID_TRIMMED_DESCRIPTION_LENGTH );
 }
 
 add_action( 'wp_ajax_ecwid_deactivate_feedback', 'ecwid_ajax_deactivate_feedback' );
-function ecwid_ajax_deactivate_feedback() 
-{
-    if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
-        die();
-    }
-    
+function ecwid_ajax_deactivate_feedback() {
+	if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+		die();
+	}
+
 	require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-deactivate.php';
 	$popup = new Ecwid_Popup_Deactivate();
 	$popup->ajax_deactivate_feedback();
 }
 
-function ecwid_ajax_hide_message($params)
-{
-	if (!current_user_can('manage_options')) {
+function ecwid_ajax_hide_message( $params ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
-	$message = isset($_GET['message']) ? sanitize_text_field(wp_unslash($_GET['message'])) : '';
+	$message = isset( $_GET['message'] ) ? sanitize_text_field( wp_unslash( $_GET['message'] ) ) : '';
 
-	if (Ecwid_Message_Manager::disable_message($message)) {
-		wp_send_json(array('status' => 'success'));
+	if ( Ecwid_Message_Manager::disable_message( $message ) ) {
+		wp_send_json( array( 'status' => 'success' ) );
 	}
 }
 
-function ecwid_hide_vote_message()
-{
-	update_option('ecwid_show_vote_message', false);
+function ecwid_hide_vote_message() {
+	update_option( 'ecwid_show_vote_message', false );
 }
 
-function ecwid_get_title_separator()
-{
-	$sep = apply_filters('document_title_separator', '|');
+function ecwid_get_title_separator() {
+	$sep = apply_filters( 'document_title_separator', '|' );
 
-	if (!empty($sep)) {
+	if ( ! empty( $sep ) ) {
 		return $sep;
 	}
 
-	return apply_filters('ecwid_title_separator', '|');
+	return apply_filters( 'ecwid_title_separator', '|' );
 }
 
 function ecwid_seo_title( $content, $sep = '', $seplocation = 'right' ) {
 
 	$title = _ecwid_get_seo_title();
-	
-	if (!empty($title)) {
-		
+
+	if ( ! empty( $title ) ) {
+
 		if ( empty( $sep ) ) {
 			$sep = ecwid_get_title_separator();
 		}
-		
-		if ( $seplocation == 'right' )
+
+		if ( $seplocation == 'right' ) {
 			return "$title $sep $content";
-		else 
+		} else {
 			return "$content $sep $title";
+		}
 	}
 
 	return $content;
 }
 
 
-function ecwid_seo_title_parts($parts)
-{
+function ecwid_seo_title_parts( $parts ) {
 	$title = _ecwid_get_seo_title();
-	if ($title) {
-		array_unshift($parts, $title);
+	if ( $title ) {
+		array_unshift( $parts, $title );
 	}
 
 	return $parts;
 }
 
-function _ecwid_get_seo_title()
-{
+function _ecwid_get_seo_title() {
 	$ecwid_seo_title = '';
 
 	if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
 		$ecwid_seo_title = Ecwid_Static_Page::get_title();
 	}
-	
+
 	return $ecwid_seo_title;
 }
 
-add_filter('oembed_endpoint_url', 'ecwid_oembed_url', 10, 3);
+add_filter( 'oembed_endpoint_url', 'ecwid_oembed_url', 10, 3 );
 
 function ecwid_oembed_url( $url, $permalink, $format ) {
 
@@ -2924,7 +2916,6 @@ function ecwid_sso() {
 }
 
 // from: http://www.php.net/manual/en/function.sha1.php#39492
-
 function ecwid_hmacsha1($data, $key) {
   if (function_exists("hash_hmac")) {
     return hash_hmac('sha1', $data, $key);

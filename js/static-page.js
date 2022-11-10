@@ -6,7 +6,7 @@
     var ecwidPageOpened = false;
     var autoSwitchStaticToDynamicWhenReady = false;
     var autoSwitchStaticToDynamicWhenReadyDefault = false;
-    var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;";
+    var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important; margin: 0 !important; padding: 0 !important;";
     var mainCategoryId = 0;
     var initialCategoryOffset = 0;
 
@@ -541,6 +541,8 @@
         dynamicEl.style.maxHeight = "";
         dynamicEl.style.minHeight = "";
         dynamicEl.style.overflowY = "";
+        dynamicEl.style.margin = "";
+        dynamicEl.style.padding = "";
         dynamicEl.style.display = "block";
     }
 

@@ -483,7 +483,7 @@ class EcwidPlatform {
 			)
 		);
 
-		if ( $result && self::get( self::CATALOG_CACHE_VALID_FROM ) > $valid_from ) {
+		if ( $result && isset( $result['data']->lastUpdated ) && $result['data']->lastUpdated > $valid_from ) {
 			return $result['data'];
 		} else {
 			self::cache_reset( $cache_name );

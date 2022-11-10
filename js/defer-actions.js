@@ -47,11 +47,8 @@ if (typeof Ecwid != 'undefined') {
     Ecwid.OnAPILoaded.add(function () {
         if (typeof ecwidDeferActionsParams == 'undefined') return;
 
+        ecwidDeferActionsParams.cssLinkElement = window.ec.cssLinkElement && window.ec.cssLinkElement.href || '';
+
         ecwidGetStaticSnapshot();
-
-        var css = window.ec.cssLinkElement
-            && window.ec.cssLinkElement.href || '';
-
-        ecwidDeferActionsParams.cssLinkElement = css;
     })
 };

@@ -50,7 +50,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code .= self::get_js_for_adding_html_id();
 
 		$classname = '';
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 			add_filter( 'ecwid_hide_defer_load_script', '__return_true', 10000 );
 			$code     .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
 			$classname = 'hide-ec-dynamic-placeholder';
