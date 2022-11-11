@@ -204,7 +204,7 @@ class Ecwid_Static_Page {
 			if ( ! empty( $fetched_data->htmlCode ) ) {
 				$pattern = '/<img(.*?)>/is';
 
-				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 loading="lazy">', $fetched_data->htmlCode );
+				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $fetched_data->htmlCode );
 			}
 
 			if ( isset( $fetched_data->lastUpdated ) ) {
@@ -350,6 +350,10 @@ class Ecwid_Static_Page {
 		}
 
 		return false;
+	}
+
+	public static function is_enabled() {
+		return self::is_enabled_static_home_page();
 	}
 
 	public static function is_enabled_static_home_page() {

@@ -67,9 +67,11 @@ abstract class Ecwid_HTML_Meta {
 		$store_id = get_ecwid_store_id();
 		$params   = ecwid_get_scriptjs_params();
 
-		echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '" as="script">' . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		if ( ! Ec_Store_Defer_Init::is_enabled() || ! Ecwid_Static_Page::is_data_available() ) {
+			echo '<link rel="preload" href="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '" as="script">' . PHP_EOL; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_data_available() ) {
+		if ( Ecwid_Static_Page::is_enabled() && Ecwid_Static_Page::is_data_available() ) {
 			$css_files = Ecwid_Static_Page::get_css_files();
 
 			if ( $css_files && is_array( $css_files ) ) {
