@@ -133,7 +133,7 @@
 
                     var toggleEvent = function (el, add, event) {
                         if (add) {
-                            el.addEventListener(event, lazyLoadingEventHandler);
+                            el.addEventListener(event, lazyLoadingEventHandler, { passive: true });
                         } else {
                             el.removeEventListener(event, lazyLoadingEventHandler);
                         }
@@ -485,7 +485,7 @@
             e.preventDefault();
             // we must wait for Ecwid first page to be ready before changing it
             addOnPageLoadedCallback(function () {
-                if (isDynamicMode()) {
+                if (isDynamicMode() && ecwidPageOpened) {
                     // if we've already switched to dynamic, we don't need to dispatch this event anymore
                     return;
                 }
