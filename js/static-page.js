@@ -452,11 +452,11 @@
                 y = e.touches[0].clientY;
                 dx = 0;
                 dy = 0;
-            });
+            }, { passive: true });
             el.addEventListener('touchmove', function (e) {
                 dx = e.changedTouches[0].clientX - x;
                 dy = e.changedTouches[0].clientY - y;
-            });
+            }, { passive: true });
             el.addEventListener('touchend', function (e) {
                 if (isTap && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
                     callback(e);

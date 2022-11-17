@@ -36,7 +36,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$option_print_html_catalog = get_option( 'ecwid_print_html_catalog', 'Y' );
 
 		if ( ! Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
-			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
 
 			$code = self::get_dynamic_html_code();
 			if ( ! empty( $this->_params['default_page'] ) ) {
@@ -179,7 +178,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$params['default_category_id'] = $this->_params['defaultCategoryId'];
 		}
 
-		if ( @$this->_params['defaultProductId'] ) {
+		if ( ! empty( $this->_params['defaultProductId'] ) ) {
 			$params['default_product_id'] = $this->_params['defaultProductId'];
 		}
 
@@ -187,7 +186,14 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$classname = $this->_get_html_class_name();
 
-		$result = '<div id="ecwid-store-' . $store_id . '" class="ecwid-shopping-cart-' . $classname . '" data-ecwid-default-category-id="' . $params['default_category_id'] . '"></div>';
+		$pb_placeholder = '';
+		if ( Ec_Store_Defer_Init::is_enabled() ) {
+			ob_start();
+			require ECWID_PLUGIN_DIR . '/templates/shortcode-pb-placeholder.php';
+			$pb_placeholder = ob_get_clean();
+		}
+
+		$result = '<div id="ecwid-store-' . $store_id . '" class="ecwid-shopping-cart-' . $classname . '" data-ecwid-default-category-id="' . $params['default_category_id'] . '">' . $pb_placeholder . '</div>';
 
 		return $result;
 	}
@@ -208,7 +214,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		);
 
 		$grid = explode( ',', $atts['grid'] );
-		if ( count( $grid ) == 2 ) {
+		if ( count( $grid ) === 2 ) {
 			$atts['grid_rows'] = intval( $grid[0] );
 			$atts['grid_cols'] = intval( $grid[1] );
 		} else {
