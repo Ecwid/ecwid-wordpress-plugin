@@ -39,7 +39,7 @@ class Ecwid_Static_Page {
 			return null;
 		}
 
-		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE, array() );
+		EcwidPlatform::enqueue_script( self::HANDLE_STATIC_PAGE, array(), true );
 
 		$css_files = self::get_css_files();
 

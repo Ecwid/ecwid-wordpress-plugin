@@ -400,7 +400,7 @@ function ecwid_enqueue_frontend() {
 
 	wp_enqueue_style( 'ecwid-css', ECWID_PLUGIN_URL . 'css/frontend.css', array(), get_option( 'ecwid_plugin_version' ) );
 
-	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
+	wp_enqueue_script( 'ecwid-frontend-js', ECWID_PLUGIN_URL . 'js/frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ), true );
 	wp_localize_script( 'ecwid-frontend-js', 'ecwidParams', array(
 		'useJsApiToOpenStoreCategoriesPages' => Ecwid_Nav_Menus::should_use_js_api_for_categories_menu(),
 		'storeId' => get_ecwid_store_id()
