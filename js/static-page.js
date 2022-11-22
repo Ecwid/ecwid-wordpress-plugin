@@ -143,13 +143,13 @@
                     if (isTouchDevice) {
                         staticDivTouchEventsForLazyLoading.forEach(
                             function applyEvent(event) {
-                                toggleEvent(staticEl, add, event);
+                                toggleEvent(document, add, event);
                             }
                         );
                     } else {
                         staticDivEventsForLazyLoading.forEach(
                             function applyEvent(event) {
-                                toggleEvent(staticEl, add, event);
+                                toggleEvent(document, add, event);
                             }
                         );
                     }
