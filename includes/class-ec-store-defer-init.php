@@ -73,12 +73,18 @@ class Ec_Store_Defer_Init {
 
 						document.body.appendChild(script);
 
-						var nodes = document.getElementsByClassName('ec-cart-widget')
-						if (nodes.length > 0) {
-							script.addEventListener('load', function() {
+						script.addEventListener('load', function() {
+							var nodes = document.getElementsByClassName('ec-cart-widget')
+							if (nodes.length > 0) {
 								Ecwid.init();
-							});
-						}
+							}
+
+							if( typeof ecwidGetStaticSnapshot !== 'undefined' ) {
+								Ecwid.OnAPILoaded.add(function () {
+									ecwidGetStaticSnapshot();
+								});
+							}
+						});
 					}
 				}
 

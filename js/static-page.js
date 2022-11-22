@@ -139,7 +139,7 @@
                         }
                     }
 
-                    var staticEl = find('#' + staticId);
+                    //var staticEl = find('#' + staticId);
                     if (isTouchDevice) {
                         staticDivTouchEventsForLazyLoading.forEach(
                             function applyEvent(event) {

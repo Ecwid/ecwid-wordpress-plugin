@@ -73,8 +73,7 @@ class Ecwid_Static_Page {
 			$params['mode'] = 'home';
 		}
 
-		$url  = self::API_URL;
-		$url .= sprintf( '%s-page/', $params['mode'] );
+		$url  = sprintf( '%s-page/', $params['mode'] );
 		$url .= sprintf( '%s/', get_ecwid_store_id() );
 
 		if ( isset( $params['id'] ) ) {
@@ -144,10 +143,10 @@ class Ecwid_Static_Page {
 			}
 		}//end foreach
 
-		if ( ! Ec_Store_Defer_Init::is_enabled() && ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
-			$chameleon_cookie                          = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
-			$params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
-		}
+		// if ( ! Ec_Store_Defer_Init::is_enabled() && ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
+		// $chameleon_cookie = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
+		// $params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
+		// }
 
 		$hreflang_items = apply_filters( 'ecwid_hreflangs', null );
 
@@ -164,24 +163,21 @@ class Ecwid_Static_Page {
 		}
 
 		self::$snapshot_url = substr( $url, 0, -1 );
-		$cached_data        = EcwidPlatform::get_from_catalog_cache( self::$snapshot_url );
+
+		$cached_data = EcwidPlatform::get_from_catalog_cache( self::API_URL . self::$snapshot_url );
 
 		if ( $cached_data ) {
 			return $cached_data;
 		}
 
 		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
-			return self::get_static_snapshot( self::$snapshot_url );
+			return self::get_static_snapshot( self::API_URL . self::$snapshot_url );
 		}
 
 		return null;
 	}
 
 	protected static function get_static_snapshot( $snapshot_url, $dynamic_css = '' ) {
-
-		if ( strpos( $snapshot_url, self::API_URL ) !== 0 ) {
-			return;
-		}
 
 		$fetched_data = EcwidPlatform::fetch_url(
 			$snapshot_url,
@@ -240,7 +236,7 @@ class Ecwid_Static_Page {
 			return;
 		}
 
-		$snapshot_url = wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$snapshot_url = self::API_URL . wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$dynamic_css  = '';
 
 		if ( ! empty( $_GET['dynamic_css'] ) ) {

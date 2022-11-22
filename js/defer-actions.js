@@ -10,10 +10,12 @@ ecwidCheckApiCache = function () {
 }
 
 var isNeedGetStaticSnapshot = true;
-ecwidGetStaticSnapshot = function () {
+var ecwidGetStaticSnapshot = function () {
     if (typeof ecwidDeferActionsParams == 'undefined') return;
 
     if (!isNeedGetStaticSnapshot) return;
+
+    ecwidDeferActionsParams.cssLinkElement = window.ec.cssLinkElement && window.ec.cssLinkElement.href || '';
 
     jQuery.getJSON(
         ecwidDeferActionsParams.ajax_url,
@@ -45,10 +47,6 @@ jQuery(window).on('beforeunload', function () {
 
 if (typeof Ecwid != 'undefined') {
     Ecwid.OnAPILoaded.add(function () {
-        if (typeof ecwidDeferActionsParams == 'undefined') return;
-
-        ecwidDeferActionsParams.cssLinkElement = window.ec.cssLinkElement && window.ec.cssLinkElement.href || '';
-
         ecwidGetStaticSnapshot();
-    })
+    });
 };
