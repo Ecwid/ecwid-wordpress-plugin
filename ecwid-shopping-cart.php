@@ -680,12 +680,6 @@ function ecwid_check_version() {
 		update_option( 'ecwid_plugin_version', $current_version );
 
 		do_action( 'ecwid_on_plugin_upgrade' );
-
-		// remove cache for Defet Mode feauture compatibility
-		$defer_load_since_version = '6.11';
-		if ( version_compare( $stored_version, $defer_load_since_version ) < 0 && version_compare( $current_version, $defer_load_since_version ) >= 0 ) {
-			ecwid_invalidate_cache( true );
-		}
 	}//end if
 
 	if ( $fresh_install || $upgrade || isset( $_GET['ecwid_reinit'] ) ) {
