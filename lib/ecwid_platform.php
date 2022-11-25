@@ -153,7 +153,8 @@ class EcwidPlatform {
 	public static function cache_log_record( $operation, $params ) {
 
 		if ( ! get_option( self::OPTION_LOG_CACHE, false ) ) {
-			return; }
+			return;
+		}
 
 		if ( ! $params ) {
 			$params = array();

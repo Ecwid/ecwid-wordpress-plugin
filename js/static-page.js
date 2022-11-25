@@ -189,6 +189,10 @@
 
             function setupAfterEcwidLoaded() {
 
+                const event = document.createEvent('Event');
+                event.initEvent('setupAfterEcwidLoaded', true, false);
+                document.dispatchEvent(event);
+
                 var cartWidgets = document.getElementsByClassName('ec-cart-widget');
                 if (cartWidgets.length > 0) {
                     Ecwid.init();

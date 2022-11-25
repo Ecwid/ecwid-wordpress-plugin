@@ -1,4 +1,4 @@
-ecwidCheckApiCache = function () {
+var ecwidCheckApiCache = function () {
     if (typeof ecwidCacheControlParams == 'undefined') return;
 
     jQuery.getJSON(
@@ -9,44 +9,13 @@ ecwidCheckApiCache = function () {
     );
 }
 
-var isNeedGetStaticSnapshot = true;
-var ecwidGetStaticSnapshot = function () {
-    if (typeof ecwidDeferActionsParams == 'undefined') return;
-
-    if (!isNeedGetStaticSnapshot) return;
-
-    ecwidDeferActionsParams.cssLinkElement = window.ec.cssLinkElement && window.ec.cssLinkElement.href || '';
-
-    jQuery.getJSON(
-        ecwidDeferActionsParams.ajax_url,
-        {
-            action: 'ec_get_static_snapshot',
-            snapshot_url: ecwidDeferActionsParams.snapshot_url,
-            dynamic_css: ecwidDeferActionsParams.cssLinkElement,
-            _ajax_nonce: ecwidDeferActionsParams.ajaxNonce
-        },
-        function () {
-            isNeedGetStaticSnapshot = false;
-        }
-    );
-}
-
 jQuery(document).ready(function () {
     if (document.cookie.search("ecwid_event_is_working_beforeunload") < 0) {
-        ecwidGetStaticSnapshot();
         ecwidCheckApiCache();
     }
 });
 
 jQuery(window).on('beforeunload', function () {
-    ecwidGetStaticSnapshot();
     ecwidCheckApiCache();
     document.cookie = "ecwid_event_is_working_beforeunload=true";
 });
-
-
-if (typeof Ecwid != 'undefined') {
-    Ecwid.OnAPILoaded.add(function () {
-        ecwidGetStaticSnapshot();
-    });
-};

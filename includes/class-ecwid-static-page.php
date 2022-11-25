@@ -11,7 +11,7 @@ class Ecwid_Static_Page {
 	const HANDLE_STATIC_PAGE = 'static-page';
 	const API_URL            = 'https://storefront.ecwid.com/';
 
-	protected static $snapshot_url;
+	protected static $cache_key;
 
 	public function __construct() {
 		add_option( self::OPTION_IS_ENABLED );
@@ -19,11 +19,6 @@ class Ecwid_Static_Page {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'add_js_for_defer_static_snapshot' ) );
-
-		add_action( 'wp_ajax_ec_get_static_snapshot', 'Ecwid_Static_Page::ajax_get_static_snapshot' );
-		add_action( 'wp_ajax_nopriv_ec_get_static_snapshot', 'Ecwid_Static_Page::ajax_get_static_snapshot' );
 	}
 
 	public function enqueue_scripts() {
@@ -73,7 +68,8 @@ class Ecwid_Static_Page {
 			$params['mode'] = 'home';
 		}
 
-		$url  = sprintf( '%s-page/', $params['mode'] );
+		$url  = self::API_URL;
+		$url .= sprintf( '%s-page/', $params['mode'] );
 		$url .= sprintf( '%s/', get_ecwid_store_id() );
 
 		if ( isset( $params['id'] ) ) {
@@ -143,11 +139,6 @@ class Ecwid_Static_Page {
 			}
 		}//end foreach
 
-		// if ( ! Ec_Store_Defer_Init::is_enabled() && ! empty( $_COOKIE['ec_store_chameleon_font'] ) ) {
-		// $chameleon_cookie = sanitize_text_field( wp_unslash( $_COOKIE['ec_store_chameleon_font'] ) );
-		// $params['tplvar_ec.chameleon.font_family'] = stripslashes( $chameleon_cookie );
-		// }
-
 		$hreflang_items = apply_filters( 'ecwid_hreflangs', null );
 
 		if ( ! empty( $hreflang_items ) ) {
@@ -162,25 +153,40 @@ class Ecwid_Static_Page {
 			$url .= $name . '=' . rawurlencode( $value ) . '&';
 		}
 
-		self::$snapshot_url = substr( $url, 0, -1 );
+		$url = substr( $url, 0, -1 );
 
-		$cached_data = EcwidPlatform::get_from_catalog_cache( self::API_URL . self::$snapshot_url );
+		$dynamic_css = '';
+		if ( ! empty( $_COOKIE['ec_store_dynamic_css'] ) ) {
+			$dynamic_css = wp_strip_all_tags( $_COOKIE['ec_store_dynamic_css'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		}
 
+		$cached_data = EcwidPlatform::get_from_catalog_cache( $url );
 		if ( $cached_data ) {
+
+			$is_css_defined     = ! empty( $dynamic_css );
+			$is_css_already_set = ! empty( $cached_data->isSetDynamicCss ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$is_home_page       = Ecwid_Store_Page::is_store_home_page();
+
+			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
+
+				$cached_data->cssFiles        = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$cached_data->isSetDynamicCss = true; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+				EcwidPlatform::store_in_catalog_cache( $url, $cached_data );
+			}
+
 			return $cached_data;
 		}
 
-		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
-			return self::get_static_snapshot( self::API_URL . self::$snapshot_url );
-		}
+		$fetched_data = self::get_static_snapshot( $url, $dynamic_css );
 
-		return null;
+		return $fetched_data;
 	}
 
-	protected static function get_static_snapshot( $snapshot_url, $dynamic_css = '' ) {
+	protected static function get_static_snapshot( $url, $dynamic_css = '' ) {
 
 		$fetched_data = EcwidPlatform::fetch_url(
-			$snapshot_url,
+			$url,
 			array(
 				'timeout' => 3,
 				'headers' => array(
@@ -194,7 +200,8 @@ class Ecwid_Static_Page {
 
             //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! empty( $dynamic_css ) ) {
-				$fetched_data->cssFiles = array( $dynamic_css );
+				$fetched_data->cssFiles        = array( $dynamic_css );
+				$fetched_data->isSetDynamicCss = true;
 			}
 
 			if ( ! empty( $fetched_data->htmlCode ) ) {
@@ -210,10 +217,8 @@ class Ecwid_Static_Page {
 			}
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-			$cache_key = $snapshot_url;
-
 			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
-			EcwidPlatform::store_in_catalog_cache( $cache_key, $fetched_data );
+			EcwidPlatform::store_in_catalog_cache( $url, $fetched_data );
 
 			return $fetched_data;
 		}//end if
@@ -221,57 +226,9 @@ class Ecwid_Static_Page {
 		return null;
 	}
 
-	public static function ajax_get_static_snapshot() {
-		check_ajax_referer( 'ec_defer_actions', '_ajax_nonce' );
-
-		$is_get_request         = isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'GET';
-		$is_needed_ajax_request = isset( $_GET['action'] ) && $_GET['action'] === 'ec_get_static_snapshot';
-		$is_doing_ajax          = wp_doing_ajax();
-
-		if ( ! $is_needed_ajax_request && ( $is_doing_ajax || $is_get_request ) ) {
-			return;
-		}
-
-		if ( empty( $_GET['snapshot_url'] ) ) {
-			return;
-		}
-
-		$snapshot_url = self::API_URL . wp_strip_all_tags( $_GET['snapshot_url'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-		$dynamic_css  = '';
-
-		if ( ! empty( $_GET['dynamic_css'] ) ) {
-			$dynamic_css = wp_strip_all_tags( wp_unslash( $_GET['dynamic_css'] ) );
-		}
-
-		$is_cached_data_exist = ! empty( EcwidPlatform::get_from_catalog_cache( $snapshot_url ) );
-		if ( $is_cached_data_exist ) {
-			return;
-		}
-
-		$fetched_data = self::get_static_snapshot( $snapshot_url, $dynamic_css );
-	}
-
 	public static function get_accept_language() {
 		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 		return apply_filters( 'ecwid_lang', $http_accept_language );
-	}
-
-	public function add_js_for_defer_static_snapshot() {
-		if ( ! Ec_Store_Defer_Init::is_enabled() ) {
-			return;
-		}
-
-		wp_enqueue_script( 'ecwid-defer-actions', ECWID_PLUGIN_URL . 'js/defer-actions.js', array(), get_option( 'ecwid_plugin_version' ), true );
-
-		wp_localize_script(
-			'ecwid-defer-actions',
-			'ecwidDeferActionsParams',
-			array(
-				'ajax_url'     => admin_url( 'admin-ajax.php' ),
-				'snapshot_url' => self::$snapshot_url,
-				'ajaxNonce'    => wp_create_nonce( 'ec_defer_actions' ),
-			)
-		);
 	}
 
 	public static function get_data_field( $field ) {

@@ -79,10 +79,8 @@ class Ec_Store_Defer_Init {
 								Ecwid.init();
 							}
 
-							if( typeof ecwidGetStaticSnapshot !== 'undefined' ) {
-								Ecwid.OnAPILoaded.add(function () {
-									ecwidGetStaticSnapshot();
-								});
+							if( typeof ecwidSaveDynamicCss !== 'undefined' ) {
+								ecwidSaveDynamicCss();
 							}
 						});
 					}
