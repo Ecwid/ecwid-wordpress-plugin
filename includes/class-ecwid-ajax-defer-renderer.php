@@ -34,6 +34,7 @@ class Ecwid_Ajax_Defer_Renderer {
 			add_filter( 'ecwid_disable_widgets', '__return_true' );
 			add_filter( 'ecwid_shortcode_custom_renderer', array( $this, 'get_custom_renderer' ) );
 			add_filter( 'the_content', array( $this, 'add_shortcodes' ) );
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
 			$this->_already_enabled = true;
 		}
 	}
@@ -111,7 +112,8 @@ class Ecwid_Ajax_Defer_Renderer {
 			if (typeof Ecwid != 'undefined' && Ecwid.destroy) Ecwid.destroy();
 
 			if (typeof ecwid_shortcodes != 'undefined') {
-				window._xnext_initialization_scripts = ecwid_shortcodes;
+				window._xnext_initialization_scripts = window._xnext_initialization_scripts || [];
+				window._xnext_initialization_scripts.push(...ecwid_shortcodes);
 
 				if (!document.getElementById('ecwid-script')) {
 					var script = document.createElement('script');
@@ -122,16 +124,6 @@ class Ecwid_Ajax_Defer_Renderer {
 					script.setAttribute('data-cfasync', 'false');
 
 					document.body.appendChild(script);
-					var el = document.getElementById('ecwid-html-catalog-<?php echo esc_js( $ecwid_store_id ); ?>');
-					if (el) {
-						el.style.display = 'none';
-					}
-					if ( typeof Ecwid != 'undefined' ) {
-						Ecwid.OnPageLoad.add(function() {
-							var catalog = document.getElementById('ecwid-html-catalog-<?php echo esc_js( $ecwid_store_id ); ?>');
-							catalog.parentElement.removeChild(catalog);
-						});
-					}
 				} else {
 					ecwid_onBodyDone();
 				}

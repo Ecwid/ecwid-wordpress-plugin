@@ -436,7 +436,7 @@ class Ecwid_Seo_Links {
 	}
 
 	protected function _build_all_base_urls() {
-		 $base_urls = array();
+		$base_urls = array();
 
 		$pages = Ecwid_Store_Page::get_store_pages_array();
 

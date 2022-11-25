@@ -10,7 +10,6 @@ class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
 			'description' => __( 'Displays a random product from your store to attract customer attention.', 'ecwid-shopping-cart' ),
 		);
 		parent::__construct( 'ecwidrandomproduct', __( 'Random Product', 'ecwid-shopping-cart' ), $widget_ops );
-
 	}
 
 	protected function _render_widget_content( $args, $instance ) {
@@ -20,30 +19,32 @@ class Ecwid_Widget_Random_Product extends Ecwid_Widget_Base {
 			return '';
 		}
 
-		$name = esc_attr( $product->name );
-
-		$url = $product->link;
+		$name      = esc_attr( $product->name );
+		$url       = $product->link;
+		$widget_id = 'ec-store-widget-random-' . $product->id;
 
 		$content = "<div class='ecwid ecwid-random-product ecwid-SingleProduct-v2 ecwid-SingleProduct-v2-bordered ecwid-SingleProduct-v2-centered ecwid-Product ecwid-Product-$product->id' itemscope itemtype='http://schema.org/Product' data-single-product-id='$product->id'>
-    <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'><div itemprop='image'></div></a>
-    <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'><div class='ecwid-title' itemprop='name' content='$name'></div></a>
-    <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'><div itemtype='http://schema.org/Offer' itemscope itemprop='offers'>
-        <div class='ecwid-productBrowser-price ecwid-price' itemprop='price' content='$product->defaultDisplayedPrice' data-spw-price-location='button'>
-            <div itemprop='priceCurrency'></div>
-        </div>
-    </div>
-    </a>
-</div>
-<script type='text/javascript'>xProduct()</script>";
+            <div id='$widget_id'>
+                <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'><div itemprop='image'></div></a>
+                <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'><div class='ecwid-title' itemprop='name' content='$name'></div></a>
+                <a href='$url' data-ecwid-page='product' data-ecwid-product-id='$product->id'>
+                    <div itemtype='http://schema.org/Offer' itemscope itemprop='offers'>
+                        <div class='ecwid-productBrowser-price ecwid-price' itemprop='price' content='$product->defaultDisplayedPrice' data-spw-price-location='button'>
+                            <div itemprop='priceCurrency'></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>";
+
+		$content .= Ec_Store_Defer_Init::print_js_widget( 'xProduct', $widget_id );
 
 		$html  = '';
 		$html .= '<div>';
 
-		$html .= '<!-- noptimize -->';
 		$html .= ecwid_get_scriptjs_code();
 		$html .= $content;
 
-		$html .= '<!-- /noptimize -->';
 		$html .= '</div>';
 
 		return $html;

@@ -37,7 +37,8 @@ function ecwid_sidebar_widgets_init() {
 		register_widget( 'Ecwid_Widget_NSF_Minicart' );
 	}
 
-	$old_minicarts = array(
+	$need_to_disable_defer_init = false;
+	$old_minicarts              = array(
 		'ecwidminicart_miniview'    => 'Ecwid_Widget_Minicart_Miniview',
 		'ecwidminicart'             => 'Ecwid_Widget_Minicart',
 		'ecwidfloatingshoppingcart' => 'Ecwid_Widget_Floating_Shopping_Cart',
@@ -46,7 +47,13 @@ function ecwid_sidebar_widgets_init() {
 	foreach ( $old_minicarts as $idbase => $widget_class ) {
 		if ( is_active_widget( false, false, $idbase ) || version_compare( get_bloginfo( 'version' ), '4.0' ) < 0 ) {
 			register_widget( $widget_class );
+
+			$need_to_disable_defer_init = true;
 		}
+	}
+
+	if ( $need_to_disable_defer_init ) {
+		add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
 	}
 
 	register_widget( 'Ecwid_Widget_Store_Link' );

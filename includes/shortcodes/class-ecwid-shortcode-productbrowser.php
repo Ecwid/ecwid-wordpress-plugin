@@ -29,21 +29,64 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$seo_links->check_base_urls_on_view_store_page_as_admin();
 		}
 
-		$default_render = parent::render();
-
 		$option_print_html_catalog = get_option( 'ecwid_print_html_catalog', 'Y' );
 
 		if ( ! Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
-			$result = '<div id="dynamic-ec-store">' . $default_render . '</div>';
 
+			$code = self::get_dynamic_html_code();
 			if ( ! empty( $this->_params['default_page'] ) ) {
-				$result .= $this->get_js_for_open_page( $this->_params['default_page'] );
+				$code .= $this->get_js_for_open_page( $this->_params['default_page'] );
 			}
 
-			return $result;
+			return $code;
 		}
 
-		$code = '';
+		$code  = '';
+		$code .= self::get_js_for_adding_html_id();
+
+		$classname = '';
+		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
+			add_filter( 'ecwid_hide_defer_load_script', '__return_true', 10000 );
+			$code     .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
+			$classname = 'hide-ec-dynamic-placeholder';
+		} else {
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
+			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
+		}
+
+		$code .= '<div id="static-ec-store-container">';
+		$code .= htmlspecialchars_decode( Ecwid_Static_Page::get_html_code() );
+
+		$js_code = Ecwid_Static_Page::get_js_code();
+		if ( ! empty( $js_code ) ) {
+			$code .= sprintf( '<script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
+		}
+		$code .= '</div>';
+
+		$code .= self::get_dynamic_html_code( false, $classname );
+
+		$code .= '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
+        if( typeof window.ec.storefront.staticPages != "undefined" && typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) {
+            window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();
+        }
+        </script>';
+
+		return $code;
+	}
+
+	protected function get_dynamic_html_code( $is_default_render = true, $classname = '' ) {
+
+		if ( ! Ec_Store_Defer_Init::is_enabled() || $is_default_render ) {
+			$default_render = parent::render();
+			$code           = '<div id="dynamic-ec-store-container" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
+		} else {
+			$code = '<div id="dynamic-ec-store-container"><div id="dynamic-ec-store"></div></div>' . PHP_EOL;
+		}
+
+		return $code;
+	}
+
+	protected function get_js_for_adding_html_id() {
 		global $ecwid_current_theme;
 		if ( $ecwid_current_theme ) {
 			ob_start();
@@ -58,31 +101,24 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 				}
 			</script>
 			<?php
-			$code = ob_get_clean();
+			return ob_get_clean();
 		}
-
-		$classname = '';
-		if ( Ecwid_Static_Page::is_enabled_static_home_page() && Ecwid_Static_Page::is_feature_available() ) {
-			$code     .= self::_get_js_switch_dynamic( 'static-ec-store', 'dynamic-ec-store' );
-			$classname = 'hide-ec-dynamic-placeholder';
-		} else {
-			$code .= self::_get_js_hide_static( '#static-ec-store' );
-		}
-
-		$code .= '<div id="dynamic-ec-store" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
-
-		$static_html_code = Ecwid_Static_Page::get_html_code();
-		$code            .= '<div id="static-ec-store">' . htmlspecialchars_decode( $static_html_code ) . '</div>' . PHP_EOL;
-
-		$js_code = Ecwid_Static_Page::get_js_code();
-		if ( ! empty( $js_code ) ) {
-			$code .= sprintf( '<script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
-		}
-
-		return $code;
+		return '';
 	}
 
-	protected function _get_js_switch_dynamic( $static_container_id, $dynamic_container_id ) {
+	protected function get_js_for_switch_dynamic( $static_container_id, $dynamic_container_id ) {
+
+		$store_id         = get_ecwid_store_id();
+		$script_js_params = ecwid_get_scriptjs_params();
+		$script_js_link   = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $script_js_params;
+
+		$widget_params_string = $this->build_params_string(
+			array_merge(
+				$this->_params,
+				array( 'id' => 'dynamic-ec-store' )
+			)
+		);
+
 		ob_start();
 		?>
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
@@ -93,12 +129,18 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			ec.storefront.staticPages.staticContainerID = '<?php echo esc_js( $static_container_id ); ?>';
 			ec.storefront.staticPages.dynamicContainerID = '<?php echo esc_js( $dynamic_container_id ); ?>';
 			ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady = true;
+			<?php if ( Ec_Store_Defer_Init::is_enabled() ) { ?>
+			ec.storefront.staticPages.lazyLoading = {
+				scriptJsLink: '<?php echo $script_js_link; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>',
+				xProductBrowserArguments: [<?php echo $widget_params_string; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>]
+			}
+			<?php } ?>
 		</script>
 		<?php
 		return ob_get_clean();
 	}
 
-	protected function _get_js_hide_static( $html_selector ) {
+	protected function get_js_for_hide_static( $html_selector ) {
 		ob_start();
 		?>
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
@@ -133,7 +175,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$params['default_category_id'] = $this->_params['defaultCategoryId'];
 		}
 
-		if ( @$this->_params['defaultProductId'] ) {
+		if ( ! empty( $this->_params['defaultProductId'] ) ) {
 			$params['default_product_id'] = $this->_params['defaultProductId'];
 		}
 
@@ -141,7 +183,14 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$classname = $this->_get_html_class_name();
 
-		$result = '<div id="ecwid-store-' . $store_id . '" class="ecwid-shopping-cart-' . $classname . '" data-ecwid-default-category-id="' . $params['default_category_id'] . '"></div>';
+		$pb_placeholder = '';
+		if ( Ec_Store_Defer_Init::is_enabled() ) {
+			ob_start();
+			require ECWID_PLUGIN_DIR . '/templates/shortcode-pb-placeholder.php';
+			$pb_placeholder = ob_get_clean();
+		}
+
+		$result = '<div id="ecwid-store-' . $store_id . '" class="ecwid-shopping-cart-' . $classname . '" data-ecwid-default-category-id="' . $params['default_category_id'] . '">' . $pb_placeholder . '</div>';
 
 		return $result;
 	}
@@ -162,7 +211,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		);
 
 		$grid = explode( ',', $atts['grid'] );
-		if ( count( $grid ) == 2 ) {
+		if ( count( $grid ) === 2 ) {
 			$atts['grid_rows'] = intval( $grid[0] );
 			$atts['grid_cols'] = intval( $grid[1] );
 		} else {

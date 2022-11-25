@@ -155,7 +155,7 @@ class Ecwid_Nav_Menus {
 			return;
 		}
 
-		wp_enqueue_script( 'ecwid-menu', ECWID_PLUGIN_URL . 'js/nav-menu-frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_script( 'ecwid-menu', ECWID_PLUGIN_URL . 'js/nav-menu-frontend.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ), true );
 		wp_localize_script(
 			'ecwid-menu',
 			'ecwid_menu_data',

@@ -41,15 +41,21 @@ jQuery(document).ready(function () {
     };
 
     ecwidShoppingCartMakeStoreLinksUseApiCall(jQuery("a[data-ecwid-page]"));
+    ecwidSaveDynamicCss();
+});
 
+var ecwidSaveDynamicCss = function () {
     if (typeof Ecwid != 'undefined') {
         Ecwid.OnAPILoaded.add(function () {
+            if (typeof window.ec.cssLinkElement !== 'undefined') {
+                document.cookie = "ec_store_dynamic_css=" + window.ec.cssLinkElement.href;
+            }
+        });
+    }
+}
 
-            var font = window.ec.config.chameleonDefaults
-                && window.ec.config.chameleonDefaults.font
-                && window.ec.config.chameleonDefaults.font['font-family'] || '';
-            document.cookie = "ec_store_chameleon_font=" + font;
-        })
-    };
-
+document.addEventListener('setupAfterEcwidLoaded', (e) => {
+    Ecwid.OnAPILoaded.add(function () {
+        ecwidSaveDynamicCss();
+    });
 });
