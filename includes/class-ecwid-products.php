@@ -162,6 +162,7 @@ class Ecwid_Products {
 	public function content( $content ) {
 
 		if ( get_post_type() == self::POST_TYPE_PRODUCT ) {
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
 
 			$ecwid_id = get_post_meta( get_the_ID(), 'ecwid_id' );
 			$ecwid_id = $ecwid_id[0];
