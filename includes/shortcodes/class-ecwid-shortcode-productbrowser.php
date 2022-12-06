@@ -44,14 +44,16 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$code  = '';
 		$code .= self::get_js_for_adding_html_id();
 
-		$classname = '';
+		$classname         = '';
+		$is_default_render = false;
+
 		if ( Ecwid_Static_Page::is_enabled_static_home_page() ) {
 			add_filter( 'ecwid_hide_defer_load_script', '__return_true', 10000 );
 			$code     .= self::get_js_for_switch_dynamic( 'static-ec-store-container', 'dynamic-ec-store-container' );
 			$classname = 'hide-ec-dynamic-placeholder';
 		} else {
-			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false', 10000 );
-			$code .= self::get_js_for_hide_static( '#static-ec-store-container' );
+			$is_default_render = true;
+			$code             .= self::get_js_for_hide_static( '#static-ec-store-container' );
 		}
 
 		$code .= '<div id="static-ec-store-container">';
@@ -63,7 +65,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		}
 		$code .= '</div>';
 
-		$code .= self::get_dynamic_html_code( false, $classname );
+		$code .= self::get_dynamic_html_code( $is_default_render, $classname );
 
 		$code .= '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
         if( typeof window.ec.storefront.staticPages != "undefined" && typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) {
