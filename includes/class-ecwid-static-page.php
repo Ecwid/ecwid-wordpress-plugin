@@ -198,6 +198,10 @@ class Ecwid_Static_Page {
 		if ( $fetched_data && isset( $fetched_data['data'] ) ) {
 			$fetched_data = json_decode( $fetched_data['data'] );
 
+			if ( empty( $fetched_data ) || ! is_object( $fetched_data ) ) {
+				return null;
+			}
+
             //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! empty( $dynamic_css ) ) {
 				$fetched_data->cssFiles        = array( $dynamic_css );

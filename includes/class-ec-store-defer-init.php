@@ -20,7 +20,7 @@ class Ec_Store_Defer_Init {
 
 		$default_value = self::OPTION_VALUE_DISABLED;
 
-		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 4 === 0;
+		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 2 === 0;
 		$is_auto            = empty( get_option( self::OPTION_ENABLED ) );
 
 		if ( $is_needed_store_id && $is_auto ) {

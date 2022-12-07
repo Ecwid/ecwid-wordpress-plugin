@@ -185,7 +185,9 @@
                 return;
             }
 
-            addStaticPageHandlers();
+            if (!autoSwitchStaticToDynamicWhenReady) {
+                addStaticPageHandlers();
+            }
 
             function setupAfterEcwidLoaded() {
 
