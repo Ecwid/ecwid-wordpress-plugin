@@ -1814,7 +1814,7 @@ function ecwid_get_update_params_options() {
 			)
 		),
 
-        Ec_Store_Defer_Init::OPTION_ENABLED => array(
+        Ec_Store_Defer_Init::OPTION_NAME => array(
 			'values' => array(
 				Ec_Store_Defer_Init::OPTION_VALUE_AUTO,
 				Ec_Store_Defer_Init::OPTION_VALUE_ENABLED,

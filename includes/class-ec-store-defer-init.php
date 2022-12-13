@@ -1,7 +1,7 @@
 <?php
 class Ec_Store_Defer_Init {
 
-	const OPTION_ENABLED = 'ecwid_defer_store_init_enabled';
+	const OPTION_NAME = 'ecwid_defer_store_init_enabled';
 
 	const OPTION_VALUE_ENABLED  = 'Y';
 	const OPTION_VALUE_DISABLED = 'N';
@@ -18,16 +18,7 @@ class Ec_Store_Defer_Init {
 			return true;
 		}
 
-		$default_value = self::OPTION_VALUE_DISABLED;
-
-		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 2 === 0;
-		$is_auto            = empty( get_option( self::OPTION_ENABLED ) );
-
-		if ( $is_needed_store_id && $is_auto ) {
-			$default_value = self::OPTION_VALUE_ENABLED;
-		}
-
-		if ( get_option( self::OPTION_ENABLED, $default_value ) !== self::OPTION_VALUE_ENABLED ) {
+		if ( get_option( self::OPTION_NAME, self::OPTION_VALUE_ENABLED ) === self::OPTION_VALUE_DISABLED ) {
 			return false;
 		}
 
