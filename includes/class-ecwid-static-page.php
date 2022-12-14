@@ -94,9 +94,12 @@ class Ecwid_Static_Page {
 		$params = array();
 
 		if ( Ecwid_Seo_Links::is_enabled() || ecwid_is_demo_store() ) {
-			$params['clean_links'] = 'true';
-			$params['base_url']    = get_permalink();
+			$params['clean_urls'] = 'true';
+		} else {
+			$params['clean_urls'] = 'false';
 		}
+
+		$params['base_url'] = get_permalink();
 
 		if ( array_key_exists( 'offset', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -346,6 +349,10 @@ class Ecwid_Static_Page {
 
 		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return true;
+		}
+
+		if ( ! Ecwid_Seo_Links::is_enabled() ) {
+			return false;
 		}
 
 		if ( ! EcwidPlatform::is_catalog_cache_trusted() ) {
