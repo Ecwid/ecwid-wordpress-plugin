@@ -58,7 +58,7 @@ class Ec_Store_Defer_Init {
 						var script = document.createElement('script');
 						script.charset = 'utf-8';
 						script.type = 'text/javascript';
-						script.src = '<?php echo esc_attr( $script_src ); ?>';
+						script.src = '<?php echo $script_src; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 						script.id = 'ecwid-script';
 						script.setAttribute('data-cfasync', 'false');
 
