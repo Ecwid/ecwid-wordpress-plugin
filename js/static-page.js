@@ -200,6 +200,10 @@
                     Ecwid.init();
                 }
 
+                if (!window.needLoadEcwidAsync && typeof Ecwid._onComplete !== undefined) {
+                    Ecwid._onComplete();
+                }
+
                 // if a store is opened for a client, then the storeClosed won't be true
                 // if a store is opened for a client and we've uploaded a closed banner, then we check it in dynamic
                 Ecwid.OnAPILoaded.add(function () {
