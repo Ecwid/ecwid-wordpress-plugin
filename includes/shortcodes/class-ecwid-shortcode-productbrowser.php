@@ -33,6 +33,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		if ( ! Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
 
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false' );
+
 			$code = self::get_dynamic_html_code();
 			if ( ! empty( $this->_params['default_page'] ) ) {
 				$code .= $this->get_js_for_open_page( $this->_params['default_page'] );
@@ -54,6 +56,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		} else {
 			$is_default_render = true;
 			$code             .= self::get_js_for_hide_static( '#static-ec-store-container' );
+
+			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false' );
 		}
 
 		$code .= '<div id="static-ec-store-container">';
