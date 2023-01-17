@@ -177,7 +177,6 @@
             showStaticHtml();
 
             window.ec.config = window.ec.config || {};
-            window.ec.config.navigation_scrolling = "DISABLED";
 
             if (!isRootCategory()) {
                 hideStorefront();
