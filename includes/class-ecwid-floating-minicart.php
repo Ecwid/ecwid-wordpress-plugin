@@ -1,6 +1,5 @@
 <?php
 
-
 if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 
 	class Ecwid_Floating_Minicart {
@@ -21,31 +20,47 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 		const CUSTOMIZE_ID = 'ec-customize-cart';
 
 		public function __construct() {
-			add_action( 'wp_footer', array( $this, 'display' ) );
+			if ( $this->is_enabled() ) {
+				add_action( 'wp_footer', array( $this, 'display' ) );
+				add_filter( 'ecwid_has_widgets_on_page', '__return_true' );
+			}
 		}
 
-		public function display() {
-			if ( post_password_required() ) {
-				return;
-			}
-
+		public function get_display_value() {
 			$display = get_option( self::OPTION_WIDGET_DISPLAY, self::DISPLAY_STORE );
 
 			if ( ! array_key_exists( $display, self::get_display_options() ) ) {
 				$display = self::DISPLAY_NONE;
 			}
 
-			if ( $display == self::DISPLAY_NONE && ! is_customize_preview() ) {
-				return;
+			return $display;
+		}
+
+		public function is_enabled() {
+			if ( post_password_required() ) {
+				return false;
 			}
 
-			if ( $display == self::DISPLAY_STORE && ! Ecwid_Store_Page::is_store_page() && ! is_customize_preview() ) {
-				return;
+			$display = $this->get_display_value();
+
+			if ( $display === self::DISPLAY_NONE && ! is_customize_preview() ) {
+				return false;
 			}
 
-			if ( isset( $_REQUEST['legacy-widget-preview'] ) ) {
-				return;
+			if ( $display === self::DISPLAY_STORE && ! Ecwid_Store_Page::is_store_page() && ! is_customize_preview() ) {
+				return false;
 			}
+
+			if ( isset( $_REQUEST['legacy-widget-preview'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				return false;
+			}
+
+			return true;
+		}
+
+		public function display() {
+
+			$display = $this->get_display_value();
 
 			echo ecwid_get_scriptjs_code(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -59,7 +74,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 			$vindent = esc_attr( get_option( self::OPTION_VERTICAL_INDENT ) );
 
 			$customize_id   = is_customize_preview() ? 'id="' . self::CUSTOMIZE_ID . '"' : '';
-			$customize_hide = is_customize_preview() && $display == self::DISPLAY_NONE ? 'style="display:none"' : '';
+			$customize_hide = is_customize_preview() && $display === self::DISPLAY_NONE ? 'style="display:none"' : '';
 
 			?>
 			<div <?php echo esc_attr( $customize_id ); ?> <?php echo esc_attr( $customize_hide ); ?> class='ec-cart-widget' 
@@ -83,7 +98,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 		}
 
 		public static function create_default_options() {
-			$options = self::_get_default_options();
+			$options = self::get_default_options();
 			if ( ! ecwid_is_recent_installation() ) {
 				$options[ self::OPTION_WIDGET_DISPLAY ] = self::DISPLAY_NONE;
 			}
@@ -93,7 +108,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 			}
 		}
 
-		protected static function _get_default_options() {
+		protected static function get_default_options() {
 			return array(
 				self::OPTION_WIDGET_DISPLAY    => self::DISPLAY_STORE,
 				self::OPTION_SHOW_EMPTY_CART   => true,

@@ -35,6 +35,11 @@ class Ec_Store_Defer_Init {
 			return false;
 		}
 
+		$has_widgets_on_page = apply_filters( 'ecwid_has_widgets_on_page', false );
+		if ( ! Ecwid_Store_Page::is_store_page() && ! $has_widgets_on_page ) {
+			return false;
+		}
+
 		$widgets = apply_filters( 'ecwid_defer_widgets', array() );
 
 		$ecwid_store_id = get_ecwid_store_id();
@@ -119,6 +124,9 @@ class Ec_Store_Defer_Init {
 		ob_start();
 
 		if ( self::is_enabled() ) {
+
+			add_filter( 'ecwid_has_widgets_on_page', '__return_true' );
+
 			$widget_type = preg_replace( '/^x([a-z0-9]+)/i', '$1', $widget_type );
 
 			if ( $widget_type === 'Search' ) {
@@ -136,7 +144,7 @@ class Ec_Store_Defer_Init {
 			?>
 			<!--noptimize--><script data-cfasync="false" data-no-optimize="1" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
 			<?php
-		}
+		}//end if
 
 		return ob_get_clean();
 	}
