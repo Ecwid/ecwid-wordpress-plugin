@@ -20,6 +20,10 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 		const CUSTOMIZE_ID = 'ec-customize-cart';
 
 		public function __construct() {
+			add_action( 'template_redirect', array( $this, 'init' ) );
+		}
+
+		public function init() {
 			if ( $this->is_enabled() ) {
 				add_action( 'wp_footer', array( $this, 'display' ) );
 				add_filter( 'ecwid_has_widgets_on_page', '__return_true' );
