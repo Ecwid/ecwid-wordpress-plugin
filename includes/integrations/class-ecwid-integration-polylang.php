@@ -66,6 +66,10 @@ class Ecwid_Integration_Polylang {
 			return;
 		}
 
+		if ( ! Ecwid_Store_Page::is_store_page() ) {
+			return;
+		}
+
 		$pages = array();
 		foreach ( $this->hreflang_items as $lang => $url ) {
 			$pages[ $lang ] = $url;
