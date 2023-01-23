@@ -92,7 +92,18 @@
                 document.body.classList.add('touchable');
             }
 
-            if (typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
+            var needDisableLazyLoading = false;
+            if (typeof Ecwid !== 'undefined') {
+                needDisableLazyLoading = true;
+            }
+
+            if (needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
+                loadScriptJs(function () {
+                    xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments);
+                });
+            }
+
+            if (!needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
                 if (typeof ec.storefront.staticPages.lazyLoading.scriptJsLink === "undefined") {
                     if (!!console) {
                         console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided");
