@@ -28,6 +28,11 @@
         return urlHash === '' || (urlHash.indexOf("#!/c/0/") === -1 && urlHash.indexOf("#!//c/0/") === -1);
     }
 
+    function isHashbangPage() {
+        var urlHash = window.location.hash;
+        return urlHash !== '' && urlHash.indexOf("#!/") >= 0
+    }
+
     function loadScriptJs(onScriptJsLoadedCallback) {
         var scriptJs = document.createElement('script');
         scriptJs.src = ec.storefront.staticPages.lazyLoading.scriptJsLink;
@@ -93,14 +98,16 @@
             }
 
             var needDisableLazyLoading = false;
-            if (typeof Ecwid !== 'undefined') {
+            if (ecwidLoaded() || isHashbangPage()) {
                 needDisableLazyLoading = true;
             }
 
             if (needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
-                loadScriptJs(function () {
+                var onScriptJsLoadedCallback = function () {
                     xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments);
-                });
+                }
+
+                loadScriptJs(onScriptJsLoadedCallback);
             }
 
             if (!needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
@@ -316,7 +323,7 @@
             }
 
             function ecwidLoaded() {
-                return !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
+                return typeof Ecwid !== "undefined" && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
             }
 
             function hasEcwidMessages() {
