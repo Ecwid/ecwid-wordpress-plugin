@@ -71,11 +71,13 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$code .= self::get_dynamic_html_code( $is_default_render, $classname );
 
-		$code .= '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
+		$force_dynamic_js_code = '<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
         if( typeof window.ec.storefront.staticPages != "undefined" && typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) {
             window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();
         }
         </script>';
+
+		wp_add_inline_script( 'ecwid-' . Ecwid_Static_Page::HANDLE_STATIC_PAGE, $force_dynamic_js_code );
 
 		return $code;
 	}
