@@ -1,20 +1,20 @@
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 
     var status = {
-        'success' : [],
+        'success': [],
         'error': [],
         'errorMessages': {},
         'planLimitHit': false,
         'imagesTotal': 0
     };
 
-    switchWooImportState = function( state ) {
+    switchWooImportState = function (state) {
         jQuery('[data-ec-importer-state]').hide();
-        jQuery('[data-ec-importer-state=' + state +']').show();
+        jQuery('[data-ec-importer-state=' + state + ']').show();
 
-        jQuery('[data-ec-importer-card-stack]').each(function(){
-            if( jQuery(this).find('.a-card:visible').length > 1 ) {
+        jQuery('[data-ec-importer-card-stack]').each(function () {
+            if (jQuery(this).find('.a-card:visible').length > 1) {
                 jQuery(this).addClass('a-card-stack');
             } else {
                 jQuery(this).removeClass('a-card-stack');
@@ -22,34 +22,38 @@ jQuery(document).ready(function() {
         });
     }
 
-    showWooImportAlert = function( alert_type ) {
+    showWooImportAlert = function (alert_type) {
         var block = jQuery('#ec-importer-alert'),
             block_status = 'success';
 
-        if( alert_type == 'warning' || alert_type == 'limit' ) {
+        if (alert_type == 'warning' || alert_type == 'limit') {
             block_status = 'warning';
         }
 
         block.find('[data-ec-importer-alert]').hide();
-        block.find('[data-ec-importer-alert=' + block_status +']').show();
+        block.find('[data-ec-importer-alert=' + block_status + ']').show();
 
-        block.addClass( 'a-card--' + block_status );
-        block.find('.iconable-block').addClass( 'iconable-block--' + block_status );
+        block.addClass('a-card--' + block_status);
+        block.find('.iconable-block').addClass('iconable-block--' + block_status);
 
-        if( alert_type == 'limit' ) {
+        if (alert_type == 'limit') {
             block.find('[data-ec-importer-alert=limit]').show();
         }
 
         block.show();
     }
 
-    startWooImport = function() {
+    startWooImport = function () {
         var settings = {};
 
         do_import = function (start = null) {
             switchWooImportState('process');
 
-            var data = {'action': ecwid_importer.do_woo_import_action, settings: settings};
+            var data = {
+                'action': ecwid_importer.do_woo_import_action,
+                '_ajax_nonce': ecwid_importer._ajax_nonce,
+                settings: settings
+            };
             if (start) {
                 data.reset = 1
             }
@@ -57,17 +61,17 @@ jQuery(document).ready(function() {
             jQuery.ajax({
                 'url': ajaxurl,
                 'data': data,
-                'success': function(json) {
+                'success': function (json) {
                     try {
                         data = jQuery.parseJSON(json);
                         processImportProgress(data);
-                    } catch(e) {
+                    } catch (e) {
                         status.errorMessages['json_failed'] = [];
                         status.errorMessages['json_failed'][json] = 1;
                         doImportComplete(status);
                     }
                 },
-                'error': function(jqXHR, textStatus, errorThrown) {
+                'error': function (jqXHR, textStatus, errorThrown) {
                     status.errorMessages[textStatus] = [];
                     status.errorMessages[textStatus][errorThrown] = 1;
                     doImportComplete(status);
@@ -75,7 +79,7 @@ jQuery(document).ready(function() {
             });
         };
 
-        do_import( true );
+        do_import(true);
 
         processImportProgress = function (data) {
 
@@ -102,12 +106,12 @@ jQuery(document).ready(function() {
 
                     var messages = data.error_messages[import_type];
 
-                    if ( !status.errorMessages[import_type] ) {
+                    if (!status.errorMessages[import_type]) {
                         status.errorMessages[import_type] = {};
                     }
 
-                    for ( var message in messages ) {
-                        if ( !status.errorMessages[import_type].hasOwnProperty(message) ) {
+                    for (var message in messages) {
+                        if (!status.errorMessages[import_type].hasOwnProperty(message)) {
                             status.errorMessages[import_type][message] = '';
                         }
 
@@ -120,13 +124,13 @@ jQuery(document).ready(function() {
 
 
             status.imagesTotal += data.imagesProcessed;
-            if( status.imagesTotal > 0 ) {
+            if (status.imagesTotal > 0) {
                 jQuery('[data-ec-importer-process-images]').show();
-                jQuery('#import-images-progress-total').text( status.imagesTotal );
+                jQuery('#import-images-progress-total').text(status.imagesTotal);
             }
 
             var imagesUploaded = (status.success.upload_category_image || 0) + (status.success.upload_product_image || 0) + (status.success.upload_product_gallery_image || 0);
-            jQuery('#import-images-progress-current').text( imagesUploaded );
+            jQuery('#import-images-progress-current').text(imagesUploaded);
 
 
             if (data.status == 'complete') {
@@ -136,24 +140,24 @@ jQuery(document).ready(function() {
             }
         }
 
-        doImportComplete = function( status ) {
+        doImportComplete = function (status) {
 
             jQuery('#import-results-products').text(status.success.create_product || 0);
             jQuery('#import-results-categories').text(status.success.create_category || 0);
 
             if (status.planLimitHit) {
-                showWooImportAlert( 'limit' );
-            } else if ( Object.keys( status.error ).length > 0 || Object.keys( status.errorMessages ).length > 0 ) {
-                showWooImportAlert( 'warning' );
+                showWooImportAlert('limit');
+            } else if (Object.keys(status.error).length > 0 || Object.keys(status.errorMessages).length > 0) {
+                showWooImportAlert('warning');
             } else {
-                showWooImportAlert( 'success' );
+                showWooImportAlert('success');
             }
 
-            switchWooImportState( 'complete' );
+            switchWooImportState('complete');
         }
     };
-   
-    jQuery('#ec-importer-woo-go').on('click', function(){
+
+    jQuery('#ec-importer-woo-go').on('click', function () {
         startWooImport();
     });
 
