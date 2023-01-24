@@ -1,5 +1,10 @@
 == Changelog == 
 
+= 6.11.4 - Jan 25, 2023 =
+- Improvements for compatibility with WPML plugin. Some ecommerce sites had an issue with unexpected redirects in multilingual mode when enabling the WPML plugin. We’ve fixed that.
+- Improvements and fixes for the “Speedup of storefront loading” feature.
+- Minor fixes and improvements.
+
 = 6.11.3 - Dec 22, 2022 =
 - **Fixes for the “Speedup of storefront loading” feature.**  After the last release, some of our users faced problems with incorrect loading of the storefront and the translations of the shopping cart. We've fixed it.
 - Minor fixes and improvements.
