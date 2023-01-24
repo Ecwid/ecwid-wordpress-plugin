@@ -18,7 +18,7 @@ class Ecwid_Widget_Search extends Ecwid_Widget_Base {
 
 	public function _render_widget_content( $args, $instance ) {
 
-		$widget_id = 'ec-store-search-' . $this->id_base;
+		$widget_id = 'ec-store-search-' . $this->id_base . '-' . $this->widget_number++;
 
 		$html  = '';
 		$html .= '<div id="' . $widget_id . '">';
