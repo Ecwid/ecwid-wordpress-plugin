@@ -1366,7 +1366,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$force_lang = apply_filters( 'ecwid_lang', $force_lang );
 	}
 
-	$store_id = get_ecwid_store_id();
 	$force_lang_str = ! empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
 

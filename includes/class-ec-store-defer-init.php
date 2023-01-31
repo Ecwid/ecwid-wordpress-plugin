@@ -42,13 +42,13 @@ class Ec_Store_Defer_Init {
 
 		$widgets = apply_filters( 'ecwid_defer_widgets', array() );
 
-		$ecwid_store_id = get_ecwid_store_id();
-		$app_ecwid_com  = Ecwid_Config::get_scriptjs_domain();
+		$ecwid_store_id  = get_ecwid_store_id();
+		$scriptjs_domain = esc_attr( Ecwid_Config::get_scriptjs_domain() );
 
 		$lang = ecwid_get_current_user_locale();
-		$lang = apply_filters( 'ecwid_lang', $lang );
+		$lang = esc_attr( apply_filters( 'ecwid_lang', $lang ) );
 
-		$script_src = "https://$app_ecwid_com/script.js?$ecwid_store_id&lang=$lang";
+		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
 		?>
 		<script data-cfasync="false" type="text/javascript">
 			(function () {
