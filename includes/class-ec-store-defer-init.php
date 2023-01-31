@@ -120,6 +120,7 @@ class Ec_Store_Defer_Init {
 		<?php
 	}
 
+	// $arg — must be passed already handled by a method esc_attr() or similar
 	public static function print_js_widget( $widget_type, $id, $arg = '' ) {
 		ob_start();
 
