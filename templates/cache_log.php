@@ -113,12 +113,12 @@ foreach ( $cache as $item ) {
 		echo '<div class="entity-title">' . esc_html( $item['name'] ) . '</div>';
 		render_nested( 'value', $item['value'] );
 	}
-	if ( in_array( $item['operation'], array( 'get_from_categories_cache', 'get_from_products_cache', 'get_from_catalog_cache' ) ) ) {
+	if ( in_array( $item['operation'], array( 'get_from_categories_cache', 'get_from_products_cache', 'get_from_static_pages_cache' ) ) ) {
 		$key = @$item['name'];
 		echo '<div class="entity-title">' . esc_html( $key ) . '</div>';
 		render_nested( 'result', $item['result'] );
 	}
-	if ( $item['operation'] === 'get_from_catalog_cache' ) {
+	if ( $item['operation'] === 'get_from_static_pages_cache' ) {
 		$valid_from = @$item['valid_from'];
 		echo '<div class="entity-title">' . esc_html( $valid_from ) . '</div>';
 	}

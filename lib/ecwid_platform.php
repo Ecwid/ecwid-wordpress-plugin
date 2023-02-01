@@ -396,7 +396,7 @@ class EcwidPlatform {
 		self::store_in_cache( $url, 'categories', $data );
 	}
 
-	public static function store_in_catalog_cache( $url, $data ) {
+	public static function store_in_static_pages_cache( $url, $data ) {
 		self::store_in_cache( $url, 'catalog', $data );
 	}
 
@@ -463,7 +463,7 @@ class EcwidPlatform {
 		return false;
 	}
 
-	public static function get_from_catalog_cache( $key ) {
+	public static function get_from_static_pages_cache( $key ) {
 		$cache_name = self::_build_cache_name( $key, 'catalog' );
 
 		$result = self::cache_get( $cache_name );
@@ -476,7 +476,7 @@ class EcwidPlatform {
 		);
 
 		self::cache_log_record(
-			'get_from_catalog_cache',
+			'get_from_static_pages_cache',
 			array(
 				'name'       => $key,
 				'result'     => $result,
@@ -493,7 +493,7 @@ class EcwidPlatform {
 		return false;
 	}
 
-	public static function is_catalog_cache_trusted() {
+	public static function is_static_pages_cache_trusted() {
 
 		$valid_from = max(
 			self::get( self::CATEGORIES_CACHE_VALID_FROM ),
@@ -547,11 +547,11 @@ class EcwidPlatform {
 		self::_invalidate_cache_from( self::PROFILE_CACHE_VALID_FROM, $time );
 	}
 
-	public static function invalidate_catalog_cache_from( $time = null ) {
+	public static function invalidate_static_pages_cache_from( $time = null ) {
 		self::_invalidate_cache_from( self::CATALOG_CACHE_VALID_FROM, $time );
 	}
 
-	public static function force_catalog_cache_reset( $time = null ) {
+	public static function force_static_pages_cache_reset( $time = null ) {
 		$time = is_null( $time ) ? time() : $time;
 		self::set( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM, $time );
 	}

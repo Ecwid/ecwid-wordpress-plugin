@@ -163,7 +163,7 @@ class Ecwid_Static_Page {
 			$dynamic_css = wp_strip_all_tags( $_COOKIE['ec_store_dynamic_css'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
-		$cached_data = EcwidPlatform::get_from_catalog_cache( $url );
+		$cached_data = EcwidPlatform::get_from_static_pages_cache( $url );
 		if ( $cached_data ) {
 
 			$is_css_defined     = ! empty( $dynamic_css );
@@ -175,7 +175,7 @@ class Ecwid_Static_Page {
 				$cached_data->cssFiles        = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$cached_data->isSetDynamicCss = true; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-				EcwidPlatform::store_in_catalog_cache( $url, $cached_data );
+				EcwidPlatform::store_in_static_pages_cache( $url, $cached_data );
 			}
 
 			return $cached_data;
@@ -224,8 +224,8 @@ class Ecwid_Static_Page {
 			}
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-			EcwidPlatform::invalidate_catalog_cache_from( $last_update );
-			EcwidPlatform::store_in_catalog_cache( $url, $fetched_data );
+			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
+			EcwidPlatform::store_in_static_pages_cache( $url, $fetched_data );
 
 			return $fetched_data;
 		}//end if
@@ -355,7 +355,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( ! EcwidPlatform::is_catalog_cache_trusted() ) {
+		if ( ! EcwidPlatform::is_static_pages_cache_trusted() ) {
 			return false;
 		}
 
