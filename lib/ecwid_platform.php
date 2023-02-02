@@ -389,18 +389,18 @@ class EcwidPlatform {
 	}
 
 	public static function store_in_products_cache( $url, $data ) {
-		self::store_in_cache( $url, 'products', $data );
+		self::store_in_cache( $url, 'products', $data, WEEK_IN_SECONDS );
 	}
 
 	public static function store_in_categories_cache( $url, $data ) {
-		self::store_in_cache( $url, 'categories', $data );
+		self::store_in_cache( $url, 'categories', $data, WEEK_IN_SECONDS );
 	}
 
 	public static function store_in_static_pages_cache( $url, $data ) {
-		self::store_in_cache( $url, 'catalog', $data );
+		self::store_in_cache( $url, 'catalog', $data, WEEK_IN_SECONDS );
 	}
 
-	protected static function store_in_cache( $url, $type, $data ) {
+	protected static function store_in_cache( $url, $type, $data, $expires_after ) {
 		$name = self::_build_cache_name( $url, $type );
 
 		$to_store = array(
@@ -408,7 +408,7 @@ class EcwidPlatform {
 			'data' => $data,
 		);
 
-		self::cache_set( $name, $to_store, WEEK_IN_SECONDS );
+		self::cache_set( $name, $to_store, $expires_after );
 
 		self::cache_log_record(
 			'store_in_entity_cache',
