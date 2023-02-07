@@ -65,7 +65,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$js_code = Ecwid_Static_Page::get_js_code();
 		if ( ! empty( $js_code ) ) {
-			$code .= sprintf( '<script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script>', $js_code ) . PHP_EOL;
+			$code .= sprintf( '<!--noptimize--><script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script><!--/noptimize-->', $js_code ) . PHP_EOL;
 		}
 		$code .= '</div>';
 
@@ -97,6 +97,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		if ( $ecwid_current_theme ) {
 			ob_start();
 			?>
+			<!--noptimize-->
 			<script data-cfasync="false" data-no-optimize="1">
 				if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
 					document.documentElement.id = 'ecwid_html';
@@ -106,6 +107,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 					document.body.id = 'ecwid_body';
 				}
 			</script>
+			<!--/noptimize-->
 			<?php
 			return ob_get_clean();
 		}
@@ -127,6 +129,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		ob_start();
 		?>
+		<!--noptimize-->
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
 			window.ec.storefront = window.ec.storefront || {};
 			window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
@@ -142,6 +145,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			}
 			<?php } ?>
 		</script>
+		<!--/noptimize-->
 		<?php
 		return ob_get_clean();
 	}
@@ -149,6 +153,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	protected function get_js_for_hide_static( $html_selector ) {
 		ob_start();
 		?>
+		<!--noptimize-->
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
 			function createClass(name,rules){
 				var style = document.createElement('style');
@@ -161,6 +166,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			}
 			createClass('<?php echo esc_js( $html_selector ); ?>','display:none;');
 		</script>
+		<!--/noptimize-->
 		<?php
 		return ob_get_clean();
 	}

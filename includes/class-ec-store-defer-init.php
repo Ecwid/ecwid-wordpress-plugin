@@ -50,6 +50,7 @@ class Ec_Store_Defer_Init {
 
 		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
 		?>
+		<!--noptimize-->
 		<script data-cfasync="false" type="text/javascript">
 			(function () {
 				var ec_widgets = <?php echo wp_json_encode( $widgets ); ?>
@@ -117,6 +118,7 @@ class Ec_Store_Defer_Init {
 				}
 			})();
 		</script>
+		<!--/noptimize-->
 		<?php
 	}
 
