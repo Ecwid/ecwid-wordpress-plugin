@@ -15,10 +15,10 @@ class Ecwid_Integration_Autoptimize extends Ecwid_Integration_Cache_Base {
 		return $exclude . ', ' . $code;
 	}
 
-	public function clear_cache( $page_id = 0 ) {
-		// if ( class_exists( 'autoptimizeCache' ) ) {
-		// autoptimizeCache::clearall();
-		// }
+	public function clear_external_cache() {
+		if ( class_exists( 'autoptimizeCache' ) ) {
+			autoptimizeCache::clearall();
+		}
 	}
 }
 

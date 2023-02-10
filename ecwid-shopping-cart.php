@@ -1017,6 +1017,8 @@ function ecwid_full_cache_reset() {
 
 	update_option( Ecwid_Api_V3::OPTION_API_STATUS, Ecwid_Api_V3::API_STATUS_OK );
 	update_option( 'ecwid_last_api_cache_check', time() );
+
+	do_action( 'ecwid_clean_external_cache' );
 }
 
 function add_ecwid_admin_bar_node() {
@@ -2960,9 +2962,9 @@ function ecwid_update_store_id( $new_store_id ) {
 	update_option( 'ecwid_api_check_retry_after', 0 );
 	
 	ecwid_invalidate_cache( true );
-	EcwidPlatform::cache_reset('all_categories');
+	EcwidPlatform::cache_reset( 'all_categories' );
 	
-	do_action('ecwid_update_store_id', $new_store_id);
+	do_action( 'ecwid_update_store_id', $new_store_id );
 }
 
 
