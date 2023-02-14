@@ -35,6 +35,12 @@ class Ecwid_Integration_WPRocket extends Ecwid_Integration_Cache_Base {
 			rocket_clean_domain();
 		}
 	}
+
+	public function clear_external_cache_for_page( $page_id ) {
+		if ( function_exists( 'rocket_clean_post' ) ) {
+			rocket_clean_post( $page_id );
+		}
+	}
 }
 
 $ecwid_integration_wprocket = new Ecwid_Integration_WPRocket();

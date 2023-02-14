@@ -983,8 +983,8 @@ function ecwid_regular_cache_check() {
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
 			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
 			EcwidPlatform::invalidate_profile_cache_from( strtotime( $stats->profileUpdated ) );
+			//phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			update_option( 'ecwid_last_api_cache_check', time() );
-            //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		$last_transients = get_option( 'ecwid_last_transients_check' );

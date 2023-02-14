@@ -17,9 +17,11 @@ class Ecwid_Integration_Autoptimize extends Ecwid_Integration_Cache_Base {
 
 	public function clear_external_cache() {
 		if ( class_exists( 'autoptimizeCache' ) ) {
-			autoptimizeCache::clearall();
+			autoptimizeCache::clearall_actionless();
 		}
 	}
+
+	public function clear_external_cache_for_page( $page_id ) {}
 }
 
 $ecwid_integration_autoptimize = new Ecwid_Integration_Autoptimize();

@@ -4,9 +4,11 @@ abstract class Ecwid_Integration_Cache_Base {
 
 	public function __construct() {
 		add_action( 'ecwid_clean_external_cache', array( $this, 'clear_external_cache' ), 10000 );
+		add_action( 'ecwid_clean_external_cache_for_page', array( $this, 'clear_external_cache_for_page' ), 10000, 1 );
 	}
 
 	abstract public function clear_external_cache();
+	abstract public function clear_external_cache_for_page( $page_id );
 
 	public static function get_excluded_js() {
 		$excluded_js = array(

@@ -488,6 +488,10 @@ class EcwidPlatform {
 			return $result['data'];
 		} else {
 			self::cache_reset( $cache_name );
+
+			if ( ! empty( get_the_ID() ) ) {
+				do_action( 'ecwid_clean_external_cache_for_page', get_the_ID() );
+			}
 		}
 
 		return false;
