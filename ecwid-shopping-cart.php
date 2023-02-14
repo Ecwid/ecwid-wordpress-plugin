@@ -1919,8 +1919,6 @@ function ecwid_get_clear_all_cache_action() {
 	return 'ec-clear-all-cache';
 }
 
-add_action('plugins_loaded', 'ecwid_clear_all_cache');
-
 function ecwid_clear_all_cache()
 {
 	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
@@ -1932,6 +1930,7 @@ function ecwid_clear_all_cache()
 		}
 	}
 }
+add_action('after_setup_theme', 'ecwid_clear_all_cache');
 
 function ecwid_sync_do_page() {
 

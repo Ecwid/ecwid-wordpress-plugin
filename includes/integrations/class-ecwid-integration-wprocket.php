@@ -31,7 +31,6 @@ class Ecwid_Integration_WPRocket extends Ecwid_Integration_Cache_Base {
 	}
 
 	public function clear_external_cache() {
-		error_log( 'clear_external_cache' );
 		if ( function_exists( 'rocket_clean_domain' ) ) {
 			rocket_clean_domain();
 		}
