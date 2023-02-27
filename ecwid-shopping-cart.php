@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.11.3
+Version: 6.11.5
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -407,7 +407,7 @@ function ecwid_enqueue_frontend() {
 	));
 
 	if ( get_post() && get_post()->post_type == Ecwid_Products::POST_TYPE_PRODUCT ) {
-		wp_enqueue_script( 'ecwid-post-product', ECWID_PLUGIN_URL . 'js/post-product.js', array(), get_option( 'ecwid_plugin_version' ), TRUE );
+		wp_enqueue_script( 'ecwid-post-product', ECWID_PLUGIN_URL . 'js/post-product.js', array(), get_option( 'ecwid_plugin_version' ), true );
 
 		$meta = get_post_meta( get_the_ID(), 'ecwid_id' );
 
@@ -983,13 +983,13 @@ function ecwid_regular_cache_check() {
 			EcwidPlatform::invalidate_products_cache_from( strtotime( $stats->productsUpdated ) );
 			EcwidPlatform::invalidate_categories_cache_from( strtotime( $stats->categoriesUpdated ) );
 			EcwidPlatform::invalidate_profile_cache_from( strtotime( $stats->profileUpdated ) );
+			//phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			update_option( 'ecwid_last_api_cache_check', time() );
-            //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		$last_transients = get_option( 'ecwid_last_transients_check' );
 
-		if ( time() - $last_transients > MONTH_IN_SECONDS ) {
+		if ( time() - $last_transients > WEEK_IN_SECONDS * 2 ) {
 			EcwidPlatform::clear_all_transients();
 			update_option( 'ecwid_last_transients_check', time() );
 		}
@@ -1366,7 +1366,6 @@ function ecwid_get_scriptjs_params( $force_lang = null ) {
 		$force_lang = apply_filters( 'ecwid_lang', $force_lang );
 	}
 
-	$store_id = get_ecwid_store_id();
 	$force_lang_str = ! empty( $force_lang ) ? "&lang=$force_lang" : '';
 	$params = '&data_platform=wporg' . $force_lang_str;
 
@@ -1918,8 +1917,6 @@ function ecwid_get_clear_all_cache_action() {
 	return 'ec-clear-all-cache';
 }
 
-add_action('plugins_loaded', 'ecwid_clear_all_cache');
-
 function ecwid_clear_all_cache()
 {
 	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
@@ -1931,6 +1928,7 @@ function ecwid_clear_all_cache()
 		}
 	}
 }
+add_action('after_setup_theme', 'ecwid_clear_all_cache');
 
 function ecwid_sync_do_page() {
 
@@ -2961,9 +2959,9 @@ function ecwid_update_store_id( $new_store_id ) {
 	update_option( 'ecwid_api_check_retry_after', 0 );
 	
 	ecwid_invalidate_cache( true );
-	EcwidPlatform::cache_reset('all_categories');
+	EcwidPlatform::cache_reset( 'all_categories' );
 	
-	do_action('ecwid_update_store_id', $new_store_id);
+	do_action( 'ecwid_update_store_id', $new_store_id );
 }
 
 

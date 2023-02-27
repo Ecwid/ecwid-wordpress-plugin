@@ -28,6 +28,11 @@
         return urlHash === '' || (urlHash.indexOf("#!/c/0/") === -1 && urlHash.indexOf("#!//c/0/") === -1);
     }
 
+    function isHashbangPage() {
+        var urlHash = window.location.hash;
+        return urlHash !== '' && urlHash.indexOf("#!/") >= 0
+    }
+
     function loadScriptJs(onScriptJsLoadedCallback) {
         var scriptJs = document.createElement('script');
         scriptJs.src = ec.storefront.staticPages.lazyLoading.scriptJsLink;
@@ -92,7 +97,20 @@
                 document.body.classList.add('touchable');
             }
 
-            if (typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
+            var needDisableLazyLoading = false;
+            if (ecwidLoaded() || isHashbangPage()) {
+                needDisableLazyLoading = true;
+            }
+
+            if (needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
+                var onScriptJsLoadedCallback = function () {
+                    xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments);
+                }
+
+                loadScriptJs(onScriptJsLoadedCallback);
+            }
+
+            if (!needDisableLazyLoading && typeof ec.storefront.staticPages.lazyLoading !== "undefined") {
                 if (typeof ec.storefront.staticPages.lazyLoading.scriptJsLink === "undefined") {
                     if (!!console) {
                         console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided");
@@ -177,7 +195,6 @@
             showStaticHtml();
 
             window.ec.config = window.ec.config || {};
-            window.ec.config.navigation_scrolling = "DISABLED";
 
             if (!isRootCategory()) {
                 hideStorefront();
@@ -306,7 +323,7 @@
             }
 
             function ecwidLoaded() {
-                return !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
+                return typeof Ecwid !== "undefined" && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
             }
 
             function hasEcwidMessages() {

@@ -4,9 +4,13 @@ abstract class Ecwid_Widget_Base extends WP_Widget {
 
 	protected $_hide_title = false;
 
+	public $widget_number;
+
 	abstract protected function _render_widget_content( $args, $instance );
 
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+		$this->widget_number = 1;
+
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 

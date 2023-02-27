@@ -20,7 +20,7 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
-	const TRANSIENTS_LIMIT = 5000;
+	const TRANSIENTS_LIMIT = 3000;
 
 	public static function get_store_id() {
 		return get_ecwid_store_id();
@@ -389,18 +389,18 @@ class EcwidPlatform {
 	}
 
 	public static function store_in_products_cache( $url, $data ) {
-		self::store_in_cache( $url, 'products', $data );
+		self::store_in_cache( $url, 'products', $data, WEEK_IN_SECONDS );
 	}
 
 	public static function store_in_categories_cache( $url, $data ) {
-		self::store_in_cache( $url, 'categories', $data );
+		self::store_in_cache( $url, 'categories', $data, WEEK_IN_SECONDS );
 	}
 
-	public static function store_in_catalog_cache( $url, $data ) {
-		self::store_in_cache( $url, 'catalog', $data );
+	public static function store_in_static_pages_cache( $url, $data ) {
+		self::store_in_cache( $url, 'catalog', $data, WEEK_IN_SECONDS );
 	}
 
-	protected static function store_in_cache( $url, $type, $data ) {
+	protected static function store_in_cache( $url, $type, $data, $expires_after ) {
 		$name = self::_build_cache_name( $url, $type );
 
 		$to_store = array(
@@ -408,7 +408,7 @@ class EcwidPlatform {
 			'data' => $data,
 		);
 
-		self::cache_set( $name, $to_store, WEEK_IN_SECONDS );
+		self::cache_set( $name, $to_store, $expires_after );
 
 		self::cache_log_record(
 			'store_in_entity_cache',
@@ -463,7 +463,7 @@ class EcwidPlatform {
 		return false;
 	}
 
-	public static function get_from_catalog_cache( $key ) {
+	public static function get_from_static_pages_cache( $key ) {
 		$cache_name = self::_build_cache_name( $key, 'catalog' );
 
 		$result = self::cache_get( $cache_name );
@@ -476,7 +476,7 @@ class EcwidPlatform {
 		);
 
 		self::cache_log_record(
-			'get_from_catalog_cache',
+			'get_from_static_pages_cache',
 			array(
 				'name'       => $key,
 				'result'     => $result,
@@ -488,12 +488,16 @@ class EcwidPlatform {
 			return $result['data'];
 		} else {
 			self::cache_reset( $cache_name );
+
+			if ( ! empty( get_the_ID() ) ) {
+				do_action( 'ecwid_clean_external_cache_for_page', get_the_ID() );
+			}
 		}
 
 		return false;
 	}
 
-	public static function is_catalog_cache_trusted() {
+	public static function is_static_pages_cache_trusted() {
 
 		$valid_from = max(
 			self::get( self::CATEGORIES_CACHE_VALID_FROM ),
@@ -547,11 +551,11 @@ class EcwidPlatform {
 		self::_invalidate_cache_from( self::PROFILE_CACHE_VALID_FROM, $time );
 	}
 
-	public static function invalidate_catalog_cache_from( $time = null ) {
+	public static function invalidate_static_pages_cache_from( $time = null ) {
 		self::_invalidate_cache_from( self::CATALOG_CACHE_VALID_FROM, $time );
 	}
 
-	public static function force_catalog_cache_reset( $time = null ) {
+	public static function force_static_pages_cache_reset( $time = null ) {
 		$time = is_null( $time ) ? time() : $time;
 		self::set( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM, $time );
 	}
@@ -585,6 +589,12 @@ class EcwidPlatform {
 	        OR option_name LIKE '\_transient\_timeout\_ecwid\_%'
 	    "
 		);
+
+		$wpdb->query( //phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			"OPTIMIZE TABLE {$wpdb->options}"
+		);
+
+		do_action( 'ecwid_clean_external_cache' );
 	}
 }
 

@@ -56,14 +56,15 @@ class Ecwid_Import_Page {
 	}
 
 	public function enqueue_scripts() {
-		 wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . 'css/importer.css' );
-		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . 'js/importer.js' );
+		wp_enqueue_style( 'ecwid-importer', ECWID_PLUGIN_URL . 'css/importer.css', array(), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_script( 'ecwid-importer', ECWID_PLUGIN_URL . 'js/importer.js', array(), get_option( 'ecwid_plugin_version' ), true );
 		wp_localize_script(
 			'ecwid-importer',
 			'ecwid_importer',
 			array(
 				'check_token_action'   => self::AJAX_ACTION_CHECK_IMPORT,
 				'do_woo_import_action' => self::AJAX_ACTION_DO_WOO_IMPORT,
+				'_ajax_nonce'          => wp_create_nonce( self::AJAX_ACTION_DO_WOO_IMPORT ),
 			)
 		);
 	}
@@ -93,14 +94,16 @@ class Ecwid_Import_Page {
 	}
 
 	protected function _is_token_ok() {
-		 $oauth = new Ecwid_OAuth();
+		$oauth = new Ecwid_OAuth();
 
 		return $oauth->has_scope( 'create_catalog' ) && $oauth->has_scope( 'update_catalog' );
 	}
 
 	public function do_woo_import() {
+		check_ajax_referer( self::AJAX_ACTION_DO_WOO_IMPORT );
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
-			return;
+			die();
 		}
 
 		$importer = new Ecwid_Importer();

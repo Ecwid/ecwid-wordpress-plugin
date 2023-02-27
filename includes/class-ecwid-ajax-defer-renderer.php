@@ -97,12 +97,12 @@ class Ecwid_Ajax_Defer_Renderer {
 		$ecwid_store_id = get_ecwid_store_id();
 		$before         = '<script>var ecwid_shortcodes = [];</script>';
 
-		$app_ecwid_com = Ecwid_Config::get_scriptjs_domain();
+		$scriptjs_domain = esc_attr( Ecwid_Config::get_scriptjs_domain() );
 
-		$lang = ecwid_get_current_user_locale();
-		$lang = apply_filters( 'ecwid_lang', $lang );
+		$lang = esc_attr( ecwid_get_current_user_locale() );
+		$lang = esc_attr( apply_filters( 'ecwid_lang', $lang ) );
 
-		$script_src = "https://$app_ecwid_com/script.js?$ecwid_store_id&lang=$lang";
+		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
 		ob_start();
 		?>
 		<script>

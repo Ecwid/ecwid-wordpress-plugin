@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 6.11.3
+Stable tag: 6.11.5
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,15 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+= 6.11.5 - Feb 28, 2023 =
+- We have improved compatibility with caching plugins such as WPRocket and Autoptimize, fixing many known issues. This means that ecommerce websites and online stores using our plugin will experience improved performance and faster load times. We understand the importance of having a fast and efficient storefront, and we believe that this compatibility will greatly benefit our users. With this update, our plugin will work seamlessly with these popular caching plugins, providing a smoother experience for both website owners and visitors.
+- Fixed known issues related to the "Store page speedup" feature.
+
+= 6.11.4 - Jan 25, 2023 =
+- Improvements for compatibility with WPML plugin. Some ecommerce sites had an issue with unexpected redirects in multilingual mode when enabling the WPML plugin. We’ve fixed that.
+- Improvements and fixes for the “Speedup of storefront loading” feature.
+- Minor fixes and improvements.
+
 = 6.11.3 - Dec 22, 2022 =
 - **Fixes for the “Speedup of storefront loading” feature.**  After the last release, some of our users faced problems with incorrect loading of the storefront and the translations of the shopping cart. We've fixed it.
 - Minor fixes and improvements.

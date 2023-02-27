@@ -35,16 +35,22 @@ class Ec_Store_Defer_Init {
 			return false;
 		}
 
+		$has_widgets_on_page = apply_filters( 'ecwid_has_widgets_on_page', false );
+		if ( ! Ecwid_Store_Page::is_store_page() && ! $has_widgets_on_page ) {
+			return false;
+		}
+
 		$widgets = apply_filters( 'ecwid_defer_widgets', array() );
 
-		$ecwid_store_id = get_ecwid_store_id();
-		$app_ecwid_com  = Ecwid_Config::get_scriptjs_domain();
+		$ecwid_store_id  = get_ecwid_store_id();
+		$scriptjs_domain = esc_attr( Ecwid_Config::get_scriptjs_domain() );
 
 		$lang = ecwid_get_current_user_locale();
-		$lang = apply_filters( 'ecwid_lang', $lang );
+		$lang = esc_attr( apply_filters( 'ecwid_lang', $lang ) );
 
-		$script_src = "https://$app_ecwid_com/script.js?$ecwid_store_id&lang=$lang";
+		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
 		?>
+		<!--noptimize-->
 		<script data-cfasync="false" type="text/javascript">
 			(function () {
 				var ec_widgets = <?php echo wp_json_encode( $widgets ); ?>
@@ -112,13 +118,18 @@ class Ec_Store_Defer_Init {
 				}
 			})();
 		</script>
+		<!--/noptimize-->
 		<?php
 	}
 
+	// $arg — must be passed already handled by a method esc_attr() or similar
 	public static function print_js_widget( $widget_type, $id, $arg = '' ) {
 		ob_start();
 
 		if ( self::is_enabled() ) {
+
+			add_filter( 'ecwid_has_widgets_on_page', '__return_true' );
+
 			$widget_type = preg_replace( '/^x([a-z0-9]+)/i', '$1', $widget_type );
 
 			if ( $widget_type === 'Search' ) {
@@ -136,7 +147,7 @@ class Ec_Store_Defer_Init {
 			?>
 			<!--noptimize--><script data-cfasync="false" data-no-optimize="1" type="text/javascript"><?php echo esc_js( $widget_type ); ?>();</script><!--/noptimize-->
 			<?php
-		}
+		}//end if
 
 		return ob_get_clean();
 	}

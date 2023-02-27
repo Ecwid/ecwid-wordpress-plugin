@@ -159,7 +159,7 @@ abstract class Ecwid_Shortcode_Base {
 		$pieces = array();
 		if ( ! empty( $params ) ) {
 			foreach ( $params as $key => $value ) {
-				$pieces[] = "$key=$value";
+				$pieces[] = sprintf( '%s=%s', esc_attr( $key ), esc_attr( $value ) );
 			}
 		}
 
