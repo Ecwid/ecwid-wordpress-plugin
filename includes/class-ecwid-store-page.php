@@ -137,7 +137,6 @@ class Ecwid_Store_Page {
 		}
 
 		return get_ecwid_store_id() . '_' . $post->ID . '_' . $post->post_modified_gmt;
-
 	}
 
 	public static function get_page_base_url( $page = 0 ) {

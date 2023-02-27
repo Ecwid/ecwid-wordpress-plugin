@@ -989,7 +989,7 @@ function ecwid_regular_cache_check() {
 
 		$last_transients = get_option( 'ecwid_last_transients_check' );
 
-		if ( time() - $last_transients > MONTH_IN_SECONDS ) {
+		if ( time() - $last_transients > WEEK_IN_SECONDS * 2 ) {
 			EcwidPlatform::clear_all_transients();
 			update_option( 'ecwid_last_transients_check', time() );
 		}
@@ -1017,8 +1017,6 @@ function ecwid_full_cache_reset() {
 
 	update_option( Ecwid_Api_V3::OPTION_API_STATUS, Ecwid_Api_V3::API_STATUS_OK );
 	update_option( 'ecwid_last_api_cache_check', time() );
-
-	do_action( 'ecwid_clean_external_cache' );
 }
 
 function add_ecwid_admin_bar_node() {

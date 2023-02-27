@@ -91,6 +91,14 @@ class Ecwid_Static_Page {
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
 		$endpoint_params   = false;
 
+		// for cases of early access to the page if the cache is empty and need to get store block params
+		if ( empty( $store_page_params ) ) {
+			if ( strpos( $version, '5.0' ) === 0 || version_compare( $version, '5.0' ) > 0 ) {
+				do_blocks( get_the_content() );
+				$store_page_params = Ecwid_Store_Page::get_store_page_params();
+			}
+		}
+
 		$params = array();
 
 		if ( Ecwid_Seo_Links::is_enabled() || ecwid_is_demo_store() ) {

@@ -20,7 +20,7 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
-	const TRANSIENTS_LIMIT = 5000;
+	const TRANSIENTS_LIMIT = 3000;
 
 	public static function get_store_id() {
 		return get_ecwid_store_id();
@@ -589,6 +589,12 @@ class EcwidPlatform {
 	        OR option_name LIKE '\_transient\_timeout\_ecwid\_%'
 	    "
 		);
+
+		$wpdb->query( //phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			"OPTIMIZE TABLE {$wpdb->options}"
+		);
+
+		do_action( 'ecwid_clean_external_cache' );
 	}
 }
 
