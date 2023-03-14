@@ -160,6 +160,12 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 	}
 
 	protected function _print_og_tags() {
+
+		$is_home_page = Ecwid_Store_Page::is_store_home_page();
+		if ( $is_home_page ) {
+			return;
+		}
+
 		$og_tags_html = Ecwid_Static_Page::get_og_tags_html();
 
 		$site_name = $this->_get_site_name();

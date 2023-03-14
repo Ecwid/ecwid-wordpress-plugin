@@ -49,7 +49,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 	// Disable titles, descriptions and canonical link on ecwid _escaped_fragment_ pages
 	public function disable_seo_on_escaped_fragment() {
-		 add_filter( 'wpseo_canonical', array( $this, 'clear_canonical' ) );
+		add_filter( 'wpseo_canonical', array( $this, 'clear_canonical' ) );
 
 		$is_store_page = Ecwid_Store_Page::is_store_page();
 		$is_home_page  = Ecwid_Store_Page::is_store_home_page();
@@ -156,7 +156,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 			foreach ( $xml->sitemap as $sitemap ) {
 				if ( strpos( (string) $sitemap->loc, 'ec-product' ) !== false ) {
 					$dom = dom_import_simplexml( $sitemap );
-					$dom->parentNode->removeChild( $dom );
+					$dom->parentNode->removeChild( $dom ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				}
 			}
 
@@ -168,7 +168,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 	// Hook that new sitemap type to sitemap
 	public function wpseo_hook_sitemap_index() {
-		$now = date( 'c', time() );
+		$now = date( 'c', time() ); //phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 		$sitemap_url = $this->_get_base_url( 'ecstore-sitemap.xml' );
 		return '<sitemap><loc>' . $sitemap_url . '</loc><lastmod>' . $now . '</lastmod></sitemap>';
