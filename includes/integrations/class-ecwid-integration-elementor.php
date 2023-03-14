@@ -81,7 +81,10 @@ class Ecwid_Integration_Elementor {
 		$meta = get_post_meta( $post_id, '_elementor_data', true );
 
 		if ( ! empty( $meta ) ) {
-			$data = json_decode( $meta, true );
+
+			if ( ! is_array( $meta ) ) {
+				$data = json_decode( $meta, true );
+			}
 
 			if ( is_array( $data ) ) {
 				$this->has_widget = false;
