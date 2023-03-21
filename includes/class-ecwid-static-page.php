@@ -113,7 +113,7 @@ class Ecwid_Static_Page {
 			$params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		if ( ! array_key_exists( 'category', $_GET ) && isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! array_key_exists( 'category', $_GET ) && isset( $store_page_params['default_category_id'] ) && intval( $store_page_params['default_category_id'] ) > 0 ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 

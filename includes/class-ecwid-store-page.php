@@ -360,14 +360,13 @@ class Ecwid_Store_Page {
 			$post_content = get_post( $post_id )->post_content;
 
 			$result = ecwid_content_has_productbrowser( $post_content );
-			$result = apply_filters( 'ecwid_page_has_product_browser', $result, $post_content );
+			$result = apply_filters( 'ecwid_page_has_product_browser', $result, $post_content, $post_id );
 		}
 
 		return $result;
 	}
 
 	public static function update_main_store_page_id( $new_id ) {
-
 		if ( self::post_content_has_productbrowser( $new_id ) ) {
 			update_option( self::OPTION_MAIN_STORE_PAGE_ID, $new_id );
 		}

@@ -287,6 +287,11 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				),
 			);
 			foreach ( $categories as $category ) {
+
+				if ( empty( $category->enabled ) ) {
+					continue;
+				}
+
 				$attributes['default_category_id']['values'][] = array(
 					'value' => $category->id,
 					'title' => $category->name,

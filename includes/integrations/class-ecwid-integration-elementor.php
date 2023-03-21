@@ -23,7 +23,7 @@ class Ecwid_Integration_Elementor {
 		}
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_filter( 'ecwid_page_has_product_browser', array( $this, 'page_has_product_browser' ), 10, 2 );
+		add_filter( 'ecwid_page_has_product_browser', array( $this, 'page_has_product_browser' ), 10, 3 );
 	}
 
 	protected function _should_apply() {
@@ -73,15 +73,18 @@ class Ecwid_Integration_Elementor {
 		wp_enqueue_style( 'ec-elementor', ECWID_PLUGIN_URL . 'css/integrations/elementor.css', array(), get_option( 'ecwid_plugin_version' ) );
 	}
 
-	public function page_has_product_browser( $result, $content ) {
+	public function page_has_product_browser( $result, $content, $post_id ) {
 		if ( $result ) {
 			return true;
 		}
 
-		$meta = get_post_meta( get_the_ID(), '_elementor_data', true );
+		$meta = get_post_meta( $post_id, '_elementor_data', true );
 
 		if ( ! empty( $meta ) ) {
-			$data = json_decode( $meta, true );
+
+			if ( ! is_array( $meta ) ) {
+				$data = json_decode( $meta, true );
+			}
 
 			if ( is_array( $data ) ) {
 				$this->has_widget = false;
