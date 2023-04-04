@@ -119,10 +119,15 @@ class Ecwid_Gutenberg {
 			$store_block->get_params()
 		);
 
-		$blockParams = array();
+		$block_params = array();
 		foreach ( $this->_blocks as $block ) {
-			$blockParams[ $block->get_block_name() ] = $block->get_params();
+			$block_params[ $block->get_block_name() ] = $block->get_params();
 		}
+
+		$store_id = get_ecwid_store_id();
+		$params   = ecwid_get_scriptjs_params();
+
+		$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
 
 		$minicart_block = new Ecwid_Gutenberg_Block_Minicart();
 		$is_demo_store  = ecwid_is_demo_store();
@@ -130,7 +135,7 @@ class Ecwid_Gutenberg {
 			'ecwid-gutenberg-store',
 			'EcwidGutenbergParams',
 			array(
-				'blockParams'          => $blockParams,
+				'blockParams'          => $block_params,
 				'minicartAttributes'   => $minicart_block->get_attributes_for_editor(),
 				'ecwid_pb_defaults'    => ecwid_get_default_pb_size(),
 				'storeImageUrl'        => site_url( '?file=ecwid_store_svg.svg' ),
@@ -150,6 +155,7 @@ class Ecwid_Gutenberg {
 				'hasCategories'        => $api->has_public_categories(),
 				'imagesUrl'            => ECWID_PLUGIN_URL . 'images/gutenberg/',
 				'isWidgetsScreen'      => get_current_screen()->id == 'widgets',
+				'scriptJsUrl'          => $scriptjs_url,
 			)
 		);
 

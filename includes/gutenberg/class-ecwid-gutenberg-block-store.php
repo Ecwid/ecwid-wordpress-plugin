@@ -308,6 +308,12 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}
 		}//end if
 
+		$attributes['align'] = array(
+			'type'    => 'string',
+			'default' => 'full',
+			'name'    => 'align',
+		);
+
 		$attributes['widgets'] = array(
 			'type'    => 'string',
 			'default' => '',
