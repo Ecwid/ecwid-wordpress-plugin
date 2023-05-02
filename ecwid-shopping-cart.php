@@ -1846,6 +1846,14 @@ function ecwid_get_update_params_options() {
 			)
 		),
 
+		'ecwid_live_preview_for_gutenberg_enabled' => array(
+			'values' => array(
+				'',
+				'Y',
+				'N'
+			)
+		),
+
 	);
 
 

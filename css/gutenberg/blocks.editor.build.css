@@ -388,7 +388,8 @@
   -ms-flex-align: center;
       align-items: center;
   margin: 15px 0; }
-  .ec-store-inspector-row label, .ec-store-inspector-row button {
+  .ec-store-inspector-row label,
+  .ec-store-inspector-row button {
     display: block; }
 
 .ec-store-inspector-subheader {
@@ -457,13 +458,17 @@
 .ec-store-categories-category4 {
   background: url("../../images/gutenberg/categories4.png"); }
 
-.block-editor-inserter__preview-container .ec-store-products > div, .block-editor-inserter__preview-container .ec-store-category-products > div {
+.block-editor-inserter__preview-container .ec-store-products > div,
+.block-editor-inserter__preview-container .ec-store-category-products > div {
   margin: 5px; }
 
 .block-editor-inserter__panel-header .ec-store-icon {
   width: 18px;
   height: 18px;
   margin-bottom: 1px; }
+
+.wp-block[data-type="ecwid/store-block"] {
+  max-width: 95% !important; }
 /**
  * #.# Common SCSS
  *
