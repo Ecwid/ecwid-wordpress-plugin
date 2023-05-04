@@ -469,6 +469,9 @@
 
 .wp-block[data-type="ecwid/store-block"] {
   max-width: 95% !important; }
+  .wp-block[data-type="ecwid/store-block"] .ec-store-with-stub {
+    max-width: 610px;
+    margin: 0 auto; }
 /**
  * #.# Common SCSS
  *

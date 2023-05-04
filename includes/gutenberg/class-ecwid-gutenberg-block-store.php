@@ -14,6 +14,13 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
+		$product = Ecwid_Product::get_random_product();
+		if ( ! $product ) {
+			$random_product_id = 0;
+		} else {
+			$random_product_id = $product->id;
+		}
+
 		$params = array(
 			'attributes'                => $this->get_attributes_for_editor(),
 			'isNewProductList'          => $this->_is_new_product_list(),
@@ -25,6 +32,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			'icon'                      => self::get_icon_path(),
 			'isDemoStore'               => ecwid_is_demo_store(),
 			'isLivePreviewEnabled'      => $this->is_live_preview_for_gutenberg_enabled(),
+			'randomProductId'           => $random_product_id,
 			'customizeMinicartText'     =>
 				sprintf(
 					__(
