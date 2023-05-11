@@ -108,7 +108,7 @@ abstract class Ecwid_Catalog_Entry {
 	}
 
 	protected function _get_cache_key_by_id( $id ) {
-		return (string) $this->_cache_name_prefix . $id;
+		return $this->_cache_name_prefix . $id;
 	}
 
 	protected function _linkify( $str ) {

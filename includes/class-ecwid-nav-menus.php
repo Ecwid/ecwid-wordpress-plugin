@@ -99,7 +99,12 @@ class Ecwid_Nav_Menus {
 
 	public static function replace_auto_added_menu() {
 
-		$options  = get_option( 'nav_menu_options' );
+		$options = get_option( 'nav_menu_options' );
+
+		if ( empty( $options ) ) {
+			return false;
+		}
+
 		$autofill = $options['auto_add'];
 		if ( empty( $autofill ) ) {
 			return false;

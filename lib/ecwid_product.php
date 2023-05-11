@@ -65,7 +65,8 @@ class Ecwid_Product extends Ecwid_Catalog_Entry {
 				if ( ! empty( $result->items[ $index - $offset ] ) ) {
 					$random_product_id = $result->items[ $index - $offset ]->id;
 				} else {
-					$random_product_id = current( $result->items );
+					$random_product    = current( $result->items );
+					$random_product_id = $random_product->id;
 				}
 			}
 		}//end if
