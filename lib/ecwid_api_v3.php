@@ -46,6 +46,7 @@ class Ecwid_Api_V3 {
 	protected $_products_api_url;
 	protected $_profile_api_url;
 	protected $_starter_site_api_url;
+	protected $_batch_requests_api_url;
 
 	public function __construct() {
 
