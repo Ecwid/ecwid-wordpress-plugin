@@ -369,7 +369,9 @@
   background: url("../../images/gutenberg/categories6.png"); }
 
 .ec-store-color-picker .component-color-indicator {
-  vertical-align: text-bottom; }
+  vertical-align: text-bottom;
+  margin-left: 0.5rem;
+  margin-bottom: -0.2rem; }
 
 .ec-store-color-picker .components-color-palette {
   margin-top: .6rem; }
@@ -472,6 +474,8 @@
   .wp-block[data-type="ecwid/store-block"] .ec-store-with-stub {
     max-width: 610px;
     margin: 0 auto; }
+  .wp-block[data-type="ecwid/store-block"] #ec-store-preview {
+    min-height: 150px !important; }
 /**
  * #.# Common SCSS
  *
