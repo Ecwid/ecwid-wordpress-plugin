@@ -799,7 +799,7 @@ function ecwid_is_recent_installation() {
 }
 
 function ecwid_migrations_is_original_plugin_version_older_than( $version ) {
-	$migration_since_version = get_option( 'ecwid_plugin_migration_since_version', null );
+	$migration_since_version = get_option( 'ecwid_plugin_migration_since_version', false );
 	return version_compare( $migration_since_version, $version ) < 0;
 }
 
