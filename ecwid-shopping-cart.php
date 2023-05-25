@@ -803,43 +803,41 @@ function ecwid_migrations_is_original_plugin_version_older_than( $version ) {
 	return version_compare( $migration_since_version, $version ) < 0;
 }
 
-function ecwid_log_error($message)
-{
-	$errors = get_option('ecwid_error_log');
-	if (!$errors) {
+function ecwid_log_error( $message ) {
+	$errors = get_option( 'ecwid_error_log' );
+	if ( ! $errors ) {
 		$errors = array();
 	} else {
-		$errors = json_decode($errors);
-		if (!is_array($errors)) {
+		$errors = json_decode( $errors );
+		if ( ! is_array( $errors ) ) {
 			$errors = array();
 		}
 	}
 
-	while (count($errors) > 10) {
-		array_shift($errors);
+	while ( count( $errors ) > 10 ) {
+		array_shift( $errors );
 	}
 
 	$errors[] = array(
 		'message' => $message,
-		'date' => strftime('%c')
+		'date' => date_i18n( 'D F j H:i:s Y' ),
 	);
 
-	update_option('ecwid_error_log', json_encode($errors));
+	update_option( 'ecwid_error_log', json_encode( $errors ) );
 }
 
-function ecwid_override_option($name, $new_value = null)
-{
-    static $overridden = array();
+function ecwid_override_option( $name, $new_value = null ) {
+	static $overridden = array();
 
-    if (!array_key_exists($name, $overridden)) {
-        $overridden[$name] = get_option($name);
-    }
+	if ( ! array_key_exists( $name, $overridden ) ) {
+		$overridden[ $name ] = get_option( $name );
+	}
 
-    if (!is_null($new_value)) {
-        update_option($name, $new_value);
-    } else {
-        update_option($name, $overridden[$name]);
-    }
+	if ( ! is_null( $new_value ) ) {
+		update_option( $name, $new_value );
+	} else {
+		update_option( $name, $overridden[ $name ] );
+	}
 }
 
 function ecwid_tinymce_init( $in ) {

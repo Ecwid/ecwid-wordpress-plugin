@@ -738,7 +738,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public static function format_time( $time ) {
-		return strftime( '%F %T', $time );
+		return date_i18n( 'Y-m-d H:i:s', $time );
 	}
 
 	protected function build_request_url( $url, $input_params ) {
