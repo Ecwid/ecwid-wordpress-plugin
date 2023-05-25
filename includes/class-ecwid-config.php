@@ -1,22 +1,22 @@
 <?php
 
 class Ecwid_Config {
-	const IS_WL = 'whitelabel_is_enabled';
-	const BRAND = 'whitelabel_brand';
-	const KB_URL = 'whitelabel_kb_url';
-	const CONTACT_US_URL = 'whitelabel_contact_us_url';
+	const IS_WL            = 'whitelabel_is_enabled';
+	const BRAND            = 'whitelabel_brand';
+	const KB_URL           = 'whitelabel_kb_url';
+	const CONTACT_US_URL   = 'whitelabel_contact_us_url';
 	const REGISTRATION_URL = 'whitelabel_registration_url';
-	const CHANNEL_ID = 'whitelabel_channel_id';
-	const OAUTH_APPID = 'whitelabel_oauth_appid';
-	const OAUTH_APPSECRET = 'whitelabel_oauth_appsecret';
-	const OAUTH_TOKEN_URL = 'whitelabel_oauth_token_url';
-	const OAUTH_AUTH_URL = 'whitelabel_oauth_auth_url';
-	const TOKEN = 'config_token';
-	const STORE_ID = 'config_store_id';
-	const API_DOMAIN = 'config_api_domain';
-	const FRONTEND_DOMAIN = 'config_frontend_domain';
-	const CPANEL_DOMAIN = 'config_cpanel_domain';
-	const DEMO_STORE_ID = 'config_demo_store_id';
+	const CHANNEL_ID       = 'whitelabel_channel_id';
+	const OAUTH_APPID      = 'whitelabel_oauth_appid';
+	const OAUTH_APPSECRET  = 'whitelabel_oauth_appsecret';
+	const OAUTH_TOKEN_URL  = 'whitelabel_oauth_token_url';
+	const OAUTH_AUTH_URL   = 'whitelabel_oauth_auth_url';
+	const TOKEN            = 'config_token';
+	const STORE_ID         = 'config_store_id';
+	const API_DOMAIN       = 'config_api_domain';
+	const FRONTEND_DOMAIN  = 'config_frontend_domain';
+	const CPANEL_DOMAIN    = 'config_cpanel_domain';
+	const DEMO_STORE_ID    = 'config_demo_store_id';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL, false );
@@ -37,10 +37,10 @@ class Ecwid_Config {
 	public static function get_registration_url() {
 		return EcwidPlatform::get( self::REGISTRATION_URL );
 	}
-	
+
 	// Whether it is in WL mode with no registration
 	public static function is_no_reg_wl() {
-		return self::is_wl() && !self::get_registration_url();
+		return self::is_wl() && ! self::get_registration_url();
 	}
 
 	public static function get_channel_id() {
@@ -56,9 +56,9 @@ class Ecwid_Config {
 	}
 
 	public static function should_show_reconnect_in_footer() {
-		return !self::is_wl() || EcwidPlatform::get( self::OAUTH_AUTH_URL, false );
+		return ! self::is_wl() || EcwidPlatform::get( self::OAUTH_AUTH_URL, false );
 	}
-	
+
 	public static function get_oauth_appid() {
 		return EcwidPlatform::get( self::OAUTH_APPID, Ecwid_Api_V3::APP_ID );
 	}
@@ -67,26 +67,25 @@ class Ecwid_Config {
 
 		return EcwidPlatform::get( self::OAUTH_APPSECRET, Ecwid_Api_V3::APP_PUBLIC_KEY );
 	}
-	
-	public static function get_store_id() {
-		$store_id = EcwidPlatform::get( self::STORE_ID, null );
-		$store_id = intval( trim($store_id) );
 
+	public static function get_store_id() {
+		$store_id = EcwidPlatform::get( self::STORE_ID, '' );
+		$store_id = intval( trim( $store_id ) );
 		return $store_id;
 	}
-	
+
 	public static function get_token() {
 		return EcwidPlatform::get( self::TOKEN, null );
 	}
-	
+
 	public static function overrides_token() {
-		return (bool)self::get_token();
+		return (bool) self::get_token();
 	}
-	
+
 	public static function get_api_domain() {
 		return EcwidPlatform::get( self::API_DOMAIN, 'app.ecwid.com' );
 	}
-	
+
 	public static function get_scriptjs_domain() {
 		return EcwidPlatform::get( self::FRONTEND_DOMAIN, 'app.ecwid.com' );
 	}
@@ -99,20 +98,20 @@ class Ecwid_Config {
 	public static function get_demo_store_id() {
 		return EcwidPlatform::get( self::DEMO_STORE_ID, null );
 	}
-	
+
 	public static function load_from_ini() {
 
-		$filename = apply_filters('ecwid_config_ini_path', ECWID_PLUGIN_DIR . 'config.ini');
+		$filename = apply_filters( 'ecwid_config_ini_path', ECWID_PLUGIN_DIR . 'config.ini' );
 
 		$result = false;
 		if ( file_exists( $filename ) ) {
-			$result = @parse_ini_file($filename);
+			$result = @parse_ini_file( $filename );
 		}
-		
-		if ( !$result ) {
+
+		if ( ! $result ) {
 			return;
 		}
-		
+
 		self::_apply_config( $result );
 	}
 
@@ -122,22 +121,22 @@ class Ecwid_Config {
 
 	public static function load_from_cli( $config ) {
 
-		if ( !$config ) {
+		if ( ! $config ) {
 			return;
 		}
 
-		$common_config = self::_get_common_config();
-		$token_config_name = $common_config[self::TOKEN];
+		$common_config     = self::_get_common_config();
+		$token_config_name = $common_config[ self::TOKEN ];
 
-		if( isset( $config[$token_config_name] ) ) {
-			Ecwid_Api_V3::save_token( $config[$token_config_name] );
+		if ( isset( $config[ $token_config_name ] ) ) {
+			Ecwid_Api_V3::save_token( $config[ $token_config_name ] );
 		}
 
 		self::_apply_config( $config );
 	}
-	
+
 	public static function enqueue_styles() {
-		if ( !self::is_wl() ) {
+		if ( ! self::is_wl() ) {
 			return;
 		}
 
@@ -174,7 +173,7 @@ class Ecwid_Config {
 			self::API_DOMAIN      => 'api_domain',
 			self::FRONTEND_DOMAIN => 'scriptjs_domain',
 			self::CPANEL_DOMAIN   => 'cp_domain',
-			self::DEMO_STORE_ID   => 'demo_store_id'
+			self::DEMO_STORE_ID   => 'demo_store_id',
 		);
 
 		return $common_config;
@@ -189,7 +188,7 @@ class Ecwid_Config {
 		$common_config = self::_get_common_config();
 
 		$empty_is_allowed = array(
-			self::REGISTRATION_URL
+			self::REGISTRATION_URL,
 		);
 
 		$is_wl_enabled = @$values['wl_mode'];
@@ -203,7 +202,6 @@ class Ecwid_Config {
 				EcwidPlatform::reset( $name );
 			}
 		}
-
 
 		if (
 			isset( $values[ self::TOKEN ] ) && ! isset( $values[ self::STORE_ID ] )

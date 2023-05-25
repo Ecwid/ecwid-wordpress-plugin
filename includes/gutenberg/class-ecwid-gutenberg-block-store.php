@@ -14,6 +14,13 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
+		$product = Ecwid_Product::get_random_product();
+		if ( ! $product ) {
+			$random_product_id = 0;
+		} else {
+			$random_product_id = $product->id;
+		}
+
 		$params = array(
 			'attributes'                => $this->get_attributes_for_editor(),
 			'isNewProductList'          => $this->_is_new_product_list(),
@@ -24,6 +31,8 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			'title'                     => __( 'Store Home Page', 'ecwid-shopping-cart' ),
 			'icon'                      => self::get_icon_path(),
 			'isDemoStore'               => ecwid_is_demo_store(),
+			'isLivePreviewEnabled'      => $this->is_live_preview_for_gutenberg_enabled(),
+			'randomProductId'           => $random_product_id,
 			'customizeMinicartText'     =>
 				sprintf(
 					__(
@@ -308,6 +317,12 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}
 		}//end if
 
+		$attributes['align'] = array(
+			'type'    => 'string',
+			'default' => 'full',
+			'name'    => 'align',
+		);
+
 		$attributes['widgets'] = array(
 			'type'    => 'string',
 			'default' => '',
@@ -333,6 +348,23 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$api = new Ecwid_Api_V3();
 
 		return $api->is_store_feature_available( Ecwid_Api_V3::FEATURE_PRODUCT_SUBTITLES );
+	}
+
+	protected function is_live_preview_for_gutenberg_enabled() {
+		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === 'Y' ) {
+			return true;
+		}
+
+		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === 'N' ) {
+			return false;
+		}
+
+		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 4 === 0;
+		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === '' && $is_needed_store_id ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function get_icon_path() {

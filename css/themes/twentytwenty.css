@@ -1,6 +1,8 @@
 #dynamic-ec-store-container,
-#static-ec-store-container {
-    max-width: 120rem;
+#static-ec-store-container,
+.ecwid-shopping-cart-search,
+.ecwid-shopping-cart-categories {
+    max-width: 120rem !important;
 }
 
 #ecwid_body .entry-content>[data-elementor-type] {

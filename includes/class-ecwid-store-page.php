@@ -554,6 +554,19 @@ class Ecwid_Store_Page {
 		return false;
 	}
 
+	public static function get_notice_for_demo() {
+		$notice = '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>';
+
+		$notice = sprintf(
+			$notice,
+			__( 'This is a demo store. Create your store to see your store products here.', 'ecwid-shopping-cart' ),
+			admin_url( 'admin.php?page=ec-store' ),
+			__( 'Set up your store', 'ecwid-shopping-cart' )
+		);
+
+		return $notice;
+	}
+
 	public static function show_notice_for_demo( $content ) {
 
 		if ( ecwid_is_demo_store() && current_user_can( 'manage_options' ) && self::is_store_page() ) {
@@ -561,27 +574,36 @@ class Ecwid_Store_Page {
 			?>
 			<script data-cfasync="false" type="text/javascript">
 			jQuery(document).ready(function(){
+
+				var showDemoNotice = function() {
+					if( jQuery('.ec-notice.ec-demo-notice').length > 0 ) return;
+
+					jQuery('#dynamic-ec-store-container .ec-store__content-wrapper').append( '<?php echo self::get_notice_for_demo(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' );
+				}
+
 				if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
 					Ecwid.OnPageLoaded.add(function(page){
-						if( jQuery('.ec-notice.ec-demo-notice').length > 0 ) return;
-
-						jQuery('.ec-store__content-wrapper').eq(0).append( '<div class="ec-notice ec-demo-notice"><div class="ec-notice__wrap"><div class="ec-notice__message"><div class="ec-notice__text"><div class="ec-notice__text-inner"><div>%s <a href="%s" class="ec-link">%s</a></div> </div></div></div></div></div>' );
+						showDemoNotice();
 					});
 				}
+
+				document.addEventListener('setupAfterEcwidLoaded', (e) => {
+					Ecwid.OnAPILoaded.add(function () {
+						setTimeout(function(){
+							showDemoNotice();
+						}, 1000);
+					});
+
+					Ecwid.OnPageLoaded.add(function(page){
+						showDemoNotice();
+					});
+				});
 			});
 			</script>
 			<?php
 
 			$demo_notice = ob_get_clean();
-
-			$demo_notice = sprintf(
-				$demo_notice,
-				__( 'This is a demo store. Create your store to see your store products here.', 'ecwid-shopping-cart' ),
-				admin_url( 'admin.php?page=ec-store' ),
-				__( 'Set up your store', 'ecwid-shopping-cart' )
-			);
-
-			$content .= $demo_notice;
+			$content    .= $demo_notice;
 		}//end if
 
 		return $content;

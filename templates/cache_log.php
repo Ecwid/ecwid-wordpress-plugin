@@ -98,11 +98,11 @@ if ( ! $cache ) {
 
 foreach ( $cache as $item ) {
 	echo '<div class="cache_log">';
-	$ts = strftime( '%H:%M:%S %D', $item['timestamp'] );
+	$ts = date_i18n( 'H:i:s m/d/y', $item['timestamp'] );
 	echo '<div class="timestamp">' . esc_html( $ts ) . '</div>';
 	echo '<div class="op">' . esc_html( $item['operation'] ) . '</div>';
 	if ( $item['operation'] == 'invalidate_products_cache' || $item['operation'] == 'invalidate_categories_cache' ) {
-		$time = strftime( '%c', $item['time'] );
+		$time = date_i18n( 'D F j H:i:s Y', $item['time'] );
 		echo '<div class="time">' . esc_html( $time ) . '</div>';
 	}
 	if ( $item['operation'] === 'get' ) {
