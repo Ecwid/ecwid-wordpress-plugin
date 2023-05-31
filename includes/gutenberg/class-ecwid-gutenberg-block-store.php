@@ -359,7 +359,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			return false;
 		}
 
-		$is_needed_store_id = ! ecwid_is_demo_store() && get_ecwid_store_id() % 4 === 0;
+		$is_needed_store_id = get_ecwid_store_id() % 2 === 0;
 		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === '' && $is_needed_store_id ) {
 			return true;
 		}
