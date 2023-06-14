@@ -3,7 +3,7 @@ Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 4.4
 Tested up to: 6.2
-Stable tag: 6.12.1
+Stable tag: 6.12.2
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog == 
+= 6.12.2 - Jun 14, 2023 =
+- In this version, we have improved a feature: live-preview mode for the Storefront block. We have also enabled it by default for all of our users. This feature allows you to see how your storefront will look on the front-end of your website in real-time in Gutenberg editor, making it easier to design and customize your ecommerce website. We hope you enjoy these updates and look forward to your feedback.
+
 = 6.12.1 - Jun 08, 2023 =
 - We fixed several issues with the live-preview feature for the Storefront block in the Gutenberg edito. The block now correctly displays changes in tablet and mobile preview mode in real-time. Additionally, we improved the performance of the preview this ecommerce block, so changes are now reflected more quickly.
 
