@@ -351,20 +351,11 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 	}
 
 	protected function is_live_preview_for_gutenberg_enabled() {
-		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === 'Y' ) {
-			return true;
-		}
-
 		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === 'N' ) {
 			return false;
 		}
 
-		$is_needed_store_id = get_ecwid_store_id() % 2 === 0;
-		if ( get_option( 'ecwid_live_preview_for_gutenberg_enabled', '' ) === '' && $is_needed_store_id ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	public function get_icon_path() {
