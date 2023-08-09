@@ -1,6 +1,8 @@
 <?php
 class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 
+	public $url_list;
+
 	public function __construct() {
 		$this->name        = 'ecstore';
 		$this->object_type = 'product';
