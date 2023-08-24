@@ -28,6 +28,10 @@ class EcwidSitemapBuilder {
 				)
 			);
 
+			if ( empty( $categories ) ) {
+				break;
+			}
+
 			if ( $categories->items ) {
 
 				foreach ( $categories->items as $item ) {
@@ -58,6 +62,10 @@ class EcwidSitemapBuilder {
 					'limit'  => $limit,
 				)
 			);
+
+			if ( empty( $products ) ) {
+				break;
+			}
 
 			if ( $products->items ) {
 
