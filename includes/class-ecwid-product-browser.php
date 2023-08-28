@@ -277,6 +277,13 @@ class Ecwid_Product_Browser {
 				'default'           => true,
 				'is_storefront_api' => true,
 			),
+			'product_details_show_weight'                 => array(
+				'name'              => 'product_details_show_weight',
+				'title'             => __( 'Product weight', 'ecwid-shopping-cart' ),
+				'type'              => 'boolean',
+				'default'           => true,
+				'is_storefront_api' => true,
+			),
 			'product_details_show_number_of_items_in_stock' => array(
 				'name'              => 'product_details_show_number_of_items_in_stock',
 				'title'             => __( 'Available qty in stock', 'ecwid-shopping-cart' ),
