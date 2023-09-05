@@ -127,6 +127,10 @@ class Ecwid_Gutenberg {
 		$store_id = get_ecwid_store_id();
 		$params   = ecwid_get_scriptjs_params();
 
+		if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			$params .= '&fse=1';
+		}
+
 		$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
 
 		$minicart_block = new Ecwid_Gutenberg_Block_Minicart();
