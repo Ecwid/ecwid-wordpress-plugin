@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/ecwid_platform.php';
+require_once dirname( __FILE__ ) . '/ecwid_platform.php'; //phpcs:ignore
 
 class Ecwid_Api_V3 {
 
@@ -64,19 +64,19 @@ class Ecwid_Api_V3 {
 	}
 
 	public static function is_available() {
-		 $status = self::get_api_status();
+		$status = self::get_api_status();
 
 		return self::check_api_status();
 	}
 
 	public static function connection_fails() {
-		 $status = self::get_api_status();
+		$status = self::get_api_status();
 
 		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
 	}
 
 	public static function reset_api_status() {
-		 update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
+		update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
 
 	public static function set_api_status( $new_status ) {
@@ -394,7 +394,7 @@ class Ecwid_Api_V3 {
 
 		if ( isset( $params['createdTo'] ) ) {
 			// For some reason createdTo does not include the exact timestamp while createdFrom does
-			$params['createdTo']++;
+			++$params['createdTo'];
 		}
 
 		$result = EcwidPlatform::fetch_url(
@@ -550,7 +550,7 @@ class Ecwid_Api_V3 {
 
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 
-		if ( $profile && ! $disable_cache ) {
+		if ( ! empty( $profile ) && ! $disable_cache ) {
 			return $profile;
 		}
 
@@ -828,7 +828,6 @@ class Ecwid_Api_V3 {
 		}
 
 		return $data;
-
 	}
 
 	public function create_category( $params ) {
@@ -924,14 +923,14 @@ class Ecwid_Api_V3 {
 
 
 	public function upload_product_variation_image( $params ) {
-		 $request_params = array(
-			 'token',
-		 );
-		 $url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
+		$request_params = array(
+			'token',
+		);
+		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
-		 $result = $this->_do_post( $url, $params['data'], true );
+		$result = $this->_do_post( $url, $params['data'], true );
 
-		 return $result;
+		return $result;
 	}
 
 	public function get_starter_site_info() {
@@ -950,7 +949,6 @@ class Ecwid_Api_V3 {
 		$data = json_decode( $result['data'] );
 
 		return $data;
-
 	}
 
 	protected function _do_post( $url, $data, $raw = false ) {
