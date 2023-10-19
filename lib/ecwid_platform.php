@@ -384,7 +384,6 @@ class EcwidPlatform {
 		unset( self::$ecwid_plugin_data[ $name ] );
 
 		update_option( self::OPTION_ECWID_PLUGIN_DATA, self::$ecwid_plugin_data );
-
 	}
 
 	public static function http_api_transports( $transports ) {
