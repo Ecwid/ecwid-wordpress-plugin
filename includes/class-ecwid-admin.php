@@ -49,7 +49,7 @@ class Ecwid_Admin {
 		add_menu_page(
 			sprintf( __( '%s shopping cart settings', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
 			sprintf( __( '%s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ),
-			'manage_options',
+			self::get_capability(),
 			self::ADMIN_SLUG,
 			array( $page, 'do_page' ),
 			'',
@@ -66,7 +66,7 @@ class Ecwid_Admin {
 				self::ADMIN_SLUG,
 				$title,
 				$title,
-				'manage_options',
+				self::get_capability(),
 				self::ADMIN_SLUG,
 				array( $page, 'do_page' )
 			);
@@ -81,7 +81,7 @@ class Ecwid_Admin {
 					self::ADMIN_SLUG,
 					__( 'Sales', 'ecwid-shopping-cart' ),
 					__( 'Sales', 'ecwid-shopping-cart' ),
-					'manage_options',
+					self::get_capability(),
 					self::ADMIN_SLUG . '-admin-orders',
 					'ecwid_admin_orders_do_page'
 				);
@@ -89,7 +89,7 @@ class Ecwid_Admin {
 					self::ADMIN_SLUG,
 					__( 'Products', 'ecwid-shopping-cart' ),
 					__( 'Products', 'ecwid-shopping-cart' ),
-					'manage_options',
+					self::get_capability(),
 					self::ADMIN_SLUG . '-admin-products',
 					'ecwid_admin_products_do_page'
 				);
@@ -146,7 +146,7 @@ class Ecwid_Admin {
 					'plugins.php',
 					__( 'Online Store Apps', 'ecwid-shopping-cart' ),
 					__( 'Online Store Apps', 'ecwid-shopping-cart' ),
-					'manage_options',
+					self::get_capability(),
 					'admin.php?page=ec-store-admin-appmarket'
 				);
 			}
@@ -452,7 +452,8 @@ class Ecwid_Admin {
 	}
 
 	public static function get_capability() {
-		return 'manage_options';
+		// return 'manage_options';
+		return 'ec_store_manage_control_panel';
 	}
 
 	public static function get_dashboard_url() {
