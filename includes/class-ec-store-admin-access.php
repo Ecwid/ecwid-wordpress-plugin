@@ -3,7 +3,6 @@
 class Ec_Store_Admin_Access {
 
 	const CAP_MANAGE_CONTROL_PANEL = 'ec_store_manage_control_panel';
-	// const CAP_GRANT_ACCESS         = 'ec_store_can_grant_access';
 
 	public function __construct() {
 		add_action( 'edit_user_profile', array( $this, 'print_custom_user_profile_fields' ) );
@@ -11,11 +10,19 @@ class Ec_Store_Admin_Access {
 
 		add_action( 'personal_options_update', array( $this, 'save_custom_user_profile_fields' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'save_custom_user_profile_fields' ) );
+
+		add_action( 'ecwid_authorization_success', array( $this, 'add_cap' ) );
 	}
 
 	public function save_custom_user_profile_fields( $user_id ) {
-		// TODO: check if user has access to edit this role
-		// if ( current_user_can( 'manage_options', $user_id ) && wp_verify_nonce( $_POST['_wp_nonce'] )
+
+		if ( ! current_user_can( 'edit_user', $user_id ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-user_' . $user_id ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			return;
+		}
 
 		$user = new WP_User( $user_id );
 
@@ -24,6 +31,13 @@ class Ec_Store_Admin_Access {
 		} else {
 			$user->add_cap( self::CAP_MANAGE_CONTROL_PANEL, false );
 		}
+	}
+
+	public function add_cap() {
+		$user_id = get_current_user_id();
+		$user    = new WP_User( $user_id );
+
+		$user->add_cap( self::CAP_MANAGE_CONTROL_PANEL, true );
 	}
 
 	public static function has_scope( $user_id = null ) {
