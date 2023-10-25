@@ -3,6 +3,7 @@
 class Ec_Store_Admin_Access {
 
 	const CAP_MANAGE_CONTROL_PANEL = 'ec_store_manage_control_panel';
+	const CAP_CAN_GRANT_ACCESS     = 'ec_store_can_grant_access';
 
 	public function __construct() {
 		add_action( 'edit_user_profile', array( $this, 'print_custom_user_profile_fields' ) );
@@ -11,7 +12,9 @@ class Ec_Store_Admin_Access {
 		add_action( 'personal_options_update', array( $this, 'save_custom_user_profile_fields' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'save_custom_user_profile_fields' ) );
 
-		add_action( 'ecwid_authorization_success', array( $this, 'add_cap' ) );
+		add_action( 'ecwid_authorization_success', array( $this, 'hook_add_cap_for_current_user' ) );
+
+		add_filter( 'ec_store_admin_get_capability', array( $this, 'hook_admin_get_capability' ) );
 	}
 
 	public function save_custom_user_profile_fields( $user_id ) {
@@ -33,13 +36,6 @@ class Ec_Store_Admin_Access {
 		}
 	}
 
-	public function add_cap() {
-		$user_id = get_current_user_id();
-		$user    = new WP_User( $user_id );
-
-		$user->add_cap( self::CAP_MANAGE_CONTROL_PANEL, true );
-	}
-
 	public static function has_scope( $user_id = null ) {
 		$has_scope = false;
 
@@ -49,14 +45,14 @@ class Ec_Store_Admin_Access {
 			$has_scope = user_can( $user_id, self::CAP_MANAGE_CONTROL_PANEL );
 		}
 
-		if ( ! $has_scope && self::is_need_set_access_by_default( $user_id ) ) {
+		if ( ! $has_scope && self::is_need_grant_access_by_default( $user_id ) ) {
 			$has_scope = true;
 		}
 
 		return $has_scope;
 	}
 
-	public static function is_need_set_access_by_default( $user_id ) {
+	public static function is_need_grant_access_by_default( $user_id ) {
 
 		$user     = new WP_User( $user_id );
 		$all_caps = $user->get_role_caps();
@@ -72,16 +68,38 @@ class Ec_Store_Admin_Access {
 	}
 
 	public function can_grant_access() {
-
-		if ( is_super_admin() ) {
+		if ( current_user_can( self::CAP_CAN_GRANT_ACCESS ) ) {
 			return true;
 		}
 
-		if ( current_user_can( self::CAP_MANAGE_CONTROL_PANEL ) ) {
+		$args = array(
+			'capability' => self::CAP_CAN_GRANT_ACCESS,
+			'fields'     => array( 'ID' ),
+		);
+		if ( empty( get_users( $args ) ) && is_super_admin() ) {
 			return true;
 		}
 
 		return false;
+	}
+
+	public function hook_add_cap_for_current_user() {
+		$user_id = get_current_user_id();
+		$user    = new WP_User( $user_id );
+
+		$user->add_cap( self::CAP_MANAGE_CONTROL_PANEL, true );
+		$user->add_cap( self::CAP_CAN_GRANT_ACCESS, true );
+	}
+
+	public function hook_admin_get_capability( $cap ) {
+		$user_id = get_current_user_id();
+
+		// if ( ! self::is_need_grant_access_by_default( $user_id ) ) {
+		if ( ! self::has_scope() ) {
+			$cap = self::CAP_MANAGE_CONTROL_PANEL;
+		}
+
+		return $cap;
 	}
 
 	public function print_custom_user_profile_fields( $user ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found

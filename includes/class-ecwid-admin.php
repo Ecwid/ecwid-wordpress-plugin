@@ -452,8 +452,14 @@ class Ecwid_Admin {
 	}
 
 	public static function get_capability() {
+
+		return apply_filters( 'ec_store_admin_get_capability', 'manage_options' );
+		// $user_id = get_current_user_id();
+		// if ( Ec_Store_Admin_Access::is_need_grant_access_by_default( $user_id ) ) {
 		// return 'manage_options';
-		return 'ec_store_manage_control_panel';
+		// }
+
+		// return 'ec_store_manage_control_panel';
 	}
 
 	public static function get_dashboard_url() {
