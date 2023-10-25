@@ -92,10 +92,12 @@ class Ec_Store_Admin_Access {
 	}
 
 	public function hook_admin_get_capability( $cap ) {
-		$user_id = get_current_user_id();
 
-		// if ( ! self::is_need_grant_access_by_default( $user_id ) ) {
-		if ( ! self::has_scope() ) {
+		$args = array(
+			'capability' => self::CAP_MANAGE_CONTROL_PANEL,
+			'fields'     => array( 'ID' ),
+		);
+		if ( ! empty( get_users( $args ) ) ) {
 			$cap = self::CAP_MANAGE_CONTROL_PANEL;
 		}
 
