@@ -339,7 +339,8 @@ class Ecwid_Message_Manager
 
 	protected function need_to_show_message($name)
 	{
-		if ( !current_user_can( 'manage_options' ) ) {
+        $needed_cap = apply_filters( 'ec_store_admin_get_capability', 'manage_options' );
+		if ( !current_user_can( $needed_cap ) ) {
 			return false;
 		}
 

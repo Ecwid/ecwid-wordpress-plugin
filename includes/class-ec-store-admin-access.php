@@ -8,9 +8,11 @@ class Ec_Store_Admin_Access {
 	public function __construct() {
 		add_action( 'edit_user_profile', array( $this, 'print_custom_user_profile_fields' ) );
 		add_action( 'show_user_profile', array( $this, 'print_custom_user_profile_fields' ) );
+		add_action( 'user_new_form', array( $this, 'print_custom_user_profile_fields' ) );
 
 		add_action( 'personal_options_update', array( $this, 'save_custom_user_profile_fields' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'save_custom_user_profile_fields' ) );
+		add_action( 'user_register', array( $this, 'save_custom_user_profile_fields' ) );
 
 		add_action( 'ecwid_authorization_success', array( $this, 'hook_add_cap_for_current_user' ) );
 
@@ -20,10 +22,6 @@ class Ec_Store_Admin_Access {
 	public function save_custom_user_profile_fields( $user_id ) {
 
 		if ( ! current_user_can( 'edit_user', $user_id ) ) {
-			return;
-		}
-
-		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-user_' . $user_id ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			return;
 		}
 
@@ -110,10 +108,13 @@ class Ec_Store_Admin_Access {
 			return false;
 		}
 
-		$checked = self::has_scope( $user->ID );
-
+		if ( $user === 'add-new-user' ) {
+			$checked = false;
+		} else {
+			$checked = self::has_scope( $user->ID );
+		}
 		?>
-		<div id="ec-store-control-panel">&nbsp;
+		<div id="ec-store-control-panel"> &nbsp;
 			<h2 class="heading">
 				<?php
 				/* translators: %s: plugin brand */
@@ -142,6 +143,24 @@ class Ec_Store_Admin_Access {
 			</tr>
 			</table>
 		</div>
+		<script>
+			(function(){
+				var EcStoreManageCapabilityField = function( role ){
+					if( role == 'administrator' || typeof role == 'undefined' ) {
+						jQuery( '#ec-store-control-panel' ).show();
+					} else {
+						jQuery( '#ec-store-control-panel' ).hide();
+					}
+				}
+
+				jQuery( '#role' ).on( 'change', function(){
+					EcStoreManageCapabilityField( jQuery(this).val() );
+				});
+
+				var role = jQuery( '#role' ).val();
+				EcStoreManageCapabilityField( role );
+			}) ();
+		</script>
 		<?php
 	}
 }
