@@ -153,14 +153,17 @@ class Ecwid_Admin {
 		}//end if
 
 		if ( ! $is_newbie && ! Ecwid_Api_V3::is_available() || ecwid_is_demo_store() || isset( $_GET['reconnect'] ) || self::disable_dashboard() ) {
-			add_submenu_page(
-				self::ADMIN_SLUG,
-				__( 'Storefront', 'ecwid-shopping-cart' ),
-				__( 'Storefront', 'ecwid-shopping-cart' ),
-				self::get_capability(),
-				Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
-				'Ecwid_Admin_Storefront_Page::do_page'
-			);
+
+			if ( current_user_can( 'edit_pages' ) ) {
+				add_submenu_page(
+					self::ADMIN_SLUG,
+					__( 'Storefront', 'ecwid-shopping-cart' ),
+					__( 'Storefront', 'ecwid-shopping-cart' ),
+					self::get_capability(),
+					Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
+					'Ecwid_Admin_Storefront_Page::do_page'
+				);
+			}
 
 			if ( ! Ecwid_Config::is_wl() ) {
 				add_submenu_page(
@@ -321,17 +324,18 @@ class Ecwid_Admin {
 			$menu = $this->_get_default_menu();
 		}
 
-		$slugs  = array();
-		$result = array();
+		$slugs            = array();
+		$result           = array();
+		$additional_menus = array();
 
-		$additional_menus = array(
-			Ecwid_Admin_Storefront_Page::ADMIN_SLUG => array(
+		if ( current_user_can( 'edit_pages' ) ) {
+			$additional_menus[ Ecwid_Admin_Storefront_Page::ADMIN_SLUG ] = array(
 				'title'    => __( 'Storefront', 'ecwid-shopping-cart' ),
 				'slug'     => Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
 				'url'      => 'admin.php?page=' . Ecwid_Admin_Storefront_Page::ADMIN_SLUG,
 				'is_added' => false,
-			),
-		);
+			);
+		}
 
 		if ( ! Ecwid_Config::is_wl() ) {
 			$additional_menus[ Ecwid_Admin_Developers_Page::ADMIN_SLUG ] = array(
@@ -348,6 +352,10 @@ class Ecwid_Admin {
 
 			if ( $item['type'] == 'menuItem' && $item['path'] == 'payments' ) {
 				$page_slug = Ecwid_Admin_Storefront_Page::ADMIN_SLUG;
+
+				if ( empty( $additional_menus[ $page_slug ] ) ) {
+					continue;
+				}
 
 				$result[]                                   = $additional_menus[ $page_slug ];
 				$additional_menus[ $page_slug ]['is_added'] = true;

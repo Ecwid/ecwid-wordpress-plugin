@@ -162,6 +162,8 @@
 							</div>
 						</div>
 					</div>
+
+					<?php if ( current_user_can( 'manage_options' ) ) { ?>
 					<div class="a-card a-card--normal">
 						<div class="a-card__paddings">
 							<div class="iconable-block">
@@ -188,6 +190,10 @@
 							</div>
 						</div>
 					</div>
+						<?php
+					}//end if
+					?>
+
 					<div class="a-card a-card--normal">
 						<div class="a-card__paddings">
 							<div class="iconable-block">
