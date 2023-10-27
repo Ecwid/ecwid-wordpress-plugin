@@ -1184,7 +1184,7 @@ function ecwid_trim_description( $description ) {
 
 add_action( 'wp_ajax_ecwid_deactivate_feedback', 'ecwid_ajax_deactivate_feedback' );
 function ecwid_ajax_deactivate_feedback() {
-	if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		die();
 	}
 

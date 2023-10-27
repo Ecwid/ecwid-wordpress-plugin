@@ -70,7 +70,7 @@ class Ecwid_Import_Page {
 	}
 
 	public function check_import() {
-		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -102,7 +102,7 @@ class Ecwid_Import_Page {
 	public function do_woo_import() {
 		check_ajax_referer( self::AJAX_ACTION_DO_WOO_IMPORT );
 
-		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			die();
 		}
 
