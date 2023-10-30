@@ -16,6 +16,8 @@ class Ec_Store_Admin_Access {
 			add_action( 'user_register', array( $this, 'save_custom_user_profile_fields' ) );
 
 			add_action( 'ecwid_authorization_success', array( $this, 'hook_add_cap_for_current_user' ) );
+
+			add_filter( 'additional_capabilities_display', '__return_false', 10, 2 );
 		}
 
 		add_filter( 'ec_store_admin_get_capability', array( $this, 'hook_admin_get_capability' ) );
