@@ -2514,7 +2514,14 @@ function ecwid_debug_do_page() {
 		Ecwid_Config::load_from_ini();
 	}
 	
-	$api_v3_profile_results = wp_remote_get( 'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token() );
+	$api_v3_profile_results = wp_remote_get(
+        'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/profile',
+        array(
+            'headers' => array(
+				'Authorization' => 'Bearer ' . Ecwid_Api_V3::get_token(),
+			),
+        )
+    );
 
 	global $ecwid_oauth;
 
