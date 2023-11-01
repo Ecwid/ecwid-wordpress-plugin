@@ -5,6 +5,8 @@ class Ec_Store_Admin_Access {
 	const CAP_MANAGE_CONTROL_PANEL = 'ec_store_manage_control_panel';
 	const CAP_CAN_GRANT_ACCESS     = 'ec_store_can_grant_access';
 
+	protected $capability;
+
 	public function __construct() {
 		if ( is_admin() ) {
 			add_action( 'edit_user_profile', array( $this, 'print_custom_user_profile_fields' ) );
@@ -95,13 +97,26 @@ class Ec_Store_Admin_Access {
 
 	public function hook_admin_get_capability( $cap ) {
 
+		if ( ! empty( $this->capability ) ) {
+			return $this->capability;
+		}
+
 		$args = array(
-			'capability' => self::CAP_MANAGE_CONTROL_PANEL,
+			'meta_query' => array(
+				array(
+					'key'     => 'wp_capabilities',
+					'value'   => self::CAP_MANAGE_CONTROL_PANEL . '";b:1',
+					'compare' => 'LIKE',
+				),
+			),
 			'fields'     => array( 'ID' ),
 		);
+
 		if ( ! empty( get_users( $args ) ) ) {
 			$cap = self::CAP_MANAGE_CONTROL_PANEL;
 		}
+
+		$this->capability = $cap;
 
 		return $cap;
 	}
@@ -118,16 +133,24 @@ class Ec_Store_Admin_Access {
 			$checked = self::has_scope( $user->ID );
 		}
 		?>
-		<div id="ec-store-control-panel"> &nbsp;
+		<div id="ec-store-control-panel">
+			<?php if ( $user !== 'add-new-user' ) { ?>
+			&nbsp;
 			<h2 class="heading">
 				<?php
 				/* translators: %s: plugin brand */
-				echo esc_html( sprintf( __( '%s Control Panel', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
+				echo esc_html( sprintf( __( '%s Store', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
 				?>
 			</h2>
+			<?php } ?>
 			<table class="form-table">
 			<tr>
-				<th><?php echo esc_html( __( 'Access', 'ecwid-shopping-cart' ) ); ?></th>
+				<th>
+					<?php
+					/* translators: %s: plugin brand */
+					echo esc_html( sprintf( __( 'Access to %s Control Panel', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
+					?>
+				</th>
 				<td>
 					<label for="ec_store_admin_access">
 						<input 
@@ -139,10 +162,12 @@ class Ec_Store_Admin_Access {
 						/>
 						<?php
 						/* translators: %s: plugin brand */
-						echo esc_html( sprintf( __( 'Allow the current user to access the %s Control Panel.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
+						echo esc_html( sprintf( __( 'Allow this user to access the %s Control Panel.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
 						?>
 					</label>
+					<?php if ( ! Ecwid_Config::is_wl() ) { ?>
 					<a href="https://support.ecwid.com/hc/en-us/articles/207101259?utm_source=wp-plugin#can-i-restrict-access-to-the-ecwid-admin-panel-to-certain-users-" target="_blank"><?php echo esc_html( __( 'More information', 'ecwid-shopping-cart' ) ); ?></a>
+					<?php } ?>
 				</td>
 			</tr>
 			</table>
