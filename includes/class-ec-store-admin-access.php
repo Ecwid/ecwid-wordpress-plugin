@@ -102,7 +102,7 @@ class Ec_Store_Admin_Access {
 		}
 
 		$args = array(
-			'meta_query' => array(
+			'meta_query' => array( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => 'wp_capabilities',
 					'value'   => self::CAP_MANAGE_CONTROL_PANEL . '";b:1',
