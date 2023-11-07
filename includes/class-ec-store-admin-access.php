@@ -121,7 +121,7 @@ class Ec_Store_Admin_Access {
 		return $cap;
 	}
 
-	public function print_custom_user_profile_fields( $user ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+	public function print_custom_user_profile_fields( $user ) {
 
 		if ( ! $this->can_grant_access() ) {
 			return false;
