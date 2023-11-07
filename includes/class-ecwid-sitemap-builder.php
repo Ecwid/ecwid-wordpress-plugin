@@ -1,12 +1,13 @@
 <?php
 class EcwidSitemapBuilder {
-	var $callback;
-	var $type;
+	public $callback;
+	public $type;
+	public $base_url;
 
-	const PRIORITY_PRODUCT = 0.6;
+	const PRIORITY_PRODUCT  = 0.6;
 	const PRIORITY_CATEGORY = 0.5;
 
-	public function __construct($base_url, $callback) {
+	public function __construct( $base_url, $callback ) {
 		$this->callback = $callback;
 		$this->base_url = $base_url;
 	}
@@ -15,22 +16,29 @@ class EcwidSitemapBuilder {
 
 		$api = new Ecwid_Api_V3();
 
+		$stats = $api->get_store_update_stats();
+
 		$offset = 0;
 		$limit  = 100;
 		do {
 			$categories = $api->get_categories(
 				array(
 					'offset' => $offset,
-					'limit' => $limit
+					'limit'  => $limit,
 				)
 			);
 
+			if ( empty( $categories ) ) {
+				break;
+			}
 
-			if ($categories->items) {
+			if ( $categories->items ) {
 
-				foreach ($categories->items as $item) {
+				foreach ( $categories->items as $item ) {
 
 					$url = $item->url;
+
+					$item->updated = $stats->categoriesUpdated; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 					call_user_func(
 						$this->callback,
@@ -44,20 +52,24 @@ class EcwidSitemapBuilder {
 
 			$offset += $limit;
 
-		} while ($categories->count > 0);
+		} while ( $categories->count > 0 );
 
 		$offset = 0;
 		do {
 			$products = $api->search_products(
 				array(
 					'offset' => $offset,
-					'limit' => $limit
+					'limit'  => $limit,
 				)
 			);
 
-			if ($products->items) {
+			if ( empty( $products ) ) {
+				break;
+			}
 
-				foreach ($products->items as $item) {
+			if ( $products->items ) {
+
+				foreach ( $products->items as $item ) {
 					if ( $item->enabled ) {
 
 						$url = $item->url;
@@ -75,7 +87,7 @@ class EcwidSitemapBuilder {
 
 			$offset += $limit;
 
-		} while ($products->count > 0);
+		} while ( $products->count > 0 );
 
 		return true;
 	}

@@ -27,9 +27,9 @@ class Ecwid_Gutenberg {
 
 		foreach ( $blocks as $block => $block_name ) {
 			require_once dirname( __FILE__ ) . "/class-ecwid-gutenberg-block-$block.php";
-			$className = 'Ecwid_Gutenberg_Block_' . str_replace( '-', '_', ucfirst( $block ) );
+			$class_name = 'Ecwid_Gutenberg_Block_' . str_replace( '-', '_', ucfirst( $block ) );
 
-			$this->_blocks[] = new $className();
+			$this->_blocks[] = new $class_name();
 		}
 
 		foreach ( $this->_blocks as $block ) {
@@ -127,6 +127,10 @@ class Ecwid_Gutenberg {
 		$store_id = get_ecwid_store_id();
 		$params   = ecwid_get_scriptjs_params();
 
+		if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			$params .= '&fse=1';
+		}
+
 		$scriptjs_url = 'https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params;
 
 		$minicart_block = new Ecwid_Gutenberg_Block_Minicart();
@@ -165,7 +169,7 @@ class Ecwid_Gutenberg {
 
 		$blocks = self::get_blocks_on_page();
 
-		$productIds = array();
+		$product_ids = array();
 
 		$product_block      = new Ecwid_Gutenberg_Block_Product();
 		$buynow_block       = new Ecwid_Gutenberg_Block_Buynow();
@@ -180,25 +184,25 @@ class Ecwid_Gutenberg {
 			)
 				&& @$block['attrs']['id']
 			) {
-				$productIds[] = $block['attrs']['id'];
+				$product_ids[] = $block['attrs']['id'];
 			}
 
 			if ( $block['blockName'] == $product_page_block->get_block_name() && @$block['attrs']['default_product_id'] ) {
-				$productIds[] = $block['attrs']['default_product_id'];
+				$product_ids[] = $block['attrs']['default_product_id'];
 			}
 		}
 
-		if ( empty( $productIds ) ) {
+		if ( empty( $product_ids ) ) {
 			return array();
 		}
 
 		$result = array();
-		foreach ( $productIds as $id ) {
+		foreach ( $product_ids as $id ) {
 			$product = Ecwid_Product::get_by_id( $id );
 
 			$result[ $id ] = array(
 				'name'     => $product->name,
-				'imageUrl' => $product->thumbnailUrl,
+				'imageUrl' => $product->thumbnailUrl, //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			);
 		}
 

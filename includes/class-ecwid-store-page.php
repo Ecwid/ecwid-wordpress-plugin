@@ -569,7 +569,7 @@ class Ecwid_Store_Page {
 
 	public static function show_notice_for_demo( $content ) {
 
-		if ( ecwid_is_demo_store() && current_user_can( 'manage_options' ) && self::is_store_page() ) {
+		if ( ecwid_is_demo_store() && current_user_can( Ecwid_Admin::get_capability() ) && self::is_store_page() ) {
 			ob_start();
 			?>
 			<script data-cfasync="false" type="text/javascript">

@@ -50,7 +50,7 @@ class Ecwid_Product_Popup {
 	}
 
 	public function save_display_params() {
-		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		if ( ! is_admin() || ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			return;
 		}
 
@@ -60,7 +60,7 @@ class Ecwid_Product_Popup {
 	}
 
 	public function search_products() {
-		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		if ( ! is_admin() || ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			return;
 		}
 

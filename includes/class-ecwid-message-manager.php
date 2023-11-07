@@ -89,37 +89,6 @@ class Ecwid_Message_Manager
 
 		$do_not_show_again = true == $params['hideable'];
 
-
-		//TO-DO: delete this block
-		$debug = EcwidPlatform::cache_get( 'temporary_debug', null );
-		if( $name == 'api_failed_other' && is_null($debug) ) {
-
-			$api_url = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
-			$api_profile_url = $api_url . get_ecwid_store_id() . '/profile?token=' . Ecwid_Api_V3::get_token();
-
-			$api_v3_profile_results = wp_remote_get(
-				$api_profile_url,
-				array('timeout' => 5)
-			);
-
-			if( is_wp_error($api_v3_profile_results) ) {
-				$error = $api_v3_profile_results->get_error_message();
-
-				preg_match( '/cURL error ([0-9]+):/i', $error, $m );
-
-				$script_js = sprintf(
-					'<script src="https://%s/script.js?%s&data_platform=wporg&data_wp_error=%s"></script>',
-					Ecwid_Config::get_scriptjs_domain(),
-					get_ecwid_store_id(),
-					$m[1]
-				);
-
-				$message .= $script_js;
-
-				EcwidPlatform::cache_set( 'temporary_debug', 1, WEEK_IN_SECONDS );
-			}
-		}
-
 		include ECWID_PLUGIN_DIR . 'templates/admin-message.php';
 	}
 
@@ -339,7 +308,7 @@ class Ecwid_Message_Manager
 
 	protected function need_to_show_message($name)
 	{
-		if ( !current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			return false;
 		}
 

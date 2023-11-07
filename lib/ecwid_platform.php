@@ -20,7 +20,7 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
-	const TRANSIENTS_LIMIT = 3000;
+	const TRANSIENTS_LIMIT = 500;
 
 	public static function get_store_id() {
 		return get_ecwid_store_id();
@@ -384,7 +384,6 @@ class EcwidPlatform {
 		unset( self::$ecwid_plugin_data[ $name ] );
 
 		update_option( self::OPTION_ECWID_PLUGIN_DATA, self::$ecwid_plugin_data );
-
 	}
 
 	public static function http_api_transports( $transports ) {

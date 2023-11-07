@@ -277,6 +277,13 @@ class Ecwid_Product_Browser {
 				'default'           => true,
 				'is_storefront_api' => true,
 			),
+			'product_details_show_weight'                 => array(
+				'name'              => 'product_details_show_weight',
+				'title'             => __( 'Product weight', 'ecwid-shopping-cart' ),
+				'type'              => 'boolean',
+				'default'           => true,
+				'is_storefront_api' => true,
+			),
 			'product_details_show_number_of_items_in_stock' => array(
 				'name'              => 'product_details_show_number_of_items_in_stock',
 				'title'             => __( 'Available qty in stock', 'ecwid-shopping-cart' ),
@@ -303,6 +310,20 @@ class Ecwid_Product_Browser {
 				'title'             => __( 'Share buttons', 'ecwid-shopping-cart' ),
 				'type'              => 'boolean',
 				'default'           => true,
+				'is_storefront_api' => true,
+			),
+			'product_details_show_navigation_arrows'      => array(
+				'name'              => 'product_details_show_navigation_arrows',
+				'title'             => __( 'Navigation arrows', 'ecwid-shopping-cart' ),
+				'type'              => 'boolean',
+				'default'           => true,
+				'is_storefront_api' => true,
+			),
+			'product_details_show_product_photo_zoom'     => array(
+				'name'              => 'product_details_show_product_photo_zoom',
+				'title'             => __( 'Product photo zoom', 'ecwid-shopping-cart' ),
+				'type'              => 'boolean',
+				'default'           => false,
 				'is_storefront_api' => true,
 			),
 

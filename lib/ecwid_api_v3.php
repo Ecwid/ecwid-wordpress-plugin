@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/ecwid_platform.php';
+require_once dirname( __FILE__ ) . '/ecwid_platform.php'; //phpcs:ignore
 
 class Ecwid_Api_V3 {
 
@@ -64,19 +64,19 @@ class Ecwid_Api_V3 {
 	}
 
 	public static function is_available() {
-		 $status = self::get_api_status();
+		$status = self::get_api_status();
 
 		return self::check_api_status();
 	}
 
 	public static function connection_fails() {
-		 $status = self::get_api_status();
+		$status = self::get_api_status();
 
 		return in_array( $status, array( self::API_STATUS_ERROR_OTHER, self::API_STATUS_ERROR_TLS ) );
 	}
 
 	public static function reset_api_status() {
-		 update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
+		update_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
 
 	public static function set_api_status( $new_status ) {
@@ -157,10 +157,12 @@ class Ecwid_Api_V3 {
 			return false;
 		}
 
-		$params = array( 'token' );
+		$params = array();
+
 		if ( array_key_exists( 'parent', $input_params ) ) {
 			$params['parent'] = $input_params['parent'];
 		}
+
 		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories' );
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
@@ -176,6 +178,8 @@ class Ecwid_Api_V3 {
 			$params['cleanUrls'] = 'true';
 		}
 
+		$options = $this->build_request_headers();
+
 		$url = $this->build_request_url(
 			$this->_categories_api_url,
 			$params
@@ -184,7 +188,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
-			$result = EcwidPlatform::fetch_url( $url );
+			$result = EcwidPlatform::fetch_url( $url, $options );
 		}
 
 		if ( $result['code'] != '200' ) {
@@ -218,12 +222,12 @@ class Ecwid_Api_V3 {
 		return $cats->total > 0;
 	}
 
-	public function get_category( $categoryId ) {
-		if ( ! isset( $categoryId ) || $categoryId == 0 ) {
+	public function get_category( $category_id ) {
+		if ( ! isset( $category_id ) || $category_id == 0 ) {
 			return false;
 		}
 
-		$params = array( 'token' );
+		$params = array();
 
 		if ( ! isset( $params['baseUrl'] ) ) {
 			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
@@ -233,14 +237,17 @@ class Ecwid_Api_V3 {
 			$params['cleanUrls'] = 'true';
 		}
 
-		$url    = $this->build_request_url(
-			$this->_categories_api_url . '/' . $categoryId,
+		$options = $this->build_request_headers();
+
+		$url = $this->build_request_url(
+			$this->_categories_api_url . '/' . $category_id,
 			$params
 		);
+
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
-			$result = EcwidPlatform::fetch_url( $url );
+			$result = EcwidPlatform::fetch_url( $url, $options );
 		}
 
 		if ( $result['code'] != '200' ) {
@@ -260,7 +267,7 @@ class Ecwid_Api_V3 {
 			return false;
 		}
 
-		$params = array( 'token' );
+		$params = array();
 
 		if ( ! isset( $params['baseUrl'] ) ) {
 			$params['baseUrl'] = Ecwid_Store_Page::get_store_url();
@@ -272,6 +279,8 @@ class Ecwid_Api_V3 {
 			$params['cleanUrls'] = 'false';
 		}
 
+		$options = $this->build_request_headers();
+
 		$url = $this->build_request_url(
 			$this->_products_api_url . '/' . $product_id,
 			$params
@@ -281,7 +290,7 @@ class Ecwid_Api_V3 {
 
 		if ( ! $result ) {
 
-			$result = EcwidPlatform::fetch_url( $url );
+			$result = EcwidPlatform::fetch_url( $url, $options );
 
 			if ( $result['code'] != '200' ) {
 				return false;
@@ -296,7 +305,8 @@ class Ecwid_Api_V3 {
 	}
 
 	public function search_products( $input_params ) {
-		$params   = array( 'token' );
+		$params = array();
+
 		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category', 'productId' );
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
@@ -318,6 +328,8 @@ class Ecwid_Api_V3 {
 			$params['inStock'] = 'true';
 		}
 
+		$options = $this->build_request_headers();
+
 		$url = $this->build_request_url(
 			$this->_products_api_url,
 			$params
@@ -326,7 +338,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
-			$result = EcwidPlatform::fetch_url( $url );
+			$result = EcwidPlatform::fetch_url( $url, $options );
 			if ( $result['code'] != '200' ) {
 				return false;
 			}
@@ -351,7 +363,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function get_deleted_products( $input_params ) {
-		$params = array( 'token' );
+		$params = array();
 
 		if ( array_key_exists( 'from_date', $input_params ) ) {
 			$params['from_date'] = $input_params['from_date'];
@@ -365,12 +377,14 @@ class Ecwid_Api_V3 {
 			$params['limit'] = $input_params['limit'];
 		}
 
-		$result = EcwidPlatform::fetch_url(
-			$this->build_request_url(
-				$this->_products_api_url . '/deleted',
-				$params
-			)
+		$options = $this->build_request_headers();
+
+		$url = $this->build_request_url(
+			$this->_products_api_url . '/deleted',
+			$params
 		);
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( $result['code'] != '200' ) {
 			return false;
@@ -382,7 +396,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function get_products( $input_params ) {
-		$params = array( 'token' );
+		$params = array();
 
 		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled' );
 
@@ -394,15 +408,17 @@ class Ecwid_Api_V3 {
 
 		if ( isset( $params['createdTo'] ) ) {
 			// For some reason createdTo does not include the exact timestamp while createdFrom does
-			$params['createdTo']++;
+			++$params['createdTo'];
 		}
 
-		$result = EcwidPlatform::fetch_url(
-			$this->build_request_url(
-				$this->_products_api_url,
-				$params
-			)
+		$options = $this->build_request_headers();
+
+		$url = $this->build_request_url(
+			$this->_products_api_url,
+			$params
 		);
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( $result['code'] != '200' ) {
 			return false;
@@ -518,16 +534,16 @@ class Ecwid_Api_V3 {
 
 		$url = $this->_api_url . $this->store_id . '/latest-stats';
 
-		$params = array(
-			'token' => self::get_token(),
-		);
+		$params = array();
 
 		if ( is_array( $additional_params ) ) {
 			$params = array_merge( $additional_params, $params );
 		}
 
-		$url    = $this->build_request_url( $url, $params );
-		$result = EcwidPlatform::fetch_url( $url );
+		$options = $this->build_request_headers();
+		$url     = $this->build_request_url( $url, $params );
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( ! isset( $result['data'] ) ) {
 			if ( isset( $result['message'] ) ) {
@@ -550,7 +566,7 @@ class Ecwid_Api_V3 {
 
 		$profile = EcwidPlatform::cache_get( self::PROFILE_CACHE_NAME );
 
-		if ( $profile && ! $disable_cache ) {
+		if ( ! empty( $profile ) && ! $disable_cache ) {
 			return $profile;
 		}
 
@@ -559,12 +575,12 @@ class Ecwid_Api_V3 {
 			return false;
 		}
 
-		$params = array(
-			'token' => self::get_token(),
-		);
+		$params = array();
 
-		$url    = $this->build_request_url( $this->_profile_api_url, $params );
-		$result = EcwidPlatform::fetch_url( $url );
+		$options = $this->build_request_headers();
+		$url     = $this->build_request_url( $this->_profile_api_url, $params );
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( @$result['code'] == '403' ) {
 			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
@@ -592,9 +608,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function update_store_profile( $params ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
 		$url = $this->build_request_url( $this->_profile_api_url, $request_params );
 
@@ -766,10 +780,18 @@ class Ecwid_Api_V3 {
 		return $url . '?' . build_query( $params );
 	}
 
-	public function create_product( $params ) {
-		$request_params = array(
-			'token',
+	protected function build_request_headers() {
+		$headers = array(
+			'headers' => array(
+				'Authorization' => 'Bearer ' . self::get_token(),
+			),
 		);
+
+		return $headers;
+	}
+
+	public function create_product( $params ) {
+		$request_params = array();
 		$url            = $this->build_request_url( $this->_products_api_url, $request_params );
 
 		$params = $this->_sanitize_product_data( $params );
@@ -780,9 +802,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function create_product_variation( $params ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
 		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
 
@@ -792,9 +812,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function update_product( $params, $product_id ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
 		$url = $this->build_request_url( $this->_products_api_url . '/' . $product_id, $request_params );
 
@@ -828,14 +846,11 @@ class Ecwid_Api_V3 {
 		}
 
 		return $data;
-
 	}
 
 	public function create_category( $params ) {
 
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
 		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
 
@@ -848,9 +863,7 @@ class Ecwid_Api_V3 {
 
 	public function update_category( $params, $category_id ) {
 
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
 		$url = $this->build_request_url( $this->_categories_api_url . '/' . $category_id, $request_params );
 
@@ -875,12 +888,15 @@ class Ecwid_Api_V3 {
 	}
 
 	public function delete_products( $ids ) {
-		$request_params = array( 'token' );
+		$request_params = array();
 		$requests       = array();
 		foreach ( $ids as $id ) {
 			$requests[] = array(
-				'type' => Requests::DELETE,
-				'url'  => $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params ),
+				'type'    => Requests::DELETE,
+				'headers' => array(
+					'Authorization' => 'Bearer ' . self::get_token(),
+				),
+				'url'     => $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params ),
 			);
 		}
 
@@ -890,9 +906,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function upload_category_image( $params ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 		$url            = $this->build_request_url( $this->_categories_api_url . '/' . $params['categoryId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
@@ -901,9 +915,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function upload_product_image( $params ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
@@ -912,9 +924,7 @@ class Ecwid_Api_V3 {
 	}
 
 	public function upload_product_gallery_image( $params ) {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
@@ -924,24 +934,21 @@ class Ecwid_Api_V3 {
 
 
 	public function upload_product_variation_image( $params ) {
-		 $request_params = array(
-			 'token',
-		 );
-		 $url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
+		$request_params = array();
+		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
-		 $result = $this->_do_post( $url, $params['data'], true );
+		$result = $this->_do_post( $url, $params['data'], true );
 
-		 return $result;
+		return $result;
 	}
 
 	public function get_starter_site_info() {
-		$request_params = array(
-			'token',
-		);
+		$request_params = array();
 
-		$url = $this->build_request_url( $this->_starter_site_api_url, $request_params );
+		$options = $this->build_request_headers();
+		$url     = $this->build_request_url( $this->_starter_site_api_url, $request_params );
 
-		$result = EcwidPlatform::fetch_url( $url );
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( ! isset( $result['data'] ) ) {
 			return null;
@@ -950,7 +957,6 @@ class Ecwid_Api_V3 {
 		$data = json_decode( $result['data'] );
 
 		return $data;
-
 	}
 
 	protected function _do_post( $url, $data, $raw = false ) {
@@ -960,7 +966,8 @@ class Ecwid_Api_V3 {
 				'body'    => $raw ? $data : json_encode( $data ),
 				'timeout' => 20,
 				'headers' => array(
-					'Content-Type' => 'application/json;charset="utf-8"',
+					'Content-Type'  => 'application/json;charset="utf-8"',
+					'Authorization' => 'Bearer ' . self::get_token(),
 				),
 			)
 		);
@@ -970,8 +977,8 @@ class Ecwid_Api_V3 {
 			$json_result            = $result['body'];
 			$api_error              = json_decode( $json_result );
 			if ( is_object( $api_error ) ) {
-				$result['api_code']    = @$api_error->errorCode;
-				$result['api_message'] = @$api_error->errorMessage;
+				$result['api_code']    = @$api_error->errorCode; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$result['api_message'] = @$api_error->errorMessage; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			}
 		}
 
@@ -985,7 +992,8 @@ class Ecwid_Api_V3 {
 				'body'    => $raw ? $data : json_encode( $data ),
 				'timeout' => 20,
 				'headers' => array(
-					'Content-Type' => 'application/json;charset="utf-8"',
+					'Content-Type'  => 'application/json;charset="utf-8"',
+					'Authorization' => 'Bearer ' . self::get_token(),
 				),
 				'method'  => 'PUT',
 			)
@@ -1038,7 +1046,6 @@ class Ecwid_Api_V3 {
 
 	public function create_batch( $params ) {
 		$request_params = array(
-			'token',
 			'stopOnFirstFailure' => 'false',
 		);
 		$url            = $this->build_request_url( $this->_batch_requests_api_url, $request_params );
@@ -1050,12 +1057,13 @@ class Ecwid_Api_V3 {
 
 	public function get_batch_status( $ticket ) {
 		$params = array(
-			'token'  => self::get_token(),
 			'ticket' => $ticket,
 		);
 
-		$url    = $this->build_request_url( $this->_batch_requests_api_url, $params );
-		$result = EcwidPlatform::fetch_url( $url );
+		$options = $this->build_request_headers();
+		$url     = $this->build_request_url( $this->_batch_requests_api_url, $params );
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( @$result['code'] != '200' ) {
 			return false;
