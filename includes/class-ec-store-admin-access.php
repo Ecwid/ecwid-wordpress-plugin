@@ -166,7 +166,7 @@ class Ec_Store_Admin_Access {
 						?>
 					</label>
 					<?php if ( ! Ecwid_Config::is_wl() ) { ?>
-					<a href="https://support.ecwid.com/hc/en-us/articles/207101259?utm_source=wp-plugin#can-i-restrict-access-to-the-ecwid-admin-panel-to-certain-users-" target="_blank"><?php echo esc_html( __( 'More information', 'ecwid-shopping-cart' ) ); ?></a>
+					<a href="https://support.ecwid.com/hc/en-us/articles/207101259#how-can-i-control-access-to-the-ecwid-admin-panel-for-certain-users-" target="_blank"><?php echo esc_html( __( 'More information', 'ecwid-shopping-cart' ) ); ?></a>
 					<?php } ?>
 				</td>
 			</tr>
