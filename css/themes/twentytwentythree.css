@@ -2,5 +2,5 @@
 #static-ec-store-container,
 #ecwid_html .wp-block-post-title,
 #ecwid_body .wp-block-post-title {
-    max-width: 1200px;
+    max-width: var(--wp--style--global--wide-size);
 }
