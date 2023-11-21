@@ -583,8 +583,13 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( @$result['code'] == '403' ) {
-			self::set_api_status( self::API_STATUS_ERROR_TOKEN );
-			self::save_token( '' );
+			if ( get_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 ) == 0 ) {
+				self::set_api_status( self::API_STATUS_ERROR_TOKEN );
+				self::save_token( '' );
+			} else {
+				update_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, time() + 5 * MINUTE_IN_SECONDS );
+			}
+
 			return false;
 		}
 
@@ -596,7 +601,7 @@ class Ecwid_Api_V3 {
 
 		$profile = json_decode( $result['data'] );
 
-		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 60 * 5 );
+		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 10 * MINUTE_IN_SECONDS );
 
 		if ( $profile && isset( $profile->settings ) && isset( $profile->settings->hideOutOfStockProductsInStorefront ) ) {
 			EcwidPlatform::set( 'hide_out_of_stock', $profile->settings->hideOutOfStockProductsInStorefront );

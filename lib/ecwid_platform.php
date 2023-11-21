@@ -20,6 +20,8 @@ class EcwidPlatform {
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
 
+	const OPTION_ECWID_CHECK_API_RETRY_AFTER = 'ecwid_api_check_retry_after';
+
 	const TRANSIENTS_LIMIT = 500;
 
 	public static function get_store_id() {
@@ -245,7 +247,7 @@ class EcwidPlatform {
 	}
 
 	public static function fetch_url( $url, $options = array() ) {
-		$api_check_retry_after = get_option( 'ecwid_api_check_retry_after', 0 );
+		$api_check_retry_after = get_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 
 		if ( $api_check_retry_after > time() ) {
 			return array(
@@ -275,7 +277,7 @@ class EcwidPlatform {
 			$retry_after = intval( wp_remote_retrieve_header( $result, 'retry-after' ) );
 
 			if ( $retry_after > 0 ) {
-				update_option( 'ecwid_api_check_retry_after', time() + $retry_after );
+				update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, time() + $retry_after );
 			}
 		}
 
@@ -306,6 +308,10 @@ class EcwidPlatform {
 				'data'    => $result->get_error_data(),
 				'message' => $result->get_error_message(),
 			);
+		}
+
+		if ( $return['code'] == 200 ) {
+			update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 		}
 
 		return $return;
