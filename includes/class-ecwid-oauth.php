@@ -396,9 +396,13 @@ class Ecwid_OAuth {
 		if ( function_exists( 'idn_to_ascii' ) ) {
 			$host = wp_parse_url( $url, PHP_URL_HOST );
 
-			$is_idn_format = $host != idn_to_ascii( $host );
+			if ( idn_to_ascii( $host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46 ) === false ) {
+				return $url;
+			}
+
+			$is_idn_format = $host != idn_to_ascii( $host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46 );
 			if ( $is_idn_format ) {
-				$encoded_host = idn_to_ascii( $host );
+				$encoded_host = idn_to_ascii( $host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46 );
 				$pattern      = '/' . $host . '/i';
 
 				return preg_replace( $pattern, $encoded_host, $url, 1 );
