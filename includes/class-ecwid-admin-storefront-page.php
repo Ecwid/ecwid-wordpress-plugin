@@ -2,6 +2,8 @@
 class Ecwid_Admin_Storefront_Page {
 
 	const ADMIN_SLUG = 'ec-storefront-settings';
+	const NONCE_SLUG = 'ecwid-admin-storefront';
+
 	public static $templates_dir;
 
 	public function __construct() {
@@ -94,6 +96,14 @@ class Ecwid_Admin_Storefront_Page {
 
 		wp_enqueue_script( 'ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option( 'ecwid_plugin_version' ) );
 
+        wp_localize_script(
+            'ecwid-admin-storefront-js',
+            'EcwidAdminStorefront', 
+            array(
+                '_ajax_nonce' => wp_create_nonce( self::NONCE_SLUG )
+            )
+        );
+
 		Ecwid_Admin_UI_Framework::print_fix_js();
 		require_once self::$templates_dir . 'main.php';
 	}
@@ -120,6 +130,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_status() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
@@ -158,6 +172,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_store_on_front() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
@@ -189,6 +207,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_mainpage() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
@@ -222,6 +244,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_display_cart_icon() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
@@ -239,6 +265,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_page_slug() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}
@@ -285,6 +315,10 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_create_page() {
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+            die();
+        }
+
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
 		}

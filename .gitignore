@@ -2,3 +2,12 @@
 .idea
 .vscode
 /WordPress
+.phpcs.xml.dist
+.phpunit.result.cache
+.travis.yml
+bin/
+composer.json
+composer.lock
+phpunit.xml.dist
+tests/
+vendor/

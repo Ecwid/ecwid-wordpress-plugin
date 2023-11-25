@@ -8,7 +8,8 @@ jQuery(document).ready(function () {
 
         var data = {
             action: 'ecwid_storefront_set_status',
-            status: new_status
+            status: new_status,
+            _ajax_nonce: EcwidAdminStorefront._ajax_nonce
         };
 
         jQuery.getJSON(
@@ -29,7 +30,8 @@ jQuery(document).ready(function () {
 
         var data = {
             action: 'ecwid_storefront_set_mainpage',
-            page: page
+            page: page,
+            _ajax_nonce: EcwidAdminStorefront._ajax_nonce
         };
 
         jQuery.getJSON(
@@ -49,7 +51,8 @@ jQuery(document).ready(function () {
 
         var data = {
             action: 'ecwid_storefront_set_' + setting,
-            status: status
+            status: status,
+            _ajax_nonce: EcwidAdminStorefront._ajax_nonce
         };
 
         jQuery.getJSON(
@@ -77,7 +80,8 @@ jQuery(document).ready(function () {
 
         var data = {
             action: 'ecwid_storefront_set_page_slug',
-            slug: slug
+            slug: slug,
+            _ajax_nonce: EcwidAdminStorefront._ajax_nonce
         };
 
         jQuery.getJSON(
@@ -118,7 +122,8 @@ jQuery(document).ready(function () {
         var data = {
             action: 'ecwid_storefront_create_page',
             type: type,
-            item_id: item_id
+            item_id: item_id,
+            _ajax_nonce: EcwidAdminStorefront._ajax_nonce
         };
 
         jQuery.getJSON(

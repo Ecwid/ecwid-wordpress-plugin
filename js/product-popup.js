@@ -1,22 +1,22 @@
-jQuery(document).ready(function() {
-    if ( typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined' ) {
+jQuery(document).ready(function () {
+    if (typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined') {
         jQuery('#ecwid-product-popup-content').addClass('ec-store-gutenberg');
     }
-    
-    var popup = function() {
+
+    var popup = function () {
         return jQuery('#ecwid-product-popup-content');
     };
 
-    popup().data( 'defaultSortBy', 'ADDED_TIME_DESC' );
-    
-    jQuery(document).on('click', '#insert-ecwid-product-button', function() {
+    popup().data('defaultSortBy', 'ADDED_TIME_DESC');
+
+    jQuery(document).on('click', '#insert-ecwid-product-button', function () {
         openPopup();
         return false;
     });
-    
-    openPopup = function() {
+
+    openPopup = function () {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
-            location.href='admin.php?page=ec-store&reconnect&reason=spw';
+            location.href = 'admin.php?page=ec-store&reconnect&reason=spw';
             return false;
         }
 
@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
 
         populateWidgetParams();
         setSearchParams({});
-        
+
         if (getInitialSearchData()) {
             buildProductsTable(getInitialSearchData());
         } else {
@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
 
         setSelectedProduct(null);
 
-        
+
         if (popup().data('params')) {
             var props = popup().data('params').props.attributes;
 
@@ -45,8 +45,8 @@ jQuery(document).ready(function() {
             changeMode('selected-product');
 
         }
-        
-        if ( !getSelectedProduct() ) {
+
+        if (!getSelectedProduct()) {
             changeMode('add-product');
         }
 
@@ -54,29 +54,29 @@ jQuery(document).ready(function() {
     }
 
     popup().data('openPopup', openPopup);
-    
 
-    jQuery(document).keydown(function(e) {
+
+    jQuery(document).keydown(function (e) {
         if (e.keyCode == 27 && popup().hasClass('open')) {
             popup().removeClass('open');
             return false;
         }
     });
 
-    jQuery('.media-modal-close', popup()).click(function() {
+    jQuery('.media-modal-close', popup()).click(function () {
         popup().removeClass('open');
     });
 
-    jQuery('.toolbar-link', popup()).click(function() {
+    jQuery('.toolbar-link', popup()).click(function () {
         changeTab(jQuery(this).data('content'));
         return false;
     })
 
-    var populateWidgetParams = function() {
+    var populateWidgetParams = function () {
 
         var params;
         if (popup().data('params') && popup().data('params').props.attributes.id) {
-            
+
             var selectedParams = popup().data('params').props.attributes;
             params = {
                 'display': []
@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
             ];
             for (var i = 0; i < displayMap.length; i++) {
                 var param = displayMap[i];
-                if ( selectedParams['show_' + param] ) {
+                if (selectedParams['show_' + param]) {
                     params.display[param] = true;
                 }
             }
@@ -111,7 +111,7 @@ jQuery(document).ready(function() {
         } else {
             params = ecwidSpwParams;
         }
-        
+
         if (params && params.display) {
             jQuery('input[type=checkbox]', popup()).prop('checked', false);
 
@@ -126,7 +126,7 @@ jQuery(document).ready(function() {
         }
     };
 
-    var changeTab = function(tab) {
+    var changeTab = function (tab) {
         jQuery('.media-menu .media-menu-item', popup()).removeClass('active');
         jQuery('.media-menu .media-menu-item[data-content=' + tab + ']', popup()).addClass('active');
 
@@ -136,31 +136,30 @@ jQuery(document).ready(function() {
         jQuery('.toolbar-link').show();
         jQuery('.toolbar-link[data-content=' + tab + ']', popup()).hide();
     }
-    
-    var changeMode = function(mode) {
-        jQuery('.media-modal-content', popup()).attr('data-mode', mode);    
+
+    var changeMode = function (mode) {
+        jQuery('.media-modal-content', popup()).attr('data-mode', mode);
     }
 
-    jQuery('.media-menu-item', popup()).click(function() {
+    jQuery('.media-menu-item', popup()).click(function () {
         changeTab(jQuery(this).attr('data-content'));
 
         return false;
     });
 
-    var closeTopMenuOnExternalClick = function(e) {
+    var closeTopMenuOnExternalClick = function (e) {
         jQuery('.media-menu').toggleClass('visible');
         popup().unbind('click', closeTopMenuOnExternalClick);
     }
 
-    jQuery('h1', popup()).click(function(e) {
+    jQuery('h1', popup()).click(function (e) {
         e.stopPropagation();
         jQuery('.media-menu').toggleClass('visible');
         popup().click(closeTopMenuOnExternalClick);
     });
 
 
-    jQuery('.media-button-select, .media-button-update', popup()).click(function() {
-        
+    jQuery('.media-button-select, .media-button-update', popup()).click(function () {
         if (popup().data('params') && popup().data('params').saveCallback) {
             popup().data('params').saveCallback({
                 originalProps: popup().data('params').props,
@@ -168,16 +167,16 @@ jQuery(document).ready(function() {
             });
         } else {
             var shortcode = buildShortcode();
-    
+
             if (tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
                 tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
             } else {
-    
-                getCursorPosition = function(el) {
+
+                getCursorPosition = function (el) {
                     var pos = 0;
-                    if('selectionStart' in el) {
+                    if ('selectionStart' in el) {
                         pos = el.selectionStart;
-                    } else if('selection' in document) {
+                    } else if ('selection' in document) {
                         el.focus();
                         var Sel = document.selection.createRange();
                         var SelLength = document.selection.createRange().text.length;
@@ -186,36 +185,36 @@ jQuery(document).ready(function() {
                     }
                     return pos;
                 };
-    
+
                 var el = jQuery('#content');
                 var cursorPosition = getCursorPosition(el.get(0));
-    
+
                 el.val(el.val().substr(0, cursorPosition) + shortcode + el.val().substr(cursorPosition));
-    
+
             }
             saveParams();
         }
         popup().removeClass('open');
     });
 
-    var saveParams = function() {
-        var params = {display: {}, attributes: {} };
+    var saveParams = function () {
+        var params = { display: {}, attributes: {} };
 
-        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
+        jQuery('input[type=checkbox][data-display-option]:checked').each(function (idx, el) {
             params.display[jQuery(el).data('display-option')] = 1;
         });
 
-        jQuery('input[type=checkbox][data-shortcode-attribute]:checked').each(function(idx, el) {
+        jQuery('input[type=checkbox][data-shortcode-attribute]:checked').each(function (idx, el) {
             params.attributes[jQuery(el).data('shortcode-attribute')] = 1;
         });
 
-        jQuery.getJSON(ajaxurl, {action: 'ecwid-save-spw-params', params: params});
+        jQuery.getJSON(ajaxurl, { action: 'ecwid-save-spw-params', params: params, _ajax_nonce: EcwidProductPopup._ajax_nonce });
 
         ecwidSpwParams.display = params.display;
         ecwidSpwParams.attributes = params.attributes;
     };
 
-    var buildShortcode = function() {
+    var buildShortcode = function () {
         var params = buildOutputParams();
 
         var params_order = ['id', 'display', 'version', 'show_border', 'show_price_on_button', 'center_align'];
@@ -237,8 +236,8 @@ jQuery(document).ready(function() {
 
         return shortcode;
     };
-    
-    var buildOutputParams = function() {
+
+    var buildOutputParams = function () {
 
         var params = {};
         product = getSelectedProduct();
@@ -248,35 +247,35 @@ jQuery(document).ready(function() {
         params.display = [];
         params.product = product;
 
-        jQuery('input[type=checkbox][data-display-option]:checked').each(function(idx, el) {
+        jQuery('input[type=checkbox][data-display-option]:checked').each(function (idx, el) {
             params.display[params.display.length] = jQuery(el).data('display-option');
         });
 
-        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function(idx, el) {
+        jQuery('input[type=checkbox][data-shortcode-attribute]').each(function (idx, el) {
             params[jQuery(el).data('shortcode-attribute')] = jQuery(el).is(':checked') ? 1 : 0;
         });
-        
+
         return params;
     }
 
-    var setSelectedProduct = function( product ) {
+    var setSelectedProduct = function (product) {
         popup().data('currentProduct', product);
         updateFormOnCurrentProduct();
     };
 
-    var getSelectedProduct = function() {
+    var getSelectedProduct = function () {
         return popup().data('currentProduct');
     };
 
-    var setInitialSearchData = function( data ) {
+    var setInitialSearchData = function (data) {
         popup().data('initialSearchData', data);
     };
 
-    var getInitialSearchData = function() {
+    var getInitialSearchData = function () {
         return popup().data('initialSearchData');
     };
 
-    var setSearchParams = function( params ) {
+    var setSearchParams = function (params) {
         if (typeof params.page == 'undefined') {
             params.page = 1;
         }
@@ -287,24 +286,24 @@ jQuery(document).ready(function() {
         var params = popup().data('searchParams');
 
         if (!params) {
-            params = {page: 1, sortBy: popup().data('defaultSortBy')};
+            params = { page: 1, sortBy: popup().data('defaultSortBy') };
         }
 
         return params;
     };
 
-    var updateFormOnCurrentProduct = function() {
+    var updateFormOnCurrentProduct = function () {
         var product = getSelectedProduct();
 
         if (product) {
-            jQuery( '.media-button-select, .media-button-update', popup() ).removeClass( 'disabled' );
+            jQuery('.media-button-select, .media-button-update', popup()).removeClass('disabled');
         } else {
-            jQuery( '.media-button-select, .media-button-update', popup() ).addClass( 'disabled' );
+            jQuery('.media-button-select, .media-button-update', popup()).addClass('disabled');
         }
 
     }
 
-    var clickProduct = function() {
+    var clickProduct = function () {
 
         if (jQuery('.empty-page', this).length > 0) {
             return;
@@ -320,7 +319,7 @@ jQuery(document).ready(function() {
         }
     };
 
-    var ecwidSpwSearchProducts = function() {
+    var ecwidSpwSearchProducts = function () {
 
         var data = {
             'action': 'ecwid-search-products'
@@ -347,17 +346,17 @@ jQuery(document).ready(function() {
         jQuery.getJSON(ajaxurl, data, buildProductsTable);
     }
 
-    var buildProductsTable = function(data) {
-        
+    var buildProductsTable = function (data) {
+
         if (data == null) {
             data = {
                 total: 0,
                 limit: 1
             }
         }
-        
+
         var params = {};
-        
+
         if (Math.ceil(data.total / data.limit) < getSearchParams().page) {
             params = getSearchParams();
             params.page = 1;
@@ -365,8 +364,8 @@ jQuery(document).ready(function() {
         }
 
 
-        var enabledPageTemplate = wp.template( 'pagination-button-enabled' );
-        var disabledPageTemplate = wp.template( 'pagination-button-disabled' );
+        var enabledPageTemplate = wp.template('pagination-button-enabled');
+        var disabledPageTemplate = wp.template('pagination-button-disabled');
 
         var totalPages = Math.ceil(data.total / data.limit);
 
@@ -375,44 +374,44 @@ jQuery(document).ready(function() {
 
         if (totalPages > 1) {
             if (getSearchParams() && getSearchParams().page == 1) {
-                prevPages = disabledPageTemplate({symbol: '«'}) + disabledPageTemplate({symbol: '‹'});
+                prevPages = disabledPageTemplate({ symbol: '«' }) + disabledPageTemplate({ symbol: '‹' });
             } else {
                 prevPages = enabledPageTemplate({
-                        'symbol': '«',
-                        'name': 'first',
-                        'label': ecwidSpwParams.labels.firstPage
-                    }) + enabledPageTemplate({
-                        'symbol': '‹',
-                        'name': 'prev',
-                        'label': ecwidSpwParams.labels.prevPage
-                    });
+                    'symbol': '«',
+                    'name': 'first',
+                    'label': ecwidSpwParams.labels.firstPage
+                }) + enabledPageTemplate({
+                    'symbol': '‹',
+                    'name': 'prev',
+                    'label': ecwidSpwParams.labels.prevPage
+                });
             }
 
             if (getSearchParams().page >= Math.ceil(data.total / data.limit)) {
-                nextPages = disabledPageTemplate({symbol: '›'}) + disabledPageTemplate({symbol: '»'});
+                nextPages = disabledPageTemplate({ symbol: '›' }) + disabledPageTemplate({ symbol: '»' });
             } else {
                 nextPages = enabledPageTemplate({
-                        'symbol': '›',
-                        'name': 'next',
-                        'label': ecwidSpwParams.labels.nextPage
-                    }) + enabledPageTemplate({
-                        'symbol': '»',
-                        'name': 'last',
-                        'label': ecwidSpwParams.labels.lastPage,
-                        'page': Math.ceil(data.total / data.limit)
-                    });
+                    'symbol': '›',
+                    'name': 'next',
+                    'label': ecwidSpwParams.labels.nextPage
+                }) + enabledPageTemplate({
+                    'symbol': '»',
+                    'name': 'last',
+                    'label': ecwidSpwParams.labels.lastPage,
+                    'page': Math.ceil(data.total / data.limit)
+                });
             }
         }
 
-        var formTemplate = wp.template( 'add-product-form' );
+        var formTemplate = wp.template('add-product-form');
 
-        var tableTemplate = wp.template( 'products-list' );
+        var tableTemplate = wp.template('products-list');
 
         var tableHTML = tableTemplate();
 
         jQuery('.media-frame-content.ecwid-add-product.add-product').empty().append(
-            formTemplate( {
-                'tableHTML' : tableHTML,
+            formTemplate({
+                'tableHTML': tableHTML,
                 'page': data.offset / data.limit + 1,
                 'total_pages': Math.ceil(data.total / data.limit),
                 'total_items': data.total + ' items',
@@ -430,10 +429,10 @@ jQuery(document).ready(function() {
             if (params.keyword) {
                 keyword = params.keyword;
             }
-            
+
             showEmpty(keyword);
         }
-        
+
         renderSearchParams();
         assignHandlers();
         jQuery('#search-submit').removeClass('searching');
@@ -445,7 +444,7 @@ jQuery(document).ready(function() {
         if (!getInitialSearchData()) {
             setInitialSearchData(data);
         } else {
-            popup().find('img[data-src]').each(function( index ){
+            popup().find('img[data-src]').each(function (index) {
                 var src = jQuery(this).data('src');
                 popup().find('img[data-src]').eq(index).attr('src', src);
             });
@@ -453,32 +452,32 @@ jQuery(document).ready(function() {
     }
 
 
-    var addProduct = function(productData) {
+    var addProduct = function (productData) {
         var productTemplate = wp.template('product-in-list');
 
         var product = productTemplate(
-            {'name': productData.name, 'image_url': productData.thumb, 'sku': productData.sku, 'id': productData.id}
+            { 'name': productData.name, 'image_url': productData.thumb, 'sku': productData.sku, 'id': productData.id }
         );
 
         jQuery('.wp-list-table.products tbody').append(product);
         jQuery('#product-' + productData.id).data('productData', productData);
     };
 
-    var addTable = function() {
-        tableTemplate = wp.template( 'products-list' );
+    var addTable = function () {
+        tableTemplate = wp.template('products-list');
 
-        jQuery( '.ecwid-add-product.add-product' ).append(tableTemplate());
+        jQuery('.ecwid-add-product.add-product').append(tableTemplate());
     };
 
-    var showEmpty = function(term) {
-        emptyTemplate = wp.template( 'no-products' );
+    var showEmpty = function (term) {
+        emptyTemplate = wp.template('no-products');
 
-        jQuery( '.ecwid-add-product.add-product .wp-list-table.products tbody' ).append(emptyTemplate({term:term}));
+        jQuery('.ecwid-add-product.add-product .wp-list-table.products tbody').append(emptyTemplate({ term: term }));
 
-        jQuery( '.tablenav,.wp-list-table.products thead', popup()).hide();
+        jQuery('.tablenav,.wp-list-table.products thead', popup()).hide();
     };
 
-    var updateSearchParams = function(newParams) {
+    var updateSearchParams = function (newParams) {
         var params = popup().data('searchParams');
 
         if (!params) {
@@ -495,18 +494,18 @@ jQuery(document).ready(function() {
         ecwidSpwSearchProducts();
     };
 
-    var renderSearchParams = function() {
-        var searchParams =  popup().data('searchParams');
+    var renderSearchParams = function () {
+        var searchParams = popup().data('searchParams');
 
         if (!searchParams) {
             searchParams = {};
         }
 
-        if (typeof(searchParams.keyword) != 'undefined') {
+        if (typeof (searchParams.keyword) != 'undefined') {
             jQuery('#product-search-input').val(searchParams.keyword);
         }
 
-        if (typeof(searchParams.sortBy) != 'undefined') {
+        if (typeof (searchParams.sortBy) != 'undefined') {
             if (searchParams.sortBy == 'NAME_ASC') {
                 jQuery('#name').addClass('sorted asc');
 
@@ -521,8 +520,8 @@ jQuery(document).ready(function() {
     }
 
 
-    var renderPagination = function() {
-        if (typeof(searchParams.page != 'undefined')) {
+    var renderPagination = function () {
+        if (typeof (searchParams.page != 'undefined')) {
             jQuery('#current-page-selector').val(searchParams.page);
             if (searchParams.page > 1) {
 
@@ -531,17 +530,17 @@ jQuery(document).ready(function() {
     }
 
 
-    var assignHandlers = function() {
+    var assignHandlers = function () {
 
         jQuery('.wp-list-table.products tr').click(clickProduct);
 
-        jQuery('#search-submit').click(function() {
-            updateSearchParams({keyword: jQuery('#product-search-input').val(), page: 1});
+        jQuery('#search-submit').click(function () {
+            updateSearchParams({ keyword: jQuery('#product-search-input').val(), page: 1 });
 
             return false;
         });
 
-        jQuery('#name a').click(function() {
+        jQuery('#name a').click(function () {
 
             var column = jQuery(this).closest('.manage-column');
             var newSort = '';
@@ -553,12 +552,12 @@ jQuery(document).ready(function() {
                 newSort = 'NAME_ASC';
             }
 
-            updateSearchParams({'sortBy': newSort});
+            updateSearchParams({ 'sortBy': newSort });
 
             return false;
         });
 
-        jQuery('#sku a').click(function() {
+        jQuery('#sku a').click(function () {
 
             var column = jQuery(this).closest('.manage-column');
             var newSort = '';
@@ -570,36 +569,36 @@ jQuery(document).ready(function() {
                 newSort = 'SKU_ASC';
             }
 
-            updateSearchParams({'sortBy': newSort});
+            updateSearchParams({ 'sortBy': newSort });
 
             return false;
         });
 
-        jQuery('.pagination-links .prev-page', popup()).click(function() {
-            updateSearchParams({'page': getSearchParams().page - 1});
+        jQuery('.pagination-links .prev-page', popup()).click(function () {
+            updateSearchParams({ 'page': getSearchParams().page - 1 });
 
             return false;
         });
 
-        jQuery('.pagination-links .next-page', popup()).click(function() {
-            updateSearchParams({'page': getSearchParams().page + 1});
+        jQuery('.pagination-links .next-page', popup()).click(function () {
+            updateSearchParams({ 'page': getSearchParams().page + 1 });
 
             return false;
         });
 
-        jQuery('.pagination-links .first-page', popup()).click(function() {
-            updateSearchParams({'page': 1});
+        jQuery('.pagination-links .first-page', popup()).click(function () {
+            updateSearchParams({ 'page': 1 });
 
             return false;
         });
 
-        jQuery('.pagination-links .last-page', popup()).click(function() {
-            updateSearchParams({'page': jQuery(this).data('page')});
+        jQuery('.pagination-links .last-page', popup()).click(function () {
+            updateSearchParams({ 'page': jQuery(this).data('page') });
 
             return false;
         });
 
-        jQuery('#ecwid-reset-search').click(function() {
+        jQuery('#ecwid-reset-search').click(function () {
             setSearchParams({});
             buildProductsTable(getInitialSearchData());
             setSelectedProduct(null);
@@ -609,11 +608,11 @@ jQuery(document).ready(function() {
     updateSearchParams();
 });
 
-ecwidRenderCheckboxOption = function(data) {
+ecwidRenderCheckboxOption = function (data) {
 
     var that = ecwidRenderCheckboxOption;
     if (!that.template) {
-        that.template = wp.template( 'checkbox-option' );
+        that.template = wp.template('checkbox-option');
     }
 
     if (data.section == 'display-options') {
