@@ -1,6 +1,6 @@
 == Changelog == 
 
-= 6.12.5 - Nov 27, 2023 =
+= 6.12.5 - Nov 28, 2023 =
 - Twenty Twenty Four theme compatibility. Even though Ecwid is compatible with every WordPress theme by design, some slight fixes and improvements are sometimes needed to make storefront look better. That’s why we are always monitoring how Ecwid pages look and behave in WordPress ecommerce themes.
 - Plugin code improvements for better security and stability.
 - Minor fixes for Gutenberg ecommerce blocks.
