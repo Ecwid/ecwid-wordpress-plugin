@@ -1698,6 +1698,15 @@ msgstr "Чтобы добавить магазин на сайт, введите
 msgid "Unfortunately, creating a new account is currently unavailable for your country. You can still connect an existing account."
 msgstr "К сожалению, создание новой учетной записи в настоящее время недоступно для вашей страны. Вы можете подключить существующую учетную запись."
 
+msgid "Access to %s Control Panel"
+msgstr "Доступ к панели управления %s"
+
+msgid "Allow this user to access the %s Control Panel."
+msgstr "Разрешить этому пользователю доступ к панели управления %s."
+
+msgid "More information"
+msgstr "Подробнее"
+
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
 msgid "http://www.ecwid.com?source=wporg"

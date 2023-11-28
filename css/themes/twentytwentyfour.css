@@ -1,5 +1,4 @@
 #dynamic-ec-store-container,
-#static-ec-store-container,
-#ecwid_body .vc_row {
+#static-ec-store-container {
     max-width: var(--wp--style--global--wide-size);
 }

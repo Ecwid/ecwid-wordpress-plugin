@@ -5,8 +5,6 @@ require_once ECWID_PLUGIN_DIR . 'lib/phpseclib/AES.php';
 
 class EcwidPlatform {
 
-	protected static $http_use_streams = false;
-
 	protected static $crypt = null;
 
 	protected static $ecwid_plugin_data = null;
@@ -19,6 +17,8 @@ class EcwidPlatform {
 
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
+
+	const OPTION_ECWID_CHECK_API_RETRY_AFTER = 'ecwid_api_check_retry_after';
 
 	const TRANSIENTS_LIMIT = 500;
 
@@ -245,7 +245,7 @@ class EcwidPlatform {
 	}
 
 	public static function fetch_url( $url, $options = array() ) {
-		$api_check_retry_after = get_option( 'ecwid_api_check_retry_after', 0 );
+		$api_check_retry_after = get_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 
 		if ( $api_check_retry_after > time() ) {
 			return array(
@@ -253,10 +253,6 @@ class EcwidPlatform {
 				'data'    => '',
 				'message' => 'Too Many Requests',
 			);
-		}
-
-		if ( get_option( 'ecwid_http_use_stream', false ) ) {
-			self::$http_use_streams = true;
 		}
 
 		$default_timeout = 10;
@@ -271,16 +267,11 @@ class EcwidPlatform {
 		);
 
 		if ( wp_remote_retrieve_response_code( $result ) == '429' ) {
-
 			$retry_after = intval( wp_remote_retrieve_header( $result, 'retry-after' ) );
 
 			if ( $retry_after > 0 ) {
-				update_option( 'ecwid_api_check_retry_after', time() + $retry_after );
+				update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, time() + $retry_after );
 			}
-		}
-
-		if ( get_option( 'ecwid_http_use_stream', false ) ) {
-			self::$http_use_streams = false;
 		}
 
 		$return = array(
@@ -300,12 +291,15 @@ class EcwidPlatform {
 				'data' => $result['body'],
 			);
 		} elseif ( is_object( $result ) ) {
-
 			$return = array(
 				'code'    => $result->get_error_code(),
 				'data'    => $result->get_error_data(),
 				'message' => $result->get_error_message(),
 			);
+		}
+
+		if ( $return['code'] == 200 ) {
+			update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 		}
 
 		return $return;
@@ -326,19 +320,7 @@ class EcwidPlatform {
 
 		$args['body'] = $data;
 
-		if ( get_option( 'ecwid_http_use_stream', false ) !== true ) {
-			$result = wp_remote_post( $url, $args );
-		}
-
-		if ( ! is_array( $result ) ) {
-			self::$http_use_streams = true;
-			$result                 = wp_remote_post( $url, $args );
-			self::$http_use_streams = false;
-
-			if ( is_array( $result ) ) {
-				update_option( 'ecwid_http_use_stream', true );
-			}
-		}
+		$result = wp_remote_post( $url, $args );
 
 		return $result;
 	}
@@ -384,14 +366,6 @@ class EcwidPlatform {
 		unset( self::$ecwid_plugin_data[ $name ] );
 
 		update_option( self::OPTION_ECWID_PLUGIN_DATA, self::$ecwid_plugin_data );
-	}
-
-	public static function http_api_transports( $transports ) {
-		if ( self::$http_use_streams ) {
-			return array( 'streams' );
-		}
-
-		return $transports;
 	}
 
 	public static function store_in_products_cache( $url, $data ) {
@@ -603,5 +577,3 @@ class EcwidPlatform {
 		do_action( 'ecwid_clean_external_cache' );
 	}
 }
-
-add_filter( 'http_api_transports', array( 'EcwidPlatform', 'http_api_transports' ) );
