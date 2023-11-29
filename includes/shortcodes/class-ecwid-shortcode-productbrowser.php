@@ -24,7 +24,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		Ecwid_Store_Page::add_store_page( get_the_ID() );
 		if ( current_user_can( Ecwid_Admin::get_capability() ) ) {
-
 			$seo_links = new Ecwid_Seo_Links();
 			$seo_links->check_base_urls_on_view_store_page_as_admin();
 		}
@@ -32,7 +31,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		$option_print_html_catalog = get_option( 'ecwid_print_html_catalog', 'Y' );
 
 		if ( ! Ecwid_Static_Page::is_data_available() || @$this->_params['noHTMLCatalog'] || empty( $option_print_html_catalog ) ) {
-
 			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false' );
 
 			$code = self::get_dynamic_html_code();
