@@ -19,15 +19,27 @@ class Ecwid_Theme_Avada extends Ecwid_Theme_Base {
 		ob_start();
 		?>
 		<script type="text/javascript">
-		Ecwid.OnPageLoaded.add( function() {
-			if (typeof niceScrollReInit == 'function') {
-				niceScrollReInit();
+		(function () {
+			function initNiceScrollHandler() {
+				Ecwid.OnPageLoaded.add( function() {
+					if (typeof niceScrollReInit == 'function') {
+						niceScrollReInit();
+					}
+
+					if (typeof jQuery("html").getNiceScroll == 'object') {
+						jQuery("html").getNiceScroll().resize();
+					}
+				});
 			}
 
-			if (typeof jQuery("html").getNiceScroll == 'object') {
-				jQuery("html").getNiceScroll().resize();
+			if( typeof Ecwid == 'object' && typeof Ecwid.OnPageLoaded == 'object' ) {
+				initNiceScrollHandler();
 			}
-		});
+
+			document.addEventListener('setupAfterEcwidLoaded', (e) => {
+				initNiceScrollHandler();
+			});
+		})();
 		</script>
 		<?php
 		$content .= ob_get_clean();

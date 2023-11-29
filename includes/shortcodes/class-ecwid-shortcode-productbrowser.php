@@ -85,6 +85,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$code           = '<div id="dynamic-ec-store-container" class="' . $classname . '">' . $default_render . '</div>' . PHP_EOL;
 		} else {
 			$code = '<div id="dynamic-ec-store-container"><div id="dynamic-ec-store"></div></div>' . PHP_EOL;
+			$code = $this->wrap_code( $code );
 		}
 
 		return $code;

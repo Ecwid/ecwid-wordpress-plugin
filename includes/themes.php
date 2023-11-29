@@ -138,7 +138,6 @@ function ecwid_apply_theme( $theme_name = null ) {
 			$ecwid_current_theme = require_once $theme_file;
 		}
 	} elseif ( array_key_exists( $theme_name, $generic_themes ) ) {
-
 		$ecwid_current_theme = Ecwid_Theme_Base::create( $theme_name, $generic_themes[ $theme_name ] );
 	}
 
