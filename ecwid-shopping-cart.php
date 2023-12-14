@@ -624,7 +624,7 @@ function ecwid_backward_compatibility() {
     }
 }
 
-function ecwid_build_sitemap( $callback ) {
+function ecwid_build_sitemap( $callback, $page_num = 1 ) {
 	if ( ! Ecwid_Api_V3::is_available() || ! ecwid_is_store_page_available() ) {
 		return;
 	}
@@ -635,7 +635,7 @@ function ecwid_build_sitemap( $callback ) {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
 		$sitemap = new EcwidSitemapBuilder( Ecwid_Store_Page::get_store_url(), $callback );
-		$sitemap->generate();
+		$sitemap->generate( (int) $page_num );
 	}
 }
 

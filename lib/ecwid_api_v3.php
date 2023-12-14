@@ -289,7 +289,6 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
-
 			$result = EcwidPlatform::fetch_url( $url, $options );
 
 			if ( $result['code'] != '200' ) {
@@ -435,7 +434,6 @@ class Ecwid_Api_V3 {
 		}
 
 		if ( strlen( $db_value ) == 64 ) {
-
 			$encrypted = base64_decode( $db_value );
 			if ( empty( $encrypted ) ) {
 				return false;
@@ -763,7 +761,6 @@ class Ecwid_Api_V3 {
 	protected function build_request_url( $url, $input_params ) {
 		$params = array();
 		foreach ( $input_params as $key => $param ) {
-
 			if ( ! is_string( $key ) ) {
 				if ( $param == 'appClientId' ) {
 					$params['appClientId'] = Ecwid_Config::get_oauth_appid();
@@ -1038,7 +1035,6 @@ class Ecwid_Api_V3 {
 		}
 
 		if ( $all ) {
-
 			EcwidPlatform::store_in_products_cache( 'ecwid_total_products', $result->total );
 
 			if ( $result->total < 100 && $result->count == $result->total ) {

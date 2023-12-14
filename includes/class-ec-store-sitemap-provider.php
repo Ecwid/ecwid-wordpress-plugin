@@ -6,6 +6,10 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 	public function __construct() {
 		$this->name        = 'ecstore';
 		$this->object_type = 'product';
+
+		if ( file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+		}
 	}
 
 	public static function init() {
@@ -16,13 +20,13 @@ class Ec_Store_Sitemap_Provider extends WP_Sitemaps_Provider {
 	public function get_url_list( $page_num, $post_type = '' ) {
 		$this->url_list = array();
 
-		ecwid_build_sitemap( array( $this, 'sitemap_callback' ) );
+		ecwid_build_sitemap( array( $this, 'sitemap_callback' ), $page_num );
 
 		return $this->url_list;
 	}
 
 	public function get_max_num_pages( $post_type = '' ) {
-		return 1;
+		return EcwidSitemapBuilder::get_num_pages();
 	}
 
 	public function sitemap_callback( $url, $priority, $frequency, $obj ) {
