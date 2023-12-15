@@ -4,11 +4,22 @@ class Ecwid_Integration_Rank_Math {
 
 	protected $sitemap = array();
 
+	public $sitemap_url_pattern = 'ecstore-%d-sitemap.xml';
+	public $sitemap_urls        = array();
+
 	public function __construct() {
 
 		if ( ecwid_is_store_page_available() ) {
-			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ) );
-			add_filter( 'rank_math/sitemap/ecwid/content', array( $this, 'sitemap_content' ) );
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+
+			$num_pages = EcwidSitemapBuilder::get_num_pages();
+			for ( $i = 1; $i <= $num_pages; $i++ ) {
+				$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
+
+				add_filter( 'rank_math/sitemap/ecstore-' . $i . '/content', array( $this, 'sitemap_content' ) );
+			}
+
+			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ), 10, 1 );
 			add_filter( 'rank_math/sitemap/exclude_post_type', array( $this, 'exclude_post_type' ), 10, 2 );
 			add_filter( 'rank_math/excluded_post_types', array( $this, 'excluded_post_types' ), 10, 1 );
 		}
@@ -50,33 +61,47 @@ class Ecwid_Integration_Rank_Math {
 		echo '<title>' . esc_html( $title ) . '</title>' . "\n";
 	}
 
-	public function sitemap_index() {
-		$now         = date( 'c', time() );
-		$sitemap_url = RankMath\Sitemap\Router::get_base_url( 'ecwid-sitemap.xml' );
+	public function sitemap_index( $xml ) {
+		$now = date( 'c', time() );
 
-		return "
-		<sitemap>
-			<loc>$sitemap_url</loc>
-			<lastmod>$now</lastmod>
-		</sitemap>";
+		foreach ( $this->sitemap_urls as $url ) {
+			$sitemap_url = RankMath\Sitemap\Router::get_base_url( $url );
+
+			$xml .= "
+                <sitemap>
+                    <loc>$sitemap_url</loc>
+                    <lastmod>$now</lastmod>
+                </sitemap>";
+		}
+
+		return $xml;
 	}
 
 	public function sitemap_content( $content ) {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+		foreach ( $this->sitemap_urls as $url ) {
+			if ( strpos( $request_uri, $url ) !== false ) {
+				preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $url, $m );
+				$page_num = $m[1];
 
-		ecwid_build_sitemap( array( $this, 'sitemap_callback' ) );
+				$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-		$this->sitemap .= '</urlset>';
+				ecwid_build_sitemap( array( $this, 'sitemap_callback' ), $page_num );
 
-		$sitemap       = $this->sitemap;
-		$this->sitemap = null;
+				$this->sitemap .= '</urlset>';
 
-		return $sitemap;
+				$content       = $this->sitemap;
+				$this->sitemap = null;
+			}
+		}
+
+		return $content;
 	}
 
 	public function sitemap_callback( $url, $priority, $frequency, $obj ) {
 		$url        = htmlspecialchars( $url );
+		$lastmod    = '';
 		$image_code = '';
 		$image      = @$obj->originalImageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( $image ) {
@@ -85,12 +110,16 @@ class Ecwid_Integration_Rank_Math {
 			$image_code = '<image:image><image:title>' . $title . '</image:title><image:loc>' . $image . '</image:loc></image:image>';
 		}
 
+		if ( isset( $obj->updated ) ) {
+			$lastmod = '<lastmod>' . $obj->updated . '</lastmod>';
+		}
+
 		$this->sitemap .= "
 	<url>
 		<loc>$url</loc>
 		<changefreq>$frequency</changefreq>
 		<priority>$priority</priority>
-		$image_code
+		$image_code $lastmod
 	</url>";
 	}
 }
