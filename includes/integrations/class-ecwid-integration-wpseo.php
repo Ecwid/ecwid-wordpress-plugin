@@ -164,9 +164,11 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 	}
 
 	protected function init_sitemap_hooks() {
-		if ( file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
-			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+		if ( ! file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+			return;
 		}
+
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
 		add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
 
