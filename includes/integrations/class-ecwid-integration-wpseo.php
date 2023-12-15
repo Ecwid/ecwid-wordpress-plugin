@@ -169,7 +169,6 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		}
 
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
-
 		add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
 
 		$num_pages = EcwidSitemapBuilder::get_num_pages();

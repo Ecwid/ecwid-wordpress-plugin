@@ -3,6 +3,7 @@ class EcwidSitemapBuilder {
 	public $callback;
 	public $type;
 	public $base_url;
+	public $unlimited;
 
 	const PRIORITY_PRODUCT  = 0.6;
 	const PRIORITY_CATEGORY = 0.5;
@@ -10,9 +11,10 @@ class EcwidSitemapBuilder {
 	const API_MAX_LIMIT       = 100;
 	const SITEMAP_ITEMS_LIMIT = 5000;
 
-	public function __construct( $base_url, $callback ) {
-		$this->callback = $callback;
-		$this->base_url = $base_url;
+	public function __construct( $base_url, $callback, $unlimited = false ) {
+		$this->callback  = $callback;
+		$this->base_url  = $base_url;
+		$this->unlimited = apply_filters( 'ecwid_sitemap_builder_set_unlimited', $unlimited );
 	}
 
 	public function generate( $page_num ) {
@@ -55,12 +57,18 @@ class EcwidSitemapBuilder {
 			} while ( $categories->count > 0 );
 		}//end if
 
+		if ( $this->unlimited ) {
+			$sitemap_items_limit = self::get_products_total();
+		} else {
+			$sitemap_items_limit = self::SITEMAP_ITEMS_LIMIT;
+		}
+
 		$count  = 0;
 		$limit  = self::API_MAX_LIMIT;
-		$offset = 1 === $page_num ? 0 : self::SITEMAP_ITEMS_LIMIT * ( $page_num - 1 );
+		$offset = 1 === $page_num ? 0 : $sitemap_items_limit * ( $page_num - 1 );
 
-		if ( $limit > self::SITEMAP_ITEMS_LIMIT ) {
-			$limit = self::SITEMAP_ITEMS_LIMIT;
+		if ( $limit > $sitemap_items_limit ) {
+			$limit = $sitemap_items_limit;
 		}
 
 		do {
@@ -97,10 +105,10 @@ class EcwidSitemapBuilder {
 			}
 
 			$offset += $limit;
-			if ( self::SITEMAP_ITEMS_LIMIT > self::API_MAX_LIMIT ) {
-				$limit = self::SITEMAP_ITEMS_LIMIT - $limit;
+			if ( $sitemap_items_limit > self::API_MAX_LIMIT ) {
+				$limit = $sitemap_items_limit - $limit;
 			}
-		} while ( $count < self::SITEMAP_ITEMS_LIMIT );
+		} while ( $count < $sitemap_items_limit );
 
 		return true;
 	}
@@ -119,6 +127,11 @@ class EcwidSitemapBuilder {
 	}
 
 	public static function get_num_pages() {
+		$unlimited = apply_filters( 'ecwid_sitemap_builder_set_unlimited', false );
+		if ( $unlimited ) {
+			return 1;
+		}
+
 		return ceil( self::get_products_total() / self::SITEMAP_ITEMS_LIMIT );
 	}
 }

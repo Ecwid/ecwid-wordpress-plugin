@@ -4,6 +4,7 @@ class Ecwid_Integration_Google_Sitemap_Generator {
 	public function __construct() {
 		// Older versions of Google XML Sitemaps plugin generate it in admin, newer in site area, so the hook should be assigned in both of them
 		add_action( 'sm_buildmap', array( $this, 'build_sitemap' ) );
+		add_filter( 'ecwid_sitemap_builder_set_unlimited', '__return_true' );
 
 		$plugin_data          = get_file_data( WP_PLUGIN_DIR . '/google-sitemap-generator/sitemap.php', array( 'version' => 'Version' ), 'plugin' );
 		$this->plugin_version = $plugin_data['version'];
