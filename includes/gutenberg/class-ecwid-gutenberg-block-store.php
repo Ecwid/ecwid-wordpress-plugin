@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/class-ecwid-gutenberg-block-base.php';
+require_once __DIR__ . '/class-ecwid-gutenberg-block-base.php';
 
 class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
@@ -76,7 +76,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		foreach ( $params as $key => $value ) {
 			if ( is_object( $value ) || is_array( $value ) ) {
-				$value = json_encode( $value );
+				$value = json_encode( $value, JSON_FORCE_OBJECT );
 			}
 
 			$result .= " $key='$value'";
@@ -91,7 +91,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		$store_page_data = array();
 
 		foreach ( $attributes as $key => $attribute ) {
-
 			$name = $attribute['name'];
 			if ( ! isset( $params[ $name ] ) ) {
 				$store_page_data[ $name ] = $attribute['default'];
@@ -104,7 +103,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}
 
 			if ( $name == 'show_description_under_image' ) {
-
 				$layout = ( isset( $params['product_details_layout'] ) ) ? $params['product_details_layout'] : null;
 				if ( is_null( $layout ) ) {
 					$layout = $attributes['product_details_layout']['default'];
@@ -132,7 +130,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}//end if
 
 			if ( $name == 'storefront_view' && ! isset( $params['default_category_id'] ) ) {
-
 				if ( $value !== 'FILTERS_PAGE' ) {
 					$attribute['type']              = 'boolean';
 					$attribute['is_storefront_api'] = true;
@@ -154,7 +151,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}//end if
 
 			if ( isset( $attribute['is_storefront_api'] ) && $attribute['is_storefront_api'] && strpos( $name, 'chameleon' ) === false ) {
-
 				if ( is_null( $value ) ) {
 					$value = $attribute['default'];
 				}
@@ -296,7 +292,6 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				),
 			);
 			foreach ( $categories as $category ) {
-
 				if ( empty( $category->enabled ) ) {
 					continue;
 				}
@@ -375,5 +370,4 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
     c0.1,0,0.2,0.05,0.26,0.13C18.48,2.58,18.5,2.68,18.48,2.79z M4.6,15.5c-0.37,0-0.66,0.3-0.66,0.67c0,0.37,0.3,0.67,0.66,0.67c0.37,0,0.67-0.3,0.67-0.67
     S4.96,15.5,4.6,15.5z';
 	}
-
 }

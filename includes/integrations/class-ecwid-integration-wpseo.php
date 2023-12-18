@@ -3,8 +3,9 @@
 class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 	/** Store intermediate sitemap generation results here */
-	protected $sitemap = array();
-	protected $og_drop = array( 'title', 'desc', 'type', 'url', 'site_name' );
+	protected $sitemap       = array();
+	protected $sitemap_types = array();
+	protected $og_drop       = array( 'title', 'desc', 'type', 'url', 'site_name' );
 
 	public function __construct() {
 		if ( ! Ecwid_Api_V3::is_available() ) {
@@ -15,7 +16,6 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		add_action( 'template_redirect', array( $this, 'disable_rewrite_titles' ) );
 
 		if ( ecwid_is_store_page_available() ) {
-
 			add_filter( 'wpseo_title', 'ecwid_seo_title' );
 			remove_filter( 'wp_title', 'ecwid_seo_title', 10000, 3 );
 
@@ -23,8 +23,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 			add_filter( 'wpseo_output_twitter_card', '__return_false' );
 
-			add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
-			add_filter( 'wpseo_do_sitemap_ecstore', array( $this, 'wpseo_hook_do_sitemap' ) );
+			$this->init_sitemap_hooks();
 		}
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
@@ -86,7 +85,6 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 	public function clear_canonical( $canonical ) {
 
 		if ( Ecwid_Store_Page::is_store_page() ) {
-
 			$is_home_page                        = Ecwid_Store_Page::is_store_home_page();
 			$is_store_page_with_default_category = Ecwid_Store_Page::is_store_page_with_default_category();
 
@@ -120,7 +118,6 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		ob_end_clean();
 
 		if ( substr_count( $output, '"og:image"' ) >= 1 ) {
-
 			$og_tags = array( '', ':width', ':height', ':type' );
 			foreach ( $og_tags as $og_tag ) {
 				$output = preg_replace(
@@ -166,19 +163,51 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		}
 	}
 
+	protected function init_sitemap_hooks() {
+		if ( ! file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+			return;
+		}
+
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+		add_filter( 'wpseo_sitemap_index', array( $this, 'wpseo_hook_sitemap_index' ) );
+
+		$num_pages = EcwidSitemapBuilder::get_num_pages();
+		for ( $i = 1; $i <= $num_pages; $i++ ) {
+			$type                  = 'ecstore-' . $i;
+			$this->sitemap_types[] = $type;
+
+			add_filter( 'wpseo_do_sitemap_' . $type, array( $this, 'wpseo_hook_do_sitemap' ) );
+		}
+	}
+
 	// Hook that new sitemap type to sitemap
 	public function wpseo_hook_sitemap_index() {
-		$now = date( 'c', time() ); //phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$sitemap = '';
+		$now     = date( 'c', time() ); //phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
-		$sitemap_url = $this->_get_base_url( 'ecstore-sitemap.xml' );
-		return '<sitemap><loc>' . $sitemap_url . '</loc><lastmod>' . $now . '</lastmod></sitemap>';
+		if ( ! empty( $this->sitemap_types ) ) {
+			foreach ( $this->sitemap_types as $type ) {
+				$sitemap_url = $this->_get_base_url( $type . '-sitemap.xml' );
+				$sitemap    .= '<sitemap><loc>' . $sitemap_url . '</loc><lastmod>' . $now . '</lastmod></sitemap>';
+			}
+		}
+
+		return $sitemap;
 	}
 
 	// Hook that adds content to sitemap
 	public function wpseo_hook_do_sitemap() {
+
+		if ( ! empty( $_REQUEST['q'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $_REQUEST['q'], $m ); //phpcs:ignore WordPress.Security
+			$page_num = $m[1];
+		} else {
+			$page_num = 1;
+		}
+
 		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-		ecwid_build_sitemap( array( $this, 'sitemap_callback' ) );
+		ecwid_build_sitemap( array( $this, 'sitemap_callback' ), $page_num );
 
 		$this->sitemap .= '</urlset>';
 
@@ -192,11 +221,16 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 	public function sitemap_callback( $url, $priority, $frequency, $obj ) {
 		$url        = htmlspecialchars( $url );
 		$image_code = '';
+		$lastmod    = '';
 		$image      = @$obj->originalImageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( $image ) {
 			$image      = htmlspecialchars( $image );
 			$title      = htmlspecialchars( $obj->name );
 			$image_code = '<image:image><image:title>' . $title . '</image:title><image:loc>' . $image . '</image:loc></image:image>';
+		}
+
+		if ( isset( $obj->updated ) ) {
+			$lastmod = '<lastmod>' . $obj->updated . '</lastmod>';
 		}
 
 		$this->sitemap .= "
@@ -205,6 +239,7 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 		<changefreq>$frequency</changefreq>
 		<priority>$priority</priority>
 		$image_code
+		$lastmod
 	</url>";
 	}
 

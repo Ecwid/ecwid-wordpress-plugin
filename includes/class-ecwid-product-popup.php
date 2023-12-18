@@ -51,9 +51,9 @@ class Ecwid_Product_Popup {
 	}
 
 	public function save_display_params() {
-        if ( ! check_ajax_referer( 'ecwid-product-popup' ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( 'ecwid-product-popup' ) ) {
+			die();
+		}
 
 		if ( ! is_admin() || ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			return;
@@ -89,7 +89,6 @@ class Ecwid_Product_Popup {
 		$result = $api->search_products( $params );
 
 		if ( $result && $result->count > 0 ) {
-
 			$output = array(
 				'total'  => $result->total,
 				'count'  => $result->count,
@@ -107,7 +106,6 @@ class Ecwid_Product_Popup {
 				);
 			}
 			echo wp_json_encode( $output );
-
 		}//end if
 
 		wp_die();
@@ -127,13 +125,13 @@ class Ecwid_Product_Popup {
 		wp_enqueue_style( 'ecwid-product-popup', ECWID_PLUGIN_URL . 'css/product-popup.css', array(), get_option( 'ecwid_plugin_version' ) );
 		wp_enqueue_script( 'ecwid-product-popup', ECWID_PLUGIN_URL . 'js/product-popup.js', array(), get_option( 'ecwid_plugin_version' ), false );
 
-        wp_localize_script(
-            'ecwid-product-popup',
-            'EcwidProductPopup', 
-            array(
-                '_ajax_nonce' => wp_create_nonce( 'ecwid-product-popup' )
-            )
-        );
+		wp_localize_script(
+			'ecwid-product-popup',
+			'EcwidProductPopup',
+			array(
+				'_ajax_nonce' => wp_create_nonce( 'ecwid-product-popup' ),
+			)
+		);
 
 		$data = array();
 		if ( ! Ecwid_Api_V3::get_token() ) {

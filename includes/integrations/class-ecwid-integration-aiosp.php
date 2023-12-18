@@ -5,7 +5,9 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	/** Store intermediate sitemap generation results here */
 	protected $sitemap = array();
 
-	public $sitemap_url = 'ecstore-sitemap.xml';
+	public $sitemap_url_pattern = 'ecstore-%d-sitemap.xml';
+	public $sitemap_urls        = array();
+
 	public $plugin_version;
 
 	public function __construct() {
@@ -21,6 +23,15 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		if ( version_compare( $this->plugin_version, '4.0.0', '>=' ) ) {
 			add_filter( 'aioseo_sitemap_indexes', array( $this, 'add_sitemap_to_indexes' ) );
 			add_action( 'init', array( $this, 'is_sitemap_page' ) );
+
+			if ( file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+				require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+
+				$num_pages = EcwidSitemapBuilder::get_num_pages();
+				for ( $i = 1; $i <= $num_pages; $i++ ) {
+					$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
+				}
+			}
 		} else {
 			add_filter( 'aiosp_sitemap_extra', array( $this, 'aiosp_hook_sitemap_extra' ) );
 			add_filter( 'aiosp_sitemap_custom_ecwid', array( $this, 'aiosp_hook_sitemap_content' ) );
@@ -64,35 +75,54 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	}
 
 	public function add_sitemap_to_indexes( $indexes ) {
-		$indexes[] = array(
-			'loc'     => home_url( $this->sitemap_url ),
-			'lastmod' => '',
-		);
+
+		if ( empty( $this->sitemap_urls ) ) {
+			return $indexes;
+		}
+
+		foreach ( $this->sitemap_urls as $url ) {
+			$indexes[] = array(
+				'loc'     => home_url( $url ),
+				'lastmod' => '',
+			);
+		}
+
 		return $indexes;
 	}
 
     // phpcs:disable
 	public function is_sitemap_page() {
+        if ( ! file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+			return;
+		}
+		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+
         $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
         
-        if ( strpos( $request_uri, $this->sitemap_url ) !== false ) {
-		    echo $this->do_sitemap();
-            exit;
+        foreach( $this->sitemap_urls as $url ) {
+            if ( strpos( $request_uri, $url ) !== false ) {
+
+                preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $url, $m );
+			    $page_num = $m[1];
+
+                echo $this->do_sitemap( $page_num );
+                exit;
+            }
         }
 	}
     // phpcs:enable
 
-	public function do_sitemap() {
+	public function do_sitemap( $page_num ) {
 		$charset = get_option( 'blog_charset' );
 		header( "Content-Type: text/xml; charset=$charset", true );
 		header( 'X-Robots-Tag: noindex, follow', true );
 		header( 'HTTP/1.1 200 OK' );
 
 		$this->sitemap  = '<?xml version="1.0" encoding="UTF-8"?>';
-		$this->sitemap .= '<?xml-stylesheet type="text/xsl" href="default.xsl?sitemap=ecstore"?>';
-		$this->sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="https://www.google.com/schemas/sitemap-image/1.1">';
+		$this->sitemap .= '<?xml-stylesheet type="text/xsl" href="default-sitemap.xsl?sitemap=root"?>';
+		$this->sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
 
-		ecwid_build_sitemap( array( $this, 'get_sitemap_items_callback' ) );
+		ecwid_build_sitemap( array( $this, 'get_sitemap_items_callback' ), $page_num );
 
 		$this->sitemap .= '</urlset>';
 
@@ -102,6 +132,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 	// A callback for the streaming sitemap builder
 	public function get_sitemap_items_callback( $url, $priority, $frequency, $obj ) {
 		$url        = htmlspecialchars( $url );
+		$lastmod    = '';
 		$image_code = '';
 		$image      = @$obj->originalImageUrl; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( $image ) {
@@ -114,11 +145,15 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 				</image:image>";
 		}
 
+		if ( isset( $obj->updated ) ) {
+			$lastmod = '<lastmod>' . $obj->updated . '</lastmod>';
+		}
+
 		$this->sitemap .= "
             <url>
                 <loc>$url</loc>
                 <changefreq>$frequency</changefreq>
-                <priority>$priority</priority> $image_code
+                <priority>$priority</priority> $lastmod $image_code
             </url>";
 	}
 
