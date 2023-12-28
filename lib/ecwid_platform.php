@@ -166,7 +166,8 @@ class EcwidPlatform {
 		if ( ! $params ) {
 			$params = array();
 		}
-		$backtrace = debug_backtrace( false );
+
+		$backtrace = debug_backtrace( false ); //phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.Changed, WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 
 		$file = '';
 		$line = '';
