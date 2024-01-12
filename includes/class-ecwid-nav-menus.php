@@ -247,8 +247,6 @@ class Ecwid_Nav_Menus {
 						usort( $categories, Ecwid_Category::usort_callback() );
 
 						foreach ( $categories as $category ) {
-							$category = Ecwid_Category::get_by_id( $category->id );
-
 							$post                    = new stdClass();
 							$post->ID                = -1;
 							$post->post_author       = '';
@@ -261,7 +259,7 @@ class Ecwid_Nav_Menus {
 							$post->to_ping           = '';
 							$post->pinged            = '';
 							$post->post_parent       = 0;
-							$post->url               = $category->get_link( Ecwid_Store_Page::get_store_url() );
+							$post->url               = $category->url;
 							$post->classes           = '';
 							$post->type              = 'post';
 							$post->db_id             = 0;
@@ -277,8 +275,8 @@ class Ecwid_Nav_Menus {
 							$post->ecwid_category_id = $category->id;
 
 							$post->ecwid_name_translated = array();
-							if ( isset( $category->nameTranslated ) ) {
-								$post->ecwid_name_translated = $category->nameTranslated;
+							if ( isset( $category->nameTranslated ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+								$post->ecwid_name_translated = $category->nameTranslated; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							}
 
 							$post = new WP_Post( $post );
