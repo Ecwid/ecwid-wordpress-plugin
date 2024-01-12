@@ -214,7 +214,6 @@ class Ecwid_Nav_Menus {
 		$counter = 0;
 
 		for ( $i = 0; $i < count( $items ); $i++ ) {
-
 			if ( ! isset( $items[ $i ] ) ) {
 				continue;
 			}
@@ -234,7 +233,6 @@ class Ecwid_Nav_Menus {
 			}
 
 			if ( $item->object == 'ecwid-store-with-categories' ) {
-
 				$cache_key = apply_filters( 'ecwid_nav_categories_posts_cache_key', 'nav_categories_posts' );
 
 				$posts = EcwidPlatform::cache_get( $cache_key );
@@ -245,7 +243,6 @@ class Ecwid_Nav_Menus {
 					$result = $api->get_categories( array( 'parent' => 0 ) );
 
 					if ( $result && $result->count > 0 ) {
-
 						$categories = $result->items;
 						usort( $categories, Ecwid_Category::usort_callback() );
 
@@ -297,11 +294,11 @@ class Ecwid_Nav_Menus {
 				$posts = apply_filters( 'ecwid_nav_categories_posts', $posts );
 
 				foreach ( $posts as $post ) {
-					$counter++;
+					++$counter;
 					$post->menu_item_parent = $item->ID;
 					array_splice( $items, $i + $counter, 0, array( $post ) );
 				}
-				$counter++;
+				++$counter;
 			}//end if
 		}//end for
 
@@ -350,7 +347,7 @@ class Ecwid_Nav_Menus {
 							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( Ecwid_Store_Page::get_store_url() . '#!/~/' . $value['url'] ); ?>" />
 						</li>
 						<?php
-						$i--;
+						--$i;
 					}
 					?>
 				</ul>
@@ -366,7 +363,6 @@ class Ecwid_Nav_Menus {
 			</p>
 		</div>
 		<?php
-
 	}
 
 	protected function get_nav_menu_items() {

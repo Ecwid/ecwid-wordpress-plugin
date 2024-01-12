@@ -64,7 +64,7 @@ class Ec_Store_Admin_Access {
 		$cap_not_changed_before = ! isset( $all_caps[ self::CAP_MANAGE_CONTROL_PANEL ] );
 		$is_old_installation    = ecwid_migrations_is_original_plugin_version_older_than( '6.12.4' );
 
-		if ( $cap_not_changed_before && $is_old_installation ) {
+		if ( $cap_not_changed_before && $is_old_installation && user_can( $user_id, 'manage_options' ) ) {
 			return true;
 		}
 
