@@ -157,16 +157,13 @@ class EcwidPlatform {
 		return self::$crypt->decrypt( $what );
 	}
 
-	public static function cache_log_record( $operation, $params ) {
+	public static function cache_log_record( $operation, $params = array() ) {
 
 		if ( ! get_option( self::OPTION_LOG_CACHE, false ) ) {
 			return;
 		}
 
-		if ( ! $params ) {
-			$params = array();
-		}
-		$backtrace = debug_backtrace( false );
+		$backtrace = debug_backtrace( false ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 
 		$file = '';
 		$line = '';

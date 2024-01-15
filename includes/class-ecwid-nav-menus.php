@@ -214,7 +214,6 @@ class Ecwid_Nav_Menus {
 		$counter = 0;
 
 		for ( $i = 0; $i < count( $items ); $i++ ) {
-
 			if ( ! isset( $items[ $i ] ) ) {
 				continue;
 			}
@@ -234,7 +233,6 @@ class Ecwid_Nav_Menus {
 			}
 
 			if ( $item->object == 'ecwid-store-with-categories' ) {
-
 				$cache_key = apply_filters( 'ecwid_nav_categories_posts_cache_key', 'nav_categories_posts' );
 
 				$posts = EcwidPlatform::cache_get( $cache_key );
@@ -245,13 +243,10 @@ class Ecwid_Nav_Menus {
 					$result = $api->get_categories( array( 'parent' => 0 ) );
 
 					if ( $result && $result->count > 0 ) {
-
 						$categories = $result->items;
 						usort( $categories, Ecwid_Category::usort_callback() );
 
 						foreach ( $categories as $category ) {
-							$category = Ecwid_Category::get_by_id( $category->id );
-
 							$post                    = new stdClass();
 							$post->ID                = -1;
 							$post->post_author       = '';
@@ -264,7 +259,7 @@ class Ecwid_Nav_Menus {
 							$post->to_ping           = '';
 							$post->pinged            = '';
 							$post->post_parent       = 0;
-							$post->url               = $category->get_link( Ecwid_Store_Page::get_store_url() );
+							$post->url               = $category->url;
 							$post->classes           = '';
 							$post->type              = 'post';
 							$post->db_id             = 0;
@@ -280,8 +275,8 @@ class Ecwid_Nav_Menus {
 							$post->ecwid_category_id = $category->id;
 
 							$post->ecwid_name_translated = array();
-							if ( isset( $category->nameTranslated ) ) {
-								$post->ecwid_name_translated = $category->nameTranslated;
+							if ( isset( $category->nameTranslated ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+								$post->ecwid_name_translated = $category->nameTranslated; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							}
 
 							$post = new WP_Post( $post );
@@ -297,11 +292,11 @@ class Ecwid_Nav_Menus {
 				$posts = apply_filters( 'ecwid_nav_categories_posts', $posts );
 
 				foreach ( $posts as $post ) {
-					$counter++;
+					++$counter;
 					$post->menu_item_parent = $item->ID;
 					array_splice( $items, $i + $counter, 0, array( $post ) );
 				}
-				$counter++;
+				++$counter;
 			}//end if
 		}//end for
 
@@ -350,7 +345,7 @@ class Ecwid_Nav_Menus {
 							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_url( Ecwid_Store_Page::get_store_url() . '#!/~/' . $value['url'] ); ?>" />
 						</li>
 						<?php
-						$i--;
+						--$i;
 					}
 					?>
 				</ul>
@@ -366,7 +361,6 @@ class Ecwid_Nav_Menus {
 			</p>
 		</div>
 		<?php
-
 	}
 
 	protected function get_nav_menu_items() {
