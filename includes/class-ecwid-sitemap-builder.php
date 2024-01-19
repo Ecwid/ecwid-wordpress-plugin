@@ -8,7 +8,7 @@ class EcwidSitemapBuilder {
 	const PRIORITY_PRODUCT  = 0.6;
 	const PRIORITY_CATEGORY = 0.5;
 
-	const API_MAX_LIMIT       = 100;
+	const API_LIMIT           = 100;
 	const SITEMAP_ITEMS_LIMIT = 5000;
 
 	public function __construct( $base_url, $callback, $unlimited = false ) {
@@ -23,7 +23,7 @@ class EcwidSitemapBuilder {
 		$stats = $api->get_store_update_stats();
 
 		$offset = 0;
-		$limit  = self::API_MAX_LIMIT;
+		$limit  = self::API_LIMIT;
 		if ( $page_num === 1 ) {
 			do {
 				$categories = $api->get_categories(
@@ -64,7 +64,7 @@ class EcwidSitemapBuilder {
 		}
 
 		$count  = 0;
-		$limit  = self::API_MAX_LIMIT;
+		$limit  = self::API_LIMIT;
 		$offset = 1 === $page_num ? 0 : $sitemap_items_limit * ( $page_num - 1 );
 
 		if ( $limit > $sitemap_items_limit ) {
@@ -105,9 +105,6 @@ class EcwidSitemapBuilder {
 			}
 
 			$offset += $limit;
-			if ( $sitemap_items_limit > self::API_MAX_LIMIT ) {
-				$limit = $sitemap_items_limit - $limit;
-			}
 		} while ( $count < $sitemap_items_limit );
 
 		return true;

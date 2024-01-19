@@ -194,7 +194,6 @@ class Ecwid_Config {
 		$is_wl_enabled = @$values['wl_mode'];
 
 		foreach ( $wl_config as $name => $ini_name ) {
-
 			$value = @$values[ $ini_name ];
 			if ( $is_wl_enabled && ( $value || in_array( $value, $empty_is_allowed ) ) ) {
 				EcwidPlatform::set( $name, @$values[ $ini_name ] );
