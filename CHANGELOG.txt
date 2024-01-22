@@ -1,4 +1,7 @@
 == Changelog == 
+= 6.12.8 - Jan 22, 2024 =
+- Sitemap improvements for ecommerce pages. Fixed a problem generating sitemaps for large directories and fixed a date formatting problem.
+
 = 6.12.7 - Jan 15, 2024 =
 - Improved behavior of the "Manage access to store control panel" feature. This feature allows you to manage access to your e-commerce control panel directly from WordPress.
 - Improvements for category drop-down menu when the transliteration feature is enabled.
