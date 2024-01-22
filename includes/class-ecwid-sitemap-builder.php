@@ -41,7 +41,7 @@ class EcwidSitemapBuilder {
 					foreach ( $categories->items as $item ) {
 						$url = $item->url;
 
-						$item->updated = $stats->categoriesUpdated; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+						$item->updated = gmdate( 'c', strtotime( $stats->categoriesUpdated ) ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 						call_user_func(
 							$this->callback,
@@ -88,6 +88,10 @@ class EcwidSitemapBuilder {
 					if ( $item->enabled ) {
 						$url = $item->url;
 
+						if ( ! empty( $item->updated ) ) {
+							$item->updated = gmdate( 'c', strtotime( $item->updated ) );
+						}
+
 						call_user_func(
 							$this->callback,
 							$url,
@@ -98,7 +102,7 @@ class EcwidSitemapBuilder {
 					}
 					++$count;
 				}
-			}
+			}//end if
 
 			if ( $products->count !== $limit ) {
 				break;
