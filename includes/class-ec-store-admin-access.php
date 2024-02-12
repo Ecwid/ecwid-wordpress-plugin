@@ -40,6 +40,21 @@ class Ec_Store_Admin_Access {
 		}
 	}
 
+	public function get_users_with_manage_access() {
+		$args = array(
+			'meta_query' => array( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => 'wp_capabilities',
+					'value'   => self::CAP_MANAGE_CONTROL_PANEL . '";b:1',
+					'compare' => 'LIKE',
+				),
+			),
+			'fields'     => array( 'ID' ),
+		);
+
+		return get_users( $args );
+	}
+
 	public static function has_scope( $user_id = null ) {
 		$has_scope = false;
 
@@ -58,10 +73,7 @@ class Ec_Store_Admin_Access {
 
 	public static function is_need_grant_access_by_default( $user_id ) {
 
-		$user     = new WP_User( $user_id );
-		$all_caps = $user->get_role_caps();
-
-		$cap_not_changed_before = ! isset( $all_caps[ self::CAP_MANAGE_CONTROL_PANEL ] );
+		$cap_not_changed_before = empty( self::get_users_with_manage_access() );
 		$is_old_installation    = ecwid_migrations_is_original_plugin_version_older_than( '6.12.4' );
 
 		if ( $cap_not_changed_before && $is_old_installation && user_can( $user_id, 'manage_options' ) ) {
@@ -112,7 +124,7 @@ class Ec_Store_Admin_Access {
 			'fields'     => array( 'ID' ),
 		);
 
-		if ( ! empty( get_users( $args ) ) ) {
+		if ( ! empty( self::get_users_with_manage_access() ) ) {
 			$cap = self::CAP_MANAGE_CONTROL_PANEL;
 		}
 
