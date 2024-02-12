@@ -23,15 +23,6 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		if ( version_compare( $this->plugin_version, '4.0.0', '>=' ) ) {
 			add_filter( 'aioseo_sitemap_indexes', array( $this, 'add_sitemap_to_indexes' ) );
 			add_action( 'init', array( $this, 'is_sitemap_page' ) );
-
-			if ( file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
-				require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
-
-				$num_pages = EcwidSitemapBuilder::get_num_pages();
-				for ( $i = 1; $i <= $num_pages; $i++ ) {
-					$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
-				}
-			}
 		} else {
 			add_filter( 'aiosp_sitemap_extra', array( $this, 'aiosp_hook_sitemap_extra' ) );
 			add_filter( 'aiosp_sitemap_custom_ecwid', array( $this, 'aiosp_hook_sitemap_content' ) );
@@ -74,7 +65,22 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		}//end if
 	}
 
+	public function get_sitemap_urls() {
+		$urls = array();
+
+		if ( file_exists( ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php' ) ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
+			$num_pages = EcwidSitemapBuilder::get_num_pages();
+			for ( $i = 1; $i <= $num_pages; $i++ ) {
+				$urls[] = sprintf( $this->sitemap_url_pattern, $i );
+			}
+		}
+
+		return $urls;
+	}
+
 	public function add_sitemap_to_indexes( $indexes ) {
+		$this->sitemap_urls = $this->get_sitemap_urls();
 
 		if ( empty( $this->sitemap_urls ) ) {
 			return $indexes;
@@ -98,16 +104,14 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 		require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
         $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-        
-        foreach( $this->sitemap_urls as $url ) {
-            if ( strpos( $request_uri, $url ) !== false ) {
 
-                preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $url, $m );
-			    $page_num = $m[1];
+        if ( preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $request_uri) ) {
 
-                echo $this->do_sitemap( $page_num );
-                exit;
-            }
+            preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $request_uri, $m );
+            $page_num = $m[1];
+
+            $this->do_sitemap( $page_num );
+            die();
         }
 	}
     // phpcs:enable
@@ -126,7 +130,7 @@ class Ecwid_Integration_All_In_One_SEO_Pack {
 
 		$this->sitemap .= '</urlset>';
 
-		return $this->sitemap;
+		echo $this->sitemap; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	// A callback for the streaming sitemap builder

@@ -12,17 +12,23 @@ class Ecwid_Integration_Rank_Math {
 		if ( ecwid_is_store_page_available() ) {
 			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
-			$num_pages = EcwidSitemapBuilder::get_num_pages();
-			for ( $i = 1; $i <= $num_pages; $i++ ) {
-				$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
+            //phpcs:disable WordPress.Security
+			if ( ! empty( $_REQUEST['q'] )
+				&& ( preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $_REQUEST['q'] ) || $_REQUEST['q'] === 'sitemap_index.xml' )
+			) {
+				$num_pages = EcwidSitemapBuilder::get_num_pages();
+				for ( $i = 1; $i <= $num_pages; $i++ ) {
+					$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
 
-				add_filter( 'rank_math/sitemap/ecstore-' . $i . '/content', array( $this, 'sitemap_content' ) );
+					add_filter( 'rank_math/sitemap/ecstore-' . $i . '/content', array( $this, 'sitemap_content' ) );
+				}
 			}
+            //phpcs:enable WordPress.Security
 
 			add_action( 'rank_math/sitemap/index', array( $this, 'sitemap_index' ), 10, 1 );
 			add_filter( 'rank_math/sitemap/exclude_post_type', array( $this, 'exclude_post_type' ), 10, 2 );
 			add_filter( 'rank_math/excluded_post_types', array( $this, 'excluded_post_types' ), 10, 1 );
-		}
+		}//end if
 
 		add_action( 'wp', array( $this, 'filter_meta_tags' ), 1000 );
 	}

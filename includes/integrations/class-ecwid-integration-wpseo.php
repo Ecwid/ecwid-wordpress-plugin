@@ -23,7 +23,13 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 
 			add_filter( 'wpseo_output_twitter_card', '__return_false' );
 
-			$this->init_sitemap_hooks();
+            //phpcs:disable WordPress.Security
+			if ( ! empty( $_REQUEST['q'] )
+				&& ( preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $_REQUEST['q'] ) || $_REQUEST['q'] === 'sitemap_index.xml' )
+			) {
+				$this->init_sitemap_hooks();
+			}
+            //phpcs:enable WordPress.Security
 		}
 
 		add_filter( 'ecwid_title_separator', array( $this, 'get_title_separator' ) );
