@@ -1,4 +1,8 @@
 == Changelog == 
+= 6.12.9 - Feb 13, 2024 =
+- Improved the behavior of the "Manage access to store control panel" feature, which allows you to manage access to control panel ecommerce within the WP admin area.
+- In some cases, when using our ecommerce plugin with SEO plugins such as Yoast, AIOSP, it has been observed a slowdown in website loading. We fixed that.
+
 = 6.12.8 - Jan 22, 2024 =
 - Sitemap improvements for ecommerce pages. Fixed a problem generating sitemaps for large directories and fixed a date formatting problem.
 
