@@ -48,7 +48,7 @@ class Ec_Store_Defer_Init {
 		$lang = ecwid_get_current_user_locale();
 		$lang = esc_attr( apply_filters( 'ecwid_lang', $lang ) );
 
-		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
+		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&data_platform=wporg&lang=$lang";
 		?>
 		<!--noptimize-->
 		<script data-cfasync="false" type="text/javascript">
@@ -127,7 +127,6 @@ class Ec_Store_Defer_Init {
 		ob_start();
 
 		if ( self::is_enabled() ) {
-
 			add_filter( 'ecwid_has_widgets_on_page', '__return_true' );
 
 			$widget_type = preg_replace( '/^x([a-z0-9]+)/i', '$1', $widget_type );
@@ -151,7 +150,6 @@ class Ec_Store_Defer_Init {
 
 		return ob_get_clean();
 	}
-
 }
 
 $ec_store_defer_init = new Ec_Store_Defer_Init();
