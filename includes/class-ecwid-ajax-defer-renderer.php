@@ -58,7 +58,6 @@ class Ecwid_Ajax_Defer_Renderer {
 		$option_value = get_option( self::OPTION_DEFER_RENDERING );
 
 		if ( $option_value == self::AUTO ) {
-
 			$filter_results = false;
 
 			if ( self::is_ajax_request() ) {
@@ -102,7 +101,7 @@ class Ecwid_Ajax_Defer_Renderer {
 		$lang = esc_attr( ecwid_get_current_user_locale() );
 		$lang = esc_attr( apply_filters( 'ecwid_lang', $lang ) );
 
-		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&lang=$lang";
+		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&data_platform=wporg&lang=$lang";
 		ob_start();
 		?>
 		<script>

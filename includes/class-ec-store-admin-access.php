@@ -40,7 +40,7 @@ class Ec_Store_Admin_Access {
 		}
 	}
 
-	public function get_users_with_manage_access() {
+	public static function get_users_with_manage_access() {
 		$args = array(
 			'meta_query' => array( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
