@@ -1,6 +1,6 @@
 == Changelog == 
-= 6.12.10 - Feb 16, 2024 =
-- 
+= 6.12.10 - Feb 15, 2024 =
+- After the last update, the Ecwid ecommerce plugin could cause a PHP error message in the admin area. We have fixed this issue.
 
 = 6.12.9 - Feb 13, 2024 =
 - Improved the behavior of the "Manage access to store control panel" feature, which allows you to manage access to ecommerce control panel within the WP admin area.

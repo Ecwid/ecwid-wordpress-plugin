@@ -24,9 +24,8 @@ class Ecwid_Integration_WordPress_SEO_By_Yoast {
 			add_filter( 'wpseo_output_twitter_card', '__return_false' );
 
             //phpcs:disable WordPress.Security
-			if ( ! empty( $_REQUEST['q'] )
-				&& ( preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $_REQUEST['q'] ) || $_REQUEST['q'] === 'sitemap_index.xml' )
-			) {
+			$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			if ( strpos( $request_uri, 'sitemap_index.xml' ) !== false || preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $request_uri ) ) {
 				$this->init_sitemap_hooks();
 			}
             //phpcs:enable WordPress.Security
