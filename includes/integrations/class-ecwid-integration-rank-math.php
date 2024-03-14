@@ -13,9 +13,8 @@ class Ecwid_Integration_Rank_Math {
 			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-sitemap-builder.php';
 
             //phpcs:disable WordPress.Security
-			if ( ! empty( $_REQUEST['q'] )
-				&& ( preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $_REQUEST['q'] ) || $_REQUEST['q'] === 'sitemap_index.xml' )
-			) {
+			$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			if ( strpos( $request_uri, 'sitemap_index.xml' ) !== false || preg_match( '/ecstore-([0-9]+)-sitemap\.xml/i', $request_uri ) ) {
 				$num_pages = EcwidSitemapBuilder::get_num_pages();
 				for ( $i = 1; $i <= $num_pages; $i++ ) {
 					$this->sitemap_urls[] = sprintf( $this->sitemap_url_pattern, $i );
