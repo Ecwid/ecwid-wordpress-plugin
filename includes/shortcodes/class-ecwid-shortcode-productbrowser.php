@@ -209,6 +209,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 	protected function _process_params( $shortcode_params = array() ) {
 
+		$shortcode_params = array_map( 'esc_attr', $shortcode_params );
+
 		$atts = shortcode_atts(
 			array(
 				'categories_per_row' => false,
