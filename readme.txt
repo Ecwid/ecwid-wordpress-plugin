@@ -2,8 +2,8 @@
 Contributors: Ecwid
 Tags: ecommerce, e-commerce, storefront, shopping cart, online store
 Requires at least: 4.4
-Tested up to: 6.4
-Stable tag: 6.12.10
+Tested up to: 6.5
+Stable tag: 6.12.11
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -151,6 +151,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 6.12.11 - Mar 21, 2024 =
+- WordPress 6.5 compatibility. The new WordPress version will be released soon. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 6.5.
+- Plugin code improvements for better security and stability.
+
 = 6.12.10 - Feb 15, 2024 =
 - After the last update, the Ecwid ecommerce plugin could cause a PHP error message in the admin area. We have fixed this issue.
 

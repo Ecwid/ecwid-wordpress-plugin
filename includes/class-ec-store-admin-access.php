@@ -174,11 +174,11 @@ class Ec_Store_Admin_Access {
 						/>
 						<?php
 						/* translators: %s: plugin brand */
-						echo esc_html( sprintf( __( 'Allow this user to access the %s Control Panel.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) );
+						echo esc_html( __( 'Allow this user to access your store’s control panel and change settings.', 'ecwid-shopping-cart' ) );
 						?>
 					</label>
 					<?php if ( ! Ecwid_Config::is_wl() ) { ?>
-					<a href="https://support.ecwid.com/hc/en-us/articles/207101259#how-can-i-control-access-to-the-ecwid-admin-panel-for-certain-users-" target="_blank"><?php echo esc_html( __( 'More information', 'ecwid-shopping-cart' ) ); ?></a>
+					<a href="https://support.ecwid.com/hc/en-us/articles/207101259#how-can-i-control-access-to-the-ecwid-admin-panel-for-certain-users-" target="_blank"><?php echo esc_html( __( 'Learn more', 'ecwid-shopping-cart' ) ); ?></a>
 					<?php } ?>
 				</td>
 			</tr>
