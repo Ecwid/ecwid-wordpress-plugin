@@ -173,13 +173,11 @@ class Ecwid_Static_Page {
 
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $url );
 		if ( $cached_data ) {
-
 			$is_css_defined     = ! empty( $dynamic_css );
 			$is_css_already_set = ! empty( $cached_data->isSetDynamicCss ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$is_home_page       = Ecwid_Store_Page::is_store_home_page();
 
 			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
-
 				$cached_data->cssFiles        = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$cached_data->isSetDynamicCss = true; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
@@ -257,8 +255,26 @@ class Ecwid_Static_Page {
 		return false;
 	}
 
+	public static function preparing_css_url( $url ) {
+		$replace_pairs = array(
+			'#'  => '%23',
+			','  => '%2C',
+			' '  => '%20',
+			'"'  => '%22',
+			'\\' => '',
+		);
+
+		return strtr( $url, $replace_pairs );
+	}
+
 	public static function get_css_files() {
-		return self::get_data_field( 'cssFiles' );
+		$css_files = self::get_data_field( 'cssFiles' );
+
+		if ( ! empty( $css_files ) ) {
+			$css_files = array_map( 'Ecwid_Static_Page::preparing_css_url', $css_files );
+		}
+
+		return $css_files;
 	}
 
 	public static function get_html_code() {

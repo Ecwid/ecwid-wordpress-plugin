@@ -124,9 +124,7 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 		$description_html = false;
 
 		if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
-
 			$description_html = Ecwid_Static_Page::get_meta_description_html();
-
 		} elseif ( Ecwid_Store_Page::is_store_page() ) {
 			$set_metadesc = false;
 			$set_metadesc = apply_filters( 'ecwid_set_mainpage_metadesc', $set_metadesc );
@@ -134,15 +132,12 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 			if ( $set_metadesc ) {
 				$store_page_params = Ecwid_Store_Page::get_store_page_params();
 				if ( isset( $store_page_params['default_category_id'] ) && $store_page_params['default_category_id'] > 0 ) {
-
 					$description_html = Ecwid_Static_Page::get_meta_description_html();
-
 				} else {
 					$api     = new Ecwid_Api_V3();
 					$profile = $api->get_store_profile();
 
 					if ( ! empty( $profile->settings->storeDescription ) ) {
-
 						$description = $profile->settings->storeDescription;
 						$description = Ecwid_HTML_Meta::process_raw_description( $description, ECWID_TRIMMED_DESCRIPTION_LENGTH );
 
