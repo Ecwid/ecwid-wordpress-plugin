@@ -573,7 +573,9 @@ class Ecwid_Api_V3 {
 			return false;
 		}
 
-		$params = array();
+		$params = array(
+			'responseFields' => 'generalInfo,account,settings,payment(applePay),featureToggles,formatsAndUnits(currency,currencyPrefix,currencySuffix),designSettings',
+		);
 
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_profile_api_url, $params );

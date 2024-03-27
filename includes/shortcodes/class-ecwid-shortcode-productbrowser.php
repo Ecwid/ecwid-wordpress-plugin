@@ -209,7 +209,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 	protected function _process_params( $shortcode_params = array() ) {
 
-		$shortcode_params = array_map( 'esc_attr', $shortcode_params );
+		if ( ! empty( $shortcode_params ) && is_array( $shortcode_params ) ) {
+			$shortcode_params = array_map( 'esc_attr', $shortcode_params );
+		}
 
 		$atts = shortcode_atts(
 			array(
@@ -314,6 +316,8 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			! empty( $shortcode_params ) && array_key_exists( 'default_category_id', $shortcode_params )
 				? $shortcode_params['default_category_id']
 				: get_option( 'ecwid_default_category_id' );
+
+		$ecwid_default_category_id = absint( $ecwid_default_category_id );
 
 		return $ecwid_default_category_id;
 	}

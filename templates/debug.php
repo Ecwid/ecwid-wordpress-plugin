@@ -83,8 +83,8 @@
 		<div><?php echo esc_html( apply_filters( 'ecwid_get_new_store_ref_id', '' ) ); ?></div>
 	</div>
 </div>
-<h2>Options</h2>
 
+<h2>Options</h2>
 <div>
 <?php foreach ( $all_options as $key => $option ) : ?>
 	<?php if ( strpos( $key, 'ecwid' ) !== false ) : ?>
