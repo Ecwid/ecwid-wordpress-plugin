@@ -222,6 +222,29 @@ class Ecwid_Config {
 
 		ecwid_invalidate_cache( true );
 	}
+
+	public static function copy_config_to_new_site( $new_site, $args ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+		$wl_config     = self::_get_wl_config();
+		$common_config = self::_get_common_config();
+
+		$config_names = array_merge( $wl_config, $common_config );
+		$config       = array();
+
+		foreach ( $config_names as $db_name => $ini_name ) {
+			$config_value = EcwidPlatform::get( $db_name );
+
+			if ( ! empty( $config_value ) ) {
+				$config[ $db_name ] = $config_value;
+			}
+		}
+
+		if ( ! empty( $config ) ) {
+			return update_blog_option( $new_site->blog_id, EcwidPlatform::OPTION_ECWID_PLUGIN_DATA, $config );
+		} else {
+			return false;
+		}
+	}
 }
 
 add_action( 'admin_enqueue_scripts', array( 'Ecwid_Config', 'enqueue_styles' ) );
+add_action( 'wp_initialize_site', 'Ecwid_Config::copy_config_to_new_site', 10, 2 );
