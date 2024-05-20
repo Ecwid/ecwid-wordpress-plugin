@@ -105,7 +105,13 @@ class Ecwid_Config {
 
 		$result = false;
 		if ( file_exists( $filename ) ) {
-			$result = @parse_ini_file( $filename );
+			$config = @file_get_contents( $filename );
+
+			if ( empty( $config ) ) {
+				return;
+			}
+
+			$result = parse_ini_string( $config );
 		}
 
 		if ( ! $result ) {
