@@ -147,10 +147,14 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				} else {
 					$is_need_open_filter_page = true;
 					$config_js[]              = 'window.ec.storefront.show_breadcrumbs=false';
-				}
+				}//end if
 			}//end if
 
 			if ( isset( $attribute['is_storefront_api'] ) && $attribute['is_storefront_api'] && strpos( $name, 'chameleon' ) === false ) {
+				if ( empty( $name ) ) {
+					continue;
+				}
+
 				if ( is_null( $value ) ) {
 					$value = $attribute['default'];
 				}
@@ -168,7 +172,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 					}
 					$store_page_data[ $name ] = $value;
 				}
-			}
+			}//end if
 		}//end foreach
 
 		$colors = array();
