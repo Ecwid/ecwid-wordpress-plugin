@@ -225,7 +225,17 @@ class EcwidPlatform {
 				'expires' => $expires_after,
 			)
 		);
+		self::encode_emoji( $value );
+
 		set_transient( 'ecwid_' . $name, $value, $expires_after );
+	}
+
+	public static function encode_emoji( &$item, $key = false ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+		if ( is_object( $item ) || is_array( $item ) ) {
+			array_walk_recursive( $item, 'self::encode_emoji' );
+		} elseif ( is_string( $item ) ) {
+			$item = wp_encode_emoji( $item );
+		}
 	}
 
 	public static function cache_reset( $name ) {
