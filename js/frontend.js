@@ -48,7 +48,7 @@ var ecwidSaveDynamicCss = function () {
     if (typeof Ecwid != 'undefined') {
         Ecwid.OnAPILoaded.add(function () {
             if (typeof window.ec.cssLinkElement !== 'undefined') {
-                document.cookie = "ec_store_dynamic_css=" + window.ec.cssLinkElement.href;
+                document.cookie = 'ec_store_dynamic_css=' + window.ec.cssLinkElement.href;
             }
         });
     }

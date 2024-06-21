@@ -174,12 +174,11 @@ class Ecwid_Static_Page {
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $url );
 		if ( $cached_data ) {
 			$is_css_defined     = ! empty( $dynamic_css );
-			$is_css_already_set = ! empty( $cached_data->isSetDynamicCss ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$is_css_already_set = in_array( $dynamic_css, $cached_data->cssFiles, true ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$is_home_page       = Ecwid_Store_Page::is_store_home_page();
 
 			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
-				$cached_data->cssFiles        = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				$cached_data->isSetDynamicCss = true; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$cached_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 				EcwidPlatform::store_in_static_pages_cache( $url, $cached_data );
 			}
@@ -213,8 +212,7 @@ class Ecwid_Static_Page {
 
             //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! empty( $dynamic_css ) ) {
-				$fetched_data->cssFiles        = array( $dynamic_css );
-				$fetched_data->isSetDynamicCss = true;
+				$fetched_data->cssFiles = array( $dynamic_css );
 			}
 
 			if ( ! empty( $fetched_data->htmlCode ) ) {
