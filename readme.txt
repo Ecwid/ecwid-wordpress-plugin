@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.5
-Stable tag: 6.12.13
+Stable tag: 6.12.14
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 6.12.14 - Jul 2, 2024 =
+- Fixed issues with slow loading of storefront pages that were observed in certain scenarios when using our ecommerce plugin.
+- Fixed a PHP error message ("Fatal error: Can't use function return value in write context") for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
+
 = 6.12.13 - May 29, 2024 =
 - Internal improvements and minor fixes for Gutenberg ecommerce block.
 
