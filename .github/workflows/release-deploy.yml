@@ -1,18 +1,14 @@
 name: Deploy to WordPress.org
 on:
   release:
-    types: [published]
+    types: [released]
 jobs:
-  tag:
-    name: New release
+  deploy_to_wp_repository:
+    name: Deploy to WP.org
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@main
-
-    - name: Install WP CLI
-      run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp
-        
+      uses: actions/checkout@master
     - name: WordPress Plugin Deploy
       id: deploy
       uses: 10up/action-wordpress-plugin-deploy@stable
@@ -21,7 +17,7 @@ jobs:
       env:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        SLUG: protect-schemaorg-markup-in-html-editor
+        SLUG: ecwid-shopping-cart
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       env:
