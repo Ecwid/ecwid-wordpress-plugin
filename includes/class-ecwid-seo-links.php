@@ -7,10 +7,6 @@ class Ecwid_Seo_Links {
 	const OPTION_ALL_BASE_URLS = 'ecwid_all_base_urls';
 
 	public function __construct() {
-
-		// therefore the action must me registered
-		add_action( 'init', array( $this, 'build_rewrite_rules' ) );
-
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
 		add_action( 'save_post', array( $this, 'on_save_post' ) );
@@ -19,6 +15,7 @@ class Ecwid_Seo_Links {
 	public function init() {
 
 		if ( self::is_enabled() ) {
+			add_action( 'rewrite_rules_array', array( $this, 'build_rewrite_rules' ), 10, 1 );
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
 			add_action( 'template_redirect', array( $this, 'redirect_escaped_fragment' ) );
@@ -331,11 +328,8 @@ class Ecwid_Seo_Links {
 		return '!.*-(p|c)([0-9]+)(\/.*|\?.*)?$!';
 	}
 
-	public function build_rewrite_rules() {
-
-		if ( ! self::is_enabled() ) {
-			return;
-		}
+	public function build_rewrite_rules( $rules ) {
+		$new_rules = array();
 
 		$all_base_urls = $this->_build_all_base_urls();
 
@@ -363,7 +357,7 @@ class Ecwid_Seo_Links {
 				}
 
 				foreach ( $patterns as $pattern ) {
-					add_rewrite_rule( $link . '/' . $pattern . '.*', 'index.php?' . $param_name . '=' . $link_page_id, 'top' );
+					$additional_rules[ $link . '/' . $pattern . '.*' ] = 'index.php?' . $param_name . '=' . $link_page_id;
 				}
 			}
 		}//end foreach
@@ -371,11 +365,14 @@ class Ecwid_Seo_Links {
 		if ( self::is_store_on_home_page() ) {
 			$patterns = self::get_seo_links_patterns();
 			foreach ( $patterns as $pattern ) {
-				add_rewrite_rule( '^' . $pattern . '$', 'index.php?page_id=' . get_option( 'page_on_front' ), 'top' );
+				$additional_rules[ '^' . $pattern . '$' ] = 'index.php?page_id=' . get_option( 'page_on_front' );
 			}
 		}
 
 		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => self::is_store_on_home_page() ) ) );
+
+		$new_rules = array_merge( $additional_rules, $rules );
+		return $new_rules;
 	}
 
 	public function are_base_urls_ok() {
@@ -442,7 +439,6 @@ class Ecwid_Seo_Links {
 
 		if ( is_array( $pages ) ) {
 			foreach ( $pages as $page_id ) {
-
 				if ( ! isset( $base_urls[ $page_id ] ) ) {
 					$base_urls[ $page_id ] = array();
 				}
@@ -533,7 +529,6 @@ class Ecwid_Seo_Links {
 
 		return $permalink != '';
 	}
-
 }
 
 $ecwid_seo_links = new Ecwid_Seo_Links();

@@ -20,44 +20,34 @@ class Ecwid_Admin_Main_Page {
 		$is_api_connection_ok = ! Ecwid_Api_V3::connection_fails();
 
 		if ( $is_demo && $is_api_connection_ok ) {
-
 			if (
 			$this->_is_whitelabel_mode_with_no_registration()
 			|| $this->_is_oauth_error()
 			|| self::is_forced_reconnect()
 			) {
-
 				$this->_do_simple_connect_page();
 				return;
-
 			} else {
-
 				$this->_do_fancy_connect_page();
 				return;
 			}
 		}
 
 		if ( $is_demo && ! $is_api_connection_ok ) {
-
 			$this->_do_legacy_connect_page();
 			return;
 		}
 
 		if ( ! $is_demo ) {
-
 			if ( self::is_connection_error() ) {
-
 				$this->_do_simple_reconnect_page();
 				return;
-
 			} elseif ( ! $is_api_connection_ok
 			|| Ecwid_Admin::disable_dashboard()
 			) {
 				$this->_do_simple_dashboard_page();
 				return;
-
 			} else {
-
 				$this->_do_integrated_admin_page();
 				return;
 			}
@@ -87,7 +77,6 @@ class Ecwid_Admin_Main_Page {
 		}
 
 		if ( Ecwid_Api_V3::get_token() == false ) {
-
 			if ( ! $ecwid_oauth->has_scope( 'allow_sso' ) ) {
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
@@ -105,6 +94,7 @@ class Ecwid_Admin_Main_Page {
 			$page = sanitize_text_field( wp_unslash( $_GET['ec-store-page'] ) );
 		}
 
+		$show_reconnect = false;
 		if ( $page == self::PAGE_HASH_DASHBOARD || $page == self::PAGE_HASH_COMPLETE_REGISTRATION ) {
 			$show_reconnect = true;
 		}
@@ -133,7 +123,6 @@ class Ecwid_Admin_Main_Page {
 				|| strpos( $result['data'], 'window.top.location = \'https://app.ecwid.com/api/v3/' . get_ecwid_store_id() . '/sso?' ) !== false
 			)
 		) {
-
 			if ( isset( $result['headers']['date'] ) ) {
 				$time = strtotime( $result['headers']['date'] );
 
@@ -183,7 +172,7 @@ class Ecwid_Admin_Main_Page {
 	}
 
 	protected function _do_welcome_page( $state ) {
-		 global $ecwid_oauth;
+		global $ecwid_oauth;
 
 		if ( isset( $_GET['oauth'] ) && $_GET['oauth'] == 'no' ) {
 			$state = 'no_oauth';
@@ -230,7 +219,7 @@ class Ecwid_Admin_Main_Page {
 	}
 
 	protected function _is_whitelabel_mode_with_no_registration() {
-		 return Ecwid_Config::is_no_reg_wl();
+		return Ecwid_Config::is_no_reg_wl();
 	}
 
 	protected function _is_oauth_error() {

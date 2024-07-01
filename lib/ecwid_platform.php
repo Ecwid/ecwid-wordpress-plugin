@@ -225,7 +225,17 @@ class EcwidPlatform {
 				'expires' => $expires_after,
 			)
 		);
+		self::encode_emoji( $value );
+
 		set_transient( 'ecwid_' . $name, $value, $expires_after );
+	}
+
+	public static function encode_emoji( &$item, $key = false ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+		if ( is_object( $item ) || is_array( $item ) ) {
+			array_walk_recursive( $item, 'self::encode_emoji' );
+		} elseif ( is_string( $item ) ) {
+			$item = wp_encode_emoji( $item );
+		}
 	}
 
 	public static function cache_reset( $name ) {
@@ -466,8 +476,9 @@ class EcwidPlatform {
 		} else {
 			self::cache_reset( $cache_name );
 
-			if ( ! empty( get_the_ID() ) ) {
-				do_action( 'ecwid_clean_external_cache_for_page', get_the_ID() );
+			$page_id = get_the_ID();
+			if ( ! empty( $page_id ) ) {
+				do_action( 'ecwid_clean_external_cache_for_page', $page_id );
 			}
 		}
 

@@ -92,25 +92,21 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 	}
 
 	protected function get_js_for_adding_html_id() {
-		global $ecwid_current_theme;
-		if ( $ecwid_current_theme ) {
-			ob_start();
-			?>
-			<!--noptimize-->
-			<script data-cfasync="false" data-no-optimize="1">
-				if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
-					document.documentElement.id = 'ecwid_html';
-				}
+		ob_start();
+		?>
+		<!--noptimize-->
+		<script data-cfasync="false" data-no-optimize="1">
+			if( typeof document.documentElement.id == 'undefined' || document.documentElement.id === '' ) {
+				document.documentElement.id = 'ecwid_html';
+			}
 
-				if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
-					document.body.id = 'ecwid_body';
-				}
-			</script>
-			<!--/noptimize-->
-			<?php
-			return ob_get_clean();
-		}
-		return '';
+			if( typeof document.body.id == 'undefined' || document.body.id === '' ) {
+				document.body.id = 'ecwid_body';
+			}
+		</script>
+		<!--/noptimize-->
+		<?php
+		return ob_get_clean();
 	}
 
 	protected function get_js_for_switch_dynamic( $static_container_id, $dynamic_container_id ) {
