@@ -1,4 +1,7 @@
 == Changelog == 
+= 6.12.14 - Jul 2, 2024 =
+- Fixed issues with slow loading of storefront pages that were observed in certain scenarios when using our ecommerce plugin.
+
 = 6.12.13 - May 29, 2024 =
 - Internal improvements and minor fixes for Gutenberg ecommerce block.
 
