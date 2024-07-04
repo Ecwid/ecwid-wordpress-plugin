@@ -158,7 +158,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 - Fixed a PHP error message ("Fatal error: Can't use function return value in write context") for PHP versions older 5.5. If your ecommerce site is running on an outdated PHP version, this update might fix a error message for you. Please update your PHP as soon as possible (or ask your hoster to do that for you) — it’s much more secure to use the latest versions of software on your server.
 
 = 6.12.13 - May 29, 2024 =
-- Internal improvements and minor fixes for Gutenberg ecommerce block.
+- Internal improvements and minor fixes for Gutenberg ecommerce block. 
 
 = 6.12.12 - Mar 27, 2024 =
 - Fixed a PHP error that could occur when adding a storefront via a shortcode without any parameters.
