@@ -219,6 +219,7 @@ class Ecwid_Static_Page {
 				$pattern = '/<img(.*?)>/is';
 
 				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $fetched_data->htmlCode );
+				$fetched_data->htmlCode = wp_encode_emoji( $fetched_data->htmlCode );
 			}
 
 			if ( isset( $fetched_data->lastUpdated ) ) {

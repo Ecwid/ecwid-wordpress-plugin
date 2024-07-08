@@ -225,7 +225,7 @@ class EcwidPlatform {
 				'expires' => $expires_after,
 			)
 		);
-		self::encode_emoji( $value );
+		// self::encode_emoji( $value );
 
 		set_transient( 'ecwid_' . $name, $value, $expires_after );
 	}
