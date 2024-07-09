@@ -2412,7 +2412,8 @@ function ecwid_get_categories_for_selector() {
 	}
 	
 	$query_params = array(
-		'hidden_categories' => true
+		'hidden_categories' => true,
+        'responseFields' => 'total,count,items(id,name,url,enabled,parentId)'
 	);
 
 	if( ecwid_is_demo_store() ) {
@@ -2447,8 +2448,6 @@ function ecwid_get_categories_for_selector() {
 			}
 		}
 	}
-	
-	$parents = array();
 
 	$result = array();
 	foreach ( $all_categories as $category ) {
