@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.6
-Stable tag: 6.12.15
+Stable tag: 6.12.14
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
