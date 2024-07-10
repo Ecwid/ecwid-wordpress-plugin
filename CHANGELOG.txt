@@ -1,5 +1,5 @@
 == Changelog == 
-= 6.12.15 - Jul 10, 2024 =
+= 6.12.15 - Jul 11, 2024 =
 - After the last update, the our ecommerce plugin could cause an issue with urls and an issue with loading the admin area. We have fixed these issues.
 
 = 6.12.14 - Jul 2, 2024 =
@@ -29,7 +29,7 @@
 
 = 6.12.7 - Jan 15, 2024 =
 - Improved behavior of the "Manage access to store control panel" feature. This feature allows you to manage access to your e-commerce control panel directly from WordPress.
-- Improvements for category drop-down menu when the transliteration feature is enabled.
+- Improvements for category drop-down men`u when the transliteration feature is enabled.
 - Minor fix to ensure PHP 8 compatibility.
 
 = 6.12.6 - Dec 18, 2023 =
