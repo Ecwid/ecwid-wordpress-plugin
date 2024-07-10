@@ -286,34 +286,36 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 			}
 		}//end foreach
 
-		$categories = ecwid_get_categories_for_selector();
+		if ( is_admin() ) {
+			$categories = ecwid_get_categories_for_selector();
 
-		if ( $categories ) {
-			$attributes['default_category_id']['values'] = array(
-				array(
-					'value' => '0',
-					'title' => __( 'Store root category', 'ecwid-shopping-cart' ),
-				),
-			);
-			foreach ( $categories as $category ) {
-				if ( empty( $category->enabled ) ) {
-					continue;
+			if ( $categories ) {
+				$attributes['default_category_id']['values'] = array(
+					array(
+						'value' => '0',
+						'title' => __( 'Store root category', 'ecwid-shopping-cart' ),
+					),
+				);
+				foreach ( $categories as $category ) {
+					if ( empty( $category->enabled ) ) {
+						continue;
+					}
+
+					$attributes['default_category_id']['values'][] = array(
+						'value' => $category->id,
+						'title' => $category->name,
+					);
 				}
 
-				$attributes['default_category_id']['values'][] = array(
-					'value' => $category->id,
-					'title' => $category->name,
-				);
-			}
+				$attributes['default_category_id']['default'] = '';
+			} else {
+				$api  = new Ecwid_Api_V3();
+				$cats = $api->get_categories( array() );
 
-			$attributes['default_category_id']['default'] = '';
-		} else {
-			$api  = new Ecwid_Api_V3();
-			$cats = $api->get_categories( array() );
-
-			if ( $cats && $cats->total == 0 ) {
-				unset( $attributes['default_category_id'] );
-			}
+				if ( $cats && $cats->total == 0 ) {
+					unset( $attributes['default_category_id'] );
+				}
+			}//end if
 		}//end if
 
 		$attributes['align'] = array(

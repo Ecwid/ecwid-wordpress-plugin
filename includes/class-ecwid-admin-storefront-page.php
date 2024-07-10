@@ -32,7 +32,6 @@ class Ecwid_Admin_Storefront_Page {
 		}
 
 		if ( $page_id && ! isset( $page_status ) ) {
-
 			$page_data = self::get_page_data( $page_id );
 			extract( $page_data, EXTR_PREFIX_ALL, 'page' );
 
@@ -70,7 +69,7 @@ class Ecwid_Admin_Storefront_Page {
 			$categories = ecwid_get_categories_for_selector();
 
 			$api = new Ecwid_Api_V3();
-			$res = $api->get_products( array() );
+			$res = $api->get_products( array( 'responseFields' => 'total,count,items(id,name)' ) );
 			if ( $res ) {
 				$products       = $res->items;
 				$products_total = $res->total;
@@ -96,13 +95,13 @@ class Ecwid_Admin_Storefront_Page {
 
 		wp_enqueue_script( 'ecwid-admin-storefront-js', ECWID_PLUGIN_URL . 'js/admin-storefront.js', array(), get_option( 'ecwid_plugin_version' ) );
 
-        wp_localize_script(
-            'ecwid-admin-storefront-js',
-            'EcwidAdminStorefront', 
-            array(
-                '_ajax_nonce' => wp_create_nonce( self::NONCE_SLUG )
-            )
-        );
+		wp_localize_script(
+			'ecwid-admin-storefront-js',
+			'EcwidAdminStorefront',
+			array(
+				'_ajax_nonce' => wp_create_nonce( self::NONCE_SLUG ),
+			)
+		);
 
 		Ecwid_Admin_UI_Framework::print_fix_js();
 		require_once self::$templates_dir . 'main.php';
@@ -130,9 +129,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_status() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -172,9 +171,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_store_on_front() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -207,9 +206,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_mainpage() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -244,9 +243,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_display_cart_icon() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -265,9 +264,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_set_page_slug() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -315,9 +314,9 @@ class Ecwid_Admin_Storefront_Page {
 	}
 
 	public function ajax_create_page() {
-        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
-            die();
-        }
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
 		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
 			die();
@@ -479,7 +478,6 @@ class Ecwid_Admin_Storefront_Page {
 		$version = get_bloginfo( 'version' );
 
 		if ( version_compare( $version, '5.0' ) < 0 ) {
-
 			if ( is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
 				return true;
 			}
@@ -572,7 +570,7 @@ class Ecwid_Admin_Storefront_Page {
 				$text = $item['text'];
 			}
 
-			echo sprintf( '<li><a%s>%s</a></li>', wp_kses_post( $attributes ), esc_html( $text ) );
+			printf( '<li><a%s>%s</a></li>', wp_kses_post( $attributes ), esc_html( $text ) );
 		}//end foreach
 	}
 

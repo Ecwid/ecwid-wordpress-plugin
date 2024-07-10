@@ -424,7 +424,7 @@ class Ecwid_Api_V3 {
 	public function get_products( $input_params ) {
 		$params = array();
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled', 'responseFields' );
 
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {

@@ -240,7 +240,12 @@ class Ecwid_Nav_Menus {
 				if ( ! $posts ) {
 					$posts  = array();
 					$api    = new Ecwid_Api_V3();
-					$result = $api->get_categories( array( 'parent' => 0 ) );
+					$result = $api->get_categories(
+						array(
+							'parent'         => 0,
+							'responseFields' => 'total,count,items(id,name,url,nameTranslated,orderBy)',
+						)
+					);
 
 					if ( $result && $result->count > 0 ) {
 						$categories = $result->items;

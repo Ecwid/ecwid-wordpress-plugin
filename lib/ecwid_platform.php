@@ -329,7 +329,7 @@ class EcwidPlatform {
 			);
 		}
 
-		if ( $return['code'] == 200 ) {
+		if ( $return['code'] == 200 && $api_check_retry_after !== 0 ) {
 			update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 		}
 
