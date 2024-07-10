@@ -180,7 +180,7 @@ class Ecwid_Static_Page {
 			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
 				$cached_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-				EcwidPlatform::store_in_static_pages_cache( $url, $cached_data );
+				EcwidPlatform::save_in_static_pages_cache( $url, $cached_data );
 			}
 
 			return $cached_data;
@@ -221,6 +221,11 @@ class Ecwid_Static_Page {
 				$fetched_data->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $fetched_data->htmlCode );
 			}
 
+			EcwidPlatform::encode_fields_with_emoji(
+				$fetched_data,
+				array( 'htmlCode', 'metaDescriptionHtml', 'ogTagsHtml', 'jsonLDHtml' )
+			);
+
 			if ( isset( $fetched_data->lastUpdated ) ) {
 				$last_update = substr( $fetched_data->lastUpdated, 0, -3 );
 			} else {
@@ -229,7 +234,7 @@ class Ecwid_Static_Page {
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
-			EcwidPlatform::store_in_static_pages_cache( $url, $fetched_data );
+			EcwidPlatform::save_in_static_pages_cache( $url, $fetched_data );
 
 			return $fetched_data;
 		}//end if

@@ -163,7 +163,7 @@ class Ecwid_Api_V3 {
 			$params['parent'] = $input_params['parent'];
 		}
 
-		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories' );
+		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories', 'responseFields' );
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
 				$params[ $name ] = $input_params[ $name ];
@@ -189,13 +189,28 @@ class Ecwid_Api_V3 {
 
 		if ( ! $result ) {
 			$result = EcwidPlatform::fetch_url( $url, $options );
-		}
 
-		if ( $result['code'] != '200' ) {
-			return false;
-		}
+			if ( $result['code'] != '200' ) {
+				return false;
+			}
 
-		EcwidPlatform::store_in_categories_cache( $url, $result );
+			// PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
+			$data = json_decode( $result['data'] );
+
+			if ( ! empty( $data->items ) ) {
+				foreach ( $data->items as &$item ) {
+					$item = EcwidPlatform::encode_fields_with_emoji(
+						$item,
+						array( 'name', 'nameTranslated', 'description', 'descriptionTranslated', 'seoTitle', 'seoTitleTranslated', 'seoDescription', 'seoDescriptionTranslated', 'alt' )
+					);
+				}
+			}
+
+			$result['data'] = wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+			// end PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
+
+			EcwidPlatform::store_in_categories_cache( $url, $result );
+		}//end if
 
 		$result = json_decode( $result['data'] );
 
@@ -248,13 +263,25 @@ class Ecwid_Api_V3 {
 
 		if ( ! $result ) {
 			$result = EcwidPlatform::fetch_url( $url, $options );
-		}
 
-		if ( $result['code'] != '200' ) {
-			return false;
-		}
+			if ( $result['code'] != '200' ) {
+				return false;
+			}
 
-		EcwidPlatform::store_in_categories_cache( $url, $result );
+			// PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
+			$data = json_decode( $result['data'] );
+			if ( ! empty( $data ) ) {
+				$data = EcwidPlatform::encode_fields_with_emoji(
+					$data,
+					array( 'name', 'nameTranslated', 'description', 'descriptionTranslated', 'seoTitle', 'seoTitleTranslated', 'seoDescription', 'seoDescriptionTranslated', 'alt' )
+				);
+			}
+			// end PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
+
+			$result['data'] = wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+			EcwidPlatform::store_in_categories_cache( $url, $result );
+		}//end if
 
 		$result = json_decode( $result['data'] );
 
@@ -397,7 +424,7 @@ class Ecwid_Api_V3 {
 	public function get_products( $input_params ) {
 		$params = array();
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled', 'responseFields' );
 
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
@@ -600,6 +627,15 @@ class Ecwid_Api_V3 {
 		}
 
 		$profile = json_decode( $result['data'] );
+
+		// PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
+		if ( ! empty( $profile ) ) {
+			$profile->settings = EcwidPlatform::encode_fields_with_emoji(
+				$profile->settings,
+				array( 'storeName', 'storeDescription', 'storeDescriptionTranslated', 'rootCategorySeoTitleTranslated', 'rootCategorySeoDescription', 'rootCategorySeoDescriptionTranslated' )
+			);
+		}
+		// end PLUGINS-6870 there's some cases when data are not cached because emojis, need to encode
 
 		EcwidPlatform::cache_set( self::PROFILE_CACHE_NAME, $profile, 10 * MINUTE_IN_SECONDS );
 

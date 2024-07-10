@@ -329,7 +329,8 @@ class Ecwid_Seo_Links {
 	}
 
 	public function build_rewrite_rules( $rules ) {
-		$new_rules = array();
+		$new_rules        = array();
+		$additional_rules = array();
 
 		$all_base_urls = $this->_build_all_base_urls();
 

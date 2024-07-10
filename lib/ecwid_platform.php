@@ -225,12 +225,36 @@ class EcwidPlatform {
 				'expires' => $expires_after,
 			)
 		);
-		self::encode_emoji( $value );
 
 		set_transient( 'ecwid_' . $name, $value, $expires_after );
 	}
 
+	public static function encode_fields_with_emoji( $data, $properties = array() ) {
+		if ( ! is_object( $data ) ) {
+			return $data;
+		}
+
+		if ( ! is_array( $properties ) ) {
+			return $data;
+		}
+
+		foreach ( $properties as $property ) {
+			if ( ! empty( $data->$property ) ) {
+				if ( is_string( $data->$property ) ) {
+					$data->$property = wp_encode_emoji( $data->$property );
+				} else {
+					self::encode_emoji( $data->$property );
+				}
+			}
+		}
+		return $data;
+	}
+
 	public static function encode_emoji( &$item, $key = false ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+		if ( empty( $item ) ) {
+			return;
+		}
+
 		if ( is_object( $item ) || is_array( $item ) ) {
 			array_walk_recursive( $item, 'self::encode_emoji' );
 		} elseif ( is_string( $item ) ) {
@@ -305,7 +329,7 @@ class EcwidPlatform {
 			);
 		}
 
-		if ( $return['code'] == 200 ) {
+		if ( $return['code'] == 200 && $api_check_retry_after !== 0 ) {
 			update_option( self::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
 		}
 
@@ -376,18 +400,18 @@ class EcwidPlatform {
 	}
 
 	public static function store_in_products_cache( $url, $data ) {
-		self::store_in_cache( $url, 'products', $data, WEEK_IN_SECONDS );
+		self::save_in_cache( $url, 'products', $data, WEEK_IN_SECONDS );
 	}
 
 	public static function store_in_categories_cache( $url, $data ) {
-		self::store_in_cache( $url, 'categories', $data, WEEK_IN_SECONDS );
+		self::save_in_cache( $url, 'categories', $data, WEEK_IN_SECONDS );
 	}
 
-	public static function store_in_static_pages_cache( $url, $data ) {
-		self::store_in_cache( $url, 'catalog', $data, WEEK_IN_SECONDS );
+	public static function save_in_static_pages_cache( $url, $data ) {
+		self::save_in_cache( $url, 'catalog', $data, WEEK_IN_SECONDS );
 	}
 
-	protected static function store_in_cache( $url, $type, $data, $expires_after ) {
+	protected static function save_in_cache( $url, $type, $data, $expires_after ) {
 		$name = self::_build_cache_name( $url, $type );
 
 		$to_store = array(
