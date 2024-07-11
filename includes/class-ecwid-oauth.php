@@ -32,7 +32,11 @@ class Ecwid_OAuth {
 	}
 
 	public function test_post() {
-		$return = EcwidPlatform::http_post_request( $this->get_test_post_url() );
+		$return = EcwidPlatform::http_post_request(
+			$this->get_test_post_url(),
+			array(),
+			array( 'timeout' => 20 )
+		);
 
 		return is_array( $return );
 	}

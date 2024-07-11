@@ -2813,7 +2813,10 @@ function ecwid_check_for_remote_connection_errors()
 	global $ecwid_oauth;
 
 	$results = array();
-	$results['https_post_error'] = wp_remote_post($ecwid_oauth->get_test_post_url());
+	$results['https_post_error'] = wp_remote_post(
+        $ecwid_oauth->get_test_post_url(), 
+        array('timeout' => 20)
+    );
 
 	foreach ($results as $type => $value) {
 		if (is_wp_error($value)) {
