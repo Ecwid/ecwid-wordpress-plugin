@@ -115,7 +115,7 @@ class Ecwid_Admin_Main_Page {
 			return;
 		}
 
-		$result = $request->do_request();
+		$result = $request->do_request( array( 'timeout' => 20 ) );
 
 		if ( @$result['code'] == 403 && (
 				strpos( $result['data'], 'Token too old' ) !== false
@@ -133,7 +133,7 @@ class Ecwid_Admin_Main_Page {
 					Ecwid_Message_Manager::show_message( 'no_oauth' );
 					return;
 				}
-				$result = $request->do_request();
+				$result = $request->do_request( array( 'timeout' => 20 ) );
 
 				if ( $result['code'] == 200 ) {
 					update_option( 'ecwid_time_correction', time() - $time );
@@ -143,7 +143,7 @@ class Ecwid_Admin_Main_Page {
 			$iframe_src = ecwid_get_iframe_src( $time, $page );
 
 			$request = Ecwid_Http::create_get( 'embedded_admin_iframe', $iframe_src, array( Ecwid_Http::POLICY_RETURN_VERBOSE ) );
-			$result  = $request->do_request();
+			$result  = $request->do_request( array( 'timeout' => 20 ) );
 		}//end if
 
 		if ( $result['code'] == 403 ) {

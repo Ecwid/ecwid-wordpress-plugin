@@ -116,7 +116,12 @@ class Ecwid_OAuth {
 			)
 		);
 
-		$return = $request->do_request( array( 'body' => $params ) );
+		$return = $request->do_request(
+			array(
+				'body'    => $params,
+				'timeout' => 20,
+			)
+		);
 
 		$result = new stdClass();
 		if ( is_array( $return ) && isset( $return['data'] ) ) {
