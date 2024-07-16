@@ -243,7 +243,7 @@ class Ecwid_Nav_Menus {
 					$result = $api->get_categories(
 						array(
 							'parent'         => 0,
-							'responseFields' => 'total,count,items(id,name,url,nameTranslated,orderBy)',
+							'responseFields' => 'total,count,items(id,name,url,enabled,nameTranslated,orderBy)',
 						)
 					);
 
