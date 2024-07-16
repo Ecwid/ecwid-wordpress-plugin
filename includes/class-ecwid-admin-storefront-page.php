@@ -69,7 +69,7 @@ class Ecwid_Admin_Storefront_Page {
 			$categories = ecwid_get_categories_for_selector();
 
 			$api = new Ecwid_Api_V3();
-			$res = $api->get_products( array( 'responseFields' => 'total,count,items(id,name)' ) );
+			$res = $api->get_products( array( 'responseFields' => 'total,count,items(id,name,enabled)' ) );
 			if ( $res ) {
 				$products       = $res->items;
 				$products_total = $res->total;
