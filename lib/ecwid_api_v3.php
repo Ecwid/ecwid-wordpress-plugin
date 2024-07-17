@@ -503,14 +503,6 @@ class Ecwid_Api_V3 {
 		return $token;
 	}
 
-	public static function get_public_token() {
-		if ( ecwid_is_demo_store() ) {
-			return ecwid_get_demo_store_public_key();
-		}
-
-		return get_option( 'ecwid_public_token', false );
-	}
-
 	public static function get_token() {
 		if ( ecwid_is_demo_store() ) {
 			return ecwid_get_demo_store_public_key();
