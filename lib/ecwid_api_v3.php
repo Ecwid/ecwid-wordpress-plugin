@@ -865,10 +865,6 @@ class Ecwid_Api_V3 {
 		$headers = array();
 		$token   = self::get_token();
 
-		if ( empty( $token ) ) {
-			$token = self::get_public_token();
-		}
-
 		if ( ! empty( $token ) ) {
 			$headers['headers'] = array(
 				'Authorization' => 'Bearer ' . $token,
