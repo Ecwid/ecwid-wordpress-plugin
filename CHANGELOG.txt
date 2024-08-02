@@ -1,4 +1,7 @@
 == Changelog == 
+= 6.12.17 - Aug 5, 2024 =
+- Internal improvements and optimization of the loading of the admin pages of the plugin.
+
 = 6.12.16 - Jul 16, 2024 =
 - Resolved an issue with the store sometimes failing to connect to a plugin.
 - Additionally, we've fixed a problem that in some cases caused direct category links to display a 404 Not Found page.
