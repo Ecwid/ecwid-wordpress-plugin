@@ -188,7 +188,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
-			if ( empty( $options['Authorization'] ) ) {
+			if ( empty( $options ) ) {
 				return false;
 			}
 
@@ -266,7 +266,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
-			if ( empty( $options['Authorization'] ) ) {
+			if ( empty( $options ) ) {
 				return false;
 			}
 
@@ -324,7 +324,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
-			if ( empty( $options['Authorization'] ) ) {
+			if ( empty( $options ) ) {
 				return false;
 			}
 
@@ -376,7 +376,7 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
-			if ( empty( $options['Authorization'] ) ) {
+			if ( empty( $options ) ) {
 				return false;
 			}
 
@@ -427,7 +427,7 @@ class Ecwid_Api_V3 {
 			$params
 		);
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
@@ -465,7 +465,7 @@ class Ecwid_Api_V3 {
 			$params
 		);
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
@@ -593,7 +593,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $url, $params );
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
@@ -636,7 +636,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_profile_api_url, $params );
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
@@ -1024,7 +1024,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_starter_site_api_url, $request_params );
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
@@ -1142,7 +1142,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_batch_requests_api_url, $params );
 
-		if ( empty( $options['Authorization'] ) ) {
+		if ( empty( $options ) ) {
 			return false;
 		}
 
