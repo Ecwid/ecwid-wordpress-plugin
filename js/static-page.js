@@ -9,6 +9,7 @@
     var invisibleDynamicContainerStyle = "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important; margin: 0 !important; padding: 0 !important;";
     var mainCategoryId = 0;
     var initialCategoryOffset = 0;
+    var pageAlreadyLoaded = false;
 
     function find(selector) {
         return document.querySelector(selector);
@@ -228,7 +229,9 @@
                         // if we've already switched to dynamic, we don't need to dispatch this event anymore
                         return;
                     }
-                    var storeClosed = window.ecwid_initial_data.data.storeClosed;
+                    var storeClosed = window.ecwid_initial_data !== undefined
+                        ? window.ecwid_initial_data.data.storeClosed // Storefront v2
+                        : false; // Storefront v3
                     var storeClosedWrapper = document.querySelectorAll('.ecwid-maintenance-wrapper');
                     var storeNotClosedAndWrapperExists = !storeClosed && storeClosedWrapper.length > 0;
 
@@ -269,7 +272,8 @@
                         return;
                     }
 
-                    if (!ecwidPageOpened
+                    if (!hasEcwidMessages()
+                        && !ecwidPageOpened
                         && openedPage.type === "CATEGORY"
                         && openedPage.categoryId === mainCategoryId
                         && openedPage.offset === initialCategoryOffset) {
@@ -359,8 +363,8 @@
             }
         }
 
-        addClickHandlers('#' + staticId + ' .ec-breadcrumbs a', function (element) {
-            var categoryId = element.getAttribute('categoryId');
+        addClickHandlers('#' + staticId + ' .breadcrumbs__link', function (element) {
+            var categoryId = element.getAttribute('data-category-id');
             if (categoryId !== mainCategoryId) {
                 addStaticClickEvent(element, openEcwidPage('category', { 'id': categoryId }));
             }
@@ -408,9 +412,15 @@
             addStaticClickEvent(element, openEcwidPage('category', { 'id': categoryId }));
         })
 
-        addClickHandlers('#' + staticId + ' .grid-product__buy-now', function (element) {
-            var productId = element.getAttribute('data-product-id');
-            addStaticClickEvent(element, openEcwidPage('product', { 'id': productId }));
+        addClickHandlers('#' + staticId + ' .grid-product__buy-now .form-control', function (element) {
+            const productId = element.getAttribute('data-product-id');
+            const isGermanStore = element.getAttribute('data-country-code') === 'DE';
+            const updatedBuyButtonsFeature = element.getAttribute('data-updated-buy-buttons') != null;
+            const params = { 'id': productId };
+            if (updatedBuyButtonsFeature && !isGermanStore) {
+                params['buyNow'] = '';
+            }
+            addStaticClickEvent(element, openEcwidPage('product', params, true));
         });
 
         addClickHandlers('#' + staticId + ' .footer__link--gift-card', function (element) {
@@ -500,8 +510,11 @@
         });
     }
 
-    function openEcwidPage(page, params) {
+    function openEcwidPage(page, params, stopPropagation = false) {
         return function (e) {
+            if (stopPropagation) {
+                e.stopPropagation();
+            }
             if (isCtrlClickOnProductEvent(page, e)) {
                 // In case product element in grid was clicked with ctrl/meta key, do not invoke e.preventDefault()
                 // and do nothing. Event will be handled and processed by default ctrl/meta + click handler on
@@ -537,6 +550,12 @@
     }
 
     function addOnPageLoadedCallback(callback, attempt) {
+        const isModernStorefront = window.Ecwid && window.Ecwid.isStorefrontV3 && window.Ecwid.isStorefrontV3();
+        if (isModernStorefront && pageAlreadyLoaded) {
+            callback();
+            return;
+        }
+
         // let's wait for the Ecwid environment to be loaded for up to 2000 milliseconds
         if (attempt >= 40) {
             if (!!console) {
@@ -546,7 +565,10 @@
         }
 
         if (typeof (Ecwid) == 'object' && typeof (Ecwid.OnPageLoaded) == 'object') {
-            Ecwid.OnPageLoaded.add(callback);
+            Ecwid.OnPageLoaded.add(function (page) {
+                pageAlreadyLoaded = true;
+                callback(page);
+            });
         } else {
             setTimeout(function () {
                 addOnPageLoadedCallback(callback, attempt + 1);

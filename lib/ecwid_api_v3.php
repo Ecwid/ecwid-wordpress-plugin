@@ -188,6 +188,10 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
+			if ( empty( $options ) ) {
+				return false;
+			}
+
 			$result = EcwidPlatform::fetch_url( $url, $options );
 
 			if ( $result['code'] != '200' ) {
@@ -262,6 +266,10 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_categories_cache( $url );
 
 		if ( ! $result ) {
+			if ( empty( $options ) ) {
+				return false;
+			}
+
 			$result = EcwidPlatform::fetch_url( $url, $options );
 
 			if ( $result['code'] != '200' ) {
@@ -316,6 +324,10 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
+			if ( empty( $options ) ) {
+				return false;
+			}
+
 			$result = EcwidPlatform::fetch_url( $url, $options );
 
 			if ( $result['code'] != '200' ) {
@@ -364,7 +376,12 @@ class Ecwid_Api_V3 {
 		$result = EcwidPlatform::get_from_products_cache( $url );
 
 		if ( ! $result ) {
+			if ( empty( $options ) ) {
+				return false;
+			}
+
 			$result = EcwidPlatform::fetch_url( $url, $options );
+
 			if ( $result['code'] != '200' ) {
 				return false;
 			}
@@ -410,6 +427,10 @@ class Ecwid_Api_V3 {
 			$params
 		);
 
+		if ( empty( $options ) ) {
+			return false;
+		}
+
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( $result['code'] != '200' ) {
@@ -443,6 +464,10 @@ class Ecwid_Api_V3 {
 			$this->_products_api_url,
 			$params
 		);
+
+		if ( empty( $options ) ) {
+			return false;
+		}
 
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
@@ -568,6 +593,10 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $url, $params );
 
+		if ( empty( $options ) ) {
+			return false;
+		}
+
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( ! isset( $result['data'] ) ) {
@@ -606,6 +635,10 @@ class Ecwid_Api_V3 {
 
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_profile_api_url, $params );
+
+		if ( empty( $options ) ) {
+			return false;
+		}
 
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
@@ -821,11 +854,14 @@ class Ecwid_Api_V3 {
 	}
 
 	protected function build_request_headers() {
-		$headers = array(
-			'headers' => array(
-				'Authorization' => 'Bearer ' . self::get_token(),
-			),
-		);
+		$headers = array();
+		$token   = self::get_token();
+
+		if ( ! empty( $token ) ) {
+			$headers['headers'] = array(
+				'Authorization' => 'Bearer ' . $token,
+			);
+		}
 
 		return $headers;
 	}
@@ -988,6 +1024,10 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_starter_site_api_url, $request_params );
 
+		if ( empty( $options ) ) {
+			return false;
+		}
+
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
 		if ( ! isset( $result['data'] ) ) {
@@ -1101,6 +1141,10 @@ class Ecwid_Api_V3 {
 
 		$options = $this->build_request_headers();
 		$url     = $this->build_request_url( $this->_batch_requests_api_url, $params );
+
+		if ( empty( $options ) ) {
+			return false;
+		}
 
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
