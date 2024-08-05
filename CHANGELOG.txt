@@ -1,6 +1,6 @@
 == Changelog == 
 = 6.12.17 - Aug 5, 2024 =
-- Internal improvements and optimization of the loading of the admin pages of the plugin.
+- Internal improvements and optimizations.
 
 = 6.12.16 - Jul 16, 2024 =
 - Resolved an issue with the store sometimes failing to connect to a plugin.
