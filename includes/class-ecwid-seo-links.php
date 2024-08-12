@@ -338,10 +338,15 @@ class Ecwid_Seo_Links {
 			$patterns = self::get_seo_links_patterns();
 
 			$post = get_post( $page_id );
+
 			if ( ! $post ) {
 				continue;
 			}
-			if ( ! in_array( $post->post_type, array( 'page', 'post' ) ) ) {
+
+			$default_post_types = array( 'page', 'post' );
+			$allowed_post_types = apply_filters( 'ecwid_seo_allowed_post_types', $default_post_types );
+
+			if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
 				continue;
 			}
 
@@ -358,9 +363,16 @@ class Ecwid_Seo_Links {
 				}
 
 				foreach ( $patterns as $pattern ) {
-					$additional_rules[ $link . '/' . $pattern . '.*' ] = 'index.php?' . $param_name . '=' . $link_page_id;
+					$query = 'index.php?' . $param_name . '=' . $link_page_id;
+
+					// adding post_type parameters for non-default types
+					if ( ! in_array( $post->post_type, $default_post_types ) ) {
+						$query .= '&post_type=' . $post->post_type;
+					}
+
+					$additional_rules[ $link . '/' . $pattern . '.*' ] = $query;
 				}
-			}
+			}//end foreach
 		}//end foreach
 
 		if ( self::is_store_on_home_page() ) {

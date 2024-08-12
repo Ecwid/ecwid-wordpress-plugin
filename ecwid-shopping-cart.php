@@ -209,6 +209,7 @@ function ecwid_init_integrations() {
 		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 		'sg-cachepress/sg-cachepress.php' => 'sg-optimizer',
 		'google-sitemap-generator/sitemap.php' => 'google-sitemap-generator',
+		'jetpack/jetpack.php' => 'jetpack',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );
