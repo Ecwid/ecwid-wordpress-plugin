@@ -58,7 +58,9 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false' );
 		}
 
-		$code .= '<div id="static-ec-store-container">';
+		$code .= self::get_dynamic_html_code( $is_default_render, $classname );
+
+		$code .= '<div id="static-ec-store-container" style="margin-top:0;">';
 		$code .= htmlspecialchars_decode( Ecwid_Static_Page::get_html_code() );
 
 		$js_code = Ecwid_Static_Page::get_js_code();
@@ -66,8 +68,6 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$code .= sprintf( '<!--noptimize--><script id="ec-static-inline-js" data-cfasync="false" data-no-optimize="1" type="text/javascript">%s</script><!--/noptimize-->', $js_code ) . PHP_EOL;
 		}
 		$code .= '</div>';
-
-		$code .= self::get_dynamic_html_code( $is_default_render, $classname );
 
 		$force_dynamic_js_code = 'if( typeof window.ec.storefront.staticPages != "undefined" && typeof window.ec.storefront.staticPages.forceDynamicLoadingIfRequired != "undefined" ) {
             window.ec.storefront.staticPages.forceDynamicLoadingIfRequired();
