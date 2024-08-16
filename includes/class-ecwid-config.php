@@ -1,22 +1,23 @@
 <?php
 
 class Ecwid_Config {
-	const IS_WL            = 'whitelabel_is_enabled';
-	const BRAND            = 'whitelabel_brand';
-	const KB_URL           = 'whitelabel_kb_url';
-	const CONTACT_US_URL   = 'whitelabel_contact_us_url';
-	const REGISTRATION_URL = 'whitelabel_registration_url';
-	const CHANNEL_ID       = 'whitelabel_channel_id';
-	const OAUTH_APPID      = 'whitelabel_oauth_appid';
-	const OAUTH_APPSECRET  = 'whitelabel_oauth_appsecret';
-	const OAUTH_TOKEN_URL  = 'whitelabel_oauth_token_url';
-	const OAUTH_AUTH_URL   = 'whitelabel_oauth_auth_url';
-	const TOKEN            = 'config_token';
-	const STORE_ID         = 'config_store_id';
-	const API_DOMAIN       = 'config_api_domain';
-	const FRONTEND_DOMAIN  = 'config_frontend_domain';
-	const CPANEL_DOMAIN    = 'config_cpanel_domain';
-	const DEMO_STORE_ID    = 'config_demo_store_id';
+	const IS_WL                   = 'whitelabel_is_enabled';
+	const BRAND                   = 'whitelabel_brand';
+	const KB_URL                  = 'whitelabel_kb_url';
+	const CONTACT_US_URL          = 'whitelabel_contact_us_url';
+	const REGISTRATION_URL        = 'whitelabel_registration_url';
+	const CHANNEL_ID              = 'whitelabel_channel_id';
+	const OAUTH_APPID             = 'whitelabel_oauth_appid';
+	const OAUTH_APPSECRET         = 'whitelabel_oauth_appsecret';
+	const OAUTH_TOKEN_URL         = 'whitelabel_oauth_token_url';
+	const OAUTH_AUTH_URL          = 'whitelabel_oauth_auth_url';
+	const TOKEN                   = 'config_token';
+	const STORE_ID                = 'config_store_id';
+	const API_DOMAIN              = 'config_api_domain';
+	const STATIC_PAGES_API_DOMAIN = 'config_static_pages_api_domain';
+	const FRONTEND_DOMAIN         = 'config_frontend_domain';
+	const CPANEL_DOMAIN           = 'config_cpanel_domain';
+	const DEMO_STORE_ID           = 'config_demo_store_id';
 
 	public static function is_wl() {
 		return EcwidPlatform::get( self::IS_WL, false );
@@ -84,6 +85,10 @@ class Ecwid_Config {
 
 	public static function get_api_domain() {
 		return EcwidPlatform::get( self::API_DOMAIN, 'app.ecwid.com' );
+	}
+
+	public static function get_static_pages_api_domain() {
+		return EcwidPlatform::get( self::STATIC_PAGES_API_DOMAIN, 'storefront.ecwid.com' );
 	}
 
 	public static function get_scriptjs_domain() {
@@ -171,15 +176,16 @@ class Ecwid_Config {
 	 */
 	protected static function _get_common_config() {
 		$common_config = array(
-			self::OAUTH_APPID     => 'oauth_appid',
-			self::OAUTH_APPSECRET => 'oauth_appsecret',
-			self::TOKEN           => 'oauth_token',
-			self::STORE_ID        => 'store_id',
-			self::CHANNEL_ID      => 'channel_id',
-			self::API_DOMAIN      => 'api_domain',
-			self::FRONTEND_DOMAIN => 'scriptjs_domain',
-			self::CPANEL_DOMAIN   => 'cp_domain',
-			self::DEMO_STORE_ID   => 'demo_store_id',
+			self::OAUTH_APPID             => 'oauth_appid',
+			self::OAUTH_APPSECRET         => 'oauth_appsecret',
+			self::TOKEN                   => 'oauth_token',
+			self::STORE_ID                => 'store_id',
+			self::CHANNEL_ID              => 'channel_id',
+			self::API_DOMAIN              => 'api_domain',
+			self::STATIC_PAGES_API_DOMAIN => 'static_pages_api_domain',
+			self::FRONTEND_DOMAIN         => 'scriptjs_domain',
+			self::CPANEL_DOMAIN           => 'cp_domain',
+			self::DEMO_STORE_ID           => 'demo_store_id',
 		);
 
 		return $common_config;
