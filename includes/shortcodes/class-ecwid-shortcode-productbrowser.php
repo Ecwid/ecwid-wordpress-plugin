@@ -60,7 +60,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 
 		$code .= self::get_dynamic_html_code( $is_default_render, $classname );
 
-		$code .= '<div id="static-ec-store-container" style="margin-top:0;">';
+		$code .= '<div id="static-ec-store-container">';
 		$code .= htmlspecialchars_decode( Ecwid_Static_Page::get_html_code() );
 
 		$js_code = Ecwid_Static_Page::get_js_code();
