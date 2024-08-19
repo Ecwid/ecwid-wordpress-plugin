@@ -96,9 +96,9 @@ class Ecwid_Products {
 		global $wpdb;
 
 		$join .= 'LEFT JOIN ' . $wpdb->postmeta . ' ' . self::DB_ALIAS_OUT_OF_STOCK
-				 . ' ON ' . $wpdb->posts . '.id = ' . self::DB_ALIAS_OUT_OF_STOCK . '.post_id'
-				 . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_key="in_stock"'
-				 . ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_value=1';
+				. ' ON ' . $wpdb->posts . '.id = ' . self::DB_ALIAS_OUT_OF_STOCK . '.post_id'
+				. ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_key="in_stock"'
+				. ' AND ' . self::DB_ALIAS_OUT_OF_STOCK . '.meta_value=1';
 
 		return $join;
 	}
@@ -325,12 +325,10 @@ class Ecwid_Products {
 		}
 
 		if ( ! $settings || $settings['one_at_a_time'] && ! $did_something ) {
-
 			$did_something = $this->_process_products( $settings );
 		}
 
 		if ( ! $settings || $settings['one_at_a_time'] && ! $did_something ) {
-
 			$this->_status->update_last_sync_time( time() );
 
 			return true;
@@ -410,7 +408,6 @@ class Ecwid_Products {
 		}
 
 		while ( ! $over ) {
-
 			$this->_status_event(
 				array(
 					'event'  => 'fetching_products',
@@ -551,7 +548,6 @@ class Ecwid_Products {
 		}
 
 		while ( ! $over ) {
-
 			$this->_status_event(
 				array(
 					'event'  => 'fetching_deleted_product_ids',

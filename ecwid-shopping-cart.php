@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid by Lightspeed is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.12.17
+Version: 6.12.18
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -209,6 +209,7 @@ function ecwid_init_integrations() {
 		'litespeed-cache/litespeed-cache.php' => 'litespeed-cache',
 		'sg-cachepress/sg-cachepress.php' => 'sg-optimizer',
 		'google-sitemap-generator/sitemap.php' => 'google-sitemap-generator',
+		'jetpack/jetpack.php' => 'jetpack',
 	);
 
 	$old_wordpress = version_compare( get_bloginfo( 'version' ), '5.0', '<' );

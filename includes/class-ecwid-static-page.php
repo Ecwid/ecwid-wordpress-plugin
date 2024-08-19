@@ -9,7 +9,6 @@ class Ecwid_Static_Page {
 	const OPTION_VALUE_AUTO     = '';
 
 	const HANDLE_STATIC_PAGE = 'static-page';
-	const API_URL            = 'https://storefront.ecwid.com/';
 
 	protected static $cache_key;
 
@@ -68,7 +67,7 @@ class Ecwid_Static_Page {
 			$params['mode'] = 'home';
 		}
 
-		$url  = self::API_URL;
+		$url  = 'https://' . Ecwid_Config::get_static_pages_api_domain() . '/';
 		$url .= sprintf( '%s-page/', $params['mode'] );
 		$url .= sprintf( '%s/', get_ecwid_store_id() );
 
