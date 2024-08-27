@@ -19,7 +19,6 @@ jobs:
          with:
            security_analysis: true
            report_file: results.sarif
-           relative_dir: ./invalidation
        - name: Upload Security Analysis results to GitHub
          uses: github/codeql-action/upload-sarif@v3
          with:
