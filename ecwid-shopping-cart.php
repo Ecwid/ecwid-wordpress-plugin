@@ -1732,6 +1732,8 @@ function ecwid_uninstall() {
 
 	EcwidPlatform::cache_reset('need_add_rewrite');
 	Ecwid_Store_Page::delete_page_from_nav_menus();
+
+    Ec_Store_Admin_Access::reset_all_access();
 }
 
 function ecwid_abs_intval($value) {
