@@ -112,6 +112,59 @@
 <?php endforeach; ?>
 </div>
 
+<?php if ( class_exists( 'Ec_Store_Admin_Access' ) ) : ?>
+<h2>Who can grant access to Control Panel</h2>
+<div>
+<p>Required capability: <?php echo Ec_Store_Admin_Access::CAP_CAN_GRANT_ACCESS; ?></p>
+	<?php
+	$args  = array(
+		'capability' => Ec_Store_Admin_Access::CAP_CAN_GRANT_ACCESS,
+		'fields'     => array( 'ID', 'user_nicename' ),
+	);
+	$users = get_users( $args );
+	if ( ! empty( $users ) ) {
+		echo '<ul>';
+		foreach ( $users as $user ) {
+			printf(
+				"<li>ID=%s <a href='%s' target='_blank'>%s</a></li>",
+				esc_attr( $user->ID ),
+				esc_attr( add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) ) ),
+				esc_attr( $user->user_nicename )
+			);
+		}
+		echo '</ul>';
+	} else {
+		echo 'No one found';
+	}
+	?>
+</div>
+<h2>Who has an access to Control Panel</h2>
+<div>
+<p>Required capability: <?php echo Ec_Store_Admin_Access::CAP_MANAGE_CONTROL_PANEL; ?></p>
+	<?php
+	$args  = array(
+		'capability' => Ec_Store_Admin_Access::CAP_MANAGE_CONTROL_PANEL,
+		'fields'     => array( 'ID', 'user_nicename' ),
+	);
+	$users = get_users( $args );
+	if ( ! empty( $users ) ) {
+		echo '<ul>';
+		foreach ( $users as $user ) {
+			printf(
+				"<li>ID=%s <a href='%s' target='_blank'>%s</a></li>",
+				esc_attr( $user->ID ),
+				esc_attr( add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) ) ),
+				esc_attr( $user->user_nicename )
+			);
+		}
+		echo '</ul>';
+	} else {
+		echo 'No one found';
+	}
+	?>
+</div>
+<?php endif; ?>
+
 
 <?php if ( Ecwid_Config::is_wl() ) : ?>
 	<?php
