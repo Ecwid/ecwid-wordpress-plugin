@@ -146,13 +146,21 @@ class Ecwid_Admin_Main_Page {
 			$result  = $request->do_request( array( 'timeout' => 20 ) );
 		}//end if
 
+		$need_to_force_show_dashboard = false;
+
 		if ( $result['code'] == 403 ) {
-			Ecwid_Api_V3::save_token( '' );
+			if ( get_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 ) == 0 ) {
+				Ecwid_Api_V3::set_api_status( Ecwid_Api_V3::API_STATUS_ERROR_TOKEN );
+				Ecwid_Api_V3::save_token( '' );
+			} else {
+				update_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, time() + 5 * MINUTE_IN_SECONDS );
+				$need_to_force_show_dashboard = true;
+			}
 		}
 
 		if ( empty( $result['code'] ) && empty( $result['data'] ) || $result['code'] == 500 ) {
 			require_once ECWID_PLUGIN_DIR . 'templates/admin-timeout.php';
-		} elseif ( $result['code'] != 200 ) {
+		} elseif ( $result['code'] != 200 && ! $need_to_force_show_dashboard ) {
 			if ( ecwid_test_oauth( true ) ) {
 				require_once ECWID_PLUGIN_DIR . 'templates/reconnect-sso.php';
 			} else {
