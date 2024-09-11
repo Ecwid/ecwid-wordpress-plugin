@@ -5,5 +5,6 @@
 
 .distignore
 .gitignore
+composer.json
 CHANGELOG.txt
 README.md
