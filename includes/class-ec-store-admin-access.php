@@ -55,6 +55,15 @@ class Ec_Store_Admin_Access {
 		return get_users( $args );
 	}
 
+	public static function get_users_with_grant_access() {
+		$args = array(
+			'capability' => self::CAP_CAN_GRANT_ACCESS,
+			'fields'     => array( 'ID' ),
+		);
+
+		return get_users( $args );
+	}
+
 	public static function has_scope( $user_id = null ) {
 		$has_scope = false;
 
@@ -88,11 +97,9 @@ class Ec_Store_Admin_Access {
 			return true;
 		}
 
-		$args = array(
-			'capability' => self::CAP_CAN_GRANT_ACCESS,
-			'fields'     => array( 'ID' ),
-		);
-		if ( empty( get_users( $args ) ) && is_super_admin() ) {
+		$users = self::get_users_with_grant_access();
+
+		if ( empty( $users ) && is_super_admin() ) {
 			return true;
 		}
 
@@ -113,17 +120,6 @@ class Ec_Store_Admin_Access {
 			return $this->capability;
 		}
 
-		$args = array(
-			'meta_query' => array( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				array(
-					'key'     => 'wp_capabilities',
-					'value'   => self::CAP_MANAGE_CONTROL_PANEL . '";b:1',
-					'compare' => 'LIKE',
-				),
-			),
-			'fields'     => array( 'ID' ),
-		);
-
 		if ( ! empty( self::get_users_with_manage_access() ) ) {
 			$cap = self::CAP_MANAGE_CONTROL_PANEL;
 		}
@@ -131,6 +127,28 @@ class Ec_Store_Admin_Access {
 		$this->capability = $cap;
 
 		return $cap;
+	}
+
+	public static function reset_all_access() {
+		$users = self::get_users_with_manage_access();
+
+		if ( ! empty( $users ) ) {
+			foreach ( $users as $user ) {
+				$user = new WP_User( $user->ID );
+				$user->remove_cap( self::CAP_MANAGE_CONTROL_PANEL );
+			}
+		}
+
+		$users = self::get_users_with_grant_access();
+
+		if ( ! empty( $users ) ) {
+			foreach ( $users as $user ) {
+				$user = new WP_User( $user->ID );
+				$user->remove_cap( self::CAP_CAN_GRANT_ACCESS );
+			}
+		}
+
+		return true;
 	}
 
 	public function print_custom_user_profile_fields( $user ) {
