@@ -428,7 +428,6 @@ class Ecwid_Product_Browser {
 		}
 
 		if ( $api->is_store_feature_available( Ecwid_Api_V3::FEATURE_PRODUCT_SUBTITLES ) ) {
-
 			$attributes['product_list_subtitles_behavior'] = array(
 				'name'              => 'product_list_subtitles_behavior',
 				'title'             => __( 'Product subtitles', 'ecwid-shopping-cart' ),
@@ -447,7 +446,6 @@ class Ecwid_Product_Browser {
 		}
 
 		return $attributes;
-
 	}
 
 	protected static function _get_behaviors() {
