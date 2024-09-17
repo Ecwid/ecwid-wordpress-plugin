@@ -124,7 +124,7 @@ class Ecwid_Static_Page {
 				$pb_attribures[ $param ] = array(
 					'name'              => $param,
 					'is_storefront_api' => true,
-					'type'              => true,
+					'type'              => 'boolean',
 				);
 			}
 		}
