@@ -4,10 +4,6 @@
 	jQuery(document).ready(function() {
 		jQuery('#ecwid-frame').attr('src', '<?php echo $iframe_src; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>');
 		ecwidSetPopupCentering('#ecwid-frame');
-
-		jQuery.ajax({
-			url: ajaxurl + '?action=<?php echo esc_attr( Ecwid_Store_Page::WARMUP_ACTION ); ?>'
-		});
 	});
 	//]]>
 </script>

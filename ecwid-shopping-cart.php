@@ -108,7 +108,7 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
-require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
+// require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
