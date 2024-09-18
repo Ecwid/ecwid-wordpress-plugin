@@ -108,11 +108,11 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
-require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
 
+require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
@@ -2987,6 +2987,7 @@ function ecwid_update_store_id( $new_store_id ) {
 
 function ecwid_is_paid_account()
 {
+    return false;
 	if ( Ecwid_Api_V3::is_available() ) {
 		$api = new Ecwid_Api_V3();
 

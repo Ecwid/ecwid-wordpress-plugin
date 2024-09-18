@@ -7,7 +7,6 @@ class Ecwid_Store_Page {
 	const OPTION_LAST_STORE_PAGE_ID = 'ecwid_last_store_page_id';
 	const OPTION_FLUSH_REWRITES     = 'ecwid_flush_rewrites';
 	const OPTION_REPLACE_TITLE      = 'ecwid_replace_title';
-	const WARMUP_ACTION             = 'ecwid_warmup_store';
 
 	const META_STORE_DATA = 'ecwid_store';
 
@@ -398,45 +397,6 @@ class Ecwid_Store_Page {
 		return array( 'publish', 'private', 'draft' );
 	}
 
-	public static function warmup_store() {
-		$store_page = get_post( self::get_current_store_page_id() );
-
-		if ( ! $store_page ) {
-			return;
-		}
-
-		$shortcodes = array();
-		foreach ( Ecwid_Shortcode_Base::get_store_shortcode_names() as $shortcode_name ) {
-			$shortcodes[] = ecwid_find_shortcodes( $store_page->post_content, $shortcode_name );
-		}
-
-		if ( count( $shortcodes ) === 0 ) {
-			return;
-		}
-
-		$shortcode_data = $shortcodes[0];
-
-		$category = 0;
-
-		if ( isset( $shortcode_data[3] ) ) {
-			$attributes = shortcode_parse_atts( $shortcode_data[3] );
-
-			if ( ! $attributes ) {
-				return;
-			}
-
-			$category = $attributes['default_category_id'];
-		}
-
-		$page_url = get_permalink( $store_page );
-
-		include_once ECWID_PLUGIN_DIR . 'lib/ecwid_catalog.php';
-
-		$catalog = new EcwidCatalog( get_ecwid_store_id(), $page_url );
-
-		$catalog->warmup_store_page( intval( $category ) );
-	}
-
 	public static $main_page_title = '';
 	// If you figure out a better place to put this the_title functionality, go ahead, move it =)
 
@@ -631,7 +591,6 @@ class Ecwid_Store_Page {
 
 add_action( 'init', array( 'Ecwid_Store_Page', 'flush_rewrites' ) );
 add_action( 'save_post', array( 'Ecwid_Store_Page', 'on_save_post' ) );
-add_action( 'wp_ajax_' . Ecwid_Store_Page::WARMUP_ACTION, array( 'Ecwid_Store_Page', 'warmup_store' ) );
 add_action( 'update_option_page_on_front', array( 'Ecwid_Store_Page', 'schedule_flush_rewrites' ) );
 add_action( 'display_post_states', array( 'Ecwid_Store_Page', 'display_post_states' ), 10, 2 );
 
