@@ -41,10 +41,13 @@ class Ec_Store_Admin_Access {
 	}
 
 	public static function get_users_with_manage_access() {
+		global $wpdb;
+		$table_prefix = $wpdb->prefix;
+
 		$args = array(
 			'meta_query' => array( //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
-					'key'     => 'wp_capabilities',
+					'key'     => $table_prefix . 'capabilities',
 					'value'   => self::CAP_MANAGE_CONTROL_PANEL . '";b:1',
 					'compare' => 'LIKE',
 				),
