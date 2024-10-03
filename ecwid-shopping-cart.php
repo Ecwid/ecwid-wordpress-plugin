@@ -1638,10 +1638,11 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 		&& count($_POST['checked']) > 1;
 
 	$is_cli_running = Ecwid_Config::is_cli_running();
+    $is_wp_playground = Ecwid_Config::is_wp_playground_running();
 
 	$is_newbie = ecwid_is_demo_store();
 
-    if( !$is_cli_running && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_cli_running && $is_wp_playground && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
         exit();
     }
