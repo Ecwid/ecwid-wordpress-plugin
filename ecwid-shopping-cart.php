@@ -1638,7 +1638,7 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 		&& count($_POST['checked']) > 1;
 
 	$is_cli_running = Ecwid_Config::is_cli_running();
-    $is_wp_playground = defined( 'IS_PLAYGROUND_PREVIEW' ) && IS_PLAYGROUND_PREVIEW;
+    $is_wp_playground = Ecwid_Config::is_wp_playground_running();
 
 	$is_newbie = ecwid_is_demo_store();
 
