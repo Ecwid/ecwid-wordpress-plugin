@@ -130,6 +130,10 @@ class Ecwid_Config {
 		return defined( 'WP_CLI' ) && WP_CLI;
 	}
 
+	public static function is_wp_playground_running() {
+		return defined( 'IS_PLAYGROUND_PREVIEW' ) && IS_PLAYGROUND_PREVIEW;
+	}
+
 	public static function load_from_cli( $config ) {
 
 		if ( ! $config ) {
