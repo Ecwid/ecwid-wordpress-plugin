@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid by Lightspeed is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.12.19
+Version: 6.12.20
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -108,11 +108,11 @@ require_once ECWID_PLUGIN_DIR . 'lib/ecwid_platform.php';
 require_once ECWID_PLUGIN_DIR . 'lib/ecwid_api_v3.php';
 
 require_once ECWID_PLUGIN_DIR . 'includes/themes.php';
-require_once ECWID_PLUGIN_DIR . 'includes/oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/widgets.php';
 require_once ECWID_PLUGIN_DIR . 'includes/shortcodes.php';
 require_once ECWID_PLUGIN_DIR . 'includes/kliken.php';
 
+require_once ECWID_PLUGIN_DIR . 'includes/class-ec-store-oembed.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-message-manager.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-store-editor.php';
 require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-product-popup.php';
@@ -1638,10 +1638,11 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 		&& count($_POST['checked']) > 1;
 
 	$is_cli_running = Ecwid_Config::is_cli_running();
+    $is_wp_playground = Ecwid_Config::is_wp_playground_running();
 
 	$is_newbie = ecwid_is_demo_store();
 
-    if( !$is_cli_running && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_cli_running && $is_wp_playground && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
         exit();
     }
@@ -2987,6 +2988,7 @@ function ecwid_update_store_id( $new_store_id ) {
 
 function ecwid_is_paid_account()
 {
+    return false;
 	if ( Ecwid_Api_V3::is_available() ) {
 		$api = new Ecwid_Api_V3();
 
