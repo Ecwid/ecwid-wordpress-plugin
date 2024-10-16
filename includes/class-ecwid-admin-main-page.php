@@ -146,7 +146,7 @@ class Ecwid_Admin_Main_Page {
 			$result  = $request->do_request( array( 'timeout' => 20 ) );
 		}//end if
 
-		if ( $result['code'] == 403 ) {
+		if ( ! empty( $result ) && $result['code'] == 403 ) {
 			Ecwid_Api_V3::save_token( '' );
 		}
 
