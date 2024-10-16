@@ -2988,7 +2988,6 @@ function ecwid_update_store_id( $new_store_id ) {
 
 function ecwid_is_paid_account()
 {
-    return false;
 	if ( Ecwid_Api_V3::is_available() ) {
 		$api = new Ecwid_Api_V3();
 
