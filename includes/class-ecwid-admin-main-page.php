@@ -148,7 +148,7 @@ class Ecwid_Admin_Main_Page {
 
 		$need_to_force_show_dashboard = false;
 
-		if ( $result['code'] == 403 ) {
+		if ( ! empty( $result ) && $result['code'] == 403 ) {
 			if ( get_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 ) == 0 ) {
 				Ecwid_Api_V3::set_api_status( Ecwid_Api_V3::API_STATUS_ERROR_TOKEN );
 				Ecwid_Api_V3::save_token( '' );
