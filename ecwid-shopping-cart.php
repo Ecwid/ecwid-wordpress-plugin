@@ -1642,7 +1642,7 @@ function ecwid_plugin_activation_redirect( $plugin ) {
 
 	$is_newbie = ecwid_is_demo_store();
 
-    if( !$is_cli_running && $is_wp_playground && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
+    if( !$is_cli_running && !$is_wp_playground && !$is_bulk_activation && $is_newbie && $plugin == plugin_basename( __FILE__ ) ) {
         wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
         exit();
     }

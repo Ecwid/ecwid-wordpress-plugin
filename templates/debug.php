@@ -79,6 +79,22 @@
 		<div><?php echo esc_html( ecwid_get_theme_identification() ); ?></div>
 	</div>
 	<div class="section">
+		<div>Config URLs matching</div>
+		<div>
+		<p>
+		<?php
+		if ( defined( 'WP_SITEURL' ) ) {
+			echo esc_html( sprintf( 'WP_SITEURL: %s', WP_SITEURL ) );
+		} else {
+			echo 'WP_SITEURL isn\'t defined';
+		}
+		?>
+		</p>
+		<p><?php echo esc_html( sprintf( "Option 'siteurl': %s", get_option( 'siteurl' ) ) ); ?></p>
+		<p><?php echo esc_html( sprintf( 'admin_url(): %s', admin_url() ) ); ?></p>
+		</div>
+	</div>
+	<div class="section">
 		<div>Affiliate Ref ID</div>
 		<div><?php echo esc_html( apply_filters( 'ecwid_get_new_store_ref_id', '' ) ); ?></div>
 	</div>
