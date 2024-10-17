@@ -17,6 +17,7 @@ class Ecwid_Import_Page {
 		add_action( 'admin_menu', array( $this, 'build_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'current_screen', array( $this, 'process_woo_onboarding_redirect' ) );
+		add_action( 'current_screen', array( $this, 'add_feedback_popup' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_CHECK_IMPORT, array( $this, 'check_import' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import' ) );
 		add_action( 'current_screen', array( $this, 'do_reconnect' ) );
@@ -184,6 +185,15 @@ class Ecwid_Import_Page {
 				__( '%s products', 'ecwid-shopping-cart' ),
 				$products
 			);
+		}
+	}
+
+	public function add_feedback_popup() {
+		if ( get_current_screen()->id == 'admin_page_ec-store-import-woocommerce' ) {
+			require_once ECWID_PLUGIN_DIR . 'includes/class-ecwid-popup-woo-import-feedback.php';
+
+			$popup = new Ecwid_Popup_Woo_Import_Feedback();
+			Ecwid_Popup::add_popup( $popup );
 		}
 	}
 
