@@ -14,8 +14,8 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 
 	public function enqueue_scripts() {
 		parent::enqueue_scripts();
-		// wp_enqueue_script( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/js/popup-deactivate.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
-		// wp_enqueue_style( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array(), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_script( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/js/popup-deactivate.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_style( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array(), get_option( 'ecwid_plugin_version' ) );
 	}
 
 	public function ajax_deactivate_feedback() {
@@ -106,73 +106,31 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 		return array(
 			(object) array(
 				'class' => 'button-primary float-left deactivate',
-				'title' => __( 'Submit & Deactivate', 'ecwid-shopping-cart' ),
+				'title' => __( 'Send', 'ecwid-shopping-cart' ),
 			),
 			(object) array(
 				'class' => 'button-link deactivate',
-				'title' => __( 'Skip & Deactivate', 'ecwid-shopping-cart' ),
+				'title' => __( 'Cancel', 'ecwid-shopping-cart' ),
 			),
 		);
 	}
 
 	protected function _get_header() {
-		return __( 'Before You Go', 'ecwid-shopping-cart' );
+		return __( 'Help Us Improve', 'ecwid-shopping-cart' );
 	}
 
 	protected function _render_body() {
-		if ( ecwid_is_paid_account() ) {
-			$support_link = Ecwid_Config::get_contact_us_url();
-		} else {
-			$support_link = 'https://wordpress.org/support/plugin/ecwid-shopping-cart/#new-topic-0';
-		}
-
 		$reasons = $this->_get_reasons();
-		require ECWID_POPUP_TEMPLATES_DIR . 'deactivate.php';
+		require ECWID_POPUP_TEMPLATES_DIR . 'woo-import-feedback.php';
 	}
 
 	protected function _get_reasons() {
 		$options = array(
 			array(
-				'text'         => __( 'I have a problem using this plugin', 'ecwid-shopping-cart' ),
+				'text'         => '',
 				'has_message'  => true,
-				'code'         => 'problem',
-				'message_hint' => __( 'What was wrong?', 'ecwid-shopping-cart' ),
-			),
-			array(
-				'text'         => sprintf(
-					__( 'I couldn’t find a WordPress theme that goes well with %s', 'ecwid-shopping-cart' ),
-					Ecwid_Config::get_brand()
-				),
-				'has_message'  => true,
-				'code'         => 'theme',
-				'message_hint' => sprintf(
-					__( 'I use this WordPress theme: %s', 'ecwid-shopping-cart' ),
-					wp_get_theme()->get( 'Name' )
-				),
-			),
-			array(
-				'text'         => __( 'The plugin doesn\'t support the feature I want', 'ecwid-shopping-cart' ),
-				'has_message'  => true,
-				'code'         => 'no feature',
-				'message_hint' => __( 'What feature do you need?', 'ecwid-shopping-cart' ),
-			),
-			array(
-				'text'         => __( 'I found a better plugin', 'ecwid-shopping-cart' ),
-				'has_message'  => true,
-				'code'         => 'found better',
-				'message_hint' => __( 'Can you share the name of the plugin you chose?', 'ecwid-shopping-cart' ),
-			),
-			array(
-				'text'               => __( 'It\'s a temporary deactivation. Please do not ask me again.', 'ecwid-shopping-cart' ),
-				'has_message'        => false,
-				'code'               => 'temporary',
-				'is_disable_message' => true,
-			),
-			array(
-				'text'         => __( 'Other', 'ecwid-shopping-cart' ),
-				'has_message'  => true,
-				'code'         => 'other',
-				'message_hint' => __( 'Can you share your feedback? What was wrong?', 'ecwid-shopping-cart' ),
+				'code'         => 'feedback',
+				'message_hint' => __( 'Please share your experience with us. What was positive? What can we improve?', 'ecwid-shopping-cart' ),
 			),
 		);
 

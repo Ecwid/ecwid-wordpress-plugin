@@ -9,6 +9,10 @@
     font-size: 1em;
 }
 
+.reasons-list-item .message textarea.more-details {
+    min-height: 100px;
+}
+
 .reasons-list-item.selected .message {
     display: block;
 }

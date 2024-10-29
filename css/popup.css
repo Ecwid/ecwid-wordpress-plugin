@@ -11,6 +11,10 @@ body.ecwid-popup-open {
     top: 0;
     z-index: 100000;
     display: none;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .ecwid-popup.open {
