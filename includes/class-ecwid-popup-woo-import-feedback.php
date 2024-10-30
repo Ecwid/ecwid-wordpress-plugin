@@ -9,7 +9,7 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 	const OPTION_DISABLE_POPUP = 'ecwid_disable_deactivate_popup';
 
 	public function __construct() {
-		add_action( 'wp_ajax_ecwid_woo_import_feedback', array( $this, 'ajax_deactivate_feedback' ) );
+		add_action( 'wp_ajax_ecwid_send_feedback', array( $this, 'ajax_send_feedback' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -18,7 +18,8 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 		wp_enqueue_style( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array(), get_option( 'ecwid_plugin_version' ) );
 	}
 
-	public function ajax_deactivate_feedback() {
+	public function ajax_send_feedback() {
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			header( '403 Access Denied' );
 
@@ -59,7 +60,7 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 			$reply_to = $current_user->user_email;
 		}
 
-		$subject_template = __( '[%1$s] WordPress plugin deactivation feedback (store ID: %2$s)', 'ecwid-shopping-cart' );
+		$subject_template = __( '[%1$s] WordPress plugin: Woo import feedback (store ID: %2$s)', 'ecwid-shopping-cart' );
 
 		$prefix = $reason['code'];
 		if ( ! empty( $_GET['message'] ) ) {
@@ -105,12 +106,16 @@ class Ecwid_Popup_Woo_Import_Feedback extends Ecwid_Popup {
 	protected function _get_footer_buttons() {
 		return array(
 			(object) array(
-				'class' => 'button-primary float-left deactivate',
+				'class' => 'button-primary float-left btn-send-feedback',
 				'title' => __( 'Send', 'ecwid-shopping-cart' ),
 			),
 			(object) array(
-				'class' => 'button-link deactivate',
+				'class' => 'button-link btn-close',
 				'title' => __( 'Cancel', 'ecwid-shopping-cart' ),
+			),
+			(object) array(
+				'class' => 'button-link btn-close success-message',
+				'title' => __( 'Close', 'ecwid-shopping-cart' ),
 			),
 		);
 	}

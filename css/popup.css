@@ -26,6 +26,10 @@ body.ecwid-popup-open {
     position: absolute;
 }
 
+.ecwid-popup .success-message {
+    display: none;
+}
+
 .ecwid-popup-header,
 .ecwid-popup-footer,
 .ecwid-popup-body {
