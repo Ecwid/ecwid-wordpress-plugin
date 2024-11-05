@@ -10,6 +10,7 @@ class Ecwid_Import_Page {
 	const AJAX_ACTION_CHECK_IMPORT  = 'ec-store-check-import';
 	const AJAX_ACTION_DO_WOO_IMPORT = 'ec-store-do-woo-import';
 	const ACTION_GET_WOO_IMPORT_LOG = 'ec-store-get-woo-import-log';
+	const AJAX_ACTION_SEND_ERROR_TO_LOGS = 'ec-store-send-error-to-logs';
 
 	const PARAM_FROM_IMPORT_ONBOARDING = 'from-woo-import-message';
 
@@ -22,6 +23,8 @@ class Ecwid_Import_Page {
 		add_action( 'wp_ajax_' . self::AJAX_ACTION_DO_WOO_IMPORT, array( $this, 'do_woo_import' ) );
 		add_action( 'current_screen', array( $this, 'do_reconnect' ) );
 		add_action( 'admin_post_' . self::ACTION_GET_WOO_IMPORT_LOG, array( $this, 'get_woo_import_log' ) );
+
+		add_action( 'wp_ajax_' . self::AJAX_ACTION_SEND_ERROR_TO_LOGS, array( $this, 'send_error_to_logs' ) );
 	}
 
 	public function process_woo_onboarding_redirect() {
@@ -65,6 +68,7 @@ class Ecwid_Import_Page {
 			array(
 				'check_token_action'   => self::AJAX_ACTION_CHECK_IMPORT,
 				'do_woo_import_action' => self::AJAX_ACTION_DO_WOO_IMPORT,
+				'send_error_to_logs' => self::AJAX_ACTION_SEND_ERROR_TO_LOGS,
 				'_ajax_nonce'          => wp_create_nonce( self::AJAX_ACTION_DO_WOO_IMPORT ),
 			)
 		);
@@ -115,6 +119,21 @@ class Ecwid_Import_Page {
 		}
 
 		$result = $importer->proceed();
+
+		echo json_encode( $result );
+
+		die();
+	}
+
+	public function send_error_to_logs() {
+		check_ajax_referer( self::AJAX_ACTION_DO_WOO_IMPORT );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			die();
+		}
+
+		$importer = new Ecwid_Importer();
+		$result = $importer->send_import_error_to_logs();
 
 		echo json_encode( $result );
 
