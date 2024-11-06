@@ -81,6 +81,7 @@ function ecwid_apply_theme( $theme_name = null ) {
 		'twentytwentytwo'       => array( 'css-no-parent', 'title' ),
 		'twentytwentythree'     => array( 'css-no-parent', 'title' ),
 		'twentytwentyfour'      => array( 'css-no-parent', 'title' ),
+		'twentytwentyfive'      => array( 'css', 'title' ),
 	);
 	$generic_themes = apply_filters( 'ecwid_generic_themes', $generic_themes );
 
