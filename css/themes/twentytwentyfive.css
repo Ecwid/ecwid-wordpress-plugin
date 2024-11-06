@@ -1,5 +1,8 @@
-.wp-block-post-title,
 #dynamic-ec-store-container,
 #static-ec-store-container {
     max-width: var(--wp--style--global--wide-size);
+}
+.wp-block-post-title {
+    max-width: var(--wp--style--global--wide-size) !important;
+    padding: 0 10px 0;
 }
