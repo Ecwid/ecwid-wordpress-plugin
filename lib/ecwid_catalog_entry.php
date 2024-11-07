@@ -93,7 +93,13 @@ abstract class Ecwid_Catalog_Entry {
 				$url .= '/';
 			}
 
-			$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
+			preg_match( '!([^\/]+-[p|c][0-9]+)$!', $this->_data->url, $slug );
+
+			if( ! empty( $slug[1] ) ) {
+				$url .= $slug[1];
+			} else {
+				$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;
+			}
 
 			if ( ! empty( $query ) ) {
 				$url .= '/?' . $query;
