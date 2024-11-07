@@ -147,14 +147,29 @@ jQuery(document).ready(function () {
 
             if (status.planLimitHit) {
                 showWooImportAlert('limit');
+                send_mark_to_logs('limit');
             } else if (Object.keys(status.error).length > 0 || Object.keys(status.errorMessages).length > 0) {
                 showWooImportAlert('warning');
+                send_mark_to_logs();
             } else {
                 showWooImportAlert('success');
             }
 
             switchWooImportState('complete');
         }
+
+        send_mark_to_logs = function (reason = null) {
+            var data = {
+                'action': ecwid_importer.send_error_to_logs,
+                '_ajax_nonce': ecwid_importer._ajax_nonce,
+                settings: settings
+            };
+
+            jQuery.ajax({
+                'url': ajaxurl,
+                'data': data
+            });
+        };
     };
 
     jQuery('#ec-importer-woo-go').on('click', function () {

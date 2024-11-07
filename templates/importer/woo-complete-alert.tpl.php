@@ -22,6 +22,12 @@
 							}
 							?>
 						</div>
+						<div class="cta-block__content">
+							<?php
+								echo esc_html( __( 'We’d love to hear your feedback on the import process so we can improve.', 'ecwid-shopping-cart' ) );
+							?>
+							<a href="#" class="ec-store-open-feedback-popup"><?php echo esc_html( __( 'Leave feedback', 'ecwid-shopping-cart' ) ); ?></a>
+						</div>
 
 						<div class="cta-block__content" data-ec-importer-alert="warning">
 							<?php esc_html_e( 'Some of the items could not be imported.', 'ecwid-shopping-cart' ); ?>
@@ -41,7 +47,7 @@
 
 						<div class="cta-block__content" data-ec-importer-alert="warning">
 							<?php
-							echo sprintf(
+							printf(
 								wp_kses_post( __( 'Download <a href="%s">import log</a>', 'ecwid-shopping-cart' ) ),
 								'admin-post.php?action=' . esc_attr( Ecwid_Import_Page::ACTION_GET_WOO_IMPORT_LOG )
 							);

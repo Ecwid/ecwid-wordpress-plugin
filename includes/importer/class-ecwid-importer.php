@@ -246,7 +246,6 @@ class Ecwid_Importer {
 		return $progress;
 	}
 
-
 	public function append_batch( $batch_item ) {
 		$this->_batch[] = $batch_item;
 
@@ -295,6 +294,13 @@ class Ecwid_Importer {
 	public function send_import_mark_to_log() {
 		$api    = new Ecwid_Api_V3();
 		$params = array( 'wp_import_woo' => get_ecwid_store_id() );
+
+		return $api->get_store_update_stats( $params );
+	}
+
+	public function send_import_error_to_logs() {
+		$api    = new Ecwid_Api_V3();
+		$params = array( 'wp_import_woo_fail' => get_ecwid_store_id() );
 
 		return $api->get_store_update_stats( $params );
 	}

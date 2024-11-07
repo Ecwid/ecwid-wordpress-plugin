@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-    if ( jQuery( '.entry-title' ).length > 0 && typeof Ecwid !== 'undefined' ) {
+    if ( jQuery( '.entry-title, .wp-block-post-title' ).length > 0 && typeof Ecwid !== 'undefined' ) {
         Ecwid.OnPageLoaded.add(function(page) {
             
             var alreadyFoundEl = jQuery('h1[data-ecwid-found-title]');
