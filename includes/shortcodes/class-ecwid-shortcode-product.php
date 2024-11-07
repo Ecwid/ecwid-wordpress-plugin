@@ -73,7 +73,7 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 						$display_items[ $item ] = str_replace( '$name', $product->name, $display_items[ $item ] );
 					}
 
-					if ( $item == 'price' ) {
+					if ( $item == 'price' && ! empty( $product->price ) ) {
 						$display_items[ $item ] = str_replace( '$price', $product->price, $display_items[ $item ] );
 					}
 
