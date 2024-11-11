@@ -56,7 +56,7 @@ if ( is_admin() ) {
 	add_action( 'wp_ajax_ecwid_hide_vote_message', 'ecwid_hide_vote_message' );
 	add_action( 'wp_ajax_ecwid_hide_message', 'ecwid_ajax_hide_message' );
 	add_action( 'wp_ajax_ecwid_reset_categories_cache', 'ecwid_reset_categories_cache' );
-	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_create_store' );
+	add_action( 'wp_ajax_ecwid_create_store', 'ecwid_ajax_create_store' );
 	add_action( 'wp_ajax_ecwid_sync_products', 'ecwid_sync_products' );
 
 	add_action( 'admin_post_ecwid_sync_products', 'ecwid_sync_products' );
@@ -2199,34 +2199,41 @@ function ecwid_get_demo_store_public_key() {
 	return false;
 }
 
-function ecwid_create_store() {
+function ecwid_create_store( $params = array() ) {
 	$api = new Ecwid_Api_V3();
 
-	$result = $api->create_store();
+	$result = $api->create_store( $params );
+
+	$is_store_created = is_array( $result ) && $result['response']['code'] == 200;
 	
-	if ( is_array( $result ) && $result['response']['code'] == 200 ) {
+	if ( $is_store_created ) {
 		$data = json_decode( $result['body'] );
 
-		ecwid_update_store_id($data->id);
+		ecwid_update_store_id( $data->id );
 
 		$api->save_token( $data->token );
 
         do_action( 'ecwid_authorization_success' );
 
 		update_option( 'ecwid_oauth_scope', 'read_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG . ' create_catalog update_catalog allow_sso create_customers public_storefront' );
-
-		header( 'HTTP/1.1 200 OK' );
-
-	} else {
-
-		if( is_wp_error( $result ) ) {
-			header( 'HTTP/1.1 409 Error' );
-			die();
-		}
-
-		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
-		die();
 	}
+
+	return $result;
+}
+
+function ecwid_ajax_create_store() {
+	$result = ecwid_create_store();
+	$is_store_created = is_array( $result ) && $result['response']['code'] == 200;
+
+	if( $is_store_created ) {
+		header( 'HTTP/1.1 200 OK' );
+	} elseif ( is_wp_error( $result ) ) {
+		header( 'HTTP/1.1 409 Error' );
+	} else {
+		header( 'HTTP/1.1 ' . $result['response']['code'] . ' ' . $result['response']['message'] );
+	}
+
+	die();
 }
 
 add_action('admin_post_ecwid-do-sso', 'ecwid_do_sso_redirect');

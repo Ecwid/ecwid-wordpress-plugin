@@ -62,6 +62,47 @@ class Ec_Store_WP_CLI extends WP_CLI_Command {
 		WP_CLI::line( 'Configuration saved!' );
 	}
 
+	/**
+	* Create a new store. It will automatically connect to the plugin.
+	* ## OPTIONS
+	*
+	* [--email]
+	* : Client email. Required.
+	*
+	* [--name]
+	* : Client name. Required.
+	*
+	* [--password]
+	* : Client password. Optional, if not set, it will be generated automatically.
+	*
+	* [--channel_id]
+	* : Chanel ID. To bind the client to a channel. Optional.
+	*
+	*/
+	function create_store( $args, $assoc_args ) {
+		
+		$params = $assoc_args;
+
+		if ( empty( $params['email'] ) ) {
+			WP_CLI::error( 'Email is required', true );
+		}
+
+		if ( empty( $params['name'] ) ) {
+			WP_CLI::error( 'Name is required', true );
+		}
+
+		$result = ecwid_create_store( $params );
+		
+		$data = json_decode( $result['body'] );
+		$is_store_created = is_array( $result ) && $result['response']['code'] == 200;
+		
+		if( $is_store_created ) {
+			WP_CLI::success( 'Store created: ' . $data->id );
+		} else {
+			WP_CLI::error( 'Store creation failed: [' . $result['response']['code'] . '] ' . $data->errorCode . ' : ' . $data->errorMessage, true );
+		}
+	}
+
 }
  
 WP_CLI::add_command( Ec_Store_WP_CLI::$command, 'Ec_Store_WP_CLI' );
