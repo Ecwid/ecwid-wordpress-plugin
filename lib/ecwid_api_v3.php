@@ -810,6 +810,10 @@ class Ecwid_Api_V3 {
 			$data['merchant']['channelId'] = $params['channel_id'];
 		}
 
+		if( !empty( $params['goods'] ) ) {
+			$data['profile']['registrationAnswers']['goods'] = $params['goods'];
+		}
+
 		if ( isset( $_SERVER['REMOTE_ADDR'] ) && ! in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) ) ) {
 			$data['merchant']['ip'] = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		}

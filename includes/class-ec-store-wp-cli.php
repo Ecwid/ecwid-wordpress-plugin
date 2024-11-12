@@ -78,6 +78,18 @@ class Ec_Store_WP_CLI extends WP_CLI_Command {
 	* [--channel_id]
 	* : Chanel ID. To bind the client to a channel. Optional.
 	*
+	* [--goods=<goods>]
+	* : Goods. To set the type of demo products. For a list of current options, contact your manager. Optional.
+	* ---
+	* default: apparel
+	* options:
+	*   - apparel
+	*   - health
+	*   - electronics
+	*   - jewelry
+	*   - food_ecommerce
+	*   - food_restaurant
+	* ---
 	*/
 	function create_store( $args, $assoc_args ) {
 		
