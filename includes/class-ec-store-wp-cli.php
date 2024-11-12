@@ -90,16 +90,18 @@ class Ec_Store_WP_CLI extends WP_CLI_Command {
 	*   - food_ecommerce
 	*   - food_restaurant
 	* ---
+	*
 	*/
 	function create_store( $args, $assoc_args ) {
 		
 		$params = $assoc_args;
+		$is_set_user = ! empty( WP_CLI::get_config( 'user' ) );
 
-		if ( empty( $params['email'] ) ) {
+		if ( empty( $params['email'] ) && ! $is_set_user ) {
 			WP_CLI::error( 'Email is required', true );
 		}
 
-		if ( empty( $params['name'] ) ) {
+		if ( empty( $params['name'] ) && ! $is_set_user ) {
 			WP_CLI::error( 'Name is required', true );
 		}
 
