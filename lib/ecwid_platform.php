@@ -256,7 +256,7 @@ class EcwidPlatform {
 		}
 
 		if ( is_object( $item ) || is_array( $item ) ) {
-			array_walk_recursive( $item, 'self::encode_emoji' );
+			array_walk_recursive( $item, 'EcwidPlatform::encode_emoji' );
 		} elseif ( is_string( $item ) ) {
 			$item = wp_encode_emoji( $item );
 		}
