@@ -1,5 +1,10 @@
 {
     "devDependencies": {
-        "@wordpress/env": "^10.11.0"
+        "@wordpress/env": "^10.12.0",
+        "@wordpress/scripts": "^30.5.1"
+    },
+    "scripts": {
+        "start": "wp-env start --xdebug",
+        "build": "wp-env build"
     }
 }

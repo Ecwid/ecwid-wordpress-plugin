@@ -1,4 +1,3 @@
-.DS_Store
 .idea
 .vscode
 /WordPress
@@ -11,3 +10,8 @@ composer.lock
 phpunit.xml.dist
 tests/
 vendor/
+node_modules/
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
