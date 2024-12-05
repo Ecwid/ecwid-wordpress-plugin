@@ -1,0 +1,20 @@
+.ec-store-block-categories {
+  height: 50px;
+  min-height: 50px;
+
+  .ec-store-block-header {
+    margin-bottom: 0;
+    font-weight: bold;
+
+    >div {
+  	  height: 28px;
+    }
+
+    .ec-store-categories-menu {
+      width: 368px;
+      height: 8px;
+      display: inline-block;
+      margin: auto 0 auto 44px;
+    }
+  }
+}

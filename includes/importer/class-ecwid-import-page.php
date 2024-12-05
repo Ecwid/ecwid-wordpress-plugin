@@ -104,8 +104,16 @@ class Ecwid_Import_Page {
 		return $oauth->has_scope( 'create_catalog' ) && $oauth->has_scope( 'update_catalog' );
 	}
 
+	public function is_ajax_request() {
+		return ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) == 'xmlhttprequest';
+	}
+
 	public function do_woo_import() {
 		check_ajax_referer( self::AJAX_ACTION_DO_WOO_IMPORT );
+
+		if( ! $this->is_ajax_request() ) {
+			die();
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			die();
