@@ -9,3 +9,6 @@
 composer.json
 CHANGELOG.txt
 README.md
+.wp-env.json
+package-lock.json
+package.json
