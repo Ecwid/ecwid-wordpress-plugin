@@ -827,8 +827,6 @@ class Ecwid_Api_V3 {
 		}
 
 		$request_params = array(
-			'appClientId',
-			'appSecretKey',
 			'returnApiToken' => 'true',
 		);
 		$url            = $this->build_request_url( $this->_stores_api_url, $request_params );
@@ -840,6 +838,8 @@ class Ecwid_Api_V3 {
 				'timeout' => 20,
 				'headers' => array(
 					'Content-Type' => 'application/json;charset="utf-8"',
+                    'X-Ecwid-App-Client-Id' => Ecwid_Config::get_oauth_appid(),
+                    'X-Ecwid-App-Secret-Key' => Ecwid_Config::get_oauth_appsecret()
 				),
 			)
 		);
