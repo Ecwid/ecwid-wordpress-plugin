@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.7
-Stable tag: 6.12.23
+Stable tag: 6.12.24
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,6 +153,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 6.12.24 - Dec 19, 2024 =
+- Plugin code improvements for better security and stability.
+
 = 6.12.23 - Dec 5, 2024 =
 - Fixed a PHP error message ("Deprecated: Use of "self" in callables is deprecated") for PHP versions since 8.2.
 - Internal improvements and optimizations.
