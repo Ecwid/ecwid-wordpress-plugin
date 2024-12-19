@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid by Lightspeed is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.12.22
+Version: 6.12.23
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -2906,7 +2906,7 @@ function ecwid_sso() {
 
 		$user_data_encoded = base64_encode(json_encode($user_data));
 		$time = time();
-		$hmac = ecwid_hmacsha1("$user_data_encoded $time", $key);
+        $hmac = hash_hmac('sha256', "$user_data_encoded $time", $key);
 
 		$ecwid_sso_profile = "$user_data_encoded $hmac $time";
     }
@@ -2943,31 +2943,6 @@ function ecwid_sso() {
     $ecwid_sso_script = ob_get_clean();
 
 	return $ecwid_sso_script;
-}
-
-// from: http://www.php.net/manual/en/function.sha1.php#39492
-function ecwid_hmacsha1($data, $key) {
-  if (function_exists("hash_hmac")) {
-    return hash_hmac('sha1', $data, $key);
-  } else {
-    $blocksize=64;
-    $hashfunc='sha1';
-    if (strlen($key)>$blocksize)
-        $key=pack('H*', $hashfunc($key));
-    $key=str_pad($key,$blocksize,chr(0x00));
-    $ipad=str_repeat(chr(0x36),$blocksize);
-    $opad=str_repeat(chr(0x5c),$blocksize);
-    $hmac = pack(
-                'H*',$hashfunc(
-                    ($key^$opad).pack(
-                        'H*',$hashfunc(
-                            ($key^$ipad).$data
-                        )
-                    )
-                )
-            );
-    return bin2hex($hmac);
-    }
 }
 
 function ecwid_should_display_escaped_fragment_catalog()
