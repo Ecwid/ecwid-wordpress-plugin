@@ -10,6 +10,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@master
+
+    - name: Install SVN ( Subversion )
+      run: |
+        sudo apt-get update
+        sudo apt-get install subversion
+
     - name: WordPress Plugin Deploy
       id: deploy
       uses: 10up/action-wordpress-plugin-deploy@stable
@@ -19,6 +25,7 @@ jobs:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         SLUG: ecwid-shopping-cart
+
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       env:
