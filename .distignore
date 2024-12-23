@@ -12,3 +12,4 @@ README.md
 .wp-env.json
 package-lock.json
 package.json
+webpack.config.js
