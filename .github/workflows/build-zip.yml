@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Generate zip
-      uses: 10up/action-wordpress-plugin-build-zip@stable
+      uses: jordantrizz/action-wordpress-plugin-build-zip@develop
       env:
         SLUG: ecwid-shopping-cart
 
