@@ -153,7 +153,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
-= 6.12.24 - Dec 19, 2024 =
+= 6.12.24 - Dec 23, 2024 =
 - Plugin code improvements for better security and stability.
 
 = 6.12.23 - Dec 5, 2024 =
