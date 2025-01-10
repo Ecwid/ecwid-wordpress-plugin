@@ -4,9 +4,10 @@
         "@wordpress/scripts": "^30.5.1"
     },
     "scripts": {
-        "start": "wp-env start --xdebug",
-        "start:with-blocks": "wp-env start --xdebug & wp-scripts start --webpack-src-dir=gutenberg-blocks",
-        "analyzer": "wp-scripts start --webpack-src-dir=gutenberg-blocks --webpack-bundle-analyzer",
-        "build": "wp-env build"
+        "start": "wp-scripts start --stats-error-details",
+        "analyzer": "wp-scripts start --webpack-bundle-analyzer",
+        "build": "wp-scripts build",
+        "start:env": "wp-env start --xdebug",
+        "start:env-blocks": "wp-env start --xdebug & wp-scripts start"
     }
 }
