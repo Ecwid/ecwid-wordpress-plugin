@@ -53,7 +53,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 			$classname = 'hide-ec-dynamic-placeholder';
 		} else {
 			$is_default_render = true;
-			$code             .= self::get_js_for_hide_static( '#static-ec-store-container' );
+			$code             .= self::get_js_for_hide_static( 'static-ec-store-container' );
 
 			add_filter( 'ecwid_is_defer_store_init_enabled', '__return_false' );
 		}
@@ -158,8 +158,13 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 					(style.styleSheet || style.sheet).addRule(name, rules);
 				else
 					style.sheet.insertRule(name+'{'+rules+'}',0);
+
+				document.addEventListener("DOMContentLoaded", function() {
+					var static = document.getElementById('<?php echo esc_js( $html_selector ); ?>');
+					static.parentNode.removeChild(static);
+				});
 			}
-			createClass('<?php echo esc_js( $html_selector ); ?>','display:none;');
+			createClass('#<?php echo esc_js( $html_selector ); ?>','display:none;');
 		</script>
 		<!--/noptimize-->
 		<?php
