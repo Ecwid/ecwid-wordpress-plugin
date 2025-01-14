@@ -41,9 +41,8 @@ class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
 		);
 
 		$params['display'] = '';
-		$display_string    = '';
 		foreach ( $display as $name ) {
-			if ( @$params[ 'show_' . $name ] ) {
+			if ( ! empty( $params[ 'show_' . $name ] ) ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}
@@ -54,8 +53,8 @@ class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
 
 		$contents = $shortcode->render();
 
-		$align = @$params['align'];
-		if ( $align == 'right' || $align == 'left' ) {
+		$align = isset( $params['align'] ) ? $params['align'] : '';
+		if ( $align === 'right' || $align === 'left' ) {
 			$contents = '<div class="align' . $align . '">' . $contents . '</div>';
 		}
 
