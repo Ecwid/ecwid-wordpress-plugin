@@ -54,13 +54,13 @@ class Ecwid_Category extends Ecwid_Catalog_Entry {
 		}
 
 		$entry_data = $e->_get_from_cache( $id );
-		
+
 		if ( ! $entry_data ) {
 			$e->_load( $id );
 		} else {
 			$e->_init_from_stdclass( $entry_data );
 		}
-		
+
 		if ( ! $e->_data ) {
 			return null;
 		}
@@ -96,9 +96,9 @@ class Ecwid_Category extends Ecwid_Catalog_Entry {
 		}
 
 		$api_check_retry_after = get_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
-		if( empty( $data ) && !empty( $api_check_retry_after ) ) {
-			$data = new stdClass();
-			$data->id = $id;
+		if ( empty( $data ) && ! empty( $api_check_retry_after ) ) {
+			$data          = new stdClass();
+			$data->id      = $id;
 			$data->enabled = true;
 		}
 
