@@ -91,7 +91,10 @@
 	<tr class="empty">
 		<td colspan="3">
 			<div class="empty-page">
-				<div class="empty-page__title"><?php esc_html_e( 'Nothing found for <span class="empty-page__term">"{{ data.term }}"</span>', 'ecwid-shopping-cart' ); ?></div>
+				<div class="empty-page__title">
+					<?php esc_html_e( 'Nothing found for ', 'ecwid-shopping-cart' ); ?>
+					<span class="empty-page__term">"{{ data.term }}"</span>
+				</div>
 				<div class="empty-page__suggestions">
 					<?php esc_html_e( 'Try another search.', 'ecwid-shopping-cart' ); ?>
 					<a href="#" id="ecwid-reset-search"><?php esc_html_e( 'Browse all products.', 'ecwid-shopping-cart' ); ?></a>
@@ -140,15 +143,15 @@
 					</div>
 				</div>
 				<div class="media-frame-title selected-product">
-					<h1><?php esc_html_e( 'Selected Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+					<h1><?php esc_html_e( 'Selected Product', 'ecwid-shopping-cart' ); ?></span></h1>
 				</div>
 
 				<div class="media-frame-title add-product active">
-					<h1><?php esc_html_e( 'Choose Product', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+					<h1><?php esc_html_e( 'Choose Product', 'ecwid-shopping-cart' ); ?></span></h1>
 				</div>
 
 				<div class="media-frame-title customize">
-					<h1><?php esc_html_e( 'Customize widget', 'ecwid-shopping-cart' ); ?><span class="dashicons dashicons-arrow-down"></span></h1>
+					<h1><?php esc_html_e( 'Customize widget', 'ecwid-shopping-cart' ); ?></span></h1>
 				</div>
 
 				<div class="media-frame-content ecwid-selected-product selected-product">
