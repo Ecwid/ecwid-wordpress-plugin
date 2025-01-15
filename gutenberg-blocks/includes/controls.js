@@ -421,10 +421,6 @@ function EcwidProductBrowserBlock(props) {
                         w.Ecwid.init();
                     }
 
-                    if (!w.needLoadEcwidAsync && typeof w.Ecwid._onComplete !== undefined) {
-                        w.Ecwid._onComplete();
-                    }
-
                     w.Ecwid.OnAPILoaded.add(function () {
                         if (attributes.storefront_view == 'FILTERS_PAGE' && !was_opened_once) {
                             openPage("search");
