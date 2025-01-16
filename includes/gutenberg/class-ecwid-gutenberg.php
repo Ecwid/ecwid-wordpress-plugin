@@ -26,7 +26,7 @@ class Ecwid_Gutenberg {
 		$blocks = self::get_block_names();
 
 		foreach ( $blocks as $block => $block_name ) {
-			require_once dirname( __FILE__ ) . "/class-ecwid-gutenberg-block-$block.php";
+			require_once __DIR__ . "/class-ecwid-gutenberg-block-$block.php";
 			$class_name = 'Ecwid_Gutenberg_Block_' . str_replace( '-', '_', ucfirst( $block ) );
 
 			$this->_blocks[] = new $class_name();
@@ -51,7 +51,6 @@ class Ecwid_Gutenberg {
 		} else {
 			add_filter( 'block_categories', array( $this, 'block_categories' ) );
 		}
-
 	}
 
 	public function init_scripts() {
@@ -162,7 +161,6 @@ class Ecwid_Gutenberg {
 				'scriptJsUrl'          => $scriptjs_url,
 			)
 		);
-
 	}
 
 	protected function _get_products_data() {
@@ -182,7 +180,7 @@ class Ecwid_Gutenberg {
 					$buynow_block->get_block_name(),
 				)
 			)
-				&& @$block['attrs']['id']
+				&& ! empty( $block['attrs']['id'] )
 			) {
 				$product_ids[] = $block['attrs']['id'];
 			}
@@ -228,7 +226,7 @@ class Ecwid_Gutenberg {
 			'cart-page'  => self::CART_PAGE_BLOCK,
 		);
 
-		if ( $return_with_pb_only == true ) {
+		if ( $return_with_pb_only === true ) {
 			return $blocks_with_productbrowser;
 		}
 

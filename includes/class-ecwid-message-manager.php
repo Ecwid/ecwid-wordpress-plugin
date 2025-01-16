@@ -77,14 +77,14 @@ class Ecwid_Message_Manager
 		if ($primary_button) {
 			$primary_title = $params['primary_title'];
 			$primary_url =   $params['primary_url'];
-			$primary_blank = @$params['primary_blank'];
+			$primary_blank = !empty($params['primary_blank']) ? $params['primary_blank'] : '';
 		}
 		$secondary_button = isset($params['secondary_title']);
 		if ($secondary_button) {
 			$secondary_title = $params['secondary_title'];
-			$secondary_url   = @$params['secondary_url'];
-			$secondary_blank = @$params['secondary_blank'];
-			$secondary_hide = @$params['secondary_hide'];
+			$secondary_url   = !empty($params['secondary_url']) ? $params['secondary_url'] : '';
+			$secondary_blank = !empty($params['secondary_blank']) ? $params['secondary_blank'] : '';
+			$secondary_hide = !empty($params['secondary_hide']) ? $params['secondary_hide'] : '';
 		}
 
 		$do_not_show_again = true == $params['hideable'];

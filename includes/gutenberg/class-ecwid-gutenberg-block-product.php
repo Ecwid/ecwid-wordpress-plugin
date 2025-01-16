@@ -1,42 +1,48 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/class-ecwid-gutenberg-block-base.php';
+require_once __DIR__ . '/class-ecwid-gutenberg-block-base.php';
 
 class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
-	
+
 	protected $_name = 'product';
-	
+
 	public function get_block_name() {
 		return 'ecwid/product-block';
 	}
-	
+
 	public function render_callback( $params ) {
 
-		if ( !@$params['id'] ) return '';
+		if ( empty( $params['id'] ) ) {
+			return '';
+		}
 
 		$params = wp_parse_args(
 			$params,
 			array(
-				'id' => 0,
-				'show_picture' => true,
-				'show_title' => true,
-				'show_price' => true,
-				'show_options' => true,
-				'show_addtobag' => true,
-				'show_border' => true,
-				'center_align' => true,
-				'show_price_on_button' => true
+				'id'                   => 0,
+				'show_picture'         => true,
+				'show_title'           => true,
+				'show_price'           => true,
+				'show_options'         => true,
+				'show_addtobag'        => true,
+				'show_border'          => true,
+				'center_align'         => true,
+				'show_price_on_button' => true,
 			)
 		);
 
 		$display = array(
-			'picture', 'title', 'price', 'options', 'qty', 'addtobag'
+			'picture',
+			'title',
+			'price',
+			'options',
+			'qty',
+			'addtobag',
 		);
 
 		$params['display'] = '';
-		$display_string = '';
 		foreach ( $display as $name ) {
-			if ( @$params['show_' . $name] ) {
+			if ( ! empty( $params[ 'show_' . $name ] ) ) {
 				$params['display'] .= ' ' . $name;
 			}
 		}
@@ -47,16 +53,15 @@ class Ecwid_Gutenberg_Block_Product extends Ecwid_Gutenberg_Block_Base {
 
 		$contents = $shortcode->render();
 
-		$align = @$params['align'];
-		if ( $align == 'right' || $align == "left" ) {
+		$align = isset( $params['align'] ) ? $params['align'] : '';
+		if ( $align === 'right' || $align === 'left' ) {
 			$contents = '<div class="align' . $align . '">' . $contents . '</div>';
 		}
-		
+
 		return $contents;
 	}
 
-	public function get_icon_path()
-	{
+	public function get_icon_path() {
 		return 'M16.43,5.12c-0.13-1.19-0.15-1.19-1.35-1.33c-0.21-0.02-0.21-0.02-0.43-0.05c-0.01,0.06,0.06,0.78,0.14,1.13
 	c0.57,0.37,0.87,0.98,0.87,1.71c0,1.14-0.93,2.07-2.07,2.07s-2.07-0.93-2.07-2.07c0-0.54,0.09-0.97,0.55-1.4
 	c-0.06-0.61-0.19-1.54-0.18-1.64C10.14,3.46,8.72,3.46,8.58,3.6l-8.17,8.13c-0.56,0.55-0.56,1.43,0,1.97l5.54,5.93

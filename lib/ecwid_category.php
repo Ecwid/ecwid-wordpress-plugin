@@ -95,6 +95,13 @@ class Ecwid_Category extends Ecwid_Catalog_Entry {
 			}
 		}
 
+		$api_check_retry_after = get_option( EcwidPlatform::OPTION_ECWID_CHECK_API_RETRY_AFTER, 0 );
+		if ( empty( $data ) && ! empty( $api_check_retry_after ) ) {
+			$data          = new stdClass();
+			$data->id      = $id;
+			$data->enabled = true;
+		}
+
 		if ( $data ) {
 			$this->_init_from_stdclass( $data );
 		}

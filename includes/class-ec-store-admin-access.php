@@ -40,7 +40,7 @@ class Ec_Store_Admin_Access {
 		}
 	}
 
-	public static function get_users_with_manage_access() {
+	public static function get_users_with_manage_access( $limit = -1 ) {
 		global $wpdb;
 		$table_prefix = $wpdb->prefix;
 
@@ -54,6 +54,10 @@ class Ec_Store_Admin_Access {
 			),
 			'fields'     => array( 'ID' ),
 		);
+
+		if ( $limit > 0 ) {
+			$args['number'] = $limit;
+		}
 
 		return get_users( $args );
 	}
@@ -85,7 +89,7 @@ class Ec_Store_Admin_Access {
 
 	public static function is_need_grant_access_by_default( $user_id ) {
 
-		$cap_not_changed_before = empty( self::get_users_with_manage_access() );
+		$cap_not_changed_before = empty( self::get_users_with_manage_access( 1 ) );
 		$is_old_installation    = ecwid_migrations_is_original_plugin_version_older_than( '6.12.4' );
 
 		if ( $cap_not_changed_before && $is_old_installation && user_can( $user_id, 'manage_options' ) ) {
@@ -123,7 +127,7 @@ class Ec_Store_Admin_Access {
 			return $this->capability;
 		}
 
-		if ( ! empty( self::get_users_with_manage_access() ) ) {
+		if ( ! empty( self::get_users_with_manage_access( 1 ) ) ) {
 			$cap = self::CAP_MANAGE_CONTROL_PANEL;
 		}
 

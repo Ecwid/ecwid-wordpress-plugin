@@ -159,6 +159,7 @@ class Ecwid_Seo_Links {
 			'account\/favorites',
 			'account\/registration',
 			'account\/resetPassword',
+			'account\/reviews',
 			'search',
 			'search\?.*',
 			'signin',
@@ -524,10 +525,15 @@ class Ecwid_Seo_Links {
 		);
 
 		$home_url = home_url();
-		$path     = parse_url( $home_url, PHP_URL_PATH );
+		$path     = wp_parse_url( $home_url, PHP_URL_PATH );
 
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-		$seo_part    = str_replace( $path . $relative_permalink, '', $request_uri );
+
+		if ( $path . $relative_permalink === '/' ) {
+			$seo_part = $request_uri;
+		} else {
+			$seo_part = str_replace( $path . $relative_permalink, '', $request_uri );
+		}
 
 		foreach ( $noindex_pages as $page ) {
 			if ( preg_match( '!' . $page . '([\?\/]+.*|)$' . '!', $seo_part ) ) {

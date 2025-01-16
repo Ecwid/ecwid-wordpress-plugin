@@ -55,7 +55,7 @@ class Ecwid_Product_Popup {
 			die();
 		}
 
-		if ( ! is_admin() || ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+		if ( ! is_admin() || ! current_user_can( 'edit_posts' ) ) {
 			return;
 		}
 
@@ -65,7 +65,7 @@ class Ecwid_Product_Popup {
 	}
 
 	public function search_products() {
-		if ( ! is_admin() || ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+		if ( ! is_admin() || ! current_user_can( 'edit_posts' ) ) {
 			return;
 		}
 
@@ -88,6 +88,14 @@ class Ecwid_Product_Popup {
 
 		$result = $api->search_products( $params );
 
+		$output = array(
+			'total'  => 0,
+			'count'  => 0,
+			'offset' => 0,
+			'limit'  => $params['limit'],
+			'items'  => array(),
+		);
+
 		if ( $result && $result->count > 0 ) {
 			$output = array(
 				'total'  => $result->total,
@@ -105,8 +113,9 @@ class Ecwid_Product_Popup {
 					'sku'   => $product->sku,
 				);
 			}
-			echo wp_json_encode( $output );
 		}//end if
+
+		echo wp_json_encode( $output );
 
 		wp_die();
 	}
