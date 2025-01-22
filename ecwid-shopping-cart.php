@@ -2215,7 +2215,8 @@ function ecwid_create_store( $params = array() ) {
 
         do_action( 'ecwid_authorization_success' );
 
-		update_option( 'ecwid_oauth_scope', 'read_profile ' . Ecwid_OAuth::SCOPE_READ_CATALOG . ' create_catalog update_catalog allow_sso create_customers public_storefront' );
+        $scopes = implode( ' ', Ecwid_OAuth::get_scopes_for_store_creation() );
+		update_option( 'ecwid_oauth_scope', $scopes );
 	}
 
 	return $result;

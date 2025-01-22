@@ -75,7 +75,6 @@ class Ecwid_Admin {
 		global $ecwid_oauth;
 
 		if ( ! $is_newbie && Ecwid_Api_V3::is_available() && ! self::disable_dashboard() ) {
-
 			if ( ! self::are_auto_menus_enabled() ) {
 				add_submenu_page(
 					self::ADMIN_SLUG,
@@ -153,7 +152,6 @@ class Ecwid_Admin {
 		}//end if
 
 		if ( ! $is_newbie && ! Ecwid_Api_V3::is_available() || ecwid_is_demo_store() || isset( $_GET['reconnect'] ) || self::disable_dashboard() ) {
-
 			if ( current_user_can( 'edit_pages' ) ) {
 				add_submenu_page(
 					self::ADMIN_SLUG,
@@ -188,9 +186,9 @@ class Ecwid_Admin {
 			);
 		}
 
-		add_submenu_page( '', 'Ecwid debug', '', 'manage_options', 'ec_debug', 'ecwid_debug_do_page' );
-		add_submenu_page( '', 'Ecwid get mobile app', '', 'manage_options', 'ec-admin-mobile', 'ecwid_admin_mobile_do_page' );
-		add_submenu_page( '', 'Ecwid params', '', 'manage_options', 'ec-params', 'ecwid_params_do_page' );
+		add_submenu_page( 'ec-admin', 'Ecwid debug', '', 'manage_options', 'ec_debug', 'ecwid_debug_do_page' );
+		add_submenu_page( 'ec-admin', 'Ecwid get mobile app', '', 'manage_options', 'ec-admin-mobile', 'ecwid_admin_mobile_do_page' );
+		add_submenu_page( 'ec-admin', 'Ecwid params', '', 'manage_options', 'ec-params', 'ecwid_params_do_page' );
 
 		if ( ! Ecwid_Config::is_wl() ) {
 			add_submenu_page(
@@ -347,7 +345,6 @@ class Ecwid_Admin {
 		}
 
 		foreach ( $menu as $item ) {
-
 			$menu_item = array();
 
 			if ( $item['type'] == 'menuItem' && $item['path'] == 'payments' ) {
@@ -380,7 +377,6 @@ class Ecwid_Admin {
 
 			if ( isset( $item['items'] ) ) {
 				foreach ( $item['items'] as $item2 ) {
-
 					if ( $item2['title'] == 'Website' ) {
 						$item2['title'] = __( 'Instant site', 'ecwid-shopping-cart' );
 					}

@@ -750,27 +750,27 @@ class Ecwid_Api_V3 {
 		if ( ! $admin_first ) {
 			$admin_first = get_user_meta( $current_user->ID, 'nickname', true );
 		}
-		
+
 		$admin_last = get_user_meta( $current_user->ID, 'last_name', true );
 		if ( ! $admin_last ) {
 			$admin_last = get_user_meta( $current_user->ID, 'nickname', true );
 		}
 
-		$admin_name     = implode( ' ', array($admin_first, $admin_last) );
-		$store_url      = Ecwid_Store_Page::get_store_url();
-		$site_name      = get_bloginfo( 'name' );
-		$site_email     = get_option( 'admin_email' );
-		$timezone       = get_option( 'timezone_string', 'UTC+0' );
+		$admin_name = implode( ' ', array( $admin_first, $admin_last ) );
+		$store_url  = Ecwid_Store_Page::get_store_url();
+		$site_name  = get_bloginfo( 'name' );
+		$site_email = get_option( 'admin_email' );
+		$timezone   = get_option( 'timezone_string', 'UTC+0' );
 
-		if( !empty( $params['email'] ) ) {
+		if ( ! empty( $params['email'] ) ) {
 			$admin_email = $params['email'];
 		}
 
-		if( !empty( $params['name'] ) ) {
+		if ( ! empty( $params['name'] ) ) {
 			$admin_name = $params['name'];
 		}
 
-		if( !empty( $params['password'] ) ) {
+		if ( ! empty( $params['password'] ) ) {
 			$password = $params['password'];
 		} else {
 			$password = wp_generate_password( 8 );
@@ -790,8 +790,8 @@ class Ecwid_Api_V3 {
 					'storeUrl' => $store_url,
 				),
 				'account'           => array(
-					'accountName'     => $admin_name,
-					'accountEmail'    => $admin_email,
+					'accountName'  => $admin_name,
+					'accountEmail' => $admin_email,
 				),
 				'settings'          => array(
 					'storeName' => $site_name,
@@ -806,11 +806,11 @@ class Ecwid_Api_V3 {
 			),
 		);
 
-		if( !empty( $params['channel_id'] ) ) {
+		if ( ! empty( $params['channel_id'] ) ) {
 			$data['merchant']['channelId'] = $params['channel_id'];
 		}
 
-		if( !empty( $params['goods'] ) ) {
+		if ( ! empty( $params['goods'] ) ) {
 			$data['profile']['registrationAnswers']['goods'] = $params['goods'];
 		}
 
@@ -837,9 +837,9 @@ class Ecwid_Api_V3 {
 			array(
 				'timeout' => 20,
 				'headers' => array(
-					'Content-Type' => 'application/json;charset="utf-8"',
-                    'X-Ecwid-App-Client-Id' => Ecwid_Config::get_oauth_appid(),
-                    'X-Ecwid-App-Secret-Key' => Ecwid_Config::get_oauth_appsecret()
+					'Content-Type'           => 'application/json;charset="utf-8"',
+					'X-Ecwid-App-Client-Id'  => Ecwid_Config::get_oauth_appid(),
+					'X-Ecwid-App-Secret-Key' => Ecwid_Config::get_oauth_appsecret(),
 				),
 			)
 		);
