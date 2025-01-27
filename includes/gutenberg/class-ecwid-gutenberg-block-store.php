@@ -236,7 +236,9 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		if ( $api->is_available() && $api->get_store_profile() ) {
 			$settings = $api->get_store_profile()->designSettings;
-		} else {
+		}
+
+		if ( empty( $settings ) ) {
 			$settings = new stdClass();
 		}
 
