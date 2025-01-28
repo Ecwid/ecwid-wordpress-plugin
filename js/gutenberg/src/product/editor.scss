@@ -5,24 +5,15 @@
  * which makes it higher in priority.
  */
 
-.wp-block-cgb-block-my-block2  {
-  background: $green;
-  border: 0.2rem solid $black;
-  color: $black;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem;
-}
-
 .ec-store-products .ec-store-product-block.ec-store-product-block-small {
-	width: 149px;
+    width: 149px;
 
-	.ec-store-product {
-		width: 149px;
-		height: 149px;
-	}
+    .ec-store-product {
+        width: 149px;
+        height: 149px;
+    }
 
-	.ec-store-stub-sample {
-		width: 149px;
-	}
+    .ec-store-stub-sample {
+        width: 149px;
+    }
 }

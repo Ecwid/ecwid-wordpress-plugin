@@ -3,10 +3,10 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 module.exports = {
     ...defaultConfig,
     entry: {
-        'index': './blocks/src/blocks.js'
+        'index': './js/gutenberg/src/blocks.js'
     },
     output: {
-        path: __dirname + '/blocks/build',
+        path: __dirname + '/js/gutenberg/build',
     }
     // plugins: [
     //     new MiniCssExtractPlugin('css/gutenberg/app.css', { allChunks: true }),
