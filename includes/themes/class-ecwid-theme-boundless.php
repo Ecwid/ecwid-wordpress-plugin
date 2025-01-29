@@ -20,7 +20,7 @@ class Ecwid_Theme_Boundless extends Ecwid_Theme_Base {
 		$meta = get_post_meta( get_the_ID(), '_witty_builder_data' );
 
 		if ( is_array( $meta ) ) {
-			$meta = implode( $meta, ',' );
+			$meta = implode( ',', $meta );
 
 			// not exactly the intended usage, but quite simple and still works
 			// $meta is a serialized array that has the actual content
