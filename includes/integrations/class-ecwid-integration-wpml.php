@@ -3,7 +3,7 @@
 class Ecwid_Integration_WPML {
 
 	public function __construct() {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/sitepress.php' );
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/sitepress.php', false, false );
 		$ver         = $plugin_data['Version'];
 
 		if ( version_compare( $ver, '3.2', '>=' ) ) {
@@ -25,7 +25,6 @@ class Ecwid_Integration_WPML {
 		$lang = apply_filters( 'wpml_current_language', null );
 
 		foreach ( $posts as $key => $post ) {
-
 			if ( ! empty( $post->ecwid_name_translated->{$lang} ) ) {
 				$posts[ $key ]->title = $post->ecwid_name_translated->{$lang};
 			}
@@ -101,7 +100,6 @@ class Ecwid_Integration_WPML {
 
 	public function add_inline_js_config( $js ) {
 		if ( is_array( $this->hreflang_items ) ) {
-
 			if ( Ecwid_Store_Page::is_store_page() ) {
 				$js .= Ecwid_Seo_Links::get_js_config_storefront_urls() . PHP_EOL;
 				$js .= 'window.ec.config.storefrontUrls.enableHreflangTags = true;' . PHP_EOL;
@@ -120,7 +118,6 @@ class Ecwid_Integration_WPML {
 		}
 
 		if ( $sitepress->get_setting( 'language_negotiation_type' ) == WPML_LANGUAGE_NEGOTIATION_TYPE_DIRECTORY ) {
-
 			$translation_details = apply_filters(
 				'wpml_element_language_details',
 				null,

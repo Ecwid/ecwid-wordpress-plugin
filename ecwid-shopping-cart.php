@@ -622,7 +622,7 @@ function ecwid_build_sitemap( $callback, $page_num = 1 ) {
 }
 
 function ecwid_check_version() {
-	$plugin_data = get_plugin_data( __FILE__ );
+	$plugin_data = get_plugin_data( __FILE__, false, false );
 	$current_version = $plugin_data['Version'];
 	$stored_version = get_option( 'ecwid_plugin_version', null );
 
@@ -635,15 +635,12 @@ function ecwid_check_version() {
 	$upgrade = $stored_version && version_compare( $current_version, $stored_version ) > 0;
 
 	if ( $fresh_install ) {
-
 		do_action( 'ecwid_plugin_installed', $current_version );
 		add_option( 'ecwid_plugin_version', $current_version );
 
 		// Called in Ecwid_Seo_Links->on_fresh_install
 		do_action( 'ecwid_on_fresh_install' );
-
 	} elseif ( $upgrade ) {
-
 		do_action( 'ecwid_plugin_upgraded', array( 'old' => $stored_version, 'new' => $current_version ) );
 		update_option( 'ecwid_plugin_version', $current_version );
 
