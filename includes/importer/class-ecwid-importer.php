@@ -1,5 +1,5 @@
 <?php
-require_once dirname( __FILE__ ) . '/class-ecwid-importer-task.php';
+require_once __DIR__ . '/class-ecwid-importer-task.php';
 class Ecwid_Importer {
 
 	const OPTION_TASKS                = 'ecwid_importer_tasks';
@@ -68,15 +68,14 @@ class Ecwid_Importer {
 			$current_task = $this->_get_current_task();
 			$task_data    = $this->_tasks[ $current_task ];
 			if ( ! isset( $status['plan_limit'] )
-				 || ! is_array( $status['plan_limit'] )
-				 || ! array_key_exists( $task_data['type'], $status['plan_limit'] )
+				|| ! is_array( $status['plan_limit'] )
+				|| ! array_key_exists( $task_data['type'], $status['plan_limit'] )
 			) {
-
 				$task   = Ecwid_Importer_Task::load_task( $task_data['type'] );
 				$result = $task->execute( $this, $task_data );
 
 				if ( ! is_array( $result ) ) {
-					$current_task++;
+					++$current_task;
 
 					if ( $current_task >= count( $this->_tasks ) ) {
 						break;
@@ -90,7 +89,6 @@ class Ecwid_Importer {
 					$this->_set_tasks( $this->_tasks );
 
 					if ( $start + self::TICK_LENGTH <= time() ) {
-
 						$progress['status'] = 'in_progress';
 						break;
 					}
@@ -174,7 +172,7 @@ class Ecwid_Importer {
 				$progress['plan_limit_hit'][] = $task_data['type'];
 			}//end if
 
-			$current_task++;
+			++$current_task;
 
 			if ( $current_task >= count( $this->_tasks ) ) {
 				break;
@@ -188,7 +186,6 @@ class Ecwid_Importer {
 			$this->_set_tasks( $this->_tasks );
 
 			if ( $start + self::TICK_LENGTH <= time() ) {
-
 				$progress['status'] = 'in_progress';
 				break;
 			}
@@ -273,7 +270,6 @@ class Ecwid_Importer {
 		$result = $api->create_batch( $batch );
 
 		if ( ! is_wp_error( $result ) && $result['response']['code'] == '200' ) {
-
 			$data   = json_decode( $result['body'] );
 			$ticket = $data->ticket;
 
@@ -294,13 +290,6 @@ class Ecwid_Importer {
 	public function send_import_mark_to_log() {
 		$api    = new Ecwid_Api_V3();
 		$params = array( 'wp_import_woo' => get_ecwid_store_id() );
-
-		return $api->get_store_update_stats( $params );
-	}
-
-	public function send_import_error_to_logs() {
-		$api    = new Ecwid_Api_V3();
-		$params = array( 'wp_import_woo_fail' => get_ecwid_store_id() );
 
 		return $api->get_store_update_stats( $params );
 	}
@@ -334,9 +323,9 @@ class Ecwid_Importer {
 	public function append_child( $task ) {
 		$ind       = $this->_get_current_task();
 		$this_task = $this->_tasks[ $ind ];
-		$ind++;
+		++$ind;
 		while ( isset( $this->_tasks[ $ind ] ) && ( $this->_tasks[ $ind ]['type'] == $task['type'] || $this->_tasks[ $ind ]['type'] == $this_task['type'] ) ) {
-			$ind++;
+			++$ind;
 		}
 		return $this->append_after( $task, $ind - 1 );
 	}
@@ -349,9 +338,9 @@ class Ecwid_Importer {
 		$ind  = $this->_get_current_task();
 		$type = $this->_tasks[ $ind ];
 
-		$ind++;
+		++$ind;
 		while ( $this->_tasks[ $ind ]['type'] == $type && isset( $this->_tasks[ $ind ] ) ) {
-			$ind++;
+			++$ind;
 		}
 
 		return $this->append_after( $task, $ind );
@@ -362,7 +351,7 @@ class Ecwid_Importer {
 	}
 
 	public function proceed() {
-		 $this->_load_tasks();
+		$this->_load_tasks();
 		$this->_get_current_task();
 
 		return $this->tick();
@@ -481,7 +470,7 @@ class Ecwid_Importer {
 	}
 
 	public static function count_woo_categories() {
-		 $all_categories = self::_get_woo_categories( array( 'count' => true ) );
+		$all_categories = self::_get_woo_categories( array( 'count' => true ) );
 
 		$count = count( $all_categories );
 
@@ -489,7 +478,7 @@ class Ecwid_Importer {
 		$children_of_default = self::_get_woo_categories( array( 'parent' => get_option( 'default_product_cat' ) ) );
 
 		if ( count( $default ) > 0 && count( $children_of_default ) == 0 ) {
-			$count--;
+			--$count;
 		}
 
 		return $count;
@@ -501,7 +490,7 @@ class Ecwid_Importer {
 	}
 
 	public static function count_ecwid_products() {
-		 $api           = new Ecwid_Api_V3();
+		$api            = new Ecwid_Api_V3();
 		$max            = 100;
 		$ecwid_products = $api->get_products( array( 'limit' => $max ) );
 
@@ -554,7 +543,6 @@ class Ecwid_Importer {
 
 		$result = array();
 		foreach ( $product_categories as $category ) {
-
 			$children = $this->gather_categories( $category->term_id );
 
 			if ( $category->term_id != get_option( 'default_product_cat' ) || count( $children ) > 0 ) {
