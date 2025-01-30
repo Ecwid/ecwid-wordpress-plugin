@@ -95,6 +95,34 @@ class Ec_Store_Oembed {
 
 		return $result;
 	}
+
+	public static function ecwid_oembed_url( $url, $permalink, $format ) {
+
+		if ( ! Ecwid_Seo_Links::is_product_browser_url() ) {
+			return $url;
+		}
+
+		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+
+		if ( $params['mode'] == 'product' ) {
+			$product   = Ecwid_Product::get_by_id( $params['id'] );
+			$permalink = $product->link;
+		} elseif ( $params['mode'] == 'category' ) {
+			$category  = Ecwid_Category::get_by_id( $params['id'] );
+			$permalink = $category->link;
+		}
+
+		$url = add_query_arg(
+			array(
+				'url'    => rawurlencode( $permalink ),
+				'format' => ( 'json' !== $format ) ? $format : false,
+			),
+			$url
+		);
+
+		return $url;
+	}
 }
 
 add_filter( 'embed_content', 'Ec_Store_Oembed::print_content', 10, 1 );
+add_filter( 'oembed_endpoint_url', 'Ec_Store_Oembed::ecwid_oembed_url', 10, 3 );

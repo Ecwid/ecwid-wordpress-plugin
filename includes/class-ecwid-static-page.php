@@ -157,6 +157,13 @@ class Ecwid_Static_Page {
 			}
 		}
 
+		if ( ! empty( $params['default_category_id'] ) ) {
+			$endpoint_params = array(
+				'mode' => 'category',
+				'id'   => $params['default_category_id'],
+			);
+		}
+
 		$url = self::get_endpoint_url( $endpoint_params );
 
 		foreach ( $params as $name => $value ) {

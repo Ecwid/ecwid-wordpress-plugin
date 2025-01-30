@@ -224,14 +224,12 @@ class Ecwid_Seo_Links {
 			$url = esc_js( get_permalink( $page_id ) );
 		}
 
-		if ( parse_url( $url, PHP_URL_SCHEME ) == 'https' && parse_url( $url, PHP_URL_PORT ) == '443' ) {
-			$url = str_replace( ':443', '', $url );
-		}
+		$url_relative = wp_make_link_relative( $url );
 
 		$result = self::get_js_config_storefront_urls();
 
 		$result .= "
-            window.ec.config.baseUrl = '$url';
+            window.ec.config.baseUrl = '$url_relative';
             window.ec.storefront = window.ec.storefront || {};
             window.ec.storefront.sharing_button_link = 'DIRECT_PAGE_URL';";
 
@@ -344,7 +342,8 @@ class Ecwid_Seo_Links {
 		$all_base_urls = $this->_build_all_base_urls();
 
 		foreach ( $all_base_urls as $page_id => $links ) {
-			$patterns = self::get_seo_links_patterns();
+			$page_rules = array();
+			$patterns   = self::get_seo_links_patterns();
 
 			$post = get_post( $page_id );
 
@@ -379,9 +378,18 @@ class Ecwid_Seo_Links {
 						$query .= '&post_type=' . $post->post_type;
 					}
 
-					$additional_rules[ $link . '/' . $pattern . '.*' ] = $query;
+					// $additional_rules[ $link . '/' . $pattern . '.*' ] = $query;
+					$page_rules[ $link . '/' . $pattern . '.*' ] = $query;
 				}
 			}//end foreach
+
+			// subpages will be placed higher in the rule list than parent pages
+			$is_subpage = ! empty( $post->post_parent );
+			if ( $is_subpage ) {
+				$additional_rules = array_merge( $page_rules, $additional_rules );
+			} else {
+				$additional_rules = array_merge( $additional_rules, $page_rules );
+			}
 		}//end foreach
 
 		if ( self::is_store_on_home_page() ) {

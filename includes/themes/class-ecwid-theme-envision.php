@@ -17,7 +17,7 @@ class Ecwid_Theme_Envision extends Ecwid_Theme_Base {
 			return $value;
 		}
 
-		$meta = implode( get_post_meta( get_the_ID(), 'env_composer' ), ',' );
+		$meta = implode( ',', get_post_meta( get_the_ID(), 'env_composer' ) );
 
 		// not exactly the intended usage, but quite simple and still works
 		// $meta is a serialized array that has the actual content

@@ -108,8 +108,8 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 					$layout = $attributes['product_details_layout']['default'];
 				}
 
-				$applicableLayouts = array( 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT', 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' );
-				if ( in_array( $layout, $applicableLayouts ) ) {
+				$applicable_layouts = array( 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT', 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' );
+				if ( in_array( $layout, $applicable_layouts ) ) {
 					if ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_LEFT' ) {
 						$name = 'product_details_two_columns_with_left_sidebar_show_product_description_on_sidebar';
 					} elseif ( $layout == 'TWO_COLUMNS_SIDEBAR_ON_THE_RIGHT' ) {
@@ -236,7 +236,9 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 		if ( $api->is_available() && $api->get_store_profile() ) {
 			$settings = $api->get_store_profile()->designSettings;
-		} else {
+		}
+
+		if ( empty( $settings ) ) {
 			$settings = new stdClass();
 		}
 

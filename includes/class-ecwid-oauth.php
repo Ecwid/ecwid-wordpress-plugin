@@ -9,9 +9,10 @@ class Ecwid_OAuth {
 
 	const OPTION_JUST_CONNECTED = 'ecwid_just_connected';
 
-	const SCOPE_READ_CATALOG         = 'read_catalog';
-	const SCOPE_READ_STORE_PROFILE   = 'read_store_profile';
-	const SCOPE_UPDATE_STORE_PROFILE = 'update_store_profile';
+	const SCOPE_READ_CATALOG                 = 'read_catalog';
+	const SCOPE_READ_STORE_PROFILE           = 'read_store_profile';
+	const SCOPE_UPDATE_STORE_PROFILE         = 'update_store_profile';
+	const SCOPE_READ_STOREFRONT_WIDGET_PAGES = 'read_storefront_widget_pages';
 
 	protected $state;
 
@@ -216,6 +217,7 @@ class Ecwid_OAuth {
 						self::SCOPE_READ_STORE_PROFILE,
 						self::SCOPE_UPDATE_STORE_PROFILE,
 						self::SCOPE_READ_CATALOG,
+						self::SCOPE_READ_STOREFRONT_WIDGET_PAGES,
 					)
 				);
 			}
@@ -224,11 +226,17 @@ class Ecwid_OAuth {
 		return in_array( $scope, explode( ' ', $stored_scope ) );
 	}
 
+	public static function get_scopes_for_store_creation() {
+		$instance = new self();
+		return $instance->_get_default_scopes_array();
+	}
+
 	protected function _get_default_scopes_array() {
 		$defaults = array(
 			self::SCOPE_READ_STORE_PROFILE,
 			self::SCOPE_UPDATE_STORE_PROFILE,
 			self::SCOPE_READ_CATALOG,
+			self::SCOPE_READ_STOREFRONT_WIDGET_PAGES,
 			'allow_sso',
 			'create_customers',
 			'public_storefront',
