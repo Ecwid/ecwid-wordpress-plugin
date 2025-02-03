@@ -154,7 +154,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog ==
 = 6.12.26 - Jan 30, 2024 =
-- Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the `sitepress-multilingual-cs` domain was triggered too early on some ecommerce sites.
+- Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the "sitepress-multilingual-cs" domain was triggered too early on some ecommerce sites.
 - Fixed an issue where refreshing a product page would sometimes redirect users to the main storefront page.
 - Internal improvements and optimizations.
 
