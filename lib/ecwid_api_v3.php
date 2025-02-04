@@ -40,25 +40,27 @@ class Ecwid_Api_V3 {
 
 	protected static $profile = null;
 
-	protected $_api_url;
-	protected $_stores_api_url;
-	protected $_categories_api_url;
-	protected $_products_api_url;
-	protected $_profile_api_url;
-	protected $_starter_site_api_url;
-	protected $_batch_requests_api_url;
+	protected $api_url;
+	protected $stores_api_url;
+	protected $categories_api_url;
+	protected $products_api_url;
+	protected $profile_api_url;
+	protected $starter_site_api_url;
+	protected $batch_requests_api_url;
+	protected $storefront_widget_pages_api_url;
 
 	public function __construct() {
 
-		$this->store_id        = EcwidPlatform::get_store_id();
-		$this->_api_url        = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
-		$this->_stores_api_url = $this->_api_url . 'stores';
+		$this->store_id       = EcwidPlatform::get_store_id();
+		$this->api_url        = 'https://' . Ecwid_Config::get_api_domain() . '/api/v3/';
+		$this->stores_api_url = $this->api_url . 'stores';
 
-		$this->_categories_api_url     = $this->_api_url . $this->store_id . '/categories';
-		$this->_products_api_url       = $this->_api_url . $this->store_id . '/products';
-		$this->_profile_api_url        = $this->_api_url . $this->store_id . '/profile';
-		$this->_starter_site_api_url   = $this->_api_url . $this->store_id . '/startersite';
-		$this->_batch_requests_api_url = $this->_api_url . $this->store_id . '/batch';
+		$this->categories_api_url              = $this->api_url . $this->store_id . '/categories';
+		$this->products_api_url                = $this->api_url . $this->store_id . '/products';
+		$this->profile_api_url                 = $this->api_url . $this->store_id . '/profile';
+		$this->starter_site_api_url            = $this->api_url . $this->store_id . '/startersite';
+		$this->batch_requests_api_url          = $this->api_url . $this->store_id . '/batch';
+		$this->storefront_widget_pages_api_url = $this->api_url . $this->store_id . '/storefront-widget-pages';
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -181,7 +183,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_categories_api_url,
+			$this->categories_api_url,
 			$params
 		);
 
@@ -259,7 +261,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_categories_api_url . '/' . $category_id,
+			$this->categories_api_url . '/' . $category_id,
 			$params
 		);
 
@@ -317,7 +319,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_products_api_url . '/' . $product_id,
+			$this->products_api_url . '/' . $product_id,
 			$params
 		);
 
@@ -369,7 +371,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_products_api_url,
+			$this->products_api_url,
 			$params
 		);
 
@@ -423,7 +425,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_products_api_url . '/deleted',
+			$this->products_api_url . '/deleted',
 			$params
 		);
 
@@ -461,7 +463,7 @@ class Ecwid_Api_V3 {
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
-			$this->_products_api_url,
+			$this->products_api_url,
 			$params
 		);
 
@@ -555,7 +557,7 @@ class Ecwid_Api_V3 {
 			'email' => $email,
 		);
 
-		$url = $this->build_request_url( $this->_stores_api_url, $params );
+		$url = $this->build_request_url( $this->stores_api_url, $params );
 
 		$request = Ecwid_Http::create_get(
 			'does_store_exist',
@@ -582,7 +584,7 @@ class Ecwid_Api_V3 {
 			return $stats;
 		}
 
-		$url = $this->_api_url . $this->store_id . '/latest-stats';
+		$url = $this->api_url . $this->store_id . '/latest-stats';
 
 		$params = array();
 
@@ -634,7 +636,7 @@ class Ecwid_Api_V3 {
 		);
 
 		$options = $this->build_request_headers();
-		$url     = $this->build_request_url( $this->_profile_api_url, $params );
+		$url     = $this->build_request_url( $this->profile_api_url, $params );
 
 		if ( empty( $options ) ) {
 			return false;
@@ -684,7 +686,7 @@ class Ecwid_Api_V3 {
 	public function update_store_profile( $params ) {
 		$request_params = array();
 
-		$url = $this->build_request_url( $this->_profile_api_url, $request_params );
+		$url = $this->build_request_url( $this->profile_api_url, $request_params );
 
 		$result = $this->_do_put( $url, $params );
 
@@ -829,7 +831,7 @@ class Ecwid_Api_V3 {
 		$request_params = array(
 			'returnApiToken' => 'true',
 		);
-		$url            = $this->build_request_url( $this->_stores_api_url, $request_params );
+		$url            = $this->build_request_url( $this->stores_api_url, $request_params );
 
 		$result = EcwidPlatform::http_post_request(
 			$url,
@@ -890,7 +892,7 @@ class Ecwid_Api_V3 {
 
 	public function create_product( $params ) {
 		$request_params = array();
-		$url            = $this->build_request_url( $this->_products_api_url, $request_params );
+		$url            = $this->build_request_url( $this->products_api_url, $request_params );
 
 		$params = $this->_sanitize_product_data( $params );
 
@@ -902,7 +904,7 @@ class Ecwid_Api_V3 {
 	public function create_product_variation( $params ) {
 		$request_params = array();
 
-		$url = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
+		$url = $this->build_request_url( $this->products_api_url . '/' . $params['productId'] . '/combinations', $request_params );
 
 		$result = $this->_do_post( $url, $params );
 
@@ -912,7 +914,7 @@ class Ecwid_Api_V3 {
 	public function update_product( $params, $product_id ) {
 		$request_params = array();
 
-		$url = $this->build_request_url( $this->_products_api_url . '/' . $product_id, $request_params );
+		$url = $this->build_request_url( $this->products_api_url . '/' . $product_id, $request_params );
 
 		$params = $this->_sanitize_product_data( $params );
 
@@ -950,7 +952,7 @@ class Ecwid_Api_V3 {
 
 		$request_params = array();
 
-		$url = $this->build_request_url( $this->_categories_api_url, $request_params );
+		$url = $this->build_request_url( $this->categories_api_url, $request_params );
 
 		$params = $this->_sanitize_category_data( $params );
 
@@ -963,7 +965,7 @@ class Ecwid_Api_V3 {
 
 		$request_params = array();
 
-		$url = $this->build_request_url( $this->_categories_api_url . '/' . $category_id, $request_params );
+		$url = $this->build_request_url( $this->categories_api_url . '/' . $category_id, $request_params );
 
 		$params = $this->_sanitize_category_data( $params );
 
@@ -994,7 +996,7 @@ class Ecwid_Api_V3 {
 				'headers' => array(
 					'Authorization' => 'Bearer ' . self::get_token(),
 				),
-				'url'     => $this->build_request_url( $this->_products_api_url . '/' . $id, $request_params ),
+				'url'     => $this->build_request_url( $this->products_api_url . '/' . $id, $request_params ),
 			);
 		}
 
@@ -1005,7 +1007,7 @@ class Ecwid_Api_V3 {
 
 	public function upload_category_image( $params ) {
 		$request_params = array();
-		$url            = $this->build_request_url( $this->_categories_api_url . '/' . $params['categoryId'] . '/image', $request_params );
+		$url            = $this->build_request_url( $this->categories_api_url . '/' . $params['categoryId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 
@@ -1014,7 +1016,7 @@ class Ecwid_Api_V3 {
 
 	public function upload_product_image( $params ) {
 		$request_params = array();
-		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/image', $request_params );
+		$url            = $this->build_request_url( $this->products_api_url . '/' . $params['productId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 
@@ -1023,7 +1025,7 @@ class Ecwid_Api_V3 {
 
 	public function upload_product_gallery_image( $params ) {
 		$request_params = array();
-		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
+		$url            = $this->build_request_url( $this->products_api_url . '/' . $params['productId'] . '/gallery', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 
@@ -1033,7 +1035,7 @@ class Ecwid_Api_V3 {
 
 	public function upload_product_variation_image( $params ) {
 		$request_params = array();
-		$url            = $this->build_request_url( $this->_products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
+		$url            = $this->build_request_url( $this->products_api_url . '/' . $params['productId'] . '/combinations/' . $params['variationId'] . '/image', $request_params );
 
 		$result = $this->_do_post( $url, $params['data'], true );
 
@@ -1044,7 +1046,7 @@ class Ecwid_Api_V3 {
 		$request_params = array();
 
 		$options = $this->build_request_headers();
-		$url     = $this->build_request_url( $this->_starter_site_api_url, $request_params );
+		$url     = $this->build_request_url( $this->starter_site_api_url, $request_params );
 
 		if ( empty( $options ) ) {
 			return false;
@@ -1149,7 +1151,7 @@ class Ecwid_Api_V3 {
 		$request_params = array(
 			'stopOnFirstFailure' => 'false',
 		);
-		$url            = $this->build_request_url( $this->_batch_requests_api_url, $request_params );
+		$url            = $this->build_request_url( $this->batch_requests_api_url, $request_params );
 
 		$result = $this->_do_post( $url, $params );
 
@@ -1162,7 +1164,7 @@ class Ecwid_Api_V3 {
 		);
 
 		$options = $this->build_request_headers();
-		$url     = $this->build_request_url( $this->_batch_requests_api_url, $params );
+		$url     = $this->build_request_url( $this->batch_requests_api_url, $params );
 
 		if ( empty( $options ) ) {
 			return false;
@@ -1282,5 +1284,35 @@ class Ecwid_Api_V3 {
 			$params,
 			$batch_id
 		);
+	}
+
+	public function get_storefront_widget_pages_endpoint() {
+		return $this->storefront_widget_pages_api_url;
+	}
+
+	public function get_storefront_widget_page( $params ) {
+
+		if ( empty( $params['slug'] ) && empty( $params['storeRootPage'] ) ) {
+			return false;
+		}
+
+		$options = $this->build_request_headers();
+
+		$options['timeout'] = 3;
+
+		$url = $this->build_request_url(
+			$this->storefront_widget_pages_api_url,
+			$params
+		);
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
+
+		if ( $result['code'] != '200' ) {
+			return false;
+		}
+
+		$data = json_decode( $result['data'] );
+
+		return $data;
 	}
 }

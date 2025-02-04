@@ -1696,6 +1696,14 @@ function ecwid_get_update_params_options() {
 			)
 		),
 
+		Ecwid_Static_Page::OPTION_NEW_IS_ENABLED => array(
+			'values' => array(
+				Ecwid_Static_Page::OPTION_VALUE_AUTO,
+				Ecwid_Static_Page::OPTION_VALUE_ENABLED,
+				Ecwid_Static_Page::OPTION_VALUE_DISABLED
+			)
+		),
+
         Ec_Store_Defer_Init::OPTION_NAME => array(
 			'values' => array(
 				Ec_Store_Defer_Init::OPTION_VALUE_AUTO,
