@@ -467,9 +467,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		// to-do enable just for 25% of users
-		// if ( get_option( self::OPTION_NEW_IS_ENABLED ) === '' && get_ecwid_store_id() % 4 === 0 ) {
-		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' ) {
+		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' && get_ecwid_store_id() % 4 === 0 ) {
 			return true;
 		}
 
