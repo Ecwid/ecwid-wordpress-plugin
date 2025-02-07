@@ -19,6 +19,8 @@ class Ecwid_Static_Page {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
+
+        add_action( 'update_option_' . self::OPTION_NEW_IS_ENABLED, array( $this, 'clear_cache' ), 10, 3 );
 	}
 
 	public function enqueue_scripts() {
@@ -175,18 +177,31 @@ class Ecwid_Static_Page {
         $cache_key = serialize($query_params);
 
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $cache_key );
+
 		if ( $cached_data ) {
+            if ( isset( $cached_data->staticContent ) ) {
+                $static_content = $cached_data->staticContent;
+            } else {
+                $static_content = $cached_data;
+            }
+
 			$is_css_defined     = ! empty( $dynamic_css );
-			$is_css_already_set = in_array( $dynamic_css, $cached_data->cssFiles, true ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$is_css_already_set = in_array( $dynamic_css, $static_content->cssFiles, true ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$is_home_page       = Ecwid_Store_Page::is_store_home_page();
 
 			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
-				$cached_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$static_content->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+                if ( isset( $cached_data->staticContent ) ) {
+                    $cached_data->staticContent = $static_content;
+                } else {
+                    $cached_data = $static_content;
+                }
 
 				EcwidPlatform::save_in_static_pages_cache( $cache_key, $cached_data );
 			}
 
-			return $cached_data;
+			return $static_content;
 		}
 
 		$fetched_data = self::get_static_snapshot( $endpoint_params, $query_params, $dynamic_css );
@@ -216,54 +231,61 @@ class Ecwid_Static_Page {
 
 		if ( self::is_need_to_use_new_endpoint() ) {
 			$api          = new Ecwid_Api_V3();
-			$fetched_data = $api->get_storefront_widget_page( $query_params );
+			$data = $api->get_storefront_widget_page( $query_params );
 
-			if ( empty( $fetched_data->staticContent ) || ! is_object( $fetched_data->staticContent ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			if ( empty( $data->staticContent ) || ! is_object( $data->staticContent ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				return null;
 			}
-
-			$data = $fetched_data->staticContent; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		} else {
             $api          = new Ecwid_Api_V3();
-			$fetched_data = $api->get_static_page( $endpoint_params, $query_params );
+			$data = $api->get_static_page( $endpoint_params, $query_params );
 
-            if ( empty( $fetched_data ) || ! is_object( $fetched_data ) ) {
+            if ( empty( $data ) || ! is_object( $data ) ) {
                 return null;
             }
-
-            $data = $fetched_data;
 		}//end if
 
 		if ( ! empty( $data ) ) {
             //phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+            
+            if ( ! empty( $data->staticContent ) ) {
+                $static_content = $data->staticContent;
+            } else {
+                $static_content = $data;
+            }
+
 			if ( ! empty( $dynamic_css ) ) {
-				$data->cssFiles = array( $dynamic_css );
+				$static_content->cssFiles = array( $dynamic_css );
 			}
 
-			if ( ! empty( $data->htmlCode ) ) {
+			if ( ! empty( $static_content->htmlCode ) ) {
 				$pattern = '/<img(.*?)>/is';
 
-				$data->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $data->htmlCode );
+				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $static_content->htmlCode );
 			}
 
 			EcwidPlatform::encode_fields_with_emoji(
-				$data,
+				$static_content,
 				array( 'htmlCode', 'metaDescriptionHtml', 'ogTagsHtml', 'jsonLDHtml' )
 			);
 
-			if ( isset( $data->lastUpdated ) ) {
-				$last_update = substr( $data->lastUpdated, 0, -3 );
+			if ( isset( $static_content->lastUpdated ) ) {
+				$last_update = substr( $static_content->lastUpdated, 0, -3 );
 			} else {
 				$last_update = time();
 			}
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+            if ( ! empty( $data->staticContent ) ) {
+                $data->staticContent = $static_content;
+            }
 
             $cache_key = serialize($query_params);
 
 			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
 			EcwidPlatform::save_in_static_pages_cache( $cache_key, $data );
 
-			return $data;
+			return $static_content;
 		}//end if
 
 		return null;
@@ -453,6 +475,12 @@ class Ecwid_Static_Page {
 
 		return false;
 	}
+
+    public function clear_cache( $old_value, $value, $option ) {
+        if( $old_value !== $value ) {
+            EcwidPlatform::clear_all_transients();
+        }
+    }
 }
 
 $__ecwid_static_page = new Ecwid_Static_Page();

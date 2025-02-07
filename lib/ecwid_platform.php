@@ -495,16 +495,24 @@ class EcwidPlatform {
 			)
 		);
 
-		if ( $result && isset( $result['data']->lastUpdated ) && $result['data']->lastUpdated > $valid_from ) {
-			return $result['data'];
-		} else {
-			self::cache_reset( $cache_name );
+        if( $result ) {
+            if( isset( $result['data']->staticContent ) ) {
+                $data = $result['data']->staticContent;
+            } else {
+                $data = $result['data'];
+            }
+        }
 
-			$page_id = get_the_ID();
-			if ( ! empty( $page_id ) ) {
-				do_action( 'ecwid_clean_external_cache_for_page', $page_id );
-			}
-		}
+		if ( $result && isset( $data->lastUpdated ) && $data->lastUpdated > $valid_from ) {
+			return $data;
+		} else {
+            self::cache_reset( $cache_name );
+
+            $page_id = get_the_ID();
+            if ( ! empty( $page_id ) ) {
+                do_action( 'ecwid_clean_external_cache_for_page', $page_id );
+            }
+        }
 
 		return false;
 	}

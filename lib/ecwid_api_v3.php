@@ -1335,6 +1335,10 @@ class Ecwid_Api_V3 {
 
 		$result = EcwidPlatform::fetch_url( $url, $options );
 
+        if ( $result['code'] != '200' ) {
+			return false;
+		}
+
         $data = json_decode( $result['data'] );
 
 		return $data;
