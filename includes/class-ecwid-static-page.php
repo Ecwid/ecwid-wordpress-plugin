@@ -54,31 +54,19 @@ class Ecwid_Static_Page {
 		return $data;
 	}
 
-	protected static function get_endpoint_url( $params = false ) {
+	protected static function get_endpoint_params() {
 
-		if ( ! $params ) {
-			if ( ecwid_is_applicable_escaped_fragment() ) {
-				$params = ecwid_parse_escaped_fragment();
-			} else {
-				$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
-			}
-		}
+        if ( ecwid_is_applicable_escaped_fragment() ) {
+            $params = ecwid_parse_escaped_fragment();
+        } else {
+            $params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+        }
 
 		if ( ! isset( $params['mode'] ) ) {
 			$params['mode'] = 'home';
 		}
 
-		$url  = 'https://' . Ecwid_Config::get_static_pages_api_domain() . '/';
-		$url .= sprintf( '%s-page/', $params['mode'] );
-		$url .= sprintf( '%s/', get_ecwid_store_id() );
-
-		if ( isset( $params['id'] ) ) {
-			$url .= sprintf( '%s/', $params['id'] );
-		}
-
-		$url .= 'static-code?';
-
-		return $url;
+		return $params;
 	}
 
 	protected static function maybe_fetch_data() {
@@ -89,7 +77,8 @@ class Ecwid_Static_Page {
 		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
-		$endpoint_params   = false;
+		$endpoint_params = false;
+        $query_params = array();
 
 		// for cases of early access to the page if the cache is empty and need to get store block params
 		if ( empty( $store_page_params ) ) {
@@ -99,25 +88,23 @@ class Ecwid_Static_Page {
 			}
 		}
 
-		$params = array();
-
 		if ( Ecwid_Seo_Links::is_enabled() || ecwid_is_demo_store() ) {
-			$params['clean_urls'] = 'true';
+			$query_params['clean_urls'] = 'true';
 		} else {
-			$params['clean_urls'] = 'false';
+			$query_params['clean_urls'] = 'false';
 		}
 
-		$params['base_url'] = get_permalink();
+		$query_params['base_url'] = get_permalink();
 
 		if ( array_key_exists( 'offset', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$query_params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		if ( ! array_key_exists( 'category', $_GET ) && isset( $store_page_params['default_category_id'] ) && intval( $store_page_params['default_category_id'] ) > 0 ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$params['default_category_id'] = $store_page_params['default_category_id'];
+			$query_params['default_category_id'] = $store_page_params['default_category_id'];
 		}
 
-		$params['lang'] = self::get_accept_language();
+		$query_params['lang'] = self::get_accept_language();
 
 		$storefront_view_params = array( 'show_root_categories', 'enable_catalog_on_one_page' );
 		foreach ( $storefront_view_params as $param ) {
@@ -142,10 +129,10 @@ class Ecwid_Static_Page {
 				}
 
 				if ( strpos( $name, 'chameleon' ) !== false ) {
-					$name                                     = str_replace( 'chameleon_', '', $name );
-					$params[ 'tplvar_ec.chameleon.' . $name ] = $value;
+					$name = str_replace( 'chameleon_', '', $name );
+					$query_params[ 'tplvar_ec.chameleon.' . $name ] = $value;
 				} else {
-					$params[ 'tplvar_ec.storefront.' . $name ] = $value;
+					$query_params[ 'tplvar_ec.storefront.' . $name ] = $value;
 				}
 			}
 		}//end foreach
@@ -154,46 +141,40 @@ class Ecwid_Static_Page {
 
 		if ( ! empty( $hreflang_items ) ) {
 			foreach ( $hreflang_items as $lang => $link ) {
-				$params[ 'international_pages[' . $lang . ']' ] = $link;
+				$query_params[ 'international_pages[' . $lang . ']' ] = $link;
 			}
-		}
-
-		if ( ! empty( $params['default_category_id'] ) ) {
-			$endpoint_params = array(
-				'mode' => 'category',
-				'id'   => $params['default_category_id'],
-			);
 		}
 
 		if ( self::is_need_to_use_new_endpoint() ) {
-			// $api  = new Ecwid_Api_V3();
-			// $url  = $api->get_storefront_widget_pages_endpoint();
-			$url = '?';
+			$query_params['getStaticContent'] = 'true';
+			$query_params['slug']             = self::get_current_storefront_page_slug();
 
-			$params['getStaticContent'] = 'true';
-			$params['slug']             = self::get_current_storefront_page_slug();
-
-			if ( empty( $params['slug'] ) ) {
-				$params['storeRootPage'] = 'true';
+			if ( empty( $query_params['slug'] ) ) {
+				$query_params['storeRootPage'] = 'true';
 			} else {
-				$params['storeRootPage'] = 'false';
+				$query_params['storeRootPage'] = 'false';
 			}
 		} else {
-			$url = self::get_endpoint_url( $endpoint_params );
-		}
+            if ( ! empty( $query_params['default_category_id'] ) ) {
+                $endpoint_params = array(
+                    'mode' => 'category',
+                    'id'   => $query_params['default_category_id'],
+                );
+            }
 
-		foreach ( $params as $name => $value ) {
-			$url .= $name . '=' . rawurlencode( $value ) . '&';
+			if( empty( $endpoint_params ) ) {
+                $endpoint_params = self::get_endpoint_params();
+            }
 		}
-
-		$url = substr( $url, 0, -1 );
 
 		$dynamic_css = '';
 		if ( ! empty( $_COOKIE['ec_store_dynamic_css'] ) ) {
 			$dynamic_css = wp_strip_all_tags( $_COOKIE['ec_store_dynamic_css'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
-		$cached_data = EcwidPlatform::get_from_static_pages_cache( $url );
+        $cache_key = serialize($query_params);
+
+		$cached_data = EcwidPlatform::get_from_static_pages_cache( $cache_key );
 		if ( $cached_data ) {
 			$is_css_defined     = ! empty( $dynamic_css );
 			$is_css_already_set = in_array( $dynamic_css, $cached_data->cssFiles, true ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
@@ -202,13 +183,13 @@ class Ecwid_Static_Page {
 			if ( $is_home_page && $is_css_defined && ! $is_css_already_set ) {
 				$cached_data->cssFiles = array( $dynamic_css ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-				EcwidPlatform::save_in_static_pages_cache( $url, $cached_data );
+				EcwidPlatform::save_in_static_pages_cache( $cache_key, $cached_data );
 			}
 
 			return $cached_data;
 		}
 
-		$fetched_data = self::get_static_snapshot( $url, $params, $dynamic_css );
+		$fetched_data = self::get_static_snapshot( $endpoint_params, $query_params, $dynamic_css );
 
 		return $fetched_data;
 	}
@@ -231,11 +212,11 @@ class Ecwid_Static_Page {
 		return $slug;
 	}
 
-	protected static function get_static_snapshot( $url, $params, $dynamic_css = '' ) {
+	protected static function get_static_snapshot( $endpoint_params, $query_params, $dynamic_css = '' ) {
 
 		if ( self::is_need_to_use_new_endpoint() ) {
 			$api          = new Ecwid_Api_V3();
-			$fetched_data = $api->get_storefront_widget_page( $params );
+			$fetched_data = $api->get_storefront_widget_page( $query_params );
 
 			if ( empty( $fetched_data->staticContent ) || ! is_object( $fetched_data->staticContent ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				return null;
@@ -243,23 +224,14 @@ class Ecwid_Static_Page {
 
 			$data = $fetched_data->staticContent; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		} else {
-			$fetched_data = EcwidPlatform::fetch_url(
-				$url,
-				array(
-					'timeout' => 3,
-					'headers' => array(
-						'ACCEPT-LANGUAGE' => self::get_accept_language(),
-					),
-				)
-			);
+            $api          = new Ecwid_Api_V3();
+			$fetched_data = $api->get_static_page( $endpoint_params, $query_params );
 
-			if ( ! empty( $fetched_data['data'] ) ) {
-				$data = json_decode( $fetched_data['data'] );
+            if ( empty( $fetched_data ) || ! is_object( $fetched_data ) ) {
+                return null;
+            }
 
-				if ( empty( $data ) || ! is_object( $data ) ) {
-					return null;
-				}
-			}
+            $data = $fetched_data;
 		}//end if
 
 		if ( ! empty( $data ) ) {
@@ -286,8 +258,10 @@ class Ecwid_Static_Page {
 			}
             //phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
+            $cache_key = serialize($query_params);
+
 			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
-			EcwidPlatform::save_in_static_pages_cache( $url, $data );
+			EcwidPlatform::save_in_static_pages_cache( $cache_key, $data );
 
 			return $data;
 		}//end if

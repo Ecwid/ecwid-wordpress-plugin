@@ -48,6 +48,7 @@ class Ecwid_Api_V3 {
 	protected $starter_site_api_url;
 	protected $batch_requests_api_url;
 	protected $storefront_widget_pages_api_url;
+    protected $static_pages_api_url;
 
 	public function __construct() {
 
@@ -61,6 +62,8 @@ class Ecwid_Api_V3 {
 		$this->starter_site_api_url            = $this->api_url . $this->store_id . '/startersite';
 		$this->batch_requests_api_url          = $this->api_url . $this->store_id . '/batch';
 		$this->storefront_widget_pages_api_url = $this->api_url . $this->store_id . '/storefront-widget-pages';
+
+        $this->static_pages_api_url = 'https://' . Ecwid_Config::get_static_pages_api_domain();
 
 		add_option( self::OPTION_API_STATUS, self::API_STATUS_UNDEFINED );
 	}
@@ -1286,9 +1289,56 @@ class Ecwid_Api_V3 {
 		);
 	}
 
-	public function get_storefront_widget_pages_endpoint() {
-		return $this->storefront_widget_pages_api_url;
-	}
+	public function build_static_pages_request_url( $params ) {
+        $allowed_modes = array(
+            'home',
+            'product',
+            'category'
+        );
+        $default_mode = 'home';
+
+        if( empty( $params['mode'] ) || ! in_array( $params['mode'], $allowed_modes ) ) {
+            $mode = $default_mode;
+        } else {
+            $mode = $params['mode'];
+        }
+
+        if( empty( $params['id'] ) || $mode === $default_mode ) {
+            $id = false;
+        } else {
+            $id = intval($params['id']);
+        }
+
+        $url = $this->static_pages_api_url . '/' . $mode . '-page/' . $this->store_id;
+        
+        if( ! empty( $id ) ) {
+            $url .= '/' . $id;
+        }
+        
+        $url .= '/static-code';
+
+        return $url;
+    }
+
+	public function get_static_page( $endpoint_params, $query_params ) {
+
+        $url = $this->build_static_pages_request_url( $endpoint_params );
+
+        $options = array(
+            'timeout' => 3
+        );
+
+		$url = $this->build_request_url(
+			$url,
+			$query_params
+		);
+
+		$result = EcwidPlatform::fetch_url( $url, $options );
+
+        $data = json_decode( $result['data'] );
+
+		return $data;
+    }
 
 	public function get_storefront_widget_page( $params ) {
 
