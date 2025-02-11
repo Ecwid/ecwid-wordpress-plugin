@@ -9,11 +9,11 @@ class EcwidPlatform {
 
 	protected static $ecwid_plugin_data = null;
 
-	const FORCES_CATALOG_CACHE_RESET_VALID_FROM = 'forced_catalog_cache_reset_valid_from';
+	const FORCES_PAGES_CACHE_RESET_VALID_FROM = 'forced_pages_cache_reset_valid_from';
 	const CATEGORIES_CACHE_VALID_FROM           = 'categories_cache_valid_from';
 	const PRODUCTS_CACHE_VALID_FROM             = 'products_cache_valid_from';
 	const PROFILE_CACHE_VALID_FROM              = 'profile_cache_valid_from';
-	const CATALOG_CACHE_VALID_FROM              = 'catalog_valid_from';
+	const PAGES_CACHE_VALID_FROM              = 'pages_valid_from';
 
 	const OPTION_LOG_CACHE         = 'ecwid_log_cache';
 	const OPTION_ECWID_PLUGIN_DATA = 'ecwid_plugin_data';
@@ -408,7 +408,7 @@ class EcwidPlatform {
 	}
 
 	public static function save_in_static_pages_cache( $url, $data ) {
-		self::save_in_cache( $url, 'catalog', $data, WEEK_IN_SECONDS );
+		self::save_in_cache( $url, 'pages', $data, WEEK_IN_SECONDS );
 	}
 
 	protected static function save_in_cache( $url, $type, $data, $expires_after ) {
@@ -475,7 +475,7 @@ class EcwidPlatform {
 	}
 
 	public static function get_from_static_pages_cache( $key ) {
-		$cache_name = self::_build_cache_name( $key, 'catalog' );
+		$cache_name = self::_build_cache_name( $key, 'pages' );
 
 		$result = self::cache_get( $cache_name );
 
@@ -483,7 +483,7 @@ class EcwidPlatform {
 			self::get( self::CATEGORIES_CACHE_VALID_FROM ),
 			self::get( self::PRODUCTS_CACHE_VALID_FROM ),
 			self::get( self::PROFILE_CACHE_VALID_FROM ),
-			self::get( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM )
+			self::get( self::FORCES_PAGES_CACHE_RESET_VALID_FROM )
 		);
 
 		self::cache_log_record(
@@ -495,16 +495,24 @@ class EcwidPlatform {
 			)
 		);
 
-		if ( $result && isset( $result['data']->lastUpdated ) && $result['data']->lastUpdated > $valid_from ) {
-			return $result['data'];
-		} else {
-			self::cache_reset( $cache_name );
+        if( $result ) {
+            if( isset( $result['data']->staticContent ) ) {
+                $data = $result['data']->staticContent;
+            } else {
+                $data = $result['data'];
+            }
+        }
 
-			$page_id = get_the_ID();
-			if ( ! empty( $page_id ) ) {
-				do_action( 'ecwid_clean_external_cache_for_page', $page_id );
-			}
-		}
+		if ( $result && isset( $data->lastUpdated ) && $data->lastUpdated > $valid_from ) {
+			return $data;
+		} else {
+            self::cache_reset( $cache_name );
+
+            $page_id = get_the_ID();
+            if ( ! empty( $page_id ) ) {
+                do_action( 'ecwid_clean_external_cache_for_page', $page_id );
+            }
+        }
 
 		return false;
 	}
@@ -564,12 +572,12 @@ class EcwidPlatform {
 	}
 
 	public static function invalidate_static_pages_cache_from( $time = null ) {
-		self::_invalidate_cache_from( self::CATALOG_CACHE_VALID_FROM, $time );
+		self::_invalidate_cache_from( self::PAGES_CACHE_VALID_FROM, $time );
 	}
 
 	public static function force_static_pages_cache_reset( $time = null ) {
 		$time = is_null( $time ) ? time() : $time;
-		self::set( self::FORCES_CATALOG_CACHE_RESET_VALID_FROM, $time );
+		self::set( self::FORCES_PAGES_CACHE_RESET_VALID_FROM, $time );
 	}
 
 	public static function is_need_clear_transients() {

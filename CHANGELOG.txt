@@ -1,4 +1,8 @@
 == Changelog == 
+= 6.12.27 - Feb 11, 2024 =
+- Fixed an issue in the admin area where the product popup would not work on pages with a custom type.
+- Internal improvements and optimizations.
+
 = 6.12.26 - Jan 30, 2024 =
 - Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the "sitepress-multilingual-cs" domain was triggered too early on some ecommerce sites.
 - Fixed an issue where refreshing a product page would sometimes redirect users to the main storefront page.
