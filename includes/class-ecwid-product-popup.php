@@ -35,7 +35,8 @@ class Ecwid_Product_Popup {
 			return;
 		}
 
-		if ( $is_post_screen && ! in_array( $current_screen->post_type, array( 'page', 'post' ) ) ) { //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+		$post_types = get_post_types( array( 'public' => true ) );
+		if ( $is_post_screen && ! in_array( $current_screen->post_type, $post_types, true ) ) {
 			return;
 		}
 

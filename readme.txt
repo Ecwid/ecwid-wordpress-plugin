@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.7
-Stable tag: 6.12.26
+Stable tag: 6.12.27
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support. Free plan available.
 
@@ -153,8 +153,12 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 6.12.27 - Feb 12, 2024 =
+- Fixed an issue in the admin area where the product popup would not work on pages with a custom type.
+- Internal improvements and optimizations.
+
 = 6.12.26 - Jan 30, 2024 =
-- Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the `sitepress-multilingual-cs` domain was triggered too early on some ecommerce sites.
+- Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the "sitepress-multilingual-cs" domain was triggered too early on some ecommerce sites.
 - Fixed an issue where refreshing a product page would sometimes redirect users to the main storefront page.
 - Internal improvements and optimizations.
 
