@@ -153,7 +153,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
-= 6.12.27 - Feb 11, 2024 =
+= 6.12.27 - Feb 12, 2024 =
 - Fixed an issue in the admin area where the product popup would not work on pages with a custom type.
 - Internal improvements and optimizations.
 
