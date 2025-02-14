@@ -468,7 +468,7 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
-		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' && get_ecwid_store_id() % 4 === 0 ) {
+		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' && get_ecwid_store_id() % 2 === 0 ) {
 			return true;
 		}
 
