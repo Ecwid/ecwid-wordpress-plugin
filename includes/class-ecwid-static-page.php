@@ -149,6 +149,7 @@ class Ecwid_Static_Page {
 
 		if ( self::is_need_to_use_new_endpoint() ) {
 			$query_params['getStaticContent'] = 'true';
+			$query_params['slugsWithoutIds'] = 'false';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
 
 			if ( empty( $query_params['slug'] ) ) {
