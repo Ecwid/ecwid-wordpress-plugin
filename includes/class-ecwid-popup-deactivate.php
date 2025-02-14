@@ -8,20 +8,33 @@ class Ecwid_Popup_Deactivate extends Ecwid_Popup {
 
 	const OPTION_DISABLE_POPUP = 'ecwid_disable_deactivate_popup';
 
+    const HANDLE_SLUG = 'ecwid-popup-deactivate';
+    const NONCE_SLUG = 'ecwid-popup-deactivate';
+
 	public function __construct() {
 		add_action( 'wp_ajax_ecwid_deactivate_feedback', array( $this, 'ajax_deactivate_feedback' ) );
 	}
 
 	public function enqueue_scripts() {
 		parent::enqueue_scripts();
-		wp_enqueue_script( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/js/popup-deactivate.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
-		wp_enqueue_style( 'ecwid-popup-deactivate', ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array(), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_script( self::HANDLE_SLUG, ECWID_PLUGIN_URL . '/js/popup-deactivate.js', array( 'jquery' ), get_option( 'ecwid_plugin_version' ) );
+		wp_enqueue_style( self::HANDLE_SLUG, ECWID_PLUGIN_URL . '/css/popup-deactivate.css', array(), get_option( 'ecwid_plugin_version' ) );
+
+        wp_localize_script(
+			self::HANDLE_SLUG,
+			'EcwidPopupDeactivate',
+			array(
+				'_ajax_nonce' => wp_create_nonce( self::NONCE_SLUG ),
+			)
+		);
 	}
 
 	public function ajax_deactivate_feedback() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			header( '403 Access Denied' );
+        if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
 			die();
 		}
 

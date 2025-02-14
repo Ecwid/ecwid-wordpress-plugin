@@ -34,7 +34,8 @@ jQuery(document).ready(function () {
             data: {
                 action: 'ecwid_deactivate_feedback',
                 reason: feedback.reason,
-                message: feedback.message
+                message: feedback.message,
+                _ajax_nonce: EcwidPopupDeactivate._ajax_nonce
             },
             complete: function () {
                 location.href = deactivateButton.attr('href');
