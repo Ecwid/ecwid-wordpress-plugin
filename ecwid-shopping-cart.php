@@ -722,6 +722,9 @@ function ecwid_check_version() {
 		// Since 6.4.14+
 		add_option( Ecwid_Store_Page::OPTION_REPLACE_TITLE, $fresh_install ? 'Y' : '' );
 
+        // Since 6.12.29+
+		delete_option( 'ecwid_new_static_home_page_enabled' );
+
 		do_action( 'ecwid_on_plugin_update' );
 
 		Ecwid_Store_Page::add_store_page( get_option( 'ecwid_store_page_id' ) );
@@ -1689,14 +1692,6 @@ function ecwid_get_update_params_options() {
 		),
 
 		Ecwid_Static_Page::OPTION_IS_ENABLED => array(
-			'values' => array(
-				Ecwid_Static_Page::OPTION_VALUE_AUTO,
-				Ecwid_Static_Page::OPTION_VALUE_ENABLED,
-				Ecwid_Static_Page::OPTION_VALUE_DISABLED
-			)
-		),
-
-		Ecwid_Static_Page::OPTION_NEW_IS_ENABLED => array(
 			'values' => array(
 				Ecwid_Static_Page::OPTION_VALUE_AUTO,
 				Ecwid_Static_Page::OPTION_VALUE_ENABLED,
