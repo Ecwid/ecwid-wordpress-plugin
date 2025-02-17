@@ -460,19 +460,11 @@ class Ecwid_Static_Page {
 	}
 
 	public static function is_need_to_use_new_endpoint() {
-		if ( get_option( self::OPTION_NEW_IS_ENABLED ) === self::OPTION_VALUE_ENABLED ) {
-			return true;
-		}
-
 		if ( get_option( self::OPTION_NEW_IS_ENABLED ) === self::OPTION_VALUE_DISABLED ) {
 			return false;
 		}
 
-		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' && get_ecwid_store_id() % 2 === 0 ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
     public function clear_cache( $old_value, $value, $option ) {
