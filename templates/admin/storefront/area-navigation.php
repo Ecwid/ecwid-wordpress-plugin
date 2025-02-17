@@ -254,7 +254,7 @@
 					<div class="iconable-block__infographics">
 						<span class="iconable-block__icon">
 							<?php
-							ecwid_embed_svg( 'admin-storefront/icons/show-shopping-cart-icon' );
+							ecwid_embed_svg( 'admin-storefront/icons/slugs-wihtout-ids' );
 							?>
 						</span>
 					</div>
@@ -283,7 +283,7 @@
 							<div class="cta-block__cta">
 								<label class="checkbox big">
 									<input name="" type="checkbox" 
-										<?php if ( ! $slugs_without_ids ) { ?>
+										<?php if ( $slugs_without_ids ) { ?>
 											checked=""
 										<?php } ?>
 										data-storefront-checkbox="slugs_without_ids">
