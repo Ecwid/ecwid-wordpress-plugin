@@ -12,6 +12,7 @@ class Ecwid_Admin_Storefront_Page {
 		add_action( 'wp_ajax_ecwid_storefront_set_status', array( $this, 'ajax_set_status' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_store_on_front', array( $this, 'ajax_set_store_on_front' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_display_cart_icon', array( $this, 'ajax_set_display_cart_icon' ) );
+        add_action( 'wp_ajax_ecwid_storefront_set_slugs_without_ids', array( $this, 'ajax_set_slugs_without_ids' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_page_slug', array( $this, 'ajax_set_page_slug' ) );
 		add_action( 'wp_ajax_ecwid_storefront_set_mainpage', array( $this, 'ajax_set_mainpage' ) );
 		add_action( 'wp_ajax_ecwid_storefront_create_page', array( $this, 'ajax_create_page' ) );
@@ -35,7 +36,8 @@ class Ecwid_Admin_Storefront_Page {
 			$page_data = self::get_page_data( $page_id );
 			extract( $page_data, EXTR_PREFIX_ALL, 'page' );
 
-			$store_on_front = Ecwid_Seo_Links::is_store_on_home_page();
+			$store_on_front     = Ecwid_Seo_Links::is_store_on_home_page();
+			$slugs_without_ids  = Ecwid_Seo_Links::is_slugs_without_ids_enabled();
 
 			if ( self::is_gutenberg_active() ) {
 				$design_edit_link = get_edit_post_link( $page_id ) . '&ec-show-store-settings';
@@ -79,6 +81,7 @@ class Ecwid_Admin_Storefront_Page {
 			$need_show_draft_warning  = time() - $plugin_installation_date > 3 * DAY_IN_SECONDS;
 		} else {
 			$store_on_front           = false;
+			$slugs_without_ids        = false;
 			$page_edit_link           = false;
 			$page_data                = false;
 			$design_edit_link         = false;
@@ -258,6 +261,27 @@ class Ecwid_Admin_Storefront_Page {
 			update_option( Ecwid_Floating_Minicart::OPTION_SHOW_EMPTY_CART, 1 );
 		} else {
 			update_option( Ecwid_Floating_Minicart::OPTION_WIDGET_DISPLAY, Ecwid_Floating_Minicart::DISPLAY_NONE );
+		}
+
+		wp_send_json( array( 'status' => 'success' ) );
+	}
+
+
+	public function ajax_set_slugs_without_ids() {
+		if ( ! check_ajax_referer( self::NONCE_SLUG ) ) {
+			die();
+		}
+
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			die();
+		}
+
+		$status = isset( $_GET['status'] ) ? intval( $_GET['status'] ) : false;
+
+		if ( $status ) {
+			update_option( Ecwid_Seo_Links::OPTION_SLUGS_WITHOUT_IDS_ENABLED, Ecwid_Seo_Links::OPTION_VALUE_ENABLED );
+		} else {
+			update_option( Ecwid_Seo_Links::OPTION_SLUGS_WITHOUT_IDS_ENABLED, Ecwid_Seo_Links::OPTION_VALUE_DISABLED );
 		}
 
 		wp_send_json( array( 'status' => 'success' ) );

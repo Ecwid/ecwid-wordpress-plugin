@@ -146,8 +146,13 @@ class Ecwid_Static_Page {
 
 		if ( ! ecwid_is_demo_store() ) {
 			$query_params['getStaticContent'] = 'true';
-			$query_params['slugsWithoutIds'] = 'false';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
+
+            if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+                $query_params['slugsWithoutIds'] = 'true';
+            } else {
+                $query_params['slugsWithoutIds'] = 'false';
+            }
 
 			if ( empty( $query_params['slug'] ) ) {
 				$query_params['storeRootPage'] = 'true';

@@ -6,10 +6,17 @@ class Ecwid_Seo_Links {
 	const OPTION_ENABLED       = 'ecwid_seo_links_enabled';
 	const OPTION_ALL_BASE_URLS = 'ecwid_all_base_urls';
 
+    const OPTION_SLUGS_WITHOUT_IDS_ENABLED = 'ecwid_slugs_without_ids';
+
+    const OPTION_VALUE_ENABLED  = 'Y';
+	const OPTION_VALUE_DISABLED = 'N';
+	const OPTION_VALUE_AUTO     = '';
+
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
 		add_action( 'save_post', array( $this, 'on_save_post' ) );
+        add_action( 'update_option_' . self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, array( $this, 'clear_static_pages_cache' ), 10, 3 );
 	}
 
 	public function init() {
@@ -239,9 +246,15 @@ class Ecwid_Seo_Links {
 	}
 
 	public static function get_js_config_storefront_urls() {
-		return '
-            window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
-            window.ec.config.storefrontUrls.cleanUrls = true;';
+
+        $js_code = 'window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};' . PHP_EOL;
+        $js_code .= 'window.ec.config.storefrontUrls.cleanUrls = true;' . PHP_EOL;
+
+        if( self::is_slugs_without_ids_enabled() ) {
+            $js_code .= 'window.ec.config.storefrontUrls.slugsWithoutIds = true;' . PHP_EOL;
+        }
+
+		return $js_code;
 	}
 
 	public static function is_404_seo_link() {
@@ -553,7 +566,6 @@ class Ecwid_Seo_Links {
 	}
 
 	public static function is_enabled() {
-
 		return self::is_feature_available() && get_option( self::OPTION_ENABLED );
 	}
 
@@ -574,6 +586,46 @@ class Ecwid_Seo_Links {
 
 		return $permalink != '';
 	}
+
+	public static function is_slugs_editor_available() {
+		
+        // to-do check availability of slugs editor
+
+		return false;
+	}
+
+    public static function is_slugs_without_ids_enabled() {
+        
+		if ( ecwid_is_demo_store() ) {
+			return false;
+		}
+
+        if ( get_option( self::OPTION_SLUGS_WITHOUT_IDS_ENABLED ) === self::OPTION_VALUE_ENABLED ) {
+			return true;
+		}
+
+		if ( get_option( self::OPTION_SLUGS_WITHOUT_IDS_ENABLED ) === self::OPTION_VALUE_DISABLED ) {
+			return false;
+		}
+
+		if ( get_option( self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, self::OPTION_VALUE_AUTO ) === self::OPTION_VALUE_AUTO ) {
+            $is_old_installation = ecwid_migrations_is_original_plugin_version_older_than( '7.0' );
+            
+            if( $is_old_installation ) {
+                return false;
+            } else {
+                return true;
+            }
+		}
+
+        return false;
+    }
+
+    public function clear_static_pages_cache( $old_value, $value, $option ) {
+        if( $old_value !== $value ) {
+            EcwidPlatform::clear_all_transients();
+        }
+    }
 }
 
 $ecwid_seo_links = new Ecwid_Seo_Links();
