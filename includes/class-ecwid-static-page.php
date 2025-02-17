@@ -2,8 +2,7 @@
 
 class Ecwid_Static_Page {
 
-	const OPTION_IS_ENABLED     = 'ecwid_static_home_page_enabled';
-	const OPTION_NEW_IS_ENABLED = 'ecwid_new_static_home_page_enabled';
+	const OPTION_IS_ENABLED = 'ecwid_static_home_page_enabled';
 
 	const OPTION_VALUE_ENABLED  = 'Y';
 	const OPTION_VALUE_DISABLED = 'N';
@@ -19,8 +18,6 @@ class Ecwid_Static_Page {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
-
-        add_action( 'update_option_' . self::OPTION_NEW_IS_ENABLED, array( $this, 'clear_cache' ), 10, 3 );
 	}
 
 	public function enqueue_scripts() {
@@ -147,7 +144,7 @@ class Ecwid_Static_Page {
 			}
 		}
 
-		if ( self::is_need_to_use_new_endpoint() ) {
+		if ( ! ecwid_is_demo_store() ) {
 			$query_params['getStaticContent'] = 'true';
 			$query_params['slugsWithoutIds'] = 'false';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
@@ -230,7 +227,7 @@ class Ecwid_Static_Page {
 
 	protected static function get_static_snapshot( $endpoint_params, $query_params, $dynamic_css = '' ) {
 
-		if ( self::is_need_to_use_new_endpoint() ) {
+		if ( ! ecwid_is_demo_store() ) {
 			$api          = new Ecwid_Api_V3();
 			$data = $api->get_storefront_widget_page( $query_params );
 
@@ -458,28 +455,6 @@ class Ecwid_Static_Page {
 
 		return false;
 	}
-
-	public static function is_need_to_use_new_endpoint() {
-		if ( get_option( self::OPTION_NEW_IS_ENABLED ) === self::OPTION_VALUE_ENABLED ) {
-			return true;
-		}
-
-		if ( get_option( self::OPTION_NEW_IS_ENABLED ) === self::OPTION_VALUE_DISABLED ) {
-			return false;
-		}
-
-		if ( get_option( self::OPTION_NEW_IS_ENABLED, self::OPTION_VALUE_AUTO ) === '' && get_ecwid_store_id() % 2 === 0 ) {
-			return true;
-		}
-
-		return false;
-	}
-
-    public function clear_cache( $old_value, $value, $option ) {
-        if( $old_value !== $value ) {
-            EcwidPlatform::clear_all_transients();
-        }
-    }
 }
 
 $__ecwid_static_page = new Ecwid_Static_Page();
