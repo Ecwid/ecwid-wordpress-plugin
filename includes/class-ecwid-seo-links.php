@@ -588,8 +588,19 @@ class Ecwid_Seo_Links {
 	}
 
 	public static function is_slugs_editor_available() {
-		
-        // to-do check availability of slugs editor
+        $is_paid_account = ecwid_is_paid_account();
+        $is_slugs_wihtout_ids_enabled = false;
+
+        if ( Ecwid_Api_V3::is_available() ) {
+            $api    = new Ecwid_Api_V3();
+            $profile = $api->get_store_profile();
+
+            $is_slugs_wihtout_ids_enabled = ! empty( $profile->generalInfo->starterSite->slugsWithoutIdsEnabled );
+        }
+
+        if( $is_paid_account && $is_slugs_wihtout_ids_enabled ) {
+            return true;
+        }
 
 		return false;
 	}
