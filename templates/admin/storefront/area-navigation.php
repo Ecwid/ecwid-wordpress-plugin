@@ -248,7 +248,7 @@
 		}//end if
 		?>
 
-		<div class="a-card a-card--compact">
+		<div class="a-card a-card--compact" id="ec-store-slugs-without-ids">
 			<div class="a-card__paddings">
 				<div class="iconable-block iconable-block--hide-in-mobile">
 					<div class="iconable-block__infographics">

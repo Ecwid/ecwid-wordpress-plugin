@@ -17,6 +17,8 @@ class Ecwid_Seo_Links {
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
 		add_action( 'save_post', array( $this, 'on_save_post' ) );
         add_action( 'update_option_' . self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, array( $this, 'clear_static_pages_cache' ), 10, 3 );
+
+        add_action( 'admin_init', array( $this, 'add_slugs_promo_on_permalinks_page' ) );
 	}
 
 	public function init() {
@@ -636,6 +638,34 @@ class Ecwid_Seo_Links {
         if( $old_value !== $value ) {
             EcwidPlatform::clear_all_transients();
         }
+    }
+
+    public function add_slugs_promo_on_permalinks_page() {
+
+        if( self::is_slugs_editor_available() ) {
+            $section_title = __( 'Customize URL slugs for products and categories in your %s store', 'ecwid-shopping-cart' );
+            $section_text = __( 'Remove IDs from URL slugs and display customized slugs to boost SEO and create a more user-friendly customer experience. <a %s>Go to URL slugs settings</a>', 'ecwid-shopping-cart' );
+        } else {
+            $section_title = __( 'Set URL slugs without IDs for products and categories in your %s store', 'ecwid-shopping-cart' );
+            $section_text = __( 'Remove IDs from URL slugs in products and categories to boost SEO and create a more user-friendly customer experience. <a %s>Go to URL slugs settings</a>', 'ecwid-shopping-cart' );
+        }
+
+        add_settings_section(
+            'ec-store-slugs-without-ids-promo',
+            sprintf( $section_title, Ecwid_Config::get_brand() ),
+            array( $this, 'print_slugs_promo' ),
+            'permalink',
+            array(
+                'after_section' => sprintf( 
+                    $section_text,
+                    'href="' . admin_url('admin.php?page=ec-storefront-settings#ec-store-slugs-without-ids') . '"'
+                )
+            )
+        );
+    }
+
+    public function print_slugs_promo($args) {
+        echo $args['after_section'];
     }
 }
 
