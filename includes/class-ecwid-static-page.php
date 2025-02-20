@@ -76,7 +76,7 @@ class Ecwid_Static_Page {
 		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
-		$endpoint_params = false;
+		$endpoint_params = array();
         $query_params = array();
 
 		// for cases of early access to the page if the cache is empty and need to get store block params
@@ -172,7 +172,7 @@ class Ecwid_Static_Page {
 			$dynamic_css = wp_strip_all_tags( $_COOKIE['ec_store_dynamic_css'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
-        $cache_key = serialize($query_params);
+        $cache_key = self::get_cache_key( $query_params, $endpoint_params );
 
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $cache_key );
 
@@ -278,7 +278,7 @@ class Ecwid_Static_Page {
                 $data->staticContent = $static_content;
             }
 
-            $cache_key = serialize($query_params);
+            $cache_key = self::get_cache_key( $query_params, $endpoint_params );
 
 			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
 			EcwidPlatform::save_in_static_pages_cache( $cache_key, $data );
@@ -288,6 +288,10 @@ class Ecwid_Static_Page {
 
 		return null;
 	}
+
+    protected static function get_cache_key( $query_params, $endpoint_params ) {
+        return serialize( array_merge( $query_params, $endpoint_params ) );
+    }
 
 	public static function get_accept_language() {
 		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found
