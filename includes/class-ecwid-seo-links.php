@@ -156,45 +156,61 @@ class Ecwid_Seo_Links {
 	}
 
 	public static function get_seo_links_patterns() {
-		return array(
-			'.*-p([0-9]+)(\/.*|\?.*)?',
-			'.*-c([0-9]+)(\/.*|\?.*)?',
-			'cart',
-			'checkout.*',
-			'account',
-			'account\/settings',
-			'account\/orders',
-			'account\/address-book',
-			'account\/favorites',
-			'account\/registration',
-			'account\/resetPassword',
-			'account\/reviews',
-			'search',
-			'search\?.*',
-			'signin',
-			'signOut',
-			'signIn.*',
-			'signOut.*',
-			'pages\/about',
-			'pages\/shipping-payment',
-			'pages\/returns',
-			'pages\/terms',
-			'pages\/privacy-policy',
-			'resetPassword.*',
-			'checkoutAB.*',
-			'checkoutCC.*',
-			'checkoutEC.*',
-			'checkoutAC.*',
-			'downloadError.*',
-			'checkoutResult.*',
-			'checkoutWait.*',
-			'orderFailure.*',
-			'FBAutofillCheckout.*',
-			'pay.*',
-			'repeat-order.*',
-			'subscribe.*',
-			'unsubscribe.*',
-		);
+        $patterns = array();
+
+        if( self::is_slugs_without_ids_enabled() ) {
+            $patterns = array(
+                '.*',
+            );
+        } else {
+            $patterns = array(
+                '.*-p([0-9]+)(\/.*|\?.*)?',
+                '.*-c([0-9]+)(\/.*|\?.*)?',
+            );
+        }
+
+		$patterns = array_merge( 
+            $patterns, 
+            array(
+                'cart',
+                'checkout.*',
+                'account',
+                'account\/settings',
+                'account\/orders',
+                'account\/address-book',
+                'account\/favorites',
+                'account\/registration',
+                'account\/resetPassword',
+                'account\/reviews',
+                'search',
+                'search\?.*',
+                'signin',
+                'signOut',
+                'signIn.*',
+                'signOut.*',
+                'pages\/about',
+                'pages\/shipping-payment',
+                'pages\/returns',
+                'pages\/terms',
+                'pages\/privacy-policy',
+                'resetPassword.*',
+                'checkoutAB.*',
+                'checkoutCC.*',
+                'checkoutEC.*',
+                'checkoutAC.*',
+                'downloadError.*',
+                'checkoutResult.*',
+                'checkoutWait.*',
+                'orderFailure.*',
+                'FBAutofillCheckout.*',
+                'pay.*',
+                'repeat-order.*',
+                'subscribe.*',
+                'unsubscribe.*',
+            )
+        );
+
+        return $patterns;
 	}
 
 	public static function is_store_on_home_page() {
