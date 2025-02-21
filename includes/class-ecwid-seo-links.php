@@ -597,7 +597,7 @@ class Ecwid_Seo_Links {
             $api    = new Ecwid_Api_V3();
             $profile = $api->get_store_profile();
 
-            $is_slugs_wihtout_ids_enabled = ! empty( $profile->generalInfo->starterSite->slugsWithoutIdsEnabled );
+            $is_slugs_wihtout_ids_enabled = ! empty( $profile->generalInfo->storefrontUrlSlugFormat ) && $profile->generalInfo->storefrontUrlSlugFormat === 'WITHOUT_IDS';
         }
 
         if( $is_paid_account && $is_slugs_wihtout_ids_enabled ) {
