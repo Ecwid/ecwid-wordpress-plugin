@@ -212,7 +212,7 @@ class Ecwid_Static_Page {
 		return $fetched_data;
 	}
 
-	protected static function get_current_storefront_page_slug() {
+	public static function get_current_storefront_page_slug() {
 		$slug = '';
 
 		$page_id        = get_queried_object_id();

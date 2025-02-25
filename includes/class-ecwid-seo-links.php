@@ -19,7 +19,65 @@ class Ecwid_Seo_Links {
         add_action( 'update_option_' . self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, array( $this, 'clear_static_pages_cache' ), 10, 3 );
 
         add_action( 'admin_init', array( $this, 'add_slugs_promo_on_permalinks_page' ) );
+        
+        if( self::is_slugs_without_ids_enabled() ) {
+            add_action( 'template_redirect', array( $this, 'prevent_storefront_page' ) );       
+        }
 	}
+
+    public function prevent_storefront_page() {
+        global $wp_query;
+
+        $page_id = get_queried_object_id();
+
+        if( ! empty( $page_id ) && Ecwid_Store_Page::is_store_page( $page_id ) ) {
+            // $slug = $wp_query->queried_object->post_name;
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+
+            if( $this->is_storefront_system_page( $slug ) ) {
+               return;
+            }
+
+            // $wp_page = get_page_by_path( 'store/' . $slug );
+            $wp_page = new WP_Query( array( 'name' => 'store/' . $slug ) );
+
+            $x = 1;
+
+            // $wp_page_id = get_page_by_path( $slug );
+            // if( $wp_page_id ) {
+                // $wp_query = new WP_Query( array( 'name' => $slug ) );
+            // } 
+            // else {
+            //     $wp_query->set_404();
+            //     status_header( 404 );
+            // }
+            // 1 - если главная страница, то проверять наличие страницы и роутить туда
+            // if( self::is_store_on_home_page() && $page_id === get_option( 'page_on_front' ) ) {
+               // ... 
+            // }
+            // 2 — если не главная, но есть ли такие саб страницы, то роутить туда
+            // if( $this->is_sub_page( $slug, $page_id ) ) {
+               // ... 
+            // }
+        }
+    }
+
+    public function is_sub_page( $slug, $parent_page_id ) {
+        return false;
+    }
+
+    public function is_storefront_system_page( $slug ) {
+        // TO-DO get all system pages
+        return in_array( 
+            $slug, 
+            array(
+                'cart',
+                'checkout',
+                'account',
+                //...
+            )
+        );
+    }
 
 	public function init() {
 
@@ -143,6 +201,7 @@ class Ecwid_Seo_Links {
 
 		return $value;
 	}
+
 	public function slug_matches_seo_pattern( $slug ) {
 		static $pattern = '';
 
@@ -162,16 +221,13 @@ class Ecwid_Seo_Links {
             $patterns = array(
                 '.*',
             );
-        } else {
-            $patterns = array(
-                '.*-p([0-9]+)(\/.*|\?.*)?',
-                '.*-c([0-9]+)(\/.*|\?.*)?',
-            );
         }
 
 		$patterns = array_merge( 
             $patterns, 
             array(
+                '.*-p([0-9]+)(\/.*|\?.*)?',
+                '.*-c([0-9]+)(\/.*|\?.*)?',
                 'cart',
                 'checkout.*',
                 'account',
@@ -409,8 +465,8 @@ class Ecwid_Seo_Links {
 						$query .= '&post_type=' . $post->post_type;
 					}
 
-					// $additional_rules[ $link . '/' . $pattern . '.*' ] = $query;
-					$page_rules[ $link . '/' . $pattern . '.*' ] = $query;
+					// $page_rules[ $link . '/' . $pattern . '.*' ] = $query;
+					$page_rules[ $link . '/' . $pattern ] = $query;
 				}
 			}//end foreach
 
