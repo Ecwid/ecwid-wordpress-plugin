@@ -154,7 +154,7 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 
 == Changelog ==
 = 6.12.30 - Feb 26, 2024 =
-- Fixed an issue where some links in the storefront could return a "not found" status in certain cases.
+- Fixed an issue where some links in the storefront could return a "not found" status in some cases.
 
 = 6.12.29 - Feb 21, 2024 =
 - Fixed an issue where incorrect data was sometimes displayed on the storefront page. Please update your ecommerce plugin.
