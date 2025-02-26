@@ -261,7 +261,7 @@ class Ecwid_Static_Page {
 			if ( ! empty( $static_content->htmlCode ) ) {
 				$pattern = '/<img(.*?)>/is';
 
-				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $static_content->htmlCode );
+				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async">', $static_content->htmlCode );
 			}
 
 			EcwidPlatform::encode_fields_with_emoji(
