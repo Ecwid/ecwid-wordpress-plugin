@@ -93,8 +93,6 @@ class Ecwid_Static_Page {
 			$query_params['clean_urls'] = 'false';
 		}
 
-		$query_params['base_url'] = get_permalink();
-
 		if ( array_key_exists( 'offset', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$query_params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
@@ -145,6 +143,8 @@ class Ecwid_Static_Page {
 		}
 
 		if ( ! ecwid_is_demo_store() ) {
+            $query_params['baseUrl'] = get_permalink();
+
 			$query_params['getStaticContent'] = 'true';
 			$query_params['slugsWithoutIds'] = 'false';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
@@ -155,6 +155,8 @@ class Ecwid_Static_Page {
 				$query_params['storeRootPage'] = 'false';
 			}
 		} else {
+            $query_params['base_url'] = get_permalink();
+
             if ( ! empty( $query_params['default_category_id'] ) ) {
                 $endpoint_params = array(
                     'mode' => 'category',
@@ -259,7 +261,7 @@ class Ecwid_Static_Page {
 			if ( ! empty( $static_content->htmlCode ) ) {
 				$pattern = '/<img(.*?)>/is';
 
-				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $static_content->htmlCode );
+				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async">', $static_content->htmlCode );
 			}
 
 			EcwidPlatform::encode_fields_with_emoji(
