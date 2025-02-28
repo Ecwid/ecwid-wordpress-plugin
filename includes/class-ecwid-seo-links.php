@@ -25,60 +25,6 @@ class Ecwid_Seo_Links {
         }
 	}
 
-    public function prevent_storefront_page() {
-        global $wp_query;
-
-        $page_id = get_queried_object_id();
-
-        if( ! empty( $page_id ) && Ecwid_Store_Page::is_store_page( $page_id ) ) {
-            // $slug = $wp_query->queried_object->post_name;
-            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
-
-            if( $this->is_storefront_system_page( $slug ) ) {
-               return;
-            }
-
-            // $wp_page = get_page_by_path( 'store/' . $slug );
-            $wp_page = new WP_Query( array( 'name' => 'store/' . $slug ) );
-
-            $x = 1;
-
-            // $wp_page_id = get_page_by_path( $slug );
-            // if( $wp_page_id ) {
-                // $wp_query = new WP_Query( array( 'name' => $slug ) );
-            // } 
-            // else {
-            //     $wp_query->set_404();
-            //     status_header( 404 );
-            // }
-            // 1 - если главная страница, то проверять наличие страницы и роутить туда
-            // if( self::is_store_on_home_page() && $page_id === get_option( 'page_on_front' ) ) {
-               // ... 
-            // }
-            // 2 — если не главная, но есть ли такие саб страницы, то роутить туда
-            // if( $this->is_sub_page( $slug, $page_id ) ) {
-               // ... 
-            // }
-        }
-    }
-
-    public function is_sub_page( $slug, $parent_page_id ) {
-        return false;
-    }
-
-    public function is_storefront_system_page( $slug ) {
-        // TO-DO get all system pages
-        return in_array( 
-            $slug, 
-            array(
-                'cart',
-                'checkout',
-                'account',
-                //...
-            )
-        );
-    }
-
 	public function init() {
 
 		if ( self::is_enabled() ) {
@@ -99,6 +45,75 @@ class Ecwid_Seo_Links {
 			}
 		}
 	}
+
+
+    public function prevent_storefront_page() {
+        global $wp_query;
+
+        // if ( !self::is_enabled() || is_admin() || wp_doing_ajax() ) {
+        if ( !self::is_enabled() ) {
+            return;
+        }
+
+        $page_id = get_queried_object_id();
+
+        if( ! empty( $page_id ) && Ecwid_Store_Page::is_store_page( $page_id ) ) {
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+
+            // TO-DO: finish this
+            if( empty( $slug ) || $this->is_storefront_system_page( $slug ) ) {
+               return;
+            }
+
+            $post_types = get_post_types( array( 'public' => true ) );
+            $wp_page = new WP_Query( array( 
+                    'name' => $slug,
+                    'post_type' => $post_types
+                )
+            );
+
+            if ( ! $wp_page->have_posts() ) {
+                return;
+            }
+            
+            $wp_query = $wp_page;
+
+            // $wp_page_id = get_page_by_path( $slug );
+            // if( $wp_page_id ) {
+                // $wp_query = new WP_Query( array( 'name' => $slug ) );
+            // } 
+            // else {
+            //     $wp_query->set_404();
+            //     status_header( 404 );
+            // }
+            // 1 - если главная страница, то проверять наличие страницы и роутить туда
+            // $store_on_front     = Ecwid_Seo_Links::is_store_on_home_page()
+            // if( self::is_store_on_home_page() && $page_id === get_option( 'page_on_front' ) ) {
+               // ... 
+            // }
+            // 2 — если не главная, но есть ли такие саб страницы, то роутить туда
+            // if( $this->is_sub_page( $slug, $page_id ) ) {
+               // ... 
+            // }
+        }
+    }
+
+    // public function is_sub_page( $slug, $parent_page_id ) {
+    //     return false;
+    // }
+
+    public function is_storefront_system_page( $slug ) {
+        // TO-DO get all system pages
+        return in_array( 
+            $slug, 
+            array(
+                'cart',
+                'checkout',
+                'account',
+                //...
+            )
+        );
+    }
 
 	public function on_save_post( $post_id ) {
 		if ( wp_is_post_revision( $post_id ) ) {
