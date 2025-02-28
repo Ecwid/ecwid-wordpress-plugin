@@ -503,7 +503,20 @@ class Ecwid_Seo_Links {
 
 		update_option( self::OPTION_ALL_BASE_URLS, array_merge( $all_base_urls, array( 'home' => self::is_store_on_home_page() ) ) );
 
-		$new_rules = array_merge( $additional_rules, $rules );
+        // we put our rules before the default one
+        $rewrite_rule = '([^/]+)(?:/([0-9]+))?/?$';
+
+        $position = array_search( $rewrite_rule, array_keys( $rules ) );
+        if( $position !== false ) {
+            $first_part = array_slice( $rules, 0, $position, true);
+            $second_part = array_slice( $rules, $position, count( $rules ) - 1, true);
+            
+            $new_rules = array_merge( $first_part, $additional_rules, $second_part );
+        } else {
+            // it's fallback for the case when we can't find the default rule
+            $new_rules = array_merge( $additional_rules, $rules );
+        }
+
 		return $new_rules;
 	}
 
