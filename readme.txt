@@ -77,7 +77,6 @@ The plugin uses the Ecwid ecommerce cloud services (www.ecwid.com). Your store d
 
 The plugin uses CDN services by AWS Cloudfront to speed up user stores. It is managed by the Ecwid Terms of Service and Privacy Policy and [AWS Customer Agreement](https://aws.amazon.com/agreement/).
 
-
 == Installation ==
 
 ### Automatic installation (the easiest way)
