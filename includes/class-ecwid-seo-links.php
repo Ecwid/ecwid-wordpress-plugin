@@ -50,69 +50,59 @@ class Ecwid_Seo_Links {
     public function prevent_storefront_page() {
         global $wp_query;
 
-        // if ( !self::is_enabled() || is_admin() || wp_doing_ajax() ) {
         if ( !self::is_enabled() ) {
             return;
         }
 
         $page_id = get_queried_object_id();
+        
+        $page = $wp_query->get_queried_object();
+        $page_parent_id = $page->post_parent;
+
+        // $post_types = get_post_types( array( 'public' => true ) );
+        $post_types = array( 'post', 'page' );
+
+        if( $page_parent_id > 0 && Ecwid_Store_Page::is_store_page( $page_parent_id ) ) {
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug( $page_parent_id );
+
+            if( ! empty( $slug ) && self::is_noindex_page( $page_parent_id ) ) {
+                $wp_page = new WP_Query( array( 
+                    'p' => $page_parent_id,
+                    'post_type' => $post_types
+                ) );
+    
+                if ( ! $wp_page->have_posts() ) {
+                    return;
+                }
+                
+                $wp_page->is_single = $wp_query->is_single;
+                $wp_page->is_page = $wp_query->is_page;
+
+                $wp_query = $wp_page;
+            }
+        }
 
         if( ! empty( $page_id ) && Ecwid_Store_Page::is_store_page( $page_id ) ) {
-            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug( $page_id );
 
-            // TO-DO: finish this
-            if( empty( $slug ) || $this->is_storefront_system_page( $slug ) ) {
+            if( empty( $slug ) || self::is_noindex_page( $page_id ) ) {
                return;
             }
 
-            $post_types = get_post_types( array( 'public' => true ) );
             $wp_page = new WP_Query( array( 
-                    'name' => $slug,
-                    'post_type' => $post_types
-                )
-            );
+                'name' => $slug,
+                'post_type' => $post_types
+            ) );
 
             if ( ! $wp_page->have_posts() ) {
                 return;
             }
             
+            $wp_page->is_single = $wp_query->is_single;
+            $wp_page->is_page = $wp_query->is_page;
+
             $wp_query = $wp_page;
-
-            // $wp_page_id = get_page_by_path( $slug );
-            // if( $wp_page_id ) {
-                // $wp_query = new WP_Query( array( 'name' => $slug ) );
-            // } 
-            // else {
-            //     $wp_query->set_404();
-            //     status_header( 404 );
-            // }
-            // 1 - если главная страница, то проверять наличие страницы и роутить туда
-            // $store_on_front     = Ecwid_Seo_Links::is_store_on_home_page()
-            // if( self::is_store_on_home_page() && $page_id === get_option( 'page_on_front' ) ) {
-               // ... 
-            // }
-            // 2 — если не главная, но есть ли такие саб страницы, то роутить туда
-            // if( $this->is_sub_page( $slug, $page_id ) ) {
-               // ... 
-            // }
         }
-    }
-
-    // public function is_sub_page( $slug, $parent_page_id ) {
-    //     return false;
-    // }
-
-    public function is_storefront_system_page( $slug ) {
-        // TO-DO get all system pages
-        return in_array( 
-            $slug, 
-            array(
-                'cart',
-                'checkout',
-                'account',
-                //...
-            )
-        );
     }
 
 	public function on_save_post( $post_id ) {
@@ -621,20 +611,14 @@ class Ecwid_Seo_Links {
 		return apply_filters( 'ecwid_relative_permalink', $default_link, $item_id );
 	}
 
-	public static function is_noindex_page() {
-
-		if ( ! Ecwid_Store_Page::is_store_page() ) {
-			return false;
-		}
-
-		$relative_permalink = self::_get_relative_permalink( get_the_ID() );
-
-		$noindex_pages = array(
+    public static function get_noindex_pages() {
+        return array(
 			'cart',
 			'account',
 			'checkout',
 			'signin',
 			'signOut',
+            'resetPassword',
 			'search',
 			'pages',
 			'downloadError',
@@ -646,6 +630,21 @@ class Ecwid_Seo_Links {
 			'subscribe',
 			'unsubscribe',
 		);
+    }
+
+	public static function is_noindex_page( $page_id = 0 ) {
+
+		if ( ! Ecwid_Store_Page::is_store_page( $page_id ) ) {
+			return false;
+		}
+
+        if( empty( $page_id ) ) {
+            $page_id = get_the_ID();
+        }
+
+		$relative_permalink = self::_get_relative_permalink( $page_id );
+
+		$noindex_pages = self::get_noindex_pages();
 
 		$home_url = home_url();
 		$path     = wp_parse_url( $home_url, PHP_URL_PATH );

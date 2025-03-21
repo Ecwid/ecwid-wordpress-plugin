@@ -212,10 +212,13 @@ class Ecwid_Static_Page {
 		return $fetched_data;
 	}
 
-	public static function get_current_storefront_page_slug() {
-		$slug = '';
+	public static function get_current_storefront_page_slug( $page_id = null ) {
+        $slug = '';
+        
+        if ( ! $page_id ) {
+            $page_id = get_queried_object_id();
+        }
 
-		$page_id        = get_queried_object_id();
 		$page_link      = get_permalink( $page_id );
 		$page_permalink = wp_make_link_relative( $page_link );
 
