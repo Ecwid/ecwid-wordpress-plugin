@@ -1,4 +1,10 @@
 == Changelog ==
+= 6.12.30 - Feb 26, 2024 =
+- Fixed an issue where some links in the storefront could return a "not found" status in some cases.
+
+= 6.12.29 - Feb 21, 2024 =
+- Fixed an issue where incorrect data was sometimes displayed on the storefront page. Please update your ecommerce plugin.
+
 = 6.12.28 - Feb 17, 2024 =
 - In some cases, incorrect URLs could be generated in the storefront. We have fixed this issue.
 - Plugin code improvements for better security and stability.

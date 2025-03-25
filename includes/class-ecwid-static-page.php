@@ -76,7 +76,7 @@ class Ecwid_Static_Page {
 		}
 
 		$store_page_params = Ecwid_Store_Page::get_store_page_params();
-		$endpoint_params = false;
+		$endpoint_params = array();
         $query_params = array();
 
 		// for cases of early access to the page if the cache is empty and need to get store block params
@@ -92,8 +92,6 @@ class Ecwid_Static_Page {
 		} else {
 			$query_params['clean_urls'] = 'false';
 		}
-
-		$query_params['base_url'] = get_permalink();
 
 		if ( array_key_exists( 'offset', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$query_params['offset'] = intval( $_GET['offset'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -145,6 +143,8 @@ class Ecwid_Static_Page {
 		}
 
 		if ( ! ecwid_is_demo_store() ) {
+            $query_params['baseUrl'] = get_permalink();
+
 			$query_params['getStaticContent'] = 'true';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
 
@@ -160,6 +160,8 @@ class Ecwid_Static_Page {
 				$query_params['storeRootPage'] = 'false';
 			}
 		} else {
+            $query_params['base_url'] = get_permalink();
+
             if ( ! empty( $query_params['default_category_id'] ) ) {
                 $endpoint_params = array(
                     'mode' => 'category',
@@ -177,7 +179,7 @@ class Ecwid_Static_Page {
 			$dynamic_css = wp_strip_all_tags( $_COOKIE['ec_store_dynamic_css'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
-        $cache_key = serialize($query_params);
+        $cache_key = self::get_cache_key( $query_params, $endpoint_params );
 
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $cache_key );
 
@@ -267,7 +269,7 @@ class Ecwid_Static_Page {
 			if ( ! empty( $static_content->htmlCode ) ) {
 				$pattern = '/<img(.*?)>/is';
 
-				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async" loading="lazy">', $static_content->htmlCode );
+				$static_content->htmlCode = preg_replace( $pattern, '<img $1 decoding="async">', $static_content->htmlCode );
 			}
 
 			EcwidPlatform::encode_fields_with_emoji(
@@ -286,7 +288,7 @@ class Ecwid_Static_Page {
                 $data->staticContent = $static_content;
             }
 
-            $cache_key = serialize($query_params);
+            $cache_key = self::get_cache_key( $query_params, $endpoint_params );
 
 			EcwidPlatform::invalidate_static_pages_cache_from( $last_update );
 			EcwidPlatform::save_in_static_pages_cache( $cache_key, $data );
@@ -296,6 +298,10 @@ class Ecwid_Static_Page {
 
 		return null;
 	}
+
+    protected static function get_cache_key( $query_params, $endpoint_params ) {
+        return serialize( array_merge( $query_params, $endpoint_params ) );
+    }
 
 	public static function get_accept_language() {
 		$http_accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? : ''; //phpcs:ignore Universal.Operators.DisallowShortTernary.Found

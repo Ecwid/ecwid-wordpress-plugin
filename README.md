@@ -1,5 +1,5 @@
 # Ecwid Ecommerce Shopping Cart
-Powerful, easy to use ecommerce shopping cart plugin for WordPress. Powerful, easy-to-use and Gutenberg-friendly. Over 1 million sellers in 175 countries, 45 languages supported. PayPal, Stripe and 40 more payment options. Real-time shipping integrations. Selling on Instagram and Facebook.
+Ecwid Ecommerce Shopping Cart is everything you need to add an online store to your WordPress site. Powerful, easy-to-use and Gutenberg-friendly. Hundreds of thousands of sellers in 175 countries, 45 languages supported. PayPal, Stripe and 70+ more payment options. Real-time shipping integrations. Selling on Instagram and Facebook.
 
 ### Automatic Shipping and Taxes
 
@@ -7,11 +7,11 @@ The Ecwid ecommerce plugin integrates with major carriers including USPS, UPS, F
 
 ### Sell on Facebook and Instagram
 
-Add your online store to Facebook and sell to millions of Facebook and Instagram users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Ecwid is the **#1 e-commerce app on Facebook**. Join!
+Add your online store to Facebook and sell to millions of Facebook and Instagram users. No addons needed. Ecwid will automatically synchronize your products, customers, orders and inventory between your WordPress and Facebook storefronts. Join!
 
 ### eCommerce Mobile Apps
 
-Ecwid Shopping Cart provides free mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Your ecommerce data is automatically synchronized with your Wordpress shopping cart, Facebook store and other online storefronts.
+Ecwid Shopping Cart provides mobile applications for iOS and Android to manage your store and sell on the go. Scan products, track inventory, manage sales and accept payments using your mobile device as a POS station. Your ecommerce data is automatically synchronized with your Wordpress shopping cart, Facebook store and other online storefronts.
 
 ### Unlimited Storage, Automatic Backups and Seamless Upgrades
 
@@ -39,21 +39,23 @@ With Ecwid, you can include your ecommerce shop on multiple websites, blogs, soc
 
 Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
 
+### Hundreds of extensions and powerful API
 
-### Your Favorite Free Plugin
+There is a lot of in-house and third party extensions built on the Ecwid Ecommerce APIs. You can find a ready made plugin extending features of your online storefront the way you want or build a custom addon yourself. The existing family of third party plugins include tax automation apps like TaxJar, fulfilment services like ShipStation, customer support tools like LiveChat and many others.
 
-Ecwid offers a free plan that’s always available with no hidden setup charges or transaction fees. Get your online store up and running at zero cost. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
+### Plans start at just $5/mo
 
+Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
 
 ### See Ecwid In Action
 
 * [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
-* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create a free Ecwid account)
+* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
 * [Showcase](https://ecwid.to/ecwid-wp-site)
 
-###  Ecwid Site 
-* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
+### Ecwid Site
 
+* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
 
 
 ## Installation
