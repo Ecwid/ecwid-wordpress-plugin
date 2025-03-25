@@ -46,7 +46,6 @@ class Ecwid_Seo_Links {
 		}
 	}
 
-
     public function prevent_storefront_page() {
         global $wp_query;
 
@@ -57,7 +56,7 @@ class Ecwid_Seo_Links {
         $page_id = get_queried_object_id();
         
         $page = $wp_query->get_queried_object();
-        $page_parent_id = $page->post_parent;
+        $page_parent_id = !empty( $page->post_parent ) ? $page->post_parent : 0;
 
         // $post_types = get_post_types( array( 'public' => true ) );
         $post_types = array( 'post', 'page' );
