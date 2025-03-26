@@ -314,6 +314,7 @@ class Ecwid_Seo_Links {
 		$result = self::get_js_config_storefront_urls();
 
 		$result .= "
+            window.ec.config.canonical_base_url = '$url';
             window.ec.config.baseUrl = '$url_relative';
             window.ec.storefront = window.ec.storefront || {};
             window.ec.storefront.sharing_button_link = 'DIRECT_PAGE_URL';";
