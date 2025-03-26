@@ -501,6 +501,18 @@ class Ecwid_Store_Page {
 			),
 		);
 
+        if( Ecwid_Seo_Links::is_enabled() ) {
+            $params['generalInfo']['storefrontUrlFormat'] = 'CLEAN';
+        } else {
+            $params['generalInfo']['storefrontUrlFormat'] = 'HASH';
+        }
+
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITHOUT_IDS';
+        } else {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITH_IDS';
+        }
+
 		$result = $api->update_store_profile( $params );
 
 		if ( $result ) {

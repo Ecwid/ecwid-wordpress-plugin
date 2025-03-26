@@ -16,6 +16,10 @@ class Ecwid_Seo_Links {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'ecwid_on_fresh_install', array( $this, 'on_fresh_install' ) );
 		add_action( 'save_post', array( $this, 'on_save_post' ) );
+
+        add_action( 'update_option_' . self::OPTION_ENABLED, array( $this, 'set_store_url_format' ) );
+        add_action( 'update_option_' . self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, array( $this, 'set_store_url_format' ) );
+
         add_action( 'update_option_' . self::OPTION_SLUGS_WITHOUT_IDS_ENABLED, array( $this, 'clear_static_pages_cache' ), 10, 3 );
 
         add_action( 'admin_init', array( $this, 'add_slugs_promo_on_permalinks_page' ) );
@@ -731,6 +735,34 @@ class Ecwid_Seo_Links {
 		}
 
         return false;
+    }
+
+    public function set_store_url_format() {
+        
+		$params = array(
+			'generalInfo' => array(
+				'websitePlatform' => 'wordpress',
+			)
+		);
+
+        if( self::is_enabled() ) {
+            $params['generalInfo']['storefrontUrlFormat'] = 'CLEAN';
+        } else {
+            $params['generalInfo']['storefrontUrlFormat'] = 'HASH';
+        }
+
+        if( self::is_slugs_without_ids_enabled() ) {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITHOUT_IDS';
+        } else {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITH_IDS';
+        }
+
+        $api = new Ecwid_Api_V3();
+		$result = $api->update_store_profile( $params );
+
+		if ( $result ) {
+			EcwidPlatform::cache_reset( Ecwid_Api_V3::PROFILE_CACHE_NAME );
+		}
     }
 
     public function clear_static_pages_cache( $old_value, $value, $option ) {
