@@ -146,8 +146,13 @@ class Ecwid_Static_Page {
             $query_params['baseUrl'] = get_permalink();
 
 			$query_params['getStaticContent'] = 'true';
-			$query_params['slugsWithoutIds'] = 'false';
 			$query_params['slug']             = self::get_current_storefront_page_slug();
+
+            if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+                $query_params['slugsWithoutIds'] = 'true';
+            } else {
+                $query_params['slugsWithoutIds'] = 'false';
+            }
 
 			if ( empty( $query_params['slug'] ) ) {
 				$query_params['storeRootPage'] = 'true';
@@ -179,6 +184,9 @@ class Ecwid_Static_Page {
 		$cached_data = EcwidPlatform::get_from_static_pages_cache( $cache_key );
 
 		if ( $cached_data ) {
+            
+            self::process_page_status( $cached_data, $cache_key );
+
             if ( isset( $cached_data->staticContent ) ) {
                 $static_content = $cached_data->staticContent;
             } else {
@@ -209,10 +217,13 @@ class Ecwid_Static_Page {
 		return $fetched_data;
 	}
 
-	protected static function get_current_storefront_page_slug() {
-		$slug = '';
+	public static function get_current_storefront_page_slug( $page_id = null ) {
+        $slug = '';
+        
+        if ( ! $page_id ) {
+            $page_id = get_queried_object_id();
+        }
 
-		$page_id        = get_queried_object_id();
 		$page_link      = get_permalink( $page_id );
 		$page_permalink = wp_make_link_relative( $page_link );
 
@@ -227,11 +238,44 @@ class Ecwid_Static_Page {
 		return $slug;
 	}
 
+	protected static function process_page_status( $data, $cache_key = null ) {
+
+        if( ! Ecwid_Seo_Links::is_enabled() || ! Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            return;
+        }
+
+        if ( ! empty( $data->status ) && in_array( $data->status, array( 'NONCANONICAL', 'NOT_FOUND' ), true ) ) {
+
+            if ( ! empty( $cache_key ) ) {
+                unset( $data->staticContent );
+                EcwidPlatform::save_in_static_pages_cache( $cache_key, $data );
+            }
+
+            if( $data->status === 'NONCANONICAL' ) {
+                $permalink = get_permalink();
+                wp_redirect( $permalink . $data->canonicalSlug, 301 );
+                exit;
+            }
+            
+            // if( $data->status === 'NOT_FOUND' ) {
+            //     global $wp_query;
+
+            //     $wp_query->set_404();
+            //     status_header( 404 );
+
+            //     exit();
+            // }
+        }
+    }
+
 	protected static function get_static_snapshot( $endpoint_params, $query_params, $dynamic_css = '' ) {
 
 		if ( ! ecwid_is_demo_store() ) {
 			$api          = new Ecwid_Api_V3();
 			$data = $api->get_storefront_widget_page( $query_params );
+
+            $cache_key = self::get_cache_key( $query_params, $endpoint_params );
+            self::process_page_status( $data, $cache_key );
 
 			if ( empty( $data->staticContent ) || ! is_object( $data->staticContent ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				return null;

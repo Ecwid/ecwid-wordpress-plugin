@@ -495,16 +495,26 @@ class EcwidPlatform {
 			)
 		);
 
+        $last_updated = 0;
+
         if( $result ) {
             if( isset( $result['data']->staticContent ) ) {
-                $data = $result['data']->staticContent;
+
+                if( !empty( $result['data']->staticContent->lastUpdated ) ) {
+                    $last_updated = $result['data']->staticContent->lastUpdated;
+                }
+
             } else {
-                $data = $result['data'];
+
+                if( !empty( $result['data']->lastUpdated ) ) {
+                    $last_updated = $result['data']->lastUpdated;
+                }
+
             }
         }
 
-		if ( $result && isset( $data->lastUpdated ) && $data->lastUpdated > $valid_from ) {
-			return $data;
+		if ( $result && $last_updated > $valid_from ) {
+			return $result['data'];
 		} else {
             self::cache_reset( $cache_name );
 

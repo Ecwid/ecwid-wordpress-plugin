@@ -248,5 +248,57 @@
 		}//end if
 		?>
 
+		<div class="a-card a-card--compact" id="ec-store-slugs-without-ids">
+			<div class="a-card__paddings">
+				<div class="iconable-block iconable-block--hide-in-mobile">
+					<div class="iconable-block__infographics">
+						<span class="iconable-block__icon">
+							<?php
+							ecwid_embed_svg( 'admin-storefront/icons/slugs-wihtout-ids' );
+							?>
+						</span>
+					</div>
+					<div class="iconable-block__content">
+						<div class="cta-block">
+							<div class="cta-block__central">
+								<div class="cta-block__title">
+                                    <?php 
+                                    if( Ecwid_Seo_Links::is_slugs_editor_available() ) {
+                                        esc_html_e( 'Customize URL slugs for products and categories', 'ecwid-shopping-cart' );
+                                    } else {
+                                        esc_html_e( 'Set URL slugs without IDs for products and categories', 'ecwid-shopping-cart' );
+                                    }
+                                    ?>
+                                </div>
+								<div class="cta-block__content">
+                                    <?php 
+                                    if( Ecwid_Seo_Links::is_slugs_editor_available() ) {
+                                        esc_html_e( 'Remove IDs from URL slugs in products and categories to boost SEO and create a more user-friendly customer experience. If you customize slugs in your store’s control panel, this setting will display them. Once enabled, old slugs will automatically redirect to the new ones.', 'ecwid-shopping-cart' );
+                                    } else {
+                                        esc_html_e( 'Remove IDs from URL slugs in products and categories to boost SEO and create a more user-friendly customer experience. Once enabled, previous slugs will automatically redirect to the new ones.   ', 'ecwid-shopping-cart' );
+                                    }
+                                    ?>
+								</div>
+							</div>
+							<div class="cta-block__cta">
+								<label class="checkbox big">
+									<input name="" type="checkbox" 
+										<?php if ( $slugs_without_ids ) { ?>
+											checked=""
+										<?php } ?>
+										data-storefront-checkbox="slugs_without_ids">
+									<div data-on="enabled" data-off="disabled">
+										<div></div>
+									</div>
+									<span class="checkbox__on-text-placeholder">enabled</span>
+									<span class="checkbox__off-text-placeholder">disabled</span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>

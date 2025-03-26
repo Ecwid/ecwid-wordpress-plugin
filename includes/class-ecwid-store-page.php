@@ -217,6 +217,10 @@ class Ecwid_Store_Page {
 		$html_catalog_params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 		$is_home_page        = empty( $html_catalog_params );
 
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $is_home_page = empty( Ecwid_Static_Page::get_current_storefront_page_slug() );
+        }
+
 		return $is_home_page;
 	}
 
@@ -496,6 +500,18 @@ class Ecwid_Store_Page {
 				'websitePlatform' => 'wordpress',
 			),
 		);
+
+        if( Ecwid_Seo_Links::is_enabled() ) {
+            $params['generalInfo']['storefrontUrlFormat'] = 'CLEAN';
+        } else {
+            $params['generalInfo']['storefrontUrlFormat'] = 'HASH';
+        }
+
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITHOUT_IDS';
+        } else {
+            $params['generalInfo']['storefrontUrlSlugFormat'] = 'WITH_IDS';
+        }
 
 		$result = $api->update_store_profile( $params );
 

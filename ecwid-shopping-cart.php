@@ -5,7 +5,7 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid by Lightspeed is a free full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 6.12.30
+Version: 7.0
 Author URI: https://ecwid.to/ecwid-site
 License: GPLv2 or later
 */
@@ -1632,9 +1632,19 @@ function ecwid_get_update_params_options() {
 		'ecwid_store_id' => array(
 			'type' => 'string'
 		),
+
+		'ecwid_api_status' => array(
+			'type' => 'string'
+		),
+
 		'ecwid_store_page_id' => array(
 			'type' => 'string'
 		),
+
+        'ecwid_plugin_migration_since_version' => array(
+			'type' => 'string'
+		),
+
 		'ecwid_ajax_defer_rendering' => array(
 			'values' => array(
 				'on',
@@ -1649,9 +1659,11 @@ function ecwid_get_update_params_options() {
 				''
 			)
 		),
+
 		'ecwid_disable_pb_url' => array(
 			'type' => 'bool'
 		),
+
 		Ecwid_Nav_Menus::OPTION_USE_JS_API_FOR_CATS_MENU => array(
 			'values' => array(
 				Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_TRUE,
@@ -1659,15 +1671,15 @@ function ecwid_get_update_params_options() {
 				Ecwid_Nav_Menus::OPTVAL_USE_JS_API_FOR_CATS_MENU_AUTO
 			)	
 		),
-		Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY => array(
+
+        Ecwid_Widget_Floating_Shopping_Cart::OPTION_MOVE_INTO_BODY => array(
 			'type' => 'bool',
 		),
-		'ecwid_historyjs_html4mode' => array(
+
+        'ecwid_historyjs_html4mode' => array(
 			'type' => 'bool'
 		),
-		'ecwid_plugin_migration_since_version' => array(
-			'type' => 'string'
-		),
+
 		'ecwid_seo_links_enabled' => array(
 			'type' => 'bool'
 		),
@@ -1706,9 +1718,13 @@ function ecwid_get_update_params_options() {
 				Ec_Store_Defer_Init::OPTION_VALUE_DISABLED
 			)
 		),
-		
-		'ecwid_api_status' => array(
-			'type' => 'string'
+
+        Ecwid_Seo_Links::OPTION_SLUGS_WITHOUT_IDS_ENABLED => array(
+			'values' => array(
+				Ecwid_Seo_Links::OPTION_VALUE_AUTO,
+				Ecwid_Seo_Links::OPTION_VALUE_ENABLED,
+				Ecwid_Seo_Links::OPTION_VALUE_DISABLED
+			)
 		),
 		
 		'ecwid_hide_canonical' => array(
