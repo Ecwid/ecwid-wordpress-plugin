@@ -1,7 +1,6 @@
 == Changelog ==
 = 7.0 - Mar 26, 2025 =
-- **New clean and SEO friendly URL format for your product and category pages with no odd numbers!** We have released a new format for links to product and category pages. It allows you to remove automatically generated numbers from product and category URL slugs for better SEO, such as changing `shoes-c123` to `shoes`. To enable this format, go to `WordPress admin > Ecwid > Storefront`, scroll down and find the "Set URL slugs without IDs for products and categories" option.
-- What's more, if you're on a Business or Unlimited plan, you can specify custom slugs (URL endings) for products and categories to make them even nicer and more SEO-friendly.
+- **New clean and SEO-friendly URLs for your product and category pages—no more random numbers!** We’ve introduced a new format for product and category page links. Now, you can remove those auto-generated numbers, making them cleaner and better for SEO. For example, instead of `/shoes-c123`, your URL slug can simply be `/shoes`! To activate this feature, go to "WordPress admin → Ecwid → Storefront", scroll down, and enable "Set URL slugs without IDs for products and categories". If you’re on a Business or Unlimited plan, you can also customize product and category slugs however you like for a more personalized and SEO-friendly URL.
 
 = 6.12.30 - Feb 26, 2025 =
 - Fixed an issue where some links in the storefront could return a "not found" status in some cases.
