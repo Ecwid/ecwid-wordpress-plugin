@@ -738,7 +738,15 @@ class Ecwid_Seo_Links {
     }
 
     public function set_store_url_format() {
-        
+        if ( ecwid_is_demo_store() ) {
+			return;
+		}
+
+        $oauth = new Ecwid_OAuth();
+		if ( ! $oauth->has_scope( Ecwid_OAuth::SCOPE_UPDATE_STORE_PROFILE ) ) {
+			return;
+		}
+
 		$params = array(
 			'generalInfo' => array(
 				'websitePlatform' => 'wordpress',

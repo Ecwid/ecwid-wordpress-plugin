@@ -1,24 +1,28 @@
 == Changelog ==
-= 6.12.30 - Feb 26, 2024 =
+= 7.0 - Mar 26, 2025 =
+- **New clean and SEO friendly URL format for your product and category pages with no odd numbers!** We have released a new format for links to product and category pages. It allows you to remove automatically generated numbers from product and category URL slugs for better SEO, such as changing `shoes-c123` to `shoes`. To enable this format, go to `WordPress admin > Ecwid > Storefront`, scroll down and find the "Set URL slugs without IDs for products and categories" option.
+- What's more, if you're on a Business or Unlimited plan, you can specify custom slugs (URL endings) for products and categories to make them even nicer and more SEO-friendly.
+
+= 6.12.30 - Feb 26, 2025 =
 - Fixed an issue where some links in the storefront could return a "not found" status in some cases.
 
-= 6.12.29 - Feb 21, 2024 =
+= 6.12.29 - Feb 21, 2025 =
 - Fixed an issue where incorrect data was sometimes displayed on the storefront page. Please update your ecommerce plugin.
 
-= 6.12.28 - Feb 17, 2024 =
+= 6.12.28 - Feb 17, 2025 =
 - In some cases, incorrect URLs could be generated in the storefront. We have fixed this issue.
 - Plugin code improvements for better security and stability.
 
-= 6.12.27 - Feb 12, 2024 =
+= 6.12.27 - Feb 12, 2025 =
 - Fixed an issue in the admin area where the product popup would not work on pages with a custom type.
 - Internal improvements and optimizations.
 
-= 6.12.26 - Jan 30, 2024 =
+= 6.12.26 - Jan 30, 2025 =
 - Improved compatibility with the WPML plugin. Fixed an issue where translation loading for the "sitepress-multilingual-cs" domain was triggered too early on some ecommerce sites.
 - Fixed an issue where refreshing a product page would sometimes redirect users to the main storefront page.
 - Internal improvements and optimizations.
 
-= 6.12.25 - Jan 16, 2024 =
+= 6.12.25 - Jan 16, 2025 =
 - Improved display of storefront element animation.
 - High resource consumption caused by inefficient queries has been fixed.
 - Internal improvements and optimizations.
