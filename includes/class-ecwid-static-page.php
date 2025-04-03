@@ -253,6 +253,7 @@ class Ecwid_Static_Page {
 
             if( $data->status === 'NONCANONICAL' ) {
                 $permalink = get_permalink();
+                $permalink = trailingslashit( $permalink );
                 wp_redirect( $permalink . $data->canonicalSlug, 301 );
                 exit;
             }
