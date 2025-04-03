@@ -32,7 +32,7 @@
 					<li>
 						<h4><?php echo esc_html( sprintf( __( 'Register at %s', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></h4>
 						<div>
-							<?php echo esc_html( sprintf( __( 'Create a new %s account which you will use to manage your store and inventory. The registration is free.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?>
+							<?php echo esc_html( sprintf( __( 'Create a new %s account which you will use to manage your store and inventory.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?>
 						</div>
 						<div class="ecwid-account-buttons">
 

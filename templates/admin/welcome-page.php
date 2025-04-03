@@ -43,7 +43,7 @@
 						} else {
 							echo wp_kses_post(
 								sprintf(
-									__( 'To add your store to your website, put your %1$s Store ID in the field below. If you don\'t have an %1$s account yet, create one for free on the <a %2$s>%1$s website</a>.', 'ecwid-shopping-cart' ),
+									__( 'To add your store to your website, put your %1$s Store ID in the field below. If you don\'t have an %1$s account yet, create one on the <a %2$s>%1$s website</a>.', 'ecwid-shopping-cart' ),
 									Ecwid_Config::get_brand(),
 									'href="' . esc_attr( ecwid_get_register_link() ) . '" target="_blank"'
 								)
