@@ -142,7 +142,7 @@ class Ecwid_Static_Page {
 			}
 		}
 
-		if ( ! ecwid_is_demo_store() ) {
+		if ( self::is_need_use_new_endpoint() ) {
             $query_params['baseUrl'] = get_permalink();
 
 			$query_params['getStaticContent'] = 'true';
@@ -271,7 +271,7 @@ class Ecwid_Static_Page {
 
 	protected static function get_static_snapshot( $endpoint_params, $query_params, $dynamic_css = '' ) {
 
-		if ( ! ecwid_is_demo_store() ) {
+		if ( self::is_need_use_new_endpoint() ) {
 			$api          = new Ecwid_Api_V3();
 			$data = $api->get_storefront_widget_page( $query_params );
 
@@ -335,6 +335,16 @@ class Ecwid_Static_Page {
 
 		return null;
 	}
+
+    protected static function is_need_use_new_endpoint() {
+        $is_token_valid = Ecwid_Api_V3::get_api_status() === Ecwid_Api_V3::API_STATUS_OK;
+
+		if ( ! ecwid_is_demo_store() && Ecwid_Seo_Links::is_slugs_without_ids_enabled() && $is_token_valid ) {
+            return true;
+        }
+
+        return false;
+    }
 
     protected static function get_cache_key( $query_params, $endpoint_params ) {
         return serialize( array_merge( $query_params, $endpoint_params ) );
