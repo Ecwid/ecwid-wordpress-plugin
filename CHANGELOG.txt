@@ -1,4 +1,9 @@
 == Changelog ==
+= 7.0.1 - Apr 8, 2025 =
+- **WordPress 6.8 compatibility.** The new WordPress version will be released soon. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 6.8.
+- Added support for URLs without ID feature in the sitemap and store menus.
+- Fixed an issue where storefront URLs were missing a slash in certain cases when the URLs without ID feature was enabled.
+
 = 7.0 - Mar 26, 2025 =
 - **New clean and SEO-friendly URLs for your product and category pages—no more random numbers!** We’ve introduced a new format for product and category page links. Now, you can remove those auto-generated numbers, making them cleaner and better for SEO. For example, instead of `/shoes-c123`, your URL slug can simply be `/shoes`! To activate this feature, go to "WordPress admin → Ecwid → Storefront", scroll down, and enable "Set URL slugs without IDs for products and categories". If you’re on a Business or Unlimited plan, you can also customize product and category slugs however you like for a more personalized and SEO-friendly URL.
 
