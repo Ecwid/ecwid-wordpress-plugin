@@ -29,7 +29,7 @@ class EcwidSitemapBuilder {
 				$categories = $api->get_categories(
 					array(
 						'offset' => $offset,
-						'limit'  => $limit,
+						'limit'  => $limit
 					)
 				);
 

@@ -79,9 +79,9 @@ function ecwidApplyIframeAdminMenu($link, menu) {
             }
 
             if (jQuery(this).hasClass('current')) {
-                if (slug != 'ec-store-admin-products') {
-                    return false;
-                }
+                // if (slug != 'ec-store-admin-products') {
+                return false;
+                // }
             }
 
             if (ecwid_params.is_demo_store) {

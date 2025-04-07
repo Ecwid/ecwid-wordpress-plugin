@@ -168,7 +168,7 @@ class Ecwid_Api_V3 {
 			$params['parent'] = $input_params['parent'];
 		}
 
-		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories', 'responseFields' );
+		$passthru = array( 'offset', 'limit', 'parent', 'baseUrl', 'cleanUrls', 'hidden_categories', 'responseFields', 'slugsWithoutIds', 'slugsWithoutIds' );
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
 				$params[ $name ] = $input_params[ $name ];
@@ -181,6 +181,10 @@ class Ecwid_Api_V3 {
 
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['cleanUrls'] = 'true';
+		}
+
+		if ( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+			$params['slugsWithoutIds'] = 'true';
 		}
 
 		$options = $this->build_request_headers();
@@ -261,6 +265,10 @@ class Ecwid_Api_V3 {
 			$params['cleanUrls'] = 'true';
 		}
 
+        if ( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+			$params['slugsWithoutIds'] = 'true';
+		}
+
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
@@ -319,6 +327,10 @@ class Ecwid_Api_V3 {
 			$params['cleanUrls'] = 'false';
 		}
 
+        if ( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+			$params['slugsWithoutIds'] = 'true';
+		}
+
 		$options = $this->build_request_headers();
 
 		$url = $this->build_request_url(
@@ -350,7 +362,7 @@ class Ecwid_Api_V3 {
 	public function search_products( $input_params ) {
 		$params = array();
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category', 'productId' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'baseUrl', 'cleanUrls', 'category', 'productId', 'slugsWithoutIds' );
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {
 				$params[ $name ] = (string) $input_params[ $name ];
@@ -363,6 +375,10 @@ class Ecwid_Api_V3 {
 
 		if ( Ecwid_Seo_Links::is_enabled() ) {
 			$params['cleanUrls'] = 'true';
+		}
+
+        if ( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+			$params['slugsWithoutIds'] = 'true';
 		}
 
 		$params['enabled'] = 'true';
@@ -450,7 +466,7 @@ class Ecwid_Api_V3 {
 	public function get_products( $input_params ) {
 		$params = array();
 
-		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled', 'responseFields' );
+		$passthru = array( 'updatedFrom', 'offset', 'limit', 'sortBy', 'keyword', 'createdFrom', 'createdTo', 'sku', 'enabled', 'responseFields', 'slugsWithoutIds' );
 
 		foreach ( $passthru as $name ) {
 			if ( array_key_exists( $name, $input_params ) ) {

@@ -123,7 +123,16 @@ class Ecwid_HTML_Meta_Catalog_Entry extends Ecwid_HTML_Meta {
 	protected function _print_description() {
 		$description_html = false;
 
-		if ( ecwid_is_applicable_escaped_fragment() || Ecwid_Seo_Links::is_product_browser_url() ) {
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+            $noindex_pages = Ecwid_Seo_Links::get_noindex_pages();
+            
+            $is_internal_catalog_page = ! empty( $slug ) && ! in_array( $slug, $noindex_pages );
+        } else {
+            $is_internal_catalog_page = Ecwid_Seo_Links::is_product_browser_url();
+        }
+
+		if ( ecwid_is_applicable_escaped_fragment() || $is_internal_catalog_page ) {
 			$description_html = Ecwid_Static_Page::get_meta_description_html();
 		} elseif ( Ecwid_Store_Page::is_store_page() ) {
 			$set_metadesc = false;
