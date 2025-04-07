@@ -482,6 +482,10 @@ class Ecwid_Static_Page {
 			return false;
 		}
 
+		if ( isset( $store_page_params['show_root_categories'] ) && $store_page_params['show_root_categories'] === false ) {
+			return false;
+		}
+
 		if ( array_key_exists( 'ec-enable-static-page', $_GET ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return true;
 		}
