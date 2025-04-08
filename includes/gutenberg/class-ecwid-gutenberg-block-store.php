@@ -166,9 +166,9 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 
 				if ( ! $is_profile_default ) {
 					if ( @$attribute['type'] == 'boolean' ) {
-						$config_js[] = 'window.ec.storefront.' . $name . '=' . ( $value === true ? 'true' : 'false' ) . ';';
+						$config_js[] = 'window.ec.storefront.' . esc_js( $name ) . '=' . ( $value === true ? 'true' : 'false' ) . ';';
 					} else {
-						$config_js[] = 'window.ec.storefront.' . $name . "='" . $value . "';";
+						$config_js[] = 'window.ec.storefront.' . esc_js( $name ) . "='" . esc_js( $value ) . "';";
 					}
 					$store_page_data[ $name ] = $value;
 				}
@@ -179,7 +179,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
 			$color = ( isset( $params[ 'chameleon_color_' . $kind ] ) ) ? $params[ 'chameleon_color_' . $kind ] : false;
 			if ( $color ) {
-				$colors[ 'color-' . $kind ] = $color;
+				$colors[ 'color-' . esc_js( $kind ) ] = esc_js( $color );
 			}
 		}
 

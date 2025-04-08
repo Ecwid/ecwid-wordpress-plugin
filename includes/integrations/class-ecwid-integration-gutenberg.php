@@ -287,9 +287,9 @@ class Ecwid_Integration_Gutenberg {
 
 			if ( @$attribute['is_storefront_api'] ) {
 				if ( @$attribute['type'] == 'boolean' ) {
-					$result .= 'window.ec.storefront.' . $name . '=' . ( $value ? 'true' : 'false' ) . ';' . PHP_EOL;
+					$result .= 'window.ec.storefront.' . esc_js( $name ) . '=' . ( $value ? 'true' : 'false' ) . ';' . PHP_EOL;
 				} else {
-					$result .= 'window.ec.storefront.' . $name . "='" . $value . "';" . PHP_EOL;
+					$result .= 'window.ec.storefront.' . esc_js( $name ) . "='" . esc_js( $value ) . "';" . PHP_EOL;
 				}
 				$store_page_data[ $name ] = $value;
 			}
@@ -299,7 +299,7 @@ class Ecwid_Integration_Gutenberg {
 		foreach ( array( 'foreground', 'background', 'link', 'price', 'button' ) as $kind ) {
 			$color = @$params[ 'chameleon_color_' . $kind ];
 			if ( $color ) {
-				$colors[ 'color-' . $kind ] = $color;
+				$colors[ 'color-' . esc_js( $kind ) ] = esc_js( $color );
 			}
 		}
 
