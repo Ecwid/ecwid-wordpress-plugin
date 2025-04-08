@@ -397,7 +397,18 @@ class Ecwid_Static_Page {
 	}
 
 	public static function get_title() {
-		return self::get_data_field( 'title' );
+		$title = self::get_data_field( 'title' );
+
+        if( empty( $title ) ) {
+            $meta_description = self::get_data_field( 'metaDescriptionHtml' );
+
+            if( ! empty( $meta_description ) ) {
+                $title = preg_replace( '/<title>(.*?)<\/title>(.*)/is', '$1', $meta_description );
+                $title = trim( $title );
+            }            
+        }
+
+        return $title;
 	}
 
 	public static function get_meta_description_html() {

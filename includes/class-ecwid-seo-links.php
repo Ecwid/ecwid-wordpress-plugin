@@ -398,11 +398,19 @@ class Ecwid_Seo_Links {
 	}
 
 	public static function is_product_browser_url( $url = '' ) {
-		if ( ! $url ) {
-			$url = add_query_arg( null, null );
-		}
 
-		return preg_match( self::_get_pb_preg_pattern(), $url );
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+            $noindex_pages = Ecwid_Seo_Links::get_noindex_pages();
+            
+            return ! empty( $slug ) && ! in_array( $slug, $noindex_pages );
+        } else {
+            if ( ! $url ) {
+                $url = add_query_arg( null, null );
+            }
+    
+            return preg_match( self::_get_pb_preg_pattern(), $url );
+        }
 	}
 
 	public static function is_seo_link() {
