@@ -40,7 +40,7 @@ class Ec_Store_Oembed {
 		if ( ! empty( $categories->items ) ) {
 			foreach ( $categories->items as $category ) {
 				$category                 = Ecwid_Category::get_by_id( $category->id );
-				$items[ $category->link ] = $category->name;
+				$items[ $category->url ] = $category->name;
 				if ( count( $items ) >= $max_items ) {
 					$see_more = true;
 					break;
@@ -71,7 +71,7 @@ class Ec_Store_Oembed {
 			if ( $products->items ) {
 				foreach ( $products->items as $product ) {
 					$product                 = Ecwid_Product::get_by_id( $product->id );
-					$items[ $product->link ] = $product->name;
+					$items[ $product->url ] = $product->name;
 					if ( count( $items ) >= $max_items ) {
 						$see_more = true;
 						break;
@@ -102,15 +102,21 @@ class Ec_Store_Oembed {
 			return $url;
 		}
 
-		$params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
+        if( Ecwid_Seo_Links::is_slugs_without_ids_enabled() ) {
+            $permalink = trailingslashit( $permalink );
+            $slug = Ecwid_Static_Page::get_current_storefront_page_slug();
+            $permalink .= $slug;
+        } else {
+            $params = Ecwid_Seo_Links::maybe_extract_html_catalog_params();
 
-		if ( $params['mode'] == 'product' ) {
-			$product   = Ecwid_Product::get_by_id( $params['id'] );
-			$permalink = $product->link;
-		} elseif ( $params['mode'] == 'category' ) {
-			$category  = Ecwid_Category::get_by_id( $params['id'] );
-			$permalink = $category->link;
-		}
+            if ( $params['mode'] == 'product' ) {
+                $product   = Ecwid_Product::get_by_id( $params['id'] );
+                $permalink = $product->link;
+            } elseif ( $params['mode'] == 'category' ) {
+                $category  = Ecwid_Category::get_by_id( $params['id'] );
+                $permalink = $category->link;
+            }
+        }
 
 		$url = add_query_arg(
 			array(
