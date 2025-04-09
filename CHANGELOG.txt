@@ -1,6 +1,7 @@
 == Changelog ==
 = 7.0.1 - Apr 8, 2025 =
 - **WordPress 6.8 compatibility.** The new WordPress version will be released soon. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 6.8.
+- **Improved security when handling Gutenberg block params. Ecwid ecommerce shopping cart plugin update recommended.**
 - Added support for URLs without ID feature in the sitemap and store menus.
 - Fixed an issue where storefront URLs were missing a slash in certain cases when the URLs without ID feature was enabled.
 
