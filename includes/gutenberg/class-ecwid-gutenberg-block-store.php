@@ -165,7 +165,7 @@ class Ecwid_Gutenberg_Block_Store extends Ecwid_Gutenberg_Block_Base {
 				$is_profile_default = $profile_default === $value;
 
 				if ( ! $is_profile_default ) {
-					if ( @$attribute['type'] == 'boolean' ) {
+					if ( isset( $attribute['type'] ) && $attribute['type'] == 'boolean' ) {
 						$config_js[] = 'window.ec.storefront.' . esc_js( $name ) . '=' . ( $value === true ? 'true' : 'false' ) . ';';
 					} else {
 						$config_js[] = 'window.ec.storefront.' . esc_js( $name ) . "='" . esc_js( $value ) . "';";
