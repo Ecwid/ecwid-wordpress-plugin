@@ -216,6 +216,12 @@ class Ecwid_Seo_Links {
 		if ( ! $pattern ) {
 			$patterns = self::get_seo_links_patterns();
 
+            $index = array_search( '.*', $patterns, true );
+            if ( $index !== false ) {
+                unset( $patterns[$index] );
+                $patterns = array_values( $patterns );
+            }
+
 			$pattern = '!(^' . implode( '$|^', $patterns ) . '$)!';
 		}
 
