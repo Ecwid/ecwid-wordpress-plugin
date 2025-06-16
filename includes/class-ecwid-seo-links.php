@@ -216,6 +216,7 @@ class Ecwid_Seo_Links {
 		if ( ! $pattern ) {
 			$patterns = self::get_seo_links_patterns();
 
+            // The '.*' pattern is deleted because it will always be triggered.
             $index = array_search( '.*', $patterns, true );
             if ( $index !== false ) {
                 unset( $patterns[$index] );
