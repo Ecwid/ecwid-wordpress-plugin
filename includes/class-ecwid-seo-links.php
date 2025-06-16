@@ -222,6 +222,10 @@ class Ecwid_Seo_Links {
                 $patterns = array_values( $patterns );
             }
 
+            if (empty($patterns)) {
+                return false;
+            }
+
 			$pattern = '!(^' . implode( '$|^', $patterns ) . '$)!';
 		}
 
