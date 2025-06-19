@@ -1,0 +1,17 @@
+.ec-store-block-search {
+    min-width: 334px;
+    min-height: 40px;
+    display: inline-block;
+    background: none;
+    position: relative;
+}
+
+.ec-store-block-search .image {
+    background: url('../assets/images/search-preview.png') 50% 50% no-repeat;
+    background-size: 334px 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
