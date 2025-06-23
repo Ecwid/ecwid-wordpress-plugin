@@ -384,7 +384,7 @@ function EcwidProductBrowserBlock(props) {
                 w._xnext_initialization_scripts.push({
                     widgetType: 'SearchWidget',
                     id: 'ec-store-search-preview',
-                    arg: ''
+                    arg: ["id=ec-store-search-preview"]
                 });
             }
 

@@ -534,7 +534,8 @@
 .ec-store-inspector-radio .components-radio-control__option input,
 .ec-store-inspector-radio .components-radio-control__option label {
     display: flex;
-    /* min-width: 20px; */
+    min-width: 16px;
+    min-width: 16px;
 }
 
 .ec-store-inspector-radio .components-base-control__field>label {

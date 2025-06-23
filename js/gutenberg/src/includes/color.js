@@ -1,6 +1,6 @@
 import { __, _x } from '@wordpress/i18n';
 import { BaseControl, ColorPalette, ColorIndicator } from '@wordpress/components';
-import { withState } from '@wordpress/compose';
+import { useState } from '@wordpress/element';
 
 const colors = [{
     name: __("Pale pink"),
@@ -48,47 +48,59 @@ const colors = [{
     color: "#313131"
 }];
 
-function getChameleonColorControl({ manual, color, setState }) {
-    const name = arguments[0].name;
-    const props = arguments[0].props;
-    const titleText = arguments[0].title;
+export const ColorControl = ({ name, title, props }) => {
+    const [manual, setManual] = useState(null);
+    const [color, setColor] = useState(null);
 
-    if (typeof props.attributes[name] == 'undefined') props.attributes[name] = false;
+    // Setting default value
+    if (typeof props.attributes[name] === 'undefined') {
+        props.attributes[name] = false;
+    }
 
-    const isManual = manual === null && props.attributes[name] !== false && props.attributes[name] !== null && props.attributes[name] !== "" || manual === 'manual';
+    const isManual =
+        (manual === null && props.attributes[name] !== false && props.attributes[name] !== null && props.attributes[name] !== '') ||
+        manual === 'manual';
 
     if (!isManual) {
-        props.setAttributes({ [name]: null })
+        props.setAttributes({ [name]: null });
     } else if (color !== null) {
         props.setAttributes({ [name]: color });
     }
 
     const currentValue = props.attributes[name] || '';
 
-    const titleElement = <span >{titleText}
-        {currentValue !== null && <ColorIndicator colorValue={props.attributes[name]} />}
-    </span>;
+    const titleElement = (
+        <span>
+            {title}
+            {currentValue !== null && <ColorIndicator colorValue={props.attributes[name]} />}
+        </span>
+    );
 
-    function colorPaletteChange(newColor) {
-        setState((state) => ({ manual: 'manual', color: newColor }));
+    function handleColorChange(newColor) {
+        setManual('manual');
+        setColor(newColor);
         props.setAttributes({ [name]: newColor });
     }
 
-    return <BaseControl label={titleElement} className="ec-store-color-picker">
-        <select onChange={(value) => setState((state) => ({ manual: event.target.value, color: state.color }))}>
-            <option value="auto" selected={!isManual}>{__('Detect automatically', 'ecwid-shopping-cart')}</option>
-            <option value="manual" selected={isManual}>{__('Set manually', 'ecwid-shopping-cart')}</option>
-        </select>
-        {isManual &&
-            <ColorPalette
-                value={currentValue}
-                colors={colors}
-                onChange={colorPaletteChange}
-            >
-            </ColorPalette>
-        }
-    </BaseControl>;
-}
+    function handleSelectChange(event) {
+        const newValue = event.target.value;
+        setManual(newValue);
+    }
 
-const ColorControl = withState({ manual: null, color: null })(getChameleonColorControl);
-export { ColorControl }
+    return (
+        <BaseControl label={titleElement} className="ec-store-color-picker">
+            <select onChange={handleSelectChange} value={isManual ? 'manual' : 'auto'}>
+                <option value="auto">{__('Detect automatically', 'ecwid-shopping-cart')}</option>
+                <option value="manual">{__('Set manually', 'ecwid-shopping-cart')}</option>
+            </select>
+
+            {isManual && (
+                <ColorPalette
+                    value={currentValue}
+                    colors={colors}
+                    onChange={handleColorChange}
+                />
+            )}
+        </BaseControl>
+    );
+};
