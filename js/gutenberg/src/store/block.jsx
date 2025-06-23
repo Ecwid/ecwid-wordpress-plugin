@@ -8,12 +8,8 @@ import './style.scss';
 import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
-import {
-    EcwidControls,
-    EcwidInspectorSubheader,
-    EcwidProductBrowserBlock,
-    EcwidStoreBlockInner,
-} from '../includes/controls.js';
+import { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock, EcwidStoreBlockInner } from '../includes/controls.js';
+import { buildDangerousHTMLMessageWithTitle } from '../includes/utils.js';
 
 const blockName = 'ecwid/store-block';
 const blockParams = EcwidGutenbergParams.blockParams[blockName];
@@ -55,10 +51,6 @@ registerBlockType('ecwid/store-block', {
 
         // legacy reset 
         props.setAttributes({ widgets: '' });
-
-        function buildDangerousHTMLMessageWithTitle(title, message) {
-            return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
-        }
 
         const productMigrationWarning = buildDangerousHTMLMessageWithTitle(
             '',

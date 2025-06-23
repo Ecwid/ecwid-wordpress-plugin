@@ -59,10 +59,6 @@ registerBlockType('ec-store/cart-page', {
                 </div>
             </EcwidProductBrowserBlock>;
 
-        function buildDangerousHTMLMessageWithTitle(title, message) {
-            return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
-        }
-
         return ([
             editor
         ]);

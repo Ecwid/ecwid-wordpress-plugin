@@ -18,7 +18,7 @@ function EcwidControls(declaration, properties) {
     const attributes = properties.attributes;
 
     let buildButtonGroup = function (props, name, label, items) {
-        return <BaseControl label={label}>
+        return <BaseControl label={label} __nextHasNoMarginBottom={true}>
             <ButtonGroup className="ec-store-inspector-button-group">
                 {items.map(function (item) {
                     return <Button isPrimary={attributes[name] === item.value}
@@ -39,7 +39,7 @@ function EcwidControls(declaration, properties) {
     };
 
     let buildSelect = function (props, name, label, items, callback = () => { }) {
-        return <BaseControl label={label}>
+        return <BaseControl label={label} __nextHasNoMarginBottom={true}>
             <select className="ec-store-control-select" onChange={(event) => { props.setAttributes({ [name]: event.target.value }); callback() }}>
                 {items.map(function (item) {
                     return <option value={item.value} selected={props.attributes[name] == item.value}>{item.title}</option>
@@ -49,13 +49,13 @@ function EcwidControls(declaration, properties) {
     };
 
     let buildTextbox = function (props, name, label) {
-        return <BaseControl label={label}>
+        return <BaseControl label={label} __nextHasNoMarginBottom={true}>
             <input type="text" value={props.attributes[name]} onChange={(event) => { props.setAttributes({ [name]: event.target.value }) }} />
         </BaseControl>;
     };
 
     let buildToolbar = function (props, name, label, items) {
-        return <BaseControl label={label}>
+        return <BaseControl label={label} __nextHasNoMarginBottom={true}>
             <ToolbarGroup
                 controls={items.map(function (item) {
                     return {
@@ -115,7 +115,7 @@ function EcwidControls(declaration, properties) {
             };
         });
 
-        return <BaseControl>
+        return <BaseControl __nextHasNoMarginBottom={true}>
             <RadioControl
                 label={label}
                 className="ec-store-inspector-radio"
@@ -301,7 +301,7 @@ function EcwidProductBrowserBlock(props) {
     w.ec.storefront = w.ec.storefront || {};
     w.ec.config = w.ec.config || {};
     w.ec.config.chameleon = w.ec.config.chameleon || {};
-    w.ec.config.chameleon.colors = [];
+    w.ec.config.chameleon.colors = {};
     w.ec.config.disable_all_cookies = true;
 
     Object.keys(attributes).map((i) => {
@@ -310,7 +310,7 @@ function EcwidProductBrowserBlock(props) {
 
         if (i.indexOf('chameleon') !== -1) {
             if (value) {
-                w.ec.config.chameleon.colors['color-' + i.substr(16)] = value;
+                w.ec.config.chameleon.colors['color-' + i.substring(16)] = value;
             }
         } else {
             if (typeof value != 'undefined') {
@@ -416,8 +416,6 @@ function EcwidProductBrowserBlock(props) {
                         return;
                     }
 
-                    // w.ecwid_loader('ec-store-preview');
-
                     var nodes = w.document.getElementsByClassName('ec-cart-widget')
                     if (nodes.length > 0) {
                         w.Ecwid.init();
@@ -437,13 +435,11 @@ function EcwidProductBrowserBlock(props) {
 
                     if (lastBlockId != blockId) {
                         setLastBlockId(blockId);
-                        // w.ecwid_onBodyDone();
                         w.Ecwid.init()
                     }
 
                     if (changed) {
                         w.document.getElementById('ec-store-preview').innerHTML = '';
-                        // w.ecwid_onBodyDone();
                         w.Ecwid.init()
                     }
                 }

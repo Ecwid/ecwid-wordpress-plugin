@@ -8,6 +8,7 @@ import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
 import { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock } from '../includes/controls.js';
+import { buildDangerousHTMLMessageWithTitle } from '../includes/utils.js';
 
 const blockName = 'ec-store/category-page';
 const blockParams = EcwidGutenbergParams.blockParams[blockName];
@@ -81,10 +82,6 @@ registerBlockType('ec-store/category-page', {
                     </div>
                 </div>
             </EcwidProductBrowserBlock>;
-
-        function buildDangerousHTMLMessageWithTitle(title, message) {
-            return <BaseControl label={title}><div dangerouslySetInnerHTML={{ __html: message }} /></BaseControl>;
-        }
 
         const productMigrationWarning = buildDangerousHTMLMessageWithTitle(
             '',

@@ -62,9 +62,9 @@ export const ColorControl = ({ name, title, props }) => {
         manual === 'manual';
 
     if (!isManual) {
-        props.setAttributes({ [name]: null });
+        props.setAttributes({ [name]: false });
     } else if (color !== null) {
-        props.setAttributes({ [name]: color });
+        props.setAttributes({ [name]: color === undefined ? false : color });
     }
 
     const currentValue = props.attributes[name] || '';
@@ -77,18 +77,22 @@ export const ColorControl = ({ name, title, props }) => {
     );
 
     function handleColorChange(newColor) {
-        setManual('manual');
-        setColor(newColor);
-        props.setAttributes({ [name]: newColor });
+        setColor(newColor === undefined ? false : newColor);
+        props.setAttributes({ [name]: newColor === undefined ? false : newColor });
     }
 
     function handleSelectChange(event) {
         const newValue = event.target.value;
         setManual(newValue);
+
+        if (newValue === 'auto') {
+            setColor(false);
+            props.setAttributes({ [name]: false });
+        }
     }
 
     return (
-        <BaseControl label={titleElement} className="ec-store-color-picker">
+        <BaseControl label={titleElement} className="ec-store-color-picker" __nextHasNoMarginBottom={true}>
             <select onChange={handleSelectChange} value={isManual ? 'manual' : 'auto'}>
                 <option value="auto">{__('Detect automatically', 'ecwid-shopping-cart')}</option>
                 <option value="manual">{__('Set manually', 'ecwid-shopping-cart')}</option>
