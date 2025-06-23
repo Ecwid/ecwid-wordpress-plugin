@@ -1,24 +1,27 @@
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     ...defaultConfig,
-    entry: {
-        '../js/gutenberg/test.js': './gutenberg-blocks/blocks.js'
+    entry: path.resolve(__dirname, 'js/gutenberg/src/index.js'),
+    output: {
+        ...defaultConfig.output,
+        path: path.resolve(__dirname, 'js/gutenberg/build/'),
+        filename: 'index.js',
     },
-    plugins: [
-        new MiniCssExtractPlugin('css/gutenberg/app.css', { allChunks: true }),
-    ],
-    // module: {
-    //     ...defaultConfig.module,
-    //     rules: [
-    //         ...defaultConfig.module.rules,
-    //         {
-    //             test: /.toml/,
-    //             type: 'json',
-    //             parser: {
-    //                 parse: toml.parse,
-    //             },
-    //         },
-    //     ],
-    // },
+    plugins: defaultConfig.plugins
+        .filter(
+            (plugin) =>
+                plugin.constructor.name !== 'RtlCssPlugin' &&
+                plugin.constructor.name !== 'WebpackRTLPlugin'
+        )
+        .map((plugin) => {
+            if (plugin instanceof MiniCssExtractPlugin) {
+                return new MiniCssExtractPlugin({
+                    filename: '[name].css',
+                });
+            }
+            return plugin;
+        }),
 };
