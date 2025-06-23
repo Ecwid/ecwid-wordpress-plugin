@@ -29,7 +29,7 @@
 }
 
 .ecwid-store-block-icon {
-    background: url('../assets/images/wordpress_20x20.svg');
+    background: url('./images/wordpress_20x20.svg');
     background-size: contain;
     width: 20px;
     height: 20px;
@@ -48,7 +48,7 @@
 }
 
 .ecwid-product-block-icon {
-    background: url('../assets/images/gutenberg-block-product.svg');
+    background: url('./images/gutenberg-block-product.svg');
     background-size: contain;
     width: 20px;
     height: 20px;
@@ -162,7 +162,7 @@
 
 
 .ecwid-store-block-icon {
-    background: url('../assets/images/wordpress_20x20.svg');
+    background: url('./images/wordpress_20x20.svg');
     background-size: contain;
     width: 20px;
     height: 20px;
@@ -181,7 +181,7 @@
 }
 
 .ecwid-product-block-icon {
-    background: url('../assets/images/gutenberg-block-product.svg');
+    background: url('./images/gutenberg-block-product.svg');
     background-size: contain;
     width: 20px;
     height: 20px;
@@ -284,7 +284,7 @@
 }
 
 .ec-store-block-minicart .image {
-    background: url('../assets/images/minicart-preview.png') 50% 50% no-repeat;
+    background: url('./images/minicart-preview.png') 50% 50% no-repeat;
     background-size: 50%;
     position: absolute;
     left: 0;
@@ -325,7 +325,7 @@
             width: 130px;
             height: 40px;
             margin: 0;
-            background: url("../assets/images/stub-sample.png") no-repeat;
+            background: url("./images/stub-sample.png") no-repeat;
             background-position: center;
         }
 
@@ -334,7 +334,7 @@
 
             .ec-store-stub-sample {
                 height: 130px;
-                background: url("../assets/images/stub-filter.png") no-repeat;
+                background: url("./images/stub-filter.png") no-repeat;
                 background-size: contain;
             }
         }
@@ -342,117 +342,117 @@
 }
 
 .ec-store-product1 {
-    background: url("../assets/images/store1.png");
+    background: url("./images/store1.png");
 }
 
 .ec-store-product2 {
-    background: url("../assets/images/store2.png");
+    background: url("./images/store2.png");
 }
 
 .ec-store-product3 {
-    background: url("../assets/images/store3.png");
+    background: url("./images/store3.png");
 
 }
 
 .ec-store-product4 {
-    background: url("../assets/images/store4.png");
+    background: url("./images/store4.png");
 }
 
 .ec-store-product5 {
-    background: url("../assets/images/store5.png");
+    background: url("./images/store5.png");
 }
 
 .ec-store-product6 {
-    background: url("../assets/images/store6.png");
+    background: url("./images/store6.png");
 }
 
 .ec-store-product- {
     &y_sneaker {
-        background: url("../assets/images/y_sneaker.png");
+        background: url("./images/y_sneaker.png");
     }
 
     &y_shirt {
-        background: url("../assets/images/y_shirt.png");
+        background: url("./images/y_shirt.png");
     }
 
     &y_watch {
-        background: url("../assets/images/y_watch.png");
+        background: url("./images/y_watch.png");
     }
 
     &y_bag {
-        background: url("../assets/images/y_bag.png");
+        background: url("./images/y_bag.png");
     }
 
     &y_hat {
-        background: url("../assets/images/y_hat.png");
+        background: url("./images/y_hat.png");
     }
 
     &g_sneaker {
-        background: url("../assets/images/g_sneaker.png");
+        background: url("./images/g_sneaker.png");
     }
 
     &g_shirt {
-        background: url("../assets/images/g_shirt.png");
+        background: url("./images/g_shirt.png");
     }
 
     &g_watch {
-        background: url("../assets/images/g_watch.png");
+        background: url("./images/g_watch.png");
     }
 
     /*
     &g_bag {
-        background: url("../assets/images/g_bag.png");
+        background: url("./images/g_bag.png");
     }
     */
 
     &g_hat {
-        background: url("../assets/images/g_hat.png");
+        background: url("./images/g_hat.png");
     }
 
     &p_sneaker {
-        background: url("../assets/images/p_sneaker.png");
+        background: url("./images/p_sneaker.png");
     }
 
     &p_shirt {
-        background: url("../assets/images/p_shirt.png");
+        background: url("./images/p_shirt.png");
     }
 
     &b_hat {
-        background: url("../assets/images/b_hat.png");
+        background: url("./images/b_hat.png");
     }
 
     &b_watch {
-        background: url("../assets/images/b_watch.png");
+        background: url("./images/b_watch.png");
     }
 
     &m_sneaker {
-        background: url("../assets/images/m_sneaker.png");
+        background: url("./images/m_sneaker.png");
     }
 }
 
 .ec-store-category- {
     &shirt {
-        background: url("../assets/images/categories1.png");
+        background: url("./images/categories1.png");
     }
 
     &sneaker {
-        background: url("../assets/images/categories2.png");
+        background: url("./images/categories2.png");
     }
 
     &bag {
-        background: url("../assets/images/categories4.png");
+        background: url("./images/categories4.png");
     }
 
     &hat {
-        background: url("../assets/images/categories3.png");
+        background: url("./images/categories3.png");
     }
 
     &watch {
-        background: url("../assets/images/categories5.png");
+        background: url("./images/categories5.png");
     }
 
     &glasses {
-        background: url("../assets/images/categories6.png");
+        background: url("./images/categories6.png");
     }
 }
 
@@ -555,19 +555,19 @@
 }
 
 .ec-store-categories-category1 {
-    background: url("../assets/images/categories1.png")
+    background: url("./images/categories1.png")
 }
 
 .ec-store-categories-category2 {
-    background: url("../assets/images/categories2.png")
+    background: url("./images/categories2.png")
 }
 
 .ec-store-categories-category3 {
-    background: url("../assets/images/categories3.png")
+    background: url("./images/categories3.png")
 }
 
 .ec-store-categories-category4 {
-    background: url("../assets/images/categories4.png")
+    background: url("./images/categories4.png")
 }
 
 .block-editor-inserter__preview-container {
