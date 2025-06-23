@@ -68,9 +68,16 @@ class Ecwid_Integration_Gutenberg {
 	}
 
 	public function enqueue_block_editor_assets() {
+        $asset_file = include_once ECWID_PLUGIN_DIR . 'js/gutenberg/build/index.asset.php';
 
-		wp_enqueue_script( 'ecwid-gutenberg-store', ECWID_PLUGIN_URL . 'js/gutenberg/blocks.build.js', array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) );
-		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'css/gutenberg/blocks.editor.build.css' );
+		wp_register_script( 
+            'ecwid-gutenberg-store', 
+            ECWID_PLUGIN_URL . 'js/gutenberg/build/index.js',
+            $asset_file['dependencies'],
+            get_option( 'ecwid_plugin_version' )
+        );
+        
+		wp_enqueue_style( 'ecwid-gutenberg-block', ECWID_PLUGIN_URL . 'js/gutenberg/build/main.css', array(), get_option( 'ecwid_plugin_version' ) );
 
 		$locale_data = '';
 		if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
