@@ -1,26 +1,11 @@
-/*.ec-store-block-buynow {
-  min-height: 40px;
-  min-width: 120px;
-  display: inline-block;
-  background: none;
-  position: relative;
-}
-
-.ec-store-block-buynow .image {
-  background: url( '../assets/images/button-preview.png') 50% 50% no-repeat;
-  background-size: 120px 40px;
-  position: absolute;
-  left:0;
-  top:0;
-  right:0;
-  height: 40px;
-}
-.ec-store-block-buynow .button-container {
-  margin-top: 35px;
-}
-*/
-
 .ec-store-block-cart-page .ec-store-block-buynow-preview {
+    background-image: url('../assets/images/buy-now-preview.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     max-width: 90%;
     margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    display: block;
 }

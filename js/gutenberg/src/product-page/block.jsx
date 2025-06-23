@@ -7,7 +7,7 @@ import './style.scss';
 import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
-import { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock, EcwidImage } from '../includes/controls.js';
+import { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock } from '../includes/controls.js';
 import { buildDangerousHTMLMessageWithTitle } from '../includes/utils.js';
 
 const blockName = 'ec-store/product-page';
@@ -72,7 +72,7 @@ registerBlockType('ec-store/product-page', {
 
         const editor =
             <EcwidProductBrowserBlock props={props} attributes={attributes} icon={EcwidIcons.product} title={__('Product Card Large', 'ecwid-shopping-cart')}>
-                <EcwidImage src="product-page-preview.png" className="ec-store-product-page-preview" />
+                <div className="ec-store-product-page-preview" />
                 {!attributes.default_product_id &&
                     <div className="button-container">
                         <button className="button ec-store-block-button" onClick={() => { var params = { 'saveCallback': saveCallback, 'props': props }; ecwid_open_product_popup(params); }}>{EcwidGutenbergParams.chooseProduct}</button>

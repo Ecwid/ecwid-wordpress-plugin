@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, BaseControl } from '@wordpress/components';
-import { __, _x } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 import './style.scss';
 import './editor.scss';

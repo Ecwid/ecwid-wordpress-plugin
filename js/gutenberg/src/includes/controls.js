@@ -35,6 +35,7 @@ function EcwidControls(declaration, properties) {
             label={label}
             checked={props.attributes[name]}
             onChange={() => props.setAttributes({ [name]: !props.attributes[name] })}
+            __nextHasNoMarginBottom={true}
         />
     };
 
@@ -508,17 +509,6 @@ function EcwidProductBrowserBlock(props) {
     }
 };
 
-function EcwidImage(props) {
-    const url = EcwidGutenbergParams.imagesUrl + props.src;
-    let class_name = ''
-
-    if (props.className != '') {
-        class_name = props.className;
-    }
-
-    return <img src={url} className={class_name} />
-}
-
 function EcwidStoreBlockInner(props) {
 
     let products = function (title = '') {
@@ -712,4 +702,4 @@ function EcwidStoreBlockInner(props) {
     }
 }
 
-export { EcwidControls, EcwidInspectorSubheader, EcwidImage, EcwidProductBrowserBlock, EcwidStoreBlockInner };
+export { EcwidControls, EcwidInspectorSubheader, EcwidProductBrowserBlock, EcwidStoreBlockInner };

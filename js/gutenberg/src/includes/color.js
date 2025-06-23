@@ -1,4 +1,4 @@
-import { __, _x } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { BaseControl, ColorPalette, ColorIndicator } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 

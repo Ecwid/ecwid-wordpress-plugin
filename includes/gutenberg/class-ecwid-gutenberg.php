@@ -163,7 +163,6 @@ class Ecwid_Gutenberg {
 				'isApiAvailable'       => Ecwid_Api_V3::is_available(),
 				'products'             => $this->_get_products_data(),
 				'hasCategories'        => $api->has_public_categories(),
-				'imagesUrl'            => ECWID_PLUGIN_URL . 'images/gutenberg/',
 				'isWidgetsScreen'      => get_current_screen()->id == 'widgets',
 				'scriptJsUrl'          => $scriptjs_url,
 			)

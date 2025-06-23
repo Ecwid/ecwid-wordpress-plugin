@@ -1,6 +1,13 @@
 .ec-store-block-content {
-  padding: 0 42px 24px;
+    padding: 0 42px 24px;
 }
+
 .ec-store-product-page-preview {
-  max-width: 100%;
+    width: 100%;
+    max-width: 100%;
+    background-image: url('../assets/images/product-page-preview.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    aspect-ratio: 16 / 9;
 }

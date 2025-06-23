@@ -1,11 +1,10 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { __, _x } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 import './style.scss';
 import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
-import { EcwidImage } from '../includes/controls.js';
 
 if (!EcwidGutenbergParams.isDemoStore) {
 
@@ -64,7 +63,7 @@ if (!EcwidGutenbergParams.isDemoStore) {
             const editor = <div className="ec-store-block ec-store-block-categories">
                 <div className="ec-store-block-header">
                     <div>{__('Categories', 'ecwid-shopping-cart')}</div>
-                    <EcwidImage src="categories-menu-preview.png" className="ec-store-categories-menu" />
+                    <div className="ec-store-categories-menu" />
                 </div>
             </div>;
 

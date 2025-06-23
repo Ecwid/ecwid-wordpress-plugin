@@ -6,7 +6,7 @@ import './style.scss';
 import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
-import { EcwidProductBrowserBlock, EcwidImage } from '../includes/controls.js';
+import { EcwidProductBrowserBlock } from '../includes/controls.js';
 
 const blockName = 'ec-store/cart-page';
 const blockParams = EcwidGutenbergParams.blockParams[blockName];
@@ -55,7 +55,7 @@ registerBlockType('ec-store/cart-page', {
         const editor =
             <EcwidProductBrowserBlock props={props} attributes={attributes} icon={EcwidIcons.cartPage} title={__('Cart and Checkout', 'ecwid-shopping-cart')}>
                 <div className="ec-store-block-cart-page">
-                    <EcwidImage src="cart-page-preview.png" />
+                    <div className="ec-store-block-cart-page-preview" />
                 </div>
             </EcwidProductBrowserBlock>;
 

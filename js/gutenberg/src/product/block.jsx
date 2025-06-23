@@ -117,6 +117,7 @@ registerBlockType('ecwid/product-block', {
                 label={label}
                 checked={props.attributes[name]}
                 onChange={() => props.setAttributes({ [name]: !props.attributes[name] })}
+                __nextHasNoMarginBottom={true}
             />
         }
 

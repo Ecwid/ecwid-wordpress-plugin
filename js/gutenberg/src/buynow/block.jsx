@@ -7,7 +7,7 @@ import './style.scss';
 import './editor.scss';
 
 import { EcwidIcons } from '../includes/icons.js';
-import { EcwidProductBrowserBlock, EcwidImage } from '../includes/controls.js';
+import { EcwidProductBrowserBlock } from '../includes/controls.js';
 
 registerBlockType('ec-store/buynow', {
     title: __('Buy Now Button', 'ecwid-shopping-cart'),
@@ -59,7 +59,7 @@ registerBlockType('ec-store/buynow', {
         const editor =
             <EcwidProductBrowserBlock props={props} attributes={attributes} icon={EcwidIcons.button} title={__('Buy Now Button', 'ecwid-shopping-cart')}>
                 <div className="ec-store-block-cart-page">
-                    <EcwidImage src="buy-now-preview.png" className="ec-store-block-buynow-preview" />
+                    <div className="ec-store-block-buynow-preview" />
                 </div>
 
                 {!attributes.id &&
@@ -75,6 +75,7 @@ registerBlockType('ec-store/buynow', {
                 label={label}
                 checked={props.attributes[name]}
                 onChange={() => props.setAttributes({ [name]: !props.attributes[name] })}
+                __nextHasNoMarginBottom={true}
             />
         }
 
