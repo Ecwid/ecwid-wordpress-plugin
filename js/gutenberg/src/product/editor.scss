@@ -1,0 +1,20 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+@use '../_variables' as *;
+
+.ec-store-products .ec-store-product-block.ec-store-product-block-small {
+    width: 149px;
+
+    .ec-store-product {
+        width: 149px;
+        height: 149px;
+    }
+
+    .ec-store-stub-sample {
+        width: 149px;
+    }
+}

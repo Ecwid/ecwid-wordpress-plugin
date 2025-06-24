@@ -2,7 +2,6 @@
 /.git
 /.github
 /node_modules
-/gutenberg-blocks
 
 .distignore
 .gitignore

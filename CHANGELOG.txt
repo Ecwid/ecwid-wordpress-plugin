@@ -1,4 +1,7 @@
 == Changelog ==
+= 7.0.3 - Jun 24, 2025 =
+- Internal improvements and minor fixes for Gutenberg ecommerce blocks.
+
 = 7.0.2 - Jun 17, 2025 =
 - Fixed an issue where a "2" was incorrectly appended to page slugs when the "URLs without ID" feature was enabled.
 

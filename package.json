@@ -1,12 +1,11 @@
 {
-    "devDependencies": {
-        "@wordpress/env": "^10.12.0",
-        "@wordpress/scripts": "^30.5.1"
-    },
+    "name": "ecwid-blocks",
+    "version": "1.0.0",
     "scripts": {
-        "start": "wp-env start --xdebug",
-        "start:with-blocks": "wp-env start --xdebug & wp-scripts start --webpack-src-dir=gutenberg-blocks",
-        "analyzer": "wp-scripts start --webpack-src-dir=gutenberg-blocks --webpack-bundle-analyzer",
-        "build": "wp-env build"
+        "build": "wp-scripts build",
+        "start": "wp-scripts start"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^30.18.0"
     }
 }

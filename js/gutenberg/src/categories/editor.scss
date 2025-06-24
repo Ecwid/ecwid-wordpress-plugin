@@ -1,0 +1,27 @@
+.ec-store-block-categories {
+    height: 50px;
+    min-height: 50px;
+
+    .ec-store-block-header {
+        margin-bottom: 0;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+
+        >div:first-child {
+            height: 28px;
+        }
+
+        .ec-store-categories-menu {
+            width: 368px;
+            height: 8px;
+            display: inline-block;
+            margin: auto 0 auto 44px;
+
+            background-image: url('./images/categories-menu-preview.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+    }
+}

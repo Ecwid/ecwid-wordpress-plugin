@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.8
-Stable tag: 7.0.2
+Stable tag: 7.0.3
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support.
 
@@ -152,6 +152,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 7.0.3 - Jun 24, 2025 =
+- Internal improvements and minor fixes for Gutenberg ecommerce blocks.
+
 = 7.0.2 - Jun 17, 2025 =
 - Fixed an issue where a "2" was incorrectly appended to page slugs when the "URLs without ID" feature was enabled.
 
