@@ -6,7 +6,7 @@ Description: Ecwid by Lightspeed is a full-featured shopping cart. It can be eas
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
 Version: 7.0.3
-Author URI: https://ecwid.to/ecwid-site
+Author URI: https://go.lightspeedhq.com/ecwid-site
 License: GPLv2 or later
 */
 

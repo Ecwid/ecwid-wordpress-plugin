@@ -56,16 +56,16 @@ There is a lot of in-house and third party extensions built on the Ecwid Ecommer
 
 ### Plans start at just $5/mo
 
-Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
+Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://go.lightspeedhq.com/ecwid-pricing)
 
 ### See Ecwid In Action
 
-* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
-* [Showcase](https://ecwid.to/ecwid-wp-site)
+* [Ecwid Ecommerce Control panel](https://go.lightspeedhq.com/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
+* [Showcase](https://go.lightspeedhq.com/ecwid-wp-site)
 
 ### Ecwid Site
 
-* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
+* [www.ecwid.com](https://go.lightspeedhq.com/ecwid-wp-site "Ecwid site")
 
 ### Terms of usage
 
@@ -123,7 +123,7 @@ Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard fo
 
 = How much does Ecwid cost? =
 
-Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support. Learn more: [https://ecwid.to/ecwid-pricing](https://ecwid.to/ecwid-pricing).
+Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support. Learn more: [https://go.lightspeedhq.com/ecwid-pricing](https://go.lightspeedhq.com/ecwid-pricing).
 
 = How can I manage my online shop from a mobile device? =
 
