@@ -31,7 +31,7 @@ class Ecwid_Gutenberg_Block_Cart_Page extends Ecwid_Gutenberg_Block_Store {
 
 		ob_start();
 		?>
-		<script>
+		<script data-cfasync="false" data-no-optimize="1">
 		Ecwid.OnAPILoaded.add(function() {
 			Ecwid.OnPageLoad.add(function(page) {
 				if ("CATEGORY" == page.type && 0 == page.categoryId && !page.hasPrevious) {

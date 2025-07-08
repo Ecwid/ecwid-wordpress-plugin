@@ -225,7 +225,7 @@
 
 </div>
 
-<script>
+<scrip data-cfasync="false" data-no-optimize="1"t>
 	jQuery('h2').click(function() {
 		jQuery(this).toggleClass('hide');
 	})

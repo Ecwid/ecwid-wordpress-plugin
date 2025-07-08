@@ -94,7 +94,7 @@ class Ecwid_Ajax_Defer_Renderer {
 
 	public function add_shortcodes( $content ) {
 		$ecwid_store_id = get_ecwid_store_id();
-		$before         = '<script>var ecwid_shortcodes = [];</script>';
+		$before         = '<script data-cfasync="false" data-no-optimize="1">var ecwid_shortcodes = [];</script>';
 
 		$scriptjs_domain = esc_attr( Ecwid_Config::get_scriptjs_domain() );
 
@@ -104,7 +104,7 @@ class Ecwid_Ajax_Defer_Renderer {
 		$script_src = "https://$scriptjs_domain/script.js?$ecwid_store_id&data_platform=wporg&lang=$lang";
 		ob_start();
 		?>
-		<script>
+		<script data-cfasync="false" data-no-optimize="1">
 			window.ecwid_script_defer = true;
 			window.ecwid_dynamic_widgets = true;
 

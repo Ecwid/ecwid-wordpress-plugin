@@ -93,7 +93,7 @@ if ( version_compare( get_bloginfo( 'version' ), '4.0' ) >= 0 ) {
 				data-icon='<?php echo esc_attr( $icon ); ?>'
 			></div>
 
-			<script>
+			<script data-cfasync="false" data-no-optimize="1">
 			if (typeof Ecwid != 'undefined'){
 				Ecwid.init();
 			}
