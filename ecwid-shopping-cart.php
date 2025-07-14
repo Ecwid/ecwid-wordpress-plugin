@@ -5,8 +5,8 @@ Plugin URI: http://www.ecwid.com?partner=wporg
 Description: Ecwid by Lightspeed is a full-featured shopping cart. It can be easily integrated with any Wordpress blog and takes less than 5 minutes to set up.
 Text Domain: ecwid-shopping-cart
 Author: Ecwid Ecommerce
-Version: 7.0.3
-Author URI: https://ecwid.to/ecwid-site
+Version: 7.0.4
+Author URI: https://go.lightspeedhq.com/ecwid-site
 License: GPLv2 or later
 */
 
@@ -1222,11 +1222,11 @@ function ecwid_get_scriptjs_code( $force_lang = null ) {
 		$store_id = get_ecwid_store_id();
 		$params = ecwid_get_scriptjs_params();
 
-		$code .= '<script data-cfasync="false" type="text/javascript" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>'; //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+		$code .= '<script data-cfasync="false" data-no-optimize="1" src="https://' . Ecwid_Config::get_scriptjs_domain() . '/script.js?' . $store_id . $params . '"></script>'; //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	}
 
 	$code .= ecwid_sso();
-	$code .= '<script type="text/javascript">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script><!--/noptimize-->';
+	$code .= '<script data-cfasync="false" data-no-optimize="1">if (typeof jQuery !== undefined && jQuery.mobile) { jQuery.mobile.hashListeningEnabled = false; jQuery.mobile.pushStateEnabled=false; }</script><!--/noptimize-->';
 
 	return apply_filters( 'ecwid_scriptjs_code', $code );
 }

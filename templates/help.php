@@ -84,7 +84,7 @@
 
 		</div>
 
-		<script>
+		<script data-cfasync="false" data-no-optimize="1">
 			(function() {
 				Element.prototype.addClass = function(c) {
 					var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g");

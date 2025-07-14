@@ -5,7 +5,7 @@ $prods = new Ecwid_Products();
 $api   = new Ecwid_Api_V3( get_ecwid_store_id() );
 ?>
 
-<script>
+<script data-cfasync="false" data-no-optimize="1">
 jQuery(document).ready(function() {
 
 jQuery('#sync-container').addClass('no-sse');

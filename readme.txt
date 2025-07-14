@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.8
-Stable tag: 7.0.3
+Stable tag: 7.0.4
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support.
 
@@ -56,16 +56,16 @@ There is a lot of in-house and third party extensions built on the Ecwid Ecommer
 
 ### Plans start at just $5/mo
 
-Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
+Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://go.lightspeedhq.com/ecwid-pricing)
 
 ### See Ecwid In Action
 
-* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
-* [Showcase](https://ecwid.to/ecwid-wp-site)
+* [Ecwid Ecommerce Control panel](https://go.lightspeedhq.com/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
+* [Showcase](https://go.lightspeedhq.com/ecwid-wp-site)
 
 ### Ecwid Site
 
-* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
+* [www.ecwid.com](https://go.lightspeedhq.com/ecwid-wp-site "Ecwid site")
 
 ### Terms of usage
 
@@ -123,7 +123,7 @@ Ecwid is PCI DSS Level 1 certified shopping cart plugin – the gold standard fo
 
 = How much does Ecwid cost? =
 
-Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support. Learn more: [https://ecwid.to/ecwid-pricing](https://ecwid.to/ecwid-pricing).
+Ecwid shopping cart plans vary by number of products, types of ecommerce functionality, and level of support. Learn more: [https://go.lightspeedhq.com/ecwid-pricing](https://go.lightspeedhq.com/ecwid-pricing).
 
 = How can I manage my online shop from a mobile device? =
 
@@ -152,6 +152,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 7.0.4 - Jul 15, 2025 =
+- Improved compatibility with the Jetpack plugin to ensure storefront scripts load correctly when 'Defer Non-Essential JavaScript' is enabled.
+- Applied minor fixes and general improvements for better performance and stability.
+
 = 7.0.3 - Jun 24, 2025 =
 - Internal improvements and minor fixes for Gutenberg ecommerce blocks.
 

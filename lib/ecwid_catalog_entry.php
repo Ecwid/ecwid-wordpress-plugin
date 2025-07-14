@@ -12,7 +12,7 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function __get( $name ) {
 
-		if ( $name == 'link' ) {
+		if ( $name === 'link' ) {
 			return $this->get_link();
 		}
 
@@ -25,7 +25,7 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function __isset( $name ) {
 
-		if ( $name == 'link' ) {
+		if ( $name === 'link' ) {
 			$link = $this->get_link();
 			return (bool) $link;
 		}
@@ -73,7 +73,6 @@ abstract class Ecwid_Catalog_Entry {
 
 	public function get_seo_link( $baseUrl = '' ) {
 		if ( $this->_data->id && isset( $this->_data->name ) ) {
-
 			if ( ! $baseUrl ) {
 				if ( Ecwid_Store_Page::is_store_page() ) {
 					$baseUrl = get_permalink();
@@ -93,9 +92,7 @@ abstract class Ecwid_Catalog_Entry {
 				$url .= '/';
 			}
 
-			preg_match( '!([^\/]+-[p|c][0-9]+)$!', $this->_data->url, $slug );
-
-			if( ! empty( $slug[1] ) ) {
+			if ( ! empty( $this->_data->url ) && preg_match( '!([^\/]+-[p|c][0-9]+)$!', $this->_data->url, $slug ) ) {
 				$url .= $slug[1];
 			} else {
 				$url .= $this->_linkify( $this->_data->name ) . '-' . $this->_link_prefix . $this->_data->id;

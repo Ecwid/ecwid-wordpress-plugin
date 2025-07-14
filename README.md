@@ -37,7 +37,7 @@ With Ecwid, you can include your ecommerce shop on multiple websites, blogs, soc
 
 ### Mobile Responsive Design
 
-Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://ecwid.to/ecwid-demo-store)
+Ecwid works great on any Wordpress site, especially those running on mobile-optimized themes. Your online store looks perfect on smartphones and automatically adapts to your customer’s screen size: laptops, tablets, smart TVs or smart watches. Check out this [demo](https://go.lightspeedhq.com/ecwid-demo-store)
 
 ### Hundreds of extensions and powerful API
 
@@ -45,17 +45,17 @@ There is a lot of in-house and third party extensions built on the Ecwid Ecommer
 
 ### Plans start at just $5/mo
 
-Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://ecwid.to/ecwid-pricing)
+Start selling ealisy with no big investment. As your online shop grows, Ecwid grows with you. When the time is right, consider upgrading your store to one of our premium plans to get more robust features and preferred support. See also: [Ecwid plan and pricing](https://go.lightspeedhq.com/ecwid-pricing)
 
 ### See Ecwid In Action
 
-* [Demo Store](https://ecwid.to/ecwid-demo-store "Ecwid demo")
-* [Ecwid Ecommerce Control panel](https://ecwid.to/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
-* [Showcase](https://ecwid.to/ecwid-wp-site)
+* [Demo Store](https://go.lightspeedhq.com/ecwid-demo-store "Ecwid demo")
+* [Ecwid Ecommerce Control panel](https://go.lightspeedhq.com/ecwid-store-control-panel "Ecwid Control Panel") (you will be able to create an Ecwid account)
+* [Showcase](https://go.lightspeedhq.com/ecwid-wp-site)
 
 ### Ecwid Site
 
-* [www.ecwid.com](https://ecwid.to/ecwid-wp-site "Ecwid site")
+* [www.ecwid.com](https://go.lightspeedhq.com/ecwid-wp-site "Ecwid site")
 
 
 ## Installation

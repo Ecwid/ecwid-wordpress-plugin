@@ -299,7 +299,7 @@
 	<div class="media-modal-backdrop"></div>
 </div>
 <?php if ( get_option( 'ecwid_hide_old_minicart' ) ) : ?>
-<script>    
+<script data-cfasync="false" data-no-optimize="1">
 	jQuery('.ecwid-store-editor path.minicart').hide();
 </script>
 <?php endif; ?>

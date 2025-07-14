@@ -12,7 +12,7 @@ echo ecwid_get_product_browser_url_script(); //phpcs:ignore WordPress.Security.E
 ></div>
 
 <!--noptimize-->
-<script>
+<script data-cfasync="false" data-no-optimize="1">
 if (typeof Ecwid != 'undefined') {
 	Ecwid.init();
 }
