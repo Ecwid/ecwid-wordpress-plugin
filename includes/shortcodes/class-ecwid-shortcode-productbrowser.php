@@ -126,6 +126,7 @@ class Ecwid_Shortcode_ProductBrowser extends Ecwid_Shortcode_Base {
 		?>
 		<!--noptimize-->
 		<script data-cfasync="false" data-no-optimize="1" type="text/javascript">
+            window.ec = window.ec || {};
 			window.ec.storefront = window.ec.storefront || {};
 			window.ec.storefront.staticPages = window.ec.storefront.staticPages || Object();
 
