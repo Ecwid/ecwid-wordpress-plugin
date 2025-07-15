@@ -215,7 +215,11 @@
 	<iframe width="80%" height="500px" srcdoc="
 	<?php
 	ob_start();
-	phpinfo();
+    if( function_exists( 'phpinfo' ) ) {
+	    phpinfo();
+    } else {
+        echo 'phpinfo() function is not available';
+    }
 	$contents = ob_get_contents();
 	ob_end_clean();
 	echo esc_attr( $contents );
