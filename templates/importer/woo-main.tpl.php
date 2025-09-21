@@ -16,7 +16,7 @@
 			<div class="named-area__header">
 				<div class="named-area__titles">
 					<div class="named-area__title"><?php esc_html_e( 'Update your catalog', 'ecwid-shopping-cart' ); ?></div>
-					<div class="named-area__subtitle"><?php echo esc_html__( sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></div>
+					<div class="named-area__subtitle"><?php echo esc_html( sprintf( __( 'This import will copy your WooCommerce products and categories to your %s store.', 'ecwid-shopping-cart' ), Ecwid_Config::get_brand() ) ); ?></div>
 				</div>
 			</div>
 			<div class="named-area__body">
