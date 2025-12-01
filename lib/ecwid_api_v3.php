@@ -794,7 +794,7 @@ class Ecwid_Api_V3 {
 		if ( ! empty( $params['password'] ) ) {
 			$password = $params['password'];
 		} else {
-			$password = wp_generate_password( 8 );
+			$password = '';
 		}
 
 		$data = array(
