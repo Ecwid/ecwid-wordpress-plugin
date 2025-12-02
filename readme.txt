@@ -152,6 +152,10 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 7.0.5 - Dec 2, 2025 =
+- **WordPress 6.9 compatibility.** The new WordPress version will be released soon. The Ecwid ecommerce shopping cart plugin is ready for the new release — everything works well in your WordPress admin and storefront pages. Feel free to upgrade your site to WordPress 6.9.
+- Internal improvements and optimizations.
+
 = 7.0.4 - Jul 15, 2025 =
 - Improved compatibility with the Jetpack plugin to ensure storefront scripts load correctly when 'Defer Non-Essential JavaScript' is enabled.
 - Applied minor fixes and general improvements for better performance and stability.
