@@ -107,6 +107,7 @@ class Ecwid_OAuth {
 		$redirect_uri = $this->check_url_for_idn_format( $redirect_uri );
 
 		$params['code']          = sanitize_text_field( wp_unslash( $_REQUEST['code'] ) );
+        $params['store_id']      = sanitize_text_field( wp_unslash( $_REQUEST['store_id'] ) );
 		$params['client_id']     = Ecwid_Config::get_oauth_appid();
 		$params['client_secret'] = Ecwid_Config::get_oauth_appsecret();
 		$params['redirect_uri']  = $redirect_uri;
@@ -115,7 +116,7 @@ class Ecwid_OAuth {
 
 		$request = Ecwid_HTTP::create_post(
 			'oauth_authorize',
-			Ecwid_Config::get_oauth_token_url(),
+			Ecwid_Config::get_oauth_token_url() . '/' . $params['store_id'],
 			array(
 				Ecwid_HTTP::POLICY_RETURN_VERBOSE,
 			)
