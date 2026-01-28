@@ -1829,7 +1829,14 @@ function ecwid_get_clear_all_cache_action() {
 
 function ecwid_clear_all_cache()
 {
-	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
+    $key = ecwid_get_clear_all_cache_action();
+
+	if ( array_key_exists( $key, $_GET ) ) {
+        
+        if ( isset( $_GET['_wpnonce'] ) && ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), $key ) ) {
+			return;
+		}
+
 		ecwid_full_cache_reset();
 
 		if ( array_key_exists( 'redirect_back', $_GET ) ) {
