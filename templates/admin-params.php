@@ -67,4 +67,12 @@
 
 <br />
 <h2>Clear plugin cache</h2>
-<a href="?<?php echo esc_attr( ecwid_get_clear_all_cache_action() ); ?>&redirect_back">Clear all caches</a>
+<?php
+$ec_store_clear_cache_url = add_query_arg( array(
+    'page' => 'ec-params',
+    ecwid_get_clear_all_cache_action() => 1,
+    '_wpnonce' => wp_create_nonce( ecwid_get_clear_all_cache_action() ),
+    'redirect_back' => 1,
+) );
+?>
+<a href="<?php echo esc_attr( $ec_store_clear_cache_url ); ?>">Clear all caches</a>

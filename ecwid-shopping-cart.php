@@ -1829,7 +1829,14 @@ function ecwid_get_clear_all_cache_action() {
 
 function ecwid_clear_all_cache()
 {
-	if ( array_key_exists( ecwid_get_clear_all_cache_action(), $_GET ) ) {
+    $key = ecwid_get_clear_all_cache_action();
+
+	if ( array_key_exists( $key, $_GET ) ) {
+        
+        if ( isset( $_GET['_wpnonce'] ) && ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), $key ) ) {
+			return;
+		}
+
 		ecwid_full_cache_reset();
 
 		if ( array_key_exists( 'redirect_back', $_GET ) ) {
@@ -1896,7 +1903,8 @@ function ecwid_register_admin_styles($hook_suffix) {
 			wp_enqueue_script('ecwid-welcome-page-js', ECWID_PLUGIN_URL . 'js/welcome-page.js', array(), get_option('ecwid_plugin_version'));
 			wp_localize_script('ecwid-welcome-page-js', 'ecwidParams', array(
 				'registerLink' => ecwid_get_register_link(),
-				'isWL' => Ecwid_Config::is_wl()
+				'isWL' => Ecwid_Config::is_wl(),
+                '_ajax_nonce' => wp_create_nonce( 'ec-create-store' ),
 				)
 			);
 
@@ -2111,6 +2119,14 @@ function ecwid_create_store( $params = array() ) {
 }
 
 function ecwid_ajax_create_store() {
+    if ( ! check_ajax_referer( 'ec-create-store' ) ) {
+        die();
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        die();
+    }
+
 	$result = ecwid_create_store();
 	$is_store_created = is_array( $result ) && $result['response']['code'] == 200;
 

@@ -66,6 +66,12 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 
 		$product = Ecwid_Product::get_without_loading( $this->_params['id'], (object) array( 'name' => '' ) );
 
+        if ( ! empty ( $product->price ) ) {
+            $price = $product->price;
+        } else {
+            $price = 0;
+        }
+
 		if ( is_array( $items ) && count( $items ) > 0 ) {
 			foreach ( $items as $item ) {
 				if ( array_key_exists( $item, $display_items ) ) {
@@ -73,8 +79,8 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 						$display_items[ $item ] = str_replace( '$name', $product->name, $display_items[ $item ] );
 					}
 
-					if ( $item == 'price' && ! empty( $product->price ) ) {
-						$display_items[ $item ] = str_replace( '$price', $product->price, $display_items[ $item ] );
+					if ( $item == 'price' ) {
+                        $display_items[ $item ] = str_replace( '$price', $price, $display_items[ $item ] );
 					}
 
 					if ( $this->_params['link'] == 'yes' && in_array( $item, array( 'title', 'picture' ) ) ) {
