@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.4
 Tested up to: 6.9
-Stable tag: 7.0.6
+Stable tag: 7.0.7
 
 Powerful, easy to use ecommerce shopping cart for WordPress. Sell on Facebook and Instagram. iPhone & Android apps. Superb support.
 
@@ -152,6 +152,9 @@ You can use Ecwid’s built-in import tools to copy your store products from any
 * [Ecwid Help Center](http://help.ecwid.com "Ecwid Help")
 
 == Changelog ==
+= 7.0.7 - Jan 29, 2026 =
+- **Plugin code improvements for better security. Ecwid ecommerce shopping cart plugin update recommended.**
+
 = 7.0.6 - Jan 29, 2026 =
 - **Plugin code improvements for better security. Ecwid ecommerce shopping cart plugin update recommended.**
 
