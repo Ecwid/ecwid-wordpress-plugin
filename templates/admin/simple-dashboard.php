@@ -15,7 +15,7 @@
 					</span>
 				<ul>
 					<li>
-						<a href="admin.php?page=ec-store&reconnect"><?php esc_html_e( 'Disconnect store', 'ecwid-shopping-cart' ); ?></a>
+						<a href="<?php echo esc_url( Ecwid_Admin_Main_Page::get_forced_reconnect_url() ); ?>"><?php esc_html_e( 'Disconnect store', 'ecwid-shopping-cart' ); ?></a>
 					</li>
 				</ul>
 			</div>

@@ -9,6 +9,8 @@ class Ecwid_OAuth {
 
 	const OPTION_JUST_CONNECTED = 'ecwid_just_connected';
 
+	const NONCE_DISCONNECT = 'ec_disconnect';
+
 	const SCOPE_READ_CATALOG                 = 'read_catalog';
 	const SCOPE_READ_STORE_PROFILE           = 'read_store_profile';
 	const SCOPE_UPDATE_STORE_PROFILE         = 'update_store_profile';
@@ -78,6 +80,13 @@ class Ecwid_OAuth {
 	}
 
 	public function process_authorization() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			wp_die(
+				esc_html__( 'You do not have sufficient permissions to connect the store.', 'ecwid-shopping-cart' ),
+				403
+			);
+		}
+
 		$reconnect = isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'ec_oauth_reconnect';
 
 		if ( isset( $_REQUEST['error'] ) || ! isset( $_REQUEST['code'] ) ) {
@@ -97,7 +106,11 @@ class Ecwid_OAuth {
 				);
 			}
 
-			wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $reconnect ? '&reconnect' : '' ) );
+			if ( $reconnect ) {
+				wp_safe_redirect( Ecwid_Admin_Main_Page::get_forced_reconnect_url( '&connection_error' ) );
+			} else {
+				wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' );
+			}
 			exit;
 		}
 
@@ -180,11 +193,30 @@ class Ecwid_OAuth {
 	}
 
 	public function disconnect_store() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			wp_die(
+				esc_html__( 'You do not have sufficient permissions to disconnect the store.', 'ecwid-shopping-cart' ),
+				403
+			);
+		}
+
+		check_admin_referer( self::NONCE_DISCONNECT );
+
 		update_option( 'ecwid_store_id', ecwid_get_demo_store_id() );
 		$this->api->save_token( '' );
 
 		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() );
 		exit;
+	}
+
+	/**
+	 * Builds a nonce-signed store disconnect url.
+	 *
+	 * Returns a raw (unescaped) url. Escape it with esc_url() when printing into markup.
+	 */
+	public static function get_disconnect_url() {
+		return admin_url( 'admin-post.php?action=ec_disconnect' )
+			. '&_wpnonce=' . wp_create_nonce( self::NONCE_DISCONNECT );
 	}
 
 	public function get_safe_scopes_array( $scopes ) {
@@ -280,7 +312,11 @@ class Ecwid_OAuth {
 			EcwidPlatform::report_error( $last_error );
 		}
 
-		wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' . ( $mode == self::MODE_RECONNECT ? '&reconnect' : '' ) );
+		if ( $mode == self::MODE_RECONNECT ) {
+			wp_safe_redirect( Ecwid_Admin_Main_Page::get_forced_reconnect_url( '&connection_error' ) );
+		} else {
+			wp_safe_redirect( Ecwid_Admin::get_dashboard_url() . '&connection_error' );
+		}
 		exit();
 	}
 

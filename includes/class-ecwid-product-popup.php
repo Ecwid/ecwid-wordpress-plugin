@@ -175,6 +175,8 @@ class Ecwid_Product_Popup {
 			'lastPage'  => __( 'Last Page', 'ecwid-shopping-cart' ),
 		);
 
+		$data['reconnect_url'] = Ecwid_Admin_Main_Page::get_forced_reconnect_url( '&reason=spw' );
+
 		wp_localize_script( 'ecwid-product-popup', 'ecwidSpwParams', $data );
 	}
 

@@ -11,8 +11,10 @@ class Ecwid_Admin_Main_Page {
 	const PAGE_HASH_UPGRADE               = 'billing:feature=sso&plan=ecwid_venture';
 	const PAGE_HASH_COMPLETE_REGISTRATION = 'complete-registration';
 
+	const NONCE_RECONNECT = 'ec_forced_reconnect';
+
 	public function do_page() {
-		if ( self::is_forced_reconnect() ) {
+		if ( self::is_forced_reconnect() && self::is_verified_reconnect_request() ) {
 			ecwid_update_store_id( ecwid_get_demo_store_id() );
 		}
 
@@ -173,6 +175,41 @@ class Ecwid_Admin_Main_Page {
 
 	public static function is_forced_reconnect() {
 		return isset( $_GET['reconnect'] );
+	}
+
+	/**
+	 * Tells whether the current forced reconnect request is allowed to reset
+	 * the store to the demo one. Guards the destructive part of the flow
+	 * against CSRF: displaying the connect page stays nonce-free, resetting
+	 * the store id does not.
+	 */
+	public static function is_verified_reconnect_request() {
+		if ( ! current_user_can( Ecwid_Admin::get_capability() ) ) {
+			return false;
+		}
+
+		if ( ! isset( $_GET['_wpnonce'] ) ) {
+			return false;
+		}
+
+		return (bool) wp_verify_nonce(
+			sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ),
+			self::NONCE_RECONNECT
+		);
+	}
+
+	/**
+	 * Builds a nonce-signed url that forces the reconnect flow.
+	 *
+	 * Returns a raw (unescaped) url, so it is safe to pass to wp_safe_redirect()
+	 * and to javascript. Escape it with esc_url() when printing into markup.
+	 *
+	 * @param string $extra_args optional query string appended to the url, e.g. '&connection_error'.
+	 */
+	public static function get_forced_reconnect_url( $extra_args = '' ) {
+		return Ecwid_Admin::get_dashboard_url()
+			. '&reconnect' . $extra_args
+			. '&_wpnonce=' . wp_create_nonce( self::NONCE_RECONNECT );
 	}
 
 	protected static function _get_upgrade_page_hash() {

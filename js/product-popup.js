@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
 
     openPopup = function () {
         if (ecwidSpwParams && typeof ecwidSpwParams.no_token != 'undefined') {
-            location.href = 'admin.php?page=ec-store&reconnect&reason=spw';
+            location.href = ecwidSpwParams.reconnect_url;
             return false;
         }
 
