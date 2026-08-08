@@ -31,6 +31,10 @@ class Ec_Store_Admin_Access {
 			return;
 		}
 
+        if ( ! $this->can_grant_access() ) {
+            return;
+        }
+
 		$user = new WP_User( $user_id );
 
 		if ( ! empty( $_POST['ec_store_admin_access'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing

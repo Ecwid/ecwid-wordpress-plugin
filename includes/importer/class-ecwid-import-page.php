@@ -156,9 +156,10 @@ class Ecwid_Import_Page {
 		}
 
 		wp_safe_redirect(
-			'admin.php?page=' . Ecwid_Admin::ADMIN_SLUG
-			. '&reconnect&return-url=' . rawurlencode( $url )
-			. '&scope=create_catalog+update_catalog&do_reconnect=1'
+			Ecwid_Admin_Main_Page::get_forced_reconnect_url(
+				'&return-url=' . rawurlencode( $url )
+				. '&scope=create_catalog+update_catalog&do_reconnect=1'
+			)
 		);
 	}
 
