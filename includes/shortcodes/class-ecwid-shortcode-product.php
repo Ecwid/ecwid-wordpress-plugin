@@ -76,11 +76,11 @@ class Ecwid_Shortcode_Product extends Ecwid_Shortcode_Base {
 			foreach ( $items as $item ) {
 				if ( array_key_exists( $item, $display_items ) ) {
 					if ( $item == 'title' ) {
-						$display_items[ $item ] = str_replace( '$name', $product->name, $display_items[ $item ] );
+						$display_items[ $item ] = str_replace( '$name', esc_attr( $product->name ), $display_items[ $item ] );
 					}
 
 					if ( $item == 'price' ) {
-                        $display_items[ $item ] = str_replace( '$price', $price, $display_items[ $item ] );
+						$display_items[ $item ] = str_replace( '$price', esc_attr( $price ), $display_items[ $item ] );
 					}
 
 					if ( $this->_params['link'] == 'yes' && in_array( $item, array( 'title', 'picture' ) ) ) {
